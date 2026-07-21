@@ -18,9 +18,12 @@ formats, with a render-and-review loop.
    every previously shipped icon) and run `python -m iconflow case stats` —
    apply the flagged evolution target and avoid any house-cliché signature
    device it warns about.
-1. **Read** `<AI_PROJECTS>/ai-iconflow/docs/DESIGN_PLAYBOOK.md`. Build the brief:
-   what it is, one-word essence, brand color (pull from the target project's
-   existing CSS/theme if present), personality, where it shows small.
+1. **Read** `<AI_PROJECTS>/ai-iconflow/docs/DESIGN_PLAYBOOK.md`, then
+   `python -m iconflow init` to create `iconflow.toml`. Record the brief in it:
+   app intent, user job, one-word essence, brand color (pull from the target
+   project's existing CSS/theme if present), personality, clichés to avoid,
+   signature-device hypothesis, and exact output targets. A visual decision
+   without a product job is not a complete brief.
 2. **cd** into `<AI_PROJECTS>/ai-iconflow` and use its venv python
    (`.venv\Scripts\python.exe`) if present, else `python`. First time only:
    `python -m iconflow setup`.
@@ -37,23 +40,28 @@ formats, with a render-and-review loop.
    distinctive-yet-legible winner to `master.svg`.
 5. **Author** `master.svg` using `docs\SVG_TECHNIQUES.md` (§10 signature devices).
 6. **Check + review (mandatory):**
-   - `python -m iconflow check master.svg` → fix warnings.
-   - `python -m iconflow review master.svg` → **Read `review.png`** (note the
-     silhouette strip) and score vs `docs\REVIEW_CHECKLIST.md`. Distinctiveness
-     is a gate — don't ship below 4/5. If any axis < 4, make the single
-     highest-impact change and re-render. ~2–3 passes.
-7. **Build** into the consuming project:
-   `python -m iconflow build master.svg --out <project_icons_dir> --targets <web,pwa,tauri,electron,tray> --name "App Name" --theme "#..." --bg "#..."`
-   (`--electron-radius 0.18` for rounded desktop corners; `--tray-ts` for a
-   base64 data-URL module.) See `docs\OUTPUT_TARGETS.md` for the file set.
+   - `python -m iconflow check master.svg` → fix every warning.
+   - `python -m iconflow review --config iconflow.toml --html review.html` →
+     **Read `review.png` and open the Review Lab** (actual-size pixels,
+     silhouette strip, alpha footprint, adaptive crops, target transforms).
+     Score vs `docs\REVIEW_CHECKLIST.md` and export the JSON receipt.
+     Distinctiveness is a gate — don't ship below 4/5. If any axis < 4, make the
+     single highest-impact change and re-render. ~2–3 passes.
+7. **Ship** into the consuming project:
+   `python -m iconflow ship --config iconflow.toml --review master-review.json`.
+   `ship` re-runs QA, verifies the receipt matches the current SVG / tray source
+   / targets / colors / scheme / radius / template, and requires all six axes
+   ≥4. (The low-level `build` command remains for callers that own an equivalent
+   quality gate.) See `docs\OUTPUT_TARGETS.md` for the exact target file set.
 8. **Keep `master.svg`** in the project and **report** the cliché avoided, the
    signature device, final rubric scores + the produced file list.
 9. **Record the case (mandatory — closes the self-evolution loop):**
-   `python -m iconflow case new --slug <slug> --essence <word> --device "..." --cliche "..." --first "legibility=3 ..." --final "legibility=4 ..." --iterations N --lesson "..."`,
+   `python -m iconflow case new --slug <slug> --essence <word> --device "..." --device-family <family> --device-detail "..." --concept-lens <lens> --cliche "..." --first "legibility=3 ..." --final "legibility=4 ..." --iterations N --lesson "..."`,
    fill in the created file's *Summary* / *What failed first*, then run
-   `python -m iconflow case stats`. If it says **DISTILL NOW** or flags an
-   evolution target, follow `docs\EVOLUTION.md` (promote lessons into
-   `docs\LEARNINGS.md` / the playbook, flip lesson checkboxes to `[x]`).
+   `python -m iconflow case lint`, `case stats`, and (for a visual audit)
+   `case atlas`. If stats says **DISTILL NOW** or flags an evolution target,
+   follow `docs\EVOLUTION.md` (promote lessons into `docs\LEARNINGS.md` / the
+   playbook, flip lesson checkboxes to `[x]`).
 
 ## Rules
 - Diverge before committing; always `review` and actually look at `review.png`
