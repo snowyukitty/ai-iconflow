@@ -246,6 +246,14 @@ work/                       gitignored design-session evidence
 AGENTS.md                   required procedure for agent designers
 ```
 
+## The Claude Code `/iconflow` skill
+
+Claude Code users get a `/iconflow` skill whose canonical source lives in this
+repo at [`skills/iconflow/`](skills/iconflow/). It versions with the toolkit, so
+it never drifts from the procedure in `AGENTS.md`. `scripts/setup.ps1` installs
+it into `~/.claude/skills/iconflow/`; see that directory's README to reinstall
+or edit it.
+
 ## Calling IconFlow from another project
 
 Install this repository once into the toolkit venv:
