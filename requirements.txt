@@ -1,0 +1,4 @@
+# AI IconFlow build engine
+playwright>=1.40   # headless Chromium = ground-truth SVG rasterization
+Pillow>=10.0       # .ico/.icns packing helpers + raster post-processing
+# After install, fetch the browser once:  python -m playwright install chromium

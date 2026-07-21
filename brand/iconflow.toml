@@ -1,0 +1,42 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "IconFlow"
+master = "master.svg"
+output = "build"
+casebook = "../casebook"
+
+[brief]
+app_intent = "turn app intent and one semantic SVG into a reviewed, platform-ready icon family"
+user_job = "turn app intent into a proven, target-ready icon family"
+essence = "proof"
+personality = ["precise", "opinionated", "calm"]
+
+[design]
+palette = ["graphite #191A20", "signal coral #FF5A4F", "warm paper #FFF4E8"]
+cliches = ["AI sparkles", "robot or brain", "generic arrow/check/bookmark", "blue-purple gradient"]
+signature_device = "continuous master rail through an off-axis square proof gate, resolving into a pixel-step terminal"
+device_family = "ownable-geometry"
+device_detail = "orthogonal master rail, 256-unit proof gate, 128-unit counter, two-step raster terminal"
+concept_lens = "verb-system"
+
+[build]
+targets = ["web", "tauri", "electron", "tray"]
+theme_color = "#191A20"
+background_color = "#FFF4E8"
+electron_radius = 0
+tray_ts = true
+tray_svg = "tray.svg"
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "approved"
+source_sha256 = "573007f93fb1c357240a9af383a47d0214dde9fbb95d712b5dd85e1857ece3a2"
+# Review Lab receipt is preferred. For this manual fallback, set status to
+# "approved" and copy the reviewed source hash; `ship` requires every score >= 4.
+scores = {legibility = 4, distinctiveness = 4, balance = 4, color = 5, scalability = 5, craft = 5}
+notes = "Pass 2 aligned the proof gate and its 128-unit counter to a 64-unit raster rhythm; final maskable and tray-template previews preserve the same idea."

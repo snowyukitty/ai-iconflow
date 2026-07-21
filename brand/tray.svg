@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow tray mark</title>
+  <desc id="desc">The continuous rail and open proof gate without the app-card background, optimized for monochrome system trays.</desc>
+  <g id="iconflow-mark" fill="none" stroke-linecap="square" stroke-linejoin="round">
+    <g id="iconflow-contrast-halo" stroke="#191A20" stroke-width="192">
+      <path d="M256 288H640V320"/>
+      <path d="M512 448H448V640H576V704H704V768"/>
+      <rect x="512" y="320" width="256" height="256" rx="32"/>
+    </g>
+    <g id="iconflow-rail" stroke="#FFF4E8" stroke-width="128">
+      <path id="iconflow-rail-entry" d="M256 288H640V320"/>
+      <path id="iconflow-rail-exit" d="M512 448H448V640H576V704H704V768"/>
+      <rect x="512" y="320" width="256" height="256" rx="32"/>
+    </g>
+    <rect id="iconflow-signature" x="512" y="320" width="256" height="256" rx="32"
+          stroke="#FF5A4F" stroke-width="88"/>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+:root {
+  --iconflow-graphite: #191a20;
+  --iconflow-graphite-raised: #24262e;
+  --iconflow-signal-coral: #ff5a4f;
+  --iconflow-warm-paper: #fff4e8;
+  --iconflow-paper-muted: #f1e4d8;
+  --iconflow-ink-muted: #6e707b;
+
+  --iconflow-card-radius: 20.7%;
+  --iconflow-gate-radius: 12.5%;
+}

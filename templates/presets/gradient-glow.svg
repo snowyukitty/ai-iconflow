@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Gradient glow technique scaffold</title>
+  <desc id="desc">IconFlow's house mark demonstrates restrained same-family glow clipped inside one semantic shape.</desc>
+  <!-- TECHNIQUE SCAFFOLD, not a stock glyph. Replace both rail paths together;
+       keep all glow inside the mask and prove the result again at 16px. -->
+  <defs>
+    <clipPath id="card"><rect x="40" y="40" width="944" height="944" rx="212"/></clipPath>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="54"/>
+    </filter>
+    <mask id="rail">
+      <rect width="1024" height="1024" fill="#000"/>
+      <path d="M256 288H640V448H448V640H576V704H704V768"
+            fill="none" stroke="#fff" stroke-width="128"
+            stroke-linecap="square" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <g clip-path="url(#card)">
+    <rect width="1024" height="1024" fill="#191A20"/>
+    <ellipse cx="260" cy="180" rx="420" ry="300" fill="#343641" opacity=".72" filter="url(#blur)"/>
+    <ellipse cx="840" cy="860" rx="360" ry="280" fill="#0D0E12" opacity=".9" filter="url(#blur)"/>
+  </g>
+  <g mask="url(#rail)">
+    <rect width="1024" height="1024" fill="#F3DCCB"/>
+    <ellipse cx="300" cy="260" rx="310" ry="210" fill="#FFF9F1" filter="url(#blur)"/>
+    <ellipse cx="710" cy="730" rx="300" ry="240" fill="#E7BFA6" filter="url(#blur)"/>
+  </g>
+  <rect x="512" y="320" width="256" height="256" rx="32" fill="#FF5A4F"/>
+  <rect x="576" y="384" width="128" height="128" rx="12" fill="#191A20"/>
+</svg>

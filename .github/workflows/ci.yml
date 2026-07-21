@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  unit:
+    name: Unit (${{ matrix.os }}, Python ${{ matrix.python }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            python: "3.10"
+          - os: windows-latest
+            python: "3.12"
+          - os: ubuntu-latest
+            python: "3.12"
+          - os: macos-latest
+            python: "3.12"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Run unit tests
+        run: python -m unittest discover -s tests
+      - name: Diagnose non-browser install
+        run: iconflow doctor --no-browser
+
+  wheel-smoke:
+    name: Isolated wheel resources
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Build wheel
+        run: |
+          python -m pip install --upgrade build
+          python -m build
+      - name: Install wheel and leave the source tree
+        shell: bash
+        run: |
+          python -m pip install --force-reinstall dist/*.whl
+          cd "$RUNNER_TEMP"
+          iconflow new flat-geometric --out master.svg
+          test -s master.svg
+          iconflow init --out iconflow.toml --name "Wheel Smoke" \
+            --app-intent "prove package resources" --user-job "ship one icon family" \
+            --essence proof --targets web,tray
+          test -s iconflow.toml
+          iconflow doctor --no-browser
+
+  chromium-integration:
+    name: Chromium render and preset QA
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install package and browser
+        run: |
+          python -m pip install -e .
+          python -m playwright install --with-deps chromium
+      - name: Launch diagnostic
+        run: iconflow doctor
+      - name: Render and clean-check every official preset
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/iconflow-presets"
+          for preset in gradient-glow flat-geometric line-mark mascot; do
+            iconflow new "$preset" --out "$RUNNER_TEMP/iconflow-presets/$preset.svg"
+            iconflow check "$RUNNER_TEMP/iconflow-presets/$preset.svg"
+            iconflow render "$RUNNER_TEMP/iconflow-presets/$preset.svg" \
+              --sizes 16,32 --out "$RUNNER_TEMP/iconflow-presets/$preset-{size}.png"
+          done
+      - name: Prove active and external SVG content is isolated
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib
+          import io
+          from PIL import Image
+          from iconflow.rasterize import Rasterizer
+
+          hostile = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+            <rect id="base" width="64" height="64" fill="#ff0000">
+              <animate attributeName="fill" values="#ff0000;#0000ff" dur="1ms" repeatCount="indefinite"/>
+            </rect>
+            <image href="https://example.invalid/never.png" width="64" height="64"/>
+            <script>document.querySelector('#base').setAttribute('fill', String(Math.random()))</script>
+          </svg>'''
+          with Rasterizer() as renderer:
+              first = renderer.render(hostile, 64)
+              second = renderer.render(hostile, 64)
+          assert hashlib.sha256(first).digest() == hashlib.sha256(second).digest()
+          with Image.open(io.BytesIO(first)) as image:
+              assert image.convert("RGBA").getpixel((32, 32))[:3] == (255, 0, 0)
+          PY

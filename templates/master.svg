@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- ========================================================================
+       IconFlow MASTER template. Author your icon here.
+       Grid: 1024x1024. Safe area: keep the mark inside x/y 102..922 (centre 80%).
+       Maskable-critical content: inside the centre 66% (radius ~338 from 512,512).
+       Pick ONE style from docs/SVG_TECHNIQUES.md. Delete this comment + the demo.
+       Then:  iconflow check  ->  iconflow review  ->  iconflow build
+       ===================================================================== -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#6d28d9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- container -->
+  <rect x="40" y="40" width="944" height="944" rx="220" fill="url(#bg)"/>
+
+  <!-- DEMO mark: replace me. A bold monogram reads well at 16px. -->
+  <text x="512" y="560" font-family="Inter, Arial, sans-serif" font-weight="800"
+        font-size="600" fill="#ffffff" text-anchor="middle"
+        dominant-baseline="central">A</text>
+</svg>

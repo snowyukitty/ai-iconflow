@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- Keyline / safe-area overlay. Drop this BEHIND your artwork while designing
+       to align to the grid, then delete it before building. -->
+  <g opacity="0.5">
+    <!-- canvas + 10% safe area (live area ~80%) -->
+    <rect x="0.5" y="0.5" width="1023" height="1023" fill="none" stroke="#ff3b6b" stroke-width="2"/>
+    <rect x="102" y="102" width="820" height="820" fill="none" stroke="#22c55e" stroke-width="2" stroke-dasharray="10 8"/>
+    <!-- maskable safe zone ~66% (circle crop) -->
+    <circle cx="512" cy="512" r="338" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 8"/>
+    <!-- keyline shapes -->
+    <circle cx="512" cy="512" r="400" fill="none" stroke="#3b82f6" stroke-width="2"/>
+    <rect x="132" y="132" width="760" height="760" rx="32" fill="none" stroke="#3b82f6" stroke-width="2"/>
+    <rect x="192" y="72" width="640" height="880" rx="32" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect x="72" y="192" width="880" height="640" rx="32" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+    <!-- center cross -->
+    <path d="M512 0 V1024 M0 512 H1024" stroke="#94a3b8" stroke-width="1"/>
+  </g>
+</svg>

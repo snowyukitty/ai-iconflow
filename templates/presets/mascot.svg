@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Soft character technique scaffold</title>
+  <desc id="desc">IconFlow's house mark demonstrates soft contours, thick outlines, and a restrained warm palette without prescribing an animal mascot.</desc>
+  <!-- SOFT-FORM / CHARACTER SCAFFOLD. This deliberately avoids a preselected animal.
+       Replace the house rail with the consuming brand's exact identity owner. -->
+  <defs>
+    <linearGradient id="card" x1="176" y1="128" x2="844" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFD4BC"/>
+      <stop offset="1" stop-color="#FF8C77"/>
+    </linearGradient>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="244" fill="url(#card)"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#FFF4E8" stroke-width="188"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#24262E" stroke-width="124"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="512" y="320" width="256" height="256" rx="72"
+        fill="#FF5A4F" stroke="#FFF4E8" stroke-width="28"/>
+  <rect x="584" y="392" width="112" height="112" rx="28" fill="#24262E"/>
+</svg>

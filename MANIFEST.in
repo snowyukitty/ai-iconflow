@@ -1,0 +1,6 @@
+recursive-include templates *.svg
+recursive-include docs *
+
+# Harness caches and design-session renders are never distribution inputs.
+prune mcps
+prune work

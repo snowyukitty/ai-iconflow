@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Flat geometric technique scaffold</title>
+  <desc id="desc">IconFlow's house mark demonstrates a solid card, one bold rail, one proof-cell accent, and grid-aligned pixel steps.</desc>
+  <!-- TECHNIQUE SCAFFOLD, not a stock glyph. Replace the rail and proof-cell
+       geometry with the consuming app's own user job and signature device. -->
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#FFF4E8" stroke-width="128"
+        stroke-linecap="square" stroke-linejoin="round"/>
+  <rect x="512" y="320" width="256" height="256" rx="32" fill="#FF5A4F"/>
+  <rect x="576" y="384" width="128" height="128" rx="12" fill="#191A20"/>
+</svg>

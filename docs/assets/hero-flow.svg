@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="560" viewBox="0 0 1440 560" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow: one master, every surface, proven at 16 pixels</title>
+  <desc id="desc">An app intent brief enters a continuous proof rail, passes through a coral review gate, and becomes a family of browser, app, and tray icons.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#191A20" stroke-opacity=".045"/>
+    </pattern>
+  </defs>
+
+  <rect width="1440" height="560" rx="36" fill="#FFF4E8"/>
+  <rect width="1440" height="560" rx="36" fill="url(#grid)"/>
+
+  <g font-family="Inter, Segoe UI, Arial, sans-serif" fill="#191A20">
+    <text x="72" y="72" font-size="18" font-weight="700" letter-spacing="3">ICONFLOW</text>
+    <text x="72" y="128" font-size="40" font-weight="700">One master. Every surface.</text>
+    <text x="72" y="172" font-size="40" font-weight="700">Proven at 16px.</text>
+    <text x="72" y="213" font-size="18" fill="#6E707B">App intent → semantic SVG → visual proof → target-ready family</text>
+  </g>
+
+  <!-- Intent: the user's job comes before a category glyph. -->
+  <g transform="translate(72 278)">
+    <rect width="244" height="186" rx="24" fill="#FFF9F1" stroke="#D8CFC7" stroke-width="2"/>
+    <text x="24" y="36" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="2" fill="#FF5A4F">01  INTENT</text>
+    <rect x="24" y="62" width="136" height="14" rx="7" fill="#191A20"/>
+    <rect x="24" y="90" width="188" height="10" rx="5" fill="#CFC6BE"/>
+    <rect x="24" y="112" width="154" height="10" rx="5" fill="#DED5CC"/>
+    <rect x="24" y="142" width="86" height="20" rx="10" fill="#FF5A4F"/>
+  </g>
+
+  <!-- One uninterrupted baseline joins the three product stages. -->
+  <path d="M316 371H462V332H824V371H1050" fill="none" stroke="#191A20" stroke-width="8" stroke-linecap="square" stroke-linejoin="round"/>
+  <rect x="688" y="294" width="76" height="76" rx="10" fill="#FF5A4F"/>
+  <rect x="710" y="316" width="32" height="32" rx="4" fill="#191A20"/>
+
+  <!-- Proof: the real house mark at the center of the workflow. -->
+  <g transform="translate(455 256)">
+    <rect width="370" height="232" rx="30" fill="#191A20"/>
+    <text x="28" y="38" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="2" fill="#FF5A4F">02  PROVE</text>
+    <g transform="translate(92 42) scale(.18359375)">
+      <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+      <path d="M256 288H640V448H448V640H576V704H704V768" fill="none" stroke="#FFF4E8" stroke-width="128" stroke-linecap="square" stroke-linejoin="round"/>
+      <rect x="512" y="320" width="256" height="256" rx="32" fill="#FF5A4F"/>
+      <rect x="576" y="384" width="128" height="128" rx="12" fill="#191A20"/>
+    </g>
+    <g fill="#FFF4E8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12">
+      <text x="28" y="208">16</text><text x="318" y="208">512</text>
+    </g>
+  </g>
+
+  <!-- Ship: one idea persists across unlike platform frames. -->
+  <g transform="translate(1050 278)">
+    <rect width="318" height="186" rx="24" fill="#FFF9F1" stroke="#D8CFC7" stroke-width="2"/>
+    <text x="24" y="36" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="2" fill="#FF5A4F">03  SHIP</text>
+    <g transform="translate(24 62)">
+      <g transform="scale(.0859375)">
+        <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+        <path d="M256 288H640V448H448V640H576V704H704V768" fill="none" stroke="#FFF4E8" stroke-width="128" stroke-linecap="square" stroke-linejoin="round"/>
+        <rect x="512" y="320" width="256" height="256" rx="32" fill="#FF5A4F"/>
+        <rect x="576" y="384" width="128" height="128" rx="12" fill="#191A20"/>
+      </g>
+      <circle cx="140" cy="44" r="44" fill="#F1E4D8"/>
+      <g transform="translate(106 10) scale(.06640625)">
+        <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+        <path d="M256 288H640V448H448V640H576V704H704V768" fill="none" stroke="#FFF4E8" stroke-width="128" stroke-linecap="square" stroke-linejoin="round"/>
+        <rect x="512" y="320" width="256" height="256" rx="32" fill="#FF5A4F"/>
+        <rect x="576" y="384" width="128" height="128" rx="12" fill="#191A20"/>
+      </g>
+      <rect x="194" width="96" height="88" rx="18" fill="#191A20"/>
+      <path d="M212 27H251V43H234V60H248V67H263V75" fill="none" stroke="#FFF4E8" stroke-width="10" stroke-linecap="square" stroke-linejoin="round"/>
+      <rect x="244" y="34" width="25" height="25" rx="3" fill="#FF5A4F"/>
+      <rect x="251" y="41" width="11" height="11" rx="1" fill="#191A20"/>
+    </g>
+    <text x="24" y="170" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" fill="#6E707B">web  ·  app  ·  tray</text>
+  </g>
+</svg>

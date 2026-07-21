@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "573007f93fb1c357240a9af383a47d0214dde9fbb95d712b5dd85e1857ece3a2",
+  "project": "IconFlow",
+  "user_job": "turn app intent into a proven, target-ready icon family",
+  "essence": "proof",
+  "personality": "precise, opinionated, calm",
+  "signature_device": "continuous master rail through an off-axis square proof gate, resolving into a pixel-step terminal",
+  "cliches": [
+    "AI sparkles",
+    "robot or brain",
+    "generic arrow/check/bookmark",
+    "blue-purple gradient"
+  ],
+  "targets": [
+    "web",
+    "tauri",
+    "electron",
+    "tray"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": "ec67ac5cfcec31bfd6bd3cc292cfca98537136b7250a1a5263e4cded2c952028"
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 5,
+    "scalability": 5,
+    "craft": 5
+  },
+  "notes": "Pass 2 aligned the proof gate and its 128-unit counter to a 64-unit raster rhythm; final maskable and tray-template previews preserve the same idea.",
+  "status": "ready"
+}
