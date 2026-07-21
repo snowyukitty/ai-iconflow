@@ -47,13 +47,33 @@ def _csv(*values: str) -> list[str]:
 
 
 def _resource(package: str, name: str):
-    """Return an immutable packaged resource Traversable."""
+    """Return a packaged resource path/Traversable.
 
+    Resolution order, most reliable first:
+
+    1. The on-disk source tree next to this package — an editable install
+       (``pip install -e .``), a plain checkout, or CI. A modern *strict*
+       editable finder does not expose the ``package-dir``-remapped resource
+       subpackages to ``importlib.resources`` (nor put the repo root on
+       ``sys.path`` for the namespace fallback), so the checkout layout is the
+       dependable source there.
+    2. The packaged ``iconflow.resources.*`` subpackage — a real wheel install,
+       where the source tree is absent so step 1 is skipped.
+    3. The top-level namespace directories — legacy source execution.
+    """
+
+    subdir = {
+        "presets": ("templates", "presets"),
+        "templates": ("templates",),
+        "docs": ("docs",),
+    }.get(package)
+    if subdir is not None:
+        source = Path(__file__).resolve().parent.parent.joinpath(*subdir, name)
+        if source.is_file():
+            return source
     try:
         root = importlib.resources.files(f"iconflow.resources.{package}")
     except ModuleNotFoundError:
-        # Direct source-tree execution (before `pip install -e .`) still uses
-        # importlib.resources via the top-level namespace directories.
         source_package = (
             "templates.presets" if package == "presets"
             else "templates" if package == "templates"
