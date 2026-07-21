@@ -305,8 +305,8 @@ class ConfigTests(unittest.TestCase):
             code = main(["ship", "--config", str(path)])
         self.assertEqual(code, 0)
         build.assert_called_once()
-        self.assertEqual(Path(build.call_args.args[0]), self.dir / "master.svg")
-        self.assertEqual(Path(build.call_args.args[1]), self.dir / "icons")
+        self.assertEqual(Path(build.call_args.args[0]).resolve(), (self.dir / "master.svg").resolve())
+        self.assertEqual(Path(build.call_args.args[1]).resolve(), (self.dir / "icons").resolve())
 
 
 if __name__ == "__main__":

@@ -129,7 +129,7 @@ class CliTests(unittest.TestCase):
         self.assertEqual(options.name, "Proof App")
         self.assertEqual(options.targets, ("web", "electron", "tray"))
         self.assertEqual(options.electron_radius, 0.18)
-        self.assertEqual(Path(options.tray_svg), tray)
+        self.assertEqual(Path(options.tray_svg).resolve(), Path(tray).resolve())
         self.assertEqual(options.tray_template_mode, "alpha")
         self.assertEqual(options.warnings, ("thin counter",))
 
