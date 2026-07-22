@@ -101,6 +101,12 @@ cleanly to every target and matches Tauri/Electron masters.
   with at least a one-pixel budget (≈64 units). If the concept cannot afford
   those pixels while staying inside its keyline, reject it before the bake-off
   instead of repairing legibility/scalability after review.
+- **Topology before styling for routing marks.** If the object says that
+  several inputs merge into one route, sketch that connectivity graph first and
+  require every claimed input to visibly join the trunk in the blacked-out
+  16/32px silhouette. A floating plug or detached lane can pass mechanical QA
+  while telling the wrong product story; treat it as a craft failure, not a
+  decorative gap.
 
 ---
 

@@ -320,3 +320,16 @@ positive exemplars it converges on "passes check," not "compelling."
 career-cat) were added retroactively to rebalance a casebook that was dominated by
 creator-favicon and repair-driven cases. Folded into `EVOLUTION.md` §1 (RECORD
 also means record exemplars) and `CONCEPTING.md`'s gallery.
+
+## L24 — For routing objects, semantic topology must be continuous in the silhouette
+When a mark promises that several inputs converge into one route, every claimed
+input must visibly join the shared trunk in the blacked-out silhouette. A
+floating connector can remain legible and mechanically clean at 16px while
+still contradicting the product model. Draw the connectivity graph before
+polishing color; then verify the same connections at 16/32px.
+*Why:* topology is the meaning of a routing mark. A disconnected shape is a
+semantic craft failure, not a cosmetic gap that color or outlines can repair.
+*Evidence:* [casebook/2026-07-22-ai-agent-entrypoint-guide.md](../casebook/2026-07-22-ai-agent-entrypoint-guide.md) — a three-head
+splitter passed automated QA but left the centre head floating until a
+raster-aligned centre rail joined it to the trunk. Folded into
+`DESIGN_PLAYBOOK.md` §2.
