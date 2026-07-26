@@ -106,6 +106,10 @@ cleanly to every target and matches Tauri/Electron masters.
   with at least a one-pixel budget (≈64 units). If the concept cannot afford
   those pixels while staying inside its keyline, reject it before the bake-off
   instead of repairing legibility/scalability after review.
+-  Write the budget beside the concept as `feature → units → 16px pixels`, not
+  only as a mental estimate. For example, a 152-unit tag aperture and a
+  144-unit edge notch become roughly 2.4px and 2.25px: both can graduate to the
+  bake-off, while a 96-unit version cannot.
 - **On a coloured card, budget the outline as a silhouette line.** The
   visual-silhouette strip judges luminance, so a coloured element on a coloured
   card blacks out with it and only its light outline survives. That outline is

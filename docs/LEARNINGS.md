@@ -301,6 +301,10 @@ and [casebook/2026-07-20-btrw-browser-proxy.md](../casebook/2026-07-20-btrw-brow
 confirmed the preventive form of this rule: a 136-unit hourglass waist and
 132-unit semantic accent cleared legibility and scalability on the first
 16px review pass.
+[casebook/2026-07-27-agent-terminal-status.md](../casebook/2026-07-27-agent-terminal-status.md)
+is the positive control: budgeting a 152-unit aperture and 144-unit path notch
+before the bake-off produced a first-pass 4/5 for both legibility and
+scalability.
 Folded into `DESIGN_PLAYBOOK.md` §2.
 
 ## L21 — Distinctiveness is specificity: make the mark a specific object, not a letter on a tile
