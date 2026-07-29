@@ -158,6 +158,12 @@ zoom in `review.png`:
 - Does a thin stroke disappear? Thicken it or switch to a filled glyph.
 - Is the silhouette **distinctive** — could you tell it apart from a competitor
   in a row of tabs? Generic gear/rocket/checkmarks fail this.
+- For a transparent tray/menu-bar target, test the 16px color mark on white,
+  **#808080**, and **#0b0d12**. If one background swallows the silhouette, keep
+  the single shape and add a contrasting **32–48-unit** edge (0.5–0.75 rendered
+  pixel at 16px); then re-check that every semantic counter or panel gap still
+  resolves to at least two clear pixels. Do not solve it with a full tile unless
+  the product calls for one.
 - For raster/emote-based favicons, check 16px legibility and the maskable row as
   one decision. If scaling the face up triggers a safe-zone warning, preserve the
   strongest expression and shrink or remove peripheral props (stars, ears, labels)
