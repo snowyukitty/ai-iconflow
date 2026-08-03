@@ -269,6 +269,10 @@ later discovering their 16px pixel cost.
 [casebook/2026-07-12-ctrl-rescue.md](../casebook/2026-07-12-ctrl-rescue.md),
 [casebook/2026-07-18-snowy-twitch-bot-fox-badge.md](../casebook/2026-07-18-snowy-twitch-bot-fox-badge.md),
 and [casebook/2026-07-20-btrw-browser-proxy.md](../casebook/2026-07-20-btrw-browser-proxy.md).
+[casebook/2026-07-24-jp-auction-opportunity-desk.md](../casebook/2026-07-24-jp-auction-opportunity-desk.md)
+confirmed the preventive form of this rule: a 136-unit hourglass waist and
+132-unit semantic accent cleared legibility and scalability on the first
+16px review pass.
 Folded into `DESIGN_PLAYBOOK.md` §2.
 
 ## L21 — Distinctiveness is specificity: make the mark a specific object, not a letter on a tile
@@ -333,3 +337,40 @@ semantic craft failure, not a cosmetic gap that color or outlines can repair.
 splitter passed automated QA but left the centre head floating until a
 raster-aligned centre rail joined it to the trunk. Folded into
 `DESIGN_PLAYBOOK.md` §2.
+
+## L25 — A gradient shared across differently-sized shapes says "different", not "same"
+A single `linearGradient` in `userSpaceOnUse` spanning two shapes is a tempting
+way to draw "these are held at one level": the band lands at the same absolute
+height on both. Rendered, the taller shape reaches into a different part of the
+ramp and comes out a visibly different tone — so the device draws exactly the
+opposite of its intended meaning, and at 16px the shape that reaches the dark
+end reads as *unlit*. Express sameness by making the shapes **look identical**
+(one gradient definition applied per-shape in object-bounding-box space), not by
+running one ramp through them.
+*Why:* the eye compares the two fills directly; it does not reconstruct the
+canvas-space geometry that made them differ.
+*Evidence:* [casebook/2026-08-04-lumendeck.md](../casebook/2026-08-04-lumendeck.md) — the shared-ramp pair was
+killed at bake-off in favour of identical per-shape ramps.
+
+## L26 — If a mark needs three elements, budget every semantic gap at 128 units first
+Three elements can be affordable at 16px, but only if each gap between them is
+about **128 units on the 1024 grid** (two clear rendered pixels). Decide that
+before committing to the third element: a first pass with a 72-unit gap fused
+its shapes into one blob at 16px and read as "blurry". If two gaps cannot both
+afford 128 units inside the safe area, it is a two-element concept — shrink the
+idea rather than the gaps.
+*Why:* below two pixels a gap is anti-aliasing, and anti-aliasing is what the
+eye reads as low quality.
+*Evidence:* [casebook/2026-08-04-lumendeck.md](../casebook/2026-08-04-lumendeck.md) — widening both gaps to exactly
+128 units is what made a three-element mark legible at 16px. Extends
+`DESIGN_PLAYBOOK.md` §5's rule for negative-space devices to inter-element gaps.
+
+## L27 — A row of same-width blocks of rising height is a bar chart, whatever you meant
+Any stepped row of equal-width rectangles collides with analytics, signal
+strength and equaliser icons — the silhouette borrows that meaning and no
+styling recovers it (this is L9 applied to the most common abstract layout).
+When rectangles must read as *screens*, use **orientation contrast**: a
+landscape rectangle beside a portrait one is unmistakably monitors and matches
+no system icon.
+*Evidence:* [casebook/2026-08-04-lumendeck.md](../casebook/2026-08-04-lumendeck.md) — the stepped three-panel
+concept was killed on the silhouette strip; the landscape+portrait pair shipped.
