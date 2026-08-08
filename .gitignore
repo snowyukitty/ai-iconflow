@@ -23,6 +23,11 @@ bake*.png
 *_bake*.png
 verify_exe_icon.png
 
+# `iconflow case atlas` output. Regenerate it locally rather than committing it:
+# it aggregates the whole local casebook into one file, so a casebook entry a
+# repository deliberately keeps local would be republished inside the atlas.
+case-atlas.html
+
 # Published evidence belongs to the documentation package, not session scratch.
 !docs/assets/review-proof.png
 
