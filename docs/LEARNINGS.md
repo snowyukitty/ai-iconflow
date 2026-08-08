@@ -102,6 +102,15 @@ rejected tall rabbit ears again: a pointed chapel-window frame supplied the
 ownable silhouette, while the real white bunny hairpin remained an accessory
 inside the person's portrait rather than turning the portrait into the mascot.
 
+**Sibling marks:** when the mascot is already spent on one surface (the desktop
+app icon), do not give a second surface a weaker variation of it. Source that
+mark from what the surface is *about* — the page's own subject will hand you a
+specific object the mascot family could never reach, and the two marks then read
+as a family with distinct jobs rather than as one icon and its understudy.
+*Evidence:* [casebook/2026-08-08-snowy-site-caret-keycap.md](../casebook/2026-08-08-snowy-site-caret-keycap.md) —
+the owner asked for a site favicon only *weakly* related to the brand; with the
+snow-fox off the table, the commands page's own caret prefix produced a keycap.
+
 ## L11 — Raster-source favicons need direct raster packaging plus both small-size tests
 When the identity source is a raster emote, avatar, or photo, do not wrap it in
 an SVG `<image>` and assume that every browser favicon path will decode the
@@ -292,6 +301,9 @@ object is remembered, a letter-on-a-tile is not.
 [snowy-repo-quest](../casebook/2026-07-16-snowy-repo-quest.md) (gem),
 [career-cat](../casebook/2026-07-16-career-cat.md) (maneki-neko),
 [tgs-planning-site](../casebook/2026-06-19-tgs-planning-site.md) (folded map).
+Confirmed again by a later gateway-site case (kept out of this repo), where a
+bold access-ticket silhouette beat both a monogram initial and decorative
+seasonal motifs that died at 16px.
 Folded into `CONCEPTING.md` ("Distinctiveness = specificity" + exemplar gallery),
 `DESIGN_PLAYBOOK.md` §6/§7, `REVIEW_CHECKLIST.md` axis 2, and an advisory
 `iconflow/qa.py` generic-silhouette warning.
@@ -374,3 +386,75 @@ landscape rectangle beside a portrait one is unmistakably monitors and matches
 no system icon.
 *Evidence:* [casebook/2026-08-04-lumendeck.md](../casebook/2026-08-04-lumendeck.md) — the stepped three-panel
 concept was killed on the silhouette strip; the landscape+portrait pair shipped.
+
+## L28 — Spend the whole tile: full-bleed the mark before you tune anything else
+A mark drawn *inside* a tile pays for the margin twice — once in the container
+and once in every counter, gap and cut it can no longer afford. When a concept
+reads at 128px and mushes at 16px, the first move is not thicker strokes or
+fewer elements: it is deleting the background tile and letting the object BE
+the icon. Going full-bleed typically returns 250–300 units of grid, which is
+exactly the budget L20/L26 ask for.
+*Why:* legibility is the casebook's chronically weakest first-pass axis, and its
+most common single cause is a mark sized to look comfortable on a 1024 canvas
+instead of sized to spend it.
+*Evidence:* [casebook/2026-08-05-yorozora-seal.md](../casebook/2026-08-05-yorozora-seal.md) — a 744-unit tile left
+~28 units between strokes (0.4px at 16px); full-bleed bought ~280 units and paid
+for heavier strokes *and* 64+ unit counters.
+[casebook/2026-08-08-snowy-site-caret-keycap.md](../casebook/2026-08-08-snowy-site-caret-keycap.md) — an
+independent confirmation: all three first-round concepts were marks inside
+tiles and all three mushed at 16px; the same three ideas full-bleed were
+immediately legible. Folded into `DESIGN_PLAYBOOK.md` §2.
+
+## L29 — A full-bleed container still needs one non-square feature, or its footprint is just a rounded square
+Full-bleed solves the pixel budget (L28) but re-opens L8: if the object's outline
+runs parallel to the canvas, the alpha footprint is a rounded square and the
+silhouette gates cannot see the object at all. Give the container **one
+measurable departure from the square** — a perspective taper, an asymmetric
+corner, a protruding tail. A taper needs to be big to read: a base roughly
+**1.5× the top edge** (904 vs 604 units) is visible at 32px; 760 vs 700 is not.
+*Why:* "full-bleed" and "distinctive" are different problems, and passing the
+first makes it easy to believe you passed the second.
+*Evidence:* [casebook/2026-08-08-snowy-site-caret-keycap.md](../casebook/2026-08-08-snowy-site-caret-keycap.md) —
+the near-square full-bleed cap scored distinctiveness 3 because its footprint
+read as a generic up-chevron button (L9); widening the base to 904 against a
+604 top face named a keycap and lifted it to 4 with no change to the glyph.
+
+## L30 — Punch the glyph through the object; do not lay it on top
+When an opaque object carries a glyph, cutting the glyph clean through it
+(`fill-rule="evenodd"`) rather than painting it on the surface costs nothing at
+16px and buys the whole silhouette axis: an overlaid glyph is invisible once the
+mark is blacked out, while a cut one is part of the shape the bake-off actually
+judges (L3). It also keeps the mark to one dominant foreground shape (L1), and
+the cut adapts to whatever the page behind it is.
+*Why:* the overlaid and cut versions look identical in colour, so the choice
+feels cosmetic — but only one of them survives the test that decides the
+concept.
+*Evidence:* [casebook/2026-08-08-snowy-site-caret-keycap.md](../casebook/2026-08-08-snowy-site-caret-keycap.md) —
+the two versions were indistinguishable at 16px; the cut version put the caret
+into both silhouette rows and won the bake-off on that alone.
+
+## L31 — A 16px icon has room for exactly one idea
+When a brand's full meaning has two parts, draw the one that names the business
+and let the wordmark, the name story, or the page copy carry the other. A second
+meaning bolted onto a working mark reliably costs the first one: it either
+detaches, unbalances the primary glyph, or only reads at a size where the icon
+was never in trouble.
+*Why:* every additional idea competes for the same ~16 pixels the first idea
+already needed.
+*Evidence:* [casebook/2026-08-05-yorozora-seal.md](../casebook/2026-08-05-yorozora-seal.md) — three variants
+adding "open sky" to a working 万 seal each broke it (a lidded box at 16px, a
+detached floating 一, a chamfer that only read by shortening the 一); the
+single-idea champion shipped unchanged.
+
+## L32 — A bordered card cannot pass a maskable safe-zone audit; leave the frame to the interface
+A square frame's corner sits at **1.41× its half-width**, so fitting it inside a
+40% safe circle forces the frame down to ~57% of the tile — by which point it no
+longer reads as a card. Neo-brutalist ink borders and offset shadows belong to
+the UI, not the icon: ship the palette and the glyph in the mark. This is the
+maskable-geometry counterpart to L12 (outer effects are real footprint).
+*Why:* adaptive icons crop by geometry, and the corner of a frame is the
+farthest-out part of the drawing.
+*Evidence:* [casebook/2026-08-06-yorozora-node-graph.md](../casebook/2026-08-06-yorozora-node-graph.md).
+[casebook/2026-08-08-snowy-site-caret-keycap.md](../casebook/2026-08-08-snowy-site-caret-keycap.md) applied it
+preventively — the site it serves is neo-brutalist ink-on-paper, and the favicon
+carries the palette while the ink frame and offset shadow stay in the CSS.

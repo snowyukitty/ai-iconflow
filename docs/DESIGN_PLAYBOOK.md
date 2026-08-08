@@ -101,6 +101,15 @@ cleanly to every target and matches Tauri/Electron masters.
   with at least a one-pixel budget (≈64 units). If the concept cannot afford
   those pixels while staying inside its keyline, reject it before the bake-off
   instead of repairing legibility/scalability after review.
+- **Spend the whole tile before tuning anything else.** If the budget above
+  doesn't fit, the fix is almost never thinner margins or thicker strokes — it
+  is deleting the background tile so the object *is* the icon. A mark drawn
+  inside a tile pays for that margin twice, in the container and again in every
+  counter it can no longer afford; going full-bleed typically returns 250–300
+  units of grid. Then re-check §6's silhouette question: a full-bleed container
+  whose outline runs parallel to the canvas is back to being a rounded square,
+  so give it one measurable non-square feature — a perspective taper of roughly
+  **1.5× base-to-top** reads at 32px, a 1.1× taper does not. (L28, L29.)
 - **Topology before styling for routing marks.** If the object says that
   several inputs merge into one route, sketch that connectivity graph first and
   require every claimed input to visibly join the trunk in the blacked-out
