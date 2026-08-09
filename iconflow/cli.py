@@ -443,6 +443,7 @@ def _cmd_shortcut(a) -> int:
     lines = create_shortcut(
         target=target, name=a.name, icon=a.icon, args=args_line,
         workdir=a.workdir, desc=a.desc, out=a.out, verify=a.verify,
+        content_address_icon=a.content_address_icon,
     )
     for ln in lines:
         print(f"  {ln}")
@@ -791,6 +792,10 @@ def build_parser() -> argparse.ArgumentParser:
     sc.add_argument("--out", default="desktop", help="desktop | startmenu | <directory>")
     sc.add_argument("--verify", action="store_true",
                     help="read back TargetPath/Arguments/WorkingDirectory/IconLocation after creation")
+    sc.add_argument(
+        "--content-address-icon", action="store_true",
+        help="copy --icon to a SHA-256-named alias and imply --verify (avoids stale Shell pixels)",
+    )
     sc.set_defaults(func=_cmd_shortcut)
 
     ca = sub.add_parser("case", help="casebook: record shipped designs, surface what to evolve")

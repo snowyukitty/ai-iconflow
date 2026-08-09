@@ -194,12 +194,20 @@ until you've confirmed the file itself:
   the exe to a **fresh filename** and view that (a new path sidesteps the
   per-path cache). If the copy shows the new mark, the build is correct and it's
   purely a cache/display issue.
-- **Force a refresh:** delete
+- **Force a refresh (last resort, with explicit user approval):** delete
   `%LOCALAPPDATA%\Microsoft\Windows\Explorer\iconcache_*.db` and
   `%LOCALAPPDATA%\IconCache.db`, run `ie4uinit.exe -ClearIconCache`, then restart
-  `explorer.exe`. Touching the file's mtime nudges a stuck per-file icon.
-- **Shortcuts:** the most reliable user-facing fix is to **delete and recreate**
-  the desktop shortcut — that often updates instantly when cache-clearing won't.
+  `explorer.exe`. These actions disrupt the desktop session; prefer the
+  content-addressed shortcut path below. Touching the file's mtime can nudge a
+  stuck per-file icon.
+- **Shortcuts:** changing the `.lnk` is not enough when `IconLocation` reuses the
+  same canonical `.ico` path. Install a content-addressed copy such as
+  `shortcut-icon-<first-12-sha256>.ico`, recreate the shortcut against that new
+  path, read `IconLocation` back, and inspect or extract what the Shell resolves
+  from the actual `.lnk`. `iconflow shortcut --content-address-icon` performs
+  the copy and implies `--verify`. If scripting the digest yourself, do not
+  assume `Get-FileHash` exists in every Windows PowerShell host; feature-detect
+  it or use `System.Security.Cryptography.SHA256`.
 
 If a consuming project regenerates icons with its **own Pillow script** (not this
 toolkit), pack the multi-size `.ico` from the **largest** frame as the base image
@@ -245,7 +253,8 @@ fragile nested shell quoting with `--powershell-script`:
 python -m iconflow shortcut \
     --powershell-script "D:\app\launch-app.ps1" \
     --icon "D:\app\icons\build\icon.ico" --workdir "D:\app" \
-    --name "Research Workstation" --out desktop --verify
+    --name "Research Workstation" --out desktop \
+    --content-address-icon
 ```
 
 That expands to `powershell.exe -NoProfile -ExecutionPolicy Bypass -File
@@ -253,6 +262,13 @@ That expands to `powershell.exe -NoProfile -ExecutionPolicy Bypass -File
 through an ASCII temp copy and prints `TargetPath`, `Arguments`,
 `WorkingDirectory`, and `IconLocation`; this catches quoting and CJK path issues
 immediately.
+
+`--content-address-icon` copies the source icon beside it as
+`shortcut-icon-<first-12-sha256>.ico`, points the `.lnk` at that immutable name,
+and automatically enables read-back verification. Rebuilding different bytes
+therefore creates a different `IconLocation`, which avoids the Shell's
+path-keyed stale-icon failure without deleting system-wide caches. Keep the
+canonical `icon.ico` as the build output; the hashed file is a delivery alias.
 
 `--out` is `desktop` (every redirected + local Desktop, e.g. OneDrive),
 `startmenu`, or an explicit directory. It bakes in two Windows gotchas so you

@@ -23,8 +23,15 @@ accent.
 For content/guide sites, an icon about what the user is trying to *do*
 (route, decide, compare, scout) beats the category object (game, conference,
 travel). Category nouns are where clichés live.
+For a privacy-sensitive product, that verb is also the safest public design
+brief: preserve the geometry, scores, failed readings, and target evidence, but
+record the public case under a neutral product label without sensitive category
+nouns, private repository names, or local paths.
 *Evidence:* [casebook/2026-06-19-tgs-planning-site.md](../casebook/2026-06-19-tgs-planning-site.md) — folded-map route beat
-gamepad/ticket concepts. Folded into `CONCEPTING.md` worked example.
+gamepad/ticket concepts;
+[private route finder](../casebook/2026-08-09-private-media-route-fan.md) and
+[private discovery hub](../casebook/2026-08-09-private-media-discovery-pearl.md)
+show the privacy-safe form. Folded into `CONCEPTING.md` and `EVOLUTION.md`.
 
 ## L3 — Judge the bake-off by silhouette, not by 128px color
 Prefer the candidate whose blacked-out visual silhouette is ownable, even when
@@ -53,13 +60,20 @@ base, yielding a 16px-only icon that looks fine until Windows scales it.
 *Evidence:* bookmark-manager icon regression. Mechanized in
 `iconflow/assemble.py` (`write_ico`).
 
-## L7 — A stale Windows icon is usually the cache, not the build
-After rebuilding an exe/shortcut icon, Explorer often shows the old one.
-Verify the file first (extract the embedded icon, or copy the exe to a fresh
-name); only then clear `iconcache_*.db` / rerun `ie4uinit -ClearIconCache` or
-recreate the shortcut.
-*Evidence:* desktop-app deliveries. Folded into the iconflow skill's
-delivery notes.
+## L7 — Version Windows shortcut icon paths; verify what the shell resolves
+After rebuilding an exe/shortcut icon, Explorer often shows the old one. Verify
+the source bytes first, but do not assume recreating a `.lnk` is a cache bust:
+if `IconLocation` still names the same canonical `.ico`, the shell can keep the
+old pixels. Copy the verified icon to
+`shortcut-icon-<first-12-sha256>.ico`, recreate the shortcut against that path,
+read `IconLocation` back, and inspect or extract the icon resolved from the
+actual shortcut. Cache deletion is a secondary recovery step, not the proof.
+When scripting the digest, feature-detect `Get-FileHash` or use .NET SHA-256;
+not every Windows PowerShell host exposes the same cmdlets.
+*Evidence:* [private route finder](../casebook/2026-08-09-private-media-route-fan.md)
+and [private discovery hub](../casebook/2026-08-09-private-media-discovery-pearl.md).
+Mechanized by `iconflow shortcut --content-address-icon`; folded into
+`OUTPUT_TARGETS.md` and the iconflow skill's delivery notes.
 
 ## L8 — On a full-background app TILE, distinctiveness lives in the mark, not the silhouette
 When the icon is an opaque rounded-square tile (app/Tauri/Electron), the alpha
@@ -458,3 +472,37 @@ farthest-out part of the drawing.
 [casebook/2026-08-08-snowy-site-caret-keycap.md](../casebook/2026-08-08-snowy-site-caret-keycap.md) applied it
 preventively — the site it serves is neo-brutalist ink-on-paper, and the favicon
 carries the palette while the ink frame and offset shadow stay in the CSS.
+
+## L33 — A vertical cut above a detached round accent reads as punctuation
+A near-vertical negative-space cut and a detached circular accent can each be
+valid devices, yet their alignment groups them into an exclamation mark at
+16px. Strip color, inspect the 16px silhouette, and compare their centerlines
+before polishing. Offset the cut by at least two output pixels (about 128 units
+on the 1024 grid), change its angle, or remove one device.
+*Why:* Gestalt grouping wins before object recognition at favicon size; a
+familiar punctuation mark is a stronger reading than the intended object.
+*Evidence:* [casebook/2026-08-09-private-media-route-fan.md](../casebook/2026-08-09-private-media-route-fan.md).
+Folded into `DESIGN_PLAYBOOK.md` §5 and `CONCEPTING.md` §4.
+
+## L34 — Viewpoint is part of the concept, not a finishing choice
+Run the name-the-thing test at both 128px and 16px. If an object metaphor names
+a stronger unrelated noun from the chosen angle, reframe or rotate the object
+before adding detail. A viewpoint change can create the broad masses and open
+counters small sizes need; extra seams and highlights usually reinforce the
+wrong reading.
+*Why:* an object's silhouette is determined as much by viewpoint as by contour,
+and icon scale removes the detail that might have disambiguated a weak angle.
+*Evidence:* [casebook/2026-08-09-private-media-discovery-pearl.md](../casebook/2026-08-09-private-media-discovery-pearl.md).
+Folded into `DESIGN_PLAYBOOK.md` §5 and `CONCEPTING.md` §4.
+
+## L35 — A blocked Review Lab changes the evidence path, not the quality gate
+If a managed browser refuses a local Review Lab, do not bypass the policy and
+do not treat the missing interactive view as approval. Inspect the static sheet
+plus every exact target asset at actual 16/32px sizes, record all six scores and
+notes in the source-bound approved fallback, and let `ship` re-run QA and verify
+the digest. Report the interactive check as blocked.
+*Why:* the fallback remains auditable only when it is bound to the reviewed SVG
+and preserves the same ≥4/5 rubric floor; otherwise a browser limitation becomes
+an undocumented gate bypass.
+*Evidence:* [casebook/2026-08-09-private-media-discovery-pearl.md](../casebook/2026-08-09-private-media-discovery-pearl.md).
+Folded into `WORKFLOW.md`, `REVIEW_CHECKLIST.md`, and the iconflow skill.

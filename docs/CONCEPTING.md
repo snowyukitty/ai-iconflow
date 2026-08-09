@@ -47,6 +47,12 @@ coming from *different* lenses. The point is range, not polish.
 Aim for 4 genuinely different directions. If two concepts share a silhouette,
 they count as one — push for spread.
 
+For a privacy-sensitive brief, start from the neutral user job (`reveal`,
+`route`, `discover`, `compare`) rather than the sensitive category noun. The
+public concept record should keep the useful design evidence — geometry,
+failed readings, scores, and targets — under a neutral product label, without
+private repository names or local paths.
+
 > The letterform lens is **fusion**, not "type a letter on a tile." If the
 > initial is not *made of* the metaphor's geometry, it is the monogram trap
 > above — treat it as a cliché to escape, not a concept.
@@ -70,6 +76,7 @@ further**. These are the marks everyone already uses — start past them:
 | Music / audio | eighth note, waveform | a custom waveform-as-letter, a single bold form |
 | Bookmark / save | ribbon bookmark | a fold, a pin, a corner-turn unique to you |
 | Mascot / pet | generic animal silhouette; adjacent mascot when the site is actually about a creator/person | the exact identity owner first, then a specific pose/expression + ownable palette |
+| Privacy-sensitive discovery | literal category imagery, play/eye/media glyphs, euphemistic initials | the user's neutral job expressed as a specific object silhouette with one reveal/route device |
 
 If your concept is the "avoid" cell, it is not done.
 
@@ -103,8 +110,11 @@ ownable frame silhouette before adding another accessory.
 
 Four hard tests decide it:
 
-1. **Name-the-thing test (specificity gate).** Look at the blacked-out
-   silhouette and say, in one noun, what object it is. If the honest answer is
+1. **Name-the-thing test (specificity + viewpoint gate).** Look at the
+   blacked-out silhouette at both 128px and 16px and say, in one noun, what
+   object it is. Treat viewpoint as a concept variable: if the noun changes at
+   small size or the chosen angle names a stronger unrelated object, reframe or
+   rotate it before adding detail. If the honest answer is
    "the letter S" or "a rounded square with a glyph in it," the concept has no
    specificity — send it back to Step 1. A passing answer is a concrete thing:
    "a price tag," "a cut gem," "a folded map," "a cat." This gate is what
@@ -122,6 +132,11 @@ Four hard tests decide it:
    extend to the edges, but idea-carrying detail should not.
 4. **Row test.** Imagine it in a row of 8 competitor favicons/dock icons. Does it
    stand out in under a second? If not, sharpen the idea or the signature device.
+
+Also run a **punctuation collision test** with color removed. A near-vertical
+negative-space cut aligned above a detached round accent reads as `!` at 16px;
+offset the centerlines by at least two output pixels (about 128 units), change
+the angle, or discard one device before the bake-off winner is promoted.
 
 Then run a real bake-off on your 2–3 finalists:
 
@@ -215,3 +230,6 @@ distinctive idea that survives small instead of keeping a clever-but-muddy one.
 In the final report, state: the brief's one-word essence, the cliché you avoided,
 the signature device you chose, and why the winning silhouette is distinctive.
 That makes the "特色" auditable instead of accidental.
+For a public record of privacy-sensitive work, use a neutral project label and
+omit sensitive category nouns, private repository names, and local paths while
+keeping the geometry, scores, failed readings, and verification evidence.

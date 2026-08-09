@@ -55,6 +55,12 @@ offenders, but it is a hint, not the judge — you still score the axis by eye.
 - Any axis <4 → name the weakest axis, apply the one change from the playbook
   §7 self-critique that raises it most, re-render. Repeat (usually 2–3 passes).
 
+If a managed browser blocks the local Review Lab, record that limitation
+honestly and follow `WORKFLOW.md`'s managed-browser fallback: inspect the static
+sheet and exact target assets at real sizes, then use a complete source-bound
+`[review]` approval. Do not treat an inaccessible Lab as a passed review or
+lower the ≥4/5 floor.
+
 Record the final scores in your summary to the user so the quality is auditable.
 Then record the case (`iconflow case new` with both `--first` and `--final`
 scores) — the first-pass scores are how the system measures whether its

@@ -7,23 +7,36 @@ shipping. This file is the contract for Claude, Codex, and any other agent.
 
 ## The procedure (follow in order)
 
+Before step 0, resolve this toolkit's absolute path and runner. Prefer its venv
+Python (`.venv\Scripts\python.exe` on Windows or `.venv/bin/python` on POSIX),
+run `-m iconflow setup` once if needed, and use that interpreter for every
+command below. When invoked from another repository, keep the shell in the
+consuming project so its config and final sources land there; use absolute paths
+for toolkit docs and `work/<slug>/` drafts.
+
 0. **Read** `docs/LEARNINGS.md` — the rules distilled from every previously
    shipped icon. This is what makes the system self-evolving: past mistakes
    are only worth their cost if you apply them now. Optionally run
    `python -m iconflow case stats` to see the current weakest axis and any
-   house-cliché warning before you start.
-1. **Read** `docs/DESIGN_PLAYBOOK.md`. Create `iconflow.toml` with
-   `python -m iconflow init`, then record the app intent, user job, one-word
+   house-cliché warning before you start. Treat that signal as diagnostic; it
+   does not itself authorize editing this shared toolkit.
+1. **Read** `docs/DESIGN_PLAYBOOK.md`. From the consuming project, create its
+   `iconflow.toml` with `python -m iconflow init --out iconflow.toml`, then
+   record the app intent, user job, one-word
    essence, personality, existing brand palette, clichés, signature-device
    hypothesis, and exact output targets. A visual decision without a product
-   job is not a complete brief.
+   job is not a complete brief. For privacy-sensitive work, reduce the brief to
+   a neutral user-job verb rather than a sensitive category noun.
 2. **Diverge for distinctiveness** (`docs/CONCEPTING.md`) — DO NOT skip; this is
    why most AI icons look generic. Generate 4+ concepts via different lenses,
    apply the cliché filter, add ONE signature device. Draft 2–3 finalist SVGs.
 3. **Bake-off** the finalists:
    `python -m iconflow compare a.svg b.svg c.svg --out bake.png` →
    **Read `bake.png`**, run the silhouette + row tests, promote the most
-   distinctive-yet-legible winner to `master.svg`.
+   distinctive-yet-legible winner to `master.svg`. Run the name-the-thing test
+   at both 128px and 16px; change the viewpoint if the noun changes. With color
+   removed, test vertical cuts above detached round accents as punctuation and
+   offset their centerlines by at least two output pixels (~128 viewBox units).
    (Shortcut for simple jobs: start from a preset
    `python -m iconflow new <gradient-glow|flat-geometric|line-mark|mascot>` and
    still apply a signature device.)
@@ -40,6 +53,9 @@ shipping. This file is the contract for Claude, Codex, and any other agent.
    target transform. Score against `docs/REVIEW_CHECKLIST.md` and export the
    JSON receipt. Distinctiveness is a gate—do not ship below 4/5 on it. If any
    axis <4, make the one change that helps most and re-render. Usually 2–3 passes.
+   If managed browser policy blocks the Lab, inspect the static sheet and exact
+   target assets at real sizes, then use a complete source-hash-bound approved
+   fallback; record the blocked interactive check honestly and keep every gate.
 6. **Ship** into the consuming project:
    `python -m iconflow ship --config iconflow.toml --review master-review.json`.
    `ship` re-runs automated QA, verifies the receipt belongs to the current SVG,
@@ -54,7 +70,13 @@ shipping. This file is the contract for Claude, Codex, and any other agent.
    then fill in the created file's *Summary* / *What failed first* sections.
    Run `python -m iconflow case lint`, `case stats`, and (for a visual audit)
    `case atlas`. If stats says **DISTILL NOW** or flags an evolution target,
-   follow `docs/EVOLUTION.md` and fold the lessons into the docs before ending.
+   edit the shared toolkit only when the current work supplies new,
+   generalizable evidence and shared-toolkit writes are in scope. Otherwise
+   report the signal to the owner. When authorized, follow `docs/EVOLUTION.md`
+   and fold the lessons into the docs before ending.
+   Public cases from privacy-sensitive work use neutral labels and omit sensitive
+   category nouns, private repository names, local paths, and identifying
+   operational details while preserving reusable visual evidence.
 
 ## Working files
 Put draft SVGs, bake sheets, and review renders in `work/<slug>/` (gitignored),
@@ -98,6 +120,8 @@ python -m iconflow shortcut --powershell-script D:\app\launch.ps1 \
   --icon D:\app\icons\build\icon.ico --name "My App" --out desktop --verify
 ```
 `--verify` reads the `.lnk` back after creation, which catches quoting and CJK
-path issues immediately.
+path issues immediately. Add `--content-address-icon` for delivery: it copies the
+icon to `shortcut-icon-<sha12>.ico`, points the shortcut at the immutable alias,
+and implies `--verify`, avoiding Explorer's stale path-keyed icon pixels.
 
-Claude Code users also get the global `/iconflow` skill (see README).
+Codex and Claude Code users also get the global `iconflow` skill (see README).

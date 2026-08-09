@@ -54,6 +54,11 @@ python -m iconflow case new --slug <project-slug> \
   shipped marks (owner favourites) as reference cases — honestly-labelled scores
   with the exemplar provenance noted in the Summary — so `stats`, the rubric bar,
   and `CONCEPTING.md`'s gallery measure against real quality (see L23).
+- **Sanitize public cases from privacy-sensitive work.** Use a neutral project
+  label and user-job language; omit sensitive category nouns, private repository
+  names, local paths, and operational details that identify the source. Preserve
+  the evidence that makes the lesson reusable: exact geometry thresholds,
+  failed visual readings, targets, scores, iterations, and verification method.
 
 ## 2. MEASURE — read the health report
 

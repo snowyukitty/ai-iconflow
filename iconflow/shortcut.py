@@ -1,6 +1,6 @@
 """Create OS shortcuts that point at a target, wearing the icon you just built.
 
-Windows `.lnk` only for now. This encodes two hard-won lessons so callers never
+Windows `.lnk` only for now. This encodes three hard-won lessons so callers never
 have to rediscover them:
 
   1. **COM Save() mangles non-ASCII paths.** `WScript.Shell.CreateShortcut(p).Save()`
@@ -11,12 +11,16 @@ have to rediscover them:
   2. **Windows PowerShell 5.1 reads UTF-8 .ps1 as ANSI.** A BOM-less UTF-8 script
      mojibakes under powershell.exe. We emit the generated script as utf-8-sig
      (with BOM) so both `pwsh` and `powershell.exe` decode it correctly.
+  3. **Explorer keys shortcut icons by path.** Recreating a `.lnk` against the
+     same `icon.ico` can retain stale pixels. An optional content-addressed alias
+     gives changed bytes a changed `IconLocation` and makes read-back meaningful.
 
 It also resolves the desktop the way Windows actually redirects it (OneDrive +
 local), dropping the shortcut in every real location.
 """
 from __future__ import annotations
 
+import hashlib
 import shutil
 import subprocess
 import sys
@@ -38,6 +42,30 @@ def _psq(s: str | None) -> str:
 
 def _psbool(value: bool) -> str:
     return "$true" if value else "$false"
+
+
+def install_content_addressed_icon(icon: str | Path) -> Path:
+    """Copy an icon beside its source under a SHA-256-derived immutable name.
+
+    The 12-hex prefix is sufficient for normal icon delivery. If that path
+    somehow already contains different bytes, the full digest is used instead.
+    Existing identical aliases are reused without rewriting their timestamps.
+    """
+    source = Path(icon).expanduser().resolve()
+    if not source.is_file():
+        raise FileNotFoundError(f"icon file not found: {source}")
+
+    payload = source.read_bytes()
+    digest = hashlib.sha256(payload).hexdigest()
+    suffix = source.suffix or ".ico"
+    destination = source.with_name(f"shortcut-icon-{digest[:12]}{suffix}")
+    if destination == source:
+        return source
+    if destination.exists() and destination.read_bytes() != payload:
+        destination = source.with_name(f"shortcut-icon-{digest}{suffix}")
+    if not destination.exists():
+        shutil.copy2(source, destination)
+    return destination
 
 
 _PS_TEMPLATE = r"""$ErrorActionPreference = 'Stop'
@@ -102,19 +130,33 @@ foreach ($final in $dests) {{
 
 def create_shortcut(*, target: str, name: str, icon: str = "", args: str = "",
                     workdir: str = "", desc: str = "", out: str = "desktop",
-                    verify: bool = False) -> list[str]:
+                    verify: bool = False,
+                    content_address_icon: bool = False) -> list[str]:
     """Create a Windows .lnk named `name` pointing at `target`, wearing `icon`.
 
     `out` is "desktop" (every redirected + local desktop), "startmenu", or an
     explicit directory. Returns the PowerShell status lines (OK/FAIL/SKIP each).
     If `verify` is true, output also includes read-back TargetPath, Arguments,
-    WorkingDirectory, and IconLocation lines for each created shortcut.
+    WorkingDirectory, and IconLocation lines for each created shortcut. When
+    `content_address_icon` is true, the icon is copied beside its source under
+    a SHA-256-derived name and verification is enabled automatically.
     """
     if sys.platform != "win32":
         raise SystemExit("iconflow shortcut: Windows-only (creates a .lnk).")
     ps = _ps_exe()
     if not ps:
         raise SystemExit("iconflow shortcut: neither pwsh nor powershell found on PATH.")
+
+    lines: list[str] = []
+    if content_address_icon:
+        if not icon:
+            raise SystemExit("iconflow shortcut: --content-address-icon requires --icon.")
+        try:
+            icon = str(install_content_addressed_icon(icon))
+        except FileNotFoundError as exc:
+            raise SystemExit(f"iconflow shortcut: {exc}") from exc
+        verify = True
+        lines.append(f"ICON {icon}")
 
     script = _PS_TEMPLATE.format(
         target=_psq(target), icon=_psq(icon), args=_psq(args),
@@ -131,7 +173,7 @@ def create_shortcut(*, target: str, name: str, icon: str = "", args: str = "",
         )
     finally:
         tmp.unlink(missing_ok=True)
-    lines = [ln for ln in (res.stdout or "").splitlines() if ln.strip()]
-    if res.returncode != 0 and not lines:
+    status_lines = [ln for ln in (res.stdout or "").splitlines() if ln.strip()]
+    if res.returncode != 0 and not status_lines:
         raise SystemExit(f"iconflow shortcut: PowerShell failed:\n{res.stderr}")
-    return lines
+    return lines + status_lines

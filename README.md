@@ -242,17 +242,20 @@ docs/
 examples/                   end-to-end usage patterns
 iconflow/                   renderer, QA, review, packaging, config, and CLI
 templates/presets/          check-clean technique scaffolds
+skills/iconflow/            canonical Codex/Claude skill + interface metadata
 work/                       gitignored design-session evidence
 AGENTS.md                   required procedure for agent designers
 ```
 
-## The Claude Code `/iconflow` skill
+## The IconFlow agent skill
 
-Claude Code users get a `/iconflow` skill whose canonical source lives in this
-repo at [`skills/iconflow/`](skills/iconflow/). It versions with the toolkit, so
-it never drifts from the procedure in `AGENTS.md`. `scripts/setup.ps1` installs
-it into `~/.claude/skills/iconflow/`; see that directory's README to reinstall
-or edit it.
+Codex and Claude Code users get an `iconflow` skill whose canonical source lives
+at [`skills/iconflow/SKILL.md`](skills/iconflow/SKILL.md), with Codex interface
+metadata in [`skills/iconflow/agents/openai.yaml`](skills/iconflow/agents/openai.yaml).
+It versions with the toolkit so it does not drift from `AGENTS.md`.
+`scripts/setup.ps1` installs the package into both
+`~/.codex/skills/iconflow/` and `~/.claude/skills/iconflow/`; edit the canonical
+repository source and rerun setup rather than hand-editing either deployment.
 
 ## Calling IconFlow from another project
 
@@ -273,8 +276,12 @@ python -m iconflow shortcut \
   --powershell-script "D:\app\launch.ps1" \
   --icon "D:\app\icon-out\build\icon.ico" \
   --workdir "D:\app" --name "My App" \
-  --out desktop --verify
+  --out desktop --content-address-icon
 ```
+
+The content-addressed mode installs a SHA-256-named icon alias and implies
+`--verify`, so changed icon bytes also change the shortcut's `IconLocation`
+instead of relying on Explorer cache invalidation.
 
 ## Development
 

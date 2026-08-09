@@ -167,6 +167,15 @@ zoom in `review.png`:
 - Does a thin stroke disappear? Thicken it or switch to a filled glyph.
 - Is the silhouette **distinctive** — could you tell it apart from a competitor
   in a row of tabs? Generic gear/rocket/checkmarks fail this.
+- Run the **name-the-thing test at both 128px and 16px**. If the chosen view of
+  an object names a stronger unrelated noun at either size, change the
+  viewpoint before adding seams, highlights, or labels. Viewpoint is part of
+  the concept because it determines the silhouette and counter geometry.
+- Run a **punctuation collision test** on detached accents. A near-vertical cut
+  aligned above a round dot/hinge groups into `!` at 16px even when both devices
+  look intentional at 128px. Strip color and compare centerlines; offset them by
+  at least two output pixels (about 128 units), change the cut angle, or remove
+  one device.
 - For a transparent tray/menu-bar target, test the 16px color mark on white,
   **#808080**, and **#0b0d12**. If one background swallows the silhouette, keep
   the single shape and add a contrasting **32–48-unit** edge (0.5–0.75 rendered
@@ -239,13 +248,18 @@ can afford (subtle gradients, glow, inner shadows). Don't design a detailed
   works because two shapes overlap, it will fail the 16px test — pick a different
   signature device that survives small (this is the distinctiveness-vs-legibility
   trade in §Concepting: simplify the execution, keep the idea).
+- A vertical slit/cut centered over a detached circular accent. At 16px it is an
+  exclamation mark before it is your intended object; offset or redesign the
+  pair during the bake-off, not after color polish.
 
 ---
 
 ## 7. Self-critique prompt (run this in your head every iteration)
 
-> "Cover the 256px version. Looking only at the 16px and 32px cells on white and
-> on dark: **in one noun, what object is this?** If the honest answer is 'the
+> "Cover the polished 256px version. Looking first at 128px, then only at the
+> 16px and 32px cells on white and on dark: **in one noun, what object is this?**
+> Did the noun change with scale or viewpoint? Does any cut-plus-dot pair become
+> punctuation? If the honest answer is 'the
 > letter X' or 'a rounded square,' the mark has no specificity — fix the *idea*
 > (see `CONCEPTING.md`), not the polish. Otherwise: can I name it in under a
 > second? Is it the same idea on both backgrounds? Is it distinct from a generic

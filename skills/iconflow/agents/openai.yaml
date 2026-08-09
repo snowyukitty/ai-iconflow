@@ -1,0 +1,4 @@
+interface:
+  display_name: "IconFlow"
+  short_description: "Design, review, and ship distinctive icon families"
+  default_prompt: "Use $iconflow to design, review, and ship a distinctive icon family for this project."

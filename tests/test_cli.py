@@ -92,6 +92,22 @@ class CliTests(unittest.TestCase):
         self.assertEqual(build.call_args.kwargs["tray_svg"], "tray.svg")
         self.assertEqual(build.call_args.kwargs["tray_template_mode"], "contrast")
 
+    def test_shortcut_forwards_content_addressed_delivery_mode(self):
+        shortcut_module = importlib.import_module("iconflow.shortcut")
+        with mock.patch.object(
+            shortcut_module,
+            "create_shortcut",
+            return_value=["ICON shortcut-icon-deadbeefcafe.ico", "OK app.lnk"],
+        ) as create_shortcut, contextlib.redirect_stdout(io.StringIO()):
+            code = main([
+                "shortcut", "--target", "app.exe", "--name", "Proof App",
+                "--icon", "icon.ico", "--content-address-icon",
+            ])
+
+        self.assertEqual(code, 0)
+        self.assertTrue(create_shortcut.call_args.kwargs["content_address_icon"])
+        self.assertFalse(create_shortcut.call_args.kwargs["verify"])
+
     def test_review_config_populates_target_aware_review_lab(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

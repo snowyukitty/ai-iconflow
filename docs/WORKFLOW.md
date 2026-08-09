@@ -44,6 +44,16 @@ Score all six axes only after inspecting 16px, pixel zoom, silhouette, adaptive
 crops, and every selected target. Export the JSON receipt when all axes are at
 least 4 and automated warnings are empty.
 
+### Managed-browser fallback
+
+If a managed browser blocks the local Review Lab, do not weaken or bypass that
+policy. Inspect `review.png` plus the exact emitted target assets at actual
+16/32px sizes on their relevant light, dark, and transparent contexts. Record
+all six scores and review notes in `[review]`, set `status = "approved"`, and
+bind the decision to the full current `source_sha256`. Report the interactive
+Lab as blocked. This is an evidence-path fallback, not a reduced gate: every
+axis still must be at least 4 and `ship` still re-runs QA before writing output.
+
 ## 3. Ship fail-closed
 
 ```bash
@@ -61,9 +71,9 @@ Before writing output, `ship` verifies that the receipt:
 
 It then re-runs current automated QA against the exact configured maskable
 background and only builds after that second gate is clean. An explicitly
-`approved` config with the reviewed `source_sha256` and complete scores is the
-non-interactive fallback. `build` is intentionally lower level for integrations
-that already own an equivalent quality gate.
+`approved` config with the reviewed `source_sha256`, complete scores, and review
+notes is the non-interactive fallback described above. `build` is intentionally
+lower level for integrations that already own an equivalent quality gate.
 
 ## 4. Learn from the delta
 
