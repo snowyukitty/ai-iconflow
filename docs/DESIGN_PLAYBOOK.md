@@ -106,8 +106,9 @@ cleanly to every target and matches Tauri/Electron masters.
   with at least a one-pixel budget (≈64 units). If the concept cannot afford
   those pixels while staying inside its keyline, reject it before the bake-off
   instead of repairing legibility/scalability after review.
--  Write the budget beside the concept as `feature → units → 16px pixels`, not
-  only as a mental estimate. For example, a 152-unit tag aperture and a
+- **Write the pixel budget down.** Record each idea-carrying feature beside the
+  concept as `feature → units → 16px pixels`, not only as a mental estimate.
+  For example, a 152-unit tag aperture and a
   144-unit edge notch become roughly 2.4px and 2.25px: both can graduate to the
   bake-off, while a 96-unit version cannot.
 - **On a coloured card, budget the outline as a silhouette line.** The
@@ -222,10 +223,13 @@ zoom in `review.png`:
   one device.
 - For a transparent tray/menu-bar target, test the 16px color mark on white,
   **#808080**, and **#0b0d12**. If one background swallows the silhouette, keep
-  the single shape and add a contrasting **32–48-unit** edge (0.5–0.75 rendered
-  pixel at 16px); then re-check that every semantic counter or panel gap still
-  resolves to at least two clear pixels. Do not solve it with a full tile unless
-  the product calls for one.
+  the single shape and add the thinnest geometry-linked contrasting edge that
+  survives all three contexts: start near **32 units** and grow only as needed,
+  up to roughly **64 units** (0.5–1 rendered pixel at 16px). Then re-check that
+  every semantic counter or panel gap still resolves to at least two clear
+  pixels and that the same alpha remains clean under monochrome template
+  recoloring. Do not solve it with a full tile unless the product calls for one.
+  (L55.)
 - Run a **suspension collision test** on anything carried from above. A dome
   over a body is an umbrella, a mushroom, or a table lamp until the canopy is
   panelled, at least two output pixels (about 128 units) of clear air separate

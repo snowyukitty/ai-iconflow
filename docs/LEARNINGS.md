@@ -811,3 +811,21 @@ targets even when the favicon is perfect.
 *Evidence:* [yonago-koyomi favicon](../casebook/2026-08-15-yonago-koyomi-favicon.md) —
 a retraced hinge segment produced a pip at 128px that two 16px passes never
 showed. Folded into `REVIEW_CHECKLIST.md`.
+
+## L55 — A transparent tray mark needs a geometry-linked contrast edge
+A mark can pass the silhouette test and still become unreadable when its dark
+brand fill lands on a dark taskbar or its light edge lands on white. Review the
+exact 16 px color tray bytes on white, `#808080`, and `#0b0d12`; add the thinnest
+geometry-linked contrasting edge that survives all three, starting near **32
+units** and growing only as needed up to roughly **64 units** on the 1024 grid
+(0.5–1 output pixel). Keep the app composition unchanged, preserve every
+semantic gap, and verify that the same alpha remains clean under macOS template
+recoloring.
+*Why:* changing the app palette fragments the identity, while a second glyph
+adds small-size noise; a target-specific keyline preserves one silhouette and
+spends no more of the pixel budget than contrast requires.
+*Evidence:* [casebook/2026-07-29-local-shopping-watch-tray.md](../casebook/2026-07-29-local-shopping-watch-tray.md)
+passed with a 40-unit warm-paper edge; the darker harbor-navy lighthouse in
+[casebook/2026-07-28-quota-lighthouse.md](../casebook/2026-07-28-quota-lighthouse.md)
+needed 56 units to restore a deliberate boundary. Folded into
+`DESIGN_PLAYBOOK.md` §5.
