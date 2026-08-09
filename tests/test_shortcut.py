@@ -17,7 +17,7 @@ class ContentAddressedIconTests(unittest.TestCase):
 
             digest = hashlib.sha256(payload).hexdigest()[:12]
             self.assertEqual(installed.name, f"shortcut-icon-{digest}.ico")
-            self.assertEqual(installed.parent, source.parent)
+            self.assertTrue(installed.parent.samefile(source.parent))
             self.assertEqual(installed.read_bytes(), payload)
 
     def test_reuses_same_alias_and_changes_path_when_bytes_change(self):
