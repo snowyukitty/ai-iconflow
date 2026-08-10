@@ -211,6 +211,12 @@ zoom in `review.png`:
   Keep at least one clear rendered pixel between the accent and the primary
   glyph—if they merge, the glyph's first reading must remain pure and the accent
   has failed.
+- For adjacent automation toggles, review the whole on/off family as a monochrome
+  16px row. Keep one object silhouette per feature, but make the state change alter
+  the object's **outer contour** by at least two rendered pixels (about 128 units on
+  the 1024 grid). If the pair differs only by color, a tiny badge, an interior dot,
+  or a slash that disappears at 16px, the state system fails even when each icon is
+  individually recognisable.
 
 Design *down*: get it perfect at 16–32px, then add only the richness that 256px+
 can afford (subtle gradients, glow, inner shadows). Don't design a detailed

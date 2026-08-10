@@ -506,3 +506,15 @@ and preserves the same ≥4/5 rubric floor; otherwise a browser limitation becom
 an undocumented gate bypass.
 *Evidence:* [casebook/2026-08-09-private-media-discovery-pearl.md](../casebook/2026-08-09-private-media-discovery-pearl.md).
 Folded into `WORKFLOW.md`, `REVIEW_CHECKLIST.md`, and the iconflow skill.
+
+## L36 — Stateful toggle families need a large outer-edge verb
+For adjacent automation toggles, preserve one object silhouette per feature and
+express on/off through a change in the object's outer contour that survives as at
+least two rendered pixels at 16px (about 128 units on the 1024 grid). Do not make
+state depend only on color, a tiny overlay badge, an interior dot, or a slash.
+*Why:* operators compare neighboring controls peripherally; small overlays vanish
+before the shared noun does, leaving two states that look identical at control size.
+*Evidence:* [casebook/2026-08-10-yukoe-live-language-controls.md](../casebook/2026-08-10-yukoe-live-language-controls.md) —
+moving speech state from a small handle/shell into a broad call wing versus a deep
+outer notch, and translation state into an open versus closed phrasebook, raised
+legibility 3→4 and scalability 3→4. Folded into `DESIGN_PLAYBOOK.md` §5.
