@@ -19,6 +19,8 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Multimedia :: Graphics",
   "Topic :: Software Development :: Build Tools",
   "Operating System :: OS Independent",
@@ -29,6 +31,9 @@ dependencies = [
   "tomli>=2.0; python_version < '3.11'",
 ]
 
+[project.optional-dependencies]
+dev = ["build>=1.2,<2"]
+
 [project.scripts]
 iconflow = "iconflow.cli:main"
 
@@ -36,6 +41,8 @@ iconflow = "iconflow.cli:main"
 Homepage = "https://github.com/snowyukitty/ai-iconflow"
 Repository = "https://github.com/snowyukitty/ai-iconflow"
 Issues = "https://github.com/snowyukitty/ai-iconflow/issues"
+Changelog = "https://github.com/snowyukitty/ai-iconflow/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/snowyukitty/ai-iconflow/tree/main/docs"
 
 [tool.setuptools]
 packages = [

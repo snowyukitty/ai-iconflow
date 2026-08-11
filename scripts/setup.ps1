@@ -7,9 +7,8 @@ if (-not (Test-Path "$root\.venv")) {
     Write-Host "Creating virtual env..." -ForegroundColor Cyan
     python -m venv .venv
 }
-& "$root\.venv\Scripts\python.exe" -m pip install --upgrade pip
-& "$root\.venv\Scripts\python.exe" -m pip install -r requirements.txt
-& "$root\.venv\Scripts\python.exe" -m playwright install chromium
+& "$root\.venv\Scripts\python.exe" -m pip install -e $root
+& "$root\.venv\Scripts\python.exe" -m iconflow setup
 
 # Install the iconflow skill from its canonical directory in this repository.
 $skillSrc = Join-Path $root "skills\iconflow"

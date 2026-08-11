@@ -4,9 +4,20 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
 jobs:
   unit:
     name: Unit (${{ matrix.os }}, Python ${{ matrix.python }})
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -14,15 +25,19 @@ jobs:
           - os: windows-latest
             python: "3.10"
           - os: windows-latest
-            python: "3.12"
+            python: "3.14"
           - os: ubuntu-latest
             python: "3.12"
+          - os: ubuntu-latest
+            python: "3.14"
           - os: macos-latest
-            python: "3.12"
+            python: "3.14"
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
           python-version: ${{ matrix.python }}
           cache: pip
@@ -32,25 +47,38 @@ jobs:
         run: python -m unittest discover -s tests
       - name: Diagnose non-browser install
         run: iconflow doctor --no-browser
+      - name: Validate casebook
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.14'
+        run: |
+          iconflow case lint
+          iconflow case stats
 
   wheel-smoke:
     name: Isolated wheel resources
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          python-version: "3.12"
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.14"
           cache: pip
-      - name: Build wheel
+      - name: Build and inspect distributions
         run: |
-          python -m pip install --upgrade build
+          python -m pip install "build>=1.2,<2"
+          export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           python -m build
+          python scripts/verify_distribution.py dist/*
       - name: Install wheel and leave the source tree
         shell: bash
         run: |
           python -m pip install --force-reinstall dist/*.whl
-          cd "$RUNNER_TEMP"
+          smoke="$RUNNER_TEMP/iconflow-wheel-smoke-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$smoke"
+          cd "$smoke"
+          iconflow --help >/dev/null
           iconflow new flat-geometric --out master.svg
           test -s master.svg
           iconflow init --out iconflow.toml --name "Wheel Smoke" \
@@ -60,50 +88,34 @@ jobs:
           iconflow doctor --no-browser
 
   chromium-integration:
-    name: Chromium render and preset QA
+    name: Installed-wheel Chromium security and render
+    timeout-minutes: 25
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          python-version: "3.12"
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.14"
           cache: pip
-      - name: Install package and browser
+      - name: Build and install wheel with Chromium
         run: |
-          python -m pip install -e .
+          python -m pip install "build>=1.2,<2"
+          python -m build --wheel
+          python -m pip install --force-reinstall dist/*.whl
           python -m playwright install --with-deps chromium
-      - name: Launch diagnostic
-        run: iconflow doctor
-      - name: Render and clean-check every official preset
+      - name: Test the installed renderer outside the checkout
         shell: bash
         run: |
-          mkdir -p "$RUNNER_TEMP/iconflow-presets"
+          integration="$RUNNER_TEMP/iconflow-browser-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$integration"
+          cd "$integration"
+          iconflow doctor
+          ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_browser_security.py" -v
           for preset in gradient-glow flat-geometric line-mark mascot; do
-            iconflow new "$preset" --out "$RUNNER_TEMP/iconflow-presets/$preset.svg"
-            iconflow check "$RUNNER_TEMP/iconflow-presets/$preset.svg"
-            iconflow render "$RUNNER_TEMP/iconflow-presets/$preset.svg" \
-              --sizes 16,32 --out "$RUNNER_TEMP/iconflow-presets/$preset-{size}.png"
+            iconflow new "$preset" --out "$integration/$preset.svg"
+            iconflow check "$integration/$preset.svg"
+            iconflow render "$integration/$preset.svg" \
+              --sizes 16,32 --out "$integration/$preset-{size}.png"
           done
-      - name: Prove active and external SVG content is isolated
-        shell: bash
-        run: |
-          python - <<'PY'
-          import hashlib
-          import io
-          from PIL import Image
-          from iconflow.rasterize import Rasterizer
-
-          hostile = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-            <rect id="base" width="64" height="64" fill="#ff0000">
-              <animate attributeName="fill" values="#ff0000;#0000ff" dur="1ms" repeatCount="indefinite"/>
-            </rect>
-            <image href="https://example.invalid/never.png" width="64" height="64"/>
-            <script>document.querySelector('#base').setAttribute('fill', String(Math.random()))</script>
-          </svg>'''
-          with Rasterizer() as renderer:
-              first = renderer.render(hostile, 64)
-              second = renderer.render(hostile, 64)
-          assert hashlib.sha256(first).digest() == hashlib.sha256(second).digest()
-          with Image.open(io.BytesIO(first)) as image:
-              assert image.convert("RGBA").getpixel((32, 32))[:3] == (255, 0, 0)
-          PY
