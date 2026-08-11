@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -37,6 +38,7 @@ class ReviewReceipt:
 
     source: Path
     source_sha256: str
+    contract_sha256: str
     project: str
     targets: tuple[str, ...]
     scores: dict[str, int]
@@ -82,6 +84,7 @@ class IconFlowConfig:
 
     review_status: str = "pending"
     review_source_sha256: str = ""
+    review_contract_sha256: str = ""
     review_scores: dict[str, int] = field(default_factory=dict)
     review_notes: str = ""
 
@@ -97,7 +100,12 @@ class IconFlowConfig:
 
     @property
     def output_path(self) -> Path:
-        return self.resolve(self.output)
+        path = Path(self.output).expanduser()
+        if not path.is_absolute():
+            path = self.source.parent / path
+        # Preserve the final path component so build() can detect and reject an
+        # output-directory symlink or Windows junction before writing.
+        return Path(os.path.abspath(path))
 
     @property
     def casebook_path(self) -> Path:
@@ -214,6 +222,9 @@ def load_config(path: str | Path = CONFIG_FILENAME) -> IconFlowConfig:
     review_digest = _string(review, "source_sha256").lower()
     if review_digest and not _is_sha256(review_digest):
         raise ConfigError("review.source_sha256 must be a full SHA-256 hex digest")
+    review_contract_digest = _string(review, "contract_sha256").lower()
+    if review_contract_digest and not _is_sha256(review_contract_digest):
+        raise ConfigError("review.contract_sha256 must be a full SHA-256 hex digest")
     color_scheme = _string(build, "color_scheme", "light").lower()
     if color_scheme not in ("light", "dark"):
         raise ConfigError("build.color_scheme must be 'light' or 'dark'")
@@ -273,6 +284,7 @@ def load_config(path: str | Path = CONFIG_FILENAME) -> IconFlowConfig:
         optimize_png=_boolean(build, "optimize_png", True),
         review_status=status,
         review_source_sha256=review_digest,
+        review_contract_sha256=review_contract_digest,
         review_scores=scores,
         review_notes=_string(review, "notes"),
     )
@@ -367,6 +379,25 @@ def load_review_receipt(
             "review receipt build contract mismatch; regenerate after changing "
             "colors, Electron radius, color scheme, or tray source/mode"
         )
+    expected_contract_digest = review_contract_digest(
+        source_sha256=current,
+        project=config.name,
+        targets=config.targets,
+        build=expected_build,
+    )
+    receipt_contract_digest = value.get("contract_sha256")
+    if receipt_contract_digest is not None:
+        if not isinstance(receipt_contract_digest, str) or not _is_sha256(
+            receipt_contract_digest
+        ):
+            raise ConfigError(
+                "review receipt contract_sha256 must be a full SHA-256 hex digest"
+            )
+        if receipt_contract_digest.lower() != expected_contract_digest:
+            raise ConfigError(
+                "review receipt contract hash mismatch; regenerate after changing the source, "
+                "project, targets, colors, Electron radius, color scheme, or tray source/mode"
+            )
 
     warnings = value.get("warnings")
     if not isinstance(warnings, list) or any(not isinstance(item, str) for item in warnings):
@@ -391,6 +422,7 @@ def load_review_receipt(
     return ReviewReceipt(
         source=source,
         source_sha256=current,
+        contract_sha256=expected_contract_digest,
         project=project,
         targets=tuple(targets),
         scores=scores,
@@ -447,6 +479,51 @@ def review_build_contract(
     }
 
 
+def review_contract_digest(
+    *, source_sha256: str, project: str, targets: list[str] | tuple[str, ...],
+    build: Mapping[str, object],
+) -> str:
+    """Hash the complete source-and-transform contract behind an approval."""
+
+    if not _is_sha256(source_sha256):
+        raise ConfigError("review contract source hash must be a full SHA-256 hex digest")
+    if not isinstance(project, str) or not project:
+        raise ConfigError("review contract project must be a non-empty string")
+    canonical = {
+        "schema": 1,
+        "source_sha256": source_sha256.lower(),
+        "project": project,
+        "targets": list(targets),
+        "build": dict(build),
+    }
+    encoded = json.dumps(
+        canonical, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def config_review_contract_digest(config: IconFlowConfig) -> str:
+    """Return the approval hash required by the manual config fallback."""
+
+    source_digest = svg_sha256(config.master_path)
+    build_contract = review_build_contract(
+        theme_color=config.theme_color,
+        background_color=config.background_color,
+        electron_radius=config.electron_radius,
+        tray_template_mode=config.tray_template_mode,
+        color_scheme=config.color_scheme,
+        tray_source_sha256=(
+            svg_sha256(config.tray_svg_path) if config.tray_svg_path else None
+        ),
+    )
+    return review_contract_digest(
+        source_sha256=source_digest,
+        project=config.name,
+        targets=config.targets,
+        build=build_contract,
+    )
+
+
 def _toml_string(value: str) -> str:
     return json.dumps(value, ensure_ascii=False)
 
@@ -500,8 +577,10 @@ optimize_png = {str(config.optimize_png).lower()}
 [review]
 status = {_toml_string(config.review_status)}
 source_sha256 = {_toml_string(config.review_source_sha256)}
+contract_sha256 = {_toml_string(config.review_contract_sha256)}
 # Review Lab receipt is preferred. For this manual fallback, set status to
-# "approved" and copy the reviewed source hash; `ship` requires every score >= 4.
+# "approved" and copy both hashes from the exported receipt; `ship` requires every
+# score >= 4 and rejects any changed source, target, or visual transform.
 scores = {{{score_items}}}
 notes = {_toml_string(config.review_notes)}
 '''
@@ -510,7 +589,10 @@ notes = {_toml_string(config.review_notes)}
 def write_config(config: IconFlowConfig, *, force: bool = False) -> Path:
     """Write a new project config without silently replacing existing intent."""
 
-    path = config.source.expanduser().resolve(strict=False)
+    requested = config.source.expanduser()
+    if requested.is_symlink():
+        raise ConfigError(f"configuration path must not be a symlink: {requested}")
+    path = requested.resolve(strict=False)
     if path.exists() and not force:
         raise ConfigError(f"configuration already exists: {path} (use --force to replace it)")
     path.parent.mkdir(parents=True, exist_ok=True)

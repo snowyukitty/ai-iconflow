@@ -72,9 +72,11 @@ formats, with a render-and-review loop.
      single highest-impact change and re-render. ~2–3 passes.
      If a managed browser blocks the local Review Lab, do not bypass policy:
      inspect the static sheet plus the exact target assets at real sizes, record all
-     six scores and notes in the full-source-hash-bound `[review]` approved
-     fallback, and report the interactive check as blocked. The ≥4/5 floor and
-     gated `ship` still apply.
+     six scores and notes in the source-and-contract-hash-bound `[review]`
+     approved fallback, and report the interactive check as blocked. The
+     `contract_sha256` must bind the project, targets, colors, Electron radius,
+     color scheme, tray mode, and semantic tray source. The ≥4/5 floor and gated
+     `ship` still apply.
 7. **Ship** into the consuming project:
    `<ICONFLOW_PY> -m iconflow ship --config iconflow.toml --review master-review.json`.
    `ship` re-runs QA, verifies the receipt matches the current SVG / tray source

@@ -24,7 +24,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from . import assemble
 from .build import electron_frames, preview_assets
-from .config import review_build_contract
+from .config import review_build_contract, review_contract_digest
 from .rasterize import Rasterizer, load_svg
 
 _SIZES = [16, 24, 32, 48, 64, 128, 256]
@@ -341,6 +341,12 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
     }
 
     source_hash = hashlib.sha256(svg.encode("utf-8")).hexdigest()
+    contract_hash = review_contract_digest(
+        source_sha256=source_hash,
+        project=product_name,
+        targets=options.targets,
+        build=build_contract,
+    )
     silhouette_sizes = [32, 48, 64, 128, 256]
     visual = {s: _data_url(_png(visual_silhouette(renders["light"][s])))
               for s in silhouette_sizes}
@@ -476,6 +482,7 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
         "schema": 1,
         "source": path.name,
         "source_sha256": source_hash,
+        "contract_sha256": contract_hash,
         "project": product_name,
         "user_job": options.user_job,
         "essence": options.essence,

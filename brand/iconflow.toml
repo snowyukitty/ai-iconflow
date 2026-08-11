@@ -36,7 +36,8 @@ optimize_png = true
 [review]
 status = "approved"
 source_sha256 = "573007f93fb1c357240a9af383a47d0214dde9fbb95d712b5dd85e1857ece3a2"
+contract_sha256 = "3f7bd53ec671513ee1e4c80e70f684d39535c66ed5f7b4c155856b59303f5ac6"
 # Review Lab receipt is preferred. For this manual fallback, set status to
-# "approved" and copy the reviewed source hash; `ship` requires every score >= 4.
+# "approved" and copy both reviewed hashes; `ship` requires every score >= 4.
 scores = {legibility = 4, distinctiveness = 4, balance = 4, color = 5, scalability = 5, craft = 5}
 notes = "Pass 2 aligned the proof gate and its 128-unit counter to a 64-unit raster rhythm; final maskable and tray-template previews preserve the same idea."

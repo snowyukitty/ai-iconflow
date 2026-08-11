@@ -47,6 +47,24 @@ class QaTests(unittest.TestCase):
         self.assertTrue(qa._renderer_safety_warnings(
             '<svg><style>@import "https://example.com/icon.css";</style></svg>'
         ))
+        for reference in (
+            '<image href="http://example.com/a.png"/>',
+            '<image href="https://example.com/a.png"/>',
+            '<image href="file:///private/icon.png"/>',
+            '<use xlink:href="//example.com/shape.svg#mark"/>',
+            '<style>.mark{fill:url(file:///private/paint.svg)}</style>',
+        ):
+            with self.subTest(reference=reference):
+                warnings = qa._renderer_safety_warnings(f"<svg>{reference}</svg>")
+                self.assertTrue(any("external resource" in item for item in warnings))
+
+        self.assertEqual(
+            qa._renderer_safety_warnings(
+                '<svg><image href="data:image/png;base64,AA=="/>'
+                '<use href="#local"/><style>.x{fill:url(data:image/png;base64,AA==)}</style></svg>'
+            ),
+            [],
+        )
 
     def test_distinctiveness_flags_live_text_monogram(self):
         # A live <text> glyph is the mechanically-detectable monogram trap.

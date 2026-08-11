@@ -157,8 +157,8 @@ def _cmd_ship(a) -> int:
     from .build import build
     from .casebook import parse_scores
     from .config import (
-        ConfigError, load_config, load_review_receipt, svg_sha256,
-        validate_ship_scores,
+        ConfigError, config_review_contract_digest, load_config,
+        load_review_receipt, svg_sha256, validate_ship_scores,
     )
     from .qa import check
 
@@ -187,6 +187,16 @@ def _cmd_ship(a) -> int:
                     "approved config review is stale: review.source_sha256 does not "
                     "match the current master SVG"
                 )
+            if not config.review_contract_sha256:
+                raise ConfigError(
+                    "approved config fallback requires review.contract_sha256 "
+                    "from the reviewed contract (or provide a ready Review Lab receipt)"
+                )
+            if config.review_contract_sha256 != config_review_contract_digest(config):
+                raise ConfigError(
+                    "approved config review is stale: review.contract_sha256 does not "
+                    "match the current source, project, targets, or visual transforms"
+                )
     except (ConfigError, ValueError) as exc:
         print(f"iconflow ship: {exc}", file=sys.stderr)
         return 2
@@ -208,9 +218,13 @@ def _cmd_ship(a) -> int:
         return 1
 
     try:
+        output_path = (
+            Path(os.path.abspath(Path(a.out).expanduser()))
+            if a.out else config.output_path
+        )
         produced = build(
             master,
-            config.output_path,
+            output_path,
             config.targets,
             name=config.name,
             theme_color=config.theme_color,
@@ -225,7 +239,7 @@ def _cmd_ship(a) -> int:
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"iconflow ship: build failed: {exc}", file=sys.stderr)
         return 2
-    print(f"SHIP PASSED — built {len(produced)} files into {config.output_path}:")
+    print(f"SHIP PASSED — built {len(produced)} files into {output_path}:")
     for path in produced:
         print(f"  {path}")
     print(f"Review scores: " + ", ".join(f"{axis}={scores[axis]}" for axis in scores))
@@ -415,6 +429,19 @@ def _cmd_new(a) -> int:
         print(f"Unknown preset '{a.preset}'. Choose from: {', '.join(PRESETS)}", file=sys.stderr)
         return 2
     destination = Path(a.out)
+    if destination.is_symlink():
+        print(
+            f"iconflow new: destination must not be a symlink: {destination}",
+            file=sys.stderr,
+        )
+        return 2
+    if destination.exists() and not a.force:
+        print(
+            f"iconflow new: destination already exists: {destination} "
+            "(use --force to replace it)",
+            file=sys.stderr,
+        )
+        return 2
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_bytes(src.read_bytes())
     print(f"Copied {a.preset} preset -> {destination}")
@@ -582,7 +609,7 @@ def _cmd_doctor(a) -> int:
     config_path = Path(a.config) if a.config else Path("iconflow.toml")
     if config_path.exists() or a.config:
         try:
-            from .config import load_config, svg_sha256
+            from .config import config_review_contract_digest, load_config, svg_sha256
             config = load_config(config_path)
             report(True, "Project config", str(config.source))
             master_exists = config.master_path.is_file()
@@ -603,6 +630,16 @@ def _cmd_doctor(a) -> int:
                 )
             else:
                 report(None, "Approved source hash", "no bound approved fallback")
+            if config.review_contract_sha256 and master_exists:
+                current_contract = config_review_contract_digest(config)
+                report(
+                    config.review_contract_sha256 == current_contract,
+                    "Approved review contract",
+                    "matches current build" if config.review_contract_sha256 == current_contract
+                    else "stale review.contract_sha256",
+                )
+            else:
+                report(None, "Approved review contract", "no bound approved fallback")
             output_probe = config.output_path
             while not output_probe.exists() and output_probe != output_probe.parent:
                 output_probe = output_probe.parent
@@ -682,6 +719,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     ship = sub.add_parser("ship", help="quality-gated build driven by iconflow.toml")
     ship.add_argument("--config", default="iconflow.toml", help="project configuration path")
+    ship.add_argument(
+        "--out",
+        help="output directory override (does not change the reviewed visual contract)",
+    )
     ship_review = ship.add_mutually_exclusive_group()
     ship_review.add_argument(
         "--review",
@@ -777,6 +818,7 @@ def build_parser() -> argparse.ArgumentParser:
     n = sub.add_parser("new", help="copy a style preset to start from")
     n.add_argument("preset", choices=PRESETS)
     n.add_argument("--out", default="master.svg")
+    n.add_argument("--force", action="store_true", help="replace an existing destination")
     n.set_defaults(func=_cmd_new)
 
     sc = sub.add_parser("shortcut",

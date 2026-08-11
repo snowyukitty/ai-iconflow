@@ -2,8 +2,10 @@ import hashlib
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest import mock
 
-from iconflow.shortcut import install_content_addressed_icon
+from iconflow.shortcut import create_shortcut, install_content_addressed_icon
 
 
 class ContentAddressedIconTests(unittest.TestCase):
@@ -40,6 +42,25 @@ class ContentAddressedIconTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             with self.assertRaises(FileNotFoundError):
                 install_content_addressed_icon(Path(tmp) / "missing.ico")
+
+    def test_generated_powershell_script_uses_unique_temp_file_and_is_cleaned(self):
+        observed: list[Path] = []
+
+        def fake_run(arguments, **_kwargs):
+            script = Path(arguments[-1])
+            observed.append(script)
+            self.assertTrue(script.is_file())
+            self.assertTrue(script.read_bytes().startswith(b"\xef\xbb\xbf"))
+            return SimpleNamespace(returncode=0, stdout="OK   sample.lnk\n", stderr="")
+
+        with mock.patch("iconflow.shortcut.sys.platform", "win32"), \
+             mock.patch("iconflow.shortcut._ps_exe", return_value="powershell.exe"), \
+             mock.patch("iconflow.shortcut.subprocess.run", side_effect=fake_run):
+            lines = create_shortcut(target="C:\\App\\app.exe", name="Sample")
+
+        self.assertEqual(lines, ["OK   sample.lnk"])
+        self.assertEqual(len(observed), 1)
+        self.assertFalse(observed[0].exists())
 
 
 if __name__ == "__main__":

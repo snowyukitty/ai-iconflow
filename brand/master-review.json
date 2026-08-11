@@ -2,6 +2,7 @@
   "schema": 1,
   "source": "master.svg",
   "source_sha256": "573007f93fb1c357240a9af383a47d0214dde9fbb95d712b5dd85e1857ece3a2",
+  "contract_sha256": "3f7bd53ec671513ee1e4c80e70f684d39535c66ed5f7b4c155856b59303f5ac6",
   "project": "IconFlow",
   "user_job": "turn app intent into a proven, target-ready icon family",
   "essence": "proof",

@@ -164,8 +164,16 @@ def create_shortcut(*, target: str, name: str, icon: str = "", args: str = "",
         outmode=_psq(out), verify=_psbool(verify),
     )
     # utf-8-sig: the BOM makes powershell.exe (5.1) read the script as UTF-8.
-    tmp = Path(tempfile.gettempdir()) / f"iconflow_shortcut_{id(script)}.ps1"
-    tmp.write_text(script, encoding="utf-8-sig")
+    with tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="utf-8-sig",
+        newline="\n",
+        prefix="iconflow_shortcut_",
+        suffix=".ps1",
+        delete=False,
+    ) as handle:
+        handle.write(script)
+        tmp = Path(handle.name)
     try:
         res = subprocess.run(
             [ps, "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(tmp)],

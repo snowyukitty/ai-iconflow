@@ -13,6 +13,7 @@ from iconflow.cli import main
 from iconflow.config import (
     ConfigError,
     IconFlowConfig,
+    config_review_contract_digest,
     load_config,
     load_review_receipt,
     review_build_contract,
@@ -60,6 +61,7 @@ class ConfigTests(unittest.TestCase):
             tray_template_mode="contrast",
             review_status="approved",
             review_source_sha256="a" * 64,
+            review_contract_sha256="b" * 64,
             review_scores={axis: 4 for axis in AXES},
         )
         write_config(source)
@@ -73,6 +75,7 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(loaded.tray_svg_path, (path.parent / "brand/tray.svg").resolve())
         self.assertEqual(loaded.tray_template_mode, "contrast")
         self.assertEqual(loaded.review_source_sha256, "a" * 64)
+        self.assertEqual(loaded.review_contract_sha256, "b" * 64)
         self.assertEqual(loaded.master_path, (path.parent / "brand/master.svg").resolve())
         self.assertEqual(loaded.output_path, (path.parent / "icons").resolve())
 
@@ -99,6 +102,17 @@ class ConfigTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(ConfigError, "fully opaque"):
             load_config(color_path)
+
+    def test_config_writer_refuses_symlink_destination(self):
+        target = self.dir / "outside.toml"
+        link = self.dir / "iconflow-link.toml"
+        try:
+            link.symlink_to(target)
+        except (NotImplementedError, OSError):
+            self.skipTest("symlink creation is unavailable on this platform")
+        with self.assertRaisesRegex(ConfigError, "must not be a symlink"):
+            write_config(IconFlowConfig(source=link))
+        self.assertFalse(target.exists())
 
     def test_ship_scores_require_every_axis_at_four_or_better(self):
         with self.assertRaisesRegex(ConfigError, "incomplete"):
@@ -135,6 +149,12 @@ class ConfigTests(unittest.TestCase):
         loaded = load_review_receipt(receipt_path, config)
         self.assertEqual(loaded.targets, ("web", "tray"))
         self.assertEqual(loaded.scores["distinctiveness"], 4)
+
+        receipt["contract_sha256"] = "0" * 64
+        receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+        with self.assertRaisesRegex(ConfigError, "contract hash mismatch"):
+            load_review_receipt(receipt_path, config)
+        del receipt["contract_sha256"]
 
         receipt["targets"] = ["web"]
         receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
@@ -201,7 +221,7 @@ class ConfigTests(unittest.TestCase):
         svg = '<svg viewBox="0 0 1024 1024"/>'
         master.write_text(svg, encoding="utf-8")
         path = self.dir / "iconflow.toml"
-        write_config(IconFlowConfig(
+        config = IconFlowConfig(
             source=path,
             master="master.svg",
             output="icons",
@@ -209,7 +229,9 @@ class ConfigTests(unittest.TestCase):
             review_status="approved",
             review_source_sha256=hashlib.sha256(svg.encode("utf-8")).hexdigest(),
             review_scores=scores,
-        ))
+        )
+        config.review_contract_sha256 = config_review_contract_digest(config)
+        write_config(config)
         return path
 
     def test_ship_blocks_incomplete_scores_before_qa(self):
@@ -243,6 +265,33 @@ class ConfigTests(unittest.TestCase):
             'source_sha256 = ""',
         )
         path.write_text(text, encoding="utf-8")
+        with mock.patch("iconflow.qa.check") as check, \
+             contextlib.redirect_stderr(io.StringIO()):
+            code = main(["ship", "--config", str(path)])
+        self.assertEqual(code, 2)
+        check.assert_not_called()
+
+    def test_approved_fallback_requires_current_build_contract(self):
+        path = self._ship_config({axis: 4 for axis in AXES})
+        original = path.read_text(encoding="utf-8")
+        contract = load_config(path).review_contract_sha256
+
+        path.write_text(
+            original.replace(
+                f'contract_sha256 = "{contract}"', 'contract_sha256 = ""'
+            ),
+            encoding="utf-8",
+        )
+        with mock.patch("iconflow.qa.check") as check, \
+             contextlib.redirect_stderr(io.StringIO()):
+            code = main(["ship", "--config", str(path)])
+        self.assertEqual(code, 2)
+        check.assert_not_called()
+
+        path.write_text(
+            original.replace('theme_color = "#0b0d12"', 'theme_color = "#102030"'),
+            encoding="utf-8",
+        )
         with mock.patch("iconflow.qa.check") as check, \
              contextlib.redirect_stderr(io.StringIO()):
             code = main(["ship", "--config", str(path)])
@@ -307,6 +356,20 @@ class ConfigTests(unittest.TestCase):
         build.assert_called_once()
         self.assertEqual(Path(build.call_args.args[0]).resolve(), (self.dir / "master.svg").resolve())
         self.assertEqual(Path(build.call_args.args[1]).resolve(), (self.dir / "icons").resolve())
+
+    def test_ship_can_override_only_the_output_location(self):
+        path = self._ship_config({axis: 4 for axis in AXES})
+        destination = self.dir / "elsewhere" / "icons"
+        qa_module = importlib.import_module("iconflow.qa")
+        build_module = importlib.import_module("iconflow.build")
+        with mock.patch.object(qa_module, "check", return_value=[]), \
+             mock.patch.object(build_module, "build", return_value=[]) as build, \
+             contextlib.redirect_stdout(io.StringIO()):
+            code = main([
+                "ship", "--config", str(path), "--out", str(destination),
+            ])
+        self.assertEqual(code, 0)
+        self.assertEqual(Path(build.call_args.args[1]), destination.resolve())
 
 
 if __name__ == "__main__":

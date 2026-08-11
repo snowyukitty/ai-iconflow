@@ -54,6 +54,41 @@ class CliTests(unittest.TestCase):
             self.assertEqual(code, 0)
             self.assertIn("<svg", destination.read_text(encoding="utf-8"))
 
+    def test_new_refuses_silent_overwrite_unless_forced(self):
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory) / "master.svg"
+            destination.write_text("user work", encoding="utf-8")
+            error = io.StringIO()
+            with contextlib.redirect_stderr(error):
+                code = main(["new", "flat-geometric", "--out", str(destination)])
+            self.assertEqual(code, 2)
+            self.assertEqual(destination.read_text(encoding="utf-8"), "user work")
+            self.assertIn("--force", error.getvalue())
+
+            with contextlib.redirect_stdout(io.StringIO()):
+                code = main([
+                    "new", "flat-geometric", "--out", str(destination), "--force",
+                ])
+            self.assertEqual(code, 0)
+            self.assertIn("<svg", destination.read_text(encoding="utf-8"))
+
+    def test_new_refuses_symlink_even_when_forced(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            target = root / "outside.svg"
+            target.write_text("keep", encoding="utf-8")
+            link = root / "master.svg"
+            try:
+                link.symlink_to(target)
+            except (NotImplementedError, OSError):
+                self.skipTest("symlink creation is unavailable on this platform")
+            with contextlib.redirect_stderr(io.StringIO()):
+                code = main([
+                    "new", "flat-geometric", "--out", str(link), "--force",
+                ])
+            self.assertEqual(code, 2)
+            self.assertEqual(target.read_text(encoding="utf-8"), "keep")
+
     def test_doctor_without_browser_is_non_mutating_and_passes(self):
         out = io.StringIO()
         with contextlib.redirect_stdout(out):

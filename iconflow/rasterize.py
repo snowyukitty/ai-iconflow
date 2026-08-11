@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import io
 import re
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from PIL import Image, ImageColor
@@ -32,7 +33,14 @@ caret-color:transparent!important}}
 </style></head><body><div id="wrap">{svg}</div></body></html>"""
 
 _XML_DECL = re.compile(r"^\s*<\?xml[^>]*\?>\s*", re.I)
-_DOCTYPE = re.compile(r"^\s*<!DOCTYPE[^>]*>\s*", re.I)
+_FORBIDDEN_DECLARATION = re.compile(r"<!\s*(?:DOCTYPE|ENTITY)\b", re.I)
+
+# A normal icon source is usually measured in kilobytes and has shallow
+# structure. These limits are deliberately generous while bounding parser and
+# browser work for untrusted input.
+MAX_SVG_BYTES = 4 * 1024 * 1024
+MAX_SVG_ELEMENTS = 50_000
+MAX_SVG_DEPTH = 128
 
 # Playwright evaluates this in its isolated automation world even though page
 # JavaScript is disabled. It removes active SVG/HTML nodes before capture,
@@ -62,12 +70,69 @@ _HARDEN_DOM_JS = """root => {
 }"""
 
 
-def load_svg(path: str | Path) -> str:
-    """Read an SVG file and strip the XML prolog so it can be inlined in HTML."""
-    text = Path(path).read_text(encoding="utf-8")
+def _validated_svg_text(text: str) -> str:
+    """Return safe-to-inline, well-formed SVG text with bounded complexity."""
+
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("SVG source must be a non-empty UTF-8 document")
+    try:
+        byte_length = len(text.encode("utf-8"))
+    except UnicodeEncodeError as exc:
+        raise ValueError("SVG source must contain valid Unicode text") from exc
+    if byte_length > MAX_SVG_BYTES:
+        raise ValueError(
+            f"SVG source exceeds the {MAX_SVG_BYTES // (1024 * 1024)} MiB safety limit"
+        )
+    if _FORBIDDEN_DECLARATION.search(text):
+        raise ValueError("SVG source must not contain DOCTYPE or ENTITY declarations")
+
     text = _XML_DECL.sub("", text)
-    text = _DOCTYPE.sub("", text)
-    return text.strip()
+    text = text.strip()
+    parser = ET.XMLPullParser(events=("start", "end"))
+    count = 0
+    depth = 0
+    root_tag: object | None = None
+    try:
+        parser.feed(text)
+        for event, element in parser.read_events():
+            if event == "start":
+                count += 1
+                depth += 1
+                if root_tag is None:
+                    root_tag = element.tag
+                if count > MAX_SVG_ELEMENTS:
+                    raise ValueError(
+                        f"SVG source exceeds the {MAX_SVG_ELEMENTS:,}-element safety limit"
+                    )
+                if depth > MAX_SVG_DEPTH:
+                    raise ValueError(
+                        f"SVG source exceeds the {MAX_SVG_DEPTH}-level nesting safety limit"
+                    )
+            else:
+                depth -= 1
+        parser.close()
+    except ET.ParseError as exc:
+        raise ValueError(f"SVG source is not well-formed XML: {exc}") from exc
+
+    if not isinstance(root_tag, str) or root_tag.rsplit("}", 1)[-1].lower() != "svg":
+        raise ValueError("SVG document root must be <svg>")
+    return text
+
+
+def load_svg(path: str | Path) -> str:
+    """Read and validate an SVG before it is inlined into isolated HTML."""
+
+    source = Path(path)
+    raw = source.read_bytes()
+    if len(raw) > MAX_SVG_BYTES:
+        raise ValueError(
+            f"SVG source exceeds the {MAX_SVG_BYTES // (1024 * 1024)} MiB safety limit"
+        )
+    try:
+        text = raw.decode("utf-8-sig")
+    except UnicodeDecodeError as exc:
+        raise ValueError(f"SVG source is not valid UTF-8: {source}") from exc
+    return _validated_svg_text(text)
 
 
 def _positive_size(size: int) -> int:
@@ -193,8 +258,7 @@ class Rasterizer:
         """
         if self._page is None:
             raise RuntimeError("Rasterizer must be used as a context manager")
-        if not isinstance(svg_text, str) or not svg_text.strip():
-            raise ValueError("svg_text must be a non-empty string")
+        svg_text = _validated_svg_text(svg_text)
         size = _positive_size(size)
         bg_css, transparent = _background_css(bg)
 

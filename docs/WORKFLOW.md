@@ -50,7 +50,9 @@ If a managed browser blocks the local Review Lab, do not weaken or bypass that
 policy. Inspect `review.png` plus the exact emitted target assets at actual
 16/32px sizes on their relevant light, dark, and transparent contexts. Record
 all six scores and review notes in `[review]`, set `status = "approved"`, and
-bind the decision to the full current `source_sha256`. Report the interactive
+copy both `source_sha256` and `contract_sha256` from the reviewed JSON contract.
+The second hash binds the project, exact target set, colors, Electron radius,
+color scheme, tray mode, and semantic tray-source hash. Report the interactive
 Lab as blocked. This is an evidence-path fallback, not a reduced gate: every
 axis still must be at least 4 and `ship` still re-runs QA before writing output.
 
@@ -63,6 +65,7 @@ iconflow ship --config iconflow.toml --review master-review.json
 Before writing output, `ship` verifies that the receipt:
 
 - uses the supported schema and contains a full SHA-256 source digest;
+- carries a canonical contract digest for newly generated receipts;
 - belongs to the current SVG, project name, and exact target set;
 - matches the reviewed theme/background colors, raster color scheme, Electron
   radius, tray template mode, and semantic tray-source hash;
@@ -71,8 +74,8 @@ Before writing output, `ship` verifies that the receipt:
 
 It then re-runs current automated QA against the exact configured maskable
 background and only builds after that second gate is clean. An explicitly
-`approved` config with the reviewed `source_sha256`, complete scores, and review
-notes is the non-interactive fallback described above. `build` is intentionally
+`approved` config with the reviewed `source_sha256`, `contract_sha256`, complete
+scores, and review notes is the non-interactive fallback described above. `build` is intentionally
 lower level for integrations that already own an equivalent quality gate.
 
 ## 4. Learn from the delta
@@ -91,8 +94,12 @@ an evolution target or `DISTILL NOW`.
 
 ## Security and determinism
 
-SVG is treated as untrusted render input. Chromium runs with network and service
-workers blocked, page JavaScript disabled, active/animated SVG content removed
-or frozen, and sRGB/locale/timezone fixed. QA reports active or external content
-so a designer removes it from the source rather than depending on disabled
-behavior. Every emitted PNG is decoded and dimension-checked before packaging.
+SVG is treated as untrusted render input. Before Chromium sees it, IconFlow
+requires well-formed UTF-8 XML with an `<svg>` root, rejects DTD/entity
+declarations, and caps input at 4 MiB, 50,000 elements, and 128 nesting levels.
+Chromium runs with network and service workers blocked, page JavaScript disabled,
+active/animated SVG content removed or frozen, and sRGB/locale/timezone fixed.
+QA reports active or external content so a designer removes it from the source
+rather than depending on disabled behavior. Every emitted PNG is decoded and
+dimension-checked before packaging. Build output rejects existing symlinks,
+junctions, and Windows reparse points instead of following them.

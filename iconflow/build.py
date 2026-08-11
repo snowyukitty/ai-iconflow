@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import shutil
+import stat
 from pathlib import Path
 from typing import Iterable, Protocol
 
@@ -68,6 +69,34 @@ class RenderCache:
 
     def many(self, sizes) -> dict[int, bytes]:
         return {s: self.png(s) for s in sizes}
+
+
+def _is_link_or_reparse_point(path: Path) -> bool:
+    """Recognize POSIX symlinks and Windows reparse-point links/junctions."""
+
+    try:
+        status = path.lstat()
+    except FileNotFoundError:
+        return False
+    attributes = getattr(status, "st_file_attributes", 0)
+    reparse_flag = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0)
+    return path.is_symlink() or bool(attributes & reparse_flag)
+
+
+def _validate_output_tree(outdir: Path) -> None:
+    """Refuse an output tree that could redirect generated writes elsewhere."""
+
+    if _is_link_or_reparse_point(outdir):
+        raise ValueError(f"output directory must not be a symlink or junction: {outdir}")
+    if outdir.exists() and not outdir.is_dir():
+        raise ValueError(f"output path is not a directory: {outdir}")
+    if outdir.is_dir():
+        for path in outdir.rglob("*"):
+            if _is_link_or_reparse_point(path):
+                raise ValueError(
+                    "output directory contains a symlink or junction; remove it before "
+                    f"building: {path}"
+                )
 
 
 def _write(outdir: Path, name: str, data: bytes, produced: list[str]) -> None:
@@ -273,6 +302,7 @@ def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
         assemble.opaque_color(web_options.tile_color, "tile color")
     master_svg = Path(master_svg)
     outdir = Path(outdir)
+    _validate_output_tree(outdir)
     outdir.mkdir(parents=True, exist_ok=True)
     svg_text = load_svg(master_svg)
     produced: list[str] = []

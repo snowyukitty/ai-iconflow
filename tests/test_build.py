@@ -215,6 +215,26 @@ class BuildTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "fully opaque"):
             build_module.preview_assets(object(), "web", bg_color="#ffffff00")
 
+    def test_output_tree_rejects_files_and_symlinks(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            file_path = Path(tmp) / "not-a-directory"
+            file_path.write_text("keep", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "not a directory"):
+                build_module._validate_output_tree(file_path)
+
+            output = Path(tmp) / "output"
+            output.mkdir()
+            target = Path(tmp) / "outside.txt"
+            target.write_text("keep", encoding="utf-8")
+            link = output / "favicon.ico"
+            try:
+                link.symlink_to(target)
+            except (NotImplementedError, OSError):
+                self.skipTest("symlink creation is unavailable on this platform")
+            with self.assertRaisesRegex(ValueError, "symlink or junction"):
+                build_module._validate_output_tree(output)
+            self.assertEqual(target.read_text(encoding="utf-8"), "keep")
+
 
 if __name__ == "__main__":
     unittest.main()
