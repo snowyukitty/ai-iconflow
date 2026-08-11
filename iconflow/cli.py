@@ -26,7 +26,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-PRESETS = ("gradient-glow", "flat-geometric", "line-mark", "mascot")
+from .styles import PRESETS, STYLE_CATALOG
 
 
 def _version_at_least(current: str, required: tuple[int, ...]) -> bool:
@@ -449,6 +449,56 @@ def _cmd_new(a) -> int:
     return 0
 
 
+def _cmd_styles(a) -> int:
+    """Describe or render the packaged technique-scaffold catalog."""
+    if a.force and not a.gallery:
+        print("iconflow styles: --force requires --gallery PNG", file=sys.stderr)
+        return 2
+    if a.gallery:
+        from .review import style_gallery
+
+        destination = Path(a.gallery)
+        if destination.is_symlink():
+            print(
+                f"iconflow styles: gallery destination must not be a symlink: {destination}",
+                file=sys.stderr,
+            )
+            return 2
+        if destination.exists() and not a.force:
+            print(
+                f"iconflow styles: gallery destination already exists: {destination} "
+                "(use --force to replace it)",
+                file=sys.stderr,
+            )
+            return 2
+        sources = []
+        try:
+            for style in STYLE_CATALOG:
+                sources.append((style, _resource("presets", f"{style.slug}.svg").read_text(
+                    encoding="utf-8"
+                )))
+            destination = style_gallery(sources, destination)
+        except (FileNotFoundError, ModuleNotFoundError, OSError, TypeError, ValueError) as exc:
+            print(f"iconflow styles: {exc}", file=sys.stderr)
+            return 2
+        print(f"Style gallery -> {destination}")
+        print("Read it at actual size: every tile includes 16px proof on light and dark.")
+        return 0
+
+    if a.json:
+        print(json.dumps([style.to_dict() for style in STYLE_CATALOG], indent=2))
+        return 0
+
+    width = max(len(style.slug) for style in STYLE_CATALOG)
+    print(f"{len(STYLE_CATALOG)} technique scaffolds (starting points, not finished logos):")
+    for style in STYLE_CATALOG:
+        print(f"  {style.slug:<{width}}  {style.technique}")
+        print(f"  {'':<{width}}  16px: {style.small_size_rule}")
+    print("\nInspect the full matrix: iconflow styles --gallery style-gallery.png")
+    print("Then: iconflow new <style> --out master.svg")
+    return 0
+
+
 def _cmd_shortcut(a) -> int:
     from .shortcut import create_shortcut
     target = a.target
@@ -814,6 +864,16 @@ def build_parser() -> argparse.ArgumentParser:
                     help="flat backdrop CSS color, or 'transparent' to keep alpha")
     rn.add_argument("--color-scheme", default="light", choices=["light", "dark"])
     rn.set_defaults(func=_cmd_render)
+
+    styles = sub.add_parser(
+        "styles",
+        help="list or render the small-size-first technique scaffolds",
+    )
+    style_output = styles.add_mutually_exclusive_group()
+    style_output.add_argument("--json", action="store_true", help="emit catalog metadata as JSON")
+    style_output.add_argument("--gallery", metavar="PNG", help="render all packaged styles as a proof matrix")
+    styles.add_argument("--force", action="store_true", help="replace an existing --gallery destination")
+    styles.set_defaults(func=_cmd_styles)
 
     n = sub.add_parser("new", help="copy a style preset to start from")
     n.add_argument("preset", choices=PRESETS)

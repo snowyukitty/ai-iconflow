@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Stained glass technique scaffold</title>
+  <desc id="desc">Large color panes and heavy leading fill IconFlow's house rail without fragile decorative texture.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Keep no more than four large panes and verify the
+       leading at 16px; use a separate leading-and-silhouette tray source. -->
+  <defs>
+    <mask id="rail">
+      <rect width="1024" height="1024" fill="#000"/>
+      <path d="M256 288H640V448H448V640H576V704H704V768"
+            fill="none" stroke="#fff" stroke-width="184"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#20202A"/>
+  <g mask="url(#rail)">
+    <path d="M120 120H520V904H120Z" fill="#F2B84B"/>
+    <path d="M520 120H904V520H520Z" fill="#EF5E66"/>
+    <path d="M520 520H904V904H520Z" fill="#49BFC0"/>
+    <g fill="none" stroke="#20202A" stroke-width="88">
+      <path d="M500 120V904M120 516H904M344 120L760 904"/>
+    </g>
+  </g>
+  <rect x="500" y="308" width="280" height="280" rx="64"
+        fill="#F5EBDD" stroke="#20202A" stroke-width="56"/>
+  <path d="M640 336V560M528 448H752" stroke="#20202A" stroke-width="64"/>
+  <rect x="600" y="408" width="80" height="80" rx="12" fill="#7652B8"/>
+</svg>

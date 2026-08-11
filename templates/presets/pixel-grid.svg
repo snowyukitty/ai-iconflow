@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc" shape-rendering="crispEdges">
+  <title id="title">Pixel grid technique scaffold</title>
+  <desc id="desc">IconFlow's house rail is reconstructed from integer-grid blocks with stepped corners.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Redraw the consuming app's object on a 16-unit
+       logical grid first; do not imitate curves with arbitrary tiny steps. -->
+  <path d="M128 64H896L960 128V896L896 960H128L64 896V128Z" fill="#25243A"/>
+  <path d="M256 256H704V320H768V512H704V576H512V640H640V704H768V832H640V768H512V704H384V640H320V512H384V384H256Z"
+        fill="#FFF0D8"/>
+  <path d="M512 320H768V576H512Z" fill="#FF5E57"/>
+  <path d="M576 384H704V512H576Z" fill="#25243A"/>
+</svg>

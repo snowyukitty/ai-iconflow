@@ -53,6 +53,8 @@ jobs:
           cd "$smoke"
           iconflow --help >/dev/null
           iconflow doctor --no-browser
+          iconflow styles --json > styles.json
+          python -c 'import json; assert len(json.load(open("styles.json", encoding="utf-8"))) >= 10'
           iconflow new line-mark --out master.svg
           iconflow check master.svg
       - name: Write checksums

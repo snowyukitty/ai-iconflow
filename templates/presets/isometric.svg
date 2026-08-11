@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Isometric technique scaffold</title>
+  <desc id="desc">IconFlow's house structure is projected onto a three-face slab with explicit value steps.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Limit the consuming object to two or three large
+       faces, then author a separate front-facing silhouette for tray output. -->
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#171B2C"/>
+  <path d="M208 320L512 496L816 320V500L512 676L208 500Z" fill="#243B69"/>
+  <path d="M208 320L512 496V676L208 500Z" fill="#31578E"/>
+  <path d="M512 496L816 320V500L512 676Z" fill="#193255"/>
+  <path d="M512 112L816 288L512 464L208 288Z" fill="#5CC9C1"/>
+  <g transform="matrix(.56 .32 -.56 .32 512 0)">
+    <path d="M256 288H640V448H448V640H576V704H704V768"
+          fill="none" stroke="#FFF1DE" stroke-width="144"
+          stroke-linecap="square" stroke-linejoin="round"/>
+    <rect x="512" y="320" width="256" height="256" rx="32" fill="#FF6656"/>
+    <rect x="584" y="392" width="112" height="112" rx="12" fill="#171B2C"/>
+  </g>
+</svg>

@@ -7,6 +7,8 @@ import zipfile
 from glob import glob
 from pathlib import Path, PurePosixPath
 
+from iconflow.styles import PRESETS
+
 
 FORBIDDEN_PARTS = {
     ".git",
@@ -102,9 +104,12 @@ def verify(path: Path) -> None:
     if path.suffix == ".whl":
         required = {
             "iconflow/__init__.py",
+            "iconflow/styles.py",
             "iconflow/resources/templates/master.svg",
-            "iconflow/resources/presets/flat-geometric.svg",
             "iconflow/resources/docs/DESIGN_PLAYBOOK.md",
+            "iconflow/resources/docs/STYLE_CATALOG.md",
+            "iconflow/resources/docs/assets/style-gallery.png",
+            *(f"iconflow/resources/presets/{preset}.svg" for preset in PRESETS),
         }
         metadata = [name for name in names if name.endswith(".dist-info/METADATA")]
         wheel_records = [name for name in names if name.endswith(".dist-info/RECORD")]
@@ -129,10 +134,14 @@ def verify(path: Path) -> None:
             "brand/master-review.json",
             "brand/master.svg",
             "brand/tray.svg",
+            "docs/STYLE_CATALOG.md",
+            "docs/assets/style-gallery.png",
             "examples/README.md",
+            "iconflow/styles.py",
             "scripts/setup.ps1",
             "skills/iconflow/SKILL.md",
             "tests/test_cli.py",
+            *(f"templates/presets/{preset}.svg" for preset in PRESETS),
             *LEGAL_FILES,
         }
         package_metadata = [name for name in names if name == "PKG-INFO"]

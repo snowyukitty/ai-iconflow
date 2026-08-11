@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Stencil cut technique scaffold</title>
+  <desc id="desc">A single warm plate carries IconFlow's house rail as bold transparent cuts.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Replace the cut with one product-specific object;
+       keep every bridge and counter at least two output pixels wide. -->
+  <defs>
+    <mask id="stencil">
+      <rect width="1024" height="1024" fill="#000"/>
+      <rect x="112" y="112" width="800" height="800" rx="180" fill="#fff"/>
+      <path d="M256 288H640V448H448V640H576V704H704V768"
+            fill="none" stroke="#000" stroke-width="112"
+            stroke-linecap="square" stroke-linejoin="round"/>
+      <rect x="552" y="360" width="176" height="176" rx="24" fill="#000"/>
+      <rect x="608" y="416" width="64" height="64" rx="8" fill="#fff"/>
+    </mask>
+  </defs>
+  <rect x="112" y="112" width="800" height="800" rx="180"
+        fill="none" stroke="#24262E" stroke-width="40"/>
+  <rect width="1024" height="1024" fill="#FF6B5B" mask="url(#stencil)"/>
+</svg>

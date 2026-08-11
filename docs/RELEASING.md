@@ -68,14 +68,18 @@ wheel, and run:
 ```bash
 iconflow --help
 iconflow doctor
+iconflow styles --json > styles.json
+iconflow styles --gallery style-gallery.png
 iconflow new flat-geometric --out master.svg
 iconflow init --out iconflow.toml --name "Release Smoke" --targets web,tray
 iconflow check master.svg
 iconflow render master.svg --sizes 16,32 --out "render-{size}.png"
 ```
 
-Inspect the 16px and 32px PNGs. Run a full checked-in receipt through `ship`
-with an output override and inspect its target assets as well.
+Inspect the style gallery plus the 16px and 32px PNGs. Confirm that every style
+listed in `styles.json` has a packaged SVG and an actual-size light/dark sample.
+Run a full checked-in receipt through `ship` with an output override and inspect
+its target assets as well.
 
 ## 4. Produce the candidate without publishing
 

@@ -202,6 +202,12 @@ recognisable signature; use exactly one, in the accent hue.
 Run the silhouette test (`iconflow review`) on any of these: if the blacked-out
 shape stays distinctive, the device is working.
 
+For deterministic working examples of duotone planes, stencil cuts, integer
+pixels, isometric faces, hard paper layers, enamel inlays, blueprint guides,
+stained-glass leading, registered ink plates, and explicit clay volume, inspect
+`templates/presets/` and [`STYLE_CATALOG.md`](STYLE_CATALOG.md). These are
+technique scaffolds around IconFlow's house rail, not object concepts to ship.
+
 ## 11. Semantic master layers and target variants
 
 One source of truth does not mean one literal composition on every surface. A

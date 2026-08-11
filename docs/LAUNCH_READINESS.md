@@ -1,6 +1,6 @@
 # Launch readiness
 
-Status date: 2026-08-11. This file records evidence and remaining owner gates;
+Status date: 2026-08-12. This file records evidence and remaining owner gates;
 it is not a claim that a release has been published.
 
 ## Current readiness
@@ -12,6 +12,8 @@ it is not a claim that a release has been published.
 - [x] Wheel and sdist contents have a fail-closed verification script.
 - [x] A non-publishing release-candidate workflow builds checksums and proves wheel reproducibility.
 - [x] README provides a source-only installation path and a checked-in reviewed-family proof.
+- [x] Fourteen packaged technique families have one metadata source, clean `check`
+  results, native 16px visual proof, tray guidance, and clean-room provenance.
 - [x] Security, provenance, changelog, contribution, issue, pull-request, and release guidance exists.
 - [x] Owner selected Apache-2.0; the checkout includes license, notice, package metadata, and trademark policy.
 - [ ] Owner enables GitHub private vulnerability reporting.
@@ -87,9 +89,9 @@ Natural search language to use in docs and launch copy:
 
 Evidence-led launch messages:
 
-1. `One semantic SVG, 23 target assets—and a review receipt that goes stale when the source or transforms change.`
-2. `See the same icon at 16px, in adaptive crops, Electron corners, and menu-bar templates before you ship it.`
-3. `IconFlow starts with the product job and competing silhouettes, then builds the favicon, PWA, desktop, and tray family locally.`
+1. `Fourteen execution languages, one semantic SVG, and native 16px proof before you choose a direction.`
+2. `See the same icon in adaptive crops, Electron corners, and menu-bar templates before you ship it.`
+3. `IconFlow starts with the product job and competing silhouettes, then builds 23 favicon, PWA, desktop, and tray assets locally.`
 
 ## Known limits to keep visible
 

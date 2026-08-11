@@ -16,6 +16,16 @@ an icon specific to what an app actually does—and prove that it still works at
 app intent → distinct concepts → SVG master → 16px proof → target family → casebook
 ```
 
+Fourteen structurally different technique scaffolds help designers choose an
+execution language without pretending a stock shape is a finished identity:
+
+![Fourteen IconFlow technique scaffolds with native 16px proof](docs/assets/style-gallery.png)
+
+The same packaged sources generate this proof locally with
+`iconflow styles --gallery style-gallery.png`; see the
+[style catalog](docs/STYLE_CATALOG.md) for selection rules, tray strategies, and
+clean-room research provenance.
+
 ## Why IconFlow
 
 Most icon pipelines begin after the important decision has already been made.
@@ -221,16 +231,23 @@ contract. [`brand/tray.svg`](brand/tray.svg) demonstrates the pattern.
 
 ## Technique scaffolds, not stock logos
 
-`new` offers four execution families:
+`new` offers fourteen execution families. Discover them from an installed wheel
+instead of memorizing a list:
 
-- `gradient-glow` — restrained inner light clipped to one semantic shape;
-- `flat-geometric` — solid geometry, one accent, and deliberate negative space;
-- `line-mark` — one weight, transparent surface, contrast-aware outline;
-- `mascot` — soft-form/character construction without prescribing a specific animal.
+```bash
+iconflow styles
+iconflow styles --gallery style-gallery.png
+iconflow new cut-paper --out work/my-app/cut-paper.svg
+```
+
+The families span flat geometry, glow, uniform line, mascot, duotone plane,
+stencil, pixel, isometric, cut paper, enamel, blueprint, stained glass,
+risograph, and clay. Each has its own structural model, 16px rule, and
+tray/monochrome strategy in [`docs/STYLE_CATALOG.md`](docs/STYLE_CATALOG.md).
 
 Each preset renders IconFlow's house structure only to demonstrate the
 technique. Every file explicitly tells the designer to replace the geometry with
-the consuming app's user job and one signature device. All four pass `check`
+the consuming app's user job and one signature device. All fourteen pass `check`
 cleanly; none is intended to ship unchanged. `new` preserves an existing output
 unless replacement is explicit with `--force`.
 
@@ -263,6 +280,7 @@ brand/                      IconFlow's own master, tray source, review, and outp
 casebook/                   structured evidence from shipped icons
 docs/
   DESIGN_PLAYBOOK.md        geometry, color, 16px discipline, critique loop
+  STYLE_CATALOG.md          14 technique families, selection, provenance
   CONCEPTING.md             divergence, cliché filter, signature devices, bake-off
   REVIEW_CHECKLIST.md       six-axis shipping rubric
   SVG_TECHNIQUES.md         browser-tested SVG construction patterns

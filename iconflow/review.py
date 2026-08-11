@@ -26,6 +26,7 @@ from . import assemble
 from .build import electron_frames, preview_assets
 from .config import review_build_contract, review_contract_digest
 from .rasterize import Rasterizer, load_svg
+from .styles import StyleSpec
 
 _SIZES = [16, 24, 32, 48, 64, 128, 256]
 _ROWS = [("#ffffff", "#111111"), ("#0b0d12", "#f2f2f2"), ("#8a8a8a", "#000000")]  # bg, label
@@ -735,4 +736,87 @@ def compare_sheet(candidates: list[tuple[str, str | Path]], out: str | Path) -> 
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
     sheet.convert("RGB").save(out)
+    return out
+
+
+def style_gallery(sources: list[tuple[StyleSpec, str]], out: str | Path) -> Path:
+    """Render packaged technique scaffolds as a compact small-size proof matrix.
+
+    Each tile includes a 128px reading plus native 16px renders on light and
+    dark surfaces. The shared house rail makes execution differences comparable;
+    the footer states that it must be replaced before a real icon is reviewed.
+    """
+    columns = 7
+    tile_w, tile_h = 210, 238
+    header_h, footer_h = 70, 52
+    rows = (len(sources) + columns - 1) // columns
+    width = _PAD * 2 + columns * tile_w
+    height = header_h + rows * tile_h + footer_h
+    sheet = Image.new("RGBA", (width, height), _SHEET_BG)
+    draw = ImageDraw.Draw(sheet)
+    title_font = _font(25)
+    label_font = _font(16)
+    meta_font = _font(12)
+
+    draw.rounded_rectangle([_PAD, 20, _PAD + 28, 48], radius=8, fill=_SIGNAL)
+    draw.rectangle([_PAD + 11, 27, _PAD + 23, 41], fill=_SHEET_BG)
+    draw.text((_PAD + 40, 18), "IconFlow technique scaffolds", font=title_font, fill=_TXT)
+    draw.text(
+        (_PAD + 40, 47),
+        f"One semantic house rail, {len(sources)} structurally different execution grammars",
+        font=meta_font,
+        fill=_LABEL,
+    )
+
+    rendered = []
+    with Rasterizer() as rasterizer:
+        for style, svg in sources:
+            rendered.append((style, {
+                128: rasterizer.render(svg, 128),
+                16: rasterizer.render(svg, 16),
+            }))
+
+    for index, (style, renders) in enumerate(rendered):
+        row, column = divmod(index, columns)
+        x = _PAD + column * tile_w
+        y = header_h + row * tile_h
+        tile = [x + 6, y + 5, x + tile_w - 8, y + tile_h - 7]
+        draw.rounded_rectangle(tile, radius=18, fill=(31, 32, 38, 255), outline=(61, 63, 72, 255))
+
+        preview_x, preview_y = x + 35, y + 20
+        draw.rounded_rectangle(
+            [preview_x - 8, preview_y - 8, preview_x + 136, preview_y + 136],
+            radius=16,
+            fill=(247, 244, 238, 255),
+        )
+        sheet.alpha_composite(_img(renders[128]), (preview_x, preview_y))
+
+        draw.text((x + 16, y + 166), style.name, font=label_font, fill=_TXT)
+        draw.text((x + 16, y + 189), style.slug, font=meta_font, fill=_LABEL)
+
+        for small_index, background in enumerate(("#ffffff", "#0b0d12")):
+            cell_x = x + 146 + small_index * 28
+            cell_y = y + 173
+            cell = Image.new("RGBA", (24, 24), background)
+            cell.alpha_composite(_img(renders[16]), (4, 4))
+            sheet.alpha_composite(cell, (cell_x, cell_y))
+            draw.rectangle(
+                [cell_x, cell_y, cell_x + 23, cell_y + 23],
+                outline=(88, 90, 100, 255),
+            )
+        draw.text((x + 148, y + 200), "16 px", font=meta_font, fill=_LABEL)
+
+    footer_y = header_h + rows * tile_h
+    draw.text(
+        (_PAD + 6, footer_y + 14),
+        "Technique scaffolds only — replace the house rail with one product-specific object, then check and review at 16 px.",
+        font=meta_font,
+        fill=_LABEL,
+    )
+
+    out = Path(out)
+    if out.is_symlink():
+        raise ValueError(f"style gallery destination must not be a symlink: {out}")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    sheet.convert("RGB").save(out, format="PNG", optimize=True)
     return out

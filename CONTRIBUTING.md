@@ -56,6 +56,20 @@ Never end an icon session without recording the case
 (`python -m iconflow case new ...`) — an unrecorded icon teaches the system
 nothing.
 
+## Changing the style catalog
+
+- A new preset must add a new structural model, not a recolor, fill toggle, or
+  stroke-weight variant. Update `iconflow/styles.py`, the packaged SVG,
+  `docs/STYLE_CATALOG.md`, tests, and the generated gallery together.
+- Draw clean-room geometry from an abstract written rule. Do not trace, adapt,
+  or copy an upstream path, palette, sample, name, prose, or recognizable trade
+  dress. Record official upstream URLs and current license signals only when a
+  general design lesson materially informed the work.
+- Run `iconflow check` on every preset, regenerate the gallery, and inspect its
+  native 16px light/dark cells plus a complete `iconflow compare` bake-off.
+- State the tray/monochrome strategy. A full app-card alpha shape is not a
+  meaningful menu-bar silhouette merely because automatic conversion succeeds.
+
 ## Changing the engine
 
 - Mechanically checkable rules belong in `iconflow/qa.py` with a test in

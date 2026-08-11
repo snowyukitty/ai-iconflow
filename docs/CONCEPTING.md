@@ -1,4 +1,4 @@
-# Concepting — how to make an icon DISTINCTIVE (有特色)
+# Concepting — how to make an icon distinctive
 
 Legibility gets you a usable icon. **Distinctiveness gets you a memorable one.**
 This is the stage most AI-made icons skip, so they all look the same (a gear, a
@@ -207,7 +207,7 @@ thing, not a letter):
   bright pulled record + a cyan spark (verb: *extract*, drawn as a scene).
 - **TwitchWatcher** — a flame with a **negative-space play triangle** cut into
   it (watch-streak = flame + play, one dominant shape, second idea in the cut).
-- **Steam 餘額助手** — a ticket/voucher whose interior negative space is a bold
+- **Steam Balance Helper** — a ticket/voucher whose interior negative space is a bold
   arrow + a green check node (balance, redeemed).
 - **Snowdrift** — a gold drawer/folder with a drift peak; the peaked tab is the
   ownable protrusion off an otherwise plain card (cf. L8).
@@ -229,7 +229,7 @@ distinctive idea that survives small instead of keeping a clever-but-muddy one.
 ## Record your reasoning
 In the final report, state: the brief's one-word essence, the cliché you avoided,
 the signature device you chose, and why the winning silhouette is distinctive.
-That makes the "特色" auditable instead of accidental.
+That makes the distinctiveness auditable instead of accidental.
 For a public record of privacy-sensitive work, use a neutral project label and
 omit sensitive category nouns, private repository names, and local paths while
 keeping the geometry, scores, failed readings, and verification evidence.

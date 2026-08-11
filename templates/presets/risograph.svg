@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Risograph technique scaffold</title>
+  <desc id="desc">Two deliberately offset spot-color plates create a stable shared core around IconFlow's house rail.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Registration error is controlled structure, not
+       random noise; the shared core must remain the readable semantic mark. -->
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#F4EAD8"/>
+  <g style="mix-blend-mode:multiply">
+    <path d="M256 288H640V448H448V640H576V704H704V768"
+          transform="translate(-36 20)" fill="none" stroke="#18A7A3" stroke-width="152"
+          stroke-linecap="square" stroke-linejoin="round" opacity=".78"/>
+    <path d="M256 288H640V448H448V640H576V704H704V768"
+          transform="translate(36 -20)" fill="none" stroke="#F24E62" stroke-width="152"
+          stroke-linecap="square" stroke-linejoin="round" opacity=".78"/>
+  </g>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#493B69" stroke-width="64"
+        stroke-linecap="square" stroke-linejoin="round"/>
+  <rect x="492" y="336" width="256" height="256" rx="32" fill="#18A7A3" opacity=".8"/>
+  <rect x="540" y="304" width="256" height="256" rx="32" fill="#F24E62" opacity=".8"/>
+  <rect x="608" y="392" width="80" height="80" rx="8" fill="#493B69"/>
+</svg>

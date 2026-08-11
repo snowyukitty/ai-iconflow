@@ -8,6 +8,11 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- Fourteen structurally distinct, small-size-first technique scaffolds, a
+  machine-readable `iconflow styles --json` catalog, and a Chromium-rendered
+  `styles --gallery` proof matrix with per-family tray guidance.
+- A clean-room style research record covering current upstream licenses,
+  small-size lessons, and explicit no-asset-copy provenance.
 - Apache-2.0 project licensing, package license metadata, attribution notices,
   and a separate trademark policy protecting the official IconFlow identity.
 - Browser integration tests proving that external SVG resources do not reach

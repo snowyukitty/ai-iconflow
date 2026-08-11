@@ -1,13 +1,16 @@
 import contextlib
 import importlib
 import io
+import json
 import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
+import xml.etree.ElementTree as ET
 
 from iconflow.cli import _version_at_least, main
 from iconflow.config import IconFlowConfig, write_config
+from iconflow.styles import STYLE_CATALOG
 
 
 class CliTests(unittest.TestCase):
@@ -53,6 +56,58 @@ class CliTests(unittest.TestCase):
                 code = main(["new", "flat-geometric", "--out", str(destination)])
             self.assertEqual(code, 0)
             self.assertIn("<svg", destination.read_text(encoding="utf-8"))
+
+    def test_style_catalog_has_distinct_parseable_packaged_scaffolds(self):
+        self.assertGreaterEqual(len(STYLE_CATALOG), 10)
+        self.assertEqual(
+            len({style.slug for style in STYLE_CATALOG}),
+            len(STYLE_CATALOG),
+        )
+        self.assertEqual(
+            len({style.structural_model for style in STYLE_CATALOG}),
+            len(STYLE_CATALOG),
+        )
+        root = Path(__file__).resolve().parent.parent / "templates" / "presets"
+        for style in STYLE_CATALOG:
+            source = root / f"{style.slug}.svg"
+            self.assertTrue(source.is_file(), style.slug)
+            self.assertEqual(ET.parse(source).getroot().tag, "{http://www.w3.org/2000/svg}svg")
+
+    def test_styles_json_is_machine_readable(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = main(["styles", "--json"])
+        self.assertEqual(code, 0)
+        catalog = json.loads(out.getvalue())
+        self.assertEqual(len(catalog), len(STYLE_CATALOG))
+        self.assertEqual(catalog[0]["slug"], STYLE_CATALOG[0].slug)
+        self.assertTrue(all(item["small_size_rule"] for item in catalog))
+        self.assertTrue(all(item["tray_strategy"] for item in catalog))
+
+    def test_styles_gallery_uses_every_packaged_scaffold(self):
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory) / "styles.png"
+            with mock.patch(
+                "iconflow.review.style_gallery", return_value=destination
+            ) as gallery, contextlib.redirect_stdout(io.StringIO()):
+                code = main(["styles", "--gallery", str(destination)])
+        self.assertEqual(code, 0)
+        sources, output = gallery.call_args.args
+        self.assertEqual(len(sources), len(STYLE_CATALOG))
+        self.assertEqual(output, destination)
+        self.assertTrue(all("<svg" in svg for _style, svg in sources))
+
+    def test_styles_gallery_refuses_silent_overwrite(self):
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory) / "styles.png"
+            destination.write_bytes(b"user work")
+            error = io.StringIO()
+            with contextlib.redirect_stderr(error):
+                code = main(["styles", "--gallery", str(destination)])
+            preserved = destination.read_bytes()
+        self.assertEqual(code, 2)
+        self.assertEqual(preserved, b"user work")
+        self.assertIn("--force", error.getvalue())
 
     def test_new_refuses_silent_overwrite_unless_forced(self):
         with tempfile.TemporaryDirectory() as directory:

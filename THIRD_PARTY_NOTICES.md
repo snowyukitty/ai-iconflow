@@ -6,6 +6,10 @@ proof assets currently tracked here were authored for IconFlow or generated
 from those repository sources. SVG marketing diagrams name system font stacks
 but do not bundle font files.
 
+[`docs/STYLE_CATALOG.md`](docs/STYLE_CATALOG.md) records public systems studied
+for abstract small-size and workflow principles. It imports none of their code
+or artwork and does not turn those research sources into dependencies.
+
 Runtime dependencies are installed separately by `pip` and retain their own
 licenses and notices:
 

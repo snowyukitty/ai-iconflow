@@ -37,9 +37,9 @@ for toolkit docs and `work/<slug>/` drafts.
    at both 128px and 16px; change the viewpoint if the noun changes. With color
    removed, test vertical cuts above detached round accents as punctuation and
    offset their centerlines by at least two output pixels (~128 viewBox units).
-   (Shortcut for simple jobs: start from a preset
-   `python -m iconflow new <gradient-glow|flat-geometric|line-mark|mascot>` and
-   still apply a signature device.)
+   (Shortcut for simple jobs: inspect the current catalog with
+   `python -m iconflow styles`, start with
+   `python -m iconflow new <preset>`, and still apply a signature device.)
 4. **Author the SVG** by editing `master.svg`, using `docs/SVG_TECHNIQUES.md`
    (§10 = signature devices, §11 = semantic source/target variants). One bold
    idea, on the 1024 grid, inside the safe area. If a full-card app icon also

@@ -36,7 +36,7 @@ as a positive standard for the distinctiveness gate:
 
 - In the visual-silhouette strip the plate stack stays ownable, where a plain
   "F" tile would collapse to a generic letter-on-square (the exact shape the
-  owner calls 平庸 / mediocre).
+  owner calls mediocre).
 - One thing to watch at 16px: the arms sit close to the stem, so the counters
   between the plates are the first thing to confirm in the pixel zoom; the
   38-unit cream outline is what keeps them from fusing (cf. L1, L15).

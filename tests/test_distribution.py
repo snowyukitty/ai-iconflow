@@ -5,6 +5,7 @@ import unittest
 import zipfile
 from pathlib import Path
 
+from iconflow.styles import PRESETS
 from scripts.verify_distribution import main, verify
 
 
@@ -39,9 +40,12 @@ class DistributionVerificationTests(unittest.TestCase):
     def _required() -> list[str]:
         return [
             "iconflow/__init__.py",
+            "iconflow/styles.py",
             "iconflow/resources/templates/master.svg",
-            "iconflow/resources/presets/flat-geometric.svg",
             "iconflow/resources/docs/DESIGN_PLAYBOOK.md",
+            "iconflow/resources/docs/STYLE_CATALOG.md",
+            "iconflow/resources/docs/assets/style-gallery.png",
+            *(f"iconflow/resources/presets/{preset}.svg" for preset in PRESETS),
             "ai_iconflow-0.4.0.dist-info/METADATA",
             "ai_iconflow-0.4.0.dist-info/RECORD",
             "ai_iconflow-0.4.0.dist-info/licenses/LICENSE",

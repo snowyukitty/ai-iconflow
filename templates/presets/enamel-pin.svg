@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Enamel pin technique scaffold</title>
+  <desc id="desc">A metal contour and inset enamel turn IconFlow's house rail into a collectible pin-like mark.</desc>
+  <!-- TECHNIQUE SCAFFOLD. The outer contour is the material boundary, not a
+       second icon; replace all nested rail paths with the same object. -->
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#20232C" stroke-width="208"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#F4C05D" stroke-width="164"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#57C8C0" stroke-width="108"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M278 274H616" fill="none" stroke="#FFF3D0" stroke-width="36"
+        stroke-linecap="round" opacity=".9"/>
+  <rect x="508" y="316" width="264" height="264" rx="72" fill="#20232C"/>
+  <rect x="536" y="344" width="208" height="208" rx="52" fill="#F4C05D"/>
+  <rect x="600" y="408" width="80" height="80" rx="18" fill="#EF625A"/>
+</svg>

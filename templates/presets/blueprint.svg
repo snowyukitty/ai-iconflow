@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Blueprint technique scaffold</title>
+  <desc id="desc">Sparse construction guides and explicit nodes frame IconFlow's technical house contour.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Guides explain the geometry at app size but are not
+       semantic content; the primary contour alone must survive at 16px. -->
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#0D2B45"/>
+  <g fill="none" stroke="#2A5874" stroke-width="32" opacity=".8">
+    <path d="M224 256H800M224 448H800M224 640H800M256 224V800M448 224V800M640 224V800"/>
+    <rect x="224" y="224" width="576" height="576" rx="32"/>
+  </g>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#75E4EF" stroke-width="80"
+        stroke-linecap="square" stroke-linejoin="miter"/>
+  <g fill="#F8F2E8" stroke="#0D2B45" stroke-width="32">
+    <circle cx="256" cy="288" r="44"/>
+    <circle cx="448" cy="448" r="44"/>
+    <circle cx="576" cy="704" r="44"/>
+    <circle cx="704" cy="768" r="44"/>
+  </g>
+  <rect x="536" y="344" width="208" height="208" rx="24"
+        fill="#FF6A5C" stroke="#F8F2E8" stroke-width="40"/>
+  <rect x="608" y="416" width="64" height="64" rx="8" fill="#0D2B45"/>
+</svg>

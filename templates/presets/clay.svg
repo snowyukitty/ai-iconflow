@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Clay technique scaffold</title>
+  <desc id="desc">Chunky rounded volumes give IconFlow's house rail explicit shadow and highlight without blur filters.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Replace the base, shadow, and highlight paths as one
+       object; the base volume must identify the app when both effects vanish. -->
+  <rect x="40" y="40" width="944" height="944" rx="244" fill="#D8E5F2"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        transform="translate(32 40)" fill="none" stroke="#51476F" stroke-width="220"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#F47A68" stroke-width="200"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 288H640V448" transform="translate(-18 -22)"
+        fill="none" stroke="#FFD7CC" stroke-width="48"
+        stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+  <rect x="536" y="344" width="240" height="240" rx="80" fill="#51476F"/>
+  <rect x="512" y="320" width="240" height="240" rx="80" fill="#F5B74E"/>
+  <path d="M560 392Q592 352 640 352" fill="none" stroke="#FFF0C5"
+        stroke-width="40" stroke-linecap="round"/>
+  <rect x="592" y="400" width="80" height="80" rx="24" fill="#51476F"/>
+</svg>

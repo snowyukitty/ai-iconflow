@@ -122,6 +122,10 @@ cleanly to every target and matches Tauri/Electron masters.
 ## 3. Style families (pick ONE per icon)
 
 Each maps to a preset you can start from: `python -m iconflow new <preset>`.
+Use `python -m iconflow styles` for the packaged source of truth and
+`python -m iconflow styles --gallery style-gallery.png` to inspect native 16px
+proof. The full selection rules and clean-room research record live in
+[`STYLE_CATALOG.md`](STYLE_CATALOG.md).
 
 | Family | Preset | Use when | Signature techniques |
 |---|---|---|---|
@@ -129,9 +133,21 @@ Each maps to a preset you can start from: `python -m iconflow new <preset>`.
 | **Flat geometric** | `flat-geometric` | tools, dashboards, dev apps | solid fills, 1 accent, squircle bg, bold negative-space glyph |
 | **Line mark** | `line-mark` | minimal/editorial sites, icon SYSTEMS | uniform stroke, round caps, single accent on transparent |
 | **Mascot / character** | `mascot` | consumer brands with an identity-owned character | hand-built paths, expressive face, warm palette, thick outline so it survives small sizes |
+| **Duotone cut** | `duotone-cut` | design tools and data products | one identifiable primary mass split by one large secondary plane |
+| **Stencil cut** | `stencil-cut` | security, industrial, and print-led identities | one solid plate with bold transparent semantic cuts |
+| **Pixel grid** | `pixel-grid` | games, terminal tools, intentional retro systems | 16px-first integer blocks, stepped corners, pixel parity |
+| **Isometric** | `isometric` | storage, 3D, infrastructure, spatial products | two or three projected faces with explicit value steps |
+| **Cut paper** | `cut-paper` | publishing, education, friendly productivity | broad offset layers and hard-edged depth without blur |
+| **Enamel pin** | `enamel-pin` | community, events, collectible identities | dark material boundary, inset color, one bounded highlight |
+| **Blueprint** | `blueprint` | engineering, architecture, CAD, systems | primary technical contour plus sparse subordinate guides |
+| **Stained glass** | `stained-glass` | expressive creative, cultural, music products | three or four large panes separated by heavy leading |
+| **Risograph** | `risograph` | indie publishing, events, experimental tools | two controlled spot-color plates around a stable shared core |
+| **Clay** | `clay` | friendly consumer, learning, creative tools | chunky volume, one explicit shadow edge, one highlight |
 
 Mixing families produces mush. If a brand needs both (e.g. a glossy mascot),
 commit to one as the base and borrow at most one technique from another.
+Weight, fill, and palette are parameters inside a family; they do not count as
+new styles by themselves.
 
 ---
 

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Duotone cut technique scaffold</title>
+  <desc id="desc">IconFlow's house rail demonstrates one primary mass split by a large secondary color plane.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Replace the rail geometry with the consuming app's
+       exact object; the primary plane must still identify it without color. -->
+  <defs>
+    <mask id="rail">
+      <rect width="1024" height="1024" fill="#000"/>
+      <path d="M256 288H640V448H448V640H576V704H704V768"
+            fill="none" stroke="#fff" stroke-width="160"
+            stroke-linecap="square" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g mask="url(#rail)">
+    <rect width="1024" height="1024" fill="#FFF0DF"/>
+    <path d="M392 240H856V856H520L392 728Z" fill="#55C7C2"/>
+  </g>
+  <rect x="512" y="320" width="256" height="256" rx="32" fill="#FF6B5B"/>
+  <path d="M640 320H768V576H640Z" fill="#E84648"/>
+  <rect x="584" y="392" width="112" height="112" rx="12" fill="#191A20"/>
+</svg>

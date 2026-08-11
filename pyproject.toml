@@ -8,7 +8,10 @@ version = "0.4.0"
 description = "Turn an app brief and one semantic SVG master into a reviewed, platform-ready icon family"
 readme = "README.md"
 requires-python = ">=3.10"
-keywords = ["icon", "favicon", "svg", "pwa", "electron", "tray", "design-system"]
+keywords = [
+  "app-icon", "electron", "favicon", "icns", "ico", "icon-design",
+  "pwa", "svg", "tauri", "tray-icon", "design-system",
+]
 authors = [{ name = "snowyukitty" }]
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE", "TRADEMARKS.md", "THIRD_PARTY_NOTICES.md"]
