@@ -5,8 +5,9 @@ verifies artifacts; no step should be interpreted as permission to publish.
 
 ## 1. Clear owner-controlled gates
 
-- Select the project license, add `LICENSE`, and add matching SPDX metadata and
-  PyPI classifiers. Do not publish while the repository says all rights reserved.
+- Confirm that `LICENSE`, `NOTICE`, `TRADEMARKS.md`, and
+  `THIRD_PARTY_NOTICES.md` match the intended release and that built metadata
+  reports the SPDX expression `Apache-2.0` plus all four legal files.
 - Confirm the release version in `pyproject.toml`, `iconflow/__init__.py`, and
   `CHANGELOG.md`.
 - Enable GitHub private vulnerability reporting before broad announcement.
@@ -90,7 +91,7 @@ Review the workflow artifact and CI results before any publication decision.
 
 Recommended order after the owner approves publication:
 
-1. Apply the approved license and GitHub metadata.
+1. Confirm the approved license, trademark policy, and GitHub metadata.
 2. Merge the release commit and require a green CI run.
 3. Create the signed or annotated `v0.4.0` tag.
 4. Review the release-candidate artifact and checksums.

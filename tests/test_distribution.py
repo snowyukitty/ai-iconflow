@@ -9,12 +9,30 @@ from scripts.verify_distribution import main, verify
 
 
 class DistributionVerificationTests(unittest.TestCase):
-    def _wheel(self, names: list[str]) -> tuple[tempfile.TemporaryDirectory, Path]:
+    @staticmethod
+    def _metadata() -> bytes:
+        return b"\n".join(
+            [
+                b"Metadata-Version: 2.4",
+                b"Name: ai-iconflow",
+                b"License-Expression: Apache-2.0",
+                b"License-File: LICENSE",
+                b"License-File: NOTICE",
+                b"License-File: TRADEMARKS.md",
+                b"License-File: THIRD_PARTY_NOTICES.md",
+            ]
+        )
+
+    def _wheel(
+        self, names: list[str], *, metadata: bytes | None = None
+    ) -> tuple[tempfile.TemporaryDirectory, Path]:
         directory = tempfile.TemporaryDirectory()
         path = Path(directory.name) / "ai_iconflow-0.4.0-py3-none-any.whl"
+        metadata = self._metadata() if metadata is None else metadata
         with zipfile.ZipFile(path, "w") as archive:
             for name in names:
-                archive.writestr(name, b"content")
+                content = metadata if name.endswith("/METADATA") else b"content"
+                archive.writestr(name, content)
         return directory, path
 
     @staticmethod
@@ -26,6 +44,10 @@ class DistributionVerificationTests(unittest.TestCase):
             "iconflow/resources/docs/DESIGN_PLAYBOOK.md",
             "ai_iconflow-0.4.0.dist-info/METADATA",
             "ai_iconflow-0.4.0.dist-info/RECORD",
+            "ai_iconflow-0.4.0.dist-info/licenses/LICENSE",
+            "ai_iconflow-0.4.0.dist-info/licenses/NOTICE",
+            "ai_iconflow-0.4.0.dist-info/licenses/TRADEMARKS.md",
+            "ai_iconflow-0.4.0.dist-info/licenses/THIRD_PARTY_NOTICES.md",
         ]
 
     def test_accepts_minimal_expected_wheel(self):
@@ -54,6 +76,22 @@ class DistributionVerificationTests(unittest.TestCase):
         directory, path = self._wheel(names)
         self.addCleanup(directory.cleanup)
         with self.assertRaisesRegex(ValueError, "METADATA and RECORD"):
+            verify(path)
+
+    def test_rejects_missing_legal_file(self):
+        names = [name for name in self._required() if not name.endswith("/NOTICE")]
+        directory, path = self._wheel(names)
+        self.addCleanup(directory.cleanup)
+        with self.assertRaisesRegex(ValueError, "legal file NOTICE"):
+            verify(path)
+
+    def test_rejects_wrong_license_expression(self):
+        directory, path = self._wheel(
+            self._required(),
+            metadata=self._metadata().replace(b"Apache-2.0", b"MIT"),
+        )
+        self.addCleanup(directory.cleanup)
+        with self.assertRaisesRegex(ValueError, "Apache-2.0 package metadata"):
             verify(path)
 
 

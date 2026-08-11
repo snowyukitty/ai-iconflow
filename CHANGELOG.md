@@ -8,6 +8,8 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- Apache-2.0 project licensing, package license metadata, attribution notices,
+  and a separate trademark policy protecting the official IconFlow identity.
 - Browser integration tests proving that external SVG resources do not reach
   the network and that animated input renders repeatably.
 - Distribution-content verification and a non-publishing release-candidate

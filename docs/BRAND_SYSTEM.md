@@ -117,6 +117,12 @@ Regenerate the social preview with
 after repository-settings approval. It composes the already approved mark; it
 does not replace or modify the app-icon source.
 
+Copyright permission for these repository assets is provided under
+Apache-2.0, but that license does not grant permission to use the IconFlow name,
+logo, or visual identity to brand or endorse a third-party product, service, or
+modified distribution. Follow [`TRADEMARKS.md`](../TRADEMARKS.md) whenever the
+mark appears outside the official project.
+
 Every change to the master must repeat the IconFlow procedure: diverge when the
 idea changes, compare finalists, check, visually inspect the review, build all
 selected targets, and record the case.

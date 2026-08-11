@@ -358,6 +358,11 @@ Release preparation is tracked in
 
 ## License
 
-Not yet licensed — all rights reserved for now. A license will be chosen before
-wider distribution; until then, please open an issue before reusing the code or
-docs in your own project.
+IconFlow code, documentation, and repository-authored assets are licensed under
+the [Apache License, Version 2.0](LICENSE). See [NOTICE](NOTICE) for attribution
+and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for dependency provenance.
+
+Apache-2.0 does not grant permission to use the IconFlow name, logo, or official
+project identity to brand or endorse a modified distribution, product, or
+service. Truthful references and compatibility statements remain welcome; see
+the [IconFlow trademark policy](TRADEMARKS.md) for the precise boundary.

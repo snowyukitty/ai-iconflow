@@ -21,5 +21,7 @@ is MIT-licensed. Playwright downloads a separate Chromium runtime during
 licenses shipped with the downloaded browser and each installed wheel when
 redistributing an environment rather than this source package alone.
 
-This inventory is a provenance aid, not a substitute for IconFlow's own
-project license. No project license has been selected yet.
+This inventory supplements IconFlow's Apache-2.0 project license; it does not
+replace the license and notices that accompany separately installed
+dependencies or the Chromium runtime. IconFlow's name and logo are also
+subject to [`TRADEMARKS.md`](TRADEMARKS.md).

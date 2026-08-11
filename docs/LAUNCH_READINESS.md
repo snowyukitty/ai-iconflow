@@ -13,19 +13,20 @@ it is not a claim that a release has been published.
 - [x] A non-publishing release-candidate workflow builds checksums and proves wheel reproducibility.
 - [x] README provides a source-only installation path and a checked-in reviewed-family proof.
 - [x] Security, provenance, changelog, contribution, issue, pull-request, and release guidance exists.
-- [ ] Owner selects and applies a project license.
+- [x] Owner selected Apache-2.0; the checkout includes license, notice, package metadata, and trademark policy.
 - [ ] Owner enables GitHub private vulnerability reporting.
 - [ ] Owner approves and applies repository metadata and social preview.
 - [ ] Owner approves a tag, GitHub Release, and PyPI publication.
 
-The [public GitHub repository](https://github.com/snowyukitty/ai-iconflow)
-currently has no detected license and its [Releases page](https://github.com/snowyukitty/ai-iconflow/releases)
-is empty. The [official PyPI JSON endpoint](https://pypi.org/pypi/ai-iconflow/json)
+This checkout is licensed under Apache-2.0. The public GitHub repository will
+not display that license until these local commits are pushed; its
+[Releases page](https://github.com/snowyukitty/ai-iconflow/releases) remains
+empty. The [official PyPI JSON endpoint](https://pypi.org/pypi/ai-iconflow/json)
 for `ai-iconflow` returned HTTP 404 on 2026-08-11, so the README intentionally
 documents source installation only. Name availability is not guaranteed until
 PyPI accepts a first publication.
 
-## License decision
+## License and trademark decision
 
 The dependency and asset audit found no vendored third-party code, font, icon
 set, or stock image. Runtime dependencies are separately installed under
@@ -34,16 +35,16 @@ file was found in the Playwright Python repository. Their licenses do not force
 IconFlow to choose the same project license, but anyone redistributing those
 dependencies must preserve their applicable notices.
 
-| Choice | Best fit | Trade-off |
-|---|---|---|
-| MIT | Minimal permissive text and the lowest adoption friction | No explicit patent-license language |
-| Apache-2.0 | Permissive use with an explicit patent grant and patent-termination terms | Longer text; downstream redistributors must preserve license/notice obligations |
+The owner selected **Apache-2.0** for its permissive copyright terms and explicit
+patent grant and termination provisions. `pyproject.toml` uses the PEP 639 SPDX
+expression and includes `LICENSE`, `NOTICE`, `TRADEMARKS.md`, and this dependency
+notice in both release formats.
 
-Recommendation: **Apache-2.0** for clearer patent terms around a reusable build
-and review engine. Choose **MIT** if the maintainer values the shortest possible
-permission notice more than explicit patent language. This is an owner decision;
-no `LICENSE`, license classifier, or package license metadata should be added
-until it is made.
+Apache-2.0 licenses repository copyright and applicable contributor patents; it
+does not transfer copyright ownership or grant rights to brand another product
+as IconFlow. [`TRADEMARKS.md`](../TRADEMARKS.md) permits truthful references,
+compatibility descriptions, and clear provenance while reserving the IconFlow
+name, logo, and official-release identity against confusing use.
 
 ## Proposed GitHub metadata
 
@@ -102,18 +103,19 @@ Evidence-led launch messages:
   archive is not byte-identical because generated timestamps vary.
 
 A separate `SUPPORT.md` and code of conduct are intentionally deferred. Before
-the first release, usage support can stay in the bug/proposal issue forms, and
-the repository should not adopt enforcement promises for external contributions
-until the owner has chosen a license and decided to accept them.
+the first release, usage support can stay in the bug/proposal issue forms; add
+broader community governance documents when contribution volume demonstrates a
+real need rather than creating promises the maintainer cannot yet support.
 
 ## Recommended launch sequence
 
-1. Choose Apache-2.0 or MIT, then update license files and metadata in one reviewable commit.
+1. Review and push the Apache-2.0 license, notice, trademark policy, and package metadata.
 2. Enable private vulnerability reporting and run CI on the final release commit.
 3. Apply the proposed description, topics, homepage, and reviewed social preview.
 4. Manually run the release-candidate workflow; verify checksums and clean-wheel behavior.
 5. Tag `v0.4.0`, create the GitHub Release, and publish the exact candidate through PyPI Trusted Publishing only after explicit approval.
 6. Run the documented PyPI clean-install smoke test, then share the visual proof and reproducible commands.
 
-The smallest owner action is to choose **Apache-2.0 or MIT**. Every other local,
-license-independent preparation can remain reviewable without publishing.
+The smallest remaining owner action is to review these local commits and decide
+when to push them. Publishing and repository-setting changes still require
+separate explicit approval.

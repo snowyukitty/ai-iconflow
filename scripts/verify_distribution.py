@@ -20,6 +20,11 @@ FORBIDDEN_PARTS = {
 }
 FORBIDDEN_NAMES = {".env", ".env.local", "credentials.json", "secrets.json"}
 FORBIDDEN_SUFFIXES = {".key", ".p12", ".pfx", ".pem", ".pyc"}
+LEGAL_FILES = ("LICENSE", "NOTICE", "TRADEMARKS.md", "THIRD_PARTY_NOTICES.md")
+LICENSE_METADATA = {
+    "License-Expression: Apache-2.0",
+    *(f"License-File: {name}" for name in LEGAL_FILES),
+}
 
 
 def _members(path: Path) -> list[str]:
@@ -45,10 +50,38 @@ def _relative_members(path: Path, members: list[str]) -> list[PurePosixPath]:
     return normalized
 
 
+def _read_member(path: Path, name: str) -> bytes:
+    if path.suffix == ".whl":
+        with zipfile.ZipFile(path) as archive:
+            return archive.read(name)
+    with tarfile.open(path, "r:gz") as archive:
+        extracted = archive.extractfile(name)
+        if extracted is None:
+            raise ValueError(f"archive member is not a regular file: {name}")
+        return extracted.read()
+
+
+def _verify_license_metadata(path: Path, metadata: bytes) -> None:
+    try:
+        fields = set(metadata.decode("utf-8").splitlines())
+    except UnicodeDecodeError as exc:
+        raise ValueError(f"package metadata is not UTF-8: {path.name}") from exc
+    missing = sorted(LICENSE_METADATA - fields)
+    if missing:
+        raise ValueError(
+            f"missing Apache-2.0 package metadata in {path.name}: "
+            + ", ".join(missing)
+        )
+
+
 def verify(path: Path) -> None:
     if not path.is_file():
         raise ValueError(f"distribution not found: {path}")
-    members = _relative_members(path, _members(path))
+    archive_members = _members(path)
+    members = _relative_members(path, archive_members)
+    archive_name = {
+        str(relative): original for original, relative in zip(archive_members, members)
+    }
     unsafe: list[str] = []
     for member in members:
         lower_parts = {part.lower() for part in member.parts}
@@ -79,6 +112,13 @@ def verify(path: Path) -> None:
             raise ValueError(
                 f"wheel must contain exactly one METADATA and RECORD: {path.name}"
             )
+        for legal_file in LEGAL_FILES:
+            suffix = f".dist-info/licenses/{legal_file}"
+            if not any(name.endswith(suffix) for name in names):
+                raise ValueError(
+                    f"wheel is missing packaged legal file {legal_file}: {path.name}"
+                )
+        metadata_name = metadata[0]
     else:
         required = common | {
             "AGENTS.md",
@@ -93,10 +133,16 @@ def verify(path: Path) -> None:
             "scripts/setup.ps1",
             "skills/iconflow/SKILL.md",
             "tests/test_cli.py",
+            *LEGAL_FILES,
         }
+        package_metadata = [name for name in names if name == "PKG-INFO"]
+        if len(package_metadata) != 1:
+            raise ValueError(f"sdist must contain one root PKG-INFO: {path.name}")
+        metadata_name = package_metadata[0]
     missing = sorted(required - names)
     if missing:
         raise ValueError(f"required members missing from {path.name}: {', '.join(missing)}")
+    _verify_license_metadata(path, _read_member(path, archive_name[metadata_name]))
     print(f"OK {path.name}: {len(members)} files, required resources present, no forbidden paths")
 
 

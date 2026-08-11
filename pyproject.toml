@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -10,8 +10,8 @@ readme = "README.md"
 requires-python = ">=3.10"
 keywords = ["icon", "favicon", "svg", "pwa", "electron", "tray", "design-system"]
 authors = [{ name = "snowyukitty" }]
-# License intentionally unset for now (all rights reserved); choose one before
-# wider distribution.
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "TRADEMARKS.md", "THIRD_PARTY_NOTICES.md"]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",

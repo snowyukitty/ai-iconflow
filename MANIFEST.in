@@ -6,6 +6,7 @@ include brand/master.svg brand/tray.svg brand/iconflow.toml brand/master-review.
 include requirements.txt AGENTS.md
 recursive-include skills/iconflow *.md *.yaml
 include README.md CONTRIBUTING.md CHANGELOG.md SECURITY.md THIRD_PARTY_NOTICES.md
+include LICENSE NOTICE TRADEMARKS.md
 recursive-include tests *.py
 
 # Tests are intentional sdist inputs. Harness caches, local case evidence, and

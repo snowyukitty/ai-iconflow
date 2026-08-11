@@ -82,11 +82,18 @@ The rules in [`docs/EVOLUTION.md`](docs/EVOLUTION.md) §3 govern this. In short:
 
 ## Commits & PRs
 
-The repository does not have a project license yet. Before submitting a
-non-trivial code, documentation, or asset contribution, open an issue to discuss
-it. Maintainers should not merge third-party contributions until the project
-license and contribution terms are explicit; this avoids ambiguous rights for
-both contributors and users.
+IconFlow is licensed under Apache-2.0. Unless you explicitly and conspicuously
+state otherwise before submission, a contribution intentionally submitted for
+inclusion is offered under the same Apache-2.0 terms, consistent with Section 5
+of the license. You retain copyright in your contribution. Confirm that you
+have the right to submit it and identify any third-party code or assets and
+their licenses in the PR.
+
+Contribution does not grant rights to the IconFlow name, logo, or official
+project identity; see [`TRADEMARKS.md`](TRADEMARKS.md). It also does not promise
+acceptance, merge access, roadmap influence, or release authority. Maintainers
+remain responsible for the official project's quality gates, direction, and
+release decisions.
 
 - Keep diffs reviewable. One distillation = one commit
   (`evolve: distill <n> lessons into <docs>`), so `git log docs/` reads as the
