@@ -1,0 +1,57 @@
+name: Bug report
+description: Report reproducible CLI, rendering, packaging, or documentation behavior.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Do not include secrets, private SVGs, or vulnerability details. Follow
+        SECURITY.md for security-sensitive reports.
+  - type: input
+    id: version
+    attributes:
+      label: IconFlow version or commit
+      placeholder: "iconflow --version, or git rev-parse --short HEAD"
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Operating system
+      options: [Windows, macOS, Linux, Other]
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python and dependency versions
+      placeholder: "Python 3.14; Playwright 1.x; Pillow 12.x"
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Minimal command and input
+      description: Use a privacy-safe minimal SVG or link to a public reproduction.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and complete error output
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Doctor output
+      description: Paste `iconflow doctor` output after removing private paths.
+      render: text

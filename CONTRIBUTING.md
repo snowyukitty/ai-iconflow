@@ -17,7 +17,7 @@ docs (the brain)  →  casebook (experience)  →  iconflow case stats (the sign
 Python 3.10+ is required. Rendering uses a headless Chromium via Playwright.
 
 ```bash
-python -m pip install -e .
+python -m pip install -e ".[dev]"
 python -m iconflow setup     # first time only: fetch Playwright Chromium
 python -m iconflow doctor    # verify the environment
 ```
@@ -29,6 +29,16 @@ python -m unittest discover -s tests
 python -m iconflow case lint          # casebook integrity
 python -m iconflow case stats         # health report / evolution target
 ```
+
+Browser-boundary changes also require the opt-in integration tests:
+
+```bash
+ICONFLOW_BROWSER_TESTS=1 python -m unittest tests.test_browser_security -v
+```
+
+On PowerShell, set `$env:ICONFLOW_BROWSER_TESTS = "1"` first. Packaging changes
+must build and inspect both distributions with `python -m build` and
+`python scripts/verify_distribution.py dist/*`.
 
 ## The quality bar (for icons)
 
@@ -72,6 +82,12 @@ The rules in [`docs/EVOLUTION.md`](docs/EVOLUTION.md) §3 govern this. In short:
 
 ## Commits & PRs
 
+The repository does not have a project license yet. Before submitting a
+non-trivial code, documentation, or asset contribution, open an issue to discuss
+it. Maintainers should not merge third-party contributions until the project
+license and contribution terms are explicit; this avoids ambiguous rights for
+both contributors and users.
+
 - Keep diffs reviewable. One distillation = one commit
   (`evolve: distill <n> lessons into <docs>`), so `git log docs/` reads as the
   system's evolution history.
@@ -85,3 +101,6 @@ The rules in [`docs/EVOLUTION.md`](docs/EVOLUTION.md) §3 govern this. In short:
 The casebook records real design sessions. When a case involves a third party or
 sensitive project, anonymize identifying details (names, handles, brand-specific
 terms) while keeping the reusable design lesson intact.
+
+For vulnerabilities, follow [`SECURITY.md`](SECURITY.md) and never put exploit
+details or secrets in a public issue.

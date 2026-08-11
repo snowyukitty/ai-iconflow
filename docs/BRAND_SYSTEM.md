@@ -108,7 +108,14 @@ brand/build/              deterministic web/Tauri/Electron/tray outputs
 docs/assets/hero-flow.svg functional product overview
 docs/assets/concept-bake.png concept comparison evidence
 docs/assets/review-proof.png final small-size and mask proof
+docs/assets/social-preview.svg editable GitHub social-preview source
+docs/assets/social-preview.png 1280×640 rendered social-preview candidate
 ```
+
+Regenerate the social preview with
+`python scripts/render_social_preview.py`, inspect the PNG, and upload it only
+after repository-settings approval. It composes the already approved mark; it
+does not replace or modify the app-icon source.
 
 Every change to the master must repeat the IconFlow procedure: diverge when the
 idea changes, compare finalists, check, visually inspect the review, build all

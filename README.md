@@ -2,11 +2,12 @@
 
 ![IconFlow — One master. Every surface. Proven at 16px.](docs/assets/hero-flow.svg)
 
-IconFlow turns an app brief and one semantic SVG source into a **reviewed,
-platform-ready icon family**.
+IconFlow is a local design-and-release workflow for agents, designers, and
+small product teams that need one **reviewed, platform-ready icon family** from
+an editable semantic SVG.
 
 It is not a stock-glyph generator or a one-off conversion script. IconFlow
-provides the design constraints, browser-accurate rendering, silhouette-driven
+provides the design constraints, browser-faithful Chromium rendering, silhouette-driven
 bake-off, target previews, hard quality gate, and casebook loop needed to make
 an icon specific to what an app actually does—and prove that it still works at
 16px before shipping it everywhere.
@@ -32,20 +33,53 @@ IconFlow makes those questions part of the build:
 | **Ship** | `ship` fails closed unless automated QA is clean and all six human rubric scores are at least 4/5. |
 | **Learn** | Every shipped design becomes structured casebook evidence; `case stats` reveals recurring weaknesses and house clichés. |
 
-The result is deterministic and fully local. There is no image-model call, API
-key, or raster lottery: an agent or designer authors editable SVG, and Chromium
-renders exactly what browsers will display.
+The working path is local after dependencies and Chromium are installed. There
+is no image-model call or API key: an agent or designer authors editable SVG,
+and a pinned toolchain renders repeatable target assets without network access.
+Unlike a generic favicon converter, IconFlow starts before conversion—with the
+product job and competing concepts—and refuses to ship unreviewed pixels.
 
-## Quick start
+## Five-minute proof
 
-Python 3.10+ is required. The repository venv is already configured for local
-development; a fresh environment needs Playwright Chromium once.
+Python 3.10+ is required. IconFlow is not published on PyPI yet, so install the
+current source checkout; do not use `pip install ai-iconflow` until a release is
+listed on the [official PyPI project page](https://pypi.org/project/ai-iconflow/).
+The one-time `setup` step downloads Playwright Chromium.
 
 ```bash
-python -m pip install -e .
-python -m iconflow setup
-python -m iconflow doctor
+git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python -m venv .venv
 ```
+
+Then use the venv interpreter directly—no activation is required:
+
+```powershell
+# Windows PowerShell
+.venv\Scripts\python.exe -m pip install .
+.venv\Scripts\python.exe -m iconflow setup
+.venv\Scripts\python.exe -m iconflow doctor
+.venv\Scripts\python.exe -m iconflow ship `
+  --config brand/iconflow.toml --review brand/master-review.json `
+  --out work/quick-start/icon-out
+```
+
+```bash
+# macOS / Linux
+.venv/bin/python -m pip install .
+.venv/bin/python -m iconflow setup
+.venv/bin/python -m iconflow doctor
+.venv/bin/python -m iconflow ship \
+  --config brand/iconflow.toml --review brand/master-review.json \
+  --out work/quick-start/icon-out
+```
+
+That last command re-validates IconFlow's checked-in, source-bound review
+receipt and builds 23 web, Tauri desktop, Electron, and tray files. It is a
+reproducible engine proof, not a claim that a distinctive new identity can be
+designed in five minutes.
+
+## Design and ship your own icon
 
 Create the project brief and build contract first:
 
@@ -93,8 +127,9 @@ python -m iconflow ship --config iconflow.toml \
 ```
 
 For non-interactive automation, an explicitly `approved` `[review]` table in
-`iconflow.toml` with the reviewed `source_sha256` and all six scores ≥4 remains
-a supported source-bound fallback.
+`iconflow.toml` with the reviewed `source_sha256`, full `contract_sha256`, and
+all six scores ≥4 remains a supported fallback. Any source, project, target,
+color, Electron, color-scheme, tray-mode, or tray-source change invalidates it.
 
 `build` remains available as a low-level, deterministic exporter when a caller
 already owns its quality gate:
@@ -142,12 +177,7 @@ remains exactly two deliberate pixels at 16px. The editable source, target-aware
 Review Lab, dedicated tray mark, gated `iconflow.toml`, and complete build live
 in [`brand/`](brand/).
 
-<details>
-<summary>Open the final static review sheet</summary>
-
-![IconFlow final review sheet](docs/assets/review-proof.png)
-
-</details>
+<img src="docs/assets/review-proof.png" width="760" alt="IconFlow final review sheet with actual-size, pixel, silhouette, and adaptive-crop evidence">
 
 Final rubric: legibility 4, distinctiveness 4, balance 4, color 5,
 scalability 5, craft 5. `check` is clean.
@@ -178,7 +208,7 @@ Targets can be combined; shared sizes render once.
 | `web` / `pwa` | `favicon.svg`, multi-frame `favicon.ico`, Apple touch icon, 192/512 and maskable PNGs, manifest, head snippet |
 | `tauri` | Tauri desktop `icons/` PNG ladder plus multi-size ICO and ICNS |
 | `electron` | `build/icon.png`, `.ico`, and `.icns`, with the same corner transform applied to native frames |
-| `tray` | Windows color 16/32px icons, macOS monochrome template pair, optional TypeScript data URL module |
+| `tray` | Color 16/32px PNGs, macOS monochrome template pair, optional TypeScript data URL module |
 
 Web builds also support relative/static-site paths, richer manifest metadata,
 Windows tiles, custom manifest keys, and additional head metadata. See
@@ -198,10 +228,11 @@ contract. [`brand/tray.svg`](brand/tray.svg) demonstrates the pattern.
 - `line-mark` — one weight, transparent surface, contrast-aware outline;
 - `mascot` — soft-form/character construction without prescribing a specific animal.
 
-Each preset now renders IconFlow's house structure only to demonstrate the
+Each preset renders IconFlow's house structure only to demonstrate the
 technique. Every file explicitly tells the designer to replace the geometry with
 the consuming app's user job and one signature device. All four pass `check`
-cleanly; none is intended to ship unchanged.
+cleanly; none is intended to ship unchanged. `new` preserves an existing output
+unless replacement is explicit with `--force`.
 
 ## The casebook closes the loop
 
@@ -286,20 +317,44 @@ instead of relying on Explorer cache invalidation.
 ## Development
 
 ```bash
+python -m pip install -e ".[dev]"
 python -m iconflow doctor
 python -m unittest discover -s tests
+python -m iconflow case lint
+python -m build
+python scripts/verify_distribution.py dist/*
 ```
 
 The engine uses `playwright` and `Pillow`; no external service or API key is
-required. Runtime rendering is network-isolated, JavaScript-disabled,
-animation-frozen, and deterministic. The Python package remains named
+required. Runtime rendering validates bounded SVG/XML, blocks network and file
+resources, disables JavaScript and service workers, and freezes animation. See
+[`SECURITY.md`](SECURITY.md) for the reporting process and
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for dependency and asset
+provenance. The Python package remains named
 `ai-iconflow` for compatibility, while the product and CLI are simply
 **IconFlow**.
+
+## Limits and reproducibility
+
+- Installation and `iconflow setup` need network access; rendering and builds
+  do not.
+- Byte-for-byte determinism is scoped to the same normalized SVG, config, and
+  Chromium/Pillow/IconFlow toolchain. Upgrade those components deliberately and
+  review the resulting pixels.
+- Tauri output currently covers desktop assets, not Android or iOS launch/icon
+  sets. Tray template extraction is strongest with a dedicated mark-only SVG.
+- IconFlow validates and rasterizes SVG; it is not a general-purpose sanitizer
+  for republishing arbitrary source SVG on the web.
+- Wheel builds are reproducible when `SOURCE_DATE_EPOCH` is fixed. Current
+  setuptools sdists have identical file contents across local rebuilds but may
+  differ at the archive level because generated member timestamps vary.
 
 ## Contributing
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the design/evolution loop, how to run
 the checks, and the case-recording protocol that keeps the system improving.
+Release preparation is tracked in
+[`docs/LAUNCH_READINESS.md`](docs/LAUNCH_READINESS.md).
 
 ## License
 

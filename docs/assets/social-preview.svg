@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow — design, review, and ship one icon family</title>
+  <desc id="desc">IconFlow's Flow Gate mark beside a brief-to-proof-to-platform workflow and evidence labels for 16-pixel review, target previews, and bound receipts.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#FFF4E8" stroke-opacity=".055"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="640" fill="#191A20"/>
+  <rect width="1280" height="640" fill="url(#grid)"/>
+  <path d="M0 560H1280" stroke="#FF5A4F" stroke-width="8"/>
+
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="72" y="94" fill="#FF5A4F" font-size="20" font-weight="700" letter-spacing="4">ICONFLOW</text>
+    <text x="72" y="172" fill="#FFF4E8" font-size="55" font-weight="700">Design. Review. Ship.</text>
+    <text x="72" y="226" fill="#D8CFC7" font-size="25">One semantic SVG → a proven icon family.</text>
+
+    <g transform="translate(72 290)">
+      <rect width="176" height="58" rx="29" fill="#27282E" stroke="#4A4B52"/>
+      <text x="88" y="37" fill="#FFF4E8" font-size="17" font-weight="600" text-anchor="middle">16px proof</text>
+      <rect x="190" width="202" height="58" rx="29" fill="#27282E" stroke="#4A4B52"/>
+      <text x="291" y="37" fill="#FFF4E8" font-size="17" font-weight="600" text-anchor="middle">target previews</text>
+      <rect x="406" width="196" height="58" rx="29" fill="#27282E" stroke="#4A4B52"/>
+      <text x="504" y="37" fill="#FFF4E8" font-size="17" font-weight="600" text-anchor="middle">bound receipt</text>
+    </g>
+
+    <g transform="translate(72 408)">
+      <text x="0" y="0" fill="#FF5A4F" font-size="15" font-weight="700" letter-spacing="2">BRIEF</text>
+      <path d="M0 28H118V68H254V28H382" fill="none" stroke="#FFF4E8" stroke-width="8" stroke-linejoin="round"/>
+      <rect x="230" y="4" width="56" height="56" rx="8" fill="#FF5A4F"/>
+      <rect x="247" y="21" width="22" height="22" rx="3" fill="#191A20"/>
+      <text x="410" y="34" fill="#D8CFC7" font-size="18">WEB · TAURI · ELECTRON · TRAY</text>
+    </g>
+  </g>
+
+  <g transform="translate(824 92)">
+    <rect width="384" height="384" rx="88" fill="#FFF4E8"/>
+    <g transform="translate(40 40) scale(.296875)">
+      <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+      <path d="M256 288H640V448H448V640H576V704H704V768" fill="none" stroke="#FFF4E8" stroke-width="128" stroke-linecap="square" stroke-linejoin="round"/>
+      <rect x="512" y="320" width="256" height="256" rx="32" fill="#FF5A4F"/>
+      <rect x="576" y="384" width="128" height="128" rx="12" fill="#191A20"/>
+    </g>
+    <g transform="translate(24 410)" font-family="Segoe UI, Arial, sans-serif">
+      <rect width="336" height="76" rx="18" fill="#27282E" stroke="#4A4B52"/>
+      <circle cx="42" cy="38" r="8" fill="#5FD08A"/>
+      <text x="64" y="34" fill="#FFF4E8" font-size="15" font-weight="700">REVIEW GATE PASSED</text>
+      <text x="64" y="55" fill="#A9ABB4" font-size="13">All six axes ≥ 4/5</text>
+    </g>
+  </g>
+</svg>

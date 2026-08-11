@@ -1,0 +1,29 @@
+name: Improvement proposal
+description: Propose a focused workflow, target, review, or documentation improvement.
+title: "proposal: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: job
+    attributes:
+      label: User job
+      description: What is the user trying to accomplish, and where does the current workflow stop helping?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or reproduction
+      description: Link official platform documentation or provide a privacy-safe example.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Smallest useful change
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
