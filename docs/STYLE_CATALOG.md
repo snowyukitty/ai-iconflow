@@ -1,12 +1,12 @@
 # Style catalog
 
-IconFlow includes fourteen small-size-first **technique scaffolds**. They are
+IconFlow includes twenty small-size-first **technique scaffolds**. They are
 execution grammars around the same house rail, not finished logos and not a
 substitute for product concepting. Replace the rail with one specific object
 whose silhouette names the consuming product's job, add one signature device,
 then complete the normal bake-off, check, review, receipt, and casebook loop.
 
-![Fourteen IconFlow technique scaffolds rendered at 128px and 16px](assets/style-gallery.png)
+![Twenty IconFlow technique scaffolds rendered at 128px and 16px](assets/style-gallery.png)
 
 List the same source-of-truth metadata from any installed wheel, or regenerate
 the gallery from the packaged SVGs:
@@ -40,10 +40,22 @@ dark surfaces. It does not synthesize or download artwork.
 | Stained glass | `stained-glass` | large panes separated by heavy leading | use at most four panes; every separator must resolve | dedicated leading-and-outer mono source |
 | Risograph | `risograph` | two controlled spot-color plates and shared core | registration offset resolves as one pixel, not blur | shared core only, never the offset plates |
 | Clay | `clay` | chunky volume with explicit shadow and highlight shapes | one shadow edge and one highlight at most | flat base-volume silhouette |
+| Cel shaded | `cel-shaded` | ink contour plus one hard-edged value plane | the contour names the object without the shadow plane | closed ink contour without the interior plane |
+| Chrome | `chrome` | solid contour containing six explicit specular value bands | each band stays at least two output pixels wide; the contour reads alone | outer contour without reflective bands |
+| Ink brush | `ink-brush` | tapered calligraphic mass and one edge-open dry cut | the filled mass reads without texture; the broad cut owns two pixels | filled calligraphic mass without dry texture |
+| Woodcut | `woodcut` | closed relief mass with a few hard carved recesses | the uncarved object reads alone; keep at most two broad cuts | untextured raised-ink silhouette |
+| Glass stack | `glass-stack` | crisp translucent panes around an opaque semantic skeleton | the skeleton identifies the object after transparency disappears | dedicated opaque skeleton |
+| Woven | `woven` | broad bands alternating through explicit underpass knockouts | bands stay two pixels wide and every underpass keeps a full-pixel gap | simplified interlock with deliberate gaps |
 
 The catalog treats weight, fill, and color as **axes inside a family**, not
 independent art styles. A thin outline and a bold outline do not count twice.
 Likewise, a recolor is not a new preset.
+
+A proposed family must also pass a **nearest-family test** at native 16px: hide
+or discount color, name the structural move, and compare it with the most similar
+existing scaffold. If the defining seam, texture, or highlight disappears and
+the remainder uses the same construction model, replace the proposal instead of
+polishing the 128px treatment or inflating the catalog count.
 
 ## Fast routing
 
@@ -57,6 +69,13 @@ Likewise, a recolor is not a new preset.
   the unlit primary silhouette still names the right object.
 - Prefer `stencil-cut` for a mark that must travel between color app surfaces
   and strong monochrome contexts.
+- Use `cel-shaded`, `chrome`, or `glass-stack` when material or depth is part of
+  the product personality; strip that material away during the silhouette test.
+- Use `ink-brush` or `woodcut` when the product genuinely owns an organic,
+  cultural, or print-led voice. One pressure gesture and one carved relief field
+  are different structures; neither is a texture filter to apply casually.
+- Use `woven` when connection is the product model. Draw the over/under topology
+  first and reject any crossing whose knockout collapses at 16px.
 
 An app-card style and a tray mark may share geometry without sharing a literal
 composition. If color planes, material effects, a full-card alpha shape, or
@@ -112,6 +131,9 @@ Sources were verified from their official repositories on **2026-08-12**:
 | [Game Icons](https://github.com/game-icons/icons) | CC BY | foreground/background silhouette systems and per-author attribution needs |
 | [Simple Icons](https://github.com/simple-icons/simple-icons) | repository CC0; individual marks retain separate trademark/license concerns | monochrome reduction and why repository license alone does not clear brand rights |
 | [Remix Icon](https://github.com/Remix-Design/RemixIcon/blob/master/License) | custom Remix Icon License v1.0 (January 2026) | a current licensing warning: its icons may not be used as app identities or competing icon libraries |
+| [Apple app-icon guidance](https://developer.apple.com/design/human-interface-guidelines/app-icons) | Apple developer documentation; design resources have separate terms | layered foregrounds, clearly defined edges, opacity, and appearance consistency; `glass-stack` remains a flattened cross-platform scaffold and does not claim to emit Icon Composer files |
+| [MoMA woodcut technique](https://www.moma.org/s/ge/curated_ge/techniques/woodcut.html) | museum educational reference | bold flat pattern and rough-hewn effect as relief-language clues; no artwork or paths copied |
+| [The Met woodcut technique](https://www.metmuseum.org/perspectives/materials-and-techniques-printmaking-woodcut) | museum educational reference | raised areas receive ink while carved recesses stay blank; this separates `woodcut` from semantic stencil holes |
 
 The Remix Icon and Simple Icons rows are intentionally cautionary. They show
 why a remembered license, a repository badge, or a permissive collection-level

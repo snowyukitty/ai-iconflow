@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "8f828f22ad794bec3402d88d1c7492d077c58d9346e7a7d98a795c545fdfb25d",
+  "contract_sha256": "815338dae332f6abc60187b7d208796ede3d6e01355747984c101c5bedc8e116",
+  "project": "Trail Tail",
+  "user_job": "recognize and return to a favorite walking route",
+  "essence": "roam",
+  "personality": "alert, friendly, direct",
+  "signature_device": "one dog contour becomes the route and carries an off-axis clasp",
+  "cliches": ["paw", "map pin", "dog head"],
+  "targets": ["web"],
+  "build": {"theme_color": "#252731", "background_color": "#FFF4E8", "electron_radius": 0, "tray_template_mode": "auto", "color_scheme": "light", "tray_source_sha256": null},
+  "warnings": [],
+  "scores": {"legibility": 4, "distinctiveness": 5, "balance": 4, "color": 5, "scalability": 4, "craft": 4},
+  "notes": "The leaner alternate lost the tail-route rhythm at 16 px. The promoted walking contour keeps the dog noun, open belly counter, lifted tail, and off-axis coral clasp on light and dark surfaces.",
+  "status": "ready"
+}

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "35fb0864c61faf3a5bcd258ecf120c5772591c9900735c9d5bfb02e8b7fbd1da",
+  "contract_sha256": "7156fab8ca19c2c266ed154a83495a216553ba5e039bd6cec0a91b1422739cd8",
+  "project": "Family Rolling Pin",
+  "user_job": "roll dough to an even thickness for a shared recipe",
+  "essence": "tradition",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 176-unit coral heirloom handle intentionally differs from its mate.",
+  "cliches": [
+    "a cupcake or chef hat"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "61c3bd1955b2f51d449e94259dc955c30485cddeb09ff5f162e583be20912d2c",
+  "contract_sha256": "cdcbc61dfe1b9cc91da4133dce5ddade7fb78c94b3ebd6d80aa183154f00cdb6",
+  "project": "Gathering Table",
+  "user_job": "Keep up with friends and gather around shared groups.",
+  "essence": "belonging",
+  "personality": "independent, specific, crafted",
+  "signature_device": "a single open place interrupts the inked round table",
+  "cliches": [
+    "letter tiles, people-dot clusters, familiar social-network blue"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the asymmetric notched gathering table passed round 4.",
+  "status": "ready"
+}

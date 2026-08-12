@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "23b8cb7515e876380929ee29359c0a68064634ec01344e281e7aa9857c25cbf9",
+  "contract_sha256": "da03fd0fe58fa16ef3be15ee8303f6e44a89ec4e5d05490a86965caa5ab197ca",
+  "project": "E-ink Field Tag",
+  "user_job": "identify a device state in bright field conditions without animation",
+  "essence": "persist",
+  "personality": "specific, clear, crafted",
+  "signature_device": "a stepped clip jaw becomes part of the tag's outer bitmap silhouette",
+  "cliches": [
+    "battery icon",
+    "wifi bars",
+    "QR code",
+    "notification dot"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Family Rolling Pin"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for family baking"
+user_job = "roll dough to an even thickness for a shared recipe"
+essence = "tradition"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#25243A", "#F05D52"]
+cliches = ["a cupcake or chef hat"]
+signature_device = "A 176-unit coral heirloom handle intentionally differs from its mate."
+device_family = "negative-space-cut"
+device_detail = "A 176-unit coral heirloom handle intentionally differs from its mate."
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#25243A"
+background_color = "#F05D52"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

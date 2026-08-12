@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Folded Map Folio"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for games"
+user_job = "resume an explored route while keeping unopened regions hidden"
+essence = "resume"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#24B6A6"]
+cliches = ["map pin", "compass", "sword", "quest marker"]
+signature_device = "one accordion leaf rises above an asymmetrical three-page map silhouette"
+device_family = "object-silhouette"
+device_detail = "one accordion leaf rises above an asymmetrical three-page map silhouette"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#24B6A6"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

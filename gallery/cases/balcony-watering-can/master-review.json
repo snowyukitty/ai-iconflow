@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "abf9d0cb5ba9787be2ca9fc01588cd9d6729f7ff01d468ef12bcae6559c9ae1b",
+  "contract_sha256": "1d28c2eb8543c96f21a2051930af4eb34bd6a55a9222bf6237f71181f1d4fdbf",
+  "project": "Balcony Watering Can",
+  "user_job": "tend a small shared garden with a controlled pour",
+  "essence": "nurture",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 214-unit coral rose caps the low left spout.",
+  "cliches": [
+    "a sprout in a circle"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

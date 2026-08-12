@@ -123,7 +123,10 @@ class QaTests(unittest.TestCase):
             master.write_text('<svg viewBox="0 0 1024 1024"></svg>', encoding="utf-8")
             with patch("iconflow.qa.Rasterizer", FakeRasterizer):
                 warnings = qa.check(master)
+            with patch("iconflow.qa.Rasterizer", side_effect=AssertionError("must reuse caller")):
+                reused_warnings = qa.check(master, rasterizer=FakeRasterizer())
         self.assertTrue(any("Final maskable asset audit" in warning for warning in warnings))
+        self.assertEqual(warnings, reused_warnings)
 
     def test_check_rejects_translucent_maskable_background(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "2f3ce8ec1878f8af054336a40d772f37f491e752cc212ff0fe53c9a9cb75ca3e",
+  "contract_sha256": "55cf3ffb722837c20e3a5675565ab2d778163cd8fa23180ce22fa569d4c98cab",
+  "project": "Cue Light Hood",
+  "user_job": "give a performer one unambiguous offstage entrance cue",
+  "essence": "enter",
+  "personality": "specific, clear, crafted",
+  "signature_device": "an asymmetric metal hood leaves one side of the lamp visibly open",
+  "cliches": [
+    "spotlight cone",
+    "traffic light",
+    "play button",
+    "stage curtain"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FFF4E8",
+    "background_color": "#FF5A4F",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "8e0333084a358634e14b64b8d73e1794507eee491b92a406811be089142a67ce",
+  "contract_sha256": "98b843f044c5ffcf914e94fd929c220eb3f61aa8398dcd947014c7b01aee8128",
+  "project": "Weather Relay",
+  "user_job": "Join portable public conversation across an open social network.",
+  "essence": "openness",
+  "personality": "independent, specific, crafted",
+  "signature_device": "one offset paper vane passes through the shared relay pivot",
+  "cliches": [
+    "butterfly silhouettes, sky-blue brand fields, mirrored wings"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the cut-paper federation stack passed round 3.",
+  "status": "ready"
+}

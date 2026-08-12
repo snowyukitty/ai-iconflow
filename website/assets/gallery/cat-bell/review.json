@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "9fbbffccc7603aa9c79f9494e41a4e9379c9a9d446747ee8eb6cc8251fdc947c",
+  "contract_sha256": "ee54aa680bb9b420c8a4380421674b853c5e84489a827f077bea7e49ff15a005",
+  "project": "Side-sitting cat with bell",
+  "user_job": "notice",
+  "essence": "poise",
+  "personality": "specific, clear, crafted",
+  "signature_device": "offset bell accent",
+  "cliches": [
+    "generic cat head"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#26354A",
+    "background_color": "#E9A83A",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

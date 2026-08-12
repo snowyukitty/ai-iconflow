@@ -1,0 +1,44 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "Sky Courier"
+master = "master.svg"
+output = "build"
+casebook = "../../casebook"
+
+[brief]
+app_intent = "make following an original serial feel like receiving a hand-carried dispatch"
+user_job = "anticipate the next chapter without spoilers"
+essence = "anticipate"
+personality = ["swift", "literary", "assured"]
+
+[design]
+palette = ["paper #F2E7D2", "ink #202027", "seal #D95045"]
+cliches = ["star", "wand", "play button", "calendar"]
+signature_device = "the satchel flap becomes a swept wing with one broad edge-open dry cut"
+device_family = "object-metaphor"
+device_detail = "a courier satchel and rising wing share one tapered calligraphic silhouette"
+concept_lens = "object-metaphor"
+
+[build]
+targets = ["web"]
+theme_color = "#202027"
+background_color = "#F2E7D2"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+# Review Lab receipt is preferred. For this manual fallback, set status to
+# "approved" and copy both hashes from the exported receipt; `ship` requires every
+# score >= 4 and rejects any changed source, target, or visual transform.
+scores = {}
+notes = ""

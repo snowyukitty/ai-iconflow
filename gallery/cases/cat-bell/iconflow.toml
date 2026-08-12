@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Side-sitting cat with bell"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for animals"
+user_job = "notice"
+essence = "poise"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#26354A", "#E9A83A"]
+cliches = ["generic cat head"]
+signature_device = "offset bell accent"
+device_family = "character-silhouette"
+device_detail = "offset bell accent"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#26354A"
+background_color = "#E9A83A"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "174f95e988183fbdcaabe141210d64abaaf1d0ff1ffc35c5dc9f826e79b7be68",
+  "contract_sha256": "1fa020b96c9fa92ad1aa3068d319d5b953cb6726c151a120835e243caf0cfbda",
+  "project": "Folding Fan",
+  "user_job": "carry and reveal a practiced cultural gesture",
+  "essence": "grace",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 242-unit coral leaf is visibly displaced within the fan arc.",
+  "cliches": [
+    "a flower rosette"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

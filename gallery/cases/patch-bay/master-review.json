@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "e268d2d17f5d7baae7679e4c6dfcefc831de75117085952f99e7d4ec279712aa",
+  "contract_sha256": "68b3456ca2592daa1c045ebac3f749255be2bea846e95c8bb176e5d0c9c4336c",
+  "project": "Patch Bay Merge",
+  "user_job": "route several hardware tools into one tested bench workflow",
+  "essence": "route",
+  "personality": "specific, clear, crafted",
+  "signature_device": "three keyed socket mouths visibly join one continuous trunk",
+  "cliches": [
+    "generic nodes",
+    "USB logo",
+    "cable crossing",
+    "hub monogram"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#24B6A6",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

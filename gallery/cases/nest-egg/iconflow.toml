@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Woven nest and egg"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for birds"
+user_job = "protect"
+essence = "hatch"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#805B42", "#E5B74F"]
+cliches = ["generic nest circle"]
+signature_device = "egg breaks the rim"
+device_family = "path-relationship"
+device_detail = "egg breaks the rim"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#805B42"
+background_color = "#E5B74F"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

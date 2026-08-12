@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "9d7df5141bfda86eb8a54ed5ed2ce08e4ab0c7097d0bbddedc08c1652ca6acb5",
+  "contract_sha256": "59096bdd147b674ff8f555a86a425cd5b360bc62116baee5cb9abda484532b2a",
+  "project": "Sensor Buoy",
+  "user_job": "see whether a remote field sensor is anchored and reporting",
+  "essence": "report",
+  "personality": "specific, clear, crafted",
+  "signature_device": "the anchor line returns into the buoy body as one broad reporting loop",
+  "cliches": [
+    "wifi bars",
+    "antenna tower",
+    "map pin",
+    "cloud",
+    "generic status dot"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FFF4E8",
+    "background_color": "#191A20",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Initiative Abacus"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for games"
+user_job = "reorder a tabletop encounter without losing the active turn"
+essence = "sequence"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#24B6A6"]
+cliches = ["controller", "crossed swords", "numbered list", "circular turn arrows"]
+signature_device = "one escaped coral bead leaves the upper rail and docks in a side notch"
+device_family = "negative-space-cut"
+device_detail = "one escaped coral bead leaves the upper rail and docks in a side notch"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#24B6A6"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

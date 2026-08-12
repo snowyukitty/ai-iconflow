@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "25e936b06e6f0a45d245c58f2c770541827a82c8181af816d47d3320319d2972",
+  "contract_sha256": "f58d2e580000acaff6aa48e36f4d37d747cb7165cfb497047280bb133386ab70",
+  "project": "Branching coral",
+  "user_job": "restore",
+  "essence": "branch",
+  "personality": "specific, clear, crafted",
+  "signature_device": "forked negative bays",
+  "cliches": [
+    "generic coral fan"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#9A3D3B",
+    "background_color": "#E5B347",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="chrome">
+  <title>Data Cassette</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#C8D0D8" stroke="#191A20" stroke-width="54" fill-rule="evenodd" d="M174 238h676v548l-128 92H302l-128-92V238Zm154 126v226h368V364H328Zm88 86a92 92 0 1 0 184 0 92 92 0 0 0-184 0Z"/>
+    <path fill="#707985" d="M228 292h568v84H228Zm80 402h408l-46 112H354Z"/>
+    <path fill="#F3F6F8" d="M328 364h368v68H328Z"/>
+    <path fill="#FF5A4F" d="M620 674h176l-74 132H620Z"/>
+  </g>
+</svg>

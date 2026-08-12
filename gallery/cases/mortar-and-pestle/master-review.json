@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "2a92c525850fce7588ab7894dfd6bbe168d6aded91262d1a683c720d3ae1b86b",
+  "contract_sha256": "ca135956d005dc58f3858f7c1e209379eff49025115e97e8f617661032fc037f",
+  "project": "Mortar and Pestle",
+  "user_job": "crush spices into a shared meal's base",
+  "essence": "transform",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 190-unit coral grip cap terminates the broad diagonal pestle.",
+  "cliches": [
+    "a chef hat or crossed utensils"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

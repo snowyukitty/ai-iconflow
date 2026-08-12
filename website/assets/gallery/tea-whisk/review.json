@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "7fb9ffd9174ca24162af374850652c51aa0a5a1e8299aba988e64dddd889ec07",
+  "contract_sha256": "7a251e0d2423f7ed0f75ef81b501b06e28797ee4f6ccdd0868c53830df171860",
+  "project": "Tea Whisk",
+  "user_job": "prepare a bowl of tea with a calm repeatable gesture",
+  "essence": "presence",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 166-unit coral binding collar anchors the open bamboo tines.",
+  "cliches": [
+    "a steaming cup"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

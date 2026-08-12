@@ -1,0 +1,35 @@
+---
+slug: co-op-lock
+date: 2026-08-12
+project: IconFlow Theme Worlds
+targets: web
+essence: sync
+style_family: glass-stack
+signature_device: two unequal translucent keycaps lock around one shared opaque counter
+device_family: relationship-counter
+device_detail: landscape keycaps of different offsets share one square opening and one white skeleton
+concept_lens: system-object
+cliche_avoided: controller, check mark, two avatars, chain links
+status: shipped
+scores_first: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
+scores_final: legibility=5 distinctiveness=5 balance=5 color=5 scalability=5 craft=5
+iterations: 2
+---
+
+## Summary
+Co-op Lock makes lobby readiness visible without controllers, checks, or avatar
+pairs. Two unequal translucent keycaps dock around one shared square counter;
+the continuous white skeleton names the relationship even when every glass pane
+is mentally removed.
+
+## What failed first
+The portrait-and-landscape finalist looked dimensional in color but broke into
+unrelated rectangles in the monochrome strip, leaving legibility,
+distinctiveness, and scalability at 4. Matching the two objects as unequal
+landscape keycaps and drawing one continuous opaque route through the shared
+counter raised every axis without increasing visual density.
+
+## Lessons
+<!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
+     flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
+- [x] In glass-stack icons, the opaque skeleton must name the relationship alone; translucent panes should add depth but remain semantically disposable.

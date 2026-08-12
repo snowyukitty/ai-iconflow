@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Thermal Shutter"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for technology"
+user_job = "switch a camera between protected and sensing states"
+essence = "expose"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#168C81"]
+cliches = ["camera outline", "eye", "aperture flower", "red recording dot"]
+signature_device = "one large shutter blade leaves a rectangular thermal window instead of a circular aperture"
+device_family = "negative-space-cut"
+device_detail = "one large shutter blade leaves a rectangular thermal window instead of a circular aperture"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#168C81"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

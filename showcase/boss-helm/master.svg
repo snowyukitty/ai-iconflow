@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Boss Helm — broken horn</title>
+  <desc id="desc">A frontal fantasy helmet has one complete horn and one broken horn inside broad chrome value bands.</desc>
+  <defs>
+    <mask id="helmet">
+      <rect width="1024" height="1024" fill="#000"/>
+      <path d="M260 312L190 252L226 414L290 468L256 548L320 792H704L768 548L734 468L828 414L896 188L764 312L650 274L512 200L374 274Z" fill="#fff"/>
+    </mask>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#11151E"/>
+  <path d="M260 312L190 252L226 414L290 468L256 548L320 792H704L768 548L734 468L828 414L896 188L764 312L650 274L512 200L374 274Z" fill="#07090E" stroke="#07090E" stroke-width="96" stroke-linejoin="round"/>
+  <g mask="url(#helmet)">
+    <rect x="70" y="130" width="884" height="250" fill="#7E899D"/>
+    <rect x="70" y="380" width="884" height="190" fill="#F4F6FA"/>
+    <rect x="70" y="570" width="884" height="300" fill="#4F586B"/>
+  </g>
+  <path d="M336 438L512 334L688 438L642 650L512 730L382 650Z" fill="#151A25" stroke="#07090E" stroke-width="48"/>
+  <path d="M360 486L486 442L458 542L356 566ZM664 486L538 442L566 542L668 566Z" fill="#FF5A4F"/>
+  <path d="M512 336V730" stroke="#F4F6FA" stroke-width="36" opacity=".7"/>
+  <path d="M164 206L222 264" stroke="#FF5A4F" stroke-width="36" stroke-linecap="square"/>
+</svg>

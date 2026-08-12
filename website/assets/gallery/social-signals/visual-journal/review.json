@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "cbbe975cd7d2599233a5042208e23517601c8b02df28d1717cc608620847d94c",
+  "contract_sha256": "4a52e1d3f49bababe562b4100d3762a4f73e4e4fd567f05c73f2d9f76c3ebf34",
+  "project": "Memory Folio",
+  "user_job": "Share a visual journal of moments, places, and making.",
+  "essence": "curation",
+  "personality": "independent, specific, crafted",
+  "signature_device": "one folded corner becomes a deep isometric page well",
+  "cliches": [
+    "camera outlines, aperture rings, purple-orange gradients"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the split journal volume passed round 3.",
+  "status": "ready"
+}

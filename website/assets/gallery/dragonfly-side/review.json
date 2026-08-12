@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "01ee0f59485cd485274afe000e9da816dc00a12dfabe0b7c486fa25151088629",
+  "contract_sha256": "faee4de9409b456cac053319bd29225f1b4f683fc73a5b6ba442689f9fe4b5f5",
+  "project": "Dragonfly in profile",
+  "user_job": "track",
+  "essence": "precision",
+  "personality": "specific, clear, crafted",
+  "signature_device": "four-wing cross axis",
+  "cliches": [
+    "generic butterfly"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#24535C",
+    "background_color": "#E6B64B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

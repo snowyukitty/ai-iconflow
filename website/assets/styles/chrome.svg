@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Chrome technique scaffold</title>
+  <desc id="desc">Hard specular value bands sit inside a solid contour around IconFlow's house rail.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Replace all reflective geometry as one product
+       object; the dark outer contour remains the small-size and tray source. -->
+  <defs>
+    <mask id="rail">
+      <rect width="1024" height="1024" fill="#000"/>
+      <path d="M256 288H640V448H448V640H576V704H704V768"
+            fill="none" stroke="#fff" stroke-width="184"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+    <clipPath id="cell"><rect x="536" y="344" width="208" height="208" rx="50"/></clipPath>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#141720"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#07090E" stroke-width="232"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <g mask="url(#rail)">
+    <rect width="1024" height="352" fill="#737D91"/>
+    <rect y="352" width="1024" height="224" fill="#F4F6FA"/>
+    <rect y="576" width="1024" height="448" fill="#515A6D"/>
+  </g>
+  <rect x="500" y="308" width="280" height="280" rx="76" fill="#07090E"/>
+  <g clip-path="url(#cell)">
+    <rect x="536" y="344" width="208" height="68" fill="#737D91"/>
+    <rect x="536" y="412" width="208" height="72" fill="#F4F6FA"/>
+    <rect x="536" y="484" width="208" height="68" fill="#515A6D"/>
+  </g>
+  <rect x="600" y="408" width="80" height="80" rx="16" fill="#F05D54"/>
+</svg>

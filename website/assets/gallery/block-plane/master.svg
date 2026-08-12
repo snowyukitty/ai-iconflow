@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Block plane</title><desc>A compact joiner's plane with an exposed diagonal blade wedge.</desc>
+  <path fill="#25243A" fill-rule="evenodd" d="M112 430h166c24-124 118-212 236-212 104 0 194 72 226 174l172 38v358H112V430Zm112 128v104h576V558H224Z"/>
+  <path d="m500 238 198 550H520L408 414Z" fill="#F05D52"/><path d="m496 402 77 260h-54l-72-218Z" fill="#25243A"/>
+</svg>

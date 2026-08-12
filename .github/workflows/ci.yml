@@ -80,7 +80,7 @@ jobs:
           cd "$smoke"
           iconflow --help >/dev/null
           iconflow styles --json > styles.json
-          python -c 'import json; assert len(json.load(open("styles.json", encoding="utf-8"))) >= 10'
+          python -c 'import json; assert len(json.load(open("styles.json", encoding="utf-8"))) == 20'
           iconflow new flat-geometric --out master.svg
           test -s master.svg
           iconflow init --out iconflow.toml --name "Wheel Smoke" \
@@ -127,3 +127,4 @@ jobs:
           done < "$integration/presets.txt"
           iconflow styles --gallery "$integration/style-gallery.png"
           test -s "$integration/style-gallery.png"
+          python "$GITHUB_WORKSPACE/scripts/build_gallery.py" --verify-only

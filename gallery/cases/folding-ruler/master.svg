@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Folding ruler</title><desc>A chunky zigzag folding rule with one square coral hinge.</desc>
+  <path d="m114 710 232-408 160 92 120-212 278 160-74 130-164-94-120 212-160-92-158 278Z" fill="#25243A"/>
+  <path d="M288 246h192v192H288Z" fill="#F05D52"/><path d="M346 304h76v76h-76Z" fill="#25243A"/>
+</svg>

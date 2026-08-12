@@ -1,0 +1,44 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "Forest Familiar"
+master = "master.svg"
+output = "build"
+casebook = "../../casebook"
+
+[brief]
+app_intent = "turn a return-home guide into a protective carved companion"
+user_job = "guide a small companion home along a remembered trail"
+essence = "return"
+personality = ["watchful", "earthy", "protective"]
+
+[design]
+palette = ["paper #E7C58E", "ink #202126", "earth #B84C3E"]
+cliches = ["generic animal head", "fox repeat", "tree badge", "map pin"]
+signature_device = "unequal ear tufts and two broad edge-open wing gouges define a full-body owl"
+device_family = "relief-silhouette"
+device_detail = "a closed horned-owl ink field is carved from both edges while the split tail stays legible"
+concept_lens = "silhouette-first"
+
+[build]
+targets = ["web"]
+theme_color = "#202126"
+background_color = "#E7C58E"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+# Review Lab receipt is preferred. For this manual fallback, set status to
+# "approved" and copy both hashes from the exported receipt; `ship` requires every
+# score >= 4 and rejects any changed source, target, or visual transform.
+scores = {}
+notes = ""

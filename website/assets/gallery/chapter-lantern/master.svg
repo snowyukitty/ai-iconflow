@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="cel-shaded">
+  <title>Chapter Lantern</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M338 150h348l50 104-46 80 92 112-64 378-206 76-206-76-64-378 92-112-46-80Zm88 132-42 68 54 66-60 344 134 50 134-50-60-344 54-66-42-68Z"/>
+    <path fill="#F2B84B" d="m438 416 148 0 60 344-134 50-134-50Z"/>
+    <path fill="#D99034" d="M512 416h74l60 344-134 50Z"/>
+    <path fill="#FF5A4F" d="M586 416h120l-68 136-52-38Z"/>
+  </g>
+</svg>

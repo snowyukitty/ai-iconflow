@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "385e7fcf7dc6d68997bad4392920967b8da85265ed7fdbe06fd67abcfe8b91bc",
+  "contract_sha256": "efb944e8ad63fcde45a733b8bd7bcbb51871b0269ca84b3dd96f7fe8eadbea50",
+  "project": "Curled sleeping fox",
+  "user_job": "rest",
+  "essence": "shelter",
+  "personality": "specific, clear, crafted",
+  "signature_device": "tail wraps into body notch",
+  "cliches": [
+    "generic fox head"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#91352E",
+    "background_color": "#F1C064",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

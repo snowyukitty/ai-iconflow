@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "64830b4a3284d290e7831a5b2058ea9e00d0095661525c92a05664f445a470b4",
+  "contract_sha256": "023b3496c75f263416b76de3b66eec7d3a62dae25b58e46b3cd1a5dca2a28a86",
+  "project": "Emoji Matrix: face blowing a kiss / flat-geometric",
+  "user_job": "recognize the face blowing a kiss meaning at native icon size",
+  "essence": "recognition",
+  "personality": "original, clear, experimental",
+  "signature_device": "flat-geometric construction grammar around the semantic silhouette",
+  "cliches": [
+    "vendor emoji artwork",
+    "traced glyph geometry",
+    "palette-only restyling"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Practice specimen, not a shipped identity. Reviewed at exact 16px and 128px, in silhouette, and on contact sheet agent-a/contact-sheet-*.png or agent-b/contact-*.png.",
+  "status": "ready",
+  "specimen_status": "practice",
+  "collection_review_sha256": "77083b959f42ad8059b46b474b6eb8766b9cc86b890b4fda257ad03fc3119119"
+}

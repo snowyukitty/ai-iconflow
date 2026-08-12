@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "5b4e009dbae66d2cf10972ada0f5010adda39d16820d98917e4d4094a45e17e8",
+  "contract_sha256": "dde10723fb7a417e5fe09bb52901337e172b579f54d8dde1a199d37f58ca7369",
+  "project": "Catnap Focus",
+  "user_job": "enter a calm focus or rest interval without visual pressure",
+  "essence": "settle",
+  "personality": "soft, companionable, quiet",
+  "signature_device": "the curled tail leaves one broad time wedge beside the sleeping face",
+  "cliches": ["cat head", "paw", "clock"],
+  "targets": ["web"],
+  "build": {"theme_color": "#CFE6E1", "background_color": "#FFF6EC", "electron_radius": 0, "tray_template_mode": "auto", "color_scheme": "light", "tray_source_sha256": null},
+  "warnings": [],
+  "scores": {"legibility": 4, "distinctiveness": 4, "balance": 5, "color": 5, "scalability": 4, "craft": 4},
+  "notes": "Pass 1 left the sleeping head too round at 16 px. Enlarging two triangular ears moved the noun back to cat while the tail-to-cheek wedge remains a broad, calm signature.",
+  "status": "ready"
+}

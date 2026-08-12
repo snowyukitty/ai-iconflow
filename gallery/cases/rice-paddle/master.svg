@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Rice paddle</title><desc>A broad shamoji paddle with one rice-grain-shaped grip window.</desc>
+  <path d="M216 112h436c151 0 250 137 218 284l-55 251c-18 82-93 141-203 159v132H412V806c-110-18-185-77-203-159l-55-251c-32-147 25-235 62-284Z" fill="#25243A"/>
+  <path d="M412 704h200v234H412Z" fill="#F05D52"/><path d="M470 762h84v118h-84Z" fill="#25243A"/>
+</svg>

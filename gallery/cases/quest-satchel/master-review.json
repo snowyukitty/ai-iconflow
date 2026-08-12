@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "e745811c5e03e525795958f2572d86f4461b38879fd1d010757ab4e4247344b4",
+  "contract_sha256": "e1c7c74b9da428ab33d69ba18b56fb3309df97fe4585a4527242786ad965db98",
+  "project": "Quest Satchel",
+  "user_job": "group unfinished side objectives by the journey they belong to",
+  "essence": "carry",
+  "personality": "specific, clear, crafted",
+  "signature_device": "the flap has one deep route-shaped corner fold offset from the clasp",
+  "cliches": [
+    "quest exclamation mark",
+    "scroll",
+    "sword",
+    "map pin"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#D9A73E",
+    "background_color": "#191A20",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

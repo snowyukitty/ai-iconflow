@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "c6d9fec6fb3f384d2e4a4bb41340e057816a97548944c400fdef713d5a6dc1f9",
+  "contract_sha256": "f882ed466ef42b14fd617e5c0798f9512e3a3dd8eebd79a07c1f17b73dd6e3ce",
+  "project": "CNC Collet",
+  "user_job": "match a cutting bit to the correct holding setup",
+  "essence": "hold",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one jaw is shortened into an unmistakable release bay",
+  "cliches": [
+    "gear",
+    "wrench",
+    "drill silhouette",
+    "settings sliders"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#5177E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

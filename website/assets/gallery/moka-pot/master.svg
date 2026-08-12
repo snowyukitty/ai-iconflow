@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Moka pot</title><desc>An octagonal stovetop brewer with a large angular coral handle.</desc>
+  <path d="m338 112 344 0 70 138-38 142 62 176-68 332H316l-68-332 62-176-38-142 66-138Zm28 118-28 70h348l-32-70H366Zm-2 242-34 96 34 190h288l42-190-34-96H364Z" fill="#25243A"/>
+  <path fill="#F05D52" fill-rule="evenodd" d="M706 328h142c66 0 120 54 120 120v212c0 66-54 120-120 120H702l26-128h76c24 0 44-20 44-44V492c0-24-20-44-44-44h-72l-26-120Z"/>
+</svg>

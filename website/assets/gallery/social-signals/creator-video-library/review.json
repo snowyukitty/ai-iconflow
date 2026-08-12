@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "d807f672d16acd6a8032eca6c2f5b5bc78979eb590937c81ac0e9213888d08c4",
+  "contract_sha256": "d631318c1c80a84bb04c5a95cd0599cc31a03f2d4f53565a230377cb4dca3021",
+  "project": "Projection Keeper",
+  "user_job": "Watch, publish, and revisit creator-led video libraries.",
+  "essence": "broadcast",
+  "personality": "independent, specific, crafted",
+  "signature_device": "one asymmetric reel-cheek becomes the keeper's expression",
+  "cliches": [
+    "play triangles, red media buttons, wordmark fragments"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the keyed projector creature passed round 3.",
+  "status": "ready"
+}

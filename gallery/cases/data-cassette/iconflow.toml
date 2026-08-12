@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Data Cassette"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for technology"
+user_job = "archive a field capture as a physically accountable unit"
+essence = "archive"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#C8D0D8", "#191A20"]
+cliches = ["cloud", "database cylinder", "folder", "floppy disk", "lock"]
+signature_device = "one 176-by-132-unit chamfered write tab opens through the cassette's lower edge"
+device_family = "object-silhouette"
+device_detail = "one 176-by-132-unit chamfered write tab opens through the cassette's lower edge"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#C8D0D8"
+background_color = "#191A20"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="line-mark">
+  <title>Sensor Buoy</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path d="M512 162v126M420 288h184l90 190-78 190H408l-78-190 90-190Zm-12 380v112q0 88 100 88t100-88" fill="none" stroke="#FFF4E8" stroke-width="112"/>
+    <path d="M512 162v126M420 288h184l90 190-78 190H408l-78-190 90-190Zm-12 380v112q0 88 100 88t100-88" fill="none" stroke="#191A20" stroke-width="60"/>
+    <path d="M392 478h240" fill="none" stroke="#24B6A6" stroke-width="80"/>
+    <circle cx="700" cy="780" r="70" fill="#FF5A4F" stroke="#191A20" stroke-width="42"/>
+  </g>
+</svg>

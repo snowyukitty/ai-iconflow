@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Tempo Wedge"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for music"
+user_job = "align an ensemble's count-in and transition tempo"
+essence = "cue"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#E96391"]
+cliches = ["note", "headphones", "waveform", "speaker", "play triangle"]
+signature_device = "one edge-open dry cut becomes the off-axis pendulum track"
+device_family = "negative-space-cut"
+device_detail = "one edge-open dry cut becomes the off-axis pendulum track"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#E96391"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

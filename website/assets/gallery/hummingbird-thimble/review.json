@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "593cbd579c1f49d12c1fe531b82e7583daa259ae346684eb6cd00c2935655f58",
+  "contract_sha256": "7ecf2eff75236914b69c831bfd8e2220b377ace42cdcc818cdd829c03f54b57f",
+  "project": "Hovering hummingbird",
+  "user_job": "sample",
+  "essence": "hover",
+  "personality": "specific, clear, crafted",
+  "signature_device": "needle bill and displaced dot",
+  "cliches": [
+    "generic bird silhouette"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#315B8A",
+    "background_color": "#E68B42",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

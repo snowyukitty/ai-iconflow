@@ -1,0 +1,29 @@
+---
+slug: eink-tag
+date: 2026-08-12
+project: E-ink Field Tag
+targets: web
+essence: persist
+style_family: pixel-grid
+signature_device: a stepped clip jaw becomes part of the tag's outer bitmap silhouette
+device_family: stepped-silhouette
+device_detail: a stepped clip jaw becomes part of the tag's outer bitmap silhouette
+concept_lens: specific-object
+cliche_avoided: battery icon, wifi bars, QR code, notification dot
+status: shipped
+scores_first: legibility=3 distinctiveness=3 balance=4 color=4 scalability=4 craft=4
+scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 craft=4
+iterations: 2
+---
+
+## Summary
+E-ink Field Tag serves the job “identify a device state in bright field conditions without animation”. The selected electronic shelf tag direction won because its silhouette stays specific while a stepped clip jaw becomes part of the tag's outer bitmap silhouette carries the single signature device.
+
+## What failed first
+<!-- What the earlier passes got wrong and which change fixed it. This is the
+     raw material for future lessons — be specific (axis, size, shape). -->
+
+## Lessons
+<!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
+     flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
+- [x] At 16px, preserve the electronic shelf tag before medium-specific detail; the winning lens was Object lens — a clipped e-ink field label authored on a 16 px grid.

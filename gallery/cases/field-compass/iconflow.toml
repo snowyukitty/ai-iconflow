@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Field compass"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for field-science"
+user_job = "orient"
+essence = "bearing"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#334C58", "#E6B547"]
+cliches = ["generic target"]
+signature_device = "off-axis needle"
+device_family = "object-silhouette"
+device_detail = "off-axis needle"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#334C58"
+background_color = "#E6B547"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

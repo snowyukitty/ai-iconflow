@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "222dd91a430681f71a8278e409aa79a0d5c89840a6cd06dce3e82a68925070c4",
+  "contract_sha256": "1a824b8dd6f588dd25048c98673e56b46d81a547032f009ca5b702dcb7270982",
+  "project": "Candle Snuffer",
+  "user_job": "close the evening safely without blowing wax",
+  "essence": "closure",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 228-unit coral pivot collar joins the long handle to the bell.",
+  "cliches": [
+    "a flame or crescent moon"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

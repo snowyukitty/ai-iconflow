@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "39dd14c83dd77a3394d4e2e6d5e3903c415db6b61cb38ccc9a9ed1681d9254fb",
+  "contract_sha256": "2dc2814f4bf1f0f438c4bb1306f126d76e628eac354f665194363ca1225c6a21",
+  "project": "Sealed Relay",
+  "user_job": "Exchange private messages and calls with trusted contacts.",
+  "essence": "trust",
+  "personality": "independent, specific, crafted",
+  "signature_device": "a diagonal lead seam locks into a central wax-like seal",
+  "cliches": [
+    "speech bubbles, telephone handsets, signature green"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the sealed relay polygon passed round 4.",
+  "status": "ready"
+}

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "43a5187cb77a72a6dce18edf115cce407af7463f8287ca1a5029d8de06263369",
+  "contract_sha256": "730f41b8a6e411ef41afa315561c7804250763997df5893eff4587ac912e7761",
+  "project": "Roundtable Radio",
+  "user_job": "Keep persistent groups together across voice, text, and activity.",
+  "essence": "togetherness",
+  "personality": "independent, specific, crafted",
+  "signature_device": "a secondary plane forms one shared channel across the round table",
+  "cliches": [
+    "game controllers, face mascots, signature violet"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; three unequal seat blocks around an off-axis microphone passed round 5.",
+  "status": "ready"
+}

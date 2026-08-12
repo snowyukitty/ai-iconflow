@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "a0c81c968b3dd262472096aa15f5cd680e40036157e7508eb36eba9dd0135cd2",
+  "contract_sha256": "34be324fb0ff383ec9138bf6ac62ab2b4bd2d2e7b8266b25d01dff9beed664d8",
+  "project": "Festival Lantern",
+  "user_job": "mark a gathering place after dusk",
+  "essence": "beacon",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 184-unit coral light gate opens across the central ribs.",
+  "cliches": [
+    "a generic map pin or starburst"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#51416D",
+    "background_color": "#25243A",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

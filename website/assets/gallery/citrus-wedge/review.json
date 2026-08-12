@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "7e7d97809cf03268dd7f62ae79960d49ed92e1a183b09bc55ea68a2f1378c029",
+  "contract_sha256": "a7a1f80ffbd60c7cab030473e9b9d43a6e17020b785e966acc307353d7b4b2dc",
+  "project": "Citrus wedge",
+  "user_job": "refresh",
+  "essence": "zest",
+  "personality": "specific, clear, crafted",
+  "signature_device": "diagonal pith window",
+  "cliches": [
+    "generic fruit circle"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#E19A2D",
+    "background_color": "#F4D36A",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

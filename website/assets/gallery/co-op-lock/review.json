@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "6c79ab7bf61df58fede089b32c9e59cfec12eab3389fe08aabb9aec1b5713c0a",
+  "contract_sha256": "23d99badd5b0fb4301e35ff4d92bdf70571d10ba124563cfe89472ae69806c45",
+  "project": "Co-op Lock",
+  "user_job": "coordinate lobby readiness without scanning avatars or check marks",
+  "essence": "sync",
+  "personality": "cooperative, crisp, electric",
+  "signature_device": "two unequal translucent keycaps lock around one shared opaque counter",
+  "cliches": ["controller", "check mark", "two avatars", "chain links"],
+  "targets": ["web"],
+  "build": {"theme_color": "#151927", "background_color": "#151927", "electron_radius": 0.0, "tray_template_mode": "auto", "color_scheme": "light", "tray_source_sha256": null},
+  "warnings": [],
+  "scores": {"legibility": 5, "distinctiveness": 5, "balance": 5, "color": 5, "scalability": 5, "craft": 5},
+  "notes": "The portrait-and-landscape draft split into unrelated rectangles in monochrome. The winner uses two unequal landscape keycaps and one continuous opaque skeleton; the shared square counter stays open at 16 px and the translucent panes remain optional depth.",
+  "status": "ready"
+}

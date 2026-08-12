@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Brace Drill"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for manual woodworking"
+user_job = "bore a controlled hole without electricity"
+essence = "leverage"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#25243A", "#F05D52"]
+cliches = ["a power-drill silhouette"]
+signature_device = "A 190-unit coral crank grip interrupts the large C frame."
+device_family = "object-silhouette"
+device_detail = "A 190-unit coral crank grip interrupts the large C frame."
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#25243A"
+background_color = "#F05D52"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

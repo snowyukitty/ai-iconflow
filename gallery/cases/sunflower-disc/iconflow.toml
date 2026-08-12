@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Sunflower seed disc"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for nature"
+user_job = "grow"
+essence = "radiance"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#D99C2B", "#5B4631"]
+cliches = ["generic flower"]
+signature_device = "notched radial petals"
+device_family = "negative-space-cut"
+device_detail = "notched radial petals"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#D99C2B"
+background_color = "#5B4631"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

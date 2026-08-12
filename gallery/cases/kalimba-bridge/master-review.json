@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "f0508c09b86085a0832fd7dbabccbf418c6fd1178f61c5e1d933e4244334c69a",
+  "contract_sha256": "6910089a6d19f8d93ced5d42ba8dfcaa57c564b387d9a0dc7fe22b7c4207ab82",
+  "project": "Kalimba Bridge",
+  "user_job": "practice a repeating thumb pattern without reading notation",
+  "essence": "repeat",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one center tine is shortened into a thumb-width entry bay",
+  "cliches": [
+    "music note",
+    "waveform",
+    "equalizer bars",
+    "headphones"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#F2B84B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

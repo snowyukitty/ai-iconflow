@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="pixel-grid">
+  <title>E-ink Field Tag</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M192 224h640v512H704v128H512V736H192Z"/>
+    <path fill="#FFF4E8" d="M256 288h512v384H640v128h-64V672H256Z"/>
+    <path fill="#5177E8" d="M320 352h256v64H320Zm0 128h384v64H320Zm0 128h192v64H320Z"/>
+    <path fill="#FF5A4F" d="M640 736h128v128H640Z"/>
+  </g>
+</svg>

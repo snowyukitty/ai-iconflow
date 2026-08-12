@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "61b718b742eb9fdc0e3532e136e3105a946c2be8859c9e3741c9b781c203fb24",
+  "contract_sha256": "bf61e24c66f9fe310427b5c61b16e872b66529807f5f93e6be3357c2718b42d7",
+  "project": "Rice Paddle",
+  "user_job": "portion rice gently from a common bowl",
+  "essence": "serve",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 190-unit rice-grain-shaped opening sits in the broad paddle head.",
+  "cliches": [
+    "a rice bowl with steam"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

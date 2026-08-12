@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Woodcut technique scaffold</title>
+  <desc id="desc">An angular relief mass and broad carved ink breaks give IconFlow's house rail a woodblock grammar.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Replace the rail with one product-specific relief
+       mass; carved texture may support it but must never carry the identity. -->
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#EBCB99"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#1E2024" stroke-width="232"
+        stroke-linecap="butt" stroke-linejoin="bevel"/>
+  <path d="M164 196L392 260L240 396Z M620 704L840 768L704 884Z"
+        fill="#EBCB99"/>
+  <rect x="492" y="300" width="296" height="296" fill="#1E2024"/>
+  <path d="M548 356H732V540H548Z M604 412V484H676V412Z"
+        fill="#C94D43" fill-rule="evenodd"/>
+</svg>

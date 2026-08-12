@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "2e79a8bb3afcdbcb7765b6413960dd5b2178ccf02c1bb255e9acb9bb458b1c30",
+  "contract_sha256": "7e8c6f3afb7ca3fa4cdaca9d9d7b9660dcc9607125c6cfa5f3676de16652d209",
+  "project": "Tidepool anemone",
+  "user_job": "observe",
+  "essence": "pulse",
+  "personality": "specific, clear, crafted",
+  "signature_device": "tentacle starburst",
+  "cliches": [
+    "generic flower"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#1E5961",
+    "background_color": "#D76D51",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

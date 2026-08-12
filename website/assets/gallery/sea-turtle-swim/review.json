@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "a56146ff422a2f6ea7ed1f47efb8d9baf3a57be38321445446a6fa3eb2a8940e",
+  "contract_sha256": "be7bc6ccb32a53b7ed92bec6694bf4c54633c04396facb36dff93845874a652d",
+  "project": "Swimming sea turtle",
+  "user_job": "navigate",
+  "essence": "glide",
+  "personality": "specific, clear, crafted",
+  "signature_device": "offset flipper chevrons",
+  "cliches": [
+    "generic turtle shell"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#20554F",
+    "background_color": "#E2B54D",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

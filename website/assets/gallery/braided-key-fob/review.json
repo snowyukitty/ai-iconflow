@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "2f256e18467eba7a728e784895170b44f09e30a7f5ebbadb10c6d2fb5ffa2960",
+  "contract_sha256": "307b6907331f0446db55c0eac1bb2b728f7ecbf3d3d378631d5410b534a5d88b",
+  "project": "Braided Key Fob",
+  "user_job": "recognize the housemates' shared key by touch and silhouette",
+  "essence": "belonging",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 256-unit coral clasp closes an irregular broad loop.",
+  "cliches": [
+    "a house outline or generic keyhole"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "d8bae80e2b4a43f9896f4d5c67fad4b2651ef018e841a2a8e42d5eb0c5e1ae95",
+  "contract_sha256": "26c135d849ea8594c60a204b8c75cc577ec5e30988510c70b1aa424b65661a94",
+  "project": "Block Plane",
+  "user_job": "trim an edge flush during a repair project",
+  "essence": "true",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 180-unit coral blade wedge rises above the compact sole.",
+  "cliches": [
+    "crossed hammer and screwdriver"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

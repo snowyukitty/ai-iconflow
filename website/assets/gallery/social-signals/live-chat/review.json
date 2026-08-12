@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "ac556e1717d5a509947a1291f33186338a9edd611a7e42adaf65f1fd24af752a",
+  "contract_sha256": "29a7989500c5f1eb39b672f78e63c26bcf50dc9fe46339954afe6ba7e4c85fb5",
+  "project": "Switchboard Shuttle",
+  "user_job": "Continue fast conversations across devices and contexts.",
+  "essence": "continuity",
+  "personality": "independent, specific, crafted",
+  "signature_device": "a one-cell staircase reroutes through the square switchboard",
+  "cliches": [
+    "lightning bolts, chat bubbles, familiar blue-purple gradients"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the staggered live relay passed round 3.",
+  "status": "ready"
+}

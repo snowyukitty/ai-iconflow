@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "dbf7cb9c8464568b3190ddeddea6e56bc89bcca590989c2c999c5c7e793a635e",
+  "contract_sha256": "a7007aa922752dc7d13c3e1efc98a04cd451b40094abe51e803c38b105a98562",
+  "project": "Woven nest and egg",
+  "user_job": "protect",
+  "essence": "hatch",
+  "personality": "specific, clear, crafted",
+  "signature_device": "egg breaks the rim",
+  "cliches": [
+    "generic nest circle"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#805B42",
+    "background_color": "#E5B74F",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

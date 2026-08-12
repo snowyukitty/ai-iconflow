@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "ea3bd2eb854a238807e12a457e2d573044f6151add412b206e685815fd43ed8b",
+  "contract_sha256": "b79b6052db1bd5e4ace76b069af0c198ae4c7e9d9d0bacdff64c8e98cdec73e5",
+  "project": "Relay Mailbox",
+  "user_job": "Broadcast durable updates to large subscribed channels.",
+  "essence": "reach",
+  "personality": "independent, specific, crafted",
+  "signature_device": "misregistered spot plates converge at one outbound slot",
+  "cliches": [
+    "paper planes, official blue, circular send buttons"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the offset broadcast bay passed round 3.",
+  "status": "ready"
+}

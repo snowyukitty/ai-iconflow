@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "12a26cc2ca4623c2ac68d91b00dd16cd1ea093bc96816beb13c3c99057726746",
+  "contract_sha256": "9ff767b162c09e4b44080d9406223d3342f2ca08d089b81f791b9e93b93eff90",
+  "project": "Tuning Machine",
+  "user_job": "record a stable setup for an alternate instrument tuning",
+  "essence": "tune",
+  "personality": "specific, clear, crafted",
+  "signature_device": "the peg's winding post has one broad indexed flat instead of a circular knob",
+  "cliches": [
+    "tuning fork",
+    "note",
+    "guitar silhouette",
+    "waveform"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#5177E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

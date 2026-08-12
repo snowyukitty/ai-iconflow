@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">Conversation Spool — original spool shuttle study</title>
+  <g><ellipse cx="466" cy="304" rx="210" ry="92" fill="#F2C070" stroke="#33282C" stroke-width="44"/><path d="M256 304V650Q256 750 466 770Q676 750 676 650V304Q616 396 466 396Q316 396 256 304Z" fill="#D96A5A" stroke="#33282C" stroke-width="44"/><path d="M328 450Q466 544 604 450V582Q466 674 328 582Z" fill="#F4E6CB"/><path d="M610 600Q804 620 806 770Q806 844 722 844Q654 844 670 770Q684 714 610 706" fill="none" stroke="#33282C" stroke-width="62" stroke-linecap="round"/><path d="M318 276Q466 224 614 276" fill="none" stroke="#FFF0D3" stroke-width="34" stroke-linecap="round"/></g>
+</svg>

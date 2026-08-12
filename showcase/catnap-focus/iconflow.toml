@@ -1,0 +1,44 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "Catnap Focus"
+master = "master.svg"
+output = "build"
+casebook = "../../casebook"
+
+[brief]
+app_intent = "help people settle into focused rest"
+user_job = "enter a calm focus or rest interval without visual pressure"
+essence = "settle"
+personality = ["soft", "companionable", "quiet"]
+
+[design]
+palette = ["mint fog #CFE6E1", "apricot clay #F09577", "plum shadow #584968"]
+cliches = ["cat head", "paw", "clock"]
+signature_device = "the curled tail leaves one broad time wedge beside the sleeping face"
+device_family = "negative-space-cut"
+device_detail = "tail arc and cheek preserve a broad edge-open wedge at 16 pixels"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#CFE6E1"
+background_color = "#FFF6EC"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+# Review Lab receipt is preferred. For this manual fallback, set status to
+# "approved" and copy both hashes from the exported receipt; `ship` requires every
+# score >= 4 and rejects any changed source, target, or visual transform.
+scores = {}
+notes = ""

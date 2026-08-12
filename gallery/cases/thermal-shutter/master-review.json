@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "705593818de49cf5017c664248ff0675402bcc2c2d2b9580d9311742bc8edf4b",
+  "contract_sha256": "a08bed690a514513ecd2455b4f4e0f05a6dbef7a85c9bf70c4c41bb661cab3b7",
+  "project": "Thermal Shutter",
+  "user_job": "switch a camera between protected and sensing states",
+  "essence": "expose",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one large shutter blade leaves a rectangular thermal window instead of a circular aperture",
+  "cliches": [
+    "camera outline",
+    "eye",
+    "aperture flower",
+    "red recording dot"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#168C81",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

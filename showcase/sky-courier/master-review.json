@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "d8d13119bc8d8419f0a7d59df8d3569a1da25e9591e4ebbdb28db6e5b0789380",
+  "contract_sha256": "ba22a8755004ca6850b3061ac8afab7e6949a0e88f61c0ae8405e6cbf99c73c7",
+  "project": "Sky Courier",
+  "user_job": "anticipate the next chapter without spoilers",
+  "essence": "anticipate",
+  "personality": "swift, literary, assured",
+  "signature_device": "the satchel flap becomes a swept wing with one broad edge-open dry cut",
+  "cliches": ["star", "wand", "play button", "calendar"],
+  "targets": ["web"],
+  "build": {"theme_color": "#202027", "background_color": "#F2E7D2", "electron_radius": 0.0, "tray_template_mode": "auto", "color_scheme": "light", "tray_source_sha256": null},
+  "warnings": [],
+  "scores": {"legibility": 4, "distinctiveness": 5, "balance": 5, "color": 5, "scalability": 4, "craft": 5},
+  "notes": "The first swallow candidate lost its noun at 16 px. The wing-satchel keeps one concrete courier object, one tapered ink mass, and a two-pixel edge-open dry cut; the coral flap remains nested rather than crossing the silhouette.",
+  "status": "ready"
+}

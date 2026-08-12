@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "2b53e484725178f6ce0b05cbc859a3483af831b547ad40b0f784f71383b17fd1",
+  "contract_sha256": "d75a8e1c28f98a1ee2901e3919c575d3b087ad875deb80e7074137b477f142c3",
+  "project": "Milkweed seed pod",
+  "user_job": "disperse",
+  "essence": "release",
+  "personality": "specific, clear, crafted",
+  "signature_device": "split pod seam",
+  "cliches": [
+    "generic sprout"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#4D5543",
+    "background_color": "#E4B450",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="stained-glass">
+  <title>Storm Parasol</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" fill-rule="evenodd" d="M132 504Q190 174 514 164q268 10 378 276L742 598H560v166q0 72 76 42l42 88q-254 88-254-130V598H246L132 504Zm120-58 102 72h120V284Q326 304 252 446Zm302-160v232h134l90-94q-78-108-224-138Z"/>
+    <path fill="#7658D8" d="M252 446q74-142 222-162v234H354Z"/>
+    <path fill="#E96391" d="M554 286q146 30 224 138l-90 94H554Z"/>
+  </g>
+</svg>

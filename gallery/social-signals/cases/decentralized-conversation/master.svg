@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">Weather Relay — original weather-vane relay study</title>
+  <g><path d="M294 262L488 182L682 262L486 372Z" fill="#E7B85F"/><path d="M250 416L488 326L670 414L486 512Z" fill="#D86654"/><path d="M286 574L490 486L630 566L486 654Z" fill="#6C9B8F"/><path d="M442 186H534V824H442Z" fill="#17202A"/><path d="M486 426L788 250L866 362L552 550Z" fill="#F2E5C8"/><path d="M788 250L900 212L846 330Z" fill="#D86654"/><circle cx="488" cy="490" r="62" fill="#17202A"/></g>
+</svg>

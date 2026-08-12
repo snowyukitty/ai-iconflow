@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Festival lantern</title><desc>A ribbed gathering lantern with one wide open light gate.</desc>
+  <defs><linearGradient id="l" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#51416D"/><stop offset="1" stop-color="#25243A"/></linearGradient></defs>
+  <path fill="url(#l)" fill-rule="evenodd" d="M358 84h308v96c120 68 188 200 188 346s-68 278-188 346v68H358v-68c-120-68-188-200-188-346s68-278 188-346V84Zm80 166c-80 61-126 161-126 276s46 215 126 276V250Zm148 0v552c80-61 126-161 126-276s-46-215-126-276Z"/>
+  <path d="M360 448h304v184H360Z" fill="#F05D52"/><path d="M426 496h172v88H426Z" fill="#25243A"/>
+</svg>

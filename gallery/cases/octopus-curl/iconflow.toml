@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Octopus with curled arm"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for animals"
+user_job = "adapt"
+essence = "curl"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#714C82", "#E3A34B"]
+cliches = ["generic octopus badge"]
+signature_device = "one arm curls into a hook"
+device_family = "character-silhouette"
+device_detail = "one arm curls into a hook"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#714C82"
+background_color = "#E3A34B"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

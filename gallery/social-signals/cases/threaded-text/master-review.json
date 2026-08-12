@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "0027b098b0329bc358179429cffe083624a0f7a07f9dbfb77d1bb622ac6c62db",
+  "contract_sha256": "02e3c04976046b51519f3b04a0d96609ac7642b7dafe543312f38c2d1580ca2f",
+  "project": "Conversation Spool",
+  "user_job": "Write and follow connected public text conversations.",
+  "essence": "continuity",
+  "personality": "independent, specific, crafted",
+  "signature_device": "the thread exits through one oversized diagonal shuttle notch",
+  "cliches": [
+    "at-sign spirals, wordmark letters, black-and-white imitation"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the threaded text spool passed round 3.",
+  "status": "ready"
+}

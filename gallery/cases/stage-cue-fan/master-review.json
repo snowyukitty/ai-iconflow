@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "2315701620aff4393bcb4bb0a9cfbaa3f6c95bd7d30d2383332529a4528b1f56",
+  "contract_sha256": "1c6269a93c20f2b52c469d1be4bda88ae741e7c569d0c5711c312fcc5875b986",
+  "project": "Stage Cue Fan",
+  "user_job": "remember the next blocking direction in a movement performance",
+  "essence": "turn",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one vermilion signal leaf drops below the rim to point toward the next stage turn",
+  "cliches": [
+    "spotlight",
+    "theater masks",
+    "dancer silhouette",
+    "arrow"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#9B7BE8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

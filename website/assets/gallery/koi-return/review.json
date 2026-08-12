@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "2fa927b17192453149ef19a650600fb4e423791d76561694e1e9c23ec4407b2e",
+  "contract_sha256": "62b0e0e8332a20eb3dc90c5f1562f00d7873289a405f0ec75c98814e585e4068",
+  "project": "Koi Return",
+  "user_job": "recognize the next small return in a repeating practice",
+  "essence": "return",
+  "personality": "luminous, steady, alive",
+  "signature_device": "a side-view koi swims into one edge-open upstream cut",
+  "cliches": ["yin-yang fish", "two fish", "wave badge"],
+  "targets": ["web"],
+  "build": {"theme_color": "#172933", "background_color": "#F7EFE0", "electron_radius": 0, "tray_template_mode": "auto", "color_scheme": "light", "tray_source_sha256": null},
+  "warnings": [],
+  "scores": {"legibility": 4, "distinctiveness": 5, "balance": 4, "color": 5, "scalability": 4, "craft": 4},
+  "notes": "Pass 1 let dark leading merge into a dark card, splitting the fish into colored fragments. The light glass field restores one side-view koi while three panes, the eye, and the edge-open upstream cut survive at 16 px.",
+  "status": "ready"
+}

@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Drop Spindle"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for fiber craft"
+user_job = "twist loose fiber into yarn with a portable hand tool"
+essence = "continuity"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#25243A", "#F05D52"]
+cliches = ["a yarn ball with crossed needles"]
+signature_device = "A 172-unit coral whorl sector offsets the spindle's balance."
+device_family = "negative-space-cut"
+device_detail = "A 172-unit coral whorl sector offsets the spindle's balance."
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#25243A"
+background_color = "#F05D52"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

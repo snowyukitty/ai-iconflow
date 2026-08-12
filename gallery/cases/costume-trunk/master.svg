@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="enamel-pin">
+  <title>Costume Trunk</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M184 226h656v594H184Z"/>
+    <path fill="#24B6A6" d="M246 288h532v470H246Z"/>
+    <path fill="#191A20" d="M246 440h532v64H246Zm206-152h64v470h-64Z"/>
+    <path fill="#FF5A4F" d="M624 288h218v236L730 468Z"/>
+    <path fill="#FFF4E8" d="M276 318h128v84H276Z"/>
+  </g>
+</svg>

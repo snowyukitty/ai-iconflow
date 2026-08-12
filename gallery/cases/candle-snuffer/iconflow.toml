@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Candle Snuffer"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for evening closing ritual"
+user_job = "close the evening safely without blowing wax"
+essence = "closure"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#25243A", "#F05D52"]
+cliches = ["a flame or crescent moon"]
+signature_device = "A 228-unit coral pivot collar joins the long handle to the bell."
+device_family = "object-silhouette"
+device_detail = "A 228-unit coral pivot collar joins the long handle to the bell."
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#25243A"
+background_color = "#F05D52"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

@@ -1,0 +1,40 @@
+# Generated from scripts/build_social_signals.py.
+schema_version = 1
+
+[project]
+name = "Topic Drawer"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide an independent clean-room visual study for Discuss topics in interest-led forums with durable context."
+user_job = "Discuss topics in interest-led forums with durable context."
+essence = "discussion"
+personality = ["independent", "specific", "crafted"]
+
+[design]
+palette = ["#FF766D", "#FFF4E8"]
+cliches = ["alien mascots, antennae, orange conversation marks"]
+signature_device = "a broad specular band stops at the inset topic label"
+device_family = "object-silhouette"
+device_detail = "a broad specular band stops at the inset topic label"
+concept_lens = "clean-room-user-job"
+
+[build]
+targets = ["web"]
+theme_color = "#FF766D"
+background_color = "#FFF4E8"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

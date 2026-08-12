@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="woodcut">
+  <title>Kalimba Bridge</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M220 190h584l64 618-146 70H302l-146-70Z"/>
+    <path fill="#F2B84B" d="M284 248h456l54 514-98 48H328l-98-48Z"/>
+    <path fill="#191A20" d="M312 248h78v322h-78Zm110 0h78v420h-78Zm110 0h78v286h-78Zm110 0h78v372h-78Z"/>
+    <path fill="#FFF4E8" d="M326 720q186-96 372 0l-34 66H360Z"/>
+    <path fill="#FF5A4F" d="M532 248h78v286h-78Z"/>
+  </g>
+</svg>

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "16d9fa1de4636f77f15307824aaa8aebbac1ee3473eca5059b61314105452f04",
+  "contract_sha256": "28a55508bf6b781bbbd47f3a9f5a8f72bf43170f3f08f59a0fed9558ffa6eec8",
+  "project": "Glow Zoetrope",
+  "user_job": "Discover, remix, and circulate short-form video performances.",
+  "essence": "remix",
+  "personality": "independent, specific, crafted",
+  "signature_device": "one luminous slit crosses the opaque drum rim as a timing notch",
+  "cliches": [
+    "musical notes, play triangles, black neon trade dress"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the gradient remix chamber passed round 3.",
+  "status": "ready"
+}

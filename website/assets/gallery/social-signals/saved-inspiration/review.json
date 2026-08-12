@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "108279a9deb514447be3ef2bd1db87aba9174bc47efb5d0eff9dd892c60f9ec9",
+  "contract_sha256": "db28c89e92da01c91d69474a40b8c4adcdd34064f709963b1d7911d34e1db766",
+  "project": "Idea Swatches",
+  "user_job": "Collect visual references and return to saved inspiration.",
+  "essence": "inspiration",
+  "personality": "independent, specific, crafted",
+  "signature_device": "one carved diagonal binds the fanned swatches into a single relief mass",
+  "cliches": [
+    "map pins, letter P, signature red circles"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the shared-base woodcut swatch rack passed round 6.",
+  "status": "ready"
+}

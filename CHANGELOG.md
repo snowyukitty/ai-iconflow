@@ -8,9 +8,29 @@ first published release remains under `Unreleased`.
 
 ### Added
 
-- Fourteen structurally distinct, small-size-first technique scaffolds, a
+- Twenty structurally distinct, small-size-first technique scaffolds, a
   machine-readable `iconflow styles --json` catalog, and a Chromium-rendered
   `styles --gallery` proof matrix with per-family tray guidance.
+- A launch-site product narrative and a 24-brief, cross-theme showcase plan
+  designed to turn reviewed icon cases into website and video evidence.
+- A responsive, dependency-free promotional site with an interactive native-pixel
+  Proof Lab, technique gallery, accessible controls, security headers, and a
+  canonical production deployment at `iconflow.pages.dev`, with
+  `ai-iconflow.pages.dev` retained as a permanent compatibility redirect.
+- Nine reviewed Theme Worlds now prove subject range beyond the fixed Flow Gate
+  specimen: relationship, cat, dog, fish, original character, and game. Each
+  includes an editable SVG, source-bound receipt, native 16px render, shipped
+  web assets, and a casebook record.
+- A 100-case Gallery spanning specific product worlds and construction
+  grammars. Every case exposes an editable SVG, exact native 16px proof,
+  silhouette, contract-bound review receipt, and reusable case record; eleven
+  weaker or repetitive directions were removed from 111 generated candidates.
+- Two separately labeled clean-room practice collections: Social Signals maps
+  20 user jobs across all 20 techniques, and Emoji Matrix provides a complete
+  20-by-20 field of 400 source-bound specimens.
+- A clean-clone `build_gallery.py --verify-only` gate that rechecks all 100
+  tracked sources, receipts, renders, case records, and deploy copies without
+  the gitignored candidate-adjudication workspace.
 - A clean-room style research record covering current upstream licenses,
   small-size lessons, and explicit no-asset-copy provenance.
 - Apache-2.0 project licensing, package license metadata, attribution notices,
@@ -29,6 +49,8 @@ first published release remains under `Unreleased`.
   is explicit.
 - CI uses least-privilege permissions, immutable action revisions, timeouts,
   Python 3.10 through 3.14 coverage, and installed-wheel browser tests.
+- Automated QA can reuse one isolated Chromium rasterizer across a collection,
+  avoiding one browser startup per SVG without weakening any check.
 
 ### Security
 

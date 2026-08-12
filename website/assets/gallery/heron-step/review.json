@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "a681c7b77d7203253f73e0d26999a57f0b67478b311352f152de01ffeddcb108",
+  "contract_sha256": "e71a385eb8744e3fd136b56dddc904b3baca087d6b5d469df7e3895c68f7cf69",
+  "project": "Stepping heron",
+  "user_job": "wait",
+  "essence": "stillness",
+  "personality": "specific, clear, crafted",
+  "signature_device": "single lifted leg",
+  "cliches": [
+    "generic bird mark"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#344B68",
+    "background_color": "#E6B447",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

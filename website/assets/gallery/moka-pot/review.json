@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "10d9972138b38f17b5087c2b0eb26bba40c87f52443f481a6f5e4305e7dc740e",
+  "contract_sha256": "05c8d5392caf769a6206ac581e744b4e65e459cf3be0d6e7450458245cce1f0d",
+  "project": "Moka Pot",
+  "user_job": "brew a small pot of coffee for the household",
+  "essence": "warmth",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 262-unit angular coral handle carries the recognizable grip gap.",
+  "cliches": [
+    "a generic takeaway cup"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "4a461c53becf0a928e202a1ce1a5b2eea2327bb3f925545f6c2798cb0114dbbb",
+  "contract_sha256": "8de3e357ae6287d7065ea4130720305706f15528305f383bfe1c0f592a331f9c",
+  "project": "Emoji Matrix: red heart / clay",
+  "user_job": "recognize the red heart meaning at native icon size",
+  "essence": "recognition",
+  "personality": "original, clear, experimental",
+  "signature_device": "clay construction grammar around the semantic silhouette",
+  "cliches": [
+    "vendor emoji artwork",
+    "traced glyph geometry",
+    "palette-only restyling"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Practice specimen, not a shipped identity. Reviewed at exact 16px and 128px, in silhouette, and on contact sheet agent-a/contact-sheet-*.png or agent-b/contact-*.png.",
+  "status": "ready",
+  "specimen_status": "practice",
+  "collection_review_sha256": "77083b959f42ad8059b46b474b6eb8766b9cc86b890b4fda257ad03fc3119119"
+}

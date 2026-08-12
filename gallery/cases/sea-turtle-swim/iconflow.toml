@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Swimming sea turtle"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for animals"
+user_job = "navigate"
+essence = "glide"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#20554F", "#E2B54D"]
+cliches = ["generic turtle shell"]
+signature_device = "offset flipper chevrons"
+device_family = "character-silhouette"
+device_detail = "offset flipper chevrons"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#20554F"
+background_color = "#E2B54D"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

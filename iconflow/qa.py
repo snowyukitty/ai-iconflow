@@ -224,7 +224,7 @@ def _detail_outside_safe_zone(im: Image.Image) -> float:
 
 def check(
     master_svg: str | Path, *, maskable: bool = True,
-    maskable_bg: str = "#ffffff"
+    maskable_bg: str = "#ffffff", rasterizer: Rasterizer | None = None,
 ) -> list[str]:
     warnings: list[str] = []
     text = load_svg(master_svg)
@@ -254,7 +254,7 @@ def check(
             )
             break
 
-    with Rasterizer() as r:
+    def render_checks(r: Rasterizer):
         im16 = Image.open(io.BytesIO(r.render(text, 16))).convert("RGBA")
         im32 = Image.open(io.BytesIO(r.render(text, 32))).convert("RGBA")
         if maskable:
@@ -262,6 +262,13 @@ def check(
             im512 = Image.open(io.BytesIO(maskable_png)).convert("RGBA")
         else:
             im512 = None
+        return im16, im32, im512
+
+    if rasterizer is None:
+        with Rasterizer() as owned_rasterizer:
+            im16, im32, im512 = render_checks(owned_rasterizer)
+    else:
+        im16, im32, im512 = render_checks(rasterizer)
 
     cov = _alpha_coverage(im16)
     if cov < 0.06:

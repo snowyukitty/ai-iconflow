@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "1bb224f7404aa7fb6750c5178005bbfc99dcaab3fe6c90e60742bd4a4ba22702",
+  "contract_sha256": "8535029de9ef023b24e9a27a24011d87bac117a052f74767a0a08bbe05942ef5",
+  "project": "Emoji Matrix: face with tears of joy / cut-paper",
+  "user_job": "recognize the face with tears of joy meaning at native icon size",
+  "essence": "recognition",
+  "personality": "original, clear, experimental",
+  "signature_device": "cut-paper construction grammar around the semantic silhouette",
+  "cliches": [
+    "vendor emoji artwork",
+    "traced glyph geometry",
+    "palette-only restyling"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Practice specimen, not a shipped identity. Reviewed at exact 16px and 128px, in silhouette, and on contact sheet agent-a/contact-sheet-*.png or agent-b/contact-*.png.",
+  "status": "ready",
+  "specimen_status": "practice",
+  "collection_review_sha256": "77083b959f42ad8059b46b474b6eb8766b9cc86b890b4fda257ad03fc3119119"
+}

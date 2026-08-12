@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "74e2e3a948de1f81da23ace55d9e1ec7fb5d21e9a1b4e67d6325ca484a210926",
+  "contract_sha256": "3bd5a49aa7512fb3f2b72569b591f273f34480da2c5e1f29c78d7e8cebfea36b",
+  "project": "Incense Censer",
+  "user_job": "begin a quiet reflection period with a physical cue",
+  "essence": "stillness",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 202-unit crescent vent is cut directly into the lid.",
+  "cliches": [
+    "floating smoke curls detached from a bowl"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#34335B",
+    "background_color": "#25243A",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

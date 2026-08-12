@@ -1,0 +1,3725 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-08-12",
+  "case_count": 100,
+  "selection": {
+    "candidate_count": 111,
+    "admitted": 100,
+    "rejected": 11
+  },
+  "cases": [
+    {
+      "number": 1,
+      "id": "keepsake-knot",
+      "title": "Keepsake Knot",
+      "world": "relationships",
+      "user_job": "keep a small shared ritual tangible over time",
+      "essence": "together",
+      "noun": "interlaced ritual knot",
+      "technique": "woven",
+      "cliche": "heart, chat bubble, linked circles",
+      "signature": "two unequal bands share one offset opening",
+      "concepts": [
+        "Object: name the specific subject.",
+        "Verb: show the user's action.",
+        "Negative space: make the signature structural.",
+        "Silhouette: preserve the noun at native size."
+      ],
+      "source_sha256": "f27c303aa0cd36aa36e58dc2ae5a0447437bc67aee2e116faf2a2439c0aaf305",
+      "contract_sha256": "14d5aeb45216d4affbb9933c9cc14c9adc29b1fe32e03087ea6029a56261de76",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 5,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/keepsake-knot/master.svg",
+        "native": "/assets/gallery/keepsake-knot/16.png",
+        "proof": "/assets/gallery/keepsake-knot/128.png",
+        "large": "/assets/gallery/keepsake-knot/256.png",
+        "silhouette": "/assets/gallery/keepsake-knot/silhouette-128.png",
+        "receipt": "/assets/gallery/keepsake-knot/review.json",
+        "case": "/assets/gallery/keepsake-knot/case.md"
+      }
+    },
+    {
+      "number": 2,
+      "id": "catnap-focus",
+      "title": "Catnap Focus",
+      "world": "companions",
+      "user_job": "enter a calm focus or rest interval without visual pressure",
+      "essence": "settle",
+      "noun": "curled sleeping cat",
+      "technique": "clay",
+      "cliche": "cat head, paw, clock",
+      "signature": "the curled tail leaves one broad time wedge beside the sleeping face",
+      "concepts": [
+        "Object: name the specific subject.",
+        "Verb: show the user's action.",
+        "Negative space: make the signature structural.",
+        "Silhouette: preserve the noun at native size."
+      ],
+      "source_sha256": "5b4e009dbae66d2cf10972ada0f5010adda39d16820d98917e4d4094a45e17e8",
+      "contract_sha256": "dde10723fb7a417e5fe09bb52901337e172b579f54d8dde1a199d37f58ca7369",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 5,
+        "color": 5,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/catnap-focus/master.svg",
+        "native": "/assets/gallery/catnap-focus/16.png",
+        "proof": "/assets/gallery/catnap-focus/128.png",
+        "large": "/assets/gallery/catnap-focus/256.png",
+        "silhouette": "/assets/gallery/catnap-focus/silhouette-128.png",
+        "receipt": "/assets/gallery/catnap-focus/review.json",
+        "case": "/assets/gallery/catnap-focus/case.md"
+      }
+    },
+    {
+      "number": 3,
+      "id": "trail-tail",
+      "title": "Trail Tail",
+      "world": "companions",
+      "user_job": "recognize and return to a favorite walking route",
+      "essence": "roam",
+      "noun": "walking dog",
+      "technique": "line-mark",
+      "cliche": "paw, map pin, dog head",
+      "signature": "one dog contour becomes the route and carries an off-axis clasp",
+      "concepts": [
+        "Object: name the specific subject.",
+        "Verb: show the user's action.",
+        "Negative space: make the signature structural.",
+        "Silhouette: preserve the noun at native size."
+      ],
+      "source_sha256": "8f828f22ad794bec3402d88d1c7492d077c58d9346e7a7d98a795c545fdfb25d",
+      "contract_sha256": "815338dae332f6abc60187b7d208796ede3d6e01355747984c101c5bedc8e116",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 5,
+        "balance": 4,
+        "color": 5,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/trail-tail/master.svg",
+        "native": "/assets/gallery/trail-tail/16.png",
+        "proof": "/assets/gallery/trail-tail/128.png",
+        "large": "/assets/gallery/trail-tail/256.png",
+        "silhouette": "/assets/gallery/trail-tail/silhouette-128.png",
+        "receipt": "/assets/gallery/trail-tail/review.json",
+        "case": "/assets/gallery/trail-tail/case.md"
+      }
+    },
+    {
+      "number": 4,
+      "id": "koi-return",
+      "title": "Koi Return",
+      "world": "habits",
+      "user_job": "recognize the next small return in a repeating practice",
+      "essence": "return",
+      "noun": "upstream koi",
+      "technique": "stained-glass",
+      "cliche": "yin-yang fish, waves, aquarium bowl",
+      "signature": "a side-view koi swims into one edge-open upstream cut",
+      "concepts": [
+        "Object: name the specific subject.",
+        "Verb: show the user's action.",
+        "Negative space: make the signature structural.",
+        "Silhouette: preserve the noun at native size."
+      ],
+      "source_sha256": "2fa927b17192453149ef19a650600fb4e423791d76561694e1e9c23ec4407b2e",
+      "contract_sha256": "62b0e0e8332a20eb3dc90c5f1562f00d7873289a405f0ec75c98814e585e4068",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 5,
+        "balance": 4,
+        "color": 5,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/koi-return/master.svg",
+        "native": "/assets/gallery/koi-return/16.png",
+        "proof": "/assets/gallery/koi-return/128.png",
+        "large": "/assets/gallery/koi-return/256.png",
+        "silhouette": "/assets/gallery/koi-return/silhouette-128.png",
+        "receipt": "/assets/gallery/koi-return/review.json",
+        "case": "/assets/gallery/koi-return/case.md"
+      }
+    },
+    {
+      "number": 5,
+      "id": "quiet-hero",
+      "title": "Quiet Hero",
+      "world": "original-stories",
+      "user_job": "recognize a poised original persona at a glance",
+      "essence": "poise",
+      "noun": "profile hero",
+      "technique": "cel-shaded",
+      "cliche": "generic chibi, animal ears, franchise imitation",
+      "signature": "an asymmetric profile crest meets one high collar notch",
+      "concepts": [
+        "Object: name the specific subject.",
+        "Verb: show the user's action.",
+        "Negative space: make the signature structural.",
+        "Silhouette: preserve the noun at native size."
+      ],
+      "source_sha256": "113e0ec887dca49db7a99daf1a18b596851eaacdf1dcc299b8d1db0d9c56d0d0",
+      "contract_sha256": "1b9f81c311d4984ada14eac8835e60d84add08921d5283c61ee119ecaddd90c8",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 5,
+        "balance": 4,
+        "color": 5,
+        "scalability": 4,
+        "craft": 5
+      },
+      "assets": {
+        "svg": "/assets/gallery/quiet-hero/master.svg",
+        "native": "/assets/gallery/quiet-hero/16.png",
+        "proof": "/assets/gallery/quiet-hero/128.png",
+        "large": "/assets/gallery/quiet-hero/256.png",
+        "silhouette": "/assets/gallery/quiet-hero/silhouette-128.png",
+        "receipt": "/assets/gallery/quiet-hero/review.json",
+        "case": "/assets/gallery/quiet-hero/case.md"
+      }
+    },
+    {
+      "number": 6,
+      "id": "sky-courier",
+      "title": "Sky Courier",
+      "world": "original-stories",
+      "user_job": "anticipate the next chapter without spoilers",
+      "essence": "anticipate",
+      "noun": "winged courier satchel",
+      "technique": "ink-brush",
+      "cliche": "star, wand, play button, calendar",
+      "signature": "the satchel flap becomes a swept wing with one broad edge-open dry cut",
+      "concepts": [
+        "Object: name the specific subject.",
+        "Verb: show the user's action.",
+        "Negative space: make the signature structural.",
+        "Silhouette: preserve the noun at native size."
+      ],
+      "source_sha256": "d8d13119bc8d8419f0a7d59df8d3569a1da25e9591e4ebbdb28db6e5b0789380",
+      "contract_sha256": "ba22a8755004ca6850b3061ac8afab7e6949a0e88f61c0ae8405e6cbf99c73c7",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 5,
+        "balance": 5,
+        "color": 5,
+        "scalability": 4,
+        "craft": 5
+      },
+      "assets": {
+        "svg": "/assets/gallery/sky-courier/master.svg",
+        "native": "/assets/gallery/sky-courier/16.png",
+        "proof": "/assets/gallery/sky-courier/128.png",
+        "large": "/assets/gallery/sky-courier/256.png",
+        "silhouette": "/assets/gallery/sky-courier/silhouette-128.png",
+        "receipt": "/assets/gallery/sky-courier/review.json",
+        "case": "/assets/gallery/sky-courier/case.md"
+      }
+    },
+    {
+      "number": 7,
+      "id": "co-op-lock",
+      "title": "Co-op Lock",
+      "world": "collaboration",
+      "user_job": "coordinate lobby readiness without scanning avatars or check marks",
+      "essence": "sync",
+      "noun": "docked keycaps",
+      "technique": "glass-stack",
+      "cliche": "controller, check mark, two avatars, chain links",
+      "signature": "two unequal translucent keycaps lock around one shared opaque counter",
+      "concepts": [
+        "Object: name the specific subject.",
+        "Verb: show the user's action.",
+        "Negative space: make the signature structural.",
+        "Silhouette: preserve the noun at native size."
+      ],
+      "source_sha256": "6c79ab7bf61df58fede089b32c9e59cfec12eab3389fe08aabb9aec1b5713c0a",
+      "contract_sha256": "23d99badd5b0fb4301e35ff4d92bdf70571d10ba124563cfe89472ae69806c45",
+      "scores": {
+        "legibility": 5,
+        "distinctiveness": 5,
+        "balance": 5,
+        "color": 5,
+        "scalability": 5,
+        "craft": 5
+      },
+      "assets": {
+        "svg": "/assets/gallery/co-op-lock/master.svg",
+        "native": "/assets/gallery/co-op-lock/16.png",
+        "proof": "/assets/gallery/co-op-lock/128.png",
+        "large": "/assets/gallery/co-op-lock/256.png",
+        "silhouette": "/assets/gallery/co-op-lock/silhouette-128.png",
+        "receipt": "/assets/gallery/co-op-lock/review.json",
+        "case": "/assets/gallery/co-op-lock/case.md"
+      }
+    },
+    {
+      "number": 8,
+      "id": "forest-familiar",
+      "title": "Forest Familiar",
+      "world": "animal-folklore",
+      "user_job": "guide a small companion home along a remembered trail",
+      "essence": "return",
+      "noun": "horned owl",
+      "technique": "woodcut",
+      "cliche": "generic animal head, fox repeat, tree badge, map pin",
+      "signature": "unequal ear tufts and two broad edge-open wing gouges define a full-body owl",
+      "concepts": [
+        "Object: name the specific subject.",
+        "Verb: show the user's action.",
+        "Negative space: make the signature structural.",
+        "Silhouette: preserve the noun at native size."
+      ],
+      "source_sha256": "60f53a61da7b662e3c20e5c517b6ca50f164df94f572eb97098771389d6faeb5",
+      "contract_sha256": "afde4f48c647d82fc8a7064865ed8dcedb3dcbfe08aa6a88c9b1c5eabfcd4be0",
+      "scores": {
+        "legibility": 5,
+        "distinctiveness": 4,
+        "balance": 5,
+        "color": 5,
+        "scalability": 5,
+        "craft": 5
+      },
+      "assets": {
+        "svg": "/assets/gallery/forest-familiar/master.svg",
+        "native": "/assets/gallery/forest-familiar/16.png",
+        "proof": "/assets/gallery/forest-familiar/128.png",
+        "large": "/assets/gallery/forest-familiar/256.png",
+        "silhouette": "/assets/gallery/forest-familiar/silhouette-128.png",
+        "receipt": "/assets/gallery/forest-familiar/review.json",
+        "case": "/assets/gallery/forest-familiar/case.md"
+      }
+    },
+    {
+      "number": 9,
+      "id": "boss-helm",
+      "title": "Boss Helm",
+      "world": "games",
+      "user_job": "recognize and remember a conquered encounter",
+      "essence": "conquer",
+      "noun": "broken-horn helmet",
+      "technique": "chrome",
+      "cliche": "trophy, crown, skull, sword, gamepad",
+      "signature": "one horn is structurally broken and exposes an ember fracture",
+      "concepts": [
+        "Object: name the specific subject.",
+        "Verb: show the user's action.",
+        "Negative space: make the signature structural.",
+        "Silhouette: preserve the noun at native size."
+      ],
+      "source_sha256": "b3381c6470e44eb16fdb3e7ed78ef17ddc71c5a3fa566d144f9358c33d2b4f86",
+      "contract_sha256": "86fa8dcfed90b7205038437c80ab0c7d35386a753e2389a9928cb8965753f95d",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 5,
+        "balance": 5,
+        "color": 5,
+        "scalability": 4,
+        "craft": 5
+      },
+      "assets": {
+        "svg": "/assets/gallery/boss-helm/master.svg",
+        "native": "/assets/gallery/boss-helm/16.png",
+        "proof": "/assets/gallery/boss-helm/128.png",
+        "large": "/assets/gallery/boss-helm/256.png",
+        "silhouette": "/assets/gallery/boss-helm/silhouette-128.png",
+        "receipt": "/assets/gallery/boss-helm/review.json",
+        "case": "/assets/gallery/boss-helm/case.md"
+      }
+    },
+    {
+      "number": 10,
+      "id": "braided-key-fob",
+      "title": "Braided Key Fob",
+      "world": "shared home",
+      "user_job": "recognize the housemates' shared key by touch and silhouette",
+      "essence": "belonging",
+      "noun": "key fob",
+      "technique": "woven",
+      "cliche": "a house outline or generic keyhole",
+      "signature": "A 256-unit coral clasp closes an irregular broad loop.",
+      "concepts": [
+        "Object lens: an elongated braided fob with a square clasp.",
+        "Ritual lens: the key is returned to the same shared hook.",
+        "Negative-space lens: a narrow inner loop preserves the tactile opening.",
+        "Motion lens: the strap bends like a carried loop rather than a static ring."
+      ],
+      "source_sha256": "2f256e18467eba7a728e784895170b44f09e30a7f5ebbadb10c6d2fb5ffa2960",
+      "contract_sha256": "307b6907331f0446db55c0eac1bb2b728f7ecbf3d3d378631d5410b534a5d88b",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/braided-key-fob/master.svg",
+        "native": "/assets/gallery/braided-key-fob/16.png",
+        "proof": "/assets/gallery/braided-key-fob/128.png",
+        "large": "/assets/gallery/braided-key-fob/256.png",
+        "silhouette": "/assets/gallery/braided-key-fob/silhouette-128.png",
+        "receipt": "/assets/gallery/braided-key-fob/review.json",
+        "case": "/assets/gallery/braided-key-fob/case.md"
+      }
+    },
+    {
+      "number": 11,
+      "id": "kintsugi-bowl",
+      "title": "Kintsugi Bowl",
+      "world": "repair ritual",
+      "user_job": "mark repair as a valued continuation rather than damage",
+      "essence": "renewal",
+      "noun": "tea bowl",
+      "technique": "stained-glass",
+      "cliche": "a sparkle over a perfect bowl",
+      "signature": "A 142-unit coral repair plane crosses the rim and body as one broad shard.",
+      "concepts": [
+        "Object lens: a low tea bowl with a repaired wall.",
+        "Process lens: the seam widens where the structural break mattered.",
+        "Material lens: one colored shard behaves like joined ceramic.",
+        "Cliche-flip lens: imperfection, not polish, becomes the focal plane."
+      ],
+      "source_sha256": "3c5ae6a64a51a2c5327674b55f059b9f730a7b9a245fea528fac4a34f839fb68",
+      "contract_sha256": "67b70835060008dcd3b127b67ec1ab8974abbf6a850fd76c19393e8ec11781bd",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/kintsugi-bowl/master.svg",
+        "native": "/assets/gallery/kintsugi-bowl/16.png",
+        "proof": "/assets/gallery/kintsugi-bowl/128.png",
+        "large": "/assets/gallery/kintsugi-bowl/256.png",
+        "silhouette": "/assets/gallery/kintsugi-bowl/silhouette-128.png",
+        "receipt": "/assets/gallery/kintsugi-bowl/review.json",
+        "case": "/assets/gallery/kintsugi-bowl/case.md"
+      }
+    },
+    {
+      "number": 12,
+      "id": "darning-mushroom",
+      "title": "Darning Mushroom",
+      "world": "intergenerational mending",
+      "user_job": "support a garment while repairing it by hand",
+      "essence": "care",
+      "noun": "darning mushroom",
+      "technique": "woodcut",
+      "cliche": "crossed needles or a sewing-machine outline",
+      "signature": "A 180-unit coral cap sector records the repaired area.",
+      "concepts": [
+        "Object lens: a domed wooden mending form with a stout handle.",
+        "Care lens: the marked cap is the place that receives pressure.",
+        "Heritage lens: the worn tool feels inherited rather than newly purchased.",
+        "Silhouette lens: mushroom cap and turned grip remain a single bold mass."
+      ],
+      "source_sha256": "c57461899adc04c05445b0263661bd8af0687c44d7de071a90b6cc33630be696",
+      "contract_sha256": "9ffa31afb717171a61b798f838e6214f68d361a78ef582557afe845d20916473",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/darning-mushroom/master.svg",
+        "native": "/assets/gallery/darning-mushroom/16.png",
+        "proof": "/assets/gallery/darning-mushroom/128.png",
+        "large": "/assets/gallery/darning-mushroom/256.png",
+        "silhouette": "/assets/gallery/darning-mushroom/silhouette-128.png",
+        "receipt": "/assets/gallery/darning-mushroom/review.json",
+        "case": "/assets/gallery/darning-mushroom/case.md"
+      }
+    },
+    {
+      "number": 13,
+      "id": "tea-whisk",
+      "title": "Tea Whisk",
+      "world": "tea ceremony",
+      "user_job": "prepare a bowl of tea with a calm repeatable gesture",
+      "essence": "presence",
+      "noun": "tea whisk",
+      "technique": "ink-brush",
+      "cliche": "a steaming cup",
+      "signature": "A 166-unit coral binding collar anchors the open bamboo tines.",
+      "concepts": [
+        "Object lens: a bamboo chasen seen upright.",
+        "Gesture lens: the flared tines imply rapid circular whisking.",
+        "Material lens: broad cut channels replace fragile hairline bristles.",
+        "Ritual lens: the binding collar marks the controlled grip zone."
+      ],
+      "source_sha256": "7fb9ffd9174ca24162af374850652c51aa0a5a1e8299aba988e64dddd889ec07",
+      "contract_sha256": "7a251e0d2423f7ed0f75ef81b501b06e28797ee4f6ccdd0868c53830df171860",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/tea-whisk/master.svg",
+        "native": "/assets/gallery/tea-whisk/16.png",
+        "proof": "/assets/gallery/tea-whisk/128.png",
+        "large": "/assets/gallery/tea-whisk/256.png",
+        "silhouette": "/assets/gallery/tea-whisk/silhouette-128.png",
+        "receipt": "/assets/gallery/tea-whisk/review.json",
+        "case": "/assets/gallery/tea-whisk/case.md"
+      }
+    },
+    {
+      "number": 14,
+      "id": "incense-censer",
+      "title": "Incense Censer",
+      "world": "home reflection ritual",
+      "user_job": "begin a quiet reflection period with a physical cue",
+      "essence": "stillness",
+      "noun": "censer",
+      "technique": "gradient-glow",
+      "cliche": "floating smoke curls detached from a bowl",
+      "signature": "A 202-unit crescent vent is cut directly into the lid.",
+      "concepts": [
+        "Object lens: a lidded footed incense vessel.",
+        "Light lens: a restrained interior glow replaces decorative smoke.",
+        "Negative-space lens: the crescent vent is structural, not an overlay.",
+        "Ritual lens: lid, belly, and foot create a deliberate start-stop object."
+      ],
+      "source_sha256": "74e2e3a948de1f81da23ace55d9e1ec7fb5d21e9a1b4e67d6325ca484a210926",
+      "contract_sha256": "3bd5a49aa7512fb3f2b72569b591f273f34480da2c5e1f29c78d7e8cebfea36b",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/incense-censer/master.svg",
+        "native": "/assets/gallery/incense-censer/16.png",
+        "proof": "/assets/gallery/incense-censer/128.png",
+        "large": "/assets/gallery/incense-censer/256.png",
+        "silhouette": "/assets/gallery/incense-censer/silhouette-128.png",
+        "receipt": "/assets/gallery/incense-censer/review.json",
+        "case": "/assets/gallery/incense-censer/case.md"
+      }
+    },
+    {
+      "number": 15,
+      "id": "candle-snuffer",
+      "title": "Candle Snuffer",
+      "world": "evening closing ritual",
+      "user_job": "close the evening safely without blowing wax",
+      "essence": "closure",
+      "noun": "candle snuffer",
+      "technique": "chrome",
+      "cliche": "a flame or crescent moon",
+      "signature": "A 228-unit coral pivot collar joins the long handle to the bell.",
+      "concepts": [
+        "Object lens: a diagonal long-handled bell snuffer.",
+        "Action lens: the cap approaches a wick from above.",
+        "Hardware lens: a hard pivot band distinguishes it from a ladle.",
+        "Silhouette lens: the flared bell terminates an otherwise narrow tool."
+      ],
+      "source_sha256": "222dd91a430681f71a8278e409aa79a0d5c89840a6cd06dce3e82a68925070c4",
+      "contract_sha256": "1a824b8dd6f588dd25048c98673e56b46d81a547032f009ca5b702dcb7270982",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/candle-snuffer/master.svg",
+        "native": "/assets/gallery/candle-snuffer/16.png",
+        "proof": "/assets/gallery/candle-snuffer/128.png",
+        "large": "/assets/gallery/candle-snuffer/256.png",
+        "silhouette": "/assets/gallery/candle-snuffer/silhouette-128.png",
+        "receipt": "/assets/gallery/candle-snuffer/review.json",
+        "case": "/assets/gallery/candle-snuffer/case.md"
+      }
+    },
+    {
+      "number": 16,
+      "id": "gathering-hand-bell",
+      "title": "Gathering Hand Bell",
+      "world": "neighborhood gathering",
+      "user_job": "call a shared table to attention without a screen",
+      "essence": "gathering",
+      "noun": "hand bell",
+      "technique": "enamel-pin",
+      "cliche": "a notification bell with a red dot",
+      "signature": "A 192-unit coral clapper swings below the broad bell body.",
+      "concepts": [
+        "Object lens: a hand bell with a solid turned handle.",
+        "Community lens: one audible object convenes many people.",
+        "Motion lens: the low clapper shows a real swing rather than an alert dot.",
+        "Silhouette lens: handle, shoulder, skirt, and clapper read in one vertical stack."
+      ],
+      "source_sha256": "1f7515d4a1abedf03db48ba36ac3110da25d870a2d2e5bc023190419beba7ea6",
+      "contract_sha256": "a6b69f0a3179136d967f6b86028fe0eedf968ef3b97bc0d48d0ab62eb4de0888",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/gathering-hand-bell/master.svg",
+        "native": "/assets/gallery/gathering-hand-bell/16.png",
+        "proof": "/assets/gallery/gathering-hand-bell/128.png",
+        "large": "/assets/gallery/gathering-hand-bell/256.png",
+        "silhouette": "/assets/gallery/gathering-hand-bell/silhouette-128.png",
+        "receipt": "/assets/gallery/gathering-hand-bell/review.json",
+        "case": "/assets/gallery/gathering-hand-bell/case.md"
+      }
+    },
+    {
+      "number": 17,
+      "id": "moka-pot",
+      "title": "Moka Pot",
+      "world": "shared morning",
+      "user_job": "brew a small pot of coffee for the household",
+      "essence": "warmth",
+      "noun": "moka pot",
+      "technique": "isometric",
+      "cliche": "a generic takeaway cup",
+      "signature": "A 262-unit angular coral handle carries the recognizable grip gap.",
+      "concepts": [
+        "Object lens: an octagonal stovetop brewer.",
+        "Routine lens: the compact pot signals a repeated shared morning.",
+        "Geometry lens: stacked facets separate boiler, basket, and chamber.",
+        "Silhouette lens: the oversized side handle prevents a generic kettle reading."
+      ],
+      "source_sha256": "10d9972138b38f17b5087c2b0eb26bba40c87f52443f481a6f5e4305e7dc740e",
+      "contract_sha256": "05c8d5392caf769a6206ac581e744b4e65e459cf3be0d6e7450458245cce1f0d",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/moka-pot/master.svg",
+        "native": "/assets/gallery/moka-pot/16.png",
+        "proof": "/assets/gallery/moka-pot/128.png",
+        "large": "/assets/gallery/moka-pot/256.png",
+        "silhouette": "/assets/gallery/moka-pot/silhouette-128.png",
+        "receipt": "/assets/gallery/moka-pot/review.json",
+        "case": "/assets/gallery/moka-pot/case.md"
+      }
+    },
+    {
+      "number": 18,
+      "id": "tiffin-carrier",
+      "title": "Tiffin Carrier",
+      "world": "family meals",
+      "user_job": "carry a multi-course family meal without disposable packaging",
+      "essence": "provision",
+      "noun": "tiffin carrier",
+      "technique": "isometric",
+      "cliche": "a lunchbox with utensils",
+      "signature": "A 168-unit full-height coral latch locks all three tiers.",
+      "concepts": [
+        "Object lens: a three-tier cylindrical meal carrier.",
+        "System lens: one latch coordinates several food compartments.",
+        "Routine lens: the stacked form implies a prepared meal journey.",
+        "Silhouette lens: tier breaks and the side rail avoid a plain canister."
+      ],
+      "source_sha256": "51ff04dec370e375702382d6a39a5aaa79597a1d36e84559590c5eeaad04975a",
+      "contract_sha256": "7b96996d93888f5df08c422d63f5ee8b49e726ccac6fc48ecb02140ab4eeda6d",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/tiffin-carrier/master.svg",
+        "native": "/assets/gallery/tiffin-carrier/16.png",
+        "proof": "/assets/gallery/tiffin-carrier/128.png",
+        "large": "/assets/gallery/tiffin-carrier/256.png",
+        "silhouette": "/assets/gallery/tiffin-carrier/silhouette-128.png",
+        "receipt": "/assets/gallery/tiffin-carrier/review.json",
+        "case": "/assets/gallery/tiffin-carrier/case.md"
+      }
+    },
+    {
+      "number": 19,
+      "id": "balcony-watering-can",
+      "title": "Balcony Watering Can",
+      "world": "shared balcony garden",
+      "user_job": "tend a small shared garden with a controlled pour",
+      "essence": "nurture",
+      "noun": "watering can",
+      "technique": "cut-paper",
+      "cliche": "a sprout in a circle",
+      "signature": "A 214-unit coral rose caps the low left spout.",
+      "concepts": [
+        "Object lens: a squat can with long spout and high handle opening.",
+        "Scale lens: the compact body suits a balcony rather than a field.",
+        "Action lens: the broad rose signals gentle distribution instead of dumping.",
+        "Silhouette lens: spout, body, and handle form a single readable machine."
+      ],
+      "source_sha256": "abf9d0cb5ba9787be2ca9fc01588cd9d6729f7ff01d468ef12bcae6559c9ae1b",
+      "contract_sha256": "1d28c2eb8543c96f21a2051930af4eb34bd6a55a9222bf6237f71181f1d4fdbf",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/balcony-watering-can/master.svg",
+        "native": "/assets/gallery/balcony-watering-can/16.png",
+        "proof": "/assets/gallery/balcony-watering-can/128.png",
+        "large": "/assets/gallery/balcony-watering-can/256.png",
+        "silhouette": "/assets/gallery/balcony-watering-can/silhouette-128.png",
+        "receipt": "/assets/gallery/balcony-watering-can/review.json",
+        "case": "/assets/gallery/balcony-watering-can/case.md"
+      }
+    },
+    {
+      "number": 20,
+      "id": "picnic-basket",
+      "title": "Picnic Basket",
+      "world": "community meals",
+      "user_job": "organize food and cloth for a shared outdoor meal",
+      "essence": "welcome",
+      "noun": "picnic basket",
+      "technique": "woven",
+      "cliche": "crossed fork and spoon",
+      "signature": "A 156-unit coral wrap interrupts one side of the arched handle.",
+      "concepts": [
+        "Object lens: a lidded trapezoid hamper with a tall handle.",
+        "Community lens: one carried container supports a shared table.",
+        "Material lens: two broad weave bands survive small-size rendering.",
+        "Asymmetry lens: the wrapped handle records repeated carrying."
+      ],
+      "source_sha256": "90f8d503d825fd5f2ec8ace3c80be2de348d3ce60d35cfa172796c83945ba665",
+      "contract_sha256": "fa7c5c0b137b84bb9f0005b55b956cfeea6474fe4dbe4001f8f949e7862de2c5",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/picnic-basket/master.svg",
+        "native": "/assets/gallery/picnic-basket/16.png",
+        "proof": "/assets/gallery/picnic-basket/128.png",
+        "large": "/assets/gallery/picnic-basket/256.png",
+        "silhouette": "/assets/gallery/picnic-basket/silhouette-128.png",
+        "receipt": "/assets/gallery/picnic-basket/review.json",
+        "case": "/assets/gallery/picnic-basket/case.md"
+      }
+    },
+    {
+      "number": 21,
+      "id": "wooden-clothespin",
+      "title": "Wooden Clothespin",
+      "world": "household laundry",
+      "user_job": "secure family laundry on a line in changing weather",
+      "essence": "hold",
+      "noun": "clothespin",
+      "technique": "flat-geometric",
+      "cliche": "a washing machine drum",
+      "signature": "A 228-unit coral spring chamber separates the two wooden jaws.",
+      "concepts": [
+        "Object lens: a side-view wooden peg with split jaws.",
+        "Force lens: the center chamber shows where pressure pivots.",
+        "Routine lens: a single humble tool stands for repeated care work.",
+        "Silhouette lens: the diagonal stance avoids a generic rectangle."
+      ],
+      "source_sha256": "24d6a8f815bf477e6e0a1863e8daf5ba70981e4b9cf148588e2632556495a733",
+      "contract_sha256": "de4561abfcbd01f70702c7580a2106fa673cd2ea85dc80ba91bb80148a173663",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/wooden-clothespin/master.svg",
+        "native": "/assets/gallery/wooden-clothespin/16.png",
+        "proof": "/assets/gallery/wooden-clothespin/128.png",
+        "large": "/assets/gallery/wooden-clothespin/256.png",
+        "silhouette": "/assets/gallery/wooden-clothespin/silhouette-128.png",
+        "receipt": "/assets/gallery/wooden-clothespin/review.json",
+        "case": "/assets/gallery/wooden-clothespin/case.md"
+      }
+    },
+    {
+      "number": 22,
+      "id": "emergency-safety-pin",
+      "title": "Emergency Safety Pin",
+      "world": "on-the-go clothing repair",
+      "user_job": "make a temporary clothing repair away from home",
+      "essence": "rescue",
+      "noun": "safety pin",
+      "technique": "line-mark",
+      "cliche": "a medical cross or generic wrench",
+      "signature": "A 216-unit coral coil dominates the lower turn of the pin.",
+      "concepts": [
+        "Object lens: an open safety pin with cap, shaft, and coil.",
+        "Urgency lens: the pin is caught mid-repair rather than neatly closed.",
+        "Line lens: one broad continuous stroke remains intact at sixteen pixels.",
+        "Cliche-flip lens: repair is shown by the actual emergency tool."
+      ],
+      "source_sha256": "ee2d4e5d42c6a377b86fb99cd46ecd0a04f977c26b9aa1ed420f8f60819e00c5",
+      "contract_sha256": "25980584040dcc0b488fcc5b60e81693ce91027a1a101db277260d73bbaf2e69",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/emergency-safety-pin/master.svg",
+        "native": "/assets/gallery/emergency-safety-pin/16.png",
+        "proof": "/assets/gallery/emergency-safety-pin/128.png",
+        "large": "/assets/gallery/emergency-safety-pin/256.png",
+        "silhouette": "/assets/gallery/emergency-safety-pin/silhouette-128.png",
+        "receipt": "/assets/gallery/emergency-safety-pin/review.json",
+        "case": "/assets/gallery/emergency-safety-pin/case.md"
+      }
+    },
+    {
+      "number": 23,
+      "id": "tomato-pincushion",
+      "title": "Tomato Pincushion",
+      "world": "sewing table",
+      "user_job": "keep hand-sewing tools located and ready",
+      "essence": "readiness",
+      "noun": "tomato pincushion",
+      "technique": "clay",
+      "cliche": "crossed needle and thread",
+      "signature": "A 256-unit dark calyx spreads across the coral cushion.",
+      "concepts": [
+        "Object lens: the traditional lobed tomato sewing cushion.",
+        "Memory lens: its familiar odd form recalls a family sewing box.",
+        "Safety lens: the calyx replaces dangerous protruding needles.",
+        "Silhouette lens: a low irregular fruit form avoids a generic red circle."
+      ],
+      "source_sha256": "f92d36df3cf1fee202b8392fc03ba349d35d491626527d25c348cf1066a15e86",
+      "contract_sha256": "bfd9bad7e11a36b20630029b31e8785516d00689523367953076e937d1966adf",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/tomato-pincushion/master.svg",
+        "native": "/assets/gallery/tomato-pincushion/16.png",
+        "proof": "/assets/gallery/tomato-pincushion/128.png",
+        "large": "/assets/gallery/tomato-pincushion/256.png",
+        "silhouette": "/assets/gallery/tomato-pincushion/silhouette-128.png",
+        "receipt": "/assets/gallery/tomato-pincushion/review.json",
+        "case": "/assets/gallery/tomato-pincushion/case.md"
+      }
+    },
+    {
+      "number": 24,
+      "id": "drop-spindle",
+      "title": "Drop Spindle",
+      "world": "fiber craft",
+      "user_job": "twist loose fiber into yarn with a portable hand tool",
+      "essence": "continuity",
+      "noun": "drop spindle",
+      "technique": "duotone-cut",
+      "cliche": "a yarn ball with crossed needles",
+      "signature": "A 172-unit coral whorl sector offsets the spindle's balance.",
+      "concepts": [
+        "Object lens: a shaft passing through a broad diamond whorl.",
+        "Motion lens: the offset sector implies rotation without speed lines.",
+        "Process lens: vertical weight translates hand motion into continuous yarn.",
+        "Silhouette lens: long shaft and centered whorl name a spindle, not a top."
+      ],
+      "source_sha256": "f34c16f03614707ab46a2a340f0773d6d35c5f3dfdc9e4105706d6866b236ab1",
+      "contract_sha256": "6ee340779557e48582a9236e2c593a8e5505d430ffb3fde93cf106953a534a24",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/drop-spindle/master.svg",
+        "native": "/assets/gallery/drop-spindle/16.png",
+        "proof": "/assets/gallery/drop-spindle/128.png",
+        "large": "/assets/gallery/drop-spindle/256.png",
+        "silhouette": "/assets/gallery/drop-spindle/silhouette-128.png",
+        "receipt": "/assets/gallery/drop-spindle/review.json",
+        "case": "/assets/gallery/drop-spindle/case.md"
+      }
+    },
+    {
+      "number": 25,
+      "id": "loom-shuttle",
+      "title": "Loom Shuttle",
+      "world": "weaving",
+      "user_job": "carry the weft cleanly through a loom shed",
+      "essence": "passage",
+      "noun": "loom shuttle",
+      "technique": "duotone-cut",
+      "cliche": "a decorative textile square",
+      "signature": "A 188-unit coral bobbin window interrupts the long pointed body.",
+      "concepts": [
+        "Object lens: a boat-shaped shuttle with a central bobbin cavity.",
+        "Motion lens: pointed ends suggest repeated passage left to right.",
+        "Process lens: stored thread sits inside the carrier instead of crossing it.",
+        "Silhouette lens: the long lens body stays unmistakable at thumbnail scale."
+      ],
+      "source_sha256": "92d1fb5e6e6f2b3d74cb4b40f09b410e6bb494b08d2ea3441db84fc3afffa4a9",
+      "contract_sha256": "53b35b0575afc1b92d869d983da801e46fe8b7377b50bb0402dd4b4268d76a8e",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/loom-shuttle/master.svg",
+        "native": "/assets/gallery/loom-shuttle/16.png",
+        "proof": "/assets/gallery/loom-shuttle/128.png",
+        "large": "/assets/gallery/loom-shuttle/256.png",
+        "silhouette": "/assets/gallery/loom-shuttle/silhouette-128.png",
+        "receipt": "/assets/gallery/loom-shuttle/review.json",
+        "case": "/assets/gallery/loom-shuttle/case.md"
+      }
+    },
+    {
+      "number": 26,
+      "id": "stork-embroidery-scissors",
+      "title": "Stork Embroidery Scissors",
+      "world": "needlework",
+      "user_job": "clip fine thread precisely with a treasured craft tool",
+      "essence": "finesse",
+      "noun": "embroidery scissors",
+      "technique": "chrome",
+      "cliche": "generic crossed shears or a needle-and-thread glyph",
+      "signature": "A 152-unit coral beak pivot turns the scissors into a stork profile.",
+      "concepts": [
+        "Object lens: compact finger-loop scissors with a long bird beak.",
+        "Heritage lens: the ornamental tool feels kept rather than disposable.",
+        "Animal lens: the working blades become a stork neck without adding a mascot face.",
+        "Silhouette lens: two large loops and one long beak remain legible at sixteen pixels."
+      ],
+      "source_sha256": "466110326e128aa42aac7ac9efa23943099c82d10811f0d9bfb7c02924cbaffb",
+      "contract_sha256": "4d4f8253d51a184372a3a25e3ece2ab3337828f893d3ea1fb878db52454cb137",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/stork-embroidery-scissors/master.svg",
+        "native": "/assets/gallery/stork-embroidery-scissors/16.png",
+        "proof": "/assets/gallery/stork-embroidery-scissors/128.png",
+        "large": "/assets/gallery/stork-embroidery-scissors/256.png",
+        "silhouette": "/assets/gallery/stork-embroidery-scissors/silhouette-128.png",
+        "receipt": "/assets/gallery/stork-embroidery-scissors/review.json",
+        "case": "/assets/gallery/stork-embroidery-scissors/case.md"
+      }
+    },
+    {
+      "number": 27,
+      "id": "printmaking-brayer",
+      "title": "Printmaking Brayer",
+      "world": "community print workshop",
+      "user_job": "ink a block evenly for a shared poster run",
+      "essence": "imprint",
+      "noun": "brayer",
+      "technique": "risograph",
+      "cliche": "a paint palette or pencil",
+      "signature": "A 212-unit coral ink edge misregisters one end of the roller.",
+      "concepts": [
+        "Object lens: a broad print roller with a bent central handle.",
+        "Process lens: the colored end records where ink first loaded.",
+        "Community lens: one hand tool enables many repeat impressions.",
+        "Silhouette lens: the T-shaped roller and low grip avoid a paintbrush reading."
+      ],
+      "source_sha256": "86982700c584410d6fd3420ee578bbccc172256e06ce1c7107b1841f53f1fd2f",
+      "contract_sha256": "e37b8f88b4b8c374117123218bd9a5ee836bad0f9b8d9cf61229ae564051e52e",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/printmaking-brayer/master.svg",
+        "native": "/assets/gallery/printmaking-brayer/16.png",
+        "proof": "/assets/gallery/printmaking-brayer/128.png",
+        "large": "/assets/gallery/printmaking-brayer/256.png",
+        "silhouette": "/assets/gallery/printmaking-brayer/silhouette-128.png",
+        "receipt": "/assets/gallery/printmaking-brayer/review.json",
+        "case": "/assets/gallery/printmaking-brayer/case.md"
+      }
+    },
+    {
+      "number": 28,
+      "id": "block-plane",
+      "title": "Block Plane",
+      "world": "home joinery",
+      "user_job": "trim an edge flush during a repair project",
+      "essence": "true",
+      "noun": "block plane",
+      "technique": "blueprint",
+      "cliche": "crossed hammer and screwdriver",
+      "signature": "A 180-unit coral blade wedge rises above the compact sole.",
+      "concepts": [
+        "Object lens: a low block plane with mouth, sole, and iron.",
+        "Mechanism lens: the blade angle explains the cut without showing shavings.",
+        "Repair lens: the compact hand tool stands for adjustment rather than construction.",
+        "Silhouette lens: the raised iron breaks the rectangular body decisively."
+      ],
+      "source_sha256": "d8bae80e2b4a43f9896f4d5c67fad4b2651ef018e841a2a8e42d5eb0c5e1ae95",
+      "contract_sha256": "26c135d849ea8594c60a204b8c75cc577ec5e30988510c70b1aa424b65661a94",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/block-plane/master.svg",
+        "native": "/assets/gallery/block-plane/16.png",
+        "proof": "/assets/gallery/block-plane/128.png",
+        "large": "/assets/gallery/block-plane/256.png",
+        "silhouette": "/assets/gallery/block-plane/silhouette-128.png",
+        "receipt": "/assets/gallery/block-plane/review.json",
+        "case": "/assets/gallery/block-plane/case.md"
+      }
+    },
+    {
+      "number": 29,
+      "id": "folding-ruler",
+      "title": "Folding Ruler",
+      "world": "repair planning",
+      "user_job": "measure an irregular home repair without a powered tool",
+      "essence": "measure",
+      "noun": "folding ruler",
+      "technique": "pixel-grid",
+      "cliche": "a generic ruler tick strip",
+      "signature": "A 192-unit coral square hinge turns the chunky zigzag.",
+      "concepts": [
+        "Object lens: a hinged wooden rule opened into a zigzag.",
+        "Adaptation lens: the geometry bends around the measured place.",
+        "Pixel lens: thick orthogonal joints carry the style without fragile ticks.",
+        "Silhouette lens: three angled limbs identify the folding mechanism."
+      ],
+      "source_sha256": "8bba85175979c263a4a8e991526a61a735ef934c0e12ab004024e0114a20da68",
+      "contract_sha256": "6551b43400666cbf4d6fa30858457e21f39aa40191778290095b3ac13d027995",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/folding-ruler/master.svg",
+        "native": "/assets/gallery/folding-ruler/16.png",
+        "proof": "/assets/gallery/folding-ruler/128.png",
+        "large": "/assets/gallery/folding-ruler/256.png",
+        "silhouette": "/assets/gallery/folding-ruler/silhouette-128.png",
+        "receipt": "/assets/gallery/folding-ruler/review.json",
+        "case": "/assets/gallery/folding-ruler/case.md"
+      }
+    },
+    {
+      "number": 30,
+      "id": "brace-drill",
+      "title": "Brace Drill",
+      "world": "manual woodworking",
+      "user_job": "bore a controlled hole without electricity",
+      "essence": "leverage",
+      "noun": "brace drill",
+      "technique": "isometric",
+      "cliche": "a power-drill silhouette",
+      "signature": "A 190-unit coral crank grip interrupts the large C frame.",
+      "concepts": [
+        "Object lens: a C-shaped hand brace with head and bit socket.",
+        "Force lens: the distant grip makes manual leverage visible.",
+        "Heritage lens: the form recalls repair before cordless tools.",
+        "Silhouette lens: the deep open crank prevents a generic drill reading."
+      ],
+      "source_sha256": "00dd007565aef645a74e3fc2d1348931fb34d2e5cf4327d52f20f1975e573e7d",
+      "contract_sha256": "725c5e36d3b001bc9b54db63ceb8178a1e8a02fcbccf4af7f6ba9b18c81aad45",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/brace-drill/master.svg",
+        "native": "/assets/gallery/brace-drill/16.png",
+        "proof": "/assets/gallery/brace-drill/128.png",
+        "large": "/assets/gallery/brace-drill/256.png",
+        "silhouette": "/assets/gallery/brace-drill/silhouette-128.png",
+        "receipt": "/assets/gallery/brace-drill/review.json",
+        "case": "/assets/gallery/brace-drill/case.md"
+      }
+    },
+    {
+      "number": 31,
+      "id": "mortar-and-pestle",
+      "title": "Mortar and Pestle",
+      "world": "household cooking",
+      "user_job": "crush spices into a shared meal's base",
+      "essence": "transform",
+      "noun": "mortar and pestle",
+      "technique": "clay",
+      "cliche": "a chef hat or crossed utensils",
+      "signature": "A 190-unit coral grip cap terminates the broad diagonal pestle.",
+      "concepts": [
+        "Object lens: a deep mortar supporting a heavy pestle.",
+        "Process lens: the diagonal tool is already engaged with the bowl.",
+        "Sensory lens: broad rounded masses suggest weight and grinding.",
+        "Silhouette lens: bowl foot and angled pestle name the pair without loose ingredients."
+      ],
+      "source_sha256": "2a92c525850fce7588ab7894dfd6bbe168d6aded91262d1a683c720d3ae1b86b",
+      "contract_sha256": "ca135956d005dc58f3858f7c1e209379eff49025115e97e8f617661032fc037f",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/mortar-and-pestle/master.svg",
+        "native": "/assets/gallery/mortar-and-pestle/16.png",
+        "proof": "/assets/gallery/mortar-and-pestle/128.png",
+        "large": "/assets/gallery/mortar-and-pestle/256.png",
+        "silhouette": "/assets/gallery/mortar-and-pestle/silhouette-128.png",
+        "receipt": "/assets/gallery/mortar-and-pestle/review.json",
+        "case": "/assets/gallery/mortar-and-pestle/case.md"
+      }
+    },
+    {
+      "number": 32,
+      "id": "rice-paddle",
+      "title": "Rice Paddle",
+      "world": "shared table",
+      "user_job": "portion rice gently from a common bowl",
+      "essence": "serve",
+      "noun": "rice paddle",
+      "technique": "stencil-cut",
+      "cliche": "a rice bowl with steam",
+      "signature": "A 190-unit rice-grain-shaped opening sits in the broad paddle head.",
+      "concepts": [
+        "Object lens: an upright shamoji with broad head and short grip.",
+        "Serving lens: the large face emphasizes portioning rather than stirring.",
+        "Negative-space lens: one grain-shaped opening names the food indirectly.",
+        "Silhouette lens: the paddle head stays wider and flatter than a spoon."
+      ],
+      "source_sha256": "61b718b742eb9fdc0e3532e136e3105a946c2be8859c9e3741c9b781c203fb24",
+      "contract_sha256": "bf61e24c66f9fe310427b5c61b16e872b66529807f5f93e6be3357c2718b42d7",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/rice-paddle/master.svg",
+        "native": "/assets/gallery/rice-paddle/16.png",
+        "proof": "/assets/gallery/rice-paddle/128.png",
+        "large": "/assets/gallery/rice-paddle/256.png",
+        "silhouette": "/assets/gallery/rice-paddle/silhouette-128.png",
+        "receipt": "/assets/gallery/rice-paddle/review.json",
+        "case": "/assets/gallery/rice-paddle/case.md"
+      }
+    },
+    {
+      "number": 33,
+      "id": "family-rolling-pin",
+      "title": "Family Rolling Pin",
+      "world": "family baking",
+      "user_job": "roll dough to an even thickness for a shared recipe",
+      "essence": "tradition",
+      "noun": "rolling pin",
+      "technique": "cut-paper",
+      "cliche": "a cupcake or chef hat",
+      "signature": "A 176-unit coral heirloom handle intentionally differs from its mate.",
+      "concepts": [
+        "Object lens: a broad pastry cylinder between two handles.",
+        "Memory lens: one replaced handle records years of family use.",
+        "Action lens: the diagonal stance suggests pressure across dough.",
+        "Silhouette lens: the unequal grips keep the roller from becoming a dumbbell."
+      ],
+      "source_sha256": "35fb0864c61faf3a5bcd258ecf120c5772591c9900735c9d5bfb02e8b7fbd1da",
+      "contract_sha256": "7156fab8ca19c2c266ed154a83495a216553ba5e039bd6cec0a91b1422739cd8",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/family-rolling-pin/master.svg",
+        "native": "/assets/gallery/family-rolling-pin/16.png",
+        "proof": "/assets/gallery/family-rolling-pin/128.png",
+        "large": "/assets/gallery/family-rolling-pin/256.png",
+        "silhouette": "/assets/gallery/family-rolling-pin/silhouette-128.png",
+        "receipt": "/assets/gallery/family-rolling-pin/review.json",
+        "case": "/assets/gallery/family-rolling-pin/case.md"
+      }
+    },
+    {
+      "number": 34,
+      "id": "festival-lantern",
+      "title": "Festival Lantern",
+      "world": "neighborhood festival",
+      "user_job": "mark a gathering place after dusk",
+      "essence": "beacon",
+      "noun": "paper lantern",
+      "technique": "gradient-glow",
+      "cliche": "a generic map pin or starburst",
+      "signature": "A 184-unit coral light gate opens across the central ribs.",
+      "concepts": [
+        "Object lens: a ribbed hanging paper lantern.",
+        "Community lens: a repeated street object becomes a local meeting signal.",
+        "Light lens: the open gate shows contained light without an external glow halo.",
+        "Silhouette lens: compressed top and bottom caps preserve the lantern profile."
+      ],
+      "source_sha256": "a0c81c968b3dd262472096aa15f5cd680e40036157e7508eb36eba9dd0135cd2",
+      "contract_sha256": "34be324fb0ff383ec9138bf6ac62ab2b4bd2d2e7b8266b25d01dff9beed664d8",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/festival-lantern/master.svg",
+        "native": "/assets/gallery/festival-lantern/16.png",
+        "proof": "/assets/gallery/festival-lantern/128.png",
+        "large": "/assets/gallery/festival-lantern/256.png",
+        "silhouette": "/assets/gallery/festival-lantern/silhouette-128.png",
+        "receipt": "/assets/gallery/festival-lantern/review.json",
+        "case": "/assets/gallery/festival-lantern/case.md"
+      }
+    },
+    {
+      "number": 35,
+      "id": "folding-fan",
+      "title": "Folding Fan",
+      "world": "dance and ceremony",
+      "user_job": "carry and reveal a practiced cultural gesture",
+      "essence": "grace",
+      "noun": "folding fan",
+      "technique": "stained-glass",
+      "cliche": "a flower rosette",
+      "signature": "A 242-unit coral leaf is visibly displaced within the fan arc.",
+      "concepts": [
+        "Object lens: an open folding fan anchored at one pivot.",
+        "Gesture lens: the broad arc implies a sweep through air.",
+        "Structure lens: three large panes replace decorative micro-patterns.",
+        "Asymmetry lens: one colored leaf makes the practiced opening memorable."
+      ],
+      "source_sha256": "174f95e988183fbdcaabe141210d64abaaf1d0ff1ffc35c5dc9f826e79b7be68",
+      "contract_sha256": "1fa020b96c9fa92ad1aa3068d319d5b953cb6726c151a120835e243caf0cfbda",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/folding-fan/master.svg",
+        "native": "/assets/gallery/folding-fan/16.png",
+        "proof": "/assets/gallery/folding-fan/128.png",
+        "large": "/assets/gallery/folding-fan/256.png",
+        "silhouette": "/assets/gallery/folding-fan/silhouette-128.png",
+        "receipt": "/assets/gallery/folding-fan/review.json",
+        "case": "/assets/gallery/folding-fan/case.md"
+      }
+    },
+    {
+      "number": 36,
+      "id": "rocking-cradle",
+      "title": "Rocking Cradle",
+      "world": "new family",
+      "user_job": "settle a child through protected rhythmic motion",
+      "essence": "shelter",
+      "noun": "rocking cradle",
+      "technique": "cel-shaded",
+      "cliche": "a baby footprint or pacifier",
+      "signature": "A 190-unit coral blanket cove rises asymmetrically inside the cradle.",
+      "concepts": [
+        "Object lens: a side-view cradle on one continuous rocker.",
+        "Care lens: the inner cove protects rather than displays the child.",
+        "Motion lens: the long curved base implies a slow repeated rock.",
+        "Silhouette lens: tall ends keep the bed from reading as a boat."
+      ],
+      "source_sha256": "d8146d9080fde70111fb9d54ea9283879adbf89119f108d6a55f6f58fe47e0bf",
+      "contract_sha256": "2bce686fea78198909fd3197b9e39ece225178dc42813331985e529953dedf99",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/rocking-cradle/master.svg",
+        "native": "/assets/gallery/rocking-cradle/16.png",
+        "proof": "/assets/gallery/rocking-cradle/128.png",
+        "large": "/assets/gallery/rocking-cradle/256.png",
+        "silhouette": "/assets/gallery/rocking-cradle/silhouette-128.png",
+        "receipt": "/assets/gallery/rocking-cradle/review.json",
+        "case": "/assets/gallery/rocking-cradle/case.md"
+      }
+    },
+    {
+      "number": 37,
+      "id": "shared-umbrella",
+      "title": "Shared Umbrella",
+      "world": "meeting in bad weather",
+      "user_job": "shelter a companion while walking to a meetup",
+      "essence": "together",
+      "noun": "umbrella",
+      "technique": "cut-paper",
+      "cliche": "two people under a heart-shaped canopy",
+      "signature": "A 260-unit coral panel sits off center above the shared shaft.",
+      "concepts": [
+        "Object lens: a broad hooked umbrella seen frontally.",
+        "Relationship lens: the oversized canopy leaves room for two without figures.",
+        "Asymmetry lens: one displaced panel implies accommodating another person.",
+        "Silhouette lens: dome, shaft, and hook stay connected and immediately nameable."
+      ],
+      "source_sha256": "dee5cb7c12d1e3b99d099a4c3a7c7756b73cf2a05541dbf61c676bba97ec1c16",
+      "contract_sha256": "c431e2267717c551e6f2ab556d21c479e4130dc9d5dcaabe01825b227d369d2d",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/shared-umbrella/master.svg",
+        "native": "/assets/gallery/shared-umbrella/16.png",
+        "proof": "/assets/gallery/shared-umbrella/128.png",
+        "large": "/assets/gallery/shared-umbrella/256.png",
+        "silhouette": "/assets/gallery/shared-umbrella/silhouette-128.png",
+        "receipt": "/assets/gallery/shared-umbrella/review.json",
+        "case": "/assets/gallery/shared-umbrella/case.md"
+      }
+    },
+    {
+      "number": 38,
+      "id": "teardrop-door-knocker",
+      "title": "Teardrop Door Knocker",
+      "world": "arrival ritual",
+      "user_job": "announce an arrival at a shared home without a device",
+      "essence": "arrival",
+      "noun": "door knocker",
+      "technique": "chrome",
+      "cliche": "a doorway with a notification dot",
+      "signature": "A 188-unit coral hinge jaw breaks the teardrop's symmetry.",
+      "concepts": [
+        "Object lens: a hanging teardrop knocker with top mount.",
+        "Ritual lens: one physical strike precedes being welcomed inside.",
+        "Hardware lens: the hinged jaw shows a working object, not jewelry.",
+        "Silhouette lens: mount, neck, and heavy loop form a recognizable vertical tool."
+      ],
+      "source_sha256": "ad5a6c4baab97f9aa877ee5d17040f7e88310fde3174bef9d07615ac977d3c0c",
+      "contract_sha256": "cb3f262a75d108c98f02bcd2d81364cf25c99746f53f1cd507ca853240e49619",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/teardrop-door-knocker/master.svg",
+        "native": "/assets/gallery/teardrop-door-knocker/16.png",
+        "proof": "/assets/gallery/teardrop-door-knocker/128.png",
+        "large": "/assets/gallery/teardrop-door-knocker/256.png",
+        "silhouette": "/assets/gallery/teardrop-door-knocker/silhouette-128.png",
+        "receipt": "/assets/gallery/teardrop-door-knocker/review.json",
+        "case": "/assets/gallery/teardrop-door-knocker/case.md"
+      }
+    },
+    {
+      "number": 39,
+      "id": "library-date-stamp",
+      "title": "Library Date Stamp",
+      "world": "neighborhood library",
+      "user_job": "circulate shared books through a visible borrowing ritual",
+      "essence": "circulation",
+      "noun": "date stamp",
+      "technique": "risograph",
+      "cliche": "an open book or reading glasses",
+      "signature": "A 160-unit coral ink face offsets the heavy stamp foot.",
+      "concepts": [
+        "Object lens: a bulb-handled date stamp with a wide rubber foot.",
+        "Community lens: the tool records temporary stewardship of a shared book.",
+        "Process lens: the colored base is the surface that transfers the mark.",
+        "Silhouette lens: bulb, neck, shoulder, and foot avoid a generic pedestal."
+      ],
+      "source_sha256": "5ce8d4bea1c9b132aed36f0ab8829f3f80b1de4accc6816ba28b6f5390a5618e",
+      "contract_sha256": "5b6749565e7fe13e7afebcab4bad91058e342d4d47ee0fa893c8833f82e5de35",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/library-date-stamp/master.svg",
+        "native": "/assets/gallery/library-date-stamp/16.png",
+        "proof": "/assets/gallery/library-date-stamp/128.png",
+        "large": "/assets/gallery/library-date-stamp/256.png",
+        "silhouette": "/assets/gallery/library-date-stamp/silhouette-128.png",
+        "receipt": "/assets/gallery/library-date-stamp/review.json",
+        "case": "/assets/gallery/library-date-stamp/case.md"
+      }
+    },
+    {
+      "number": 40,
+      "id": "cat-bell",
+      "title": "Side-sitting cat with bell",
+      "world": "animals",
+      "user_job": "notice",
+      "essence": "poise",
+      "noun": "cat",
+      "technique": "mascot",
+      "cliche": "generic cat head",
+      "signature": "offset bell accent",
+      "concepts": [
+        "Object: seated profile with long haunch",
+        "Metaphor: quiet watchfulness",
+        "Verb: tail arcs into a seat",
+        "Negative space: belly notch frames bell"
+      ],
+      "source_sha256": "9fbbffccc7603aa9c79f9494e41a4e9379c9a9d446747ee8eb6cc8251fdc947c",
+      "contract_sha256": "ee54aa680bb9b420c8a4380421674b853c5e84489a827f077bea7e49ff15a005",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/cat-bell/master.svg",
+        "native": "/assets/gallery/cat-bell/16.png",
+        "proof": "/assets/gallery/cat-bell/128.png",
+        "large": "/assets/gallery/cat-bell/256.png",
+        "silhouette": "/assets/gallery/cat-bell/silhouette-128.png",
+        "receipt": "/assets/gallery/cat-bell/review.json",
+        "case": "/assets/gallery/cat-bell/case.md"
+      }
+    },
+    {
+      "number": 41,
+      "id": "corgi-bound",
+      "title": "Bounding corgi",
+      "world": "animals",
+      "user_job": "play",
+      "essence": "leap",
+      "noun": "corgi",
+      "technique": "cel-shaded",
+      "cliche": "generic puppy face",
+      "signature": "zigzag running legs",
+      "concepts": [
+        "Object: full-body corgi bound",
+        "Metaphor: joyful momentum",
+        "Verb: paws launch in opposite directions",
+        "Color: saffron ear patch tags breed"
+      ],
+      "source_sha256": "3a4ff213689726dfee096fd5846b1d723749c670415488d83d636e86e90acde6",
+      "contract_sha256": "78dce05e7c66276ac9d7b7642506f479674ad583bcd7c829d3d157b91db91046",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/corgi-bound/master.svg",
+        "native": "/assets/gallery/corgi-bound/16.png",
+        "proof": "/assets/gallery/corgi-bound/128.png",
+        "large": "/assets/gallery/corgi-bound/256.png",
+        "silhouette": "/assets/gallery/corgi-bound/silhouette-128.png",
+        "receipt": "/assets/gallery/corgi-bound/review.json",
+        "case": "/assets/gallery/corgi-bound/case.md"
+      }
+    },
+    {
+      "number": 42,
+      "id": "koi-arc",
+      "title": "Arcing koi fish",
+      "world": "animals",
+      "user_job": "flow",
+      "essence": "current",
+      "noun": "koi",
+      "technique": "duotone-cut",
+      "cliche": "generic fish glyph",
+      "signature": "body cut-out arc",
+      "concepts": [
+        "Object: koi turning upward",
+        "Metaphor: water current",
+        "Verb: tail redirects the body",
+        "Negative space: belly arc suggests pond ring"
+      ],
+      "source_sha256": "d87cf392c2422d9fd256c52145f00d2e251517f2e8c5e1694483ce43c4b434fe",
+      "contract_sha256": "323da504050133453eed1923fd8ad0a3aaf9f30b6a2c97eda03bb07eb193ca4d",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/koi-arc/master.svg",
+        "native": "/assets/gallery/koi-arc/16.png",
+        "proof": "/assets/gallery/koi-arc/128.png",
+        "large": "/assets/gallery/koi-arc/256.png",
+        "silhouette": "/assets/gallery/koi-arc/silhouette-128.png",
+        "receipt": "/assets/gallery/koi-arc/review.json",
+        "case": "/assets/gallery/koi-arc/case.md"
+      }
+    },
+    {
+      "number": 43,
+      "id": "hummingbird-thimble",
+      "title": "Hovering hummingbird",
+      "world": "animals",
+      "user_job": "sample",
+      "essence": "hover",
+      "noun": "hummingbird",
+      "technique": "ink-brush",
+      "cliche": "generic bird silhouette",
+      "signature": "needle bill and displaced dot",
+      "concepts": [
+        "Object: hovering hummingbird",
+        "Metaphor: precision at speed",
+        "Verb: wing folds into a hover loop",
+        "Accent: nectar target floats ahead"
+      ],
+      "source_sha256": "593cbd579c1f49d12c1fe531b82e7583daa259ae346684eb6cd00c2935655f58",
+      "contract_sha256": "7ecf2eff75236914b69c831bfd8e2220b377ace42cdcc818cdd829c03f54b57f",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/hummingbird-thimble/master.svg",
+        "native": "/assets/gallery/hummingbird-thimble/16.png",
+        "proof": "/assets/gallery/hummingbird-thimble/128.png",
+        "large": "/assets/gallery/hummingbird-thimble/256.png",
+        "silhouette": "/assets/gallery/hummingbird-thimble/silhouette-128.png",
+        "receipt": "/assets/gallery/hummingbird-thimble/review.json",
+        "case": "/assets/gallery/hummingbird-thimble/case.md"
+      }
+    },
+    {
+      "number": 44,
+      "id": "beetle-elytra",
+      "title": "Top-view beetle",
+      "world": "insects",
+      "user_job": "inspect",
+      "essence": "armor",
+      "noun": "beetle",
+      "technique": "stencil-cut",
+      "cliche": "generic bug icon",
+      "signature": "split elytra seam",
+      "concepts": [
+        "Object: top-view beetle shell",
+        "Metaphor: engineered armor",
+        "Verb: shell opens along center",
+        "Geometry: inset red wing case"
+      ],
+      "source_sha256": "6ab89a4c19b68296bb02f3890c5cb51d4fee4c48fa93b9e85b9689735e658852",
+      "contract_sha256": "bfc3beeb09dcd47c6ad1abe714b01e758eae499b153c290617d025be6b57d99e",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/beetle-elytra/master.svg",
+        "native": "/assets/gallery/beetle-elytra/16.png",
+        "proof": "/assets/gallery/beetle-elytra/128.png",
+        "large": "/assets/gallery/beetle-elytra/256.png",
+        "silhouette": "/assets/gallery/beetle-elytra/silhouette-128.png",
+        "receipt": "/assets/gallery/beetle-elytra/review.json",
+        "case": "/assets/gallery/beetle-elytra/case.md"
+      }
+    },
+    {
+      "number": 45,
+      "id": "heron-step",
+      "title": "Stepping heron",
+      "world": "birds",
+      "user_job": "wait",
+      "essence": "stillness",
+      "noun": "heron",
+      "technique": "flat-geometric",
+      "cliche": "generic bird mark",
+      "signature": "single lifted leg",
+      "concepts": [
+        "Object: long-legged heron",
+        "Metaphor: patient observation",
+        "Verb: leg lifts before a step",
+        "Crop: beak becomes a forward wedge"
+      ],
+      "source_sha256": "a681c7b77d7203253f73e0d26999a57f0b67478b311352f152de01ffeddcb108",
+      "contract_sha256": "e71a385eb8744e3fd136b56dddc904b3baca087d6b5d469df7e3895c68f7cf69",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/heron-step/master.svg",
+        "native": "/assets/gallery/heron-step/16.png",
+        "proof": "/assets/gallery/heron-step/128.png",
+        "large": "/assets/gallery/heron-step/256.png",
+        "silhouette": "/assets/gallery/heron-step/silhouette-128.png",
+        "receipt": "/assets/gallery/heron-step/review.json",
+        "case": "/assets/gallery/heron-step/case.md"
+      }
+    },
+    {
+      "number": 46,
+      "id": "octopus-curl",
+      "title": "Octopus with curled arm",
+      "world": "animals",
+      "user_job": "adapt",
+      "essence": "curl",
+      "noun": "octopus",
+      "technique": "gradient-glow",
+      "cliche": "generic octopus badge",
+      "signature": "one arm curls into a hook",
+      "concepts": [
+        "Object: octopus with one hooked arm",
+        "Metaphor: flexible problem solving",
+        "Verb: tentacle redirects downward",
+        "Negative space: head counter keeps arms legible"
+      ],
+      "source_sha256": "172a56f3bc6bf8dc3437e7b9ffc9016fc6c97a05d84b4699d29b69a609754e23",
+      "contract_sha256": "68e36df4074661fcddee2ede2163ed62216e14526024959da932dfff97f95222",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/octopus-curl/master.svg",
+        "native": "/assets/gallery/octopus-curl/16.png",
+        "proof": "/assets/gallery/octopus-curl/128.png",
+        "large": "/assets/gallery/octopus-curl/256.png",
+        "silhouette": "/assets/gallery/octopus-curl/silhouette-128.png",
+        "receipt": "/assets/gallery/octopus-curl/review.json",
+        "case": "/assets/gallery/octopus-curl/case.md"
+      }
+    },
+    {
+      "number": 47,
+      "id": "sea-turtle-swim",
+      "title": "Swimming sea turtle",
+      "world": "animals",
+      "user_job": "navigate",
+      "essence": "glide",
+      "noun": "sea turtle",
+      "technique": "risograph",
+      "cliche": "generic turtle shell",
+      "signature": "offset flipper chevrons",
+      "concepts": [
+        "Object: turtle in top swim view",
+        "Metaphor: ocean migration",
+        "Verb: flippers form a heading",
+        "Pattern: shell plane is one broad cut"
+      ],
+      "source_sha256": "a56146ff422a2f6ea7ed1f47efb8d9baf3a57be38321445446a6fa3eb2a8940e",
+      "contract_sha256": "be7bc6ccb32a53b7ed92bec6694bf4c54633c04396facb36dff93845874a652d",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/sea-turtle-swim/master.svg",
+        "native": "/assets/gallery/sea-turtle-swim/16.png",
+        "proof": "/assets/gallery/sea-turtle-swim/128.png",
+        "large": "/assets/gallery/sea-turtle-swim/256.png",
+        "silhouette": "/assets/gallery/sea-turtle-swim/silhouette-128.png",
+        "receipt": "/assets/gallery/sea-turtle-swim/review.json",
+        "case": "/assets/gallery/sea-turtle-swim/case.md"
+      }
+    },
+    {
+      "number": 48,
+      "id": "fox-curl",
+      "title": "Curled sleeping fox",
+      "world": "animals",
+      "user_job": "rest",
+      "essence": "shelter",
+      "noun": "fox",
+      "technique": "cut-paper",
+      "cliche": "generic fox head",
+      "signature": "tail wraps into body notch",
+      "concepts": [
+        "Object: sleeping fox curled tight",
+        "Metaphor: self-made shelter",
+        "Verb: tail closes a loop",
+        "Accent: ear prism breaks the curl"
+      ],
+      "source_sha256": "385e7fcf7dc6d68997bad4392920967b8da85265ed7fdbe06fd67abcfe8b91bc",
+      "contract_sha256": "efb944e8ad63fcde45a733b8bd7bcbb51871b0269ca84b3dd96f7fe8eadbea50",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/fox-curl/master.svg",
+        "native": "/assets/gallery/fox-curl/16.png",
+        "proof": "/assets/gallery/fox-curl/128.png",
+        "large": "/assets/gallery/fox-curl/256.png",
+        "silhouette": "/assets/gallery/fox-curl/silhouette-128.png",
+        "receipt": "/assets/gallery/fox-curl/review.json",
+        "case": "/assets/gallery/fox-curl/case.md"
+      }
+    },
+    {
+      "number": 49,
+      "id": "whale-breach",
+      "title": "Breaching humpback whale",
+      "world": "animals",
+      "user_job": "surface",
+      "essence": "breach",
+      "noun": "humpback whale",
+      "technique": "isometric",
+      "cliche": "generic whale tail",
+      "signature": "asymmetric breach fin",
+      "concepts": [
+        "Object: humpback breaking water",
+        "Metaphor: emergence",
+        "Verb: body pivots around a tail",
+        "Accent: sun bead marks the breach"
+      ],
+      "source_sha256": "bb0612cec2b6d9b0f98813ccf78273021b9a68048faa1e158f89500eedc8d818",
+      "contract_sha256": "5071c9eb55e8647111088c39dc259973fdb1ad6b7a2a02317b7d46ace74abb89",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/whale-breach/master.svg",
+        "native": "/assets/gallery/whale-breach/16.png",
+        "proof": "/assets/gallery/whale-breach/128.png",
+        "large": "/assets/gallery/whale-breach/256.png",
+        "silhouette": "/assets/gallery/whale-breach/silhouette-128.png",
+        "receipt": "/assets/gallery/whale-breach/review.json",
+        "case": "/assets/gallery/whale-breach/case.md"
+      }
+    },
+    {
+      "number": 50,
+      "id": "sunflower-disc",
+      "title": "Sunflower seed disc",
+      "world": "nature",
+      "user_job": "grow",
+      "essence": "radiance",
+      "noun": "sunflower",
+      "technique": "woodcut",
+      "cliche": "generic flower",
+      "signature": "notched radial petals",
+      "concepts": [
+        "Object: sunflower seen head-on",
+        "Metaphor: stored daylight",
+        "Verb: petals radiate from seed disc",
+        "Carving: angular petals create a sun clock"
+      ],
+      "source_sha256": "35b38fa51586581bfafc204902ddba4008bb7ec6cd89e204144fcae5a8e20e9b",
+      "contract_sha256": "3e5eb810fa5ac6adee4d4dd3b01357197c043cb27f9be3b1019c64890907f782",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/sunflower-disc/master.svg",
+        "native": "/assets/gallery/sunflower-disc/16.png",
+        "proof": "/assets/gallery/sunflower-disc/128.png",
+        "large": "/assets/gallery/sunflower-disc/256.png",
+        "silhouette": "/assets/gallery/sunflower-disc/silhouette-128.png",
+        "receipt": "/assets/gallery/sunflower-disc/review.json",
+        "case": "/assets/gallery/sunflower-disc/case.md"
+      }
+    },
+    {
+      "number": 51,
+      "id": "fiddlehead-fern",
+      "title": "Fiddlehead fern",
+      "world": "nature",
+      "user_job": "unfurl",
+      "essence": "unfurl",
+      "noun": "fiddlehead fern",
+      "technique": "line-mark",
+      "cliche": "generic leaf",
+      "signature": "spiral coil terminus",
+      "concepts": [
+        "Object: fern frond before opening",
+        "Metaphor: gradual discovery",
+        "Verb: stem unfurls upward",
+        "Accent: gold coil tip marks the start"
+      ],
+      "source_sha256": "fb3ebcf525fb74e69383d83171d8d24520c5b25d7545be4cbf41b6ec240d45db",
+      "contract_sha256": "62b66668cf9a152edd7b8250d04f0357777c2d29af98bef2c69f219ce96c7839",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/fiddlehead-fern/master.svg",
+        "native": "/assets/gallery/fiddlehead-fern/16.png",
+        "proof": "/assets/gallery/fiddlehead-fern/128.png",
+        "large": "/assets/gallery/fiddlehead-fern/256.png",
+        "silhouette": "/assets/gallery/fiddlehead-fern/silhouette-128.png",
+        "receipt": "/assets/gallery/fiddlehead-fern/review.json",
+        "case": "/assets/gallery/fiddlehead-fern/case.md"
+      }
+    },
+    {
+      "number": 52,
+      "id": "pinecone-cut",
+      "title": "Pinecone",
+      "world": "nature",
+      "user_job": "shelter",
+      "essence": "scale",
+      "noun": "pinecone",
+      "technique": "enamel-pin",
+      "cliche": "generic pine tree",
+      "signature": "alternating scale cuts",
+      "concepts": [
+        "Object: upright pinecone",
+        "Metaphor: seed protection",
+        "Verb: scales overlap upward",
+        "Highlight: top scale is a gold wedge"
+      ],
+      "source_sha256": "d7cdcbe09566f5fec8448a480ab1f53eae48445774a224f13edce599d0e07b29",
+      "contract_sha256": "9290239b2748f8cf5f6d6d7fbccf356086e29538c6988b2f7c3e8c423c31eb37",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/pinecone-cut/master.svg",
+        "native": "/assets/gallery/pinecone-cut/16.png",
+        "proof": "/assets/gallery/pinecone-cut/128.png",
+        "large": "/assets/gallery/pinecone-cut/256.png",
+        "silhouette": "/assets/gallery/pinecone-cut/silhouette-128.png",
+        "receipt": "/assets/gallery/pinecone-cut/review.json",
+        "case": "/assets/gallery/pinecone-cut/case.md"
+      }
+    },
+    {
+      "number": 53,
+      "id": "chanterelle-cap",
+      "title": "Chanterelle mushroom",
+      "world": "nature",
+      "user_job": "forage",
+      "essence": "earth",
+      "noun": "chanterelle",
+      "technique": "cel-shaded",
+      "cliche": "generic mushroom",
+      "signature": "folded cap edge",
+      "concepts": [
+        "Object: chanterelle with stem",
+        "Metaphor: woodland finding",
+        "Verb: cap flares like a trumpet",
+        "Plane: warm top slice identifies the species"
+      ],
+      "source_sha256": "460b1f21cb49cbbb793f390c3c9b7ea82766b70ed70c42c7dfe4e0cc3cb9e44c",
+      "contract_sha256": "3d3c4ed0836ce763e8f7e608717b2695db987ab3a22e7008278aa0dd728ec987",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/chanterelle-cap/master.svg",
+        "native": "/assets/gallery/chanterelle-cap/16.png",
+        "proof": "/assets/gallery/chanterelle-cap/128.png",
+        "large": "/assets/gallery/chanterelle-cap/256.png",
+        "silhouette": "/assets/gallery/chanterelle-cap/silhouette-128.png",
+        "receipt": "/assets/gallery/chanterelle-cap/review.json",
+        "case": "/assets/gallery/chanterelle-cap/case.md"
+      }
+    },
+    {
+      "number": 54,
+      "id": "coral-branch",
+      "title": "Branching coral",
+      "world": "ecology",
+      "user_job": "restore",
+      "essence": "branch",
+      "noun": "coral",
+      "technique": "ink-brush",
+      "cliche": "generic coral fan",
+      "signature": "forked negative bays",
+      "concepts": [
+        "Object: branching hard coral",
+        "Metaphor: connected habitat",
+        "Verb: branches split upward",
+        "Accent: one tip carries a reef marker"
+      ],
+      "source_sha256": "25e936b06e6f0a45d245c58f2c770541827a82c8181af816d47d3320319d2972",
+      "contract_sha256": "f58d2e580000acaff6aa48e36f4d37d747cb7165cfb497047280bb133386ab70",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/coral-branch/master.svg",
+        "native": "/assets/gallery/coral-branch/16.png",
+        "proof": "/assets/gallery/coral-branch/128.png",
+        "large": "/assets/gallery/coral-branch/256.png",
+        "silhouette": "/assets/gallery/coral-branch/silhouette-128.png",
+        "receipt": "/assets/gallery/coral-branch/review.json",
+        "case": "/assets/gallery/coral-branch/case.md"
+      }
+    },
+    {
+      "number": 55,
+      "id": "volcanic-ridge",
+      "title": "Volcanic ridge",
+      "world": "nature",
+      "user_job": "survey",
+      "essence": "ridge",
+      "noun": "volcanic ridge",
+      "technique": "blueprint",
+      "cliche": "generic mountain badge",
+      "signature": "lava notch in peak",
+      "concepts": [
+        "Object: jagged volcanic skyline",
+        "Metaphor: pressure made visible",
+        "Verb: ridge rises in three steps",
+        "Accent: lava wedge interrupts the contour"
+      ],
+      "source_sha256": "678c770973b68ce76004f3d14f90c565f00c431f689a71d84ac5b31e02b43e1a",
+      "contract_sha256": "afda1a4953405157c87ccfa64867fe7b862ebdb8608a1362f7f09d11eacc9ea5",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/volcanic-ridge/master.svg",
+        "native": "/assets/gallery/volcanic-ridge/16.png",
+        "proof": "/assets/gallery/volcanic-ridge/128.png",
+        "large": "/assets/gallery/volcanic-ridge/256.png",
+        "silhouette": "/assets/gallery/volcanic-ridge/silhouette-128.png",
+        "receipt": "/assets/gallery/volcanic-ridge/review.json",
+        "case": "/assets/gallery/volcanic-ridge/case.md"
+      }
+    },
+    {
+      "number": 56,
+      "id": "ramen-bowl",
+      "title": "Ramen bowl and chopsticks",
+      "world": "food",
+      "user_job": "nourish",
+      "essence": "comfort",
+      "noun": "ramen",
+      "technique": "flat-geometric",
+      "cliche": "generic bowl icon",
+      "signature": "crossed chopsticks as rim cue",
+      "concepts": [
+        "Object: ramen bowl from front",
+        "Metaphor: warm pause",
+        "Verb: chopsticks lean into serving",
+        "Negative space: noodle bowl stays open"
+      ],
+      "source_sha256": "1b7350b951c0c8b99f5155a60aaff3bffc09faba9cf56a479e4ce38f39f5a9c9",
+      "contract_sha256": "e7e70063cd8db7bf04e634e48fd4e033f2f211cc8c7cfbed563d5bab75209043",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/ramen-bowl/master.svg",
+        "native": "/assets/gallery/ramen-bowl/16.png",
+        "proof": "/assets/gallery/ramen-bowl/128.png",
+        "large": "/assets/gallery/ramen-bowl/256.png",
+        "silhouette": "/assets/gallery/ramen-bowl/silhouette-128.png",
+        "receipt": "/assets/gallery/ramen-bowl/review.json",
+        "case": "/assets/gallery/ramen-bowl/case.md"
+      }
+    },
+    {
+      "number": 57,
+      "id": "sourdough-score",
+      "title": "Scored sourdough loaf",
+      "world": "food",
+      "user_job": "bake",
+      "essence": "rise",
+      "noun": "sourdough loaf",
+      "technique": "stencil-cut",
+      "cliche": "generic bread slice",
+      "signature": "large slash scoring",
+      "concepts": [
+        "Object: round sourdough loaf",
+        "Metaphor: patient fermentation",
+        "Verb: scored cuts open upward",
+        "Accent: starter-colored crown spot"
+      ],
+      "source_sha256": "f7b220fef26173b134b98d859813e6dfbf57d0db63e18e047beb577db9178ddd",
+      "contract_sha256": "8680b3d4130fed586fc47306eb525cf4d754027e8242a4f5814fb340273dc379",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/sourdough-score/master.svg",
+        "native": "/assets/gallery/sourdough-score/16.png",
+        "proof": "/assets/gallery/sourdough-score/128.png",
+        "large": "/assets/gallery/sourdough-score/256.png",
+        "silhouette": "/assets/gallery/sourdough-score/silhouette-128.png",
+        "receipt": "/assets/gallery/sourdough-score/review.json",
+        "case": "/assets/gallery/sourdough-score/case.md"
+      }
+    },
+    {
+      "number": 58,
+      "id": "citrus-wedge",
+      "title": "Citrus wedge",
+      "world": "food",
+      "user_job": "refresh",
+      "essence": "zest",
+      "noun": "citrus wedge",
+      "technique": "duotone-cut",
+      "cliche": "generic fruit circle",
+      "signature": "diagonal pith window",
+      "concepts": [
+        "Object: peeled citrus wedge",
+        "Metaphor: bright refreshment",
+        "Verb: wedge points to a squeeze",
+        "Plane: pith slice separates rind"
+      ],
+      "source_sha256": "7e7d97809cf03268dd7f62ae79960d49ed92e1a183b09bc55ea68a2f1378c029",
+      "contract_sha256": "a7a1f80ffbd60c7cab030473e9b9d43a6e17020b785e966acc307353d7b4b2dc",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/citrus-wedge/master.svg",
+        "native": "/assets/gallery/citrus-wedge/16.png",
+        "proof": "/assets/gallery/citrus-wedge/128.png",
+        "large": "/assets/gallery/citrus-wedge/256.png",
+        "silhouette": "/assets/gallery/citrus-wedge/silhouette-128.png",
+        "receipt": "/assets/gallery/citrus-wedge/review.json",
+        "case": "/assets/gallery/citrus-wedge/case.md"
+      }
+    },
+    {
+      "number": 59,
+      "id": "honeycomb-jar",
+      "title": "Honey jar",
+      "world": "food",
+      "user_job": "sweeten",
+      "essence": "gold",
+      "noun": "honey jar",
+      "technique": "glass-stack",
+      "cliche": "generic jar",
+      "signature": "hexagonal honey panes",
+      "concepts": [
+        "Object: capped honey jar",
+        "Metaphor: gathered abundance",
+        "Verb: honey cells descend",
+        "Accent: two hex panes act as label-free mark"
+      ],
+      "source_sha256": "186f89dc8f636e6e123860d507b44425f607b379b57432009589f1396c9d55dc",
+      "contract_sha256": "ceb47fc21ed952544cf8e9c9b6923afff8f878e67cc72c4b9b05af788b7cc404",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/honeycomb-jar/master.svg",
+        "native": "/assets/gallery/honeycomb-jar/16.png",
+        "proof": "/assets/gallery/honeycomb-jar/128.png",
+        "large": "/assets/gallery/honeycomb-jar/256.png",
+        "silhouette": "/assets/gallery/honeycomb-jar/silhouette-128.png",
+        "receipt": "/assets/gallery/honeycomb-jar/review.json",
+        "case": "/assets/gallery/honeycomb-jar/case.md"
+      }
+    },
+    {
+      "number": 60,
+      "id": "medicinal-sachet",
+      "title": "Herbal sachet",
+      "world": "wellness",
+      "user_job": "soothe",
+      "essence": "calm",
+      "noun": "herbal sachet",
+      "technique": "cut-paper",
+      "cliche": "generic droplet",
+      "signature": "folded top notch",
+      "concepts": [
+        "Object: stitched herbal sachet",
+        "Metaphor: quiet care",
+        "Verb: pouch hangs from a fold",
+        "Accent: centered seed cut identifies contents"
+      ],
+      "source_sha256": "4709c65dfdf174077413d3230c537020375c2f8e6b0b9f73412d487afed89fcf",
+      "contract_sha256": "69b43a38324d194355d6ea1c4e846a90b03f1035758e827ef7baa96ff755fb05",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/medicinal-sachet/master.svg",
+        "native": "/assets/gallery/medicinal-sachet/16.png",
+        "proof": "/assets/gallery/medicinal-sachet/128.png",
+        "large": "/assets/gallery/medicinal-sachet/256.png",
+        "silhouette": "/assets/gallery/medicinal-sachet/silhouette-128.png",
+        "receipt": "/assets/gallery/medicinal-sachet/review.json",
+        "case": "/assets/gallery/medicinal-sachet/case.md"
+      }
+    },
+    {
+      "number": 61,
+      "id": "running-shoe",
+      "title": "Running shoe",
+      "world": "wellness",
+      "user_job": "move",
+      "essence": "stride",
+      "noun": "running shoe",
+      "technique": "risograph",
+      "cliche": "generic sneaker outline",
+      "signature": "forward sole wedge",
+      "concepts": [
+        "Object: side-view running shoe",
+        "Metaphor: daily momentum",
+        "Verb: heel launches toward toe",
+        "Color: saffron sole creates a route line"
+      ],
+      "source_sha256": "e12c773869a585292dfafcb1b237f41746255bf976d6831e4ba2222e263fa8c3",
+      "contract_sha256": "a88a5825c3f12d97efc5176eb21d036100faa76418bb14ef17b56622e359f813",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/running-shoe/master.svg",
+        "native": "/assets/gallery/running-shoe/16.png",
+        "proof": "/assets/gallery/running-shoe/128.png",
+        "large": "/assets/gallery/running-shoe/256.png",
+        "silhouette": "/assets/gallery/running-shoe/silhouette-128.png",
+        "receipt": "/assets/gallery/running-shoe/review.json",
+        "case": "/assets/gallery/running-shoe/case.md"
+      }
+    },
+    {
+      "number": 62,
+      "id": "field-compass",
+      "title": "Field compass",
+      "world": "field-science",
+      "user_job": "orient",
+      "essence": "bearing",
+      "noun": "field compass",
+      "technique": "chrome",
+      "cliche": "generic target",
+      "signature": "off-axis needle",
+      "concepts": [
+        "Object: survey compass face",
+        "Metaphor: reliable bearing",
+        "Verb: needle points northeast",
+        "Accent: gold needle refuses radial symmetry"
+      ],
+      "source_sha256": "bec5ab5e8ec29291139248454b8b3904b02cda3b0f961b2c9ffad6caed3b9dc3",
+      "contract_sha256": "0fdc3f14819a13cb70771a3a41c124ab95b57dca7e66c5069258ab3cb73835b0",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/field-compass/master.svg",
+        "native": "/assets/gallery/field-compass/16.png",
+        "proof": "/assets/gallery/field-compass/128.png",
+        "large": "/assets/gallery/field-compass/256.png",
+        "silhouette": "/assets/gallery/field-compass/silhouette-128.png",
+        "receipt": "/assets/gallery/field-compass/review.json",
+        "case": "/assets/gallery/field-compass/case.md"
+      }
+    },
+    {
+      "number": 63,
+      "id": "soil-sampler",
+      "title": "Soil core sampler",
+      "world": "field-science",
+      "user_job": "measure",
+      "essence": "core",
+      "noun": "soil sampler",
+      "technique": "isometric",
+      "cliche": "generic flask",
+      "signature": "visible stratified core",
+      "concepts": [
+        "Object: hand soil corer",
+        "Metaphor: evidence from below",
+        "Verb: tube plunges into ground",
+        "Accent: orange soil band is the sample"
+      ],
+      "source_sha256": "2988845c872060f599c56dd53f1ffb3f747f55a4fe912a50242eb64f61eec59d",
+      "contract_sha256": "572bd575efcc8a2dcfa52b6c81b47fdfae023654265a5021637bf4c971e3cf94",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/soil-sampler/master.svg",
+        "native": "/assets/gallery/soil-sampler/16.png",
+        "proof": "/assets/gallery/soil-sampler/128.png",
+        "large": "/assets/gallery/soil-sampler/256.png",
+        "silhouette": "/assets/gallery/soil-sampler/silhouette-128.png",
+        "receipt": "/assets/gallery/soil-sampler/review.json",
+        "case": "/assets/gallery/soil-sampler/case.md"
+      }
+    },
+    {
+      "number": 64,
+      "id": "nest-egg",
+      "title": "Woven nest and egg",
+      "world": "birds",
+      "user_job": "protect",
+      "essence": "hatch",
+      "noun": "bird nest",
+      "technique": "woven",
+      "cliche": "generic nest circle",
+      "signature": "egg breaks the rim",
+      "concepts": [
+        "Object: nest holding one egg",
+        "Metaphor: protected possibility",
+        "Verb: woven rim gathers inward",
+        "Accent: egg rises above the nest"
+      ],
+      "source_sha256": "dbf7cb9c8464568b3190ddeddea6e56bc89bcca590989c2c999c5c7e793a635e",
+      "contract_sha256": "a7007aa922752dc7d13c3e1efc98a04cd451b40094abe51e803c38b105a98562",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/nest-egg/master.svg",
+        "native": "/assets/gallery/nest-egg/16.png",
+        "proof": "/assets/gallery/nest-egg/128.png",
+        "large": "/assets/gallery/nest-egg/256.png",
+        "silhouette": "/assets/gallery/nest-egg/silhouette-128.png",
+        "receipt": "/assets/gallery/nest-egg/review.json",
+        "case": "/assets/gallery/nest-egg/case.md"
+      }
+    },
+    {
+      "number": 65,
+      "id": "anemone-tidepool",
+      "title": "Tidepool anemone",
+      "world": "ecology",
+      "user_job": "observe",
+      "essence": "pulse",
+      "noun": "sea anemone",
+      "technique": "stained-glass",
+      "cliche": "generic flower",
+      "signature": "tentacle starburst",
+      "concepts": [
+        "Object: sea anemone in tidepool",
+        "Metaphor: hidden color at low tide",
+        "Verb: tentacles open outward",
+        "Accent: coral crown crosses the body"
+      ],
+      "source_sha256": "2e79a8bb3afcdbcb7765b6413960dd5b2178ccf02c1bb255e9acb9bb458b1c30",
+      "contract_sha256": "7e8c6f3afb7ca3fa4cdaca9d9d7b9660dcc9607125c6cfa5f3676de16652d209",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/anemone-tidepool/master.svg",
+        "native": "/assets/gallery/anemone-tidepool/16.png",
+        "proof": "/assets/gallery/anemone-tidepool/128.png",
+        "large": "/assets/gallery/anemone-tidepool/256.png",
+        "silhouette": "/assets/gallery/anemone-tidepool/silhouette-128.png",
+        "receipt": "/assets/gallery/anemone-tidepool/review.json",
+        "case": "/assets/gallery/anemone-tidepool/case.md"
+      }
+    },
+    {
+      "number": 66,
+      "id": "seed-pod",
+      "title": "Milkweed seed pod",
+      "world": "ecology",
+      "user_job": "disperse",
+      "essence": "release",
+      "noun": "seed pod",
+      "technique": "stencil-cut",
+      "cliche": "generic sprout",
+      "signature": "split pod seam",
+      "concepts": [
+        "Object: milkweed pod before release",
+        "Metaphor: future carried by wind",
+        "Verb: pod opens along a seam",
+        "Accent: gold seed tuft floats away"
+      ],
+      "source_sha256": "2b53e484725178f6ce0b05cbc859a3483af831b547ad40b0f784f71383b17fd1",
+      "contract_sha256": "d75a8e1c28f98a1ee2901e3919c575d3b087ad875deb80e7074137b477f142c3",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/seed-pod/master.svg",
+        "native": "/assets/gallery/seed-pod/16.png",
+        "proof": "/assets/gallery/seed-pod/128.png",
+        "large": "/assets/gallery/seed-pod/256.png",
+        "silhouette": "/assets/gallery/seed-pod/silhouette-128.png",
+        "receipt": "/assets/gallery/seed-pod/review.json",
+        "case": "/assets/gallery/seed-pod/case.md"
+      }
+    },
+    {
+      "number": 67,
+      "id": "dragonfly-side",
+      "title": "Dragonfly in profile",
+      "world": "insects",
+      "user_job": "track",
+      "essence": "precision",
+      "noun": "dragonfly",
+      "technique": "pixel-grid",
+      "cliche": "generic butterfly",
+      "signature": "four-wing cross axis",
+      "concepts": [
+        "Object: dragonfly from above",
+        "Metaphor: aerial precision",
+        "Verb: wings lock into a cross",
+        "Accent: gold head offsets the body"
+      ],
+      "source_sha256": "01ee0f59485cd485274afe000e9da816dc00a12dfabe0b7c486fa25151088629",
+      "contract_sha256": "faee4de9409b456cac053319bd29225f1b4f683fc73a5b6ba442689f9fe4b5f5",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/dragonfly-side/master.svg",
+        "native": "/assets/gallery/dragonfly-side/16.png",
+        "proof": "/assets/gallery/dragonfly-side/128.png",
+        "large": "/assets/gallery/dragonfly-side/256.png",
+        "silhouette": "/assets/gallery/dragonfly-side/silhouette-128.png",
+        "receipt": "/assets/gallery/dragonfly-side/review.json",
+        "case": "/assets/gallery/dragonfly-side/case.md"
+      }
+    },
+    {
+      "number": 68,
+      "id": "sandpiper-probe",
+      "title": "Sandpiper probing shore",
+      "world": "birds",
+      "user_job": "sample",
+      "essence": "probe",
+      "noun": "sandpiper",
+      "technique": "woodcut",
+      "cliche": "generic shorebird",
+      "signature": "long offset probing bill",
+      "concepts": [
+        "Object: sandpiper bending to shore",
+        "Metaphor: careful search",
+        "Verb: bill angles into sediment",
+        "Accent: sun dot stays clear of the bill"
+      ],
+      "source_sha256": "095fee53b3e3006672d54285ab04b00aefdde9d36c55df546618c9796e03b61d",
+      "contract_sha256": "ddf44bf1767772183a5ae2e377ba051e7b072e6b7dc7da59295a778455016b92",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/sandpiper-probe/master.svg",
+        "native": "/assets/gallery/sandpiper-probe/16.png",
+        "proof": "/assets/gallery/sandpiper-probe/128.png",
+        "large": "/assets/gallery/sandpiper-probe/256.png",
+        "silhouette": "/assets/gallery/sandpiper-probe/silhouette-128.png",
+        "receipt": "/assets/gallery/sandpiper-probe/review.json",
+        "case": "/assets/gallery/sandpiper-probe/case.md"
+      }
+    },
+    {
+      "number": 69,
+      "id": "initiative-abacus",
+      "title": "Initiative Abacus",
+      "world": "games",
+      "user_job": "reorder a tabletop encounter without losing the active turn",
+      "essence": "sequence",
+      "noun": "abacus",
+      "technique": "flat-geometric",
+      "cliche": "controller, crossed swords, numbered list, circular turn arrows",
+      "signature": "one escaped coral bead leaves the upper rail and docks in a side notch",
+      "concepts": [
+        "Object lens — a three-rail encounter abacus with deliberately unequal bead groups.",
+        "Verb lens — the active bead exits one rail and advances to the next.",
+        "System lens — staggered rails encode turn order without numbers.",
+        "Negative-space lens — the frame notch becomes the current-turn bay."
+      ],
+      "source_sha256": "696e25739676394eaff6469ca920a76ce975fa076870934aaf8a16e16e96489f",
+      "contract_sha256": "3fd6d3f657703a821585c954b3ba39dbd2b3f1a09509d36eef0c4d83e7a0768e",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/initiative-abacus/master.svg",
+        "native": "/assets/gallery/initiative-abacus/16.png",
+        "proof": "/assets/gallery/initiative-abacus/128.png",
+        "large": "/assets/gallery/initiative-abacus/256.png",
+        "silhouette": "/assets/gallery/initiative-abacus/silhouette-128.png",
+        "receipt": "/assets/gallery/initiative-abacus/review.json",
+        "case": "/assets/gallery/initiative-abacus/case.md"
+      }
+    },
+    {
+      "number": 70,
+      "id": "folded-map-folio",
+      "title": "Folded Map Folio",
+      "world": "games",
+      "user_job": "resume an explored route while keeping unopened regions hidden",
+      "essence": "resume",
+      "noun": "map folio",
+      "technique": "isometric",
+      "cliche": "map pin, compass, sword, quest marker",
+      "signature": "one accordion leaf rises above an asymmetrical three-page map silhouette",
+      "concepts": [
+        "Object lens — a three-leaf accordion map with one raised page.",
+        "Verb lens — the explored leaf unfolds while the unopened leaf stays short.",
+        "Metaphor lens — a coral route becomes the folio's structural spine.",
+        "Negative-space lens — unequal page tops prevent the object becoming a cube."
+      ],
+      "source_sha256": "324e547e813c48a0e5d9d145875ce9d5f9b6b21ac23e59701aa42b81315d640d",
+      "contract_sha256": "eb97156e2ef37f7d9e9a6e6ab792b5738ae16e72b26d544f77484eb617ebcdac",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/folded-map-folio/master.svg",
+        "native": "/assets/gallery/folded-map-folio/16.png",
+        "proof": "/assets/gallery/folded-map-folio/128.png",
+        "large": "/assets/gallery/folded-map-folio/256.png",
+        "silhouette": "/assets/gallery/folded-map-folio/silhouette-128.png",
+        "receipt": "/assets/gallery/folded-map-folio/review.json",
+        "case": "/assets/gallery/folded-map-folio/case.md"
+      }
+    },
+    {
+      "number": 71,
+      "id": "save-cartridge",
+      "title": "Save Relay Cartridge",
+      "world": "games",
+      "user_job": "hand cooperative progress from one player or session to the next",
+      "essence": "continue",
+      "noun": "cartridge",
+      "technique": "stencil-cut",
+      "cliche": "controller, cloud save, floppy disk, checkmark",
+      "signature": "a forked handoff rail is punched through a tapered cartridge plate",
+      "concepts": [
+        "Object lens — a full-bleed game cartridge with two unequal grip notches.",
+        "Verb lens — two source lanes converge before leaving as one save rail.",
+        "Metaphor lens — a relay baton is fused into the cartridge lock.",
+        "Negative-space lens — the complete handoff path is cut through one plate."
+      ],
+      "source_sha256": "da932e486ceb197a47ffd37d921871cff49bdb89b0540c6b1f6447d8daadb8de",
+      "contract_sha256": "28117c93d4d1953f7f5da3b7dedad3f4099af5437e237ef507ecb5b428d26096",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/save-cartridge/master.svg",
+        "native": "/assets/gallery/save-cartridge/16.png",
+        "proof": "/assets/gallery/save-cartridge/128.png",
+        "large": "/assets/gallery/save-cartridge/256.png",
+        "silhouette": "/assets/gallery/save-cartridge/silhouette-128.png",
+        "receipt": "/assets/gallery/save-cartridge/review.json",
+        "case": "/assets/gallery/save-cartridge/case.md"
+      }
+    },
+    {
+      "number": 72,
+      "id": "mech-pauldron",
+      "title": "Loadout Pauldron",
+      "world": "games",
+      "user_job": "compare a mech's hardpoint choices before committing",
+      "essence": "equip",
+      "noun": "pauldron",
+      "technique": "chrome",
+      "cliche": "robot head, gear, crosshair, hexagonal tech tile",
+      "signature": "one oversized edge-open hardpoint bay breaks the shoulder silhouette",
+      "concepts": [
+        "Object lens — an asymmetrical shoulder pauldron seen in three-quarter view.",
+        "Verb lens — the empty mounting bay opens toward the selected component.",
+        "Crop lens — only armor and mount are shown, never a whole robot.",
+        "Negative-space lens — the hardpoint is removed from the outer armor edge."
+      ],
+      "source_sha256": "474dbd6fc44e2787a83be52bba2d5fa567f4f4eb0673ef1e4ccdc20e8e74d00f",
+      "contract_sha256": "9c0307b94c73bf22a7dad382b404a8274389f9f59213b6f440641863006261af",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/mech-pauldron/master.svg",
+        "native": "/assets/gallery/mech-pauldron/16.png",
+        "proof": "/assets/gallery/mech-pauldron/128.png",
+        "large": "/assets/gallery/mech-pauldron/256.png",
+        "silhouette": "/assets/gallery/mech-pauldron/silhouette-128.png",
+        "receipt": "/assets/gallery/mech-pauldron/review.json",
+        "case": "/assets/gallery/mech-pauldron/case.md"
+      }
+    },
+    {
+      "number": 73,
+      "id": "quest-satchel",
+      "title": "Quest Satchel",
+      "world": "games",
+      "user_job": "group unfinished side objectives by the journey they belong to",
+      "essence": "carry",
+      "noun": "satchel",
+      "technique": "cut-paper",
+      "cliche": "quest exclamation mark, scroll, sword, map pin",
+      "signature": "the flap has one deep route-shaped corner fold offset from the clasp",
+      "concepts": [
+        "Object lens — a broad travel satchel with a folded route flap.",
+        "Verb lens — the flap lifts to reveal the next carried objective.",
+        "Metaphor lens — layered paper behaves like stacked journeys.",
+        "Negative-space lens — the flap fold becomes an open route notch."
+      ],
+      "source_sha256": "e745811c5e03e525795958f2572d86f4461b38879fd1d010757ab4e4247344b4",
+      "contract_sha256": "e1c7c74b9da428ab33d69ba18b56fb3309df97fe4585a4527242786ad965db98",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/quest-satchel/master.svg",
+        "native": "/assets/gallery/quest-satchel/16.png",
+        "proof": "/assets/gallery/quest-satchel/128.png",
+        "large": "/assets/gallery/quest-satchel/256.png",
+        "silhouette": "/assets/gallery/quest-satchel/silhouette-128.png",
+        "receipt": "/assets/gallery/quest-satchel/review.json",
+        "case": "/assets/gallery/quest-satchel/case.md"
+      }
+    },
+    {
+      "number": 74,
+      "id": "dungeon-portcullis",
+      "title": "Dungeon Portcullis",
+      "world": "games",
+      "user_job": "mark which route has been opened without exposing the whole map",
+      "essence": "unlock",
+      "noun": "portcullis",
+      "technique": "woodcut",
+      "cliche": "key, padlock, castle tower, quest marker",
+      "signature": "one lifted tooth creates a route-width opening at the lower edge",
+      "concepts": [
+        "Object lens — a heavy timber portcullis cropped to its working teeth.",
+        "Verb lens — one tooth rises while the rest remain closed.",
+        "Metaphor lens — a carved print block reveals only the opened passage.",
+        "Negative-space lens — the route is the single edge-open gap beneath the gate."
+      ],
+      "source_sha256": "89c9266b4835024da4005b93a9dac57db94885839536d2e336b904af93718319",
+      "contract_sha256": "ad41d1b7e633738c13f1a4f8e37c4a23c2e62c67576599aa44dc31c3402e1850",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/dungeon-portcullis/master.svg",
+        "native": "/assets/gallery/dungeon-portcullis/16.png",
+        "proof": "/assets/gallery/dungeon-portcullis/128.png",
+        "large": "/assets/gallery/dungeon-portcullis/256.png",
+        "silhouette": "/assets/gallery/dungeon-portcullis/silhouette-128.png",
+        "receipt": "/assets/gallery/dungeon-portcullis/review.json",
+        "case": "/assets/gallery/dungeon-portcullis/case.md"
+      }
+    },
+    {
+      "number": 75,
+      "id": "coop-camp-stove",
+      "title": "Co-op Camp Stove",
+      "world": "games",
+      "user_job": "see whether every expedition role is ready to leave camp",
+      "essence": "ready",
+      "noun": "camp stove",
+      "technique": "glass-stack",
+      "cliche": "party avatars, checkmarks, controller, crossed weapons",
+      "signature": "three translucent wind guards close around one opaque burner skeleton",
+      "concepts": [
+        "Object lens — a compact three-panel expedition stove.",
+        "Verb lens — wind guards close only when all roles are ready.",
+        "Metaphor lens — readiness is shared shelter around one burner.",
+        "System lens — three panels join one solid support ring without floating parts."
+      ],
+      "source_sha256": "95d9f63064e998dec84aa98b379bab3c94bbf7032438ea0e766761db5b2ce6d9",
+      "contract_sha256": "fbb95c3ae3a59a08c0690cca89082d66105b025296169c28bb887db1900be847",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/coop-camp-stove/master.svg",
+        "native": "/assets/gallery/coop-camp-stove/16.png",
+        "proof": "/assets/gallery/coop-camp-stove/128.png",
+        "large": "/assets/gallery/coop-camp-stove/256.png",
+        "silhouette": "/assets/gallery/coop-camp-stove/silhouette-128.png",
+        "receipt": "/assets/gallery/coop-camp-stove/review.json",
+        "case": "/assets/gallery/coop-camp-stove/case.md"
+      }
+    },
+    {
+      "number": 76,
+      "id": "chapter-lantern",
+      "title": "Chapter Lantern",
+      "world": "original anime/story",
+      "user_job": "resume an episodic story at the exact active thread",
+      "essence": "continue",
+      "noun": "lantern",
+      "technique": "cel-shaded",
+      "cliche": "manga eye, chibi head, open book, play button, franchise costume",
+      "signature": "a page-shaped missing corner changes the lantern's outer contour",
+      "concepts": [
+        "Object lens — an original folding story lantern with a chapter tab.",
+        "Verb lens — one shutter reopens at the active thread.",
+        "Metaphor lens — carried light stands for remembered narrative context.",
+        "Negative-space lens — the vent is also a broad page-corner fold."
+      ],
+      "source_sha256": "72a21f6a9d806f109466d690d8001a0f5eb230db25fdaab96a5639c633bcf4d9",
+      "contract_sha256": "78ad24a1c1fd5cbe92f08cdd089bbb11d3f68f5e437b2d3681d3ce7c0b2fb26f",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/chapter-lantern/master.svg",
+        "native": "/assets/gallery/chapter-lantern/16.png",
+        "proof": "/assets/gallery/chapter-lantern/128.png",
+        "large": "/assets/gallery/chapter-lantern/256.png",
+        "silhouette": "/assets/gallery/chapter-lantern/silhouette-128.png",
+        "receipt": "/assets/gallery/chapter-lantern/review.json",
+        "case": "/assets/gallery/chapter-lantern/case.md"
+      }
+    },
+    {
+      "number": 77,
+      "id": "courier-satchel",
+      "title": "Courier Wing Satchel",
+      "world": "original anime/story",
+      "user_job": "follow a spoiler-free dispatch from an original serial world",
+      "essence": "anticipate",
+      "noun": "satchel",
+      "technique": "ink-brush",
+      "cliche": "star, magic wand, play button, mascot bird, franchise mail crest",
+      "signature": "the satchel flap becomes a swept wing with one broad dry cut",
+      "concepts": [
+        "Object lens — a courier satchel drawn as one pressure-changing mass.",
+        "Verb lens — the flap rises into a delivery wing.",
+        "Metaphor lens — a dispatch physically carries anticipation.",
+        "Negative-space lens — one edge-open dry cut separates wing from bag."
+      ],
+      "source_sha256": "8c6f3d42055c369743ff950badee96187fa8874a963e33f4dc87220b6c937362",
+      "contract_sha256": "fabe7292af505bb5fda9e6f587b4547f80addb8f9d44887a2710598292e709dc",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/courier-satchel/master.svg",
+        "native": "/assets/gallery/courier-satchel/16.png",
+        "proof": "/assets/gallery/courier-satchel/128.png",
+        "large": "/assets/gallery/courier-satchel/256.png",
+        "silhouette": "/assets/gallery/courier-satchel/silhouette-128.png",
+        "receipt": "/assets/gallery/courier-satchel/review.json",
+        "case": "/assets/gallery/courier-satchel/case.md"
+      }
+    },
+    {
+      "number": 78,
+      "id": "storm-parasol",
+      "title": "Storm Parasol",
+      "world": "original anime/story",
+      "user_job": "track a weather-bound journey in an original fantasy serial",
+      "essence": "shelter",
+      "noun": "parasol",
+      "technique": "stained-glass",
+      "cliche": "cloud, lightning bolt, magical girl wand, character portrait",
+      "signature": "one missing canopy pane opens toward the direction of travel",
+      "concepts": [
+        "Object lens — a broad fantasy travel parasol seen from below.",
+        "Verb lens — the canopy turns into the storm rather than away from it.",
+        "Metaphor lens — colored panes are chapters of the journey.",
+        "Negative-space lens — a missing pane becomes the forward opening."
+      ],
+      "source_sha256": "3a7507de8361264ab544dafba10837be101c5e9f5d1c48fd33bb8188d7c211dc",
+      "contract_sha256": "e7351e323b9b50d96b6076371e5b953760317d237e5d025c7227493c7f3c08d4",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/storm-parasol/master.svg",
+        "native": "/assets/gallery/storm-parasol/16.png",
+        "proof": "/assets/gallery/storm-parasol/128.png",
+        "large": "/assets/gallery/storm-parasol/256.png",
+        "silhouette": "/assets/gallery/storm-parasol/silhouette-128.png",
+        "receipt": "/assets/gallery/storm-parasol/review.json",
+        "case": "/assets/gallery/storm-parasol/case.md"
+      }
+    },
+    {
+      "number": 79,
+      "id": "clockwork-bento",
+      "title": "Clockwork Bento Box",
+      "world": "original anime/story",
+      "user_job": "remember which small promise powers an original companion character",
+      "essence": "care",
+      "noun": "compartment bento box",
+      "technique": "mascot",
+      "cliche": "generic chibi face, animal ears, robot head, franchise food mascot",
+      "signature": "one oversized winding tab drives a four-compartment lunch-box structure",
+      "concepts": [
+        "Object lens — a four-compartment bento box with an external winding tab.",
+        "Verb lens — the crank advances one prepared compartment at a time.",
+        "System lens — unequal food bays create a mechanical sequence without numerals.",
+        "Negative-space lens — the cross divider is the stable lunch-box skeleton."
+      ],
+      "source_sha256": "0978742a55be534955c7e1c339bbe744bd0efa9402320335c4f5ff97d994c6b9",
+      "contract_sha256": "869d38b38d945516f5e213223f1ed055a2eb5beb84cde0bbeb2fc07d240ffc17",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/clockwork-bento/master.svg",
+        "native": "/assets/gallery/clockwork-bento/16.png",
+        "proof": "/assets/gallery/clockwork-bento/128.png",
+        "large": "/assets/gallery/clockwork-bento/256.png",
+        "silhouette": "/assets/gallery/clockwork-bento/silhouette-128.png",
+        "receipt": "/assets/gallery/clockwork-bento/review.json",
+        "case": "/assets/gallery/clockwork-bento/case.md"
+      }
+    },
+    {
+      "number": 80,
+      "id": "oracle-cabinet",
+      "title": "Whisper Drawer Cabinet",
+      "world": "original anime/story",
+      "user_job": "organize clues delivered by an unreliable object in an original story",
+      "essence": "interpret",
+      "noun": "apothecary cabinet",
+      "technique": "risograph",
+      "cliche": "crystal ball, eye, tarot card, sparkle, fortune-teller portrait",
+      "signature": "one impossible side-pulled drawer breaks an arched apothecary-cabinet silhouette",
+      "concepts": [
+        "Object lens — an arched apothecary cabinet with one deep lower drawer.",
+        "Verb lens — an impossible side drawer whispers a clue outside the case.",
+        "Metaphor lens — misregistration belongs only to unreliable testimony.",
+        "Negative-space lens — the pulled drawer leaves one broad side gap."
+      ],
+      "source_sha256": "f01a59a443f87a3991dcc2198385093c4166452e8dcb5ac444b52581e44c814f",
+      "contract_sha256": "830e4af7969c05dd96f3f0234ff9ebd79a6b7568cbea8d0ff9fe5dcecac5c99c",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/oracle-cabinet/master.svg",
+        "native": "/assets/gallery/oracle-cabinet/16.png",
+        "proof": "/assets/gallery/oracle-cabinet/128.png",
+        "large": "/assets/gallery/oracle-cabinet/256.png",
+        "silhouette": "/assets/gallery/oracle-cabinet/silhouette-128.png",
+        "receipt": "/assets/gallery/oracle-cabinet/review.json",
+        "case": "/assets/gallery/oracle-cabinet/case.md"
+      }
+    },
+    {
+      "number": 81,
+      "id": "familiar-saddle",
+      "title": "Familiar Saddle",
+      "world": "original anime/story",
+      "user_job": "prepare a small original creature companion for the next journey",
+      "essence": "depart",
+      "noun": "saddle",
+      "technique": "clay",
+      "cliche": "cute animal head, paw, wing, magic star, franchise creature silhouette",
+      "signature": "an oversized horn and a full two-pixel girth counter make the saddle unmistakable",
+      "concepts": [
+        "Object lens — a side-view creature saddle with horn, seat, skirt, and girth.",
+        "Verb lens — the open girth counter shows the saddle ready to mount.",
+        "Metaphor lens — the side pouch carries preparation as visible weight.",
+        "Negative-space lens — one broad under-seat counter names the girth opening."
+      ],
+      "source_sha256": "749a0e2a86e9a9fa5d2a9f3fc217be7a2be71389462774e855131aba2da9da7b",
+      "contract_sha256": "d9cfca9b2751f2ee7c58a513ce00e1d1073355670b8b5652f8a134315e82935b",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/familiar-saddle/master.svg",
+        "native": "/assets/gallery/familiar-saddle/16.png",
+        "proof": "/assets/gallery/familiar-saddle/128.png",
+        "large": "/assets/gallery/familiar-saddle/256.png",
+        "silhouette": "/assets/gallery/familiar-saddle/silhouette-128.png",
+        "receipt": "/assets/gallery/familiar-saddle/review.json",
+        "case": "/assets/gallery/familiar-saddle/case.md"
+      }
+    },
+    {
+      "number": 82,
+      "id": "tempo-wedge",
+      "title": "Tempo Wedge",
+      "world": "music",
+      "user_job": "align an ensemble's count-in and transition tempo",
+      "essence": "cue",
+      "noun": "metronome",
+      "technique": "ink-brush",
+      "cliche": "note, headphones, waveform, speaker, play triangle",
+      "signature": "one edge-open dry cut becomes the off-axis pendulum track",
+      "concepts": [
+        "Object lens — a full-bleed mechanical metronome wedge.",
+        "Verb lens — one decisive downbeat opens toward the next phrase.",
+        "Metaphor lens — pressure-changing brush mass becomes tempo weight.",
+        "Negative-space lens — the pendulum track is a single broad gouge."
+      ],
+      "source_sha256": "c11b6c5c41ac7983f62b3fe88a30092004e4b39e1ef10e3f67dfd68e55140d3b",
+      "contract_sha256": "0277c39e21d9b513b3124d80595215017a94ba38658cd335217b64b8c27909b1",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/tempo-wedge/master.svg",
+        "native": "/assets/gallery/tempo-wedge/16.png",
+        "proof": "/assets/gallery/tempo-wedge/128.png",
+        "large": "/assets/gallery/tempo-wedge/256.png",
+        "silhouette": "/assets/gallery/tempo-wedge/silhouette-128.png",
+        "receipt": "/assets/gallery/tempo-wedge/review.json",
+        "case": "/assets/gallery/tempo-wedge/case.md"
+      }
+    },
+    {
+      "number": 83,
+      "id": "kalimba-bridge",
+      "title": "Kalimba Bridge",
+      "world": "music",
+      "user_job": "practice a repeating thumb pattern without reading notation",
+      "essence": "repeat",
+      "noun": "kalimba",
+      "technique": "woodcut",
+      "cliche": "music note, waveform, equalizer bars, headphones",
+      "signature": "one center tine is shortened into a thumb-width entry bay",
+      "concepts": [
+        "Object lens — a close-cropped thumb piano with five heavy tines.",
+        "Verb lens — the central tine yields to begin the pattern.",
+        "Metaphor lens — the sound hole becomes a practice loop window.",
+        "Negative-space lens — broad carved breaks separate only essential tines."
+      ],
+      "source_sha256": "f0508c09b86085a0832fd7dbabccbf418c6fd1178f61c5e1d933e4244334c69a",
+      "contract_sha256": "6910089a6d19f8d93ced5d42ba8dfcaa57c564b387d9a0dc7fe22b7c4207ab82",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/kalimba-bridge/master.svg",
+        "native": "/assets/gallery/kalimba-bridge/16.png",
+        "proof": "/assets/gallery/kalimba-bridge/128.png",
+        "large": "/assets/gallery/kalimba-bridge/256.png",
+        "silhouette": "/assets/gallery/kalimba-bridge/silhouette-128.png",
+        "receipt": "/assets/gallery/kalimba-bridge/review.json",
+        "case": "/assets/gallery/kalimba-bridge/case.md"
+      }
+    },
+    {
+      "number": 84,
+      "id": "accordion-bellows",
+      "title": "Accordion Bellows",
+      "world": "music",
+      "user_job": "mark where a phrase should expand and contract",
+      "essence": "breathe",
+      "noun": "accordion",
+      "technique": "stained-glass",
+      "cliche": "note, lungs, waveform, volume speaker",
+      "signature": "one off-axis bellows fold opens twice as wide as the rest",
+      "concepts": [
+        "Object lens — an accordion cropped to both end boxes and four folds.",
+        "Verb lens — one fold expands to mark the musical breath.",
+        "Metaphor lens — stained panes act as visible air chambers.",
+        "System lens — heavy leading preserves the alternating contraction rhythm."
+      ],
+      "source_sha256": "005557de954e08e57ee703972e0098a6e78458a6d2ff9a82da14a6f4f343a13a",
+      "contract_sha256": "08efde7cd819085f0011bf719b01242ecb82568f1e858e48466fa1a3012cf23c",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/accordion-bellows/master.svg",
+        "native": "/assets/gallery/accordion-bellows/16.png",
+        "proof": "/assets/gallery/accordion-bellows/128.png",
+        "large": "/assets/gallery/accordion-bellows/256.png",
+        "silhouette": "/assets/gallery/accordion-bellows/silhouette-128.png",
+        "receipt": "/assets/gallery/accordion-bellows/review.json",
+        "case": "/assets/gallery/accordion-bellows/case.md"
+      }
+    },
+    {
+      "number": 85,
+      "id": "record-sleeve",
+      "title": "Record Sleeve Dig",
+      "world": "music",
+      "user_job": "save an unfamiliar record to revisit after one listening",
+      "essence": "discover",
+      "noun": "record sleeve",
+      "technique": "risograph",
+      "cliche": "music note, headphones, plain vinyl circle, waveform",
+      "signature": "an oversized off-center thumb notch reveals the label without drawing a loose disc",
+      "concepts": [
+        "Object lens — a thick paper record sleeve with one deep thumb notch.",
+        "Verb lens — the record is partly revealed, not already playing.",
+        "Metaphor lens — spot-color offset represents an unfamiliar sound arriving.",
+        "Negative-space lens — the notch is the discovery window."
+      ],
+      "source_sha256": "b0206c93f71d4a6ac077a0439c1bb6d6bff5866537282f59b5f9d2f2f5e3bda3",
+      "contract_sha256": "2df5a1ab7dd31cebdc50a738ae76e554e096544ba7d309d5baedc77ae306bb11",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/record-sleeve/master.svg",
+        "native": "/assets/gallery/record-sleeve/16.png",
+        "proof": "/assets/gallery/record-sleeve/128.png",
+        "large": "/assets/gallery/record-sleeve/256.png",
+        "silhouette": "/assets/gallery/record-sleeve/silhouette-128.png",
+        "receipt": "/assets/gallery/record-sleeve/review.json",
+        "case": "/assets/gallery/record-sleeve/case.md"
+      }
+    },
+    {
+      "number": 86,
+      "id": "tuning-machine",
+      "title": "Tuning Machine",
+      "world": "music",
+      "user_job": "record a stable setup for an alternate instrument tuning",
+      "essence": "tune",
+      "noun": "tuning peg",
+      "technique": "blueprint",
+      "cliche": "tuning fork, note, guitar silhouette, waveform",
+      "signature": "the peg's winding post has one broad indexed flat instead of a circular knob",
+      "concepts": [
+        "Object lens — one close-cropped string-instrument tuning machine.",
+        "Verb lens — the post rotates to a repeatable indexed flat.",
+        "Metaphor lens — sparse construction guides become calibration memory.",
+        "Negative-space lens — the string channel is punched through the post."
+      ],
+      "source_sha256": "12a26cc2ca4623c2ac68d91b00dd16cd1ea093bc96816beb13c3c99057726746",
+      "contract_sha256": "9ff767b162c09e4b44080d9406223d3342f2ca08d089b81f791b9e93b93eff90",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/tuning-machine/master.svg",
+        "native": "/assets/gallery/tuning-machine/16.png",
+        "proof": "/assets/gallery/tuning-machine/128.png",
+        "large": "/assets/gallery/tuning-machine/256.png",
+        "silhouette": "/assets/gallery/tuning-machine/silhouette-128.png",
+        "receipt": "/assets/gallery/tuning-machine/review.json",
+        "case": "/assets/gallery/tuning-machine/case.md"
+      }
+    },
+    {
+      "number": 87,
+      "id": "stage-cue-fan",
+      "title": "Stage Cue Fan",
+      "world": "performance",
+      "user_job": "remember the next blocking direction in a movement performance",
+      "essence": "turn",
+      "noun": "stage signal fan",
+      "technique": "duotone-cut",
+      "cliche": "spotlight, theater masks, dancer silhouette, arrow",
+      "signature": "one vermilion signal leaf drops below the rim to point toward the next stage turn",
+      "concepts": [
+        "Object lens — a stage signal fan with one deliberately dropped leaf.",
+        "Verb lens — the coral leaf points toward the performer's next turn.",
+        "Metaphor lens — broad planes are beats of blocking rather than decoration.",
+        "Negative-space lens — the dropped leaf opens a cue notch in the rim."
+      ],
+      "source_sha256": "2315701620aff4393bcb4bb0a9cfbaa3f6c95bd7d30d2383332529a4528b1f56",
+      "contract_sha256": "1c6269a93c20f2b52c469d1be4bda88ae741e7c569d0c5711c312fcc5875b986",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/stage-cue-fan/master.svg",
+        "native": "/assets/gallery/stage-cue-fan/16.png",
+        "proof": "/assets/gallery/stage-cue-fan/128.png",
+        "large": "/assets/gallery/stage-cue-fan/256.png",
+        "silhouette": "/assets/gallery/stage-cue-fan/silhouette-128.png",
+        "receipt": "/assets/gallery/stage-cue-fan/review.json",
+        "case": "/assets/gallery/stage-cue-fan/case.md"
+      }
+    },
+    {
+      "number": 88,
+      "id": "marionette-crossbar",
+      "title": "Marionette Crossbar",
+      "world": "performance",
+      "user_job": "rehearse which motion cue belongs to which puppet limb",
+      "essence": "coordinate",
+      "noun": "marionette controller",
+      "technique": "woven",
+      "cliche": "theater masks, puppet face, hand silhouette, tangled thin strings",
+      "signature": "two broad control tapes exchange levels once around an offset wooden crossbar",
+      "concepts": [
+        "Object lens — a close-cropped marionette crossbar with broad rehearsal tapes.",
+        "Verb lens — control paths cross once, then separate by limb.",
+        "Metaphor lens — woven topology makes coordination inspectable.",
+        "Negative-space lens — the central grip remains one large open counter."
+      ],
+      "source_sha256": "ef724641fc9e065c45e3c54fc4a6023a69763d3539689ec0f81bb68088af47e0",
+      "contract_sha256": "6613cb3f365d08a6c1af20560796c5e8e4398cdb1ee2f6e7712ee707e9387895",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/marionette-crossbar/master.svg",
+        "native": "/assets/gallery/marionette-crossbar/16.png",
+        "proof": "/assets/gallery/marionette-crossbar/128.png",
+        "large": "/assets/gallery/marionette-crossbar/256.png",
+        "silhouette": "/assets/gallery/marionette-crossbar/silhouette-128.png",
+        "receipt": "/assets/gallery/marionette-crossbar/review.json",
+        "case": "/assets/gallery/marionette-crossbar/case.md"
+      }
+    },
+    {
+      "number": 89,
+      "id": "cue-light-hood",
+      "title": "Cue Light Hood",
+      "world": "performance",
+      "user_job": "give a performer one unambiguous offstage entrance cue",
+      "essence": "enter",
+      "noun": "cue light",
+      "technique": "gradient-glow",
+      "cliche": "spotlight cone, traffic light, play button, stage curtain",
+      "signature": "an asymmetric metal hood leaves one side of the lamp visibly open",
+      "concepts": [
+        "Object lens — a hooded backstage cue lamp seen from the side.",
+        "Verb lens — the hood opens only toward the performer.",
+        "Metaphor lens — restrained inner light carries permission to enter.",
+        "Negative-space lens — the open side defines direction without an arrow."
+      ],
+      "source_sha256": "2f3ce8ec1878f8af054336a40d772f37f491e752cc212ff0fe53c9a9cb75ca3e",
+      "contract_sha256": "55cf3ffb722837c20e3a5675565ab2d778163cd8fa23180ce22fa569d4c98cab",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/cue-light-hood/master.svg",
+        "native": "/assets/gallery/cue-light-hood/16.png",
+        "proof": "/assets/gallery/cue-light-hood/128.png",
+        "large": "/assets/gallery/cue-light-hood/256.png",
+        "silhouette": "/assets/gallery/cue-light-hood/silhouette-128.png",
+        "receipt": "/assets/gallery/cue-light-hood/review.json",
+        "case": "/assets/gallery/cue-light-hood/case.md"
+      }
+    },
+    {
+      "number": 90,
+      "id": "costume-trunk",
+      "title": "Costume Trunk",
+      "world": "performance",
+      "user_job": "track which costume transformation is ready for a quick change",
+      "essence": "change",
+      "noun": "wardrobe trunk",
+      "technique": "enamel-pin",
+      "cliche": "hanger, dress silhouette, theater masks, sparkle",
+      "signature": "one corner opens into a broad quick-change wing rather than a lid line",
+      "concepts": [
+        "Object lens — a reinforced touring wardrobe trunk with one open corner.",
+        "Verb lens — the corner wing pivots toward the next costume.",
+        "Metaphor lens — inset color compartments are prepared roles.",
+        "Negative-space lens — the opened corner changes the outer trunk contour."
+      ],
+      "source_sha256": "e4522e690d1295d05255e5bb9ce940f56e9100610c854695a7e65c15d3e2ca18",
+      "contract_sha256": "fb9bd648b6d851e2222b58e837eac31367c5fde16b841eb8780dce38adb2c8da",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/costume-trunk/master.svg",
+        "native": "/assets/gallery/costume-trunk/16.png",
+        "proof": "/assets/gallery/costume-trunk/128.png",
+        "large": "/assets/gallery/costume-trunk/256.png",
+        "silhouette": "/assets/gallery/costume-trunk/silhouette-128.png",
+        "receipt": "/assets/gallery/costume-trunk/review.json",
+        "case": "/assets/gallery/costume-trunk/case.md"
+      }
+    },
+    {
+      "number": 91,
+      "id": "sensor-buoy",
+      "title": "Sensor Buoy",
+      "world": "technology",
+      "user_job": "see whether a remote field sensor is anchored and reporting",
+      "essence": "report",
+      "noun": "buoy",
+      "technique": "line-mark",
+      "cliche": "wifi bars, antenna tower, map pin, cloud, generic status dot",
+      "signature": "the anchor line returns into the buoy body as one broad reporting loop",
+      "concepts": [
+        "Object lens — a moored instrument buoy with a short mast and weighted keel.",
+        "Verb lens — the tether returns upward as a report path.",
+        "Metaphor lens — one closed loop means anchored and heard.",
+        "Negative-space lens — the body opening remains the status counter."
+      ],
+      "source_sha256": "9d7df5141bfda86eb8a54ed5ed2ce08e4ab0c7097d0bbddedc08c1652ca6acb5",
+      "contract_sha256": "59096bdd147b674ff8f555a86a425cd5b360bc62116baee5cb9abda484532b2a",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/sensor-buoy/master.svg",
+        "native": "/assets/gallery/sensor-buoy/16.png",
+        "proof": "/assets/gallery/sensor-buoy/128.png",
+        "large": "/assets/gallery/sensor-buoy/256.png",
+        "silhouette": "/assets/gallery/sensor-buoy/silhouette-128.png",
+        "receipt": "/assets/gallery/sensor-buoy/review.json",
+        "case": "/assets/gallery/sensor-buoy/case.md"
+      }
+    },
+    {
+      "number": 92,
+      "id": "fold-antenna",
+      "title": "Fold Antenna",
+      "world": "technology",
+      "user_job": "compare how a portable antenna behaves in folded and deployed states",
+      "essence": "deploy",
+      "noun": "folding antenna",
+      "technique": "glass-stack",
+      "cliche": "wifi bars, satellite dish, radio waves, status dot",
+      "signature": "two translucent panels share one opaque off-axis hinge spine",
+      "concepts": [
+        "Object lens — a two-panel field antenna in a half-deployed position.",
+        "Verb lens — one panel rotates while the hinge remains fixed.",
+        "Metaphor lens — transparency exposes deployment overlap.",
+        "System lens — both panels visibly connect to one solid spine."
+      ],
+      "source_sha256": "0c492044b693a82d2009376107159cf93ad040d047df922b23e68f75da8fd314",
+      "contract_sha256": "0d05e10713b8a3c2823835441392d47cdacc907ba2279761cabca0ec4010ecdc",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/fold-antenna/master.svg",
+        "native": "/assets/gallery/fold-antenna/16.png",
+        "proof": "/assets/gallery/fold-antenna/128.png",
+        "large": "/assets/gallery/fold-antenna/256.png",
+        "silhouette": "/assets/gallery/fold-antenna/silhouette-128.png",
+        "receipt": "/assets/gallery/fold-antenna/review.json",
+        "case": "/assets/gallery/fold-antenna/case.md"
+      }
+    },
+    {
+      "number": 93,
+      "id": "thermal-shutter",
+      "title": "Thermal Shutter",
+      "world": "technology",
+      "user_job": "switch a camera between protected and sensing states",
+      "essence": "expose",
+      "noun": "camera shutter",
+      "technique": "duotone-cut",
+      "cliche": "camera outline, eye, aperture flower, red recording dot",
+      "signature": "one large shutter blade leaves a rectangular thermal window instead of a circular aperture",
+      "concepts": [
+        "Object lens — a rugged rectangular sensor shutter seen close-up.",
+        "Verb lens — one protective blade slides away from the sensing window.",
+        "Metaphor lens — the value split is protected versus exposed state.",
+        "Negative-space lens — a broad rectangular window replaces the stock aperture flower."
+      ],
+      "source_sha256": "705593818de49cf5017c664248ff0675402bcc2c2d2b9580d9311742bc8edf4b",
+      "contract_sha256": "a08bed690a514513ecd2455b4f4e0f05a6dbef7a85c9bf70c4c41bb661cab3b7",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/thermal-shutter/master.svg",
+        "native": "/assets/gallery/thermal-shutter/16.png",
+        "proof": "/assets/gallery/thermal-shutter/128.png",
+        "large": "/assets/gallery/thermal-shutter/256.png",
+        "silhouette": "/assets/gallery/thermal-shutter/silhouette-128.png",
+        "receipt": "/assets/gallery/thermal-shutter/review.json",
+        "case": "/assets/gallery/thermal-shutter/case.md"
+      }
+    },
+    {
+      "number": 94,
+      "id": "eink-tag",
+      "title": "E-ink Field Tag",
+      "world": "technology",
+      "user_job": "identify a device state in bright field conditions without animation",
+      "essence": "persist",
+      "noun": "electronic shelf tag",
+      "technique": "pixel-grid",
+      "cliche": "battery icon, wifi bars, QR code, notification dot",
+      "signature": "a stepped clip jaw becomes part of the tag's outer bitmap silhouette",
+      "concepts": [
+        "Object lens — a clipped e-ink field label authored on a 16 px grid.",
+        "Verb lens — the clip locks the persistent state to equipment.",
+        "Metaphor lens — a black-white window is memory without motion.",
+        "Negative-space lens — the clip jaw removes a two-pixel bite from the edge."
+      ],
+      "source_sha256": "23b8cb7515e876380929ee29359c0a68064634ec01344e281e7aa9857c25cbf9",
+      "contract_sha256": "da03fd0fe58fa16ef3be15ee8303f6e44a89ec4e5d05490a86965caa5ab197ca",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/eink-tag/master.svg",
+        "native": "/assets/gallery/eink-tag/16.png",
+        "proof": "/assets/gallery/eink-tag/128.png",
+        "large": "/assets/gallery/eink-tag/256.png",
+        "silhouette": "/assets/gallery/eink-tag/silhouette-128.png",
+        "receipt": "/assets/gallery/eink-tag/review.json",
+        "case": "/assets/gallery/eink-tag/case.md"
+      }
+    },
+    {
+      "number": 95,
+      "id": "data-cassette",
+      "title": "Data Cassette",
+      "world": "technology",
+      "user_job": "archive a field capture as a physically accountable unit",
+      "essence": "archive",
+      "noun": "cassette",
+      "technique": "chrome",
+      "cliche": "cloud, database cylinder, folder, floppy disk, lock",
+      "signature": "one 176-by-132-unit chamfered write tab opens through the cassette's lower edge",
+      "concepts": [
+        "Object lens — a rugged removable data cassette with two reel windows.",
+        "Verb lens — the write tab opens only for a deliberate capture.",
+        "Metaphor lens — hard reflections make archival custody feel physical.",
+        "Negative-space lens — the tab is an edge-open notch, not a badge."
+      ],
+      "source_sha256": "1a303100a512ed7e0597ef9b3fecc6bb9d169dfe421ad94eca58bf8ac89ee1c5",
+      "contract_sha256": "0616468c45eeaa1863ac74b633a1d1e09bfafc58a1358e08cb73974c8a57ea4a",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/data-cassette/master.svg",
+        "native": "/assets/gallery/data-cassette/16.png",
+        "proof": "/assets/gallery/data-cassette/128.png",
+        "large": "/assets/gallery/data-cassette/256.png",
+        "silhouette": "/assets/gallery/data-cassette/silhouette-128.png",
+        "receipt": "/assets/gallery/data-cassette/review.json",
+        "case": "/assets/gallery/data-cassette/case.md"
+      }
+    },
+    {
+      "number": 96,
+      "id": "solder-spool",
+      "title": "Solder Spool",
+      "world": "maker/dev tools",
+      "user_job": "remember which solder alloy belongs to a bench setup",
+      "essence": "join",
+      "noun": "solder spool",
+      "technique": "clay",
+      "cliche": "soldering iron, circuit board, lightning bolt, gear",
+      "signature": "the loose solder end exits through one oversized keeper notch",
+      "concepts": [
+        "Object lens — a chunky bench spool with a wide center bore.",
+        "Verb lens — the loose end docks into its keeper notch.",
+        "Metaphor lens — the wound coil represents a repeatable joining process.",
+        "Negative-space lens — the keeper is removed from the flange edge."
+      ],
+      "source_sha256": "3dd14ab8471ba974755733e275f49f2e8a772e3a16529ee3c551cc282779629f",
+      "contract_sha256": "2ddef05430b68a11055d88deb5e021f8ba0a3d6586fec19aab414011944cc258",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/solder-spool/master.svg",
+        "native": "/assets/gallery/solder-spool/16.png",
+        "proof": "/assets/gallery/solder-spool/128.png",
+        "large": "/assets/gallery/solder-spool/256.png",
+        "silhouette": "/assets/gallery/solder-spool/silhouette-128.png",
+        "receipt": "/assets/gallery/solder-spool/review.json",
+        "case": "/assets/gallery/solder-spool/case.md"
+      }
+    },
+    {
+      "number": 97,
+      "id": "build-crate",
+      "title": "Build Crate",
+      "world": "maker/dev tools",
+      "user_job": "trace a release artifact from source branch to verified package",
+      "essence": "prove",
+      "noun": "shipping crate",
+      "technique": "stencil-cut",
+      "cliche": "terminal, braces, gear, cloud, rocket, checkmark, package cube",
+      "signature": "one 190-by-144-unit vermilion manifest tab locks to the lower-right brace",
+      "concepts": [
+        "Object lens — a tapered timber shipping crate with a raised carrying handle.",
+        "Verb lens — two source planks brace one verified artifact compartment.",
+        "Metaphor lens — the handle is the release handoff, not an approval checkmark.",
+        "Negative-space lens — broad diagonal brace cuts and handle counter belong to one plate."
+      ],
+      "source_sha256": "6b90e49422f8c75a4f08dcd9b015705967cbee77c5ba17d2faff8e92848c6d34",
+      "contract_sha256": "37191487d742aaaa7e6bb5b90b6b30c881951be80e3385ce82560bcb8d26e6b3",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/build-crate/master.svg",
+        "native": "/assets/gallery/build-crate/16.png",
+        "proof": "/assets/gallery/build-crate/128.png",
+        "large": "/assets/gallery/build-crate/256.png",
+        "silhouette": "/assets/gallery/build-crate/silhouette-128.png",
+        "receipt": "/assets/gallery/build-crate/review.json",
+        "case": "/assets/gallery/build-crate/case.md"
+      }
+    },
+    {
+      "number": 98,
+      "id": "digital-caliper",
+      "title": "Digital Caliper",
+      "world": "maker/dev tools",
+      "user_job": "capture a physical dimension before turning it into a model",
+      "essence": "measure",
+      "noun": "caliper",
+      "technique": "blueprint",
+      "cliche": "ruler, dimension arrows, grid square, CAD cube",
+      "signature": "one sliding jaw carries a broad coral proof block instead of a display",
+      "concepts": [
+        "Object lens — a close-cropped digital caliper with unequal jaws.",
+        "Verb lens — the sliding jaw closes around the captured dimension.",
+        "Metaphor lens — the proof block is the handoff from matter to model.",
+        "System lens — sparse guides show alignment but never carry the noun."
+      ],
+      "source_sha256": "67e5a92445de024b15d24fac1f5dc826a718532e1ab4766083857d1d05ceefe3",
+      "contract_sha256": "c89ab287d31786de3975efe092f4f80567c59d95457c9af64c30ee38883afbf2",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/digital-caliper/master.svg",
+        "native": "/assets/gallery/digital-caliper/16.png",
+        "proof": "/assets/gallery/digital-caliper/128.png",
+        "large": "/assets/gallery/digital-caliper/256.png",
+        "silhouette": "/assets/gallery/digital-caliper/silhouette-128.png",
+        "receipt": "/assets/gallery/digital-caliper/review.json",
+        "case": "/assets/gallery/digital-caliper/case.md"
+      }
+    },
+    {
+      "number": 99,
+      "id": "patch-bay",
+      "title": "Patch Bay Merge",
+      "world": "maker/dev tools",
+      "user_job": "route several hardware tools into one tested bench workflow",
+      "essence": "route",
+      "noun": "patch bay",
+      "technique": "flat-geometric",
+      "cliche": "generic nodes, USB logo, cable crossing, hub monogram",
+      "signature": "three keyed socket mouths visibly join one continuous trunk",
+      "concepts": [
+        "Object lens — a three-socket bench patch bay with keyed mouths.",
+        "Verb lens — every input joins the same output trunk.",
+        "Metaphor lens — a manifold makes tool routing physical.",
+        "Negative-space lens — socket keys are broad cuts inside one bay plate."
+      ],
+      "source_sha256": "e268d2d17f5d7baae7679e4c6dfcefc831de75117085952f99e7d4ec279712aa",
+      "contract_sha256": "68b3456ca2592daa1c045ebac3f749255be2bea846e95c8bb176e5d0c9c4336c",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/patch-bay/master.svg",
+        "native": "/assets/gallery/patch-bay/16.png",
+        "proof": "/assets/gallery/patch-bay/128.png",
+        "large": "/assets/gallery/patch-bay/256.png",
+        "silhouette": "/assets/gallery/patch-bay/silhouette-128.png",
+        "receipt": "/assets/gallery/patch-bay/review.json",
+        "case": "/assets/gallery/patch-bay/case.md"
+      }
+    },
+    {
+      "number": 100,
+      "id": "cnc-collet",
+      "title": "CNC Collet",
+      "world": "maker/dev tools",
+      "user_job": "match a cutting bit to the correct holding setup",
+      "essence": "hold",
+      "noun": "collet",
+      "technique": "isometric",
+      "cliche": "gear, wrench, drill silhouette, settings sliders",
+      "signature": "one jaw is shortened into an unmistakable release bay",
+      "concepts": [
+        "Object lens — a faceted machine collet viewed down its gripping mouth.",
+        "Verb lens — the jaws close around an absent tool shank.",
+        "Metaphor lens — explicit faces show controlled mechanical grip.",
+        "Negative-space lens — one shortened jaw becomes the release bay."
+      ],
+      "source_sha256": "c6d9fec6fb3f384d2e4a4bb41340e057816a97548944c400fdef713d5a6dc1f9",
+      "contract_sha256": "f882ed466ef42b14fd617e5c0798f9512e3a3dd8eebd79a07c1f17b73dd6e3ce",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/cnc-collet/master.svg",
+        "native": "/assets/gallery/cnc-collet/16.png",
+        "proof": "/assets/gallery/cnc-collet/128.png",
+        "large": "/assets/gallery/cnc-collet/256.png",
+        "silhouette": "/assets/gallery/cnc-collet/silhouette-128.png",
+        "receipt": "/assets/gallery/cnc-collet/review.json",
+        "case": "/assets/gallery/cnc-collet/case.md"
+      }
+    }
+  ],
+  "rejected": [
+    "baby-rattle",
+    "bee-frame",
+    "camera-trap",
+    "friendship-bracelet",
+    "heirloom-love-spoon",
+    "luna-moth",
+    "matcha-whisk",
+    "memory-spool",
+    "potters-rib",
+    "stage-trapdoor",
+    "tree-frog-cling"
+  ]
+}

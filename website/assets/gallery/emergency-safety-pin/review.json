@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "ee2d4e5d42c6a377b86fb99cd46ecd0a04f977c26b9aa1ed420f8f60819e00c5",
+  "contract_sha256": "25980584040dcc0b488fcc5b60e81693ce91027a1a101db277260d73bbaf2e69",
+  "project": "Emergency Safety Pin",
+  "user_job": "make a temporary clothing repair away from home",
+  "essence": "rescue",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 216-unit coral coil dominates the lower turn of the pin.",
+  "cliches": [
+    "a medical cross or generic wrench"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

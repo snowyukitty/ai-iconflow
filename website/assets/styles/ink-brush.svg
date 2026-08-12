@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Ink brush technique scaffold</title>
+  <desc id="desc">A tapered black mass and one broad dry cut give IconFlow's house rail calligraphic energy.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Replace the rail with one calligraphic object;
+       texture is optional and must never carry the semantic reading. -->
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#F3EBDD"/>
+  <path d="M220 224L688 252L650 356L450 348L450 596L604 622L610 690L760 732L704 844L514 746L352 724L352 430L238 400Z"
+        fill="#1D1C21"/>
+  <path d="M250 250L530 282L436 380L274 358Z" fill="#F3EBDD"/>
+  <path d="M498 294L776 314L752 590L492 566Z" fill="#D84F47"/>
+  <path d="M552 358L712 370L698 526L540 514Z" fill="#F3EBDD"/>
+  <path d="M600 414L660 418L654 478L594 474Z" fill="#1D1C21"/>
+</svg>

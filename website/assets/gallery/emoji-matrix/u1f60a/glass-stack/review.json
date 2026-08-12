@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "87bc436e6a0e2a4b661c2301dc463da6f6fce1285440d07263707d37e3f13465",
+  "contract_sha256": "e94de1ee01965c1769c1bb55990a14073825be4a4a3453b71a522d55e991a987",
+  "project": "Emoji Matrix: smiling face with smiling eyes / glass-stack",
+  "user_job": "recognize the smiling face with smiling eyes meaning at native icon size",
+  "essence": "recognition",
+  "personality": "original, clear, experimental",
+  "signature_device": "glass-stack construction grammar around the semantic silhouette",
+  "cliches": [
+    "vendor emoji artwork",
+    "traced glyph geometry",
+    "palette-only restyling"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Practice specimen, not a shipped identity. Reviewed at exact 16px and 128px, in silhouette, and on contact sheet agent-a/contact-sheet-*.png or agent-b/contact-*.png.",
+  "status": "ready",
+  "specimen_status": "practice",
+  "collection_review_sha256": "77083b959f42ad8059b46b474b6eb8766b9cc86b890b4fda257ad03fc3119119"
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Teardrop door knocker</title><desc>A hanging teardrop knocker with an asymmetrical coral hinge jaw.</desc>
+  <path fill="#25243A" fill-rule="evenodd" d="M368 82h288l64 182-88 124c101 82 166 211 166 354 0 126-102 228-228 228H454c-126 0-228-102-228-228 0-143 65-272 166-354l-88-124 64-182Zm144 354c-87 70-142 177-142 294 0 52 42 94 94 94h96c52 0 94-42 94-94 0-117-55-224-142-294Z"/>
+  <path d="M584 82h188l-38 250-152 104-70-140Z" fill="#F05D52"/><path d="M620 148h72l-18 138-70 48-28-56Z" fill="#25243A"/>
+</svg>

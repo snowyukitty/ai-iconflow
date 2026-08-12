@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Arcing koi fish"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for animals"
+user_job = "flow"
+essence = "current"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#0E5A5B", "#F2B84B"]
+cliches = ["generic fish glyph"]
+signature_device = "body cut-out arc"
+device_family = "negative-space-cut"
+device_detail = "body cut-out arc"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#0E5A5B"
+background_color = "#F2B84B"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

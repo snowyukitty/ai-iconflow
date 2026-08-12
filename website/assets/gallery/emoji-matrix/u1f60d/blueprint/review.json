@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "a0c8d7c30a8952f6c602d5018d737fea494faf35fdc8ebd846070015039f070e",
+  "contract_sha256": "294c5f635d22116445f911b2dee33411b76ada256d81362408a5badd5da17abd",
+  "project": "Emoji Matrix: smiling face with heart-eyes / blueprint",
+  "user_job": "recognize the smiling face with heart-eyes meaning at native icon size",
+  "essence": "recognition",
+  "personality": "original, clear, experimental",
+  "signature_device": "blueprint construction grammar around the semantic silhouette",
+  "cliches": [
+    "vendor emoji artwork",
+    "traced glyph geometry",
+    "palette-only restyling"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Practice specimen, not a shipped identity. Reviewed at exact 16px and 128px, in silhouette, and on contact sheet agent-a/contact-sheet-*.png or agent-b/contact-*.png.",
+  "status": "ready",
+  "specimen_status": "practice",
+  "collection_review_sha256": "77083b959f42ad8059b46b474b6eb8766b9cc86b890b4fda257ad03fc3119119"
+}

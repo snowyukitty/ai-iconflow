@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "5ce8d4bea1c9b132aed36f0ab8829f3f80b1de4accc6816ba28b6f5390a5618e",
+  "contract_sha256": "5b6749565e7fe13e7afebcab4bad91058e342d4d47ee0fa893c8833f82e5de35",
+  "project": "Library Date Stamp",
+  "user_job": "circulate shared books through a visible borrowing ritual",
+  "essence": "circulation",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 160-unit coral ink face offsets the heavy stamp foot.",
+  "cliches": [
+    "an open book or reading glasses"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

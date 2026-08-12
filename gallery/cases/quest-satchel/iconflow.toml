@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Quest Satchel"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for games"
+user_job = "group unfinished side objectives by the journey they belong to"
+essence = "carry"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#D9A73E", "#191A20"]
+cliches = ["quest exclamation mark", "scroll", "sword", "map pin"]
+signature_device = "the flap has one deep route-shaped corner fold offset from the clasp"
+device_family = "negative-space-cut"
+device_detail = "the flap has one deep route-shaped corner fold offset from the clasp"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#D9A73E"
+background_color = "#191A20"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

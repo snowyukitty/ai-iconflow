@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Rocking cradle</title><desc>A side-view cradle whose blanket forms one large protected cove.</desc>
+  <path fill="#25243A" fill-rule="evenodd" d="M142 268h740v284c0 127-84 231-198 267 57 5 114-8 168-42l62 98c-121 78-265 81-402 13-137 68-281 65-402-13l62-98c54 34 111 47 168 42-114-36-198-140-198-267V268Zm142 132v138c0 101 78 182 174 182h108c96 0 174-81 174-182V400H284Z"/>
+  <path d="M284 400h456v190c-74-12-145-59-198-134-63 77-155 122-258 134V400Z" fill="#F05D52"/>
+</svg>

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "4709c65dfdf174077413d3230c537020375c2f8e6b0b9f73412d487afed89fcf",
+  "contract_sha256": "69b43a38324d194355d6ea1c4e846a90b03f1035758e827ef7baa96ff755fb05",
+  "project": "Herbal sachet",
+  "user_job": "soothe",
+  "essence": "calm",
+  "personality": "specific, clear, crafted",
+  "signature_device": "folded top notch",
+  "cliches": [
+    "generic droplet"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#3C5A45",
+    "background_color": "#E4B550",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

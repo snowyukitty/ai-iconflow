@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Tea whisk</title><desc>A bamboo chasen with a bold binding collar and four open tines.</desc>
+  <path fill="#25243A" fill-rule="evenodd" d="M384 112h256l44 310c18 130 64 285 118 466H222c54-181 100-336 118-466l44-310Zm12 438-40 242h72l30-242h-62Zm104 0-12 242h48l-12-242h-24Zm66 0 30 242h72l-40-242h-62Z"/>
+  <path d="M326 390h372v166H326Z" fill="#F05D52"/><path d="M390 430h244v86H390Z" fill="#25243A"/>
+</svg>

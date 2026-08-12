@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Ramen bowl and chopsticks"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for food"
+user_job = "nourish"
+essence = "comfort"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#B84C43", "#EBC05B"]
+cliches = ["generic bowl icon"]
+signature_device = "crossed chopsticks as rim cue"
+device_family = "object-silhouette"
+device_detail = "crossed chopsticks as rim cue"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#B84C43"
+background_color = "#EBC05B"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

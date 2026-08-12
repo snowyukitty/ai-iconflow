@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Courier Wing Satchel"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for original anime/story"
+user_job = "follow a spoiler-free dispatch from an original serial world"
+essence = "anticipate"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#24B6A6"]
+cliches = ["star", "magic wand", "play button", "mascot bird", "franchise mail crest"]
+signature_device = "the satchel flap becomes a swept wing with one broad dry cut"
+device_family = "negative-space-cut"
+device_detail = "the satchel flap becomes a swept wing with one broad dry cut"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#24B6A6"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

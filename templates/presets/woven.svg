@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Woven technique scaffold</title>
+  <desc id="desc">Broad bands alternate over and under through deliberate knockout gaps around IconFlow's house rail.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Interlacing is topology, not decoration. Replace
+       both bands together and preserve visible underpass gaps at 16 px. -->
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#F2EBDD"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#5B4DA7" stroke-width="176"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M512 320H768V576H512Z" fill="none" stroke="#F2EBDD"
+        stroke-width="272" stroke-linejoin="round"/>
+  <path d="M512 320H768V576H512Z" fill="none" stroke="#36B9B2"
+        stroke-width="144" stroke-linejoin="round"/>
+  <path d="M448 448H592" fill="none" stroke="#F2EBDD" stroke-width="304"/>
+  <path d="M448 448H592" fill="none" stroke="#5B4DA7" stroke-width="176"/>
+  <rect x="592" y="400" width="96" height="96" rx="16" fill="#F2EBDD"/>
+</svg>

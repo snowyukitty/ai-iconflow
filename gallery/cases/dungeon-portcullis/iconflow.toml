@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Dungeon Portcullis"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for games"
+user_job = "mark which route has been opened without exposing the whole map"
+essence = "unlock"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#F2B84B"]
+cliches = ["key", "padlock", "castle tower", "quest marker"]
+signature_device = "one lifted tooth creates a route-width opening at the lower edge"
+device_family = "negative-space-cut"
+device_detail = "one lifted tooth creates a route-width opening at the lower edge"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#F2B84B"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

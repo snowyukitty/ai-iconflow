@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Stepping heron"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for birds"
+user_job = "wait"
+essence = "stillness"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#344B68", "#E6B447"]
+cliches = ["generic bird mark"]
+signature_device = "single lifted leg"
+device_family = "object-silhouette"
+device_detail = "single lifted leg"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#344B68"
+background_color = "#E6B447"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

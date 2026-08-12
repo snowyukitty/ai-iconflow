@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-08-12",
+  "source_set_sha256": "6178e70aa8f15b6bf180a1c8c8d5d8ef12e90d806f91efa7a62c35f79e715bb8",
+  "status": "accepted-practice-specimens",
+  "generated_count": 400,
+  "admitted_count": 400,
+  "rejected_count": 0,
+  "contact_sheets_inspected": 20,
+  "native_16px_inspected": true,
+  "silhouettes_inspected": true,
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "curator_report": "work/emoji-matrix/adversarial-curation-final-round5.md",
+  "curator_report_sha256": "467884a12e9e1085fb9a4e414c18d4f3f57105d11eed3e21385cdbf363907c3d",
+  "notes": "All 400 clean-room practice specimens passed final native-size, silhouette, construction-grammar, provenance, similarity, and source-bound automated review. They are not shipped identities or vendor emoji artwork."
+}

@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Digital Caliper"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for maker/dev tools"
+user_job = "capture a physical dimension before turning it into a model"
+essence = "measure"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#5177E8"]
+cliches = ["ruler", "dimension arrows", "grid square", "CAD cube"]
+signature_device = "one sliding jaw carries a broad coral proof block instead of a display"
+device_family = "object-silhouette"
+device_detail = "one sliding jaw carries a broad coral proof block instead of a display"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#5177E8"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

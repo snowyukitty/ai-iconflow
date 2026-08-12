@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "f34c16f03614707ab46a2a340f0773d6d35c5f3dfdc9e4105706d6866b236ab1",
+  "contract_sha256": "6ee340779557e48582a9236e2c593a8e5505d430ffb3fde93cf106953a534a24",
+  "project": "Drop Spindle",
+  "user_job": "twist loose fiber into yarn with a portable hand tool",
+  "essence": "continuity",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 172-unit coral whorl sector offsets the spindle's balance.",
+  "cliches": [
+    "a yarn ball with crossed needles"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

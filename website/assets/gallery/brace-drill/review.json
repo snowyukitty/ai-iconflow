@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "00dd007565aef645a74e3fc2d1348931fb34d2e5cf4327d52f20f1975e573e7d",
+  "contract_sha256": "725c5e36d3b001bc9b54db63ceb8178a1e8a02fcbccf4af7f6ba9b18c81aad45",
+  "project": "Brace Drill",
+  "user_job": "bore a controlled hole without electricity",
+  "essence": "leverage",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 190-unit coral crank grip interrupts the large C frame.",
+  "cliches": [
+    "a power-drill silhouette"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

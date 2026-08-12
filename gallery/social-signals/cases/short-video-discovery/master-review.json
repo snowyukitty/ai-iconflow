@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "f311ed72a216b05b5a5becb02ae9f13afcd513f52c08f6d80b8ff7c16cb8d05b",
+  "contract_sha256": "378c490cb24c2470ea7e7713e6efa6b341d48b56a3dfa792f8b1cd0d8d2e5223",
+  "project": "Pocket Flipbook",
+  "user_job": "Discover and make compact, fast-moving video stories.",
+  "essence": "momentum",
+  "personality": "independent, specific, crafted",
+  "signature_device": "one page escapes the uniform contour as a turning beat",
+  "cliches": [
+    "music notes, play buttons, cyan-magenta edge effects"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the stepped leaf stack and turn point passed round 4.",
+  "status": "ready"
+}

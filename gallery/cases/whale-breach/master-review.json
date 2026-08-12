@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "bb0612cec2b6d9b0f98813ccf78273021b9a68048faa1e158f89500eedc8d818",
+  "contract_sha256": "5071c9eb55e8647111088c39dc259973fdb1ad6b7a2a02317b7d46ace74abb89",
+  "project": "Breaching humpback whale",
+  "user_job": "surface",
+  "essence": "breach",
+  "personality": "specific, clear, crafted",
+  "signature_device": "asymmetric breach fin",
+  "cliches": [
+    "generic whale tail"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#315B78",
+    "background_color": "#E3A646",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "3a4ff213689726dfee096fd5846b1d723749c670415488d83d636e86e90acde6",
+  "contract_sha256": "78dce05e7c66276ac9d7b7642506f479674ad583bcd7c829d3d157b91db91046",
+  "project": "Bounding corgi",
+  "user_job": "play",
+  "essence": "leap",
+  "personality": "specific, clear, crafted",
+  "signature_device": "zigzag running legs",
+  "cliches": [
+    "generic puppy face"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#A8432C",
+    "background_color": "#F4C15D",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

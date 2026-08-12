@@ -1,0 +1,40 @@
+# Generated from scripts/build_social_signals.py.
+schema_version = 1
+
+[project]
+name = "Sealed Relay"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide an independent clean-room visual study for Exchange private messages and calls with trusted contacts."
+user_job = "Exchange private messages and calls with trusted contacts."
+essence = "trust"
+personality = ["independent", "specific", "crafted"]
+
+[design]
+palette = ["#FF766D", "#FFF4E8"]
+cliches = ["speech bubbles, telephone handsets, signature green"]
+signature_device = "a diagonal lead seam locks into a central wax-like seal"
+device_family = "object-silhouette"
+device_detail = "a diagonal lead seam locks into a central wax-like seal"
+concept_lens = "clean-room-user-job"
+
+[build]
+targets = ["web"]
+theme_color = "#FF766D"
+background_color = "#FFF4E8"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Sensor Buoy"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for technology"
+user_job = "see whether a remote field sensor is anchored and reporting"
+essence = "report"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#FFF4E8", "#191A20"]
+cliches = ["wifi bars", "antenna tower", "map pin", "cloud", "generic status dot"]
+signature_device = "the anchor line returns into the buoy body as one broad reporting loop"
+device_family = "path-relationship"
+device_detail = "the anchor line returns into the buoy body as one broad reporting loop"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#FFF4E8"
+background_color = "#191A20"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

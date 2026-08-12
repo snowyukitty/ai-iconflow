@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Chanterelle mushroom"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for nature"
+user_job = "forage"
+essence = "earth"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#C07A2F", "#F0C15B"]
+cliches = ["generic mushroom"]
+signature_device = "folded cap edge"
+device_family = "object-silhouette"
+device_detail = "folded cap edge"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#C07A2F"
+background_color = "#F0C15B"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

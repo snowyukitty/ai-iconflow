@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "6b90e49422f8c75a4f08dcd9b015705967cbee77c5ba17d2faff8e92848c6d34",
+  "contract_sha256": "37191487d742aaaa7e6bb5b90b6b30c881951be80e3385ce82560bcb8d26e6b3",
+  "project": "Build Crate",
+  "user_job": "trace a release artifact from source branch to verified package",
+  "essence": "prove",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one 190-by-144-unit vermilion manifest tab locks to the lower-right brace",
+  "cliches": [
+    "terminal",
+    "braces",
+    "gear",
+    "cloud",
+    "rocket",
+    "checkmark",
+    "package cube"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#F2B84B",
+    "background_color": "#191A20",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

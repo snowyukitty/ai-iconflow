@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "E-ink Field Tag"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for technology"
+user_job = "identify a device state in bright field conditions without animation"
+essence = "persist"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#FFF4E8"]
+cliches = ["battery icon", "wifi bars", "QR code", "notification dot"]
+signature_device = "a stepped clip jaw becomes part of the tag's outer bitmap silhouette"
+device_family = "stepped-silhouette"
+device_detail = "a stepped clip jaw becomes part of the tag's outer bitmap silhouette"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#FFF4E8"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

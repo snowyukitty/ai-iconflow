@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "d7cdcbe09566f5fec8448a480ab1f53eae48445774a224f13edce599d0e07b29",
+  "contract_sha256": "9290239b2748f8cf5f6d6d7fbccf356086e29538c6988b2f7c3e8c423c31eb37",
+  "project": "Pinecone",
+  "user_job": "shelter",
+  "essence": "scale",
+  "personality": "specific, clear, crafted",
+  "signature_device": "alternating scale cuts",
+  "cliches": [
+    "generic pine tree"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#76553E",
+    "background_color": "#D09A3B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

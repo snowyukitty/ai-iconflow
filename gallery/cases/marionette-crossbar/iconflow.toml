@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Marionette Crossbar"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for performance"
+user_job = "rehearse which motion cue belongs to which puppet limb"
+essence = "coordinate"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#F2B84B"]
+cliches = ["theater masks", "puppet face", "hand silhouette", "tangled thin strings"]
+signature_device = "two broad control tapes exchange levels once around an offset wooden crossbar"
+device_family = "path-relationship"
+device_detail = "two broad control tapes exchange levels once around an offset wooden crossbar"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#F2B84B"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

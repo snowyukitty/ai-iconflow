@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="ink-brush">
+  <title>Courier Wing Satchel</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M154 656q66-346 332-452 210-84 390 42-220 42-320 172 174-50 298 20-168 38-258 176 116-18 204 54-144 6-236 128H236q-88 0-82-140Z"/>
+    <path fill="#24B6A6" d="M236 598q54-160 220-236 82 66 124 168l-96 246H278q-74 0-42-178Z"/>
+    <path fill="#FFF4E8" d="M478 322q180-110 318-64-202 82-270 210Z"/>
+    <path fill="#FF5A4F" d="M354 620h148v128H354Z"/>
+  </g>
+</svg>

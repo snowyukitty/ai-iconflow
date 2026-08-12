@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="clay">
+  <title>Familiar Saddle</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" fill-rule="evenodd" d="M130 650q48-202 200-242 116 18 220-28l46-96h62l20-106h112l22 118-96 38-22 94q106 54 168 222v150H674l-66-126H402l-66 126H130V650Zm310-34h136l56 126H384l56-126Z"/>
+    <path fill="#24B6A6" d="M206 632q44-128 142-156 132 24 254-44l42-86 74 22-34 98q68 44 106 166H626l-42-74H424l-42 74Z"/>
+    <path fill="#168C81" d="M206 632h176l42-74h160l42 74h164v56H206Z"/>
+    <path fill="#FF5A4F" d="M670 500h192v220H670Z"/>
+    <path fill="#FFF4E8" d="M440 616h136l56 126H384Z"/>
+  </g>
+</svg>

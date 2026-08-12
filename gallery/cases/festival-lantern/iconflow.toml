@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Festival Lantern"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for neighborhood festival"
+user_job = "mark a gathering place after dusk"
+essence = "beacon"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#51416D", "#25243A"]
+cliches = ["a generic map pin or starburst"]
+signature_device = "A 184-unit coral light gate opens across the central ribs."
+device_family = "object-silhouette"
+device_detail = "A 184-unit coral light gate opens across the central ribs."
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#51416D"
+background_color = "#25243A"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

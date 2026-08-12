@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Fiddlehead fern"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for nature"
+user_job = "unfurl"
+essence = "unfurl"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#2E5C45", "#E2B448"]
+cliches = ["generic leaf"]
+signature_device = "spiral coil terminus"
+device_family = "path-relationship"
+device_detail = "spiral coil terminus"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#2E5C45"
+background_color = "#E2B448"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

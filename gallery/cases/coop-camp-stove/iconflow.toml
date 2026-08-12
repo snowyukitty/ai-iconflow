@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Co-op Camp Stove"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for games"
+user_job = "see whether every expedition role is ready to leave camp"
+essence = "ready"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#24B6A6"]
+cliches = ["party avatars", "checkmarks", "controller", "crossed weapons"]
+signature_device = "three translucent wind guards close around one opaque burner skeleton"
+device_family = "object-silhouette"
+device_detail = "three translucent wind guards close around one opaque burner skeleton"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#24B6A6"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

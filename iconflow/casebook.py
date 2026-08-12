@@ -219,7 +219,7 @@ def load_casebook(directory: str | Path) -> list[Case]:
     if not directory.is_dir():
         return []
     cases = [parse_case(p) for p in sorted(directory.glob("*.md"))
-             if p.name.upper() != "README.MD"]
+             if p.name.upper() not in {"README.MD", "ATLAS.MD"}]
     return cases
 
 
@@ -434,7 +434,7 @@ def lint_casebook(directory: str | Path) -> list[LintIssue]:
         return [LintIssue(directory, "casebook path is not a directory")]
     issues: list[LintIssue] = []
     for path in sorted(directory.glob("*.md")):
-        if path.name.upper() == "README.MD":
+        if path.name.upper() in {"README.MD", "ATLAS.MD"}:
             continue
         issues.extend(lint_case(path, root=directory))
     return issues

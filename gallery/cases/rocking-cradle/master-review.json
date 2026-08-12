@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "d8146d9080fde70111fb9d54ea9283879adbf89119f108d6a55f6f58fe47e0bf",
+  "contract_sha256": "2bce686fea78198909fd3197b9e39ece225178dc42813331985e529953dedf99",
+  "project": "Rocking Cradle",
+  "user_job": "settle a child through protected rhythmic motion",
+  "essence": "shelter",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 190-unit coral blanket cove rises asymmetrically inside the cradle.",
+  "cliches": [
+    "a baby footprint or pacifier"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

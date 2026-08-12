@@ -58,7 +58,7 @@ class CliTests(unittest.TestCase):
             self.assertIn("<svg", destination.read_text(encoding="utf-8"))
 
     def test_style_catalog_has_distinct_parseable_packaged_scaffolds(self):
-        self.assertGreaterEqual(len(STYLE_CATALOG), 10)
+        self.assertEqual(len(STYLE_CATALOG), 20)
         self.assertEqual(
             len({style.slug for style in STYLE_CATALOG}),
             len(STYLE_CATALOG),

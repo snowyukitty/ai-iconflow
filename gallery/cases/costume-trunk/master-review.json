@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "e4522e690d1295d05255e5bb9ce940f56e9100610c854695a7e65c15d3e2ca18",
+  "contract_sha256": "fb9bd648b6d851e2222b58e837eac31367c5fde16b841eb8780dce38adb2c8da",
+  "project": "Costume Trunk",
+  "user_job": "track which costume transformation is ready for a quick change",
+  "essence": "change",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one corner opens into a broad quick-change wing rather than a lid line",
+  "cliches": [
+    "hanger",
+    "dress silhouette",
+    "theater masks",
+    "sparkle"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#24B6A6",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

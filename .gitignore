@@ -3,8 +3,10 @@ __pycache__/
 *.pyc
 *.egg-info/
 .pytest_cache/
+.wrangler/
 /build/
 /dist/
+uv.lock
 
 # Scratch space for design sessions (drafts, bake-offs, review renders).
 # Convention: put ALL working files in work/<slug>/ — see AGENTS.md.

@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Accordion Bellows"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for music"
+user_job = "mark where a phrase should expand and contract"
+essence = "breathe"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#7894F2"]
+cliches = ["note", "lungs", "waveform", "volume speaker"]
+signature_device = "one off-axis bellows fold opens twice as wide as the rest"
+device_family = "object-silhouette"
+device_detail = "one off-axis bellows fold opens twice as wide as the rest"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#7894F2"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

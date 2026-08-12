@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Whisper Drawer Cabinet"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for original anime/story"
+user_job = "organize clues delivered by an unreliable object in an original story"
+essence = "interpret"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#F2B84B"]
+cliches = ["crystal ball", "eye", "tarot card", "sparkle", "fortune-teller portrait"]
+signature_device = "one impossible side-pulled drawer breaks an arched apothecary-cabinet silhouette"
+device_family = "object-silhouette"
+device_detail = "one impossible side-pulled drawer breaks an arched apothecary-cabinet silhouette"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#F2B84B"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

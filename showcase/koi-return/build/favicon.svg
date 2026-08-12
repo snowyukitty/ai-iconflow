@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Koi Return — upstream window</title>
+  <desc id="desc">A side-view stained-glass koi swims into one broad edge-open upstream cut.</desc>
+  <defs>
+    <mask id="fish-mask">
+      <rect width="1024" height="1024" fill="#000"/>
+      <path d="M230 512L126 348L330 414C410 286 666 280 820 438L898 512L820 586C666 744 410 738 330 610L126 676Z" fill="#fff"/>
+    </mask>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#E8E3D4"/>
+  <g mask="url(#fish-mask)">
+    <rect x="96" y="220" width="270" height="584" fill="#F2B84B"/>
+    <rect x="366" y="220" width="250" height="584" fill="#EF6659"/>
+    <rect x="616" y="220" width="312" height="584" fill="#58C8C2"/>
+    <path d="M356 220V804M606 220V804M246 326L554 758M528 268L818 676" fill="none" stroke="#172933" stroke-width="58"/>
+  </g>
+  <path d="M230 512L126 348L330 414C410 286 666 280 820 438L898 512L820 586C666 744 410 738 330 610L126 676Z" fill="none" stroke="#172933" stroke-width="64" stroke-linejoin="round"/>
+  <circle cx="786" cy="480" r="38" fill="#F7EFE0" stroke="#172933" stroke-width="26"/>
+  <path d="M874 446H970" stroke="#172933" stroke-width="88" stroke-linecap="square"/>
+  <path d="M874 578H946" stroke="#172933" stroke-width="64" stroke-linecap="square"/>
+</svg>

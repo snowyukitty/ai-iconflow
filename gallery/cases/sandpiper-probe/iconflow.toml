@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Sandpiper probing shore"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for birds"
+user_job = "sample"
+essence = "probe"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#3F4B58", "#E4B54D"]
+cliches = ["generic shorebird"]
+signature_device = "long offset probing bill"
+device_family = "negative-space-cut"
+device_detail = "long offset probing bill"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#3F4B58"
+background_color = "#E4B54D"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

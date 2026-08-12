@@ -1,0 +1,29 @@
+---
+slug: save-cartridge
+date: 2026-08-12
+project: Save Relay Cartridge
+targets: web
+essence: continue
+style_family: stencil-cut
+signature_device: a forked handoff rail is punched through a tapered cartridge plate
+device_family: negative-space-cut
+device_detail: a forked handoff rail is punched through a tapered cartridge plate
+concept_lens: specific-object
+cliche_avoided: controller, cloud save, floppy disk, checkmark
+status: shipped
+scores_first: legibility=3 distinctiveness=3 balance=4 color=4 scalability=4 craft=4
+scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 craft=4
+iterations: 2
+---
+
+## Summary
+Save Relay Cartridge serves the job “hand cooperative progress from one player or session to the next”. The selected cartridge direction won because its silhouette stays specific while a forked handoff rail is punched through a tapered cartridge plate carries the single signature device.
+
+## What failed first
+<!-- What the earlier passes got wrong and which change fixed it. This is the
+     raw material for future lessons — be specific (axis, size, shape). -->
+
+## Lessons
+<!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
+     flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
+- [x] At 16px, preserve the cartridge before medium-specific detail; the winning lens was Object lens — a full-bleed game cartridge with two unequal grip notches.

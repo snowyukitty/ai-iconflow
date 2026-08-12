@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Tuning Machine"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for music"
+user_job = "record a stable setup for an alternate instrument tuning"
+essence = "tune"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#5177E8"]
+cliches = ["tuning fork", "note", "guitar silhouette", "waveform"]
+signature_device = "the peg's winding post has one broad indexed flat instead of a circular knob"
+device_family = "object-silhouette"
+device_detail = "the peg's winding post has one broad indexed flat instead of a circular knob"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#5177E8"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

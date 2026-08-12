@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "51ff04dec370e375702382d6a39a5aaa79597a1d36e84559590c5eeaad04975a",
+  "contract_sha256": "7b96996d93888f5df08c422d63f5ee8b49e726ccac6fc48ecb02140ab4eeda6d",
+  "project": "Tiffin Carrier",
+  "user_job": "carry a multi-course family meal without disposable packaging",
+  "essence": "provision",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 168-unit full-height coral latch locks all three tiers.",
+  "cliches": [
+    "a lunchbox with utensils"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

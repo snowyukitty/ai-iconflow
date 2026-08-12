@@ -1,0 +1,40 @@
+# Generated from scripts/build_social_signals.py.
+schema_version = 1
+
+[project]
+name = "Relay Mailbox"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide an independent clean-room visual study for Broadcast durable updates to large subscribed channels."
+user_job = "Broadcast durable updates to large subscribed channels."
+essence = "reach"
+personality = ["independent", "specific", "crafted"]
+
+[design]
+palette = ["#FF766D", "#FFF4E8"]
+cliches = ["paper planes, official blue, circular send buttons"]
+signature_device = "misregistered spot plates converge at one outbound slot"
+device_family = "object-silhouette"
+device_detail = "misregistered spot plates converge at one outbound slot"
+concept_lens = "clean-room-user-job"
+
+[build]
+targets = ["web"]
+theme_color = "#FF766D"
+background_color = "#FFF4E8"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

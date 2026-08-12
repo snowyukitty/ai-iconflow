@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Cue Light Hood"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for performance"
+user_job = "give a performer one unambiguous offstage entrance cue"
+essence = "enter"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#FFF4E8", "#FF5A4F"]
+cliches = ["spotlight cone", "traffic light", "play button", "stage curtain"]
+signature_device = "an asymmetric metal hood leaves one side of the lamp visibly open"
+device_family = "object-silhouette"
+device_detail = "an asymmetric metal hood leaves one side of the lamp visibly open"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#FFF4E8"
+background_color = "#FF5A4F"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

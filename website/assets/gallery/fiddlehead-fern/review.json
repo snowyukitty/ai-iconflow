@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "fb3ebcf525fb74e69383d83171d8d24520c5b25d7545be4cbf41b6ec240d45db",
+  "contract_sha256": "62b66668cf9a152edd7b8250d04f0357777c2d29af98bef2c69f219ce96c7839",
+  "project": "Fiddlehead fern",
+  "user_job": "unfurl",
+  "essence": "unfurl",
+  "personality": "specific, clear, crafted",
+  "signature_device": "spiral coil terminus",
+  "cliches": [
+    "generic leaf"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#2E5C45",
+    "background_color": "#E2B448",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

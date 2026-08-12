@@ -1,0 +1,31 @@
+---
+slug: boss-helm
+date: 2026-08-12
+project: IconFlow public Theme Worlds game case
+targets: web
+essence: conquer
+style_family: chrome
+signature_device: one horn is structurally broken and exposes an ember fracture
+device_family: asymmetry-punctuation
+device_detail: frontal chrome helmet with unequal horn silhouette and broad hard value bands
+concept_lens: silhouette-first
+cliche_avoided: trophy, crown, skull, sword, gamepad
+status: shipped
+scores_first: legibility=4 distinctiveness=4 balance=5 color=5 scalability=4 craft=4
+scores_final: legibility=4 distinctiveness=5 balance=5 color=5 scalability=4 craft=5
+iterations: 2
+---
+
+## Summary
+A raid achievement becomes a frontal chrome helmet whose unequal horns and ember fracture make the encounter feel earned without a trophy or gamepad.
+
+## What failed first
+The first version painted a coral slash across an otherwise intact horn. It was
+visible at 128 px but did not change the monochrome silhouette and became mere
+decoration at 16 px. Removing the horn mass itself created an unequal contour;
+the coral fracture now explains rather than carries the signature.
+
+## Lessons
+<!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
+     flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
+- [x] Damage becomes a signature only when it removes silhouette mass; a colored slash on an intact object is decoration.

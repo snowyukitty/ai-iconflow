@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="isometric">
+  <title>CNC Collet</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" fill-rule="evenodd" d="m512 142 338 194v390L512 882 174 726V336l338-194Zm0 156L310 414v222l202 92 202-92V414L512 298Zm0 112 104 60v118l-104 48-104-48V470l104-60Z"/>
+    <path fill="#5177E8" d="m512 202 278 160-128 74-150-86-150 86-128-74Z"/>
+    <path fill="#7894F2" d="m234 362 128 74v240l150 68v78L234 694Z"/>
+    <path fill="#FF5A4F" d="m662 436 128-74v332L662 752Z"/>
+  </g>
+</svg>

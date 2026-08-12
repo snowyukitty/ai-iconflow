@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "89c9266b4835024da4005b93a9dac57db94885839536d2e336b904af93718319",
+  "contract_sha256": "ad41d1b7e633738c13f1a4f8e37c4a23c2e62c67576599aa44dc31c3402e1850",
+  "project": "Dungeon Portcullis",
+  "user_job": "mark which route has been opened without exposing the whole map",
+  "essence": "unlock",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one lifted tooth creates a route-width opening at the lower edge",
+  "cliches": [
+    "key",
+    "padlock",
+    "castle tower",
+    "quest marker"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#F2B84B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Glass stack technique scaffold</title>
+  <desc id="desc">Crisp translucent panes overlap around an opaque IconFlow house-rail skeleton.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Replace every pane and the skeleton together;
+       translucency may add depth but cannot carry the product's identity. -->
+  <defs>
+    <linearGradient id="paneA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8CE4E2" stop-opacity=".82"/>
+      <stop offset="1" stop-color="#55A9D8" stop-opacity=".56"/>
+    </linearGradient>
+    <linearGradient id="paneB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFB46B" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#F46482" stop-opacity=".58"/>
+    </linearGradient>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#151927"/>
+  <rect x="152" y="168" width="560" height="560" rx="136"
+        fill="url(#paneA)" stroke="#C9FFFC" stroke-width="24"/>
+  <rect x="312" y="296" width="560" height="560" rx="136"
+        fill="url(#paneB)" stroke="#FFD6B4" stroke-width="24"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#F6FAFF" stroke-width="80"
+        stroke-linecap="square" stroke-linejoin="round"/>
+  <rect x="504" y="312" width="272" height="272" rx="64"
+        fill="#FFFFFF" fill-opacity=".2" stroke="#F6FAFF" stroke-width="40"/>
+  <rect x="584" y="392" width="112" height="112" rx="20" fill="#151927"/>
+</svg>

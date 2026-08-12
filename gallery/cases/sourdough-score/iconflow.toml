@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Scored sourdough loaf"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for food"
+user_job = "bake"
+essence = "rise"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#864C2D", "#E9B64B"]
+cliches = ["generic bread slice"]
+signature_device = "large slash scoring"
+device_family = "negative-space-cut"
+device_detail = "large slash scoring"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#864C2D"
+background_color = "#E9B64B"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

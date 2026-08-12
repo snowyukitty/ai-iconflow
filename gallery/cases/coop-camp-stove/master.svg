@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="glass-stack">
+  <title>Co-op Camp Stove</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" fill-rule="evenodd" d="M278 310h468l92 430-138 114H324L186 740l92-430Zm92 124-60 266 66 54h272l66-54-60-266H370Zm72 100h140l44 142-114 70-114-70 44-142Z"/>
+    <path fill="#24B6A6" opacity=".62" d="m208 344 230 94-54 292-154-70Z"/>
+    <path fill="#72D7CC" opacity=".62" d="m816 344-230 94 54 292 154-70Z"/>
+    <path fill="#FF5A4F" d="M452 558h120l26 92-86 52-86-52Z"/>
+  </g>
+</svg>

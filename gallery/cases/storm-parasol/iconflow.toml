@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Storm Parasol"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for original anime/story"
+user_job = "track a weather-bound journey in an original fantasy serial"
+essence = "shelter"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#7658D8"]
+cliches = ["cloud", "lightning bolt", "magical girl wand", "character portrait"]
+signature_device = "one missing canopy pane opens toward the direction of travel"
+device_family = "object-silhouette"
+device_detail = "one missing canopy pane opens toward the direction of travel"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#7658D8"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

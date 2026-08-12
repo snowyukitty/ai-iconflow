@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "2988845c872060f599c56dd53f1ffb3f747f55a4fe912a50242eb64f61eec59d",
+  "contract_sha256": "572bd575efcc8a2dcfa52b6c81b47fdfae023654265a5021637bf4c971e3cf94",
+  "project": "Soil core sampler",
+  "user_job": "measure",
+  "essence": "core",
+  "personality": "specific, clear, crafted",
+  "signature_device": "visible stratified core",
+  "cliches": [
+    "generic flask"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#5B5547",
+    "background_color": "#C67E3D",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

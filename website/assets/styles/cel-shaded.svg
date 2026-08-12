@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Cel shaded technique scaffold</title>
+  <desc id="desc">A decisive ink contour and one hard shadow plane give IconFlow's house rail graphic depth.</desc>
+  <!-- TECHNIQUE SCAFFOLD. Replace the rail and proof cell with one product
+       object; the ink contour must identify it when the value plane vanishes. -->
+  <defs>
+    <mask id="rail">
+      <rect width="1024" height="1024" fill="#000"/>
+      <path d="M256 288H640V448H448V640H576V704H704V768"
+            fill="none" stroke="#fff" stroke-width="176"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#F3E9D9"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#20232C" stroke-width="248"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 288H640V448H448V640H576V704H704V768"
+        fill="none" stroke="#67C8C5" stroke-width="176"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M392 448H904V904H392Z" fill="#287B86" mask="url(#rail)"/>
+  <rect x="500" y="308" width="280" height="280" rx="68"
+        fill="#20232C"/>
+  <rect x="536" y="344" width="208" height="208" rx="44"
+        fill="#F4B84A"/>
+  <path d="M640 344H744V552H640Z" fill="#E46A50"/>
+  <rect x="600" y="408" width="80" height="80" rx="12" fill="#20232C"/>
+</svg>

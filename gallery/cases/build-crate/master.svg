@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="stencil-cut">
+  <title>Build Crate</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#F2B84B" stroke="#191A20" stroke-width="52" fill-rule="evenodd" d="M304 146h416l76 126h74l-48 580H202l-48-580h74l76-126Zm86 94-38 64h320l-38-64H390Zm-96 186 92 0 332 246-12 120h-96L278 546l16-120Zm430 0h92l-14 154-278 212H380l344-266V426Z"/>
+    <path fill="#FF5A4F" d="M620 648h190l-18 144H620Z"/>
+  </g>
+</svg>

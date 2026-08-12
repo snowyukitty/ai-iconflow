@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All 400 Emoji Matrix specimens — IconFlow</title>
+  <meta name="description" content="Compare all 400 original clean-room Emoji Matrix practice specimens in one complete 20 by 20 field, then focus by meaning or IconFlow construction grammar.">
+  <meta name="theme-color" content="#111216">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="All 400 IconFlow Emoji Matrix specimens">
+  <meta property="og:description" content="Twenty meanings across twenty structural icon grammars, visible in one complete field.">
+  <meta property="og:url" content="https://iconflow.pages.dev/gallery/emoji-matrix/all/">
+  <meta property="og:image" content="https://iconflow.pages.dev/assets/gallery/emoji-matrix/overview-2560.webp">
+  <link rel="canonical" href="https://iconflow.pages.dev/gallery/emoji-matrix/all/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/gallery/emoji-matrix/all/matrix-overview.css">
+  <script src="/app.js" defer></script>
+  <script src="/gallery/emoji-matrix/all/matrix-overview.js" defer></script>
+</head>
+<body class="overview-body">
+  <a class="skip-link" href="#full-matrix">Skip to the complete matrix</a>
+  <header class="site-header" data-header>
+    <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="/gallery/">Gallery</a><a href="/gallery/emoji-matrix/">Detail explorer</a><a href="#full-matrix">All 400</a><a href="#focus-view">Focus view</a></nav>
+  </header>
+
+  <main>
+    <section class="overview-hero section-shell">
+      <div class="overview-hero-copy reveal">
+        <p class="section-kicker">Emoji Atlas · complete comparison</p>
+        <h1>Four hundred.<br><em>One field.</em></h1>
+        <p>Read across to compare twenty construction grammars. Read down to test one grammar against twenty meanings. Every cell is an original, reviewed SVG practice specimen.</p>
+        <div class="overview-actions"><a class="overview-primary" href="#full-matrix">See the full 20 × 20</a><a href="/gallery/emoji-matrix/">Open detail explorer</a></div>
+      </div>
+      <div class="overview-count reveal" aria-label="Complete collection count"><span>20 meanings</span><strong>400</strong><span>20 grammars</span></div>
+      <p class="overview-disclaimer reveal">Independent clean-room design study. Code points and CLDR short names provide semantic reference only. No Apple, Google, Microsoft, Samsung, Meta, Twemoji, Noto, or other vendor emoji artwork is copied or embedded.</p>
+    </section>
+
+    <section id="full-matrix" class="full-matrix section-shell" aria-labelledby="full-matrix-title">
+      <div class="overview-section-head">
+        <div><p class="section-kicker">The complete field</p><h2 id="full-matrix-title">Read across.<br><span>Read down.</span></h2></div>
+        <p id="overview-status" role="status" aria-live="polite">Loading the reviewed 20 × 20 catalog…</p>
+      </div>
+
+      <div class="comparison-frame">
+        <div class="axis-corner" aria-hidden="true"><span>Columns</span><strong>grammar →</strong><span>Rows</span><strong>meaning ↓</strong></div>
+        <div class="column-axis" data-column-axis aria-hidden="true"></div>
+        <div class="row-axis" data-row-axis aria-hidden="true"></div>
+        <div class="matrix-board">
+          <img data-matrix-poster src="/assets/gallery/emoji-matrix/overview-2560.webp" width="2560" height="2560" decoding="async" fetchpriority="high" alt="Complete 20 by 20 field of 400 original clean-room emoji practice specimens arranged by meaning and construction grammar">
+          <div class="matrix-hotspots" data-matrix-hotspots role="grid" aria-label="All 400 Emoji Matrix specimens; use arrow keys to move between cells"></div>
+        </div>
+        <aside class="cell-inspector" data-cell-inspector aria-live="polite" aria-busy="true">
+          <p>Loading quality lens…</p>
+        </aside>
+      </div>
+      <p class="matrix-mobile-note">On compact screens, the complete field stays visible without horizontal scrolling. Use Focus view below for legible one-axis comparison.</p>
+      <noscript><p class="overview-error">The complete poster remains visible. JavaScript adds cell inspection and the one-axis focus view.</p></noscript>
+    </section>
+
+    <section id="focus-view" class="focus-view" aria-labelledby="focus-title">
+      <div class="section-shell">
+        <div class="overview-section-head">
+          <div><p class="section-kicker">Quality lens</p><h2 id="focus-title">Hold one axis.<br><span>Compare the other.</span></h2></div>
+          <p>Twenty large SVG specimens at a time, each paired with its true 16 × 16 proof.</p>
+        </div>
+        <form class="focus-controls" data-focus-controls>
+          <label><span>Hold constant</span><select data-focus-mode aria-label="Choose comparison direction"><option value="meaning">One meaning across 20 grammars</option><option value="style">One grammar across 20 meanings</option></select></label>
+          <label><span>Choose value</span><select data-focus-value aria-label="Choose the meaning or grammar to compare"></select></label>
+        </form>
+        <div class="focus-grid" data-focus-grid aria-live="polite" aria-busy="true"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell"><div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div><p>400 practice specimens. One comparison field. Exact native proofs.</p><nav aria-label="Footer navigation"><a href="/gallery/">Gallery</a><a href="/gallery/emoji-matrix/">Detail explorer</a><a href="/assets/gallery/emoji-matrix/catalog.json">Catalog JSON</a><a href="/gallery/social-signals/">Social Signals</a></nav></footer>
+</body>
+</html>

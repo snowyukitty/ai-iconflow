@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "113e0ec887dca49db7a99daf1a18b596851eaacdf1dcc299b8d1db0d9c56d0d0",
+  "contract_sha256": "1b9f81c311d4984ada14eac8835e60d84add08921d5283c61ee119ecaddd90c8",
+  "project": "Quiet Hero",
+  "user_job": "recognize a poised original persona at a glance",
+  "essence": "poise",
+  "personality": "calm, graphic, original",
+  "signature_device": "an asymmetric profile crest meets one high collar notch",
+  "cliches": ["generic chibi", "animal ears", "franchise imitation"],
+  "targets": ["web"],
+  "build": {"theme_color": "#F4EADA", "background_color": "#F4EADA", "electron_radius": 0, "tray_template_mode": "auto", "color_scheme": "light", "tray_source_sha256": null},
+  "warnings": [],
+  "scores": {"legibility": 4, "distinctiveness": 5, "balance": 4, "color": 5, "scalability": 4, "craft": 5},
+  "notes": "The teal profile won because its off-axis crest and high collar remain one original character silhouette after the facial plane disappears. The alternate visor read as a generic helmet at 16 px.",
+  "status": "ready"
+}

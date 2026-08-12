@@ -1,0 +1,44 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "Koi Return"
+master = "master.svg"
+output = "build"
+casebook = "../../casebook"
+
+[brief]
+app_intent = "make a daily habit feel like an intentional return"
+user_job = "recognize the next small return in a repeating practice"
+essence = "return"
+personality = ["luminous", "steady", "alive"]
+
+[design]
+palette = ["deep pond #172933", "gold #F2B84B", "coral #EF6659", "aqua #58C8C2"]
+cliches = ["yin-yang fish", "two fish", "wave badge"]
+signature_device = "a side-view koi swims into one edge-open upstream cut"
+device_family = "negative-space-cut"
+device_detail = "three broad panes, heavy leading, and one two-pixel upstream wake gate"
+concept_lens = "metaphor"
+
+[build]
+targets = ["web"]
+theme_color = "#172933"
+background_color = "#F7EFE0"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+# Review Lab receipt is preferred. For this manual fallback, set status to
+# "approved" and copy both hashes from the exported receipt; `ship` requires every
+# score >= 4 and rejects any changed source, target, or visual transform.
+scores = {}
+notes = ""

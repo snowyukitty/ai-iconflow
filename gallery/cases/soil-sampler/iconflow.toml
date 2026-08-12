@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Soil core sampler"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for field-science"
+user_job = "measure"
+essence = "core"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#5B5547", "#C67E3D"]
+cliches = ["generic flask"]
+signature_device = "visible stratified core"
+device_family = "object-silhouette"
+device_detail = "visible stratified core"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#5B5547"
+background_color = "#C67E3D"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

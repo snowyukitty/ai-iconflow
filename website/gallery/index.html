@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Icon Gallery — 100 proofed cases | IconFlow</title>
+  <meta name="description" content="One hundred original icon cases across relationships, animals, original stories, games, culture, science, and tools—each with SVG source and exact native 16px proof.">
+  <meta name="theme-color" content="#111216">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IconFlow Gallery — 100 ideas that survive the shrink">
+  <meta property="og:description" content="100 source-bound icon cases. Crisp SVG at display size, exact 16px proof, no upscaled raster masquerading as detail.">
+  <meta property="og:url" content="https://iconflow.pages.dev/gallery/">
+  <meta property="og:image" content="https://iconflow.pages.dev/assets/social-preview.png">
+  <link rel="canonical" href="https://iconflow.pages.dev/gallery/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/gallery/gallery.css">
+  <script src="/app.js" defer></script>
+  <script src="/gallery/gallery.js" defer></script>
+</head>
+<body class="gallery-body">
+  <a class="skip-link" href="#gallery-grid">Skip to gallery</a>
+  <header class="site-header" data-header>
+    <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#gallery-grid">100 cases</a><a href="#studies">Studies</a><a href="#method">Proof contract</a><a href="/">Main site</a></nav>
+  </header>
+
+  <main>
+    <section class="gallery-hero section-shell">
+      <div class="gallery-hero-copy reveal">
+        <p class="section-kicker">IconFlow Gallery · 100 admitted cases</p>
+        <h1>One hundred ideas.<br><em>No blurry enlargement.</em></h1>
+        <p>Every large specimen below is rendered from its editable SVG. Every tiny chip is the exact native 16×16 PNG, shown at 1:1—not stretched into fake detail.</p>
+      </div>
+      <div class="gallery-proof-key reveal" aria-label="Gallery proof contract">
+        <div><strong>100</strong><span>actual cases</span></div>
+        <div><strong>11</strong><span>weaker directions removed</span></div>
+        <div><strong>16</strong><span>native pixels</span></div>
+        <div><strong>4/5</strong><span>minimum on every axis</span></div>
+        <small>SVG → CHECK → REVIEW → RECEIPT → CASE</small>
+      </div>
+    </section>
+
+    <section id="method" class="gallery-method">
+      <div class="section-shell gallery-method-grid reveal">
+        <p class="section-kicker">What counts as a case</p>
+        <h2>Not a prompt.<br>Not a thumbnail.</h2>
+        <p>A case has a specific user job, concrete subject, cliché filter, one structural signature, clean automated QA, exact small-size renders, a current contract-bound receipt, and a reusable case record. This edition kept 100 of 111 generated directions.</p>
+      </div>
+    </section>
+
+    <section id="studies" class="gallery-studies section-shell" aria-labelledby="studies-title">
+      <div class="gallery-browser-head reveal"><div><p class="section-kicker">Separate collections</p><h2 id="studies-title">Practice at scale.<br><span>Admission stays honest.</span></h2></div><p>These studies do not change the 100-case Gallery count. Each carries its own catalog, status, and evidence.</p></div>
+      <div class="study-grid reveal">
+        <a class="study-card study-signals" href="/gallery/social-signals/"><span>20 user jobs · 20 techniques</span><strong>Social Signals</strong><p>Clean-room translations from generic social jobs to new nouns, silhouettes, and signature devices.</p><b>Explore 20 studies →</b></a>
+        <a class="study-card study-emoji" href="/gallery/emoji-matrix/all/"><span>20 meanings × 20 techniques</span><strong>Emoji Matrix</strong><p>See all four hundred original practice specimens at once, then focus by meaning or construction grammar.</p><b>Compare all 400 →</b></a>
+      </div>
+    </section>
+
+    <section class="gallery-browser section-shell" aria-labelledby="gallery-title">
+      <div class="gallery-browser-head reveal">
+        <div><p class="section-kicker">Browse the collection</p><h2 id="gallery-title">Specific worlds.<br><span>Specific silhouettes.</span></h2></div>
+        <p id="gallery-status" role="status" aria-live="polite">Loading 100 proofed cases…</p>
+      </div>
+      <div class="gallery-controls reveal">
+        <label><span>Find a case</span><input type="search" placeholder="cat, ritual, game, woodcut…" autocomplete="off" data-gallery-search></label>
+        <div class="filter-scroll" aria-label="Filter cases by world" data-gallery-filters></div>
+      </div>
+      <div id="gallery-grid" class="gallery-grid" data-gallery-grid aria-busy="true"></div>
+      <noscript><p class="gallery-noscript">JavaScript is required only to assemble the filterable index. Every case asset remains a static, directly addressable file.</p></noscript>
+    </section>
+  </main>
+
+  <dialog class="case-dialog" data-case-dialog aria-labelledby="case-dialog-title">
+    <form method="dialog"><button type="submit" class="dialog-close">Close <span aria-hidden="true">×</span></button></form>
+    <div data-case-detail></div>
+  </dialog>
+
+  <footer class="site-footer section-shell"><div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div><p>100 admitted cases. Studies remain separately labeled.</p><nav aria-label="Footer navigation"><a href="/">Home</a><a href="/gallery/social-signals/">Social Signals</a><a href="/gallery/emoji-matrix/all/">Emoji Matrix</a><a href="/gallery/emoji-matrix/">Emoji Explorer</a><a href="/assets/gallery/catalog.json">Catalog JSON</a></nav></footer>
+</body>
+</html>

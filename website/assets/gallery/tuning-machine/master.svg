@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="blueprint">
+  <title>Tuning Machine</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M292 184h258v170h170l142 158-142 158H550v170H292V670H162V354h130Z"/>
+    <path fill="#5177E8" d="M348 248h146v170h194l86 94-86 94H494v170H348V606H226V418h122Z"/>
+    <path fill="#FFF4E8" d="M494 450h166l56 62-56 62H494Z"/>
+    <circle cx="421" cy="512" r="66" fill="#FF5A4F"/>
+    <path d="M144 286h736M144 738h736" fill="none" stroke="#7894F2" stroke-width="32" stroke-dasharray="64 48"/>
+  </g>
+</svg>

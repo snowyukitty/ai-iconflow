@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IconFlow — Design. Review. Ship.</title>
+  <meta name="description" content="A proof-driven, agent-native icon production system. Turn one semantic SVG into reviewed favicon, PWA, desktop, and tray assets—proven at 16px.">
+  <meta name="theme-color" content="#191a20">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IconFlow — One master. Every surface. Proven at 16px.">
+  <meta property="og:description" content="Design, inspect, and ship a platform-ready icon family from one semantic SVG.">
+  <meta property="og:url" content="https://iconflow.pages.dev/">
+  <meta property="og:image" content="https://iconflow.pages.dev/assets/social-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://iconflow.pages.dev/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="#top" aria-label="IconFlow home">
+      <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
+      <span>IconFlow</span>
+    </a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu>
+      <span class="sr-only">Toggle navigation</span>
+      <span></span><span></span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+      <a href="#proof">Proof</a>
+      <a href="#flow">Workflow</a>
+      <a href="#worlds">Themes</a>
+      <a href="/gallery/">Gallery</a>
+      <a href="#styles">20 styles</a>
+      <a href="#evidence">Evidence</a>
+      <a href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section id="top" class="hero section-shell">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="status-dot"></span> Open source · local-first · agent-native</p>
+        <h1>One master.<br>Every surface.<br><em>Proven at 16px.</em></h1>
+        <p class="hero-lede">IconFlow turns product intent and one editable SVG into a reviewed icon family for the web, PWA, desktop, and system tray—with a quality gate that refuses weak pixels.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#start">Start with the source <span aria-hidden="true">→</span></a>
+          <a class="button button-quiet" href="#proof"><span class="button-pixel"></span> Inspect the proof</a>
+        </div>
+        <dl class="hero-stats" aria-label="IconFlow facts">
+          <div><dt>20</dt><dd>structural techniques</dd></div>
+          <div><dt>6</dt><dd>review axes</dd></div>
+          <div><dt>100</dt><dd>reviewed gallery cases</dd></div>
+        </dl>
+      </div>
+
+      <div class="hero-stage reveal" aria-label="IconFlow mark moving from source to proof">
+        <div class="stage-grid" aria-hidden="true"></div>
+        <div class="stage-label stage-label-top">semantic SVG</div>
+        <div class="hero-icon-wrap">
+          <div class="hero-icon-halo"></div>
+          <img class="hero-icon" src="/assets/iconflow-mark.svg" width="420" height="420" alt="IconFlow Flow Gate mark">
+          <div class="gate-orbit"><span></span></div>
+        </div>
+        <div class="hero-rail" aria-hidden="true">
+          <span class="rail-source"></span><span class="rail-gate"></span><span class="rail-output"></span>
+        </div>
+        <div class="stage-label stage-label-bottom">review gate passed · 6/6</div>
+        <div class="size-stack" aria-hidden="true">
+          <img src="/assets/proof/icon-64.png" width="64" height="64" alt="">
+          <img src="/assets/proof/icon-32.png" width="32" height="32" alt="">
+          <img src="/assets/proof/icon-16.png" width="16" height="16" alt="">
+        </div>
+      </div>
+    </section>
+
+    <section class="problem-band">
+      <div class="section-shell problem-grid reveal">
+        <p class="section-kicker">The expensive mistake</p>
+        <h2>An icon is not finished at 1024px.</h2>
+        <p>Details close. Counters vanish. Tray silhouettes become black squares. IconFlow makes the smallest output the first-class design surface—not the final surprise.</p>
+        <div class="problem-sizes" aria-label="The same approved icon at multiple native sizes">
+          <figure><img src="/assets/proof/icon-128.png" width="128" height="128" alt="IconFlow icon at 128 pixels"><figcaption>128</figcaption></figure>
+          <figure><img src="/assets/proof/icon-64.png" width="64" height="64" alt="IconFlow icon at 64 pixels"><figcaption>64</figcaption></figure>
+          <figure><img src="/assets/proof/icon-32.png" width="32" height="32" alt="IconFlow icon at 32 pixels"><figcaption>32</figcaption></figure>
+          <figure class="problem-small"><img src="/assets/proof/icon-16.png" width="16" height="16" alt="IconFlow icon at 16 pixels"><figcaption>16px</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="proof" class="proof-section section-shell">
+      <div class="section-heading reveal">
+        <p class="section-kicker">Interactive Proof Lab</p>
+        <h2>Do not trust the mockup.<br><span>Inspect the pixels.</span></h2>
+        <p>These are exact Chromium-rendered PNGs from the approved semantic source. Change the size, surface, crop, or source state.</p>
+      </div>
+
+      <div class="proof-lab reveal" data-proof-lab>
+        <div class="proof-toolbar">
+          <fieldset>
+            <legend>Native size</legend>
+            <div class="segmented" data-size-controls>
+              <button type="button" class="is-active" data-size="16" aria-pressed="true">16</button>
+              <button type="button" data-size="24" aria-pressed="false">24</button>
+              <button type="button" data-size="32" aria-pressed="false">32</button>
+              <button type="button" data-size="48" aria-pressed="false">48</button>
+              <button type="button" data-size="64" aria-pressed="false">64</button>
+              <button type="button" data-size="128" aria-pressed="false">128</button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Surface</legend>
+            <div class="surface-buttons" data-surface-controls>
+              <button class="surface-dark is-active" type="button" data-surface="dark" aria-label="Dark surface" aria-pressed="true"></button>
+              <button class="surface-light" type="button" data-surface="light" aria-label="Light surface" aria-pressed="false"></button>
+              <button class="surface-gray" type="button" data-surface="gray" aria-label="Gray surface" aria-pressed="false"></button>
+              <button class="surface-coral" type="button" data-surface="coral" aria-label="Coral surface" aria-pressed="false"></button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Target crop</legend>
+            <div class="segmented" data-crop-controls>
+              <button type="button" class="is-active" data-crop="native" aria-pressed="true">Native</button>
+              <button type="button" data-crop="circle" aria-pressed="false">Circle</button>
+              <button type="button" data-crop="rounded" aria-pressed="false">Rounded</button>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="proof-workbench" data-surface="dark">
+          <div class="proof-canvas">
+            <div class="actual-panel">
+              <span class="panel-label">Actual size</span>
+              <div class="actual-stage" data-crop="native">
+                <img data-actual src="/assets/proof/icon-16.png" width="16" height="16" alt="IconFlow icon actual-size proof">
+              </div>
+              <div class="measurement"><span data-measure>16 × 16</span> px</div>
+            </div>
+            <div class="zoom-panel">
+              <span class="panel-label">16× pixel zoom</span>
+              <div class="zoom-grid">
+                <img data-zoom src="/assets/proof/icon-16.png" width="256" height="256" alt="Magnified native pixels">
+              </div>
+              <div class="pixel-verdict"><span></span> counter open · gate detached · silhouette stable</div>
+            </div>
+          </div>
+
+          <aside class="receipt-panel" aria-live="polite">
+            <div class="receipt-heading">
+              <p>Review receipt</p>
+              <label class="source-toggle">
+                <input type="checkbox" data-source-toggle>
+                <span></span>
+                Simulate source edit
+              </label>
+            </div>
+            <div class="receipt-status is-approved" data-receipt-status>
+              <span class="receipt-icon" aria-hidden="true"></span>
+              <div><strong data-receipt-title>Source-bound approval</strong><small data-receipt-copy>Current SVG matches the reviewed hash.</small></div>
+            </div>
+            <dl class="receipt-scores">
+              <div><dt>Legibility</dt><dd>4/5</dd></div>
+              <div><dt>Distinctiveness</dt><dd>4/5</dd></div>
+              <div><dt>Balance</dt><dd>4/5</dd></div>
+              <div><dt>Color</dt><dd>5/5</dd></div>
+              <div><dt>Scalability</dt><dd>5/5</dd></div>
+              <div><dt>Craft</dt><dd>5/5</dd></div>
+            </dl>
+            <p class="receipt-hash"><span>SHA-256</span> 6c9f…2b41</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow" class="flow-section">
+      <div class="section-shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker">A decision workflow, not a converter</p>
+          <h2>Design. Review. Ship.<br><span>Then learn.</span></h2>
+          <p>Generators make options. Converters make files. IconFlow makes the design decision visible, repeatable, and auditable.</p>
+        </div>
+
+        <ol class="flow-steps">
+          <li class="reveal"><span>01</span><div><h3>Brief</h3><p>Record the user job, essence, palette, clichés, and exact targets.</p></div></li>
+          <li class="reveal"><span>02</span><div><h3>Explore</h3><p>Force four different concepts and give the strongest one an ownable device.</p></div></li>
+          <li class="reveal"><span>03</span><div><h3>Compare</h3><p>Bake finalists into one silhouette-first sheet. Choose shape before polish.</p></div></li>
+          <li class="reveal"><span>04</span><div><h3>Inspect</h3><p>Review native pixels, alpha, crops, light/dark surfaces, and real targets.</p></div></li>
+          <li class="reveal"><span>05</span><div><h3>Ship</h3><p>Build only when automated QA is clean and every human score is at least 4/5.</p></div></li>
+          <li class="reveal"><span>06</span><div><h3>Learn</h3><p>Turn every failed pass into a reusable casebook rule for the next icon.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="worlds" class="worlds-section">
+      <div class="section-shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker">One pipeline · many worlds</p>
+          <h2>Not another grid<br><span>of the same subject.</span></h2>
+          <p>Relationships, companions, habits, original characters, games, collaboration, and folklore each begin with a different user job—then earn a silhouette that still reads at 16px.</p>
+        </div>
+
+        <div class="axis-note reveal" aria-label="How IconFlow separates themes from techniques">
+          <div><span>Technique proof</span><strong>Same object</strong><p>The Flow Gate stays fixed so construction—not subject matter—is the only variable.</p></div>
+          <div><span>Theme worlds</span><strong>Different objects</strong><p>Every case below changes the job, noun, signature device, palette, and technique.</p></div>
+        </div>
+
+        <div class="world-grid">
+          <article class="world-card world-knot world-wide reveal">
+            <div class="world-copy">
+              <span class="world-number">01 · Relationship / woven</span>
+              <h3>Keepsake Knot</h3>
+              <p>Two people keep one ritual tangible. No heart, chat bubble, or linked-circle shorthand—just two unequal bands sharing one offset opening.</p>
+              <div class="world-device">Signature · shared asymmetric crossing</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/keepsake-knot.svg" alt="Keepsake Knot icon with teal and coral bands woven around an offset opening" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/keepsake-knot-16.png" width="16" height="16" alt="">native 16px</span><span><a href="/assets/worlds/keepsake-knot.svg">Source</a><a href="/assets/worlds/keepsake-knot-review.json">Receipt</a></span></footer>
+          </article>
+
+          <article class="world-card world-cat reveal">
+            <div class="world-copy">
+              <span class="world-number">02 · Cat / clay</span>
+              <h3>Catnap Focus</h3>
+              <p>A curled companion turns settling down into one warm gesture. Its tail leaves a broad time wedge beside the sleeping face.</p>
+              <div class="world-device">Signature · tail-to-cheek wedge</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/catnap-focus.svg" alt="Catnap Focus icon showing a clay-like curled sleeping cat" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/catnap-focus-16.png" width="16" height="16" alt="">native 16px</span><span><a href="/assets/worlds/catnap-focus.svg">Source</a><a href="/assets/worlds/catnap-focus-review.json">Receipt</a></span></footer>
+          </article>
+
+          <article class="world-card world-dog reveal">
+            <div class="world-copy">
+              <span class="world-number">03 · Dog / line mark</span>
+              <h3>Trail Tail</h3>
+              <p>The dog is the route: one continuous walking contour, one open belly counter, one off-axis coral clasp. No paw or map pin.</p>
+              <div class="world-device">Signature · route becomes companion</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/trail-tail.svg" alt="Trail Tail icon drawn as one continuous side-view dog contour" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/trail-tail-16.png" width="16" height="16" alt="">native 16px</span><span><a href="/assets/worlds/trail-tail.svg">Source</a><a href="/assets/worlds/trail-tail-review.json">Receipt</a></span></footer>
+          </article>
+
+          <article class="world-card world-koi reveal">
+            <div class="world-copy">
+              <span class="world-number">04 · Fish / stained glass</span>
+              <h3>Koi Return</h3>
+              <p>A single side-view koi makes daily practice feel like swimming upstream. Three bright panes meet one edge-open current cut.</p>
+              <div class="world-device">Signature · upstream wake gate</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/koi-return.svg" alt="Koi Return icon with a stained-glass side-view koi swimming upstream" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/koi-return-16.png" width="16" height="16" alt="">native 16px</span><span><a href="/assets/worlds/koi-return.svg">Source</a><a href="/assets/worlds/koi-return-review.json">Receipt</a></span></footer>
+          </article>
+
+          <article class="world-card world-hero reveal">
+            <div class="world-copy">
+              <span class="world-number">05 · Original story / cel shaded</span>
+              <h3>Quiet Hero</h3>
+              <p>An original persona with no franchise imitation. The asymmetric profile crest and high collar identify the character before the face does.</p>
+              <div class="world-device">Signature · crest meets collar notch</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/quiet-hero.svg" alt="Quiet Hero icon showing an original cel-shaded character in asymmetric profile" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/quiet-hero-16.png" width="16" height="16" alt="">native 16px</span><span><a href="/assets/worlds/quiet-hero.svg">Source</a><a href="/assets/worlds/quiet-hero-review.json">Receipt</a></span></footer>
+          </article>
+
+          <article class="world-card world-sky reveal">
+            <div class="world-copy">
+              <span class="world-number">06 · Original story / ink brush</span>
+              <h3>Sky Courier</h3>
+              <p>A spoiler-free chapter alert becomes a hand-carried dispatch. The satchel flap rises into one swept wing; the broad dry cut stays open at 16px.</p>
+              <div class="world-device">Signature · the prop carries the motion</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/sky-courier.svg" alt="Sky Courier icon showing an ink-brush messenger satchel whose flap becomes a wing" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/sky-courier-16.png" width="16" height="16" alt="">native 16px</span><span><a href="/assets/worlds/sky-courier.svg">Source</a><a href="/assets/worlds/sky-courier-review.json">Receipt</a></span></footer>
+          </article>
+
+          <article class="world-card world-coop reveal">
+            <div class="world-copy">
+              <span class="world-number">07 · Collaboration / glass stack</span>
+              <h3>Co-op Lock</h3>
+              <p>Two uneven teammates become ready together. Their translucent keycaps share one opaque square counter—no controller, check, or avatar pair.</p>
+              <div class="world-device">Signature · one counter, two arrivals</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/co-op-lock.svg" alt="Co-op Lock icon with two unequal glass keycaps sharing one opaque square counter" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/co-op-lock-16.png" width="16" height="16" alt="">native 16px</span><span><a href="/assets/worlds/co-op-lock.svg">Source</a><a href="/assets/worlds/co-op-lock-review.json">Receipt</a></span></footer>
+          </article>
+
+          <article class="world-card world-forest reveal">
+            <div class="world-copy">
+              <span class="world-number">08 · Animal folklore / woodcut</span>
+              <h3>Forest Familiar</h3>
+              <p>A carved horned owl guides a small companion home. Unequal ear tufts and a split tail name the bird; two edge-open gouges only describe the print.</p>
+              <div class="world-device">Signature · species before texture</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/forest-familiar.svg" alt="Forest Familiar icon showing a horned owl carved as a woodcut relief field" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/forest-familiar-16.png" width="16" height="16" alt="">native 16px</span><span><a href="/assets/worlds/forest-familiar.svg">Source</a><a href="/assets/worlds/forest-familiar-review.json">Receipt</a></span></footer>
+          </article>
+
+          <article class="world-card world-helm world-wide reveal">
+            <div class="world-copy">
+              <span class="world-number">09 · Game / chrome</span>
+              <h3>Boss Helm</h3>
+              <p>A hard-won raid memory without a trophy, crown, sword, or gamepad. One horn is structurally missing; the ember fracture explains the scar.</p>
+              <div class="world-device">Signature · damage changes silhouette</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/boss-helm.svg" alt="Boss Helm icon with hard chrome bands, ember visor, and one broken horn" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/boss-helm-16.png" width="16" height="16" alt="">native 16px</span><span><a href="/assets/worlds/boss-helm.svg">Source</a><a href="/assets/worlds/boss-helm-review.json">Receipt</a></span></footer>
+          </article>
+        </div>
+        <div class="styles-footer reveal">
+          <p>One hundred admitted cases turn the method into practical reference: different user jobs, subjects, themes, techniques, and structural signatures.</p>
+          <a class="button button-quiet" href="/gallery/">Explore all 100 cases <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="styles" class="styles-section section-shell">
+      <div class="section-heading reveal">
+        <p class="section-kicker">Twenty visual languages · one fixed test object</p>
+        <h2>Same subject on purpose.<br><span>Different construction.</span></h2>
+        <p>The Flow Gate repeats here as a controlled specimen: holding the noun constant exposes each technique's topology, 16px contract, and monochrome strategy. The Theme Worlds above prove the system is not limited to that subject.</p>
+      </div>
+
+      <div class="style-grid">
+        <article class="style-card reveal"><img src="/assets/styles/woven.svg" alt="Woven technique scaffold"><div><span>Relationships</span><h3>Woven</h3><p>Interlaced bands with explicit knockout gaps.</p></div></article>
+        <article class="style-card reveal"><img src="/assets/styles/glass-stack.svg" alt="Glass stack technique scaffold"><div><span>Collaboration</span><h3>Glass stack</h3><p>Translucent planes around an opaque skeleton.</p></div></article>
+        <article class="style-card reveal"><img src="/assets/styles/cel-shaded.svg" alt="Cel shaded technique scaffold"><div><span>Original stories</span><h3>Cel shaded</h3><p>One ink contour and one decisive shadow plane.</p></div></article>
+        <article class="style-card reveal"><img src="/assets/styles/ink-brush.svg" alt="Ink brush technique scaffold"><div><span>Craft & culture</span><h3>Ink brush</h3><p>A tapered gesture with one broad dry cut.</p></div></article>
+        <article class="style-card reveal"><img src="/assets/styles/chrome.svg" alt="Chrome technique scaffold"><div><span>Games & music</span><h3>Chrome</h3><p>Six hard value bands inside one solid contour.</p></div></article>
+        <article class="style-card reveal"><img src="/assets/styles/woodcut.svg" alt="Woodcut technique scaffold"><div><span>Animals & folklore</span><h3>Woodcut</h3><p>A closed relief mass with edge-open gouges.</p></div></article>
+      </div>
+      <div class="styles-footer reveal">
+        <p>Plus flat geometry, glow, line, mascot, duotone, stencil, pixel, isometric, cut paper, enamel, blueprint, stained glass, risograph, and clay.</p>
+        <button class="text-button" type="button" data-open-gallery>See all 20 techniques <span aria-hidden="true">↗</span></button>
+      </div>
+    </section>
+
+    <section id="evidence" class="evidence-section">
+      <div class="section-shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker">The proof is visible</p>
+          <h2>Every claim has<br><span>an artifact behind it.</span></h2>
+        </div>
+        <div class="evidence-grid">
+          <figure class="evidence-card evidence-wide reveal">
+            <div class="evidence-image"><img src="/assets/concept-bake.png" alt="IconFlow concept bake-off comparing three candidates across native sizes and silhouettes" loading="lazy"></div>
+            <figcaption><span>01 · Compare</span><h3>Concept bake-off</h3><p>The Flow Gate beat a generic aperture and an F monogram in silhouette.</p></figcaption>
+          </figure>
+          <figure class="evidence-card reveal">
+            <div class="evidence-image evidence-review"><img src="/assets/review-proof.png" alt="IconFlow review sheet showing native sizes, pixel zoom, silhouettes, and adaptive crops" loading="lazy"></div>
+            <figcaption><span>02 · Inspect</span><h3>Target-aware review</h3><p>Actual pixels, not a decorative device mockup.</p></figcaption>
+          </figure>
+          <article class="evidence-card evidence-receipt reveal">
+            <div class="terminal-dots"><span></span><span></span><span></span></div>
+            <pre><code>$ iconflow ship \
+  --config iconflow.toml \
+  --review master-review.json
+
+✓ source hash matches
+✓ 0 automated warnings
+✓ all six axes ≥ 4/5
+
+23 files built</code></pre>
+            <div><span>03 · Ship</span><h3>Fail-closed release</h3><p>A stale receipt or weak score stops the build.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="start" class="start-section section-shell">
+      <div class="start-card reveal">
+        <div>
+          <p class="section-kicker">Run the five-minute proof</p>
+          <h2>Your icon deserves<br>an honest final mile.</h2>
+          <p>Clone the source, install locally, and build the checked-in IconFlow brand family. No image API, account, or cloud renderer required.</p>
+          <div class="start-actions">
+            <a class="button button-primary" href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
+            <a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs" target="_blank" rel="noreferrer">Read the playbook</a>
+          </div>
+        </div>
+        <div class="install-terminal">
+          <div class="terminal-bar"><span></span><span></span><span></span><p>PowerShell</p></div>
+          <pre><code data-install-command>git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install .
+.venv\Scripts\python.exe -m iconflow doctor</code></pre>
+          <button class="copy-button" type="button" data-copy-command aria-live="polite">Copy</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div>
+    <p>Apache-2.0 code · IconFlow identity subject to trademark policy.</p>
+    <nav aria-label="Footer navigation"><a href="https://github.com/snowyukitty/ai-iconflow">Source</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">Docs</a><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">Trademark</a></nav>
+  </footer>
+
+  <dialog class="gallery-dialog" data-gallery-dialog>
+    <form method="dialog"><button type="submit" aria-label="Close gallery">Close <span aria-hidden="true">×</span></button></form>
+    <div><p class="section-kicker">The complete catalog</p><h2>20 structural techniques</h2><img src="/assets/style-gallery.png" alt="All twenty IconFlow technique scaffolds with native 16 pixel proofs"></div>
+  </dialog>
+</body>
+</html>

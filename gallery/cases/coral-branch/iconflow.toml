@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Branching coral"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for ecology"
+user_job = "restore"
+essence = "branch"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#9A3D3B", "#E5B347"]
+cliches = ["generic coral fan"]
+signature_device = "forked negative bays"
+device_family = "object-silhouette"
+device_detail = "forked negative bays"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#9A3D3B"
+background_color = "#E5B347"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

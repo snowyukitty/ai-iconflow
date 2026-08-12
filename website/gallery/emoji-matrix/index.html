@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emoji 20 × 20 Matrix — clean-room style studies | IconFlow</title>
+  <meta name="description" content="Explore 20 frequently used emoji meanings across 20 structurally distinct IconFlow construction grammars: 400 original clean-room SVG practice specimens.">
+  <meta name="theme-color" content="#111216">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IconFlow Emoji 20 × 20 Matrix">
+  <meta property="og:description" content="400 original clean-room SVG practice specimens, with exact native 16px proofs and source-bound receipts.">
+  <meta property="og:url" content="https://iconflow.pages.dev/gallery/emoji-matrix/">
+  <meta property="og:image" content="https://iconflow.pages.dev/assets/social-preview.png">
+  <link rel="canonical" href="https://iconflow.pages.dev/gallery/emoji-matrix/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/gallery/emoji-matrix/emoji-matrix.css">
+  <script src="/app.js" defer></script>
+  <script src="/gallery/emoji-matrix/emoji-matrix.js" defer></script>
+</head>
+<body class="matrix-body">
+  <a class="skip-link" href="#matrix-explorer">Skip to matrix explorer</a>
+  <header class="site-header" data-header>
+    <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="/gallery/">Gallery</a><a href="/gallery/emoji-matrix/all/">View all 400</a><a href="#matrix-explorer">Detail explorer</a><a href="/gallery/social-signals/">Social Signals</a></nav>
+  </header>
+
+  <main>
+    <section class="matrix-hero section-shell">
+      <div class="matrix-copy reveal">
+        <p class="section-kicker">Emoji Matrix · 20 meanings × 20 grammars</p>
+        <h1>Same meaning.<br><em>Different making.</em></h1>
+        <p>Choose a meaning or a construction grammar, then inspect one cell at a time. The matrix tests whether style can change topology—not merely palette—while the semantic core still reads at exact 16px.</p>
+        <p class="matrix-note">These are practice specimens, not shipped identities and not vendor emoji. Code points and CLDR short names are semantic references only; all SVG geometry is original clean-room work.</p>
+        <div class="matrix-actions"><a href="/gallery/emoji-matrix/all/">Compare all 400 in one field →</a></div>
+      </div>
+      <div class="matrix-equation reveal" aria-label="Collection equation"><strong>20</strong><span>meanings</span><b>×</b><strong>20</strong><span>grammars</span><b>=</b><strong>400</strong><span>practice specimens</span></div>
+    </section>
+
+    <section id="method" class="matrix-method">
+      <div class="section-shell matrix-method-grid reveal"><p class="section-kicker">Selection and construction</p><h2>Frequency chooses the rows.<br>Grammar changes the columns.</h2><p>The primary order follows Unicode Emoji Frequency's cross-source median ranking. Skin tones and repeated presentation variants are collapsed; a recent Brandwatch cross-platform snapshot is used only as a relevance cross-check. No vendor artwork is used.</p></div>
+    </section>
+
+    <section id="matrix-explorer" class="matrix-explorer section-shell" aria-labelledby="matrix-title">
+      <div class="matrix-heading reveal"><div><p class="section-kicker">Interactive index</p><h2 id="matrix-title">Enter by meaning.<br><span>Enter by grammar.</span></h2></div><p id="matrix-status" role="status" aria-live="polite">Loading 400 reviewed specimens…</p></div>
+      <form class="matrix-controls reveal" data-matrix-controls>
+        <label><span>Emoji meaning</span><select data-emoji-select aria-label="Choose an emoji meaning"></select></label>
+        <label><span>Construction grammar</span><select data-style-select aria-label="Choose an IconFlow style"></select></label>
+        <button type="submit">Open specimen</button>
+      </form>
+      <div class="matrix-layout">
+        <aside class="matrix-axis" aria-label="Browse by emoji meaning"><h3>Meanings</h3><div data-emoji-axis></div></aside>
+        <article class="matrix-detail" data-matrix-detail aria-busy="true"></article>
+        <aside class="matrix-axis" aria-label="Browse by construction grammar"><h3>Grammars</h3><div data-style-axis></div></aside>
+      </div>
+      <noscript><p class="matrix-error">JavaScript provides the one-cell explorer. The static catalog and every source remain directly addressable.</p></noscript>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell"><div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div><p>400 practice specimens. Exact pixels. Original geometry.</p><nav aria-label="Footer navigation"><a href="/gallery/">Gallery</a><a href="/gallery/emoji-matrix/all/">All 400</a><a href="/assets/gallery/emoji-matrix/catalog.json">Catalog JSON</a><a href="/gallery/social-signals/">Social Signals</a></nav></footer>
+</body>
+</html>

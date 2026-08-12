@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Breaching humpback whale"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for animals"
+user_job = "surface"
+essence = "breach"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#315B78", "#E3A646"]
+cliches = ["generic whale tail"]
+signature_device = "asymmetric breach fin"
+device_family = "character-silhouette"
+device_detail = "asymmetric breach fin"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#315B78"
+background_color = "#E3A646"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

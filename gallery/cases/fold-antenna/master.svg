@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="glass-stack">
+  <title>Fold Antenna</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M452 164h120v696H452Z"/>
+    <path fill="#72D7CC" opacity=".68" stroke="#191A20" stroke-width="48" d="m180 286 272-82v506l-272 82Z"/>
+    <path fill="#24B6A6" opacity=".68" stroke="#191A20" stroke-width="48" d="m572 204 272 82v506l-272-82Z"/>
+    <path fill="#FF5A4F" d="M430 432h164v164H430Z"/>
+  </g>
+</svg>

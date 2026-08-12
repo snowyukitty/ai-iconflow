@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "candidate_count": 111,
+  "admitted_count": 100,
+  "rejected_count": 11,
+  "rejected": [
+    "baby-rattle",
+    "bee-frame",
+    "camera-trap",
+    "friendship-bracelet",
+    "heirloom-love-spoon",
+    "luna-moth",
+    "matcha-whisk",
+    "memory-spool",
+    "potters-rib",
+    "stage-trapdoor",
+    "tree-frog-cling"
+  ],
+  "reasons": {
+    "baby-rattle": "The ring-and-dot silhouette repeats several stronger cases and does not retain a specific rattle body at 16px.",
+    "bee-frame": "The broad outer lobes read as a bear head or bag before a beekeeping frame.",
+    "camera-trap": "The rectangular eye is generic camera shorthand and lacks a field-specific silhouette.",
+    "friendship-bracelet": "The near-perfect ring is less specific than the woven relationship cases already admitted.",
+    "heirloom-love-spoon": "The bowl, handle, and carved terminal collapse into a medal or magnifying glass at native size.",
+    "luna-moth": "The angular wings still read as a star or leaf cluster before a moth.",
+    "matcha-whisk": "The reduced silhouette reads as a shovel or goblet rather than a bamboo whisk.",
+    "memory-spool": "The striped puck remains abstract and does not earn a recognizable spool noun.",
+    "potters-rib": "The circular scraper repeats the gallery's ring construction without enough pottery-specific contour.",
+    "stage-trapdoor": "The isometric block reads as another generic cube beside stronger map, crate, and collet cases.",
+    "tree-frog-cling": "The revised limb cluster still reads as a jellyfish or leaves before a frog at 16px."
+  }
+}

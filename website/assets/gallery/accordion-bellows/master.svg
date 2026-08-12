@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="stained-glass">
+  <title>Accordion Bellows</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M142 264h208l74 86 88-100 88 100 74-86h208v496H674l-74-86-88 100-88-100-74 86H142Z"/>
+    <path fill="#7894F2" d="M206 328h118v368H206Zm494 0h118v368H700Z"/>
+    <path fill="#5177E8" d="m350 370 74 86 88-100v300l-88-100-74 86Z"/>
+    <path fill="#FF5A4F" d="m512 356 88 100 74-86v272l-74-86-88 100Z"/>
+  </g>
+</svg>

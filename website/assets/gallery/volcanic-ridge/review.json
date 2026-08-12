@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "678c770973b68ce76004f3d14f90c565f00c431f689a71d84ac5b31e02b43e1a",
+  "contract_sha256": "afda1a4953405157c87ccfa64867fe7b862ebdb8608a1362f7f09d11eacc9ea5",
+  "project": "Volcanic ridge",
+  "user_job": "survey",
+  "essence": "ridge",
+  "personality": "specific, clear, crafted",
+  "signature_device": "lava notch in peak",
+  "cliches": [
+    "generic mountain badge"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#48556A",
+    "background_color": "#D66B42",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

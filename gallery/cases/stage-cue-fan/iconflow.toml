@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Stage Cue Fan"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for performance"
+user_job = "remember the next blocking direction in a movement performance"
+essence = "turn"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#9B7BE8"]
+cliches = ["spotlight", "theater masks", "dancer silhouette", "arrow"]
+signature_device = "one vermilion signal leaf drops below the rim to point toward the next stage turn"
+device_family = "negative-space-cut"
+device_detail = "one vermilion signal leaf drops below the rim to point toward the next stage turn"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#9B7BE8"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "460b1f21cb49cbbb793f390c3c9b7ea82766b70ed70c42c7dfe4e0cc3cb9e44c",
+  "contract_sha256": "3d3c4ed0836ce763e8f7e608717b2695db987ab3a22e7008278aa0dd728ec987",
+  "project": "Chanterelle mushroom",
+  "user_job": "forage",
+  "essence": "earth",
+  "personality": "specific, clear, crafted",
+  "signature_device": "folded cap edge",
+  "cliches": [
+    "generic mushroom"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#C07A2F",
+    "background_color": "#F0C15B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

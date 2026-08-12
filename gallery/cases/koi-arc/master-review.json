@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "d87cf392c2422d9fd256c52145f00d2e251517f2e8c5e1694483ce43c4b434fe",
+  "contract_sha256": "323da504050133453eed1923fd8ad0a3aaf9f30b6a2c97eda03bb07eb193ca4d",
+  "project": "Arcing koi fish",
+  "user_job": "flow",
+  "essence": "current",
+  "personality": "specific, clear, crafted",
+  "signature_device": "body cut-out arc",
+  "cliches": [
+    "generic fish glyph"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#0E5A5B",
+    "background_color": "#F2B84B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

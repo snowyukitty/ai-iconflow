@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="cut-paper">
+  <title>Quest Satchel</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#D9A73E" d="M210 390h604v390q0 72-72 72H282q-72 0-72-72Z"/>
+    <path fill="#191A20" d="M278 358q32-186 234-186t234 186h-100q-26-92-134-92t-134 92Z"/>
+    <path fill="#F4C85A" d="M170 348h684v272l-192 72-150-64-150 64-192-72Z"/>
+    <path fill="#FF5A4F" d="m512 628 92-40v156H420V588Z"/>
+    <path fill="#FFF4E8" d="M662 348h192v160l-128-40Z"/>
+  </g>
+</svg>

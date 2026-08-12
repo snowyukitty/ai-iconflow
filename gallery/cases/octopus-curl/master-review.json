@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "172a56f3bc6bf8dc3437e7b9ffc9016fc6c97a05d84b4699d29b69a609754e23",
+  "contract_sha256": "68e36df4074661fcddee2ede2163ed62216e14526024959da932dfff97f95222",
+  "project": "Octopus with curled arm",
+  "user_job": "adapt",
+  "essence": "curl",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one arm curls into a hook",
+  "cliches": [
+    "generic octopus badge"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#714C82",
+    "background_color": "#E3A34B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

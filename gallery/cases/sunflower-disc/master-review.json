@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "35b38fa51586581bfafc204902ddba4008bb7ec6cd89e204144fcae5a8e20e9b",
+  "contract_sha256": "3e5eb810fa5ac6adee4d4dd3b01357197c043cb27f9be3b1019c64890907f782",
+  "project": "Sunflower seed disc",
+  "user_job": "grow",
+  "essence": "radiance",
+  "personality": "specific, clear, crafted",
+  "signature_device": "notched radial petals",
+  "cliches": [
+    "generic flower"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#D99C2B",
+    "background_color": "#5B4631",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Bounding corgi"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for animals"
+user_job = "play"
+essence = "leap"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#A8432C", "#F4C15D"]
+cliches = ["generic puppy face"]
+signature_device = "zigzag running legs"
+device_family = "character-silhouette"
+device_detail = "zigzag running legs"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#A8432C"
+background_color = "#F4C15D"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

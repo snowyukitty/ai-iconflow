@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "2e1f9dcd2462fec3b7264ca4adc35f59c148d6c80d7e37a8a8563b3a9879ad8c",
+  "contract_sha256": "d19ae0d9d77c7cfe764df1206d72ac2f603a12c19435e79edcd4fd13a02e4e52",
+  "project": "Topic Drawer",
+  "user_job": "Discuss topics in interest-led forums with durable context.",
+  "essence": "discussion",
+  "personality": "independent, specific, crafted",
+  "signature_device": "a broad specular band stops at the inset topic label",
+  "cliches": [
+    "alien mascots, antennae, orange conversation marks"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the chromed discussion shelves passed round 3.",
+  "status": "ready"
+}

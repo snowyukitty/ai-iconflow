@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Trail Tail — continuous walking dog</title>
+  <desc id="desc">One continuous dog contour becomes a walking route and carries an off-axis coral clasp.</desc>
+  <path d="M214 620V498L296 422L390 436L468 388H640L708 438L788 410L752 486L804 534L752 566L704 548V684L646 748V620H410V748L350 684V566L286 612Z"
+        fill="none" stroke="#FFF4E8" stroke-width="156" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M214 620V498L296 422L390 436L468 388H640L708 438L788 410L752 486L804 534L752 566L704 548V684L646 748V620H410V748L350 684V566L286 612Z"
+        fill="none" stroke="#252731" stroke-width="84" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M214 498C138 446 148 350 232 320" fill="none" stroke="#FFF4E8" stroke-width="156" stroke-linecap="square"/>
+  <path d="M214 498C138 446 148 350 232 320" fill="none" stroke="#252731" stroke-width="84" stroke-linecap="square"/>
+  <rect x="650" y="460" width="126" height="126" rx="24" fill="#FFF4E8" stroke="#FF5A4F" stroke-width="64" transform="rotate(12 713 523)"/>
+  <circle cx="712" cy="522" r="22" fill="#252731"/>
+</svg>

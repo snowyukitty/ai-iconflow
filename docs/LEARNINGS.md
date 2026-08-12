@@ -493,7 +493,11 @@ wrong reading.
 *Why:* an object's silhouette is determined as much by viewpoint as by contour,
 and icon scale removes the detail that might have disambiguated a weak angle.
 *Evidence:* [casebook/2026-08-09-private-media-discovery-pearl.md](../casebook/2026-08-09-private-media-discovery-pearl.md).
-Folded into `DESIGN_PLAYBOOK.md` §5 and `CONCEPTING.md` §4.
+[Sky Courier](../casebook/2026-08-12-sky-courier.md) extends the same gate:
+when a flying creature stayed abstract from every small viewpoint, promoting
+the job-bearing satchel to the noun and building flight into its flap restored
+the specific reading. Folded into `DESIGN_PLAYBOOK.md` §3 and §5 and
+`CONCEPTING.md` §4.
 
 ## L35 — A blocked Review Lab changes the evidence path, not the quality gate
 If a managed browser refuses a local Review Lab, do not bypass the policy and
@@ -518,3 +522,75 @@ before the shared noun does, leaving two states that look identical at control s
 moving speech state from a small handle/shell into a broad call wing versus a deep
 outer notch, and translation state into an open versus closed phrasebook, raised
 legibility 3→4 and scalability 3→4. Folded into `DESIGN_PLAYBOOK.md` §5.
+
+## L37 — A new style must beat its nearest existing family at 16px
+A catalog family earns a new name only when its **structural move** remains
+visible at native 16px and is still separable from the closest existing family
+after color is discounted. If its defining seam, texture, or highlight vanishes
+and the remaining mass uses the same construction model as an existing family,
+reject or replace it; polishing the 128px treatment only inflates the count.
+*Why:* a style catalog is useful only when each choice changes how the designer
+constructs, simplifies, and reduces the semantic object. Large-size decoration
+that disappears at the product size behaves like a filter, not a technique.
+*Evidence:* [casebook/2026-08-12-iconflow-style-catalog-expansion.md](../casebook/2026-08-12-iconflow-style-catalog-expansion.md) —
+the proposed plush family reduced to clay/cut-paper once its seam vanished, so it
+was removed and replaced by a woodcut relief topology. Folded into
+`STYLE_CATALOG.md`'s selection contract.
+
+## L38 — Put the identifying trait on the outer silhouette before the surface
+A species cue, character identity, gait, or damage mark is not dependable when
+it exists only as eyes, color, a highlight, or a painted slash. Hide every
+interior feature and inspect 16px/32px: the outer contour must still carry the
+noun and the signature. Budget a silhouette change of roughly two output
+pixels (about 128 units) when it is the feature that makes the object ownable.
+*Why:* small-size reduction removes surface information before it removes the
+container; a round animal head, intact horn, or visor-led bust becomes generic
+even when its large render is beautifully painted.
+*Evidence:* [Catnap Focus](../casebook/2026-08-12-catnap-focus.md) moved the
+ears into the outer contour; [Quiet Hero](../casebook/2026-08-12-quiet-hero.md)
+made the head-and-collar profile identify the character;
+[Boss Helm](../casebook/2026-08-12-boss-helm.md) replaced a painted fracture
+with missing horn mass; [Trail Tail](../casebook/2026-08-12-trail-tail.md)
+preserved gait, belly counter, and lifted tail in one line silhouette. Folded
+into `DESIGN_PLAYBOOK.md`'s family table and anti-patterns.
+
+## L39 — Stained-glass leading must separate the object from its support field
+Heavy leading can divide panes correctly and still erase the object when it has
+the same value as the card around it. At 16px, verify that the leading produces
+a continuous, nameable perimeter on the chosen field before judging the pane
+colors. If the object becomes several bright fragments, change the field value
+or the leading—not the pane decoration.
+*Why:* stained-glass topology depends on both internal division and external
+containment; losing the perimeter turns construction into confetti.
+*Evidence:* [Koi Return](../casebook/2026-08-12-koi-return.md) changed from a
+dark-on-dark field that split the fish into fragments to a pale glass field
+that preserved one side-view koi at 16px. Folded into `DESIGN_PLAYBOOK.md`'s
+stained-glass contract.
+
+## L40 — A woven relationship must preserve two routes, not one familiar loop
+When interlace represents people or exchange, both bands must own visible
+direction, mass, and at least one readable crossing at 16px. A dominant upright
+loop with a secondary color patch collapses into a power glyph, chain link, or
+decorated monogram. Trace each route separately in the pixel zoom and run the
+universal-symbol collision test before approval.
+*Why:* the relationship is carried by topology between participants; if one
+route disappears, color cannot reconstruct the intended social meaning.
+*Evidence:* [Keepsake Knot](../casebook/2026-08-12-keepsake-knot.md) rebalanced
+two unequal bands around one offset 128-unit counter after its first crossing
+read as a power glyph. Folded into `DESIGN_PLAYBOOK.md`'s woven contract.
+
+## L41 — The material layer may enrich the noun, but it may not name it
+For a technique-led icon, remove the technique's decorative or optical layer
+before approval: glass transparency, carved texture, brush distress, chrome
+reflection, or pane color. The remaining structural base—opaque skeleton,
+raised ink field, main brush mass, or solid contour—must still name the same
+object at 16px. If the noun disappears, re-author the structure instead of
+making the material effect louder.
+*Why:* material richness is the first information reduction removes. A style
+whose subject depends on that richness behaves like a large-size illustration
+filter, not a small-icon construction grammar.
+*Evidence:* [Co-op Lock](../casebook/2026-08-12-co-op-lock.md) replaced
+unrelated translucent rectangles with one continuous opaque readiness
+skeleton; [Forest Familiar](../casebook/2026-08-12-forest-familiar.md) moved the
+owl species into the raised outer field so its woodcut gouges could remain
+semantically disposable. Folded into `DESIGN_PLAYBOOK.md` §3.

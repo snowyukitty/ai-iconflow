@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "909b9448245b1d2d0b61e76806a049a0f1ce74920e3f7ea28cbfb257bc550e19",
+  "contract_sha256": "9fd4e8ddb895cb1374cb5601319d52a540a6ed79fbdc00ff3bf5e1f4760ed907",
+  "project": "Story Lantern",
+  "user_job": "Share everyday short videos and live slices of ordinary life.",
+  "essence": "presence",
+  "personality": "independent, specific, crafted",
+  "signature_device": "a book-fold inlay replaces the expected lantern window",
+  "cliches": [
+    "camera loops, official orange, play-button framing"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the domestic live-video stage passed round 3.",
+  "status": "ready"
+}

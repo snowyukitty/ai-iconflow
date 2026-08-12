@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="woodcut">
+  <title>Dungeon Portcullis</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M196 170h632v170h-74v514H586V650H438v204H270V340h-74Zm168 170v202h76V340Zm224 0v202h76V340Z"/>
+    <path fill="#F2B84B" d="M244 218h536v74H244Z"/>
+    <path fill="#FFF4E8" d="m270 520 168-82v112l-168 82Zm316-94 168-86v112l-168 86Z"/>
+    <path fill="#FF5A4F" d="M438 650h148v204H438Z"/>
+  </g>
+</svg>

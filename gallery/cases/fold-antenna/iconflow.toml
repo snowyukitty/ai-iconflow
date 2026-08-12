@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Fold Antenna"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for technology"
+user_job = "compare how a portable antenna behaves in folded and deployed states"
+essence = "deploy"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#191A20", "#72D7CC"]
+cliches = ["wifi bars", "satellite dish", "radio waves", "status dot"]
+signature_device = "two translucent panels share one opaque off-axis hinge spine"
+device_family = "object-silhouette"
+device_detail = "two translucent panels share one opaque off-axis hinge spine"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#191A20"
+background_color = "#72D7CC"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

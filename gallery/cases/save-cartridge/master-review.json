@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "da932e486ceb197a47ffd37d921871cff49bdb89b0540c6b1f6447d8daadb8de",
+  "contract_sha256": "28117c93d4d1953f7f5da3b7dedad3f4099af5437e237ef507ecb5b428d26096",
+  "project": "Save Relay Cartridge",
+  "user_job": "hand cooperative progress from one player or session to the next",
+  "essence": "continue",
+  "personality": "specific, clear, crafted",
+  "signature_device": "a forked handoff rail is punched through a tapered cartridge plate",
+  "cliches": [
+    "controller",
+    "cloud save",
+    "floppy disk",
+    "checkmark"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#24B6A6",
+    "background_color": "#191A20",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

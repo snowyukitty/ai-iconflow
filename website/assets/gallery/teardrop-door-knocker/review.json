@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "ad5a6c4baab97f9aa877ee5d17040f7e88310fde3174bef9d07615ac977d3c0c",
+  "contract_sha256": "cb3f262a75d108c98f02bcd2d81364cf25c99746f53f1cd507ca853240e49619",
+  "project": "Teardrop Door Knocker",
+  "user_job": "announce an arrival at a shared home without a device",
+  "essence": "arrival",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 188-unit coral hinge jaw breaks the teardrop's symmetry.",
+  "cliches": [
+    "a doorway with a notification dot"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

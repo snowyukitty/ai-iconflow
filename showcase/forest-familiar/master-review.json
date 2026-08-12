@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "60f53a61da7b662e3c20e5c517b6ca50f164df94f572eb97098771389d6faeb5",
+  "contract_sha256": "afde4f48c647d82fc8a7064865ed8dcedb3dcbfe08aa6a88c9b1c5eabfcd4be0",
+  "project": "Forest Familiar",
+  "user_job": "guide a small companion home along a remembered trail",
+  "essence": "return",
+  "personality": "watchful, earthy, protective",
+  "signature_device": "unequal ear tufts and two broad edge-open wing gouges define a full-body owl",
+  "cliches": ["generic animal head", "fox repeat", "tree badge", "map pin"],
+  "targets": ["web"],
+  "build": {"theme_color": "#202126", "background_color": "#E7C58E", "electron_radius": 0.0, "tray_template_mode": "auto", "color_scheme": "light", "tray_source_sha256": null},
+  "warnings": [],
+  "scores": {"legibility": 5, "distinctiveness": 4, "balance": 5, "color": 5, "scalability": 5, "craft": 5},
+  "notes": "The marten became a generic running animal and the side-view owl became origami. The third pass moves the horned owl's unequal ear tufts, broad breast, and split tail into the outer contour; two edge-open gouges now read as relief cuts without naming the bird.",
+  "status": "ready"
+}

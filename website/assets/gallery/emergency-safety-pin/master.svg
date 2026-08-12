@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Emergency safety pin</title><desc>A broad repair pin with a coral coil that dominates the lower turn.</desc>
+  <path d="M774 206 430 748c-57 90-175 115-264 57-88-58-112-177-54-265l342-520" fill="none" stroke="#25243A" stroke-width="104" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M652 164h218v250H690l-68-102Z" fill="#25243A"/>
+  <path fill="#F05D52" fill-rule="evenodd" d="M158 596c0-119 96-216 216-216s216 97 216 216-97 216-216 216-216-97-216-216Zm116 0a100 100 0 1 0 200 0 100 100 0 0 0-200 0Z"/>
+</svg>

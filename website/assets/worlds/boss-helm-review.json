@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "b3381c6470e44eb16fdb3e7ed78ef17ddc71c5a3fa566d144f9358c33d2b4f86",
+  "contract_sha256": "86fa8dcfed90b7205038437c80ab0c7d35386a753e2389a9928cb8965753f95d",
+  "project": "Boss Helm",
+  "user_job": "recognize and remember a conquered encounter",
+  "essence": "conquer",
+  "personality": "formidable, precise, earned",
+  "signature_device": "one horn is structurally broken and exposes an ember fracture",
+  "cliches": ["trophy", "crown", "skull", "sword", "gamepad"],
+  "targets": ["web"],
+  "build": {"theme_color": "#11151E", "background_color": "#11151E", "electron_radius": 0, "tray_template_mode": "auto", "color_scheme": "light", "tray_source_sha256": null},
+  "warnings": [],
+  "scores": {"legibility": 4, "distinctiveness": 5, "balance": 5, "color": 5, "scalability": 4, "craft": 5},
+  "notes": "Pass 1 drew a surface slash that did not change the noun. The revision removes the horn mass itself and exposes one coral fracture; the unequal silhouette, three hard chrome bands, and lowered visor stay clear at 16 px.",
+  "status": "ready"
+}

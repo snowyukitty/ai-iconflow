@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Picnic basket</title><desc>A trapezoid hamper with an offset wrapped handle.</desc>
+  <path fill="#25243A" fill-rule="evenodd" d="M178 408h668l-80 440H258l-80-440Zm174 0c0-112 54-188 160-188s160 76 160 188h112c0-180-101-300-272-300S240 228 240 408h112Zm-56 130 26 150h380l26-150H296Z"/>
+  <path d="M570 168h156v318H570Z" fill="#F05D52"/><path d="M614 226h68v202h-68Z" fill="#25243A"/>
+</svg>

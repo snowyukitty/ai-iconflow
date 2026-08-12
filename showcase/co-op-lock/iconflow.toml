@@ -1,0 +1,44 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "Co-op Lock"
+master = "master.svg"
+output = "build"
+casebook = "../../casebook"
+
+[brief]
+app_intent = "show when an uneven team is ready to enter one shared lobby"
+user_job = "coordinate lobby readiness without scanning avatars or check marks"
+essence = "sync"
+personality = ["cooperative", "crisp", "electric"]
+
+[design]
+palette = ["midnight #151927", "aqua #86EFE4", "coral #F35D7A"]
+cliches = ["controller", "check mark", "two avatars", "chain links"]
+signature_device = "two unequal translucent keycaps lock around one shared opaque counter"
+device_family = "relationship-counter"
+device_detail = "landscape keycaps of different offsets share one square opening and one white skeleton"
+concept_lens = "system-object"
+
+[build]
+targets = ["web"]
+theme_color = "#151927"
+background_color = "#151927"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+# Review Lab receipt is preferred. For this manual fallback, set status to
+# "approved" and copy both hashes from the exported receipt; `ship` requires every
+# score >= 4 and rejects any changed source, target, or visual transform.
+scores = {}
+notes = ""

@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Curled sleeping fox"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for animals"
+user_job = "rest"
+essence = "shelter"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#91352E", "#F1C064"]
+cliches = ["generic fox head"]
+signature_device = "tail wraps into body notch"
+device_family = "negative-space-cut"
+device_detail = "tail wraps into body notch"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#91352E"
+background_color = "#F1C064"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

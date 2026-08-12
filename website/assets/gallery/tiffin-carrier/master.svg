@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Tiffin carrier</title><desc>A stacked lunch carrier with one full-height locking latch.</desc>
+  <path d="M314 148h396l40 92-18 82v500c0 55-45 100-100 100H392c-55 0-100-45-100-100V322l-18-82 40-92Zm62 126v150h272V274H376Zm0 222v150h272V496H376Zm0 222v118h272V718H376Z" fill="#25243A"/>
+  <path d="M676 228h168v638H676Z" fill="#F05D52"/><path d="M724 302h72v490h-72z" fill="#25243A"/>
+</svg>

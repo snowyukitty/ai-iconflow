@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Shared umbrella</title><desc>A broad umbrella with an off-center shared panel and hooked handle.</desc>
+  <path fill="#25243A" fill-rule="evenodd" d="M512 96c233 0 408 167 408 382H104c0-215 175-382 408-382Zm-56 320h112v338c0 54 31 88 76 88 40 0 72-31 72-72h120c0 111-85 192-194 192-107 0-186-77-186-188V416Z"/>
+  <path d="M512 96c104 0 198 36 270 98L640 478H512V96Z" fill="#F05D52"/><path d="M512 198c41 0 78 9 112 26l-74 194h-38V198Z" fill="#25243A"/>
+</svg>

@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "0c492044b693a82d2009376107159cf93ad040d047df922b23e68f75da8fd314",
+  "contract_sha256": "0d05e10713b8a3c2823835441392d47cdacc907ba2279761cabca0ec4010ecdc",
+  "project": "Fold Antenna",
+  "user_job": "compare how a portable antenna behaves in folded and deployed states",
+  "essence": "deploy",
+  "personality": "specific, clear, crafted",
+  "signature_device": "two translucent panels share one opaque off-axis hinge spine",
+  "cliches": [
+    "wifi bars",
+    "satellite dish",
+    "radio waves",
+    "status dot"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#72D7CC",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

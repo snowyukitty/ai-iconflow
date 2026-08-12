@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="flat-geometric">
+  <title>Patch Bay Merge</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" fill-rule="evenodd" d="M154 218h716v588H154V218Zm104 116v154h154V334H258Zm204 0v154h154V334H462Zm204 0v154h100V334H666Zm-356 264v102h404V598H310Z"/>
+    <path fill="#24B6A6" d="M284 360h102v102H284Zm204 0h102v102H488Zm204 0h74v102h-74Z"/>
+    <path fill="#FF5A4F" d="M548 574h218v150H548Z"/>
+  </g>
+</svg>

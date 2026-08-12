@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "f7b220fef26173b134b98d859813e6dfbf57d0db63e18e047beb577db9178ddd",
+  "contract_sha256": "8680b3d4130fed586fc47306eb525cf4d754027e8242a4f5814fb340273dc379",
+  "project": "Scored sourdough loaf",
+  "user_job": "bake",
+  "essence": "rise",
+  "personality": "specific, clear, crafted",
+  "signature_device": "large slash scoring",
+  "cliches": [
+    "generic bread slice"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#864C2D",
+    "background_color": "#E9B64B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

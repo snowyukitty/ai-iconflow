@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "86982700c584410d6fd3420ee578bbccc172256e06ce1c7107b1841f53f1fd2f",
+  "contract_sha256": "e37b8f88b4b8c374117123218bd9a5ee836bad0f9b8d9cf61229ae564051e52e",
+  "project": "Printmaking Brayer",
+  "user_job": "ink a block evenly for a shared poster run",
+  "essence": "imprint",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 212-unit coral ink edge misregisters one end of the roller.",
+  "cliches": [
+    "a paint palette or pencil"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

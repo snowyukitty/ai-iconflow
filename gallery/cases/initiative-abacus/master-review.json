@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "696e25739676394eaff6469ca920a76ce975fa076870934aaf8a16e16e96489f",
+  "contract_sha256": "3fd6d3f657703a821585c954b3ba39dbd2b3f1a09509d36eef0c4d83e7a0768e",
+  "project": "Initiative Abacus",
+  "user_job": "reorder a tabletop encounter without losing the active turn",
+  "essence": "sequence",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one escaped coral bead leaves the upper rail and docks in a side notch",
+  "cliches": [
+    "controller",
+    "crossed swords",
+    "numbered list",
+    "circular turn arrows"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#24B6A6",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

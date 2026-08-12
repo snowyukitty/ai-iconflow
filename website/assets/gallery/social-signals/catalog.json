@@ -1,0 +1,738 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-08-12",
+  "research_snapshot": "2026-08-12",
+  "collection": "Social Signals",
+  "status": "reviewed-practice-specimens",
+  "affiliation": "Independent clean-room design study; no platform endorsement or affiliation.",
+  "risk_note": "Visual distance reduces confusion risk but is not a legal clearance guarantee.",
+  "seed": "iconflow-social-signals-2026-08-12-v1",
+  "generated_count": 20,
+  "admitted_count": 20,
+  "rejected_count": 0,
+  "style_count": 20,
+  "source_set_sha256": "d05ad71facd92b3b0d7b7ba70a082d8b013d92134c9bdd3f7e5b46d310ca6a3d",
+  "cases": [
+    {
+      "number": 1,
+      "id": "friends-and-groups",
+      "title": "Gathering Table",
+      "category": "friends-and-groups",
+      "user_job": "Keep up with friends and gather around shared groups.",
+      "essence": "belonging",
+      "noun": "community table",
+      "style": "cel-shaded",
+      "cliche_avoided": "letter tiles, people-dot clusters, familiar social-network blue",
+      "signature_device": "a single open place interrupts the inked round table",
+      "concepts": [
+        "Object: community table",
+        "Verb: pull up a seat",
+        "Negative space: open place",
+        "Material: hard shadow plane"
+      ],
+      "source_sha256": "61c3bd1955b2f51d449e94259dc955c30485cddeb09ff5f162e583be20912d2c",
+      "contract_sha256": "cdcbc61dfe1b9cc91da4133dce5ddade7fb78c94b3ebd6d80aa183154f00cdb6",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/friends-and-groups/master.svg",
+        "native": "/assets/gallery/social-signals/friends-and-groups/16.png",
+        "proof": "/assets/gallery/social-signals/friends-and-groups/128.png",
+        "silhouette": "/assets/gallery/social-signals/friends-and-groups/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/friends-and-groups/review.json",
+        "case": "/assets/gallery/social-signals/friends-and-groups/case.md"
+      }
+    },
+    {
+      "number": 2,
+      "id": "creator-video-library",
+      "title": "Projection Keeper",
+      "category": "creator-video-library",
+      "user_job": "Watch, publish, and revisit creator-led video libraries.",
+      "essence": "broadcast",
+      "noun": "projection lantern",
+      "style": "mascot",
+      "cliche_avoided": "play triangles, red media buttons, wordmark fragments",
+      "signature_device": "one asymmetric reel-cheek becomes the keeper's expression",
+      "concepts": [
+        "Character: projection keeper",
+        "Object: lantern projector",
+        "Verb: cast a beam",
+        "Silhouette: reel cheek"
+      ],
+      "source_sha256": "d807f672d16acd6a8032eca6c2f5b5bc78979eb590937c81ac0e9213888d08c4",
+      "contract_sha256": "d631318c1c80a84bb04c5a95cd0599cc31a03f2d4f53565a230377cb4dca3021",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/creator-video-library/master.svg",
+        "native": "/assets/gallery/social-signals/creator-video-library/16.png",
+        "proof": "/assets/gallery/social-signals/creator-video-library/128.png",
+        "silhouette": "/assets/gallery/social-signals/creator-video-library/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/creator-video-library/review.json",
+        "case": "/assets/gallery/social-signals/creator-video-library/case.md"
+      }
+    },
+    {
+      "number": 3,
+      "id": "visual-journal",
+      "title": "Memory Folio",
+      "category": "visual-journal",
+      "user_job": "Share a visual journal of moments, places, and making.",
+      "essence": "curation",
+      "noun": "contact-sheet folio",
+      "style": "isometric",
+      "cliche_avoided": "camera outlines, aperture rings, purple-orange gradients",
+      "signature_device": "one folded corner becomes a deep isometric page well",
+      "concepts": [
+        "Object: contact folio",
+        "Place: archive shelf",
+        "Verb: unfold a memory",
+        "Negative space: page well"
+      ],
+      "source_sha256": "cbbe975cd7d2599233a5042208e23517601c8b02df28d1717cc608620847d94c",
+      "contract_sha256": "4a52e1d3f49bababe562b4100d3762a4f73e4e4fd567f05c73f2d9f76c3ebf34",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/visual-journal/master.svg",
+        "native": "/assets/gallery/social-signals/visual-journal/16.png",
+        "proof": "/assets/gallery/social-signals/visual-journal/128.png",
+        "silhouette": "/assets/gallery/social-signals/visual-journal/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/visual-journal/review.json",
+        "case": "/assets/gallery/social-signals/visual-journal/case.md"
+      }
+    },
+    {
+      "number": 4,
+      "id": "private-messaging",
+      "title": "Sealed Relay",
+      "category": "private-messaging",
+      "user_job": "Exchange private messages and calls with trusted contacts.",
+      "essence": "trust",
+      "noun": "sealed message capsule",
+      "style": "stained-glass",
+      "cliche_avoided": "speech bubbles, telephone handsets, signature green",
+      "signature_device": "a diagonal lead seam locks into a central wax-like seal",
+      "concepts": [
+        "Object: sealed capsule",
+        "Verb: hand over privately",
+        "Negative space: locked seam",
+        "Material: leaded panes"
+      ],
+      "source_sha256": "39dd14c83dd77a3394d4e2e6d5e3903c415db6b61cb38ccc9a9ed1681d9254fb",
+      "contract_sha256": "2dc2814f4bf1f0f438c4bb1306f126d76e628eac354f665194363ca1225c6a21",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/private-messaging/master.svg",
+        "native": "/assets/gallery/social-signals/private-messaging/16.png",
+        "proof": "/assets/gallery/social-signals/private-messaging/128.png",
+        "silhouette": "/assets/gallery/social-signals/private-messaging/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/private-messaging/review.json",
+        "case": "/assets/gallery/social-signals/private-messaging/case.md"
+      }
+    },
+    {
+      "number": 5,
+      "id": "short-video-discovery",
+      "title": "Pocket Flipbook",
+      "category": "short-video-discovery",
+      "user_job": "Discover and make compact, fast-moving video stories.",
+      "essence": "momentum",
+      "noun": "flipbook",
+      "style": "line-mark",
+      "cliche_avoided": "music notes, play buttons, cyan-magenta edge effects",
+      "signature_device": "one page escapes the uniform contour as a turning beat",
+      "concepts": [
+        "Object: flipbook",
+        "Verb: thumb through",
+        "Rhythm: page cadence",
+        "Silhouette: lifted page"
+      ],
+      "source_sha256": "f311ed72a216b05b5a5becb02ae9f13afcd513f52c08f6d80b8ff7c16cb8d05b",
+      "contract_sha256": "378c490cb24c2470ea7e7713e6efa6b341d48b56a3dfa792f8b1cd0d8d2e5223",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/short-video-discovery/master.svg",
+        "native": "/assets/gallery/social-signals/short-video-discovery/16.png",
+        "proof": "/assets/gallery/social-signals/short-video-discovery/128.png",
+        "silhouette": "/assets/gallery/social-signals/short-video-discovery/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/short-video-discovery/review.json",
+        "case": "/assets/gallery/social-signals/short-video-discovery/case.md"
+      }
+    },
+    {
+      "number": 6,
+      "id": "group-services",
+      "title": "Shared Carrier",
+      "category": "group-services",
+      "user_job": "Coordinate group messages, daily services, and shared routines.",
+      "essence": "coordination",
+      "noun": "tiffin carrier",
+      "style": "woven",
+      "cliche_avoided": "paired chat bubbles, official green, app-grid imitation",
+      "signature_device": "two load-bearing bands alternate over and under the stacked tiers",
+      "concepts": [
+        "Object: tiffin carrier",
+        "System: stacked services",
+        "Relationship: interlaced straps",
+        "Verb: carry together"
+      ],
+      "source_sha256": "3247b18043db7dd614b7ef7808802b31bdb216cb5f34957d3d46664c80c1656c",
+      "contract_sha256": "3ca9ee5f1aeb08f162eae1e6565c6f415eae7659ed59b2a72b0567930105d853",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/group-services/master.svg",
+        "native": "/assets/gallery/social-signals/group-services/16.png",
+        "proof": "/assets/gallery/social-signals/group-services/128.png",
+        "silhouette": "/assets/gallery/social-signals/group-services/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/group-services/review.json",
+        "case": "/assets/gallery/social-signals/group-services/case.md"
+      }
+    },
+    {
+      "number": 7,
+      "id": "channel-broadcasting",
+      "title": "Relay Mailbox",
+      "category": "channel-broadcasting",
+      "user_job": "Broadcast durable updates to large subscribed channels.",
+      "essence": "reach",
+      "noun": "relay mailbox",
+      "style": "risograph",
+      "cliche_avoided": "paper planes, official blue, circular send buttons",
+      "signature_device": "misregistered spot plates converge at one outbound slot",
+      "concepts": [
+        "Object: relay mailbox",
+        "Verb: dispatch outward",
+        "System: channel slot",
+        "Material: two ink plates"
+      ],
+      "source_sha256": "ea3bd2eb854a238807e12a457e2d573044f6151add412b206e685815fd43ed8b",
+      "contract_sha256": "b79b6052db1bd5e4ace76b069af0c198ae4c7e9d9d0bacdff64c8e98cdec73e5",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/channel-broadcasting/master.svg",
+        "native": "/assets/gallery/social-signals/channel-broadcasting/16.png",
+        "proof": "/assets/gallery/social-signals/channel-broadcasting/128.png",
+        "silhouette": "/assets/gallery/social-signals/channel-broadcasting/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/channel-broadcasting/review.json",
+        "case": "/assets/gallery/social-signals/channel-broadcasting/case.md"
+      }
+    },
+    {
+      "number": 8,
+      "id": "live-chat",
+      "title": "Switchboard Shuttle",
+      "category": "live-chat",
+      "user_job": "Continue fast conversations across devices and contexts.",
+      "essence": "continuity",
+      "noun": "switchboard shuttle",
+      "style": "pixel-grid",
+      "cliche_avoided": "lightning bolts, chat bubbles, familiar blue-purple gradients",
+      "signature_device": "a one-cell staircase reroutes through the square switchboard",
+      "concepts": [
+        "Object: switchboard shuttle",
+        "Verb: hand off",
+        "Grid: routed staircase",
+        "Silhouette: keyed connector"
+      ],
+      "source_sha256": "ac556e1717d5a509947a1291f33186338a9edd611a7e42adaf65f1fd24af752a",
+      "contract_sha256": "29a7989500c5f1eb39b672f78e63c26bcf50dc9fe46339954afe6ba7e4c85fb5",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/live-chat/master.svg",
+        "native": "/assets/gallery/social-signals/live-chat/16.png",
+        "proof": "/assets/gallery/social-signals/live-chat/128.png",
+        "silhouette": "/assets/gallery/social-signals/live-chat/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/live-chat/review.json",
+        "case": "/assets/gallery/social-signals/live-chat/case.md"
+      }
+    },
+    {
+      "number": 9,
+      "id": "ephemeral-visuals",
+      "title": "Moment Cartridge",
+      "category": "ephemeral-visuals",
+      "user_job": "Send visual moments that are intentionally temporary.",
+      "essence": "ephemeral",
+      "noun": "sand-timer cartridge",
+      "style": "flat-geometric",
+      "cliche_avoided": "ghost mascots, yellow app fields, speech bubbles",
+      "signature_device": "the cartridge window is cut by a single falling sand bridge",
+      "concepts": [
+        "Object: timer cartridge",
+        "Verb: vanish after viewing",
+        "Negative space: falling bridge",
+        "Silhouette: clipped corners"
+      ],
+      "source_sha256": "367519a0c829532802cc1c7a1309de53f0c26220f2234e58f798c6c6187fbf8c",
+      "contract_sha256": "59519d039473f462e927f2e46700a8292712da31b5451c28356f42b188da18a7",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/ephemeral-visuals/master.svg",
+        "native": "/assets/gallery/social-signals/ephemeral-visuals/16.png",
+        "proof": "/assets/gallery/social-signals/ephemeral-visuals/128.png",
+        "silhouette": "/assets/gallery/social-signals/ephemeral-visuals/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/ephemeral-visuals/review.json",
+        "case": "/assets/gallery/social-signals/ephemeral-visuals/case.md"
+      }
+    },
+    {
+      "number": 10,
+      "id": "remix-video",
+      "title": "Glow Zoetrope",
+      "category": "remix-video",
+      "user_job": "Discover, remix, and circulate short-form video performances.",
+      "essence": "remix",
+      "noun": "zoetrope drum",
+      "style": "gradient-glow",
+      "cliche_avoided": "musical notes, play triangles, black neon trade dress",
+      "signature_device": "one luminous slit crosses the opaque drum rim as a timing notch",
+      "concepts": [
+        "Object: zoetrope",
+        "Verb: remix a loop",
+        "Light: timing slit",
+        "Silhouette: drum rim"
+      ],
+      "source_sha256": "16d9fa1de4636f77f15307824aaa8aebbac1ee3473eca5059b61314105452f04",
+      "contract_sha256": "28a55508bf6b781bbbd47f3a9f5a8f72bf43170f3f08f59a0fed9558ffa6eec8",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/remix-video/master.svg",
+        "native": "/assets/gallery/social-signals/remix-video/16.png",
+        "proof": "/assets/gallery/social-signals/remix-video/128.png",
+        "silhouette": "/assets/gallery/social-signals/remix-video/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/remix-video/review.json",
+        "case": "/assets/gallery/social-signals/remix-video/case.md"
+      }
+    },
+    {
+      "number": 11,
+      "id": "everyday-live-video",
+      "title": "Story Lantern",
+      "category": "everyday-live-video",
+      "user_job": "Share everyday short videos and live slices of ordinary life.",
+      "essence": "presence",
+      "noun": "story lantern",
+      "style": "enamel",
+      "cliche_avoided": "camera loops, official orange, play-button framing",
+      "signature_device": "a book-fold inlay replaces the expected lantern window",
+      "concepts": [
+        "Object: story lantern",
+        "Verb: illuminate daily life",
+        "Narrative: book-fold window",
+        "Material: enamel boundary"
+      ],
+      "source_sha256": "909b9448245b1d2d0b61e76806a049a0f1ce74920e3f7ea28cbfb257bc550e19",
+      "contract_sha256": "9fd4e8ddb895cb1374cb5601319d52a540a6ed79fbdc00ff3bf5e1f4760ed907",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/everyday-live-video/master.svg",
+        "native": "/assets/gallery/social-signals/everyday-live-video/16.png",
+        "proof": "/assets/gallery/social-signals/everyday-live-video/128.png",
+        "silhouette": "/assets/gallery/social-signals/everyday-live-video/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/everyday-live-video/review.json",
+        "case": "/assets/gallery/social-signals/everyday-live-video/case.md"
+      }
+    },
+    {
+      "number": 12,
+      "id": "interest-forums",
+      "title": "Topic Drawer",
+      "category": "interest-forums",
+      "user_job": "Discuss topics in interest-led forums with durable context.",
+      "essence": "discussion",
+      "noun": "card-catalog drawer",
+      "style": "chrome",
+      "cliche_avoided": "alien mascots, antennae, orange conversation marks",
+      "signature_device": "a broad specular band stops at the inset topic label",
+      "concepts": [
+        "Object: catalog drawer",
+        "Place: topic archive",
+        "Verb: pull a thread",
+        "Material: stopped chrome band"
+      ],
+      "source_sha256": "2e1f9dcd2462fec3b7264ca4adc35f59c148d6c80d7e37a8a8563b3a9879ad8c",
+      "contract_sha256": "d19ae0d9d77c7cfe764df1206d72ac2f603a12c19435e79edcd4fd13a02e4e52",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/interest-forums/master.svg",
+        "native": "/assets/gallery/social-signals/interest-forums/16.png",
+        "proof": "/assets/gallery/social-signals/interest-forums/128.png",
+        "silhouette": "/assets/gallery/social-signals/interest-forums/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/interest-forums/review.json",
+        "case": "/assets/gallery/social-signals/interest-forums/case.md"
+      }
+    },
+    {
+      "number": 13,
+      "id": "public-current-conversation",
+      "title": "Dispatch Ticker",
+      "category": "public-current-conversation",
+      "user_job": "Follow and join fast public conversation about current events.",
+      "essence": "current",
+      "noun": "dispatch ticker",
+      "style": "glass-stack",
+      "cliche_avoided": "letter X, bird silhouettes, black square trade dress",
+      "signature_device": "two translucent news panes cross an opaque vertical ticker spine",
+      "concepts": [
+        "Object: dispatch ticker",
+        "Verb: update in public",
+        "System: crossing panes",
+        "Silhouette: opaque spine"
+      ],
+      "source_sha256": "20d91b156feb494e8be2be87c2ebdf39c2bbe05ca098adc651e10fc606a6eda6",
+      "contract_sha256": "a9c096c4707bdeb362fcd31be3b41b155d5a8f41a90b02029b33e36013a2929f",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/public-current-conversation/master.svg",
+        "native": "/assets/gallery/social-signals/public-current-conversation/16.png",
+        "proof": "/assets/gallery/social-signals/public-current-conversation/128.png",
+        "silhouette": "/assets/gallery/social-signals/public-current-conversation/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/public-current-conversation/review.json",
+        "case": "/assets/gallery/social-signals/public-current-conversation/case.md"
+      }
+    },
+    {
+      "number": 14,
+      "id": "saved-inspiration",
+      "title": "Idea Swatches",
+      "category": "saved-inspiration",
+      "user_job": "Collect visual references and return to saved inspiration.",
+      "essence": "inspiration",
+      "noun": "swatch folio",
+      "style": "woodcut",
+      "cliche_avoided": "map pins, letter P, signature red circles",
+      "signature_device": "one carved diagonal binds the fanned swatches into a single relief mass",
+      "concepts": [
+        "Object: swatch folio",
+        "Verb: save for later",
+        "Collection: fanned samples",
+        "Material: binding gouge"
+      ],
+      "source_sha256": "108279a9deb514447be3ef2bd1db87aba9174bc47efb5d0eff9dd892c60f9ec9",
+      "contract_sha256": "db28c89e92da01c91d69474a40b8c4adcdd34064f709963b1d7911d34e1db766",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/saved-inspiration/master.svg",
+        "native": "/assets/gallery/social-signals/saved-inspiration/16.png",
+        "proof": "/assets/gallery/social-signals/saved-inspiration/128.png",
+        "silhouette": "/assets/gallery/social-signals/saved-inspiration/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/saved-inspiration/review.json",
+        "case": "/assets/gallery/social-signals/saved-inspiration/case.md"
+      }
+    },
+    {
+      "number": 15,
+      "id": "professional-identity",
+      "title": "Credential Folio",
+      "category": "professional-identity",
+      "user_job": "Present professional identity, experience, and working relationships.",
+      "essence": "credibility",
+      "noun": "credential folio",
+      "style": "stencil-cut",
+      "cliche_avoided": "initials, blue business tiles, profile-card UI",
+      "signature_device": "one continuous cut joins portrait window, spine, and credential notch",
+      "concepts": [
+        "Object: credential folio",
+        "Verb: present experience",
+        "Negative space: continuous credential cut",
+        "Silhouette: tabbed cover"
+      ],
+      "source_sha256": "328a94537fe21bd1a754795b4c58cd1a0b625373fc4ad932ce0c73c572f0dba8",
+      "contract_sha256": "9f0a506e61dc67e7b7860fd38df13d7838247791cf454fc30bc22f141bf8b365",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/professional-identity/master.svg",
+        "native": "/assets/gallery/social-signals/professional-identity/16.png",
+        "proof": "/assets/gallery/social-signals/professional-identity/128.png",
+        "silhouette": "/assets/gallery/social-signals/professional-identity/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/professional-identity/review.json",
+        "case": "/assets/gallery/social-signals/professional-identity/case.md"
+      }
+    },
+    {
+      "number": 16,
+      "id": "voice-communities",
+      "title": "Roundtable Radio",
+      "category": "voice-communities",
+      "user_job": "Keep persistent groups together across voice, text, and activity.",
+      "essence": "togetherness",
+      "noun": "roundtable radio",
+      "style": "duotone",
+      "cliche_avoided": "game controllers, face mascots, signature violet",
+      "signature_device": "a secondary plane forms one shared channel across the round table",
+      "concepts": [
+        "Object: roundtable radio",
+        "Place: persistent room",
+        "Relationship: shared channel",
+        "Material: split plane"
+      ],
+      "source_sha256": "43a5187cb77a72a6dce18edf115cce407af7463f8287ca1a5029d8de06263369",
+      "contract_sha256": "730f41b8a6e411ef41afa315561c7804250763997df5893eff4587ac912e7761",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/voice-communities/master.svg",
+        "native": "/assets/gallery/social-signals/voice-communities/16.png",
+        "proof": "/assets/gallery/social-signals/voice-communities/128.png",
+        "silhouette": "/assets/gallery/social-signals/voice-communities/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/voice-communities/review.json",
+        "case": "/assets/gallery/social-signals/voice-communities/case.md"
+      }
+    },
+    {
+      "number": 17,
+      "id": "threaded-text",
+      "title": "Conversation Spool",
+      "category": "threaded-text",
+      "user_job": "Write and follow connected public text conversations.",
+      "essence": "continuity",
+      "noun": "spool shuttle",
+      "style": "clay",
+      "cliche_avoided": "at-sign spirals, wordmark letters, black-and-white imitation",
+      "signature_device": "the thread exits through one oversized diagonal shuttle notch",
+      "concepts": [
+        "Object: spool shuttle",
+        "Verb: carry a thread",
+        "Negative space: shuttle notch",
+        "Material: chunky clay"
+      ],
+      "source_sha256": "0027b098b0329bc358179429cffe083624a0f7a07f9dbfb77d1bb622ac6c62db",
+      "contract_sha256": "02e3c04976046b51519f3b04a0d96609ac7642b7dafe543312f38c2d1580ca2f",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/threaded-text/master.svg",
+        "native": "/assets/gallery/social-signals/threaded-text/16.png",
+        "proof": "/assets/gallery/social-signals/threaded-text/128.png",
+        "silhouette": "/assets/gallery/social-signals/threaded-text/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/threaded-text/review.json",
+        "case": "/assets/gallery/social-signals/threaded-text/case.md"
+      }
+    },
+    {
+      "number": 18,
+      "id": "messages-and-stickers",
+      "title": "Stamp Album",
+      "category": "messages-and-stickers",
+      "user_job": "Exchange messages, expressive stickers, and everyday services.",
+      "essence": "expression",
+      "noun": "stamp album",
+      "style": "blueprint",
+      "cliche_avoided": "speech-bubble wordmarks, official green, licensed characters",
+      "signature_device": "one measured perforation line folds into the album spine",
+      "concepts": [
+        "Object: stamp album",
+        "Verb: collect expressions",
+        "System: measured perforation",
+        "Silhouette: folded spine"
+      ],
+      "source_sha256": "f98c32b52fbf45a55e2b12759c8934b882773cbb8b1d16518da7b2837c129678",
+      "contract_sha256": "4754f0a633e2f75b8108949cf9365d26a68243dc05bb9d68756c45eda5dd6013",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/messages-and-stickers/master.svg",
+        "native": "/assets/gallery/social-signals/messages-and-stickers/16.png",
+        "proof": "/assets/gallery/social-signals/messages-and-stickers/128.png",
+        "silhouette": "/assets/gallery/social-signals/messages-and-stickers/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/messages-and-stickers/review.json",
+        "case": "/assets/gallery/social-signals/messages-and-stickers/case.md"
+      }
+    },
+    {
+      "number": 19,
+      "id": "live-creator-community",
+      "title": "Cue Brush",
+      "category": "live-creator-community",
+      "user_job": "Watch live creators while participating with the community.",
+      "essence": "live",
+      "noun": "stage cue brush",
+      "style": "ink-brush",
+      "cliche_avoided": "glitch bubbles, wordmark blocks, signature purple",
+      "signature_device": "one edge-open dry cut turns the bristle mass into an audience cue",
+      "concepts": [
+        "Object: cue brush",
+        "Place: live stage",
+        "Verb: cue the audience",
+        "Material: edge-open dry cut"
+      ],
+      "source_sha256": "f56ed56daa86cccc972cc493f632ec355e8dba60013fdd75b0d5b4a0ee534de4",
+      "contract_sha256": "481ccdb5ab17a65d9f7273bc4ff6cb9410b4666b8de7643fb06263e38026f77b",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/live-creator-community/master.svg",
+        "native": "/assets/gallery/social-signals/live-creator-community/16.png",
+        "proof": "/assets/gallery/social-signals/live-creator-community/128.png",
+        "silhouette": "/assets/gallery/social-signals/live-creator-community/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/live-creator-community/review.json",
+        "case": "/assets/gallery/social-signals/live-creator-community/case.md"
+      }
+    },
+    {
+      "number": 20,
+      "id": "decentralized-conversation",
+      "title": "Weather Relay",
+      "category": "decentralized-conversation",
+      "user_job": "Join portable public conversation across an open social network.",
+      "essence": "openness",
+      "noun": "weather-vane relay",
+      "style": "cut-paper",
+      "cliche_avoided": "butterfly silhouettes, sky-blue brand fields, mirrored wings",
+      "signature_device": "one offset paper vane passes through the shared relay pivot",
+      "concepts": [
+        "Object: weather vane",
+        "Verb: carry across servers",
+        "System: shared pivot",
+        "Material: offset paper layers"
+      ],
+      "source_sha256": "8e0333084a358634e14b64b8d73e1794507eee491b92a406811be089142a67ce",
+      "contract_sha256": "98b843f044c5ffcf914e94fd929c220eb3f61aa8398dcd947014c7b01aee8128",
+      "scores": {
+        "legibility": 4,
+        "distinctiveness": 4,
+        "balance": 4,
+        "color": 4,
+        "scalability": 4,
+        "craft": 4
+      },
+      "assets": {
+        "svg": "/assets/gallery/social-signals/decentralized-conversation/master.svg",
+        "native": "/assets/gallery/social-signals/decentralized-conversation/16.png",
+        "proof": "/assets/gallery/social-signals/decentralized-conversation/128.png",
+        "silhouette": "/assets/gallery/social-signals/decentralized-conversation/silhouette-128.png",
+        "receipt": "/assets/gallery/social-signals/decentralized-conversation/review.json",
+        "case": "/assets/gallery/social-signals/decentralized-conversation/case.md"
+      }
+    }
+  ],
+  "rejected": []
+}

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "24d6a8f815bf477e6e0a1863e8daf5ba70981e4b9cf148588e2632556495a733",
+  "contract_sha256": "de4561abfcbd01f70702c7580a2106fa673cd2ea85dc80ba91bb80148a173663",
+  "project": "Wooden Clothespin",
+  "user_job": "secure family laundry on a line in changing weather",
+  "essence": "hold",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 228-unit coral spring chamber separates the two wooden jaws.",
+  "cliches": [
+    "a washing machine drum"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

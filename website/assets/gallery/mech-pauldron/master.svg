@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="chrome">
+  <title>Loadout Pauldron</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#C9D1D9" stroke="#191A20" stroke-width="54" fill-rule="evenodd" d="M188 518Q228 232 514 174q218 42 326 238l-74 348-222 104-316-116-40-230Zm388-122v220h212l38-178-92-42H576Z"/>
+    <path fill="#727B86" d="M250 470q88-170 292-210l70 58q-196 34-286 202Z"/>
+    <path fill="#F2F5F7" d="M294 570q148 92 286 82l-42 106-250-92Z"/>
+    <path fill="#FF5A4F" d="m248 520 120 22-36 138-104-38Z"/>
+  </g>
+</svg>

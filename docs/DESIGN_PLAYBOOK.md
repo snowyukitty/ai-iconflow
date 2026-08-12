@@ -131,8 +131,8 @@ proof. The full selection rules and clean-room research record live in
 |---|---|---|---|
 | **Gradient-glow** | `gradient-glow` | premium apps and modern SaaS favicons | masked shape + blurred ellipses behind it for inner glow, 2-stop diagonal gradient, optional display-p3 |
 | **Flat geometric** | `flat-geometric` | tools, dashboards, dev apps | solid fills, 1 accent, squircle bg, bold negative-space glyph |
-| **Line mark** | `line-mark` | minimal/editorial sites, icon SYSTEMS | uniform stroke, round caps, single accent on transparent |
-| **Mascot / character** | `mascot` | consumer brands with an identity-owned character | hand-built paths, expressive face, warm palette, thick outline so it survives small sizes |
+| **Line mark** | `line-mark` | minimal/editorial sites, icon SYSTEMS | uniform stroke, one counter-defined noun, and a single accent on transparent; gait or species must live in the contour |
+| **Mascot / character** | `mascot` | consumer brands with an identity-owned character | hand-built paths, warm palette, and a thick outline whose outer silhouette identifies the species or character before facial detail |
 | **Duotone cut** | `duotone-cut` | design tools and data products | one identifiable primary mass split by one large secondary plane |
 | **Stencil cut** | `stencil-cut` | security, industrial, and print-led identities | one solid plate with bold transparent semantic cuts |
 | **Pixel grid** | `pixel-grid` | games, terminal tools, intentional retro systems | 16px-first integer blocks, stepped corners, pixel parity |
@@ -140,14 +140,26 @@ proof. The full selection rules and clean-room research record live in
 | **Cut paper** | `cut-paper` | publishing, education, friendly productivity | broad offset layers and hard-edged depth without blur |
 | **Enamel pin** | `enamel-pin` | community, events, collectible identities | dark material boundary, inset color, one bounded highlight |
 | **Blueprint** | `blueprint` | engineering, architecture, CAD, systems | primary technical contour plus sparse subordinate guides |
-| **Stained glass** | `stained-glass` | expressive creative, cultural, music products | three or four large panes separated by heavy leading |
+| **Stained glass** | `stained-glass` | expressive creative, cultural, music products | three or four large panes separated by heavy leading that remains visibly distinct from the support field at 16px |
 | **Risograph** | `risograph` | indie publishing, events, experimental tools | two controlled spot-color plates around a stable shared core |
 | **Clay** | `clay` | friendly consumer, learning, creative tools | chunky volume, one explicit shadow edge, one highlight |
+| **Cel shaded** | `cel-shaded` | games, animation, fandom, energetic consumer products | decisive ink contour plus one hard-edged shadow plane |
+| **Chrome** | `chrome` | music, games, creator tools, high-energy premium products | solid contour plus six explicit hard value bands, each at least two output pixels wide; damage is a signature only when it removes contour mass; this discrete-band construction is the deliberate exception to the usual 2-stop gradient rule |
+| **Ink brush** | `ink-brush` | editorial, culture, craft, wellness, expressive creators | one tapered calligraphic mass plus one broad edge-open dry cut |
+| **Woodcut** | `woodcut` | animals, folklore, craft, culture, story-led products | closed relief mass plus a few broad, edge-open carved recesses |
+| **Glass stack** | `glass-stack` | collaboration, spatial, media, modern cross-platform products | crisp translucent panes around one opaque semantic skeleton |
+| **Woven** | `woven` | relationships, networks, exchange, communities | broad interlaced bands with explicit knockout gaps; both routes must remain separately traceable at 16px |
 
 Mixing families produces mush. If a brand needs both (e.g. a glossy mascot),
 commit to one as the base and borrow at most one technique from another.
 Weight, fill, and palette are parameters inside a family; they do not count as
 new styles by themselves.
+
+**Material-layer gate.** Before approving a material family, hide the optical
+effect—glass transparency, carved texture, brush distress, chrome reflection,
+or pane color. The remaining opaque skeleton, raised field, main brush mass, or
+solid contour must still name the same object at 16px. Material can enrich the
+noun; it cannot be responsible for the noun.
 
 ---
 
@@ -257,6 +269,10 @@ can afford (subtle gradients, glow, inner shadows). Don't design a detailed
   competent and forgettable at once.
 - For creator/mascot brands, using the cutest adjacent mascot when the site is
   about the creator/character → semantically wrong identity, even if cute.
+- Painting the identifying trait inside an unchanged generic silhouette: eyes
+  do not rescue a round animal head, a visor does not create an original
+  character, and a colored slash does not break a horn. Make the trait remove,
+  add, or redirect at least two pixels of outer contour at 16px.
 - Transparent Apple touch icon (iOS fills the gaps black) — the build flattens it.
 - Treating one literal full-card composition as a universal tray/menu-bar mark.
   Keep one semantic source, but expose the recognisable foreground group (or a

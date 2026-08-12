@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Citrus wedge"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for food"
+user_job = "refresh"
+essence = "zest"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#E19A2D", "#F4D36A"]
+cliches = ["generic fruit circle"]
+signature_device = "diagonal pith window"
+device_family = "negative-space-cut"
+device_detail = "diagonal pith window"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#E19A2D"
+background_color = "#F4D36A"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

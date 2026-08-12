@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "67e5a92445de024b15d24fac1f5dc826a718532e1ab4766083857d1d05ceefe3",
+  "contract_sha256": "c89ab287d31786de3975efe092f4f80567c59d95457c9af64c30ee38883afbf2",
+  "project": "Digital Caliper",
+  "user_job": "capture a physical dimension before turning it into a model",
+  "essence": "measure",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one sliding jaw carries a broad coral proof block instead of a display",
+  "cliches": [
+    "ruler",
+    "dimension arrows",
+    "grid square",
+    "CAD cube"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#5177E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

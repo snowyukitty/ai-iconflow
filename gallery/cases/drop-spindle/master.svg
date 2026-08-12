@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Drop spindle</title><desc>A vertical drop spindle with one asymmetrical whorl sector.</desc>
+  <path d="M468 96h88v264l190 172-190 172v224h-88V704L278 532l190-172V96Z" fill="#25243A"/>
+  <path d="M512 360 746 532 512 578Z" fill="#F05D52"/>
+</svg>

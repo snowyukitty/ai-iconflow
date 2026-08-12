@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="clay">
+  <title>Solder Spool</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" fill-rule="evenodd" d="M198 264h628v496H198V264Zm210 112v272h208V376H408Z"/>
+    <path fill="#24B6A6" d="M266 322h154v380H266Zm338 0h154v380H604Z"/>
+    <path fill="#168C81" d="M420 386h184v252H420Z"/>
+    <path fill="#FFF4E8" d="M454 430h116v164H454Z"/>
+    <path fill="#FF5A4F" d="M676 604h178v156H676Z"/>
+  </g>
+</svg>

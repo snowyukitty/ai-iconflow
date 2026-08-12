@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="blueprint">
+  <title>Digital Caliper</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M172 260h680v128H566v146h214v128H566v178H386V662H172V534h214V388H172Z"/>
+    <path fill="#5177E8" d="M236 300h552v48H502v250h214v48H502v130h-52V646H236v-48h214V348H236Z"/>
+    <path fill="#FF5A4F" d="M538 494h242v208H538Z"/>
+    <path d="M208 214h608M208 886h608" fill="none" stroke="#7894F2" stroke-width="32" stroke-dasharray="72 48"/>
+  </g>
+</svg>

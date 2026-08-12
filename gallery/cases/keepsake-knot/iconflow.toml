@@ -1,0 +1,44 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "Keepsake Knot"
+master = "master.svg"
+output = "build"
+casebook = "../../casebook"
+
+[brief]
+app_intent = "help two people maintain a shared ritual"
+user_job = "keep a small shared ritual tangible over time"
+essence = "together"
+personality = ["warm", "tactile", "assured"]
+
+[design]
+palette = ["midnight plum #251D32", "sea-glass teal #77D7CD", "signal coral #FF6B5D"]
+cliches = ["heart", "chat bubble", "linked circles"]
+signature_device = "two unequal bands share one offset opening"
+device_family = "ownable-geometry"
+device_detail = "coral and teal bands alternate across a 128-unit square counter"
+concept_lens = "ritual-object"
+
+[build]
+targets = ["web"]
+theme_color = "#251D32"
+background_color = "#F7EFE4"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+# Review Lab receipt is preferred. For this manual fallback, set status to
+# "approved" and copy both hashes from the exported receipt; `ship` requires every
+# score >= 4 and rejects any changed source, target, or visual transform.
+scores = {}
+notes = ""

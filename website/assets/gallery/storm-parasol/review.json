@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "3a7507de8361264ab544dafba10837be101c5e9f5d1c48fd33bb8188d7c211dc",
+  "contract_sha256": "e7351e323b9b50d96b6076371e5b953760317d237e5d025c7227493c7f3c08d4",
+  "project": "Storm Parasol",
+  "user_job": "track a weather-bound journey in an original fantasy serial",
+  "essence": "shelter",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one missing canopy pane opens toward the direction of travel",
+  "cliches": [
+    "cloud",
+    "lightning bolt",
+    "magical girl wand",
+    "character portrait"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#7658D8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

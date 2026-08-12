@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "e12c773869a585292dfafcb1b237f41746255bf976d6831e4ba2222e263fa8c3",
+  "contract_sha256": "a88a5825c3f12d97efc5176eb21d036100faa76418bb14ef17b56622e359f813",
+  "project": "Running shoe",
+  "user_job": "move",
+  "essence": "stride",
+  "personality": "specific, clear, crafted",
+  "signature_device": "forward sole wedge",
+  "cliches": [
+    "generic sneaker outline"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#3B5C86",
+    "background_color": "#E6B84D",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

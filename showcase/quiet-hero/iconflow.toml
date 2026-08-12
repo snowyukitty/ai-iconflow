@@ -1,0 +1,44 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "Quiet Hero"
+master = "master.svg"
+output = "build"
+casebook = "../../casebook"
+
+[brief]
+app_intent = "express an original character state without franchise imitation"
+user_job = "recognize a poised original persona at a glance"
+essence = "poise"
+personality = ["calm", "graphic", "original"]
+
+[design]
+palette = ["warm paper #F4EADA", "ink #20232C", "teal #65C7C2", "signal coral #EF6A58"]
+cliches = ["generic chibi", "animal ears", "franchise imitation"]
+signature_device = "an asymmetric profile crest meets one high collar notch"
+device_family = "ownable-geometry"
+device_detail = "left-facing crest, visor wedge, and light collar notch survive without facial detail"
+concept_lens = "character-archetype"
+
+[build]
+targets = ["web"]
+theme_color = "#F4EADA"
+background_color = "#F4EADA"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+# Review Lab receipt is preferred. For this manual fallback, set status to
+# "approved" and copy both hashes from the exported receipt; `ship` requires every
+# score >= 4 and rejects any changed source, target, or visual transform.
+scores = {}
+notes = ""

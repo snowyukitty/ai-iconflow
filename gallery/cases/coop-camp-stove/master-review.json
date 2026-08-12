@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "95d9f63064e998dec84aa98b379bab3c94bbf7032438ea0e766761db5b2ce6d9",
+  "contract_sha256": "fbb95c3ae3a59a08c0690cca89082d66105b025296169c28bb887db1900be847",
+  "project": "Co-op Camp Stove",
+  "user_job": "see whether every expedition role is ready to leave camp",
+  "essence": "ready",
+  "personality": "specific, clear, crafted",
+  "signature_device": "three translucent wind guards close around one opaque burner skeleton",
+  "cliches": [
+    "party avatars",
+    "checkmarks",
+    "controller",
+    "crossed weapons"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#24B6A6",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Hovering hummingbird"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for animals"
+user_job = "sample"
+essence = "hover"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#315B8A", "#E68B42"]
+cliches = ["generic bird silhouette"]
+signature_device = "needle bill and displaced dot"
+device_family = "character-silhouette"
+device_detail = "needle bill and displaced dot"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#315B8A"
+background_color = "#E68B42"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

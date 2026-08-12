@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "3247b18043db7dd614b7ef7808802b31bdb216cb5f34957d3d46664c80c1656c",
+  "contract_sha256": "3ca9ee5f1aeb08f162eae1e6565c6f415eae7659ed59b2a72b0567930105d853",
+  "project": "Shared Carrier",
+  "user_job": "Coordinate group messages, daily services, and shared routines.",
+  "essence": "coordination",
+  "personality": "independent, specific, crafted",
+  "signature_device": "two load-bearing bands alternate over and under the stacked tiers",
+  "cliches": [
+    "paired chat bubbles, official green, app-grid imitation"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the interwoven service straps passed round 4.",
+  "status": "ready"
+}

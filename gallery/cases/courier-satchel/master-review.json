@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "8c6f3d42055c369743ff950badee96187fa8874a963e33f4dc87220b6c937362",
+  "contract_sha256": "fabe7292af505bb5fda9e6f587b4547f80addb8f9d44887a2710598292e709dc",
+  "project": "Courier Wing Satchel",
+  "user_job": "follow a spoiler-free dispatch from an original serial world",
+  "essence": "anticipate",
+  "personality": "specific, clear, crafted",
+  "signature_device": "the satchel flap becomes a swept wing with one broad dry cut",
+  "cliches": [
+    "star",
+    "magic wand",
+    "play button",
+    "mascot bird",
+    "franchise mail crest"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#24B6A6",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

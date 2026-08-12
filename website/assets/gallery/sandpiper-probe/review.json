@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "095fee53b3e3006672d54285ab04b00aefdde9d36c55df546618c9796e03b61d",
+  "contract_sha256": "ddf44bf1767772183a5ae2e377ba051e7b072e6b7dc7da59295a778455016b92",
+  "project": "Sandpiper probing shore",
+  "user_job": "sample",
+  "essence": "probe",
+  "personality": "specific, clear, crafted",
+  "signature_device": "long offset probing bill",
+  "cliches": [
+    "generic shorebird"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#3F4B58",
+    "background_color": "#E4B54D",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

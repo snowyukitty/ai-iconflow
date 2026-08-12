@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Gathering Hand Bell"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for neighborhood gathering"
+user_job = "call a shared table to attention without a screen"
+essence = "gathering"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#4A496B", "#F05D52"]
+cliches = ["a notification bell with a red dot"]
+signature_device = "A 192-unit coral clapper swings below the broad bell body."
+device_family = "object-silhouette"
+device_detail = "A 192-unit coral clapper swings below the broad bell body."
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#4A496B"
+background_color = "#F05D52"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

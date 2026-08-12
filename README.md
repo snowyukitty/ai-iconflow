@@ -2,6 +2,10 @@
 
 ![IconFlow — One master. Every surface. Proven at 16px.](docs/assets/hero-flow.svg)
 
+**Live proof:** [iconflow.pages.dev](https://iconflow.pages.dev/) ·
+**100-case Gallery:** [iconflow.pages.dev/gallery/](https://iconflow.pages.dev/gallery/) ·
+**400-cell Matrix:** [compare all](https://iconflow.pages.dev/gallery/emoji-matrix/all/)
+
 IconFlow is a local design-and-release workflow for agents, designers, and
 small product teams that need one **reviewed, platform-ready icon family** from
 an editable semantic SVG.
@@ -16,10 +20,10 @@ an icon specific to what an app actually does—and prove that it still works at
 app intent → distinct concepts → SVG master → 16px proof → target family → casebook
 ```
 
-Fourteen structurally different technique scaffolds help designers choose an
+Twenty structurally different technique scaffolds help designers choose an
 execution language without pretending a stock shape is a finished identity:
 
-![Fourteen IconFlow technique scaffolds with native 16px proof](docs/assets/style-gallery.png)
+![Twenty IconFlow technique scaffolds with native 16px proof](docs/assets/style-gallery.png)
 
 The same packaged sources generate this proof locally with
 `iconflow styles --gallery style-gallery.png`; see the
@@ -231,7 +235,7 @@ contract. [`brand/tray.svg`](brand/tray.svg) demonstrates the pattern.
 
 ## Technique scaffolds, not stock logos
 
-`new` offers fourteen execution families. Discover them from an installed wheel
+`new` offers twenty execution families. Discover them from an installed wheel
 instead of memorizing a list:
 
 ```bash
@@ -242,12 +246,13 @@ iconflow new cut-paper --out work/my-app/cut-paper.svg
 
 The families span flat geometry, glow, uniform line, mascot, duotone plane,
 stencil, pixel, isometric, cut paper, enamel, blueprint, stained glass,
-risograph, and clay. Each has its own structural model, 16px rule, and
+risograph, clay, cel shading, chrome, ink brush, woodcut, glass stacking, and
+weaving. Each has its own structural model, 16px rule, and
 tray/monochrome strategy in [`docs/STYLE_CATALOG.md`](docs/STYLE_CATALOG.md).
 
 Each preset renders IconFlow's house structure only to demonstrate the
 technique. Every file explicitly tells the designer to replace the geometry with
-the consuming app's user job and one signature device. All fourteen pass `check`
+the consuming app's user job and one signature device. All twenty pass `check`
 cleanly; none is intended to ship unchanged. `new` preserves an existing output
 unless replacement is explicit with `--force`.
 
@@ -277,10 +282,15 @@ mechanically enforceable lessons belong in the engine and its tests.
 
 ```text
 brand/                      IconFlow's own master, tray source, review, and outputs
+showcase/                   approved cross-theme masters, receipts, and web builds
+website/                    static Cloudflare Pages launch site and reviewed assets
+website-redirect/           permanent compatibility redirect for the former host
 casebook/                   structured evidence from shipped icons
 docs/
   DESIGN_PLAYBOOK.md        geometry, color, 16px discipline, critique loop
-  STYLE_CATALOG.md          14 technique families, selection, provenance
+  STYLE_CATALOG.md          20 technique families, selection, provenance
+  LAUNCH_SITE.md            promotional-site narrative and acceptance contract
+  SHOWCASE_PLAN.md          cross-theme icon production queue
   CONCEPTING.md             divergence, cliché filter, signature devices, bake-off
   REVIEW_CHECKLIST.md       six-axis shipping rubric
   SVG_TECHNIQUES.md         browser-tested SVG construction patterns

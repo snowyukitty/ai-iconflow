@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Build Crate"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for maker/dev tools"
+user_job = "trace a release artifact from source branch to verified package"
+essence = "prove"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#F2B84B", "#191A20"]
+cliches = ["terminal", "braces", "gear", "cloud", "rocket", "checkmark", "package cube"]
+signature_device = "one 190-by-144-unit vermilion manifest tab locks to the lower-right brace"
+device_family = "negative-space-cut"
+device_detail = "one 190-by-144-unit vermilion manifest tab locks to the lower-right brace"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#F2B84B"
+background_color = "#191A20"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

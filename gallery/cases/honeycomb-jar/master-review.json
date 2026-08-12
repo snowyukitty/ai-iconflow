@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "186f89dc8f636e6e123860d507b44425f607b379b57432009589f1396c9d55dc",
+  "contract_sha256": "ceb47fc21ed952544cf8e9c9b6923afff8f878e67cc72c4b9b05af788b7cc404",
+  "project": "Honey jar",
+  "user_job": "sweeten",
+  "essence": "gold",
+  "personality": "specific, clear, crafted",
+  "signature_device": "hexagonal honey panes",
+  "cliches": [
+    "generic jar"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#B8752B",
+    "background_color": "#F0C65A",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

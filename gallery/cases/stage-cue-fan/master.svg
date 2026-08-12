@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="duotone-cut">
+  <title>Stage Cue Fan</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M132 686q54-424 380-548 294 112 374 460L692 738 512 886Z"/>
+    <path fill="#9B7BE8" d="M210 638q54-300 302-414v518L374 694Z"/>
+    <path fill="#7658D8" d="M552 246q184 112 252 322L620 700l-108 42Z"/>
+    <path fill="#FF5A4F" d="m512 224 118 102-72 472-92 74 12-524Z"/>
+    <circle cx="512" cy="806" r="76" fill="#191A20"/>
+  </g>
+</svg>

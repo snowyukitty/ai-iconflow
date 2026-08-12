@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "005557de954e08e57ee703972e0098a6e78458a6d2ff9a82da14a6f4f343a13a",
+  "contract_sha256": "08efde7cd819085f0011bf719b01242ecb82568f1e858e48466fa1a3012cf23c",
+  "project": "Accordion Bellows",
+  "user_job": "mark where a phrase should expand and contract",
+  "essence": "breathe",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one off-axis bellows fold opens twice as wide as the rest",
+  "cliches": [
+    "note",
+    "lungs",
+    "waveform",
+    "volume speaker"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#7894F2",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

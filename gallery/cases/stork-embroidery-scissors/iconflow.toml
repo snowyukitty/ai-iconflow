@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Stork Embroidery Scissors"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for needlework"
+user_job = "clip fine thread precisely with a treasured craft tool"
+essence = "finesse"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#25243A", "#F05D52"]
+cliches = ["generic crossed shears or a needle-and-thread glyph"]
+signature_device = "A 152-unit coral beak pivot turns the scissors into a stork profile."
+device_family = "object-silhouette"
+device_detail = "A 152-unit coral beak pivot turns the scissors into a stork profile."
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#25243A"
+background_color = "#F05D52"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

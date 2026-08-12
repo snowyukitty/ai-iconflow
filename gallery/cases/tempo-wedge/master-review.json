@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "c11b6c5c41ac7983f62b3fe88a30092004e4b39e1ef10e3f67dfd68e55140d3b",
+  "contract_sha256": "0277c39e21d9b513b3124d80595215017a94ba38658cd335217b64b8c27909b1",
+  "project": "Tempo Wedge",
+  "user_job": "align an ensemble's count-in and transition tempo",
+  "essence": "cue",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one edge-open dry cut becomes the off-axis pendulum track",
+  "cliches": [
+    "note",
+    "headphones",
+    "waveform",
+    "speaker",
+    "play triangle"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#E96391",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

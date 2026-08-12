@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "bec5ab5e8ec29291139248454b8b3904b02cda3b0f961b2c9ffad6caed3b9dc3",
+  "contract_sha256": "0fdc3f14819a13cb70771a3a41c124ab95b57dca7e66c5069258ab3cb73835b0",
+  "project": "Field compass",
+  "user_job": "orient",
+  "essence": "bearing",
+  "personality": "specific, clear, crafted",
+  "signature_device": "off-axis needle",
+  "cliches": [
+    "generic target"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#334C58",
+    "background_color": "#E6B547",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

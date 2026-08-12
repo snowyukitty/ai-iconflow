@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Loom shuttle</title><desc>A pointed weaving shuttle with a wide offset thread window.</desc>
+  <path fill="#25243A" fill-rule="evenodd" d="M70 512c139-202 315-300 442-300s303 98 442 300c-139 202-315 300-442 300S209 714 70 512Zm236 0c69 78 142 118 206 118s137-40 206-118c-69-78-142-118-206-118s-137 40-206 118Z"/>
+  <path d="M386 418h274v188H386Z" fill="#F05D52"/><path d="M454 458h138v108H454Z" fill="#25243A"/>
+</svg>

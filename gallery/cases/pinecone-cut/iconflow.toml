@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Pinecone"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for nature"
+user_job = "shelter"
+essence = "scale"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#76553E", "#D09A3B"]
+cliches = ["generic pine tree"]
+signature_device = "alternating scale cuts"
+device_family = "negative-space-cut"
+device_detail = "alternating scale cuts"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#76553E"
+background_color = "#D09A3B"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 from iconflow.casebook import (
-    AXES, DISTILL_THRESHOLD, atlas_html, format_stats, lint_case, load_casebook,
+    AXES, DISTILL_THRESHOLD, atlas_html, format_stats, lint_case, lint_casebook, load_casebook,
     new_case, parse_case, parse_scores, stats, write_atlas,
 )
 
@@ -126,6 +126,12 @@ class CasebookTests(unittest.TestCase):
         (self.dir / "README.md").write_text("# not a case", encoding="utf-8")
         _make_case(self.dir, "app")
         self.assertEqual(len(load_casebook(self.dir)), 1)
+
+    def test_generated_atlas_is_ignored_by_loader_and_linter(self):
+        (self.dir / "ATLAS.md").write_text("<!doctype html><title>Atlas</title>", encoding="utf-8")
+        _make_case(self.dir, "app")
+        self.assertEqual(len(load_casebook(self.dir)), 1)
+        self.assertFalse(any(issue.path.name == "ATLAS.md" for issue in lint_casebook(self.dir)))
 
     def test_empty_casebook_stats(self):
         report = "\n".join(format_stats(stats(load_casebook(self.dir))))

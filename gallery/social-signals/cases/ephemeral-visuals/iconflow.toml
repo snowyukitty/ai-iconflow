@@ -1,0 +1,40 @@
+# Generated from scripts/build_social_signals.py.
+schema_version = 1
+
+[project]
+name = "Moment Cartridge"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide an independent clean-room visual study for Send visual moments that are intentionally temporary."
+user_job = "Send visual moments that are intentionally temporary."
+essence = "ephemeral"
+personality = ["independent", "specific", "crafted"]
+
+[design]
+palette = ["#FF766D", "#FFF4E8"]
+cliches = ["ghost mascots, yellow app fields, speech bubbles"]
+signature_device = "the cartridge window is cut by a single falling sand bridge"
+device_family = "object-silhouette"
+device_detail = "the cartridge window is cut by a single falling sand bridge"
+concept_lens = "clean-room-user-job"
+
+[build]
+targets = ["web"]
+theme_color = "#FF766D"
+background_color = "#FFF4E8"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

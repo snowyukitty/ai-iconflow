@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "1a303100a512ed7e0597ef9b3fecc6bb9d169dfe421ad94eca58bf8ac89ee1c5",
+  "contract_sha256": "0616468c45eeaa1863ac74b633a1d1e09bfafc58a1358e08cb73974c8a57ea4a",
+  "project": "Data Cassette",
+  "user_job": "archive a field capture as a physically accountable unit",
+  "essence": "archive",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one 176-by-132-unit chamfered write tab opens through the cassette's lower edge",
+  "cliches": [
+    "cloud",
+    "database cylinder",
+    "folder",
+    "floppy disk",
+    "lock"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#C8D0D8",
+    "background_color": "#191A20",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

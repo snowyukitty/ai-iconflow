@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "dee5cb7c12d1e3b99d099a4c3a7c7756b73cf2a05541dbf61c676bba97ec1c16",
+  "contract_sha256": "c431e2267717c551e6f2ab556d21c479e4130dc9d5dcaabe01825b227d369d2d",
+  "project": "Shared Umbrella",
+  "user_job": "shelter a companion while walking to a meetup",
+  "essence": "together",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 260-unit coral panel sits off center above the shared shaft.",
+  "cliches": [
+    "two people under a heart-shaped canopy"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

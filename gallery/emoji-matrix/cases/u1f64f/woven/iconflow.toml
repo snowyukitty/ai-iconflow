@@ -1,0 +1,40 @@
+# Generated from scripts/build_emoji_matrix.py.
+schema_version = 1
+
+[project]
+name = "Emoji Matrix: folded hands / woven"
+master = "master.svg"
+output = "build"
+casebook = "../../../../casebook"
+
+[brief]
+app_intent = "study recognizability across a structurally distinct icon grammar"
+user_job = "recognize the folded hands meaning at native icon size"
+essence = "recognition"
+personality = ["original", "clear", "experimental"]
+
+[design]
+palette = ["#FF766D", "#FFF4E8"]
+cliches = ["vendor emoji artwork, traced glyph geometry, palette-only restyling"]
+signature_device = "woven construction grammar around the semantic silhouette"
+device_family = "semantic-style-grammar"
+device_detail = "woven construction grammar around the semantic silhouette"
+concept_lens = "cross-style-semantic"
+
+[build]
+targets = ["web"]
+theme_color = "#FF766D"
+background_color = "#FFF4E8"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

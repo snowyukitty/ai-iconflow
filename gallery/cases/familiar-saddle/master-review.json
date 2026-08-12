@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "749a0e2a86e9a9fa5d2a9f3fc217be7a2be71389462774e855131aba2da9da7b",
+  "contract_sha256": "d9cfca9b2751f2ee7c58a513ce00e1d1073355670b8b5652f8a134315e82935b",
+  "project": "Familiar Saddle",
+  "user_job": "prepare a small original creature companion for the next journey",
+  "essence": "depart",
+  "personality": "specific, clear, crafted",
+  "signature_device": "an oversized horn and a full two-pixel girth counter make the saddle unmistakable",
+  "cliches": [
+    "cute animal head",
+    "paw",
+    "wing",
+    "magic star",
+    "franchise creature silhouette"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#24B6A6",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

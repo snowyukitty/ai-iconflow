@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "92d1fb5e6e6f2b3d74cb4b40f09b410e6bb494b08d2ea3441db84fc3afffa4a9",
+  "contract_sha256": "53b35b0575afc1b92d869d983da801e46fe8b7377b50bb0402dd4b4268d76a8e",
+  "project": "Loom Shuttle",
+  "user_job": "carry the weft cleanly through a loom shed",
+  "essence": "passage",
+  "personality": "specific, clear, crafted",
+  "signature_device": "A 188-unit coral bobbin window interrupts the long pointed body.",
+  "cliches": [
+    "a decorative textile square"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#25243A",
+    "background_color": "#F05D52",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

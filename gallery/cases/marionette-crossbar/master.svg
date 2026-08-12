@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="woven">
+  <title>Marionette Crossbar</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" fill-rule="evenodd" d="M206 224h612v154H590v154h178v154H590v164H434V686H256V532h178V378H206V224Zm304 188a96 96 0 1 0 0 192 96 96 0 0 0 0-192Z"/>
+    <path fill="#F2B84B" d="M228 246h278v110H228Zm290 462h278v110H518Z"/>
+    <path fill="#FF5A4F" d="M518 246h278v110H650v462H540V356h-22Z"/>
+  </g>
+</svg>

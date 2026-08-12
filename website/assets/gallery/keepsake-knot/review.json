@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "f27c303aa0cd36aa36e58dc2ae5a0447437bc67aee2e116faf2a2439c0aaf305",
+  "contract_sha256": "14d5aeb45216d4affbb9933c9cc14c9adc29b1fe32e03087ea6029a56261de76",
+  "project": "Keepsake Knot",
+  "user_job": "keep a small shared ritual tangible over time",
+  "essence": "together",
+  "personality": "warm, tactile, assured",
+  "signature_device": "two unequal bands share one offset opening",
+  "cliches": ["heart", "chat bubble", "linked circles"],
+  "targets": ["web"],
+  "build": {"theme_color": "#251D32", "background_color": "#F7EFE4", "electron_radius": 0, "tray_template_mode": "auto", "color_scheme": "light", "tray_source_sha256": null},
+  "warnings": [],
+  "scores": {"legibility": 4, "distinctiveness": 4, "balance": 4, "color": 5, "scalability": 4, "craft": 4},
+  "notes": "Pass 1 rejected the power-sign reading. The promoted crossing gives two unequal bands one shared offset counter; both bands and the over-under gap remain distinct at native 16 px.",
+  "status": "ready"
+}

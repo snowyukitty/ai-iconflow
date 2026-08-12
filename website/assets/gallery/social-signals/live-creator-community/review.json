@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "f56ed56daa86cccc972cc493f632ec355e8dba60013fdd75b0d5b4a0ee534de4",
+  "contract_sha256": "481ccdb5ab17a65d9f7273bc4ff6cb9410b4666b8de7643fb06263e38026f77b",
+  "project": "Cue Brush",
+  "user_job": "Watch live creators while participating with the community.",
+  "essence": "live",
+  "personality": "independent, specific, crafted",
+  "signature_device": "one edge-open dry cut turns the bristle mass into an audience cue",
+  "cliches": [
+    "glitch bubbles, wordmark blocks, signature purple"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#FF766D",
+    "background_color": "#FFF4E8",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Reviewed at native 16px, 128px, in silhouette, adaptive crops, collection context, and a genuine three-concept bake-off; the edge-open live brush passed round 4.",
+  "status": "ready"
+}

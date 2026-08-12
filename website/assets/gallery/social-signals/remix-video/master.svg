@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">Glow Zoetrope — original zoetrope drum study</title>
+  <g><defs><radialGradient id="g" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#FFE39B"/><stop offset=".54" stop-color="#E86A77"/><stop offset="1" stop-color="#6746A5"/></radialGradient></defs><path d="M276 296Q304 202 512 202Q720 202 748 296L674 346Q620 304 512 304Q404 304 350 346Z" fill="url(#g)"/><path d="M276 296V692Q276 790 512 814Q748 790 748 692V556H638V668Q638 720 512 734Q386 720 386 668V334Z" fill="#151923"/><path d="M276 692Q300 790 512 814Q724 790 748 692L650 650Q618 718 512 730Q406 718 374 650Z" fill="url(#g)"/><path d="M342 344V596M464 402V684M586 344V596" stroke="#F9D77E" stroke-width="54" stroke-linecap="round"/><path d="M638 304H748V556H638Z" fill="#FFF0C8"/><path d="M720 426L846 370V520L720 568Z" fill="#E86A77"/></g>
+</svg>

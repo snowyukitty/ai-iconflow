@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "0978742a55be534955c7e1c339bbe744bd0efa9402320335c4f5ff97d994c6b9",
+  "contract_sha256": "869d38b38d945516f5e213223f1ed055a2eb5beb84cde0bbeb2fc07d240ffc17",
+  "project": "Clockwork Bento Box",
+  "user_job": "remember which small promise powers an original companion character",
+  "essence": "care",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one oversized winding tab drives a four-compartment lunch-box structure",
+  "cliches": [
+    "generic chibi face",
+    "animal ears",
+    "robot head",
+    "franchise food mascot"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#F2B84B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

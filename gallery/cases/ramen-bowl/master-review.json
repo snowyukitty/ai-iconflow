@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "1b7350b951c0c8b99f5155a60aaff3bffc09faba9cf56a479e4ce38f39f5a9c9",
+  "contract_sha256": "e7e70063cd8db7bf04e634e48fd4e033f2f211cc8c7cfbed563d5bab75209043",
+  "project": "Ramen bowl and chopsticks",
+  "user_job": "nourish",
+  "essence": "comfort",
+  "personality": "specific, clear, crafted",
+  "signature_device": "crossed chopsticks as rim cue",
+  "cliches": [
+    "generic bowl icon"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#B84C43",
+    "background_color": "#EBC05B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Brace drill</title><desc>A hand brace whose crank grip breaks the large C silhouette.</desc>
+  <path d="M234 92h320v128H234zM346 202h112v126c0 68 46 94 126 120 104 34 166 87 166 176 0 91-63 145-168 180-80 27-124 52-124 120v28H346v-54c0-114 76-165 190-203 71-24 102-40 102-71 0-29-31-46-100-68-116-37-192-92-192-212V202Zm0 694h112v36H346zM314 932h176l-88 74Z" fill="#25243A"/>
+  <path d="M596 398h176v322H596Z" fill="#F05D52"/><path d="M642 470h84v178h-84Z" fill="#25243A"/>
+</svg>

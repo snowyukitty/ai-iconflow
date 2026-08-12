@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="mascot">
+  <title>Clockwork Bento Box</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M194 254h620v548H194q-70 0-70-70V324q0-70 70-70Z"/>
+    <path fill="#F2B84B" d="M224 326h516v404H224Z"/>
+    <path fill="#191A20" d="M448 326h72v404h-72Zm-224 176h516v72H224Z"/>
+    <path fill="#FFF4E8" d="M286 366h100v96H286Zm294 40h100v56H580Zm-294 230h100v54H286Z"/>
+    <path fill="#FF5A4F" d="M740 184h164v176H740l-78-88Z"/>
+    <path fill="#191A20" d="M740 226h92v92h-92Z"/>
+  </g>
+</svg>

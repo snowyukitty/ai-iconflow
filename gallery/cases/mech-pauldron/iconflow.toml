@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Loadout Pauldron"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for games"
+user_job = "compare a mech's hardpoint choices before committing"
+essence = "equip"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#C9D1D9", "#191A20"]
+cliches = ["robot head", "gear", "crosshair", "hexagonal tech tile"]
+signature_device = "one oversized edge-open hardpoint bay breaks the shoulder silhouette"
+device_family = "object-silhouette"
+device_detail = "one oversized edge-open hardpoint bay breaks the shoulder silhouette"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#C9D1D9"
+background_color = "#191A20"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

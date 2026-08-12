@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Dragonfly in profile"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for insects"
+user_job = "track"
+essence = "precision"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#24535C", "#E6B64B"]
+cliches = ["generic butterfly"]
+signature_device = "four-wing cross axis"
+device_family = "stepped-silhouette"
+device_detail = "four-wing cross axis"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#24535C"
+background_color = "#E6B64B"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

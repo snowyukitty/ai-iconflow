@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="risograph">
+  <title>Whisper Drawer Cabinet</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="M220 356q0-194 292-194t292 194v424h-86v92H594v-92H430v92H306v-92h-86Z"/>
+    <path fill="#F2B84B" d="M286 366q0-128 226-128t226 128v126H286Zm0 190h452v160H286Z"/>
+    <path fill="#FFF4E8" d="M420 302h184v126H420Z"/>
+    <path fill="#FF5A4F" opacity=".86" d="M590 548h304v176H590Z"/>
+    <path fill="#191A20" d="M658 600h154v70H658Z"/>
+  </g>
+</svg>

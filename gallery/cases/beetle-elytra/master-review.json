@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "6ab89a4c19b68296bb02f3890c5cb51d4fee4c48fa93b9e85b9689735e658852",
+  "contract_sha256": "bfc3beeb09dcd47c6ad1abe714b01e758eae499b153c290617d025be6b57d99e",
+  "project": "Top-view beetle",
+  "user_job": "inspect",
+  "essence": "armor",
+  "personality": "specific, clear, crafted",
+  "signature_device": "split elytra seam",
+  "cliches": [
+    "generic bug icon"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#354B42",
+    "background_color": "#D76B49",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}

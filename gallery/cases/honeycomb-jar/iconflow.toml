@@ -1,0 +1,40 @@
+# Generated gallery case. Edit the batch manifest and rebuild.
+schema_version = 1
+
+[project]
+name = "Honey jar"
+master = "master.svg"
+output = "build"
+casebook = "../../../casebook"
+
+[brief]
+app_intent = "provide a proofed visual reference for food"
+user_job = "sweeten"
+essence = "gold"
+personality = ["specific", "clear", "crafted"]
+
+[design]
+palette = ["#B8752B", "#F0C65A"]
+cliches = ["generic jar"]
+signature_device = "hexagonal honey panes"
+device_family = "object-silhouette"
+device_detail = "hexagonal honey panes"
+concept_lens = "specific-object"
+
+[build]
+targets = ["web"]
+theme_color = "#B8752B"
+background_color = "#F0C65A"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = ""

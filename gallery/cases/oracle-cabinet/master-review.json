@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": "master.svg",
+  "source_sha256": "f01a59a443f87a3991dcc2198385093c4166452e8dcb5ac444b52581e44c814f",
+  "contract_sha256": "830e4af7969c05dd96f3f0234ff9ebd79a6b7568cbea8d0ff9fe5dcecac5c99c",
+  "project": "Whisper Drawer Cabinet",
+  "user_job": "organize clues delivered by an unreliable object in an original story",
+  "essence": "interpret",
+  "personality": "specific, clear, crafted",
+  "signature_device": "one impossible side-pulled drawer breaks an arched apothecary-cabinet silhouette",
+  "cliches": [
+    "crystal ball",
+    "eye",
+    "tarot card",
+    "sparkle",
+    "fortune-teller portrait"
+  ],
+  "targets": [
+    "web"
+  ],
+  "build": {
+    "theme_color": "#191A20",
+    "background_color": "#F2B84B",
+    "electron_radius": 0.0,
+    "tray_template_mode": "auto",
+    "color_scheme": "light",
+    "tray_source_sha256": null
+  },
+  "warnings": [],
+  "scores": {
+    "legibility": 4,
+    "distinctiveness": 4,
+    "balance": 4,
+    "color": 4,
+    "scalability": 4,
+    "craft": 4
+  },
+  "notes": "Accepted after exact 16px, 128px, silhouette, and batch contact-sheet review.",
+  "status": "ready"
+}
