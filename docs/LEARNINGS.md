@@ -613,3 +613,17 @@ silhouette; [Yukoe Tray Brand Fidelity](../casebook/2026-08-12-yukoe-tray-brand-
 restored the white face and pink listening ear, then increased occupied area
 with a tighter crop. Folded into `DESIGN_PLAYBOOK.md` §5 and
 `SVG_TECHNIQUES.md` §11.
+
+## L43 — Package manifests own both the exact raster dimensions and filenames
+When a platform package or store manifest names fixed logo slots, render every
+slot directly from the reviewed vector master at its exact pixel dimensions,
+inspect those actual rasters, and then install them under the manifest's exact
+filenames. Do not treat a generic size-suffixed export or one large bitmap as
+evidence that the packaged assets are correct.
+*Why:* the vector may reduce cleanly while packaging still fails on a filename
+contract, and a packager's implicit downscaling can hide a slot-specific
+small-size regression.
+*Evidence:* [Yukoe MSIX Assets](../casebook/2026-08-12-yukoe-msix-assets.md)
+preserved the reviewed listening-puff geometry in exact 44, 50, and 150px Store
+slots, then fixed the package by assigning the required manifest names. Folded
+into `OUTPUT_TARGETS.md`.

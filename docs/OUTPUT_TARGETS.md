@@ -33,6 +33,17 @@ Optional with `--windows-tiles`:
 | `mstile-310x150.png` | 310×150 | Windows wide tile |
 | `browserconfig.xml` | — | Windows tile metadata |
 
+### Manifest-defined Windows package assets
+
+Microsoft Store/MSIX manifests can require additional fixed-size logo slots
+and exact asset names beyond IconFlow's `web --windows-tiles` output. IconFlow
+does not currently expose an `msix` target. Use `iconflow render` to produce
+each required size directly from the reviewed SVG, inspect every actual-size
+RGBA raster on representative light, gray, and dark contexts, and only then
+copy the verified bytes to the exact filenames referenced by the package
+manifest. A generic size-suffixed export is not a packaging contract, and one
+large source handed to an implicit scaler is not an exact-size review.
+
 `<head>` (also written to `favicon-head.html`):
 
 ```html
