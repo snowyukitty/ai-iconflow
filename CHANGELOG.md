@@ -58,6 +58,8 @@ first published release remains under `Unreleased`.
   the generated Atlas covering 181 reviewed or shipped cases.
 - Windows package guidance now treats manifest-defined dimensions and filenames
   as part of the reviewed asset contract instead of relying on implicit scaling.
+- The release-candidate clean-wheel smoke now installs its Chromium runtime
+  before exercising render-backed checks.
 
 ### Security
 

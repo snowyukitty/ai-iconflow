@@ -48,6 +48,7 @@ jobs:
         shell: bash
         run: |
           python -m pip install --force-reinstall dist/*.whl
+          python -m playwright install --with-deps chromium
           smoke="$RUNNER_TEMP/iconflow-release-$GITHUB_RUN_ATTEMPT"
           mkdir -p "$smoke"
           cd "$smoke"
