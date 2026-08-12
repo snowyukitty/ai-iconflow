@@ -25,4 +25,4 @@ The previous purple treatment discarded the master icon's white face, dark outli
 ## Lessons
 <!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
      flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
-- [ ] When a tray icon belongs to an established mascot, preserve the mascot palette and signature trait, then gain small-size presence through tighter framing instead of recoloring the whole mark.
+- [x] When a tray icon belongs to an established mascot, preserve the mascot palette and signature trait, then gain small-size presence through tighter framing instead of recoloring the whole mark.

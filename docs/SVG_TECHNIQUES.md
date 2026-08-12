@@ -230,6 +230,11 @@ right semantic role without duplicating the design:
 - When automatic extraction cannot preserve the intended hierarchy, keep a
   small `tray.svg` variant next to `master.svg`; it must reuse the same core
   geometry rather than becoming a second logo.
+- For a mascot or other feature-bearing mark, keep the established palette and
+  signature trait in the color tray source, but make any expression or counter
+  needed by an alpha-derived template a broad transparent cut. Increase small-
+  size presence by cropping the shared geometry more tightly before recoloring
+  or inventing a second silhouette.
 
 Always review the transformed target bytes. Judging the raw master alone cannot
 catch a lost tray counter, an incorrect maskable composition, or platform-only

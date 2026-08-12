@@ -210,6 +210,12 @@ zoom in `review.png`:
   pixel at 16px); then re-check that every semantic counter or panel gap still
   resolves to at least two clear pixels. Do not solve it with a full tile unless
   the product calls for one.
+- If that tray target belongs to an established mascot or brand mark, preserve
+  its palette and signature trait in color, and tighten the framing before
+  recoloring it for presence. For the alpha-derived template, cut essential
+  facial features, counters, and seams out of the silhouette instead of drawing
+  them in the foreground color. Inspect both actual 16px assets; passing only
+  the color or only the template reduction is not enough.
 - For raster/emote-based favicons, check 16px legibility and the maskable row as
   one decision. If scaling the face up triggers a safe-zone warning, preserve the
   strongest expression and shrink or remove peripheral props (stars, ears, labels)

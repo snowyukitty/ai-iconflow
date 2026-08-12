@@ -551,7 +551,9 @@ ears into the outer contour; [Quiet Hero](../casebook/2026-08-12-quiet-hero.md)
 made the head-and-collar profile identify the character;
 [Boss Helm](../casebook/2026-08-12-boss-helm.md) replaced a painted fracture
 with missing horn mass; [Trail Tail](../casebook/2026-08-12-trail-tail.md)
-preserved gait, belly counter, and lifted tail in one line silhouette. Folded
+preserved gait, belly counter, and lifted tail in one line silhouette; and
+[Yukoe Listening Puff](../casebook/2026-08-11-yukoe-listening-puff.md)
+replaced paired generic animal ears with one oversized listening shell. Folded
 into `DESIGN_PLAYBOOK.md`'s family table and anti-patterns.
 
 ## L39 — Stained-glass leading must separate the object from its support field
@@ -594,3 +596,20 @@ unrelated translucent rectangles with one continuous opaque readiness
 skeleton; [Forest Familiar](../casebook/2026-08-12-forest-familiar.md) moved the
 owl species into the raised outer field so its woodcut gouges could remain
 semantically disposable. Folded into `DESIGN_PLAYBOOK.md` §3.
+
+## L42 — Color and template tray targets must preserve one identity in two reductions
+For an established mascot or brand mark, keep its palette and signature trait
+in the color tray asset; gain presence by tightening the framing before
+recoloring or simplifying the identity. In the alpha-derived template, encode
+essential eyes, expression, counters, or seams as broad transparent cuts rather
+than same-color foreground details. Inspect both real 16px outputs: neither a
+faithful color mark nor a readable template alone is sufficient.
+*Why:* color reduction and alpha reduction discard different information. A
+recolored silhouette can stop belonging to the product, while a faithful mark
+whose features share the foreground fill collapses into a featureless template.
+*Evidence:* [Yukoe Tray Negative Space](../casebook/2026-08-11-yukoe-tray-negative-space.md)
+raised legibility and scalability from 1 by cutting the face through the
+silhouette; [Yukoe Tray Brand Fidelity](../casebook/2026-08-12-yukoe-tray-brand-fidelity.md)
+restored the white face and pink listening ear, then increased occupied area
+with a tighter crop. Folded into `DESIGN_PLAYBOOK.md` §5 and
+`SVG_TECHNIQUES.md` §11.

@@ -36,4 +36,4 @@ category-default mascot.
 ## Lessons
 <!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
      flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
-- [ ] When a cute mascot begins as a familiar animal head, move the product verb into one asymmetric outer-silhouette feature; the result stays friendly while becoming ownable at favicon size.
+- [x] When a cute mascot begins as a familiar animal head, move the product verb into one asymmetric outer-silhouette feature; the result stays friendly while becoming ownable at favicon size.

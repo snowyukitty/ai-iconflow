@@ -31,4 +31,4 @@ paths at once without changing the app icon or weakening the pink ear cue.
 ## Lessons
 <!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
      flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
-- [ ] For alpha-derived tray mascots, cut essential facial features out of the silhouette instead of drawing them in the same foreground color; test the real 16 px output before shipping.
+- [x] For alpha-derived tray mascots, cut essential facial features out of the silhouette instead of drawing them in the same foreground color; test the real 16 px output before shipping.
