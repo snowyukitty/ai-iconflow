@@ -3,6 +3,7 @@ import hashlib
 import importlib
 import io
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -367,9 +368,12 @@ class ConfigTests(unittest.TestCase):
              contextlib.redirect_stdout(io.StringIO()):
             code = main([
                 "ship", "--config", str(path), "--out", str(destination),
-            ])
+        ])
         self.assertEqual(code, 0)
-        self.assertEqual(Path(build.call_args.args[1]), destination.resolve())
+        # Ship intentionally uses abspath rather than resolve so a final output
+        # symlink/junction remains visible to build's safety check. macOS /var
+        # and Windows short temp paths therefore must not be canonicalized here.
+        self.assertEqual(Path(build.call_args.args[1]), Path(os.path.abspath(destination)))
 
 
 if __name__ == "__main__":
