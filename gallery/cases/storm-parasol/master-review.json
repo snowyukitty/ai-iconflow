@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "3a7507de8361264ab544dafba10837be101c5e9f5d1c48fd33bb8188d7c211dc",
-  "contract_sha256": "e7351e323b9b50d96b6076371e5b953760317d237e5d025c7227493c7f3c08d4",
+  "source_sha256": "c691c472d48509211a01baf83d1b315eeba9be09e779df7f8fb71cc834a0ceb5",
+  "contract_sha256": "9c4aa1b09427867ab247a55c517556efc6bded57cfa70a5c482d820f78528fc8",
   "project": "Storm Parasol",
   "user_job": "track a weather-bound journey in an original fantasy serial",
   "essence": "shelter",

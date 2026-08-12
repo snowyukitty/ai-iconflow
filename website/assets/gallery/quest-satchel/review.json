@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "e745811c5e03e525795958f2572d86f4461b38879fd1d010757ab4e4247344b4",
-  "contract_sha256": "e1c7c74b9da428ab33d69ba18b56fb3309df97fe4585a4527242786ad965db98",
+  "source_sha256": "1095045233fc5b32fca778d6d55af54e740aa722e891f02bb09caa33afabb605",
+  "contract_sha256": "50562c29364e41dcc04349cc0467fa5583f844cf882e733a61bbb688726820a1",
   "project": "Quest Satchel",
   "user_job": "group unfinished side objectives by the journey they belong to",
   "essence": "carry",

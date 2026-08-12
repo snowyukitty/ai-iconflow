@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "3dd14ab8471ba974755733e275f49f2e8a772e3a16529ee3c551cc282779629f",
-  "contract_sha256": "2ddef05430b68a11055d88deb5e021f8ba0a3d6586fec19aab414011944cc258",
+  "source_sha256": "8aea759883ce2901ee0958eb05eaf2bb11a104e6c39b28e876b8c6749a8087d1",
+  "contract_sha256": "175ebd0604328ff3e23d075a4d2d85d97a9900ae7299ed290b4d1055327f5f46",
   "project": "Solder Spool",
   "user_job": "remember which solder alloy belongs to a bench setup",
   "essence": "join",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "92d1fb5e6e6f2b3d74cb4b40f09b410e6bb494b08d2ea3441db84fc3afffa4a9",
-  "contract_sha256": "53b35b0575afc1b92d869d983da801e46fe8b7377b50bb0402dd4b4268d76a8e",
+  "source_sha256": "a44678784cd36b4cf2384b088934a6df66d8f4a3e8c50a59cc2c014a23647ceb",
+  "contract_sha256": "edd5200b41cbf5a55563208ff3e0ac589db88afcd07b425a1401881931d93f95",
   "project": "Loom Shuttle",
   "user_job": "carry the weft cleanly through a loom shed",
   "essence": "passage",

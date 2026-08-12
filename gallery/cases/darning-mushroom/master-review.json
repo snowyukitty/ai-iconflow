@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "c57461899adc04c05445b0263661bd8af0687c44d7de071a90b6cc33630be696",
-  "contract_sha256": "9ffa31afb717171a61b798f838e6214f68d361a78ef582557afe845d20916473",
+  "source_sha256": "8c155f879cb10419f77140749e7f1ea755c038378528d261318893f2ea96411b",
+  "contract_sha256": "a43d01716249ae2d9acc042127686ef38a3d2b1cbfe7d535ec57414e4e4b7cd0",
   "project": "Darning Mushroom",
   "user_job": "support a garment while repairing it by hand",
   "essence": "care",

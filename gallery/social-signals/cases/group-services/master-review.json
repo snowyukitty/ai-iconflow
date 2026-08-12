@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "3247b18043db7dd614b7ef7808802b31bdb216cb5f34957d3d46664c80c1656c",
-  "contract_sha256": "3ca9ee5f1aeb08f162eae1e6565c6f415eae7659ed59b2a72b0567930105d853",
+  "source_sha256": "8c7d15c0fe97355a7ecf53f5f95bdbaddd4452230e209a903cab646bc8f46dae",
+  "contract_sha256": "3c7e783005ee68fe2c73fc985248141b165f90f6a87915d932739d93fd6b1ca2",
   "project": "Shared Carrier",
   "user_job": "Coordinate group messages, daily services, and shared routines.",
   "essence": "coordination",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "466110326e128aa42aac7ac9efa23943099c82d10811f0d9bfb7c02924cbaffb",
-  "contract_sha256": "4d4f8253d51a184372a3a25e3ece2ab3337828f893d3ea1fb878db52454cb137",
+  "source_sha256": "d2fec1ff6d528a4500316cdc74a2839fa39c34d318162d61f1908e23a0a0f8b2",
+  "contract_sha256": "6232a057bec52103038b14b23f9f35c532e63da239637598e604ee3bb9988f82",
   "project": "Stork Embroidery Scissors",
   "user_job": "clip fine thread precisely with a treasured craft tool",
   "essence": "finesse",

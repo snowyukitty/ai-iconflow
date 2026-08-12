@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "9d7df5141bfda86eb8a54ed5ed2ce08e4ab0c7097d0bbddedc08c1652ca6acb5",
-  "contract_sha256": "59096bdd147b674ff8f555a86a425cd5b360bc62116baee5cb9abda484532b2a",
+  "source_sha256": "4c5ec683c96ce90d37455ee227b8d60e7e767d3eb94e5dd604cff41691f69596",
+  "contract_sha256": "f91b5fe392fda575a9d112b51b5175d90e06a39c7a12b290951e5b540a275a0f",
   "project": "Sensor Buoy",
   "user_job": "see whether a remote field sensor is anchored and reporting",
   "essence": "report",

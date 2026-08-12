@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "328a94537fe21bd1a754795b4c58cd1a0b625373fc4ad932ce0c73c572f0dba8",
-  "contract_sha256": "9f0a506e61dc67e7b7860fd38df13d7838247791cf454fc30bc22f141bf8b365",
+  "source_sha256": "a91ee4c522fdb65c50eed8597564c85b300fc56c47942ed555d6fbf541b2094e",
+  "contract_sha256": "1beb8721fd4ba2faccf19ea87deba4b8b5539f5edd18ebb17400201a2c45f736",
   "project": "Credential Folio",
   "user_job": "Present professional identity, experience, and working relationships.",
   "essence": "credibility",

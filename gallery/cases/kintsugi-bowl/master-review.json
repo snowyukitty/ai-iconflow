@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "3c5ae6a64a51a2c5327674b55f059b9f730a7b9a245fea528fac4a34f839fb68",
-  "contract_sha256": "67b70835060008dcd3b127b67ec1ab8974abbf6a850fd76c19393e8ec11781bd",
+  "source_sha256": "98c9c4c267a22401afeb2044442a0d05b7a492d6f7794f99e5758eacc21ef9f9",
+  "contract_sha256": "3459c865f2523730a725663adb80a27e1db9493790979c93733a8f9243451226",
   "project": "Kintsugi Bowl",
   "user_job": "mark repair as a valued continuation rather than damage",
   "essence": "renewal",

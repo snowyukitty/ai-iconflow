@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "89c9266b4835024da4005b93a9dac57db94885839536d2e336b904af93718319",
-  "contract_sha256": "ad41d1b7e633738c13f1a4f8e37c4a23c2e62c67576599aa44dc31c3402e1850",
+  "source_sha256": "6e0462659df6d2b70baa6ceb758c1c8c6fde97afe827e56299ecb9858e6b08f1",
+  "contract_sha256": "04c3b729131bd4d541c1c6b5bb4be789814a093d8b4aca5894f0ba66d35349ac",
   "project": "Dungeon Portcullis",
   "user_job": "mark which route has been opened without exposing the whole map",
   "essence": "unlock",

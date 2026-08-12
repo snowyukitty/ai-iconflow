@@ -11,7 +11,7 @@ class SvgInputSafetyTests(unittest.TestCase):
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         path = Path(directory.name) / "input.svg"
-        path.write_text(text, encoding="utf-8")
+        path.write_text(text, encoding="utf-8", newline="")
         return path
 
     def test_load_svg_accepts_namespaced_svg_and_strips_xml_declaration(self):
@@ -22,6 +22,14 @@ class SvgInputSafetyTests(unittest.TestCase):
         loaded = rasterize.load_svg(path)
         self.assertTrue(loaded.startswith("<svg"))
         self.assertNotIn("<?xml", loaded)
+
+    def test_load_svg_normalizes_line_endings_for_cross_platform_hashes(self):
+        source = '<svg xmlns="http://www.w3.org/2000/svg">\n  <path/>\n</svg>\n'
+        expected = rasterize._validated_svg_text(source)
+        for newline in ("\n", "\r\n", "\r"):
+            with self.subTest(newline=repr(newline)):
+                path = self._write(source.replace("\n", newline))
+                self.assertEqual(expected, rasterize.load_svg(path))
 
     def test_load_svg_rejects_doctype_and_entity_declarations(self):
         for declaration in (

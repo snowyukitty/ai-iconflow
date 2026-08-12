@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "a0c81c968b3dd262472096aa15f5cd680e40036157e7508eb36eba9dd0135cd2",
-  "contract_sha256": "34be324fb0ff383ec9138bf6ac62ab2b4bd2d2e7b8266b25d01dff9beed664d8",
+  "source_sha256": "2c51dd3d28684ae1944d622f672cca4474a00df5fcb789a2839a652d9a8c0121",
+  "contract_sha256": "abe753db562b31a192ed060d0762e72e84f75dd60b752faeac8f44d6c5240bd3",
   "project": "Festival Lantern",
   "user_job": "mark a gathering place after dusk",
   "essence": "beacon",

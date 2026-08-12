@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "39dd14c83dd77a3394d4e2e6d5e3903c415db6b61cb38ccc9a9ed1681d9254fb",
-  "contract_sha256": "2dc2814f4bf1f0f438c4bb1306f126d76e628eac354f665194363ca1225c6a21",
+  "source_sha256": "4d09c9302ed35a3df8c855e5eade0d692d7c44538653c9a31839cc2c54b0030a",
+  "contract_sha256": "4532ce43e5382680b04ce6241421905bca6ed87e9ea5c745a07221255d522cbe",
   "project": "Sealed Relay",
   "user_job": "Exchange private messages and calls with trusted contacts.",
   "essence": "trust",

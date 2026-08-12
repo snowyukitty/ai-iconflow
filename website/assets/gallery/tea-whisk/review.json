@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "7fb9ffd9174ca24162af374850652c51aa0a5a1e8299aba988e64dddd889ec07",
-  "contract_sha256": "7a251e0d2423f7ed0f75ef81b501b06e28797ee4f6ccdd0868c53830df171860",
+  "source_sha256": "b6b0968bd24fbda61c96c9aee35008521057267de4eb757577389eb6481d4f89",
+  "contract_sha256": "de99ec31d28788ddb9ce1ef0382289a768f0caf241889af1a7106365d5e9333d",
   "project": "Tea Whisk",
   "user_job": "prepare a bowl of tea with a calm repeatable gesture",
   "essence": "presence",

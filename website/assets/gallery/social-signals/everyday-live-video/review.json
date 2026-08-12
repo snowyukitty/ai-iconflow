@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "909b9448245b1d2d0b61e76806a049a0f1ce74920e3f7ea28cbfb257bc550e19",
-  "contract_sha256": "9fd4e8ddb895cb1374cb5601319d52a540a6ed79fbdc00ff3bf5e1f4760ed907",
+  "source_sha256": "c06272b163a6e1005db084e06c9c02cd4d0896a3702937a83da1963c2833494c",
+  "contract_sha256": "8cc2573168d87d003aba13a6b8f979e45bea42130384838cdf63a7067cfc2363",
   "project": "Story Lantern",
   "user_job": "Share everyday short videos and live slices of ordinary life.",
   "essence": "presence",

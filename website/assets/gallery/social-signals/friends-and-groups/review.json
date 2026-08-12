@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "61c3bd1955b2f51d449e94259dc955c30485cddeb09ff5f162e583be20912d2c",
-  "contract_sha256": "cdcbc61dfe1b9cc91da4133dce5ddade7fb78c94b3ebd6d80aa183154f00cdb6",
+  "source_sha256": "dfe446720beff4b5207575c3fca57e6fffa6e1deb0a021e72526c46973b1a18d",
+  "contract_sha256": "9811f12b5d7f58e05909a87bd50b94926b784215ddfc6858fde908dfff3b65eb",
   "project": "Gathering Table",
   "user_job": "Keep up with friends and gather around shared groups.",
   "essence": "belonging",

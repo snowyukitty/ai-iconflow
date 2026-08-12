@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "12a26cc2ca4623c2ac68d91b00dd16cd1ea093bc96816beb13c3c99057726746",
-  "contract_sha256": "9ff767b162c09e4b44080d9406223d3342f2ca08d089b81f791b9e93b93eff90",
+  "source_sha256": "8ec0a5d98bc2088766b4558563598d7897067ce56d315358cafa18d41f4e50d3",
+  "contract_sha256": "8ae3e84b2476c3a53a2120f4a3d3ad775d8a421fb642f0c211f74d0d2e000f28",
   "project": "Tuning Machine",
   "user_job": "record a stable setup for an alternate instrument tuning",
   "essence": "tune",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "20d91b156feb494e8be2be87c2ebdf39c2bbe05ca098adc651e10fc606a6eda6",
-  "contract_sha256": "a9c096c4707bdeb362fcd31be3b41b155d5a8f41a90b02029b33e36013a2929f",
+  "source_sha256": "c70f2062d7a26fc0856f21c0aa3e46c1b766abc770db2b3b1179b763fa14a04f",
+  "contract_sha256": "8a61743a10140fd63f25cc160ed25555eacc06b7574a2c2379671f6c07b819a3",
   "project": "Dispatch Ticker",
   "user_job": "Follow and join fast public conversation about current events.",
   "essence": "current",

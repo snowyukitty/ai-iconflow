@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "10d9972138b38f17b5087c2b0eb26bba40c87f52443f481a6f5e4305e7dc740e",
-  "contract_sha256": "05c8d5392caf769a6206ac581e744b4e65e459cf3be0d6e7450458245cce1f0d",
+  "source_sha256": "ffda7d6e29d8243d12647aff5e07143ef756de360b7b4c50753b1686d6ea64cd",
+  "contract_sha256": "a497bf4573c7596eee40f898e120511c66fd408d76bf9615b797752dca55348b",
   "project": "Moka Pot",
   "user_job": "brew a small pot of coffee for the household",
   "essence": "warmth",

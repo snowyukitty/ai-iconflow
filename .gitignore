@@ -32,6 +32,7 @@ case-atlas.html
 
 # Published evidence belongs to the documentation package, not session scratch.
 !docs/assets/review-proof.png
+!website/assets/review-proof.png
 
 # Legacy root-level scratch masters and concept drafts.
 /master.svg

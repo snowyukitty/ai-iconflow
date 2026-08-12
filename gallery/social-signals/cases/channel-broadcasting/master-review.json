@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "ea3bd2eb854a238807e12a457e2d573044f6151add412b206e685815fd43ed8b",
-  "contract_sha256": "b79b6052db1bd5e4ace76b069af0c198ae4c7e9d9d0bacdff64c8e98cdec73e5",
+  "source_sha256": "70b3d3fef213cd93c88b96bbc9a75debae33fa9437e50eb29feee854fa42e387",
+  "contract_sha256": "292bed19571d3d32717e31928eac36df7ed222d572197d66981845546dd6f26c",
   "project": "Relay Mailbox",
   "user_job": "Broadcast durable updates to large subscribed channels.",
   "essence": "reach",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "005557de954e08e57ee703972e0098a6e78458a6d2ff9a82da14a6f4f343a13a",
-  "contract_sha256": "08efde7cd819085f0011bf719b01242ecb82568f1e858e48466fa1a3012cf23c",
+  "source_sha256": "75fb8e9a84c9e43fbcb58361a1537a00e1e7a1881be2343d2a5b29192b672bd1",
+  "contract_sha256": "085e70b6ca667394071641938803cfd894d45091fbbdeff8039791270c34d543",
   "project": "Accordion Bellows",
   "user_job": "mark where a phrase should expand and contract",
   "essence": "breathe",

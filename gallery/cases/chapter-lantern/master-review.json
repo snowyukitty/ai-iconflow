@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "72a21f6a9d806f109466d690d8001a0f5eb230db25fdaab96a5639c633bcf4d9",
-  "contract_sha256": "78ad24a1c1fd5cbe92f08cdd089bbb11d3f68f5e437b2d3681d3ce7c0b2fb26f",
+  "source_sha256": "81d03defa0c56b7023f0698dc1aaa5be7b69d7cbab8035976521598ebceaf579",
+  "contract_sha256": "b907d9d857a255934192d16ef3cbdfeb38164e36677620b2276e12a3d9c3f4e2",
   "project": "Chapter Lantern",
   "user_job": "resume an episodic story at the exact active thread",
   "essence": "continue",

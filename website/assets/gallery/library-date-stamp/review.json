@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "5ce8d4bea1c9b132aed36f0ab8829f3f80b1de4accc6816ba28b6f5390a5618e",
-  "contract_sha256": "5b6749565e7fe13e7afebcab4bad91058e342d4d47ee0fa893c8833f82e5de35",
+  "source_sha256": "389a087a80dab2cc288cdb37762d53db95013157d2977a846d3838b82358aadb",
+  "contract_sha256": "bcb058d6d53c9bc31543bc1407bd531c1a1b2b4c4348efb64df217bc5e0cb960",
   "project": "Library Date Stamp",
   "user_job": "circulate shared books through a visible borrowing ritual",
   "essence": "circulation",

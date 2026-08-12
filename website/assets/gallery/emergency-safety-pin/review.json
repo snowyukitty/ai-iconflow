@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "ee2d4e5d42c6a377b86fb99cd46ecd0a04f977c26b9aa1ed420f8f60819e00c5",
-  "contract_sha256": "25980584040dcc0b488fcc5b60e81693ce91027a1a101db277260d73bbaf2e69",
+  "source_sha256": "30f1bf7127dbd3042d6df927a1c67539a8711a1a26fdc7011a23c277744f3603",
+  "contract_sha256": "2b50906d2cab6363261b559342af741ff4c90119a5d63398d96af3073a8f810e",
   "project": "Emergency Safety Pin",
   "user_job": "make a temporary clothing repair away from home",
   "essence": "rescue",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "90f8d503d825fd5f2ec8ace3c80be2de348d3ce60d35cfa172796c83945ba665",
-  "contract_sha256": "fa7c5c0b137b84bb9f0005b55b956cfeea6474fe4dbe4001f8f949e7862de2c5",
+  "source_sha256": "0e8040f23ba49c8cf0660c1a8820f672cd9cec1ba1fc882261589080ae43c853",
+  "contract_sha256": "5fe35e6c172ff17215f23be6365f147220e3f87358823a12383c95291d462c46",
   "project": "Picnic Basket",
   "user_job": "organize food and cloth for a shared outdoor meal",
   "essence": "welcome",

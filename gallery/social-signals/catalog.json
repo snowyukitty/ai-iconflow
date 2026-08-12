@@ -11,7 +11,7 @@
   "admitted_count": 20,
   "rejected_count": 0,
   "style_count": 20,
-  "source_set_sha256": "d05ad71facd92b3b0d7b7ba70a082d8b013d92134c9bdd3f7e5b46d310ca6a3d",
+  "source_set_sha256": "c03448857300f868d762660609b01189762cf97d03cbb11c728b5a5896763e97",
   "cases": [
     {
       "number": 1,
@@ -30,8 +30,8 @@
         "Negative space: open place",
         "Material: hard shadow plane"
       ],
-      "source_sha256": "61c3bd1955b2f51d449e94259dc955c30485cddeb09ff5f162e583be20912d2c",
-      "contract_sha256": "cdcbc61dfe1b9cc91da4133dce5ddade7fb78c94b3ebd6d80aa183154f00cdb6",
+      "source_sha256": "dfe446720beff4b5207575c3fca57e6fffa6e1deb0a021e72526c46973b1a18d",
+      "contract_sha256": "9811f12b5d7f58e05909a87bd50b94926b784215ddfc6858fde908dfff3b65eb",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -66,8 +66,8 @@
         "Verb: cast a beam",
         "Silhouette: reel cheek"
       ],
-      "source_sha256": "d807f672d16acd6a8032eca6c2f5b5bc78979eb590937c81ac0e9213888d08c4",
-      "contract_sha256": "d631318c1c80a84bb04c5a95cd0599cc31a03f2d4f53565a230377cb4dca3021",
+      "source_sha256": "aceb9e709ec22469be5860e139a807181f2463a740daac56e2f559851f18114d",
+      "contract_sha256": "08a53c6df91228e831672957e839c42fdba689a3de95c62c0e7cfa593406cd0e",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -102,8 +102,8 @@
         "Verb: unfold a memory",
         "Negative space: page well"
       ],
-      "source_sha256": "cbbe975cd7d2599233a5042208e23517601c8b02df28d1717cc608620847d94c",
-      "contract_sha256": "4a52e1d3f49bababe562b4100d3762a4f73e4e4fd567f05c73f2d9f76c3ebf34",
+      "source_sha256": "0f10b2593764e64f1bdc8de69759b52d90acf065f65752e6850e259fea0bd3ab",
+      "contract_sha256": "700c21f66b8400db03c964c7fb1c822964d2ac31e6c8dc8a70c309bcebd6584d",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -138,8 +138,8 @@
         "Negative space: locked seam",
         "Material: leaded panes"
       ],
-      "source_sha256": "39dd14c83dd77a3394d4e2e6d5e3903c415db6b61cb38ccc9a9ed1681d9254fb",
-      "contract_sha256": "2dc2814f4bf1f0f438c4bb1306f126d76e628eac354f665194363ca1225c6a21",
+      "source_sha256": "4d09c9302ed35a3df8c855e5eade0d692d7c44538653c9a31839cc2c54b0030a",
+      "contract_sha256": "4532ce43e5382680b04ce6241421905bca6ed87e9ea5c745a07221255d522cbe",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -174,8 +174,8 @@
         "Rhythm: page cadence",
         "Silhouette: lifted page"
       ],
-      "source_sha256": "f311ed72a216b05b5a5becb02ae9f13afcd513f52c08f6d80b8ff7c16cb8d05b",
-      "contract_sha256": "378c490cb24c2470ea7e7713e6efa6b341d48b56a3dfa792f8b1cd0d8d2e5223",
+      "source_sha256": "b05a39ed3b9301bd92b1eb091f971544cd2e9bc569a2b8e74d7c4ec5962f834c",
+      "contract_sha256": "a56c23bcb6eb69a0241c140f083650bcbabe0f3b1986041fe99f05bcf7d7dbc4",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -210,8 +210,8 @@
         "Relationship: interlaced straps",
         "Verb: carry together"
       ],
-      "source_sha256": "3247b18043db7dd614b7ef7808802b31bdb216cb5f34957d3d46664c80c1656c",
-      "contract_sha256": "3ca9ee5f1aeb08f162eae1e6565c6f415eae7659ed59b2a72b0567930105d853",
+      "source_sha256": "8c7d15c0fe97355a7ecf53f5f95bdbaddd4452230e209a903cab646bc8f46dae",
+      "contract_sha256": "3c7e783005ee68fe2c73fc985248141b165f90f6a87915d932739d93fd6b1ca2",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -246,8 +246,8 @@
         "System: channel slot",
         "Material: two ink plates"
       ],
-      "source_sha256": "ea3bd2eb854a238807e12a457e2d573044f6151add412b206e685815fd43ed8b",
-      "contract_sha256": "b79b6052db1bd5e4ace76b069af0c198ae4c7e9d9d0bacdff64c8e98cdec73e5",
+      "source_sha256": "70b3d3fef213cd93c88b96bbc9a75debae33fa9437e50eb29feee854fa42e387",
+      "contract_sha256": "292bed19571d3d32717e31928eac36df7ed222d572197d66981845546dd6f26c",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -282,8 +282,8 @@
         "Grid: routed staircase",
         "Silhouette: keyed connector"
       ],
-      "source_sha256": "ac556e1717d5a509947a1291f33186338a9edd611a7e42adaf65f1fd24af752a",
-      "contract_sha256": "29a7989500c5f1eb39b672f78e63c26bcf50dc9fe46339954afe6ba7e4c85fb5",
+      "source_sha256": "fcf36f8ccd0875ac861d57bc54c2dd350ba4b3d2e9009b1dcf5aabbdc61533d5",
+      "contract_sha256": "6530c495cf78c766e6f66eb1aad810cb59308c0358b76ea202071888bbcab427",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -318,8 +318,8 @@
         "Negative space: falling bridge",
         "Silhouette: clipped corners"
       ],
-      "source_sha256": "367519a0c829532802cc1c7a1309de53f0c26220f2234e58f798c6c6187fbf8c",
-      "contract_sha256": "59519d039473f462e927f2e46700a8292712da31b5451c28356f42b188da18a7",
+      "source_sha256": "cdddbd49f56cda28f1619c5dcf5a71b338ac6eaea7c0eddc0b99e1d458e82c86",
+      "contract_sha256": "ef966e8b63dfa6fa5aa5b0a40259699edf6c0672cbf8cc88ea28426bb429ff65",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -354,8 +354,8 @@
         "Light: timing slit",
         "Silhouette: drum rim"
       ],
-      "source_sha256": "16d9fa1de4636f77f15307824aaa8aebbac1ee3473eca5059b61314105452f04",
-      "contract_sha256": "28a55508bf6b781bbbd47f3a9f5a8f72bf43170f3f08f59a0fed9558ffa6eec8",
+      "source_sha256": "45ed110b2f48b8812acba2cccdf62e0b2c38bbbbd9e3c3523c6caf17a577c92b",
+      "contract_sha256": "0765b8dfa32c33cf8bb37c2270073d47588267e6fb1e6fea934c3838ead3e9a2",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -390,8 +390,8 @@
         "Narrative: book-fold window",
         "Material: enamel boundary"
       ],
-      "source_sha256": "909b9448245b1d2d0b61e76806a049a0f1ce74920e3f7ea28cbfb257bc550e19",
-      "contract_sha256": "9fd4e8ddb895cb1374cb5601319d52a540a6ed79fbdc00ff3bf5e1f4760ed907",
+      "source_sha256": "c06272b163a6e1005db084e06c9c02cd4d0896a3702937a83da1963c2833494c",
+      "contract_sha256": "8cc2573168d87d003aba13a6b8f979e45bea42130384838cdf63a7067cfc2363",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -426,8 +426,8 @@
         "Verb: pull a thread",
         "Material: stopped chrome band"
       ],
-      "source_sha256": "2e1f9dcd2462fec3b7264ca4adc35f59c148d6c80d7e37a8a8563b3a9879ad8c",
-      "contract_sha256": "d19ae0d9d77c7cfe764df1206d72ac2f603a12c19435e79edcd4fd13a02e4e52",
+      "source_sha256": "80d5f9aa68996c759c67fc24b57b8a03dfec9427f03bf8df2e76bff52f83932b",
+      "contract_sha256": "14144f0f1cd8be9fa18d514cb5d5ba4cf171d839824778344940b37ea62dc1f7",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -462,8 +462,8 @@
         "System: crossing panes",
         "Silhouette: opaque spine"
       ],
-      "source_sha256": "20d91b156feb494e8be2be87c2ebdf39c2bbe05ca098adc651e10fc606a6eda6",
-      "contract_sha256": "a9c096c4707bdeb362fcd31be3b41b155d5a8f41a90b02029b33e36013a2929f",
+      "source_sha256": "c70f2062d7a26fc0856f21c0aa3e46c1b766abc770db2b3b1179b763fa14a04f",
+      "contract_sha256": "8a61743a10140fd63f25cc160ed25555eacc06b7574a2c2379671f6c07b819a3",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -498,8 +498,8 @@
         "Collection: fanned samples",
         "Material: binding gouge"
       ],
-      "source_sha256": "108279a9deb514447be3ef2bd1db87aba9174bc47efb5d0eff9dd892c60f9ec9",
-      "contract_sha256": "db28c89e92da01c91d69474a40b8c4adcdd34064f709963b1d7911d34e1db766",
+      "source_sha256": "935347a3dea51e7e1ab80c96a3553cf936f0285f13e7989b8a46ea87c718af51",
+      "contract_sha256": "c4250160d0037f0affb5eadef61e4c81f9f0e66702d44624efd26d8dc6da399e",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -534,8 +534,8 @@
         "Negative space: continuous credential cut",
         "Silhouette: tabbed cover"
       ],
-      "source_sha256": "328a94537fe21bd1a754795b4c58cd1a0b625373fc4ad932ce0c73c572f0dba8",
-      "contract_sha256": "9f0a506e61dc67e7b7860fd38df13d7838247791cf454fc30bc22f141bf8b365",
+      "source_sha256": "a91ee4c522fdb65c50eed8597564c85b300fc56c47942ed555d6fbf541b2094e",
+      "contract_sha256": "1beb8721fd4ba2faccf19ea87deba4b8b5539f5edd18ebb17400201a2c45f736",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -570,8 +570,8 @@
         "Relationship: shared channel",
         "Material: split plane"
       ],
-      "source_sha256": "43a5187cb77a72a6dce18edf115cce407af7463f8287ca1a5029d8de06263369",
-      "contract_sha256": "730f41b8a6e411ef41afa315561c7804250763997df5893eff4587ac912e7761",
+      "source_sha256": "54f9b4ca3aaf6a8be8e6d4542cec36c3fef156eb8268b157f98c0bc84fcce81f",
+      "contract_sha256": "f5b5bd1d4de0760b907d5a5abe56f90fe8daf0ac3914b0f1d4a4ab3bc41c4c0e",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -606,8 +606,8 @@
         "Negative space: shuttle notch",
         "Material: chunky clay"
       ],
-      "source_sha256": "0027b098b0329bc358179429cffe083624a0f7a07f9dbfb77d1bb622ac6c62db",
-      "contract_sha256": "02e3c04976046b51519f3b04a0d96609ac7642b7dafe543312f38c2d1580ca2f",
+      "source_sha256": "14eb92bf06e06b160cc431763209c873b4f35e8eadb00f450fd07874ec496ede",
+      "contract_sha256": "d02a1f04a09288fe9ec53027e87febf004ad03f36b4c4f8bb65a7c4306a6fa12",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -642,8 +642,8 @@
         "System: measured perforation",
         "Silhouette: folded spine"
       ],
-      "source_sha256": "f98c32b52fbf45a55e2b12759c8934b882773cbb8b1d16518da7b2837c129678",
-      "contract_sha256": "4754f0a633e2f75b8108949cf9365d26a68243dc05bb9d68756c45eda5dd6013",
+      "source_sha256": "5c5f6d67c825bded88a7a081edadcc1b6920020772181582e499a161f846112f",
+      "contract_sha256": "d52df5f1ae6e5bd8f3d9575d3c3fef69d9d938d3b7f3b09a42e4ed1df062c712",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -678,8 +678,8 @@
         "Verb: cue the audience",
         "Material: edge-open dry cut"
       ],
-      "source_sha256": "f56ed56daa86cccc972cc493f632ec355e8dba60013fdd75b0d5b4a0ee534de4",
-      "contract_sha256": "481ccdb5ab17a65d9f7273bc4ff6cb9410b4666b8de7643fb06263e38026f77b",
+      "source_sha256": "32d2f4bb516dfd455a904f42399ae3051cf39d5317ec635f1a3e6bc6fdf924b8",
+      "contract_sha256": "1d9b227fb95c4501a7259f73e2811a039b2020494be049eee7d91e33638f6dba",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -714,8 +714,8 @@
         "System: shared pivot",
         "Material: offset paper layers"
       ],
-      "source_sha256": "8e0333084a358634e14b64b8d73e1794507eee491b92a406811be089142a67ce",
-      "contract_sha256": "98b843f044c5ffcf914e94fd929c220eb3f61aa8398dcd947014c7b01aee8128",
+      "source_sha256": "3325d88ea30e631693e196f7b6bd16a89fa250b5125297bdda20c08544eac146",
+      "contract_sha256": "73372405e4da6050972a20ddb26f7514d25021f1e03b63d4d36e9bc9d5a54348",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,

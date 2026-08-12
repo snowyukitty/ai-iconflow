@@ -358,8 +358,8 @@
         "Negative-space lens: a narrow inner loop preserves the tactile opening.",
         "Motion lens: the strap bends like a carried loop rather than a static ring."
       ],
-      "source_sha256": "2f256e18467eba7a728e784895170b44f09e30a7f5ebbadb10c6d2fb5ffa2960",
-      "contract_sha256": "307b6907331f0446db55c0eac1bb2b728f7ecbf3d3d378631d5410b534a5d88b",
+      "source_sha256": "ada8f780bd75dbc3d142b5195edef26fa60d971461d52fcebfc64437b9b7726b",
+      "contract_sha256": "60c7ae3c1f90e8ec7c4a6eaf23054a687a51f59941e42a5326a57304f05042be",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -395,8 +395,8 @@
         "Material lens: one colored shard behaves like joined ceramic.",
         "Cliche-flip lens: imperfection, not polish, becomes the focal plane."
       ],
-      "source_sha256": "3c5ae6a64a51a2c5327674b55f059b9f730a7b9a245fea528fac4a34f839fb68",
-      "contract_sha256": "67b70835060008dcd3b127b67ec1ab8974abbf6a850fd76c19393e8ec11781bd",
+      "source_sha256": "98c9c4c267a22401afeb2044442a0d05b7a492d6f7794f99e5758eacc21ef9f9",
+      "contract_sha256": "3459c865f2523730a725663adb80a27e1db9493790979c93733a8f9243451226",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -432,8 +432,8 @@
         "Heritage lens: the worn tool feels inherited rather than newly purchased.",
         "Silhouette lens: mushroom cap and turned grip remain a single bold mass."
       ],
-      "source_sha256": "c57461899adc04c05445b0263661bd8af0687c44d7de071a90b6cc33630be696",
-      "contract_sha256": "9ffa31afb717171a61b798f838e6214f68d361a78ef582557afe845d20916473",
+      "source_sha256": "8c155f879cb10419f77140749e7f1ea755c038378528d261318893f2ea96411b",
+      "contract_sha256": "a43d01716249ae2d9acc042127686ef38a3d2b1cbfe7d535ec57414e4e4b7cd0",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -469,8 +469,8 @@
         "Material lens: broad cut channels replace fragile hairline bristles.",
         "Ritual lens: the binding collar marks the controlled grip zone."
       ],
-      "source_sha256": "7fb9ffd9174ca24162af374850652c51aa0a5a1e8299aba988e64dddd889ec07",
-      "contract_sha256": "7a251e0d2423f7ed0f75ef81b501b06e28797ee4f6ccdd0868c53830df171860",
+      "source_sha256": "b6b0968bd24fbda61c96c9aee35008521057267de4eb757577389eb6481d4f89",
+      "contract_sha256": "de99ec31d28788ddb9ce1ef0382289a768f0caf241889af1a7106365d5e9333d",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -506,8 +506,8 @@
         "Negative-space lens: the crescent vent is structural, not an overlay.",
         "Ritual lens: lid, belly, and foot create a deliberate start-stop object."
       ],
-      "source_sha256": "74e2e3a948de1f81da23ace55d9e1ec7fb5d21e9a1b4e67d6325ca484a210926",
-      "contract_sha256": "3bd5a49aa7512fb3f2b72569b591f273f34480da2c5e1f29c78d7e8cebfea36b",
+      "source_sha256": "debb409b72f66ab726b7b190ad7bb744128eea74432dad8828090e8ecc9aca50",
+      "contract_sha256": "be06029a3c3b95f12edf14db80d340ee77b480a3299b2ee9f20273cd26ce7180",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -543,8 +543,8 @@
         "Hardware lens: a hard pivot band distinguishes it from a ladle.",
         "Silhouette lens: the flared bell terminates an otherwise narrow tool."
       ],
-      "source_sha256": "222dd91a430681f71a8278e409aa79a0d5c89840a6cd06dce3e82a68925070c4",
-      "contract_sha256": "1a824b8dd6f588dd25048c98673e56b46d81a547032f009ca5b702dcb7270982",
+      "source_sha256": "85de46c3dac22f86a91a602910cb36ef9c6108b21134df48edd0d637320c6a9f",
+      "contract_sha256": "bc60e8cf8a2a832b079469b569b0c0ac68489a4cb4b77a6a08696588e3ab25bc",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -580,8 +580,8 @@
         "Motion lens: the low clapper shows a real swing rather than an alert dot.",
         "Silhouette lens: handle, shoulder, skirt, and clapper read in one vertical stack."
       ],
-      "source_sha256": "1f7515d4a1abedf03db48ba36ac3110da25d870a2d2e5bc023190419beba7ea6",
-      "contract_sha256": "a6b69f0a3179136d967f6b86028fe0eedf968ef3b97bc0d48d0ab62eb4de0888",
+      "source_sha256": "a1d9f8aea168b5cef100285171b2ed52ecc3bcc58fbd9e2a8472f12a767e265f",
+      "contract_sha256": "36947ce227538358418157ebf5f0221784120435b9b3d6506d838a9327091c14",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -617,8 +617,8 @@
         "Geometry lens: stacked facets separate boiler, basket, and chamber.",
         "Silhouette lens: the oversized side handle prevents a generic kettle reading."
       ],
-      "source_sha256": "10d9972138b38f17b5087c2b0eb26bba40c87f52443f481a6f5e4305e7dc740e",
-      "contract_sha256": "05c8d5392caf769a6206ac581e744b4e65e459cf3be0d6e7450458245cce1f0d",
+      "source_sha256": "ffda7d6e29d8243d12647aff5e07143ef756de360b7b4c50753b1686d6ea64cd",
+      "contract_sha256": "a497bf4573c7596eee40f898e120511c66fd408d76bf9615b797752dca55348b",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -654,8 +654,8 @@
         "Routine lens: the stacked form implies a prepared meal journey.",
         "Silhouette lens: tier breaks and the side rail avoid a plain canister."
       ],
-      "source_sha256": "51ff04dec370e375702382d6a39a5aaa79597a1d36e84559590c5eeaad04975a",
-      "contract_sha256": "7b96996d93888f5df08c422d63f5ee8b49e726ccac6fc48ecb02140ab4eeda6d",
+      "source_sha256": "d57e34ba58fbc19990737a3d62681d3415ba23a08e25c6a2b6a6d04c10cb1bab",
+      "contract_sha256": "765f1d23fc0df7d54c0e354f269a325661266821950a1937983b352d9534b038",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -691,8 +691,8 @@
         "Action lens: the broad rose signals gentle distribution instead of dumping.",
         "Silhouette lens: spout, body, and handle form a single readable machine."
       ],
-      "source_sha256": "abf9d0cb5ba9787be2ca9fc01588cd9d6729f7ff01d468ef12bcae6559c9ae1b",
-      "contract_sha256": "1d28c2eb8543c96f21a2051930af4eb34bd6a55a9222bf6237f71181f1d4fdbf",
+      "source_sha256": "c348323012c7bcbd36796210b3c1d8f825801551e1840d97dbfae1071ce1b7c3",
+      "contract_sha256": "9bc597c11d2c81e48b28ed034440774bdc7a941ec54155cadde0df7174caa8ff",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -728,8 +728,8 @@
         "Material lens: two broad weave bands survive small-size rendering.",
         "Asymmetry lens: the wrapped handle records repeated carrying."
       ],
-      "source_sha256": "90f8d503d825fd5f2ec8ace3c80be2de348d3ce60d35cfa172796c83945ba665",
-      "contract_sha256": "fa7c5c0b137b84bb9f0005b55b956cfeea6474fe4dbe4001f8f949e7862de2c5",
+      "source_sha256": "0e8040f23ba49c8cf0660c1a8820f672cd9cec1ba1fc882261589080ae43c853",
+      "contract_sha256": "5fe35e6c172ff17215f23be6365f147220e3f87358823a12383c95291d462c46",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -765,8 +765,8 @@
         "Routine lens: a single humble tool stands for repeated care work.",
         "Silhouette lens: the diagonal stance avoids a generic rectangle."
       ],
-      "source_sha256": "24d6a8f815bf477e6e0a1863e8daf5ba70981e4b9cf148588e2632556495a733",
-      "contract_sha256": "de4561abfcbd01f70702c7580a2106fa673cd2ea85dc80ba91bb80148a173663",
+      "source_sha256": "2ee4a44a11b3ca710ec87753fc6814ca923de152955a54c5209aa04c8bccf784",
+      "contract_sha256": "7423553929e9245a2034f684a460079327ebece35278d1f5080fada71059dee9",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -802,8 +802,8 @@
         "Line lens: one broad continuous stroke remains intact at sixteen pixels.",
         "Cliche-flip lens: repair is shown by the actual emergency tool."
       ],
-      "source_sha256": "ee2d4e5d42c6a377b86fb99cd46ecd0a04f977c26b9aa1ed420f8f60819e00c5",
-      "contract_sha256": "25980584040dcc0b488fcc5b60e81693ce91027a1a101db277260d73bbaf2e69",
+      "source_sha256": "30f1bf7127dbd3042d6df927a1c67539a8711a1a26fdc7011a23c277744f3603",
+      "contract_sha256": "2b50906d2cab6363261b559342af741ff4c90119a5d63398d96af3073a8f810e",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -839,8 +839,8 @@
         "Safety lens: the calyx replaces dangerous protruding needles.",
         "Silhouette lens: a low irregular fruit form avoids a generic red circle."
       ],
-      "source_sha256": "f92d36df3cf1fee202b8392fc03ba349d35d491626527d25c348cf1066a15e86",
-      "contract_sha256": "bfd9bad7e11a36b20630029b31e8785516d00689523367953076e937d1966adf",
+      "source_sha256": "a1943fb7655a24b43526d8cb243eacd840c9bbe8120e0415a363638bd77ad3ee",
+      "contract_sha256": "e46bc1255d0a6e53595684317f66272e5197fa4a6632761478bdd230a71bfb01",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -876,8 +876,8 @@
         "Process lens: vertical weight translates hand motion into continuous yarn.",
         "Silhouette lens: long shaft and centered whorl name a spindle, not a top."
       ],
-      "source_sha256": "f34c16f03614707ab46a2a340f0773d6d35c5f3dfdc9e4105706d6866b236ab1",
-      "contract_sha256": "6ee340779557e48582a9236e2c593a8e5505d430ffb3fde93cf106953a534a24",
+      "source_sha256": "a519c94b9211fda0f30de9c6ff68e5542c99a23d45bf5ec6b8e2b8177649d4b8",
+      "contract_sha256": "2cf58c8c9e63f394cf680fa4dd25ae6d44bf653a63162a65cd4ea024ed7898a7",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -913,8 +913,8 @@
         "Process lens: stored thread sits inside the carrier instead of crossing it.",
         "Silhouette lens: the long lens body stays unmistakable at thumbnail scale."
       ],
-      "source_sha256": "92d1fb5e6e6f2b3d74cb4b40f09b410e6bb494b08d2ea3441db84fc3afffa4a9",
-      "contract_sha256": "53b35b0575afc1b92d869d983da801e46fe8b7377b50bb0402dd4b4268d76a8e",
+      "source_sha256": "a44678784cd36b4cf2384b088934a6df66d8f4a3e8c50a59cc2c014a23647ceb",
+      "contract_sha256": "edd5200b41cbf5a55563208ff3e0ac589db88afcd07b425a1401881931d93f95",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -950,8 +950,8 @@
         "Animal lens: the working blades become a stork neck without adding a mascot face.",
         "Silhouette lens: two large loops and one long beak remain legible at sixteen pixels."
       ],
-      "source_sha256": "466110326e128aa42aac7ac9efa23943099c82d10811f0d9bfb7c02924cbaffb",
-      "contract_sha256": "4d4f8253d51a184372a3a25e3ece2ab3337828f893d3ea1fb878db52454cb137",
+      "source_sha256": "d2fec1ff6d528a4500316cdc74a2839fa39c34d318162d61f1908e23a0a0f8b2",
+      "contract_sha256": "6232a057bec52103038b14b23f9f35c532e63da239637598e604ee3bb9988f82",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -987,8 +987,8 @@
         "Community lens: one hand tool enables many repeat impressions.",
         "Silhouette lens: the T-shaped roller and low grip avoid a paintbrush reading."
       ],
-      "source_sha256": "86982700c584410d6fd3420ee578bbccc172256e06ce1c7107b1841f53f1fd2f",
-      "contract_sha256": "e37b8f88b4b8c374117123218bd9a5ee836bad0f9b8d9cf61229ae564051e52e",
+      "source_sha256": "377b851483ce4db41655bff44f2a2816414026eb3ac9822ff09cb3d1efec92f1",
+      "contract_sha256": "4f58fa43d113934fbe5a5a98fc8df465438780bcc94fa482f5f9d3765043b7c3",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1024,8 +1024,8 @@
         "Repair lens: the compact hand tool stands for adjustment rather than construction.",
         "Silhouette lens: the raised iron breaks the rectangular body decisively."
       ],
-      "source_sha256": "d8bae80e2b4a43f9896f4d5c67fad4b2651ef018e841a2a8e42d5eb0c5e1ae95",
-      "contract_sha256": "26c135d849ea8594c60a204b8c75cc577ec5e30988510c70b1aa424b65661a94",
+      "source_sha256": "77491192fdfdfa1e04db328a604ab96b884a778b6d54931d6c0ed9e890c32f61",
+      "contract_sha256": "c1b1060e0d9a42ce49a703f6a618cb761197aa61278be30b294a9c372d7941c7",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1061,8 +1061,8 @@
         "Pixel lens: thick orthogonal joints carry the style without fragile ticks.",
         "Silhouette lens: three angled limbs identify the folding mechanism."
       ],
-      "source_sha256": "8bba85175979c263a4a8e991526a61a735ef934c0e12ab004024e0114a20da68",
-      "contract_sha256": "6551b43400666cbf4d6fa30858457e21f39aa40191778290095b3ac13d027995",
+      "source_sha256": "bae7ba3486da8a141068f2a8af2362d507bce267437aeb23143835a1915d8f46",
+      "contract_sha256": "b2b73fdc3c43d47461400f69a1db444ac92033d6d96f45c9ee93772a4caa3921",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1098,8 +1098,8 @@
         "Heritage lens: the form recalls repair before cordless tools.",
         "Silhouette lens: the deep open crank prevents a generic drill reading."
       ],
-      "source_sha256": "00dd007565aef645a74e3fc2d1348931fb34d2e5cf4327d52f20f1975e573e7d",
-      "contract_sha256": "725c5e36d3b001bc9b54db63ceb8178a1e8a02fcbccf4af7f6ba9b18c81aad45",
+      "source_sha256": "4ca04b1943f7b14784658014a22c18b38de39da82228f36288f46e75dd2d6c2d",
+      "contract_sha256": "2af974791e094a58b142caba3732da2346f690706cba0a22e1023e06402c13ba",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1135,8 +1135,8 @@
         "Sensory lens: broad rounded masses suggest weight and grinding.",
         "Silhouette lens: bowl foot and angled pestle name the pair without loose ingredients."
       ],
-      "source_sha256": "2a92c525850fce7588ab7894dfd6bbe168d6aded91262d1a683c720d3ae1b86b",
-      "contract_sha256": "ca135956d005dc58f3858f7c1e209379eff49025115e97e8f617661032fc037f",
+      "source_sha256": "340fc8b5343056354c691c099dbfff4df5de6a01b20d1d06a8fc348df46da4c1",
+      "contract_sha256": "82ed2dc6075e0f93a91a328b5c0e5ed8afcba2b536306254ba7097d799814254",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1172,8 +1172,8 @@
         "Negative-space lens: one grain-shaped opening names the food indirectly.",
         "Silhouette lens: the paddle head stays wider and flatter than a spoon."
       ],
-      "source_sha256": "61b718b742eb9fdc0e3532e136e3105a946c2be8859c9e3741c9b781c203fb24",
-      "contract_sha256": "bf61e24c66f9fe310427b5c61b16e872b66529807f5f93e6be3357c2718b42d7",
+      "source_sha256": "194484e78caaf55dc4c1d0c006ba1143a245ca69de62a99c19651b47a48c3b1f",
+      "contract_sha256": "1ba7f214756c13d84266fba29350d44d9355b0105a113381763741043e778ca8",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1209,8 +1209,8 @@
         "Action lens: the diagonal stance suggests pressure across dough.",
         "Silhouette lens: the unequal grips keep the roller from becoming a dumbbell."
       ],
-      "source_sha256": "35fb0864c61faf3a5bcd258ecf120c5772591c9900735c9d5bfb02e8b7fbd1da",
-      "contract_sha256": "7156fab8ca19c2c266ed154a83495a216553ba5e039bd6cec0a91b1422739cd8",
+      "source_sha256": "0b4b788252f1802869bcb6e3aaf666b3156451222591df8e517738cbac7b4a3d",
+      "contract_sha256": "cc0fdce423447b8d4fa7d3adf16551a972a142868bf5dd1239f1afe702ffabe0",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1246,8 +1246,8 @@
         "Light lens: the open gate shows contained light without an external glow halo.",
         "Silhouette lens: compressed top and bottom caps preserve the lantern profile."
       ],
-      "source_sha256": "a0c81c968b3dd262472096aa15f5cd680e40036157e7508eb36eba9dd0135cd2",
-      "contract_sha256": "34be324fb0ff383ec9138bf6ac62ab2b4bd2d2e7b8266b25d01dff9beed664d8",
+      "source_sha256": "2c51dd3d28684ae1944d622f672cca4474a00df5fcb789a2839a652d9a8c0121",
+      "contract_sha256": "abe753db562b31a192ed060d0762e72e84f75dd60b752faeac8f44d6c5240bd3",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1283,8 +1283,8 @@
         "Structure lens: three large panes replace decorative micro-patterns.",
         "Asymmetry lens: one colored leaf makes the practiced opening memorable."
       ],
-      "source_sha256": "174f95e988183fbdcaabe141210d64abaaf1d0ff1ffc35c5dc9f826e79b7be68",
-      "contract_sha256": "1fa020b96c9fa92ad1aa3068d319d5b953cb6726c151a120835e243caf0cfbda",
+      "source_sha256": "7c9a232b7da68fec3c3445b5bc7a4dfc0cb025127d4121bffb9acb0d30179fd1",
+      "contract_sha256": "9b6b027f6b17f2248313db9697438840f3de922585665ebcdb30132656632b10",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1320,8 +1320,8 @@
         "Motion lens: the long curved base implies a slow repeated rock.",
         "Silhouette lens: tall ends keep the bed from reading as a boat."
       ],
-      "source_sha256": "d8146d9080fde70111fb9d54ea9283879adbf89119f108d6a55f6f58fe47e0bf",
-      "contract_sha256": "2bce686fea78198909fd3197b9e39ece225178dc42813331985e529953dedf99",
+      "source_sha256": "f4f536c95e39f464eb2a87e90659107d427cf1bffa8d39a234e1acd651b4bf52",
+      "contract_sha256": "50dfcc804cbd66b7b22b7dd8eafe2d364a96168e7f52040238352ed8e59a1691",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1357,8 +1357,8 @@
         "Asymmetry lens: one displaced panel implies accommodating another person.",
         "Silhouette lens: dome, shaft, and hook stay connected and immediately nameable."
       ],
-      "source_sha256": "dee5cb7c12d1e3b99d099a4c3a7c7756b73cf2a05541dbf61c676bba97ec1c16",
-      "contract_sha256": "c431e2267717c551e6f2ab556d21c479e4130dc9d5dcaabe01825b227d369d2d",
+      "source_sha256": "18085cd40dce53dd5ba1a63c46ca75063e9bb3507878a7ca137aa0801d720c13",
+      "contract_sha256": "be9c4900ec8de4070087816113a7b8ad8903f92aca214c228cef4a65d1dfb64b",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1394,8 +1394,8 @@
         "Hardware lens: the hinged jaw shows a working object, not jewelry.",
         "Silhouette lens: mount, neck, and heavy loop form a recognizable vertical tool."
       ],
-      "source_sha256": "ad5a6c4baab97f9aa877ee5d17040f7e88310fde3174bef9d07615ac977d3c0c",
-      "contract_sha256": "cb3f262a75d108c98f02bcd2d81364cf25c99746f53f1cd507ca853240e49619",
+      "source_sha256": "c5f12d988f35defa0dd5458b0d17f74020d739f1ac0aed84026ca4628fc624b8",
+      "contract_sha256": "66e75ca3a48ce56d4dae310e17e186e9d5332a7f8c557e18750e637bd7dce2e6",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -1431,8 +1431,8 @@
         "Process lens: the colored base is the surface that transfers the mark.",
         "Silhouette lens: bulb, neck, shoulder, and foot avoid a generic pedestal."
       ],
-      "source_sha256": "5ce8d4bea1c9b132aed36f0ab8829f3f80b1de4accc6816ba28b6f5390a5618e",
-      "contract_sha256": "5b6749565e7fe13e7afebcab4bad91058e342d4d47ee0fa893c8833f82e5de35",
+      "source_sha256": "389a087a80dab2cc288cdb37762d53db95013157d2977a846d3838b82358aadb",
+      "contract_sha256": "bcb058d6d53c9bc31543bc1407bd531c1a1b2b4c4348efb64df217bc5e0cb960",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2541,8 +2541,8 @@
         "System lens — staggered rails encode turn order without numbers.",
         "Negative-space lens — the frame notch becomes the current-turn bay."
       ],
-      "source_sha256": "696e25739676394eaff6469ca920a76ce975fa076870934aaf8a16e16e96489f",
-      "contract_sha256": "3fd6d3f657703a821585c954b3ba39dbd2b3f1a09509d36eef0c4d83e7a0768e",
+      "source_sha256": "fefa1467263beec44632c8826928fa183e1ef4ddfb0cdf274c0d01bb3383e477",
+      "contract_sha256": "5a78998d9ab1ffc864770ef3dfd744f560ca6b53c7a9a98e5e3e8cff9f792d79",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2578,8 +2578,8 @@
         "Metaphor lens — a coral route becomes the folio's structural spine.",
         "Negative-space lens — unequal page tops prevent the object becoming a cube."
       ],
-      "source_sha256": "324e547e813c48a0e5d9d145875ce9d5f9b6b21ac23e59701aa42b81315d640d",
-      "contract_sha256": "eb97156e2ef37f7d9e9a6e6ab792b5738ae16e72b26d544f77484eb617ebcdac",
+      "source_sha256": "f1015edb6259c0c5f4732c52085d91a5d7a5b447f13667a4818d966332ea1aec",
+      "contract_sha256": "f35bdd97fdf567b57979164b4d26f9223caea6c4a553482fcba438805ce41ac5",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2615,8 +2615,8 @@
         "Metaphor lens — a relay baton is fused into the cartridge lock.",
         "Negative-space lens — the complete handoff path is cut through one plate."
       ],
-      "source_sha256": "da932e486ceb197a47ffd37d921871cff49bdb89b0540c6b1f6447d8daadb8de",
-      "contract_sha256": "28117c93d4d1953f7f5da3b7dedad3f4099af5437e237ef507ecb5b428d26096",
+      "source_sha256": "68dd34f8ac79cdfc98a4e3da161eb36f23af428bb14d7eef8a82e6b23aebc8d4",
+      "contract_sha256": "8888f6b1a5c00f1d55db8ded1c0ab6887928f9f13714cab8924b57f6d50fba74",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2652,8 +2652,8 @@
         "Crop lens — only armor and mount are shown, never a whole robot.",
         "Negative-space lens — the hardpoint is removed from the outer armor edge."
       ],
-      "source_sha256": "474dbd6fc44e2787a83be52bba2d5fa567f4f4eb0673ef1e4ccdc20e8e74d00f",
-      "contract_sha256": "9c0307b94c73bf22a7dad382b404a8274389f9f59213b6f440641863006261af",
+      "source_sha256": "b398002a47538a23a14843884739be86640bae009f2cca3cdb853d9d1be04eaa",
+      "contract_sha256": "79ada4ec57558856836827cd70a1c1fba619abcc54dfb461645c8e2e6dd2ca1e",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2689,8 +2689,8 @@
         "Metaphor lens — layered paper behaves like stacked journeys.",
         "Negative-space lens — the flap fold becomes an open route notch."
       ],
-      "source_sha256": "e745811c5e03e525795958f2572d86f4461b38879fd1d010757ab4e4247344b4",
-      "contract_sha256": "e1c7c74b9da428ab33d69ba18b56fb3309df97fe4585a4527242786ad965db98",
+      "source_sha256": "1095045233fc5b32fca778d6d55af54e740aa722e891f02bb09caa33afabb605",
+      "contract_sha256": "50562c29364e41dcc04349cc0467fa5583f844cf882e733a61bbb688726820a1",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2726,8 +2726,8 @@
         "Metaphor lens — a carved print block reveals only the opened passage.",
         "Negative-space lens — the route is the single edge-open gap beneath the gate."
       ],
-      "source_sha256": "89c9266b4835024da4005b93a9dac57db94885839536d2e336b904af93718319",
-      "contract_sha256": "ad41d1b7e633738c13f1a4f8e37c4a23c2e62c67576599aa44dc31c3402e1850",
+      "source_sha256": "6e0462659df6d2b70baa6ceb758c1c8c6fde97afe827e56299ecb9858e6b08f1",
+      "contract_sha256": "04c3b729131bd4d541c1c6b5bb4be789814a093d8b4aca5894f0ba66d35349ac",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2763,8 +2763,8 @@
         "Metaphor lens — readiness is shared shelter around one burner.",
         "System lens — three panels join one solid support ring without floating parts."
       ],
-      "source_sha256": "95d9f63064e998dec84aa98b379bab3c94bbf7032438ea0e766761db5b2ce6d9",
-      "contract_sha256": "fbb95c3ae3a59a08c0690cca89082d66105b025296169c28bb887db1900be847",
+      "source_sha256": "222c33064ffc6edf6b9433ab9678f82f9d35bf390f6512e7a796319bad2fd8c9",
+      "contract_sha256": "e246694ceea20d9cdf44e53ee463afa6457804f63e2f430b2a34fa9e4089dea8",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2800,8 +2800,8 @@
         "Metaphor lens — carried light stands for remembered narrative context.",
         "Negative-space lens — the vent is also a broad page-corner fold."
       ],
-      "source_sha256": "72a21f6a9d806f109466d690d8001a0f5eb230db25fdaab96a5639c633bcf4d9",
-      "contract_sha256": "78ad24a1c1fd5cbe92f08cdd089bbb11d3f68f5e437b2d3681d3ce7c0b2fb26f",
+      "source_sha256": "81d03defa0c56b7023f0698dc1aaa5be7b69d7cbab8035976521598ebceaf579",
+      "contract_sha256": "b907d9d857a255934192d16ef3cbdfeb38164e36677620b2276e12a3d9c3f4e2",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2837,8 +2837,8 @@
         "Metaphor lens — a dispatch physically carries anticipation.",
         "Negative-space lens — one edge-open dry cut separates wing from bag."
       ],
-      "source_sha256": "8c6f3d42055c369743ff950badee96187fa8874a963e33f4dc87220b6c937362",
-      "contract_sha256": "fabe7292af505bb5fda9e6f587b4547f80addb8f9d44887a2710598292e709dc",
+      "source_sha256": "776f30ef0e4b3fb0e930a80c8f45c948fcae1d2c5a0ed4ffe33c3e65bc8c3728",
+      "contract_sha256": "f9c14b12d00ce65db7d4f9e81db1436416392169a5dd5a3d1eac67d718181985",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2874,8 +2874,8 @@
         "Metaphor lens — colored panes are chapters of the journey.",
         "Negative-space lens — a missing pane becomes the forward opening."
       ],
-      "source_sha256": "3a7507de8361264ab544dafba10837be101c5e9f5d1c48fd33bb8188d7c211dc",
-      "contract_sha256": "e7351e323b9b50d96b6076371e5b953760317d237e5d025c7227493c7f3c08d4",
+      "source_sha256": "c691c472d48509211a01baf83d1b315eeba9be09e779df7f8fb71cc834a0ceb5",
+      "contract_sha256": "9c4aa1b09427867ab247a55c517556efc6bded57cfa70a5c482d820f78528fc8",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2911,8 +2911,8 @@
         "System lens — unequal food bays create a mechanical sequence without numerals.",
         "Negative-space lens — the cross divider is the stable lunch-box skeleton."
       ],
-      "source_sha256": "0978742a55be534955c7e1c339bbe744bd0efa9402320335c4f5ff97d994c6b9",
-      "contract_sha256": "869d38b38d945516f5e213223f1ed055a2eb5beb84cde0bbeb2fc07d240ffc17",
+      "source_sha256": "63d4a11f190ae6aaed98c1364b3c97dacd306872e180da778a1c93fadf6a96df",
+      "contract_sha256": "9e9ea5f4be0ba42b203e096e9e1c2c5aafb66d446313666859b2699564f2de51",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2948,8 +2948,8 @@
         "Metaphor lens — misregistration belongs only to unreliable testimony.",
         "Negative-space lens — the pulled drawer leaves one broad side gap."
       ],
-      "source_sha256": "f01a59a443f87a3991dcc2198385093c4166452e8dcb5ac444b52581e44c814f",
-      "contract_sha256": "830e4af7969c05dd96f3f0234ff9ebd79a6b7568cbea8d0ff9fe5dcecac5c99c",
+      "source_sha256": "9ed57aad7ad3a2a86af6a47117f4f5cc0ca8e30872bd95740e834a7b6522d57b",
+      "contract_sha256": "ea156746b623af17fc9d0214359e2a31f7039d997af9e83d293190378945a88c",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -2985,8 +2985,8 @@
         "Metaphor lens — the side pouch carries preparation as visible weight.",
         "Negative-space lens — one broad under-seat counter names the girth opening."
       ],
-      "source_sha256": "749a0e2a86e9a9fa5d2a9f3fc217be7a2be71389462774e855131aba2da9da7b",
-      "contract_sha256": "d9cfca9b2751f2ee7c58a513ce00e1d1073355670b8b5652f8a134315e82935b",
+      "source_sha256": "ec52c4a54d4b38c2021877c858e6362f758302f8ef78488acbe04af643a9459f",
+      "contract_sha256": "7fdcc5c2d9ad40f46ba00157e62adf0b8e3d4eaadf72a5458fec625b25962e03",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3022,8 +3022,8 @@
         "Metaphor lens — pressure-changing brush mass becomes tempo weight.",
         "Negative-space lens — the pendulum track is a single broad gouge."
       ],
-      "source_sha256": "c11b6c5c41ac7983f62b3fe88a30092004e4b39e1ef10e3f67dfd68e55140d3b",
-      "contract_sha256": "0277c39e21d9b513b3124d80595215017a94ba38658cd335217b64b8c27909b1",
+      "source_sha256": "941fa8bb63db9c83ce9951cf58736e8d7a5a5a6d426f7a2fb2627081ade23134",
+      "contract_sha256": "c0d0866e221f7cea82263885bfb1b68da61cd9aac9b03e93eae1479f46a7029d",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3059,8 +3059,8 @@
         "Metaphor lens — the sound hole becomes a practice loop window.",
         "Negative-space lens — broad carved breaks separate only essential tines."
       ],
-      "source_sha256": "f0508c09b86085a0832fd7dbabccbf418c6fd1178f61c5e1d933e4244334c69a",
-      "contract_sha256": "6910089a6d19f8d93ced5d42ba8dfcaa57c564b387d9a0dc7fe22b7c4207ab82",
+      "source_sha256": "258889b34e3df1221b0d0039ff051a57ce74b4a708ceaf56d6328a957e6ef56a",
+      "contract_sha256": "a0649eb163efdd2988493dece6b97ee52726c96a8d041847fba3ff882065b717",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3096,8 +3096,8 @@
         "Metaphor lens — stained panes act as visible air chambers.",
         "System lens — heavy leading preserves the alternating contraction rhythm."
       ],
-      "source_sha256": "005557de954e08e57ee703972e0098a6e78458a6d2ff9a82da14a6f4f343a13a",
-      "contract_sha256": "08efde7cd819085f0011bf719b01242ecb82568f1e858e48466fa1a3012cf23c",
+      "source_sha256": "75fb8e9a84c9e43fbcb58361a1537a00e1e7a1881be2343d2a5b29192b672bd1",
+      "contract_sha256": "085e70b6ca667394071641938803cfd894d45091fbbdeff8039791270c34d543",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3133,8 +3133,8 @@
         "Metaphor lens — spot-color offset represents an unfamiliar sound arriving.",
         "Negative-space lens — the notch is the discovery window."
       ],
-      "source_sha256": "b0206c93f71d4a6ac077a0439c1bb6d6bff5866537282f59b5f9d2f2f5e3bda3",
-      "contract_sha256": "2df5a1ab7dd31cebdc50a738ae76e554e096544ba7d309d5baedc77ae306bb11",
+      "source_sha256": "3e13944d4b201d675e6fd0cfdc9c23f9c6d91b032e7b732117efd26c1a122aa6",
+      "contract_sha256": "ce8b3194152bcf855423cbd849b19af07b493c510c0e1aa5d9c48ab813f54cf8",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3170,8 +3170,8 @@
         "Metaphor lens — sparse construction guides become calibration memory.",
         "Negative-space lens — the string channel is punched through the post."
       ],
-      "source_sha256": "12a26cc2ca4623c2ac68d91b00dd16cd1ea093bc96816beb13c3c99057726746",
-      "contract_sha256": "9ff767b162c09e4b44080d9406223d3342f2ca08d089b81f791b9e93b93eff90",
+      "source_sha256": "8ec0a5d98bc2088766b4558563598d7897067ce56d315358cafa18d41f4e50d3",
+      "contract_sha256": "8ae3e84b2476c3a53a2120f4a3d3ad775d8a421fb642f0c211f74d0d2e000f28",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3207,8 +3207,8 @@
         "Metaphor lens — broad planes are beats of blocking rather than decoration.",
         "Negative-space lens — the dropped leaf opens a cue notch in the rim."
       ],
-      "source_sha256": "2315701620aff4393bcb4bb0a9cfbaa3f6c95bd7d30d2383332529a4528b1f56",
-      "contract_sha256": "1c6269a93c20f2b52c469d1be4bda88ae741e7c569d0c5711c312fcc5875b986",
+      "source_sha256": "50a3567efd588140821191fffcca9ea5cf4508ff7190ba93fecf19347f3a6cc4",
+      "contract_sha256": "1532b6cfa4fb76ad7cf75e55f57d48f5583a7afc40b24d36b2f341c18e8a2fec",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3244,8 +3244,8 @@
         "Metaphor lens — woven topology makes coordination inspectable.",
         "Negative-space lens — the central grip remains one large open counter."
       ],
-      "source_sha256": "ef724641fc9e065c45e3c54fc4a6023a69763d3539689ec0f81bb68088af47e0",
-      "contract_sha256": "6613cb3f365d08a6c1af20560796c5e8e4398cdb1ee2f6e7712ee707e9387895",
+      "source_sha256": "568c5bcff51f15de308f2de11a07b9c055cdd72fc55383ea49bdbd1d8509f89e",
+      "contract_sha256": "27c425556c7e91f68df97a5c75f2977122f27651ba459e5400674c588559035e",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3281,8 +3281,8 @@
         "Metaphor lens — restrained inner light carries permission to enter.",
         "Negative-space lens — the open side defines direction without an arrow."
       ],
-      "source_sha256": "2f3ce8ec1878f8af054336a40d772f37f491e752cc212ff0fe53c9a9cb75ca3e",
-      "contract_sha256": "55cf3ffb722837c20e3a5675565ab2d778163cd8fa23180ce22fa569d4c98cab",
+      "source_sha256": "35fddab67e436491e01d70b4efd12c32da688f1f0beb80695bd13cd6d8004406",
+      "contract_sha256": "16b564bcc8ad659fca817794625db3c8dacd4ebd6bdef345d65a5f54120da6a5",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3318,8 +3318,8 @@
         "Metaphor lens — inset color compartments are prepared roles.",
         "Negative-space lens — the opened corner changes the outer trunk contour."
       ],
-      "source_sha256": "e4522e690d1295d05255e5bb9ce940f56e9100610c854695a7e65c15d3e2ca18",
-      "contract_sha256": "fb9bd648b6d851e2222b58e837eac31367c5fde16b841eb8780dce38adb2c8da",
+      "source_sha256": "81d6c2ec6d676971d482deaa8a3e43b84d063444d25fccfd3305517a52aeb226",
+      "contract_sha256": "da589e5ccd8af714f0c188e1c6f53347ce385ad84df679145d301534aaec1a48",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3355,8 +3355,8 @@
         "Metaphor lens — one closed loop means anchored and heard.",
         "Negative-space lens — the body opening remains the status counter."
       ],
-      "source_sha256": "9d7df5141bfda86eb8a54ed5ed2ce08e4ab0c7097d0bbddedc08c1652ca6acb5",
-      "contract_sha256": "59096bdd147b674ff8f555a86a425cd5b360bc62116baee5cb9abda484532b2a",
+      "source_sha256": "4c5ec683c96ce90d37455ee227b8d60e7e767d3eb94e5dd604cff41691f69596",
+      "contract_sha256": "f91b5fe392fda575a9d112b51b5175d90e06a39c7a12b290951e5b540a275a0f",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3392,8 +3392,8 @@
         "Metaphor lens — transparency exposes deployment overlap.",
         "System lens — both panels visibly connect to one solid spine."
       ],
-      "source_sha256": "0c492044b693a82d2009376107159cf93ad040d047df922b23e68f75da8fd314",
-      "contract_sha256": "0d05e10713b8a3c2823835441392d47cdacc907ba2279761cabca0ec4010ecdc",
+      "source_sha256": "3d3ac0f6d7bac5db3a8338cd7bae9c17a8daf95084dc76067405d3b15e0315f8",
+      "contract_sha256": "21dca3247ca974d74b0a9f0057c5fc0ee590e341f9bc7d71dee2ddfff3aeb7c5",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3429,8 +3429,8 @@
         "Metaphor lens — the value split is protected versus exposed state.",
         "Negative-space lens — a broad rectangular window replaces the stock aperture flower."
       ],
-      "source_sha256": "705593818de49cf5017c664248ff0675402bcc2c2d2b9580d9311742bc8edf4b",
-      "contract_sha256": "a08bed690a514513ecd2455b4f4e0f05a6dbef7a85c9bf70c4c41bb661cab3b7",
+      "source_sha256": "3a674706b7c48345f7ef44838acf2249589b9281f9a5fb49a5c8ae31919e0730",
+      "contract_sha256": "fcde3298e2b01e4737db26dd7c37806f5ef62b241dcef96e6be8bad68f9f5bfc",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3466,8 +3466,8 @@
         "Metaphor lens — a black-white window is memory without motion.",
         "Negative-space lens — the clip jaw removes a two-pixel bite from the edge."
       ],
-      "source_sha256": "23b8cb7515e876380929ee29359c0a68064634ec01344e281e7aa9857c25cbf9",
-      "contract_sha256": "da03fd0fe58fa16ef3be15ee8303f6e44a89ec4e5d05490a86965caa5ab197ca",
+      "source_sha256": "6e5de6519547ec08ba07fd6b54ad1f98fd57bea79c2073fd204bb81836d68add",
+      "contract_sha256": "a3daf783b9f2815e9d8ba77a6f52d64b21dcc241a9236dd1d169cb7c6bfde6d5",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3503,8 +3503,8 @@
         "Metaphor lens — hard reflections make archival custody feel physical.",
         "Negative-space lens — the tab is an edge-open notch, not a badge."
       ],
-      "source_sha256": "1a303100a512ed7e0597ef9b3fecc6bb9d169dfe421ad94eca58bf8ac89ee1c5",
-      "contract_sha256": "0616468c45eeaa1863ac74b633a1d1e09bfafc58a1358e08cb73974c8a57ea4a",
+      "source_sha256": "e8dcd2be50dcaf2a4cdbeade185dae36ea580b7d8a13e9e8bc324fcfe47fe9c3",
+      "contract_sha256": "356eb910badcd6dc19fbc0be5831e5be33f289f29c76c859562f5561e9a49714",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3540,8 +3540,8 @@
         "Metaphor lens — the wound coil represents a repeatable joining process.",
         "Negative-space lens — the keeper is removed from the flange edge."
       ],
-      "source_sha256": "3dd14ab8471ba974755733e275f49f2e8a772e3a16529ee3c551cc282779629f",
-      "contract_sha256": "2ddef05430b68a11055d88deb5e021f8ba0a3d6586fec19aab414011944cc258",
+      "source_sha256": "8aea759883ce2901ee0958eb05eaf2bb11a104e6c39b28e876b8c6749a8087d1",
+      "contract_sha256": "175ebd0604328ff3e23d075a4d2d85d97a9900ae7299ed290b4d1055327f5f46",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3577,8 +3577,8 @@
         "Metaphor lens — the handle is the release handoff, not an approval checkmark.",
         "Negative-space lens — broad diagonal brace cuts and handle counter belong to one plate."
       ],
-      "source_sha256": "6b90e49422f8c75a4f08dcd9b015705967cbee77c5ba17d2faff8e92848c6d34",
-      "contract_sha256": "37191487d742aaaa7e6bb5b90b6b30c881951be80e3385ce82560bcb8d26e6b3",
+      "source_sha256": "4b42e36e40aa233ed693ed4780e71bb00060469850aa24b29aabd1581d464d30",
+      "contract_sha256": "bb2fff0ff45474824926e8c96cc29488f0a614047e94964944670aa9647d4cf6",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3614,8 +3614,8 @@
         "Metaphor lens — the proof block is the handoff from matter to model.",
         "System lens — sparse guides show alignment but never carry the noun."
       ],
-      "source_sha256": "67e5a92445de024b15d24fac1f5dc826a718532e1ab4766083857d1d05ceefe3",
-      "contract_sha256": "c89ab287d31786de3975efe092f4f80567c59d95457c9af64c30ee38883afbf2",
+      "source_sha256": "5aeda629568efc7d20882f26f43b52d6a13c50b4b17b629fc84531149c050f2c",
+      "contract_sha256": "53ed2b43e5e57ad04369fa0304017f516b497862c49ef10aca31186122f47f18",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3651,8 +3651,8 @@
         "Metaphor lens — a manifold makes tool routing physical.",
         "Negative-space lens — socket keys are broad cuts inside one bay plate."
       ],
-      "source_sha256": "e268d2d17f5d7baae7679e4c6dfcefc831de75117085952f99e7d4ec279712aa",
-      "contract_sha256": "68b3456ca2592daa1c045ebac3f749255be2bea846e95c8bb176e5d0c9c4336c",
+      "source_sha256": "02ebfa45a755ae3eef881ad6d2309fa50a5caa03190beb57ac369258ab42c17c",
+      "contract_sha256": "63b2acec3450b8eb519a253efff4c8e0337f41d830908be41461920f1cffcec5",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,
@@ -3688,8 +3688,8 @@
         "Metaphor lens — explicit faces show controlled mechanical grip.",
         "Negative-space lens — one shortened jaw becomes the release bay."
       ],
-      "source_sha256": "c6d9fec6fb3f384d2e4a4bb41340e057816a97548944c400fdef713d5a6dc1f9",
-      "contract_sha256": "f882ed466ef42b14fd617e5c0798f9512e3a3dd8eebd79a07c1f17b73dd6e3ce",
+      "source_sha256": "2b412404ad77c36261ea2725a67634aefa4ea74f9bb1110d0dcd1913b86cd5e5",
+      "contract_sha256": "2de3d403671ce9d33966b4c5dac13f06a1b90908c59784cb4df60cbb59b5d3f9",
       "scores": {
         "legibility": 4,
         "distinctiveness": 4,

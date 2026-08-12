@@ -587,7 +587,11 @@ def verify_tracked() -> None:
         for number, item in enumerate(catalog, start=1):
             _verify_tracked_case(number, item, rasterizer)
 
-    digest = hashlib.sha256(catalog_bytes).hexdigest()
+    # Report the same digest on LF and CRLF worktrees; byte parity above still
+    # ensures the source and deployed copies are exactly identical locally.
+    digest = hashlib.sha256(
+        CATALOG_PATH.read_text(encoding="utf-8").encode("utf-8")
+    ).hexdigest()
     print(f"gallery verify-only: 100 cases, catalog sha256={digest}")
 
 

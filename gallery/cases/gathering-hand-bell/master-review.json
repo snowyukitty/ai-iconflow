@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "1f7515d4a1abedf03db48ba36ac3110da25d870a2d2e5bc023190419beba7ea6",
-  "contract_sha256": "a6b69f0a3179136d967f6b86028fe0eedf968ef3b97bc0d48d0ab62eb4de0888",
+  "source_sha256": "a1d9f8aea168b5cef100285171b2ed52ecc3bcc58fbd9e2a8472f12a767e265f",
+  "contract_sha256": "36947ce227538358418157ebf5f0221784120435b9b3d6506d838a9327091c14",
   "project": "Gathering Hand Bell",
   "user_job": "call a shared table to attention without a screen",
   "essence": "gathering",

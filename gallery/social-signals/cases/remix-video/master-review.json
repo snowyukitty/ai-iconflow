@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "16d9fa1de4636f77f15307824aaa8aebbac1ee3473eca5059b61314105452f04",
-  "contract_sha256": "28a55508bf6b781bbbd47f3a9f5a8f72bf43170f3f08f59a0fed9558ffa6eec8",
+  "source_sha256": "45ed110b2f48b8812acba2cccdf62e0b2c38bbbbd9e3c3523c6caf17a577c92b",
+  "contract_sha256": "0765b8dfa32c33cf8bb37c2270073d47588267e6fb1e6fea934c3838ead3e9a2",
   "project": "Glow Zoetrope",
   "user_job": "Discover, remix, and circulate short-form video performances.",
   "essence": "remix",

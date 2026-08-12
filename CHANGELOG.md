@@ -51,6 +51,9 @@ first published release remains under `Unreleased`.
   Python 3.10 through 3.14 coverage, and installed-wheel browser tests.
 - Automated QA can reuse one isolated Chromium rasterizer across a collection,
   avoiding one browser startup per SVG without weakening any check.
+- Source-bound SVG hashes normalize line endings, keeping review receipts valid
+  across LF and CRLF worktrees, and distribution verification runs without
+  importing the uninstalled source package.
 
 ### Security
 

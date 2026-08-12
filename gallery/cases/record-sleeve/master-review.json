@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "b0206c93f71d4a6ac077a0439c1bb6d6bff5866537282f59b5f9d2f2f5e3bda3",
-  "contract_sha256": "2df5a1ab7dd31cebdc50a738ae76e554e096544ba7d309d5baedc77ae306bb11",
+  "source_sha256": "3e13944d4b201d675e6fd0cfdc9c23f9c6d91b032e7b732117efd26c1a122aa6",
+  "contract_sha256": "ce8b3194152bcf855423cbd849b19af07b493c510c0e1aa5d9c48ab813f54cf8",
   "project": "Record Sleeve Dig",
   "user_job": "save an unfamiliar record to revisit after one listening",
   "essence": "discover",

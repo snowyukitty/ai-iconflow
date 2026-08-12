@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "108279a9deb514447be3ef2bd1db87aba9174bc47efb5d0eff9dd892c60f9ec9",
-  "contract_sha256": "db28c89e92da01c91d69474a40b8c4adcdd34064f709963b1d7911d34e1db766",
+  "source_sha256": "935347a3dea51e7e1ab80c96a3553cf936f0285f13e7989b8a46ea87c718af51",
+  "contract_sha256": "c4250160d0037f0affb5eadef61e4c81f9f0e66702d44624efd26d8dc6da399e",
   "project": "Idea Swatches",
   "user_job": "Collect visual references and return to saved inspiration.",
   "essence": "inspiration",

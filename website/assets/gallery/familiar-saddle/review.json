@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "749a0e2a86e9a9fa5d2a9f3fc217be7a2be71389462774e855131aba2da9da7b",
-  "contract_sha256": "d9cfca9b2751f2ee7c58a513ce00e1d1073355670b8b5652f8a134315e82935b",
+  "source_sha256": "ec52c4a54d4b38c2021877c858e6362f758302f8ef78488acbe04af643a9459f",
+  "contract_sha256": "7fdcc5c2d9ad40f46ba00157e62adf0b8e3d4eaadf72a5458fec625b25962e03",
   "project": "Familiar Saddle",
   "user_job": "prepare a small original creature companion for the next journey",
   "essence": "depart",

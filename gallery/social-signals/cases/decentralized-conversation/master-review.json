@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "8e0333084a358634e14b64b8d73e1794507eee491b92a406811be089142a67ce",
-  "contract_sha256": "98b843f044c5ffcf914e94fd929c220eb3f61aa8398dcd947014c7b01aee8128",
+  "source_sha256": "3325d88ea30e631693e196f7b6bd16a89fa250b5125297bdda20c08544eac146",
+  "contract_sha256": "73372405e4da6050972a20ddb26f7514d25021f1e03b63d4d36e9bc9d5a54348",
   "project": "Weather Relay",
   "user_job": "Join portable public conversation across an open social network.",
   "essence": "openness",

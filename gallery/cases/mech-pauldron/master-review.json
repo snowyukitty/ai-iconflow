@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "474dbd6fc44e2787a83be52bba2d5fa567f4f4eb0673ef1e4ccdc20e8e74d00f",
-  "contract_sha256": "9c0307b94c73bf22a7dad382b404a8274389f9f59213b6f440641863006261af",
+  "source_sha256": "b398002a47538a23a14843884739be86640bae009f2cca3cdb853d9d1be04eaa",
+  "contract_sha256": "79ada4ec57558856836827cd70a1c1fba619abcc54dfb461645c8e2e6dd2ca1e",
   "project": "Loadout Pauldron",
   "user_job": "compare a mech's hardpoint choices before committing",
   "essence": "equip",

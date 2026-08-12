@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "ef724641fc9e065c45e3c54fc4a6023a69763d3539689ec0f81bb68088af47e0",
-  "contract_sha256": "6613cb3f365d08a6c1af20560796c5e8e4398cdb1ee2f6e7712ee707e9387895",
+  "source_sha256": "568c5bcff51f15de308f2de11a07b9c055cdd72fc55383ea49bdbd1d8509f89e",
+  "contract_sha256": "27c425556c7e91f68df97a5c75f2977122f27651ba459e5400674c588559035e",
   "project": "Marionette Crossbar",
   "user_job": "rehearse which motion cue belongs to which puppet limb",
   "essence": "coordinate",

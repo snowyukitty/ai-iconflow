@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "0978742a55be534955c7e1c339bbe744bd0efa9402320335c4f5ff97d994c6b9",
-  "contract_sha256": "869d38b38d945516f5e213223f1ed055a2eb5beb84cde0bbeb2fc07d240ffc17",
+  "source_sha256": "63d4a11f190ae6aaed98c1364b3c97dacd306872e180da778a1c93fadf6a96df",
+  "contract_sha256": "9e9ea5f4be0ba42b203e096e9e1c2c5aafb66d446313666859b2699564f2de51",
   "project": "Clockwork Bento Box",
   "user_job": "remember which small promise powers an original companion character",
   "essence": "care",

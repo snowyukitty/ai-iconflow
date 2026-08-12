@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "f01a59a443f87a3991dcc2198385093c4166452e8dcb5ac444b52581e44c814f",
-  "contract_sha256": "830e4af7969c05dd96f3f0234ff9ebd79a6b7568cbea8d0ff9fe5dcecac5c99c",
+  "source_sha256": "9ed57aad7ad3a2a86af6a47117f4f5cc0ca8e30872bd95740e834a7b6522d57b",
+  "contract_sha256": "ea156746b623af17fc9d0214359e2a31f7039d997af9e83d293190378945a88c",
   "project": "Whisper Drawer Cabinet",
   "user_job": "organize clues delivered by an unreliable object in an original story",
   "essence": "interpret",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "8bba85175979c263a4a8e991526a61a735ef934c0e12ab004024e0114a20da68",
-  "contract_sha256": "6551b43400666cbf4d6fa30858457e21f39aa40191778290095b3ac13d027995",
+  "source_sha256": "bae7ba3486da8a141068f2a8af2362d507bce267437aeb23143835a1915d8f46",
+  "contract_sha256": "b2b73fdc3c43d47461400f69a1db444ac92033d6d96f45c9ee93772a4caa3921",
   "project": "Folding Ruler",
   "user_job": "measure an irregular home repair without a powered tool",
   "essence": "measure",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "f0508c09b86085a0832fd7dbabccbf418c6fd1178f61c5e1d933e4244334c69a",
-  "contract_sha256": "6910089a6d19f8d93ced5d42ba8dfcaa57c564b387d9a0dc7fe22b7c4207ab82",
+  "source_sha256": "258889b34e3df1221b0d0039ff051a57ce74b4a708ceaf56d6328a957e6ef56a",
+  "contract_sha256": "a0649eb163efdd2988493dece6b97ee52726c96a8d041847fba3ff882065b717",
   "project": "Kalimba Bridge",
   "user_job": "practice a repeating thumb pattern without reading notation",
   "essence": "repeat",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "8c6f3d42055c369743ff950badee96187fa8874a963e33f4dc87220b6c937362",
-  "contract_sha256": "fabe7292af505bb5fda9e6f587b4547f80addb8f9d44887a2710598292e709dc",
+  "source_sha256": "776f30ef0e4b3fb0e930a80c8f45c948fcae1d2c5a0ed4ffe33c3e65bc8c3728",
+  "contract_sha256": "f9c14b12d00ce65db7d4f9e81db1436416392169a5dd5a3d1eac67d718181985",
   "project": "Courier Wing Satchel",
   "user_job": "follow a spoiler-free dispatch from an original serial world",
   "essence": "anticipate",

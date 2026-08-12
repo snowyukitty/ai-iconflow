@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "67e5a92445de024b15d24fac1f5dc826a718532e1ab4766083857d1d05ceefe3",
-  "contract_sha256": "c89ab287d31786de3975efe092f4f80567c59d95457c9af64c30ee38883afbf2",
+  "source_sha256": "5aeda629568efc7d20882f26f43b52d6a13c50b4b17b629fc84531149c050f2c",
+  "contract_sha256": "53ed2b43e5e57ad04369fa0304017f516b497862c49ef10aca31186122f47f18",
   "project": "Digital Caliper",
   "user_job": "capture a physical dimension before turning it into a model",
   "essence": "measure",

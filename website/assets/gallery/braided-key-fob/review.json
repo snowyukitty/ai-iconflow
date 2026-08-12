@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "2f256e18467eba7a728e784895170b44f09e30a7f5ebbadb10c6d2fb5ffa2960",
-  "contract_sha256": "307b6907331f0446db55c0eac1bb2b728f7ecbf3d3d378631d5410b534a5d88b",
+  "source_sha256": "ada8f780bd75dbc3d142b5195edef26fa60d971461d52fcebfc64437b9b7726b",
+  "contract_sha256": "60c7ae3c1f90e8ec7c4a6eaf23054a687a51f59941e42a5326a57304f05042be",
   "project": "Braided Key Fob",
   "user_job": "recognize the housemates' shared key by touch and silhouette",
   "essence": "belonging",

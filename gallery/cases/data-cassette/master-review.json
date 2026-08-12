@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "1a303100a512ed7e0597ef9b3fecc6bb9d169dfe421ad94eca58bf8ac89ee1c5",
-  "contract_sha256": "0616468c45eeaa1863ac74b633a1d1e09bfafc58a1358e08cb73974c8a57ea4a",
+  "source_sha256": "e8dcd2be50dcaf2a4cdbeade185dae36ea580b7d8a13e9e8bc324fcfe47fe9c3",
+  "contract_sha256": "356eb910badcd6dc19fbc0be5831e5be33f289f29c76c859562f5561e9a49714",
   "project": "Data Cassette",
   "user_job": "archive a field capture as a physically accountable unit",
   "essence": "archive",

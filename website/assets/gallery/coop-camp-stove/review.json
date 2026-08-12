@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "95d9f63064e998dec84aa98b379bab3c94bbf7032438ea0e766761db5b2ce6d9",
-  "contract_sha256": "fbb95c3ae3a59a08c0690cca89082d66105b025296169c28bb887db1900be847",
+  "source_sha256": "222c33064ffc6edf6b9433ab9678f82f9d35bf390f6512e7a796319bad2fd8c9",
+  "contract_sha256": "e246694ceea20d9cdf44e53ee463afa6457804f63e2f430b2a34fa9e4089dea8",
   "project": "Co-op Camp Stove",
   "user_job": "see whether every expedition role is ready to leave camp",
   "essence": "ready",

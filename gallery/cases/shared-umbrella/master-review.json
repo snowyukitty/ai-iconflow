@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "dee5cb7c12d1e3b99d099a4c3a7c7756b73cf2a05541dbf61c676bba97ec1c16",
-  "contract_sha256": "c431e2267717c551e6f2ab556d21c479e4130dc9d5dcaabe01825b227d369d2d",
+  "source_sha256": "18085cd40dce53dd5ba1a63c46ca75063e9bb3507878a7ca137aa0801d720c13",
+  "contract_sha256": "be9c4900ec8de4070087816113a7b8ad8903f92aca214c228cef4a65d1dfb64b",
   "project": "Shared Umbrella",
   "user_job": "shelter a companion while walking to a meetup",
   "essence": "together",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "61b718b742eb9fdc0e3532e136e3105a946c2be8859c9e3741c9b781c203fb24",
-  "contract_sha256": "bf61e24c66f9fe310427b5c61b16e872b66529807f5f93e6be3357c2718b42d7",
+  "source_sha256": "194484e78caaf55dc4c1d0c006ba1143a245ca69de62a99c19651b47a48c3b1f",
+  "contract_sha256": "1ba7f214756c13d84266fba29350d44d9355b0105a113381763741043e778ca8",
   "project": "Rice Paddle",
   "user_job": "portion rice gently from a common bowl",
   "essence": "serve",

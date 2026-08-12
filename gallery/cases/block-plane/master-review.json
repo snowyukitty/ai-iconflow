@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "d8bae80e2b4a43f9896f4d5c67fad4b2651ef018e841a2a8e42d5eb0c5e1ae95",
-  "contract_sha256": "26c135d849ea8594c60a204b8c75cc577ec5e30988510c70b1aa424b65661a94",
+  "source_sha256": "77491192fdfdfa1e04db328a604ab96b884a778b6d54931d6c0ed9e890c32f61",
+  "contract_sha256": "c1b1060e0d9a42ce49a703f6a618cb761197aa61278be30b294a9c372d7941c7",
   "project": "Block Plane",
   "user_job": "trim an edge flush during a repair project",
   "essence": "true",

@@ -7,9 +7,6 @@ import zipfile
 from glob import glob
 from pathlib import Path, PurePosixPath
 
-from iconflow.styles import PRESETS
-
-
 FORBIDDEN_PARTS = {
     ".git",
     ".github",
@@ -27,6 +24,13 @@ LICENSE_METADATA = {
     "License-Expression: Apache-2.0",
     *(f"License-File: {name}" for name in LEGAL_FILES),
 }
+SOURCE_ROOT = Path(__file__).resolve().parents[1]
+PRESETS = tuple(
+    path.stem
+    for path in sorted((SOURCE_ROOT / "templates" / "presets").glob("*.svg"))
+)
+if not PRESETS:
+    raise RuntimeError("no source presets found for distribution verification")
 
 
 def _members(path: Path) -> list[str]:

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "f56ed56daa86cccc972cc493f632ec355e8dba60013fdd75b0d5b4a0ee534de4",
-  "contract_sha256": "481ccdb5ab17a65d9f7273bc4ff6cb9410b4666b8de7643fb06263e38026f77b",
+  "source_sha256": "32d2f4bb516dfd455a904f42399ae3051cf39d5317ec635f1a3e6bc6fdf924b8",
+  "contract_sha256": "1d9b227fb95c4501a7259f73e2811a039b2020494be049eee7d91e33638f6dba",
   "project": "Cue Brush",
   "user_job": "Watch live creators while participating with the community.",
   "essence": "live",

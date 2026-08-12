@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "43a5187cb77a72a6dce18edf115cce407af7463f8287ca1a5029d8de06263369",
-  "contract_sha256": "730f41b8a6e411ef41afa315561c7804250763997df5893eff4587ac912e7761",
+  "source_sha256": "54f9b4ca3aaf6a8be8e6d4542cec36c3fef156eb8268b157f98c0bc84fcce81f",
+  "contract_sha256": "f5b5bd1d4de0760b907d5a5abe56f90fe8daf0ac3914b0f1d4a4ab3bc41c4c0e",
   "project": "Roundtable Radio",
   "user_job": "Keep persistent groups together across voice, text, and activity.",
   "essence": "togetherness",

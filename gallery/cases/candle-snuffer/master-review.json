@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "222dd91a430681f71a8278e409aa79a0d5c89840a6cd06dce3e82a68925070c4",
-  "contract_sha256": "1a824b8dd6f588dd25048c98673e56b46d81a547032f009ca5b702dcb7270982",
+  "source_sha256": "85de46c3dac22f86a91a602910cb36ef9c6108b21134df48edd0d637320c6a9f",
+  "contract_sha256": "bc60e8cf8a2a832b079469b569b0c0ac68489a4cb4b77a6a08696588e3ab25bc",
   "project": "Candle Snuffer",
   "user_job": "close the evening safely without blowing wax",
   "essence": "closure",

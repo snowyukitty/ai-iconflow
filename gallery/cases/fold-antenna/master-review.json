@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "0c492044b693a82d2009376107159cf93ad040d047df922b23e68f75da8fd314",
-  "contract_sha256": "0d05e10713b8a3c2823835441392d47cdacc907ba2279761cabca0ec4010ecdc",
+  "source_sha256": "3d3ac0f6d7bac5db3a8338cd7bae9c17a8daf95084dc76067405d3b15e0315f8",
+  "contract_sha256": "21dca3247ca974d74b0a9f0057c5fc0ee590e341f9bc7d71dee2ddfff3aeb7c5",
   "project": "Fold Antenna",
   "user_job": "compare how a portable antenna behaves in folded and deployed states",
   "essence": "deploy",

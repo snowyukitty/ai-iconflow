@@ -83,6 +83,10 @@ def _validated_svg_text(text: str) -> str:
         raise ValueError(
             f"SVG source exceeds the {MAX_SVG_BYTES // (1024 * 1024)} MiB safety limit"
         )
+    # Git and editors may materialize the same text with LF, CRLF, or legacy CR
+    # endings. Rendering treats them identically, so the validated source and
+    # its review hash must do the same on every platform.
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
     if _FORBIDDEN_DECLARATION.search(text):
         raise ValueError("SVG source must not contain DOCTYPE or ENTITY declarations")
 

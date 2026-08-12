@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "367519a0c829532802cc1c7a1309de53f0c26220f2234e58f798c6c6187fbf8c",
-  "contract_sha256": "59519d039473f462e927f2e46700a8292712da31b5451c28356f42b188da18a7",
+  "source_sha256": "cdddbd49f56cda28f1619c5dcf5a71b338ac6eaea7c0eddc0b99e1d458e82c86",
+  "contract_sha256": "ef966e8b63dfa6fa5aa5b0a40259699edf6c0672cbf8cc88ea28426bb429ff65",
   "project": "Moment Cartridge",
   "user_job": "Send visual moments that are intentionally temporary.",
   "essence": "ephemeral",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "2315701620aff4393bcb4bb0a9cfbaa3f6c95bd7d30d2383332529a4528b1f56",
-  "contract_sha256": "1c6269a93c20f2b52c469d1be4bda88ae741e7c569d0c5711c312fcc5875b986",
+  "source_sha256": "50a3567efd588140821191fffcca9ea5cf4508ff7190ba93fecf19347f3a6cc4",
+  "contract_sha256": "1532b6cfa4fb76ad7cf75e55f57d48f5583a7afc40b24d36b2f341c18e8a2fec",
   "project": "Stage Cue Fan",
   "user_job": "remember the next blocking direction in a movement performance",
   "essence": "turn",

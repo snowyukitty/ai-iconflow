@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "174f95e988183fbdcaabe141210d64abaaf1d0ff1ffc35c5dc9f826e79b7be68",
-  "contract_sha256": "1fa020b96c9fa92ad1aa3068d319d5b953cb6726c151a120835e243caf0cfbda",
+  "source_sha256": "7c9a232b7da68fec3c3445b5bc7a4dfc0cb025127d4121bffb9acb0d30179fd1",
+  "contract_sha256": "9b6b027f6b17f2248313db9697438840f3de922585665ebcdb30132656632b10",
   "project": "Folding Fan",
   "user_job": "carry and reveal a practiced cultural gesture",
   "essence": "grace",

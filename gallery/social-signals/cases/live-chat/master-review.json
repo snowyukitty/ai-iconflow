@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "ac556e1717d5a509947a1291f33186338a9edd611a7e42adaf65f1fd24af752a",
-  "contract_sha256": "29a7989500c5f1eb39b672f78e63c26bcf50dc9fe46339954afe6ba7e4c85fb5",
+  "source_sha256": "fcf36f8ccd0875ac861d57bc54c2dd350ba4b3d2e9009b1dcf5aabbdc61533d5",
+  "contract_sha256": "6530c495cf78c766e6f66eb1aad810cb59308c0358b76ea202071888bbcab427",
   "project": "Switchboard Shuttle",
   "user_job": "Continue fast conversations across devices and contexts.",
   "essence": "continuity",

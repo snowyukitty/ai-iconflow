@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "00dd007565aef645a74e3fc2d1348931fb34d2e5cf4327d52f20f1975e573e7d",
-  "contract_sha256": "725c5e36d3b001bc9b54db63ceb8178a1e8a02fcbccf4af7f6ba9b18c81aad45",
+  "source_sha256": "4ca04b1943f7b14784658014a22c18b38de39da82228f36288f46e75dd2d6c2d",
+  "contract_sha256": "2af974791e094a58b142caba3732da2346f690706cba0a22e1023e06402c13ba",
   "project": "Brace Drill",
   "user_job": "bore a controlled hole without electricity",
   "essence": "leverage",

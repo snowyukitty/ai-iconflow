@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "f98c32b52fbf45a55e2b12759c8934b882773cbb8b1d16518da7b2837c129678",
-  "contract_sha256": "4754f0a633e2f75b8108949cf9365d26a68243dc05bb9d68756c45eda5dd6013",
+  "source_sha256": "5c5f6d67c825bded88a7a081edadcc1b6920020772181582e499a161f846112f",
+  "contract_sha256": "d52df5f1ae6e5bd8f3d9575d3c3fef69d9d938d3b7f3b09a42e4ed1df062c712",
   "project": "Stamp Album",
   "user_job": "Exchange messages, expressive stickers, and everyday services.",
   "essence": "expression",

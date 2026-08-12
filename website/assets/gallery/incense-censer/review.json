@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "74e2e3a948de1f81da23ace55d9e1ec7fb5d21e9a1b4e67d6325ca484a210926",
-  "contract_sha256": "3bd5a49aa7512fb3f2b72569b591f273f34480da2c5e1f29c78d7e8cebfea36b",
+  "source_sha256": "debb409b72f66ab726b7b190ad7bb744128eea74432dad8828090e8ecc9aca50",
+  "contract_sha256": "be06029a3c3b95f12edf14db80d340ee77b480a3299b2ee9f20273cd26ce7180",
   "project": "Incense Censer",
   "user_job": "begin a quiet reflection period with a physical cue",
   "essence": "stillness",

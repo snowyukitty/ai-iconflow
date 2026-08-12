@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "e4522e690d1295d05255e5bb9ce940f56e9100610c854695a7e65c15d3e2ca18",
-  "contract_sha256": "fb9bd648b6d851e2222b58e837eac31367c5fde16b841eb8780dce38adb2c8da",
+  "source_sha256": "81d6c2ec6d676971d482deaa8a3e43b84d063444d25fccfd3305517a52aeb226",
+  "contract_sha256": "da589e5ccd8af714f0c188e1c6f53347ce385ad84df679145d301534aaec1a48",
   "project": "Costume Trunk",
   "user_job": "track which costume transformation is ready for a quick change",
   "essence": "change",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "705593818de49cf5017c664248ff0675402bcc2c2d2b9580d9311742bc8edf4b",
-  "contract_sha256": "a08bed690a514513ecd2455b4f4e0f05a6dbef7a85c9bf70c4c41bb661cab3b7",
+  "source_sha256": "3a674706b7c48345f7ef44838acf2249589b9281f9a5fb49a5c8ae31919e0730",
+  "contract_sha256": "fcde3298e2b01e4737db26dd7c37806f5ef62b241dcef96e6be8bad68f9f5bfc",
   "project": "Thermal Shutter",
   "user_job": "switch a camera between protected and sensing states",
   "essence": "expose",

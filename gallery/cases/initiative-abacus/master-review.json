@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "696e25739676394eaff6469ca920a76ce975fa076870934aaf8a16e16e96489f",
-  "contract_sha256": "3fd6d3f657703a821585c954b3ba39dbd2b3f1a09509d36eef0c4d83e7a0768e",
+  "source_sha256": "fefa1467263beec44632c8826928fa183e1ef4ddfb0cdf274c0d01bb3383e477",
+  "contract_sha256": "5a78998d9ab1ffc864770ef3dfd744f560ca6b53c7a9a98e5e3e8cff9f792d79",
   "project": "Initiative Abacus",
   "user_job": "reorder a tabletop encounter without losing the active turn",
   "essence": "sequence",

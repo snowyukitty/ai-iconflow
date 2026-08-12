@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "f92d36df3cf1fee202b8392fc03ba349d35d491626527d25c348cf1066a15e86",
-  "contract_sha256": "bfd9bad7e11a36b20630029b31e8785516d00689523367953076e937d1966adf",
+  "source_sha256": "a1943fb7655a24b43526d8cb243eacd840c9bbe8120e0415a363638bd77ad3ee",
+  "contract_sha256": "e46bc1255d0a6e53595684317f66272e5197fa4a6632761478bdd230a71bfb01",
   "project": "Tomato Pincushion",
   "user_job": "keep hand-sewing tools located and ready",
   "essence": "readiness",

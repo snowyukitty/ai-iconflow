@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "c6d9fec6fb3f384d2e4a4bb41340e057816a97548944c400fdef713d5a6dc1f9",
-  "contract_sha256": "f882ed466ef42b14fd617e5c0798f9512e3a3dd8eebd79a07c1f17b73dd6e3ce",
+  "source_sha256": "2b412404ad77c36261ea2725a67634aefa4ea74f9bb1110d0dcd1913b86cd5e5",
+  "contract_sha256": "2de3d403671ce9d33966b4c5dac13f06a1b90908c59784cb4df60cbb59b5d3f9",
   "project": "CNC Collet",
   "user_job": "match a cutting bit to the correct holding setup",
   "essence": "hold",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "23b8cb7515e876380929ee29359c0a68064634ec01344e281e7aa9857c25cbf9",
-  "contract_sha256": "da03fd0fe58fa16ef3be15ee8303f6e44a89ec4e5d05490a86965caa5ab197ca",
+  "source_sha256": "6e5de6519547ec08ba07fd6b54ad1f98fd57bea79c2073fd204bb81836d68add",
+  "contract_sha256": "a3daf783b9f2815e9d8ba77a6f52d64b21dcc241a9236dd1d169cb7c6bfde6d5",
   "project": "E-ink Field Tag",
   "user_job": "identify a device state in bright field conditions without animation",
   "essence": "persist",

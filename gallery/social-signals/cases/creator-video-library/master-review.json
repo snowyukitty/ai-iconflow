@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "d807f672d16acd6a8032eca6c2f5b5bc78979eb590937c81ac0e9213888d08c4",
-  "contract_sha256": "d631318c1c80a84bb04c5a95cd0599cc31a03f2d4f53565a230377cb4dca3021",
+  "source_sha256": "aceb9e709ec22469be5860e139a807181f2463a740daac56e2f559851f18114d",
+  "contract_sha256": "08a53c6df91228e831672957e839c42fdba689a3de95c62c0e7cfa593406cd0e",
   "project": "Projection Keeper",
   "user_job": "Watch, publish, and revisit creator-led video libraries.",
   "essence": "broadcast",

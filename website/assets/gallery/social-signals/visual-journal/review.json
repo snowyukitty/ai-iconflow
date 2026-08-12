@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "cbbe975cd7d2599233a5042208e23517601c8b02df28d1717cc608620847d94c",
-  "contract_sha256": "4a52e1d3f49bababe562b4100d3762a4f73e4e4fd567f05c73f2d9f76c3ebf34",
+  "source_sha256": "0f10b2593764e64f1bdc8de69759b52d90acf065f65752e6850e259fea0bd3ab",
+  "contract_sha256": "700c21f66b8400db03c964c7fb1c822964d2ac31e6c8dc8a70c309bcebd6584d",
   "project": "Memory Folio",
   "user_job": "Share a visual journal of moments, places, and making.",
   "essence": "curation",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "0027b098b0329bc358179429cffe083624a0f7a07f9dbfb77d1bb622ac6c62db",
-  "contract_sha256": "02e3c04976046b51519f3b04a0d96609ac7642b7dafe543312f38c2d1580ca2f",
+  "source_sha256": "14eb92bf06e06b160cc431763209c873b4f35e8eadb00f450fd07874ec496ede",
+  "contract_sha256": "d02a1f04a09288fe9ec53027e87febf004ad03f36b4c4f8bb65a7c4306a6fa12",
   "project": "Conversation Spool",
   "user_job": "Write and follow connected public text conversations.",
   "essence": "continuity",

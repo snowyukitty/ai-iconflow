@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "da932e486ceb197a47ffd37d921871cff49bdb89b0540c6b1f6447d8daadb8de",
-  "contract_sha256": "28117c93d4d1953f7f5da3b7dedad3f4099af5437e237ef507ecb5b428d26096",
+  "source_sha256": "68dd34f8ac79cdfc98a4e3da161eb36f23af428bb14d7eef8a82e6b23aebc8d4",
+  "contract_sha256": "8888f6b1a5c00f1d55db8ded1c0ab6887928f9f13714cab8924b57f6d50fba74",
   "project": "Save Relay Cartridge",
   "user_job": "hand cooperative progress from one player or session to the next",
   "essence": "continue",

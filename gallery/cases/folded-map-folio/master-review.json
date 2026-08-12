@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "324e547e813c48a0e5d9d145875ce9d5f9b6b21ac23e59701aa42b81315d640d",
-  "contract_sha256": "eb97156e2ef37f7d9e9a6e6ab792b5738ae16e72b26d544f77484eb617ebcdac",
+  "source_sha256": "f1015edb6259c0c5f4732c52085d91a5d7a5b447f13667a4818d966332ea1aec",
+  "contract_sha256": "f35bdd97fdf567b57979164b4d26f9223caea6c4a553482fcba438805ce41ac5",
   "project": "Folded Map Folio",
   "user_job": "resume an explored route while keeping unopened regions hidden",
   "essence": "resume",

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "abf9d0cb5ba9787be2ca9fc01588cd9d6729f7ff01d468ef12bcae6559c9ae1b",
-  "contract_sha256": "1d28c2eb8543c96f21a2051930af4eb34bd6a55a9222bf6237f71181f1d4fdbf",
+  "source_sha256": "c348323012c7bcbd36796210b3c1d8f825801551e1840d97dbfae1071ce1b7c3",
+  "contract_sha256": "9bc597c11d2c81e48b28ed034440774bdc7a941ec54155cadde0df7174caa8ff",
   "project": "Balcony Watering Can",
   "user_job": "tend a small shared garden with a controlled pour",
   "essence": "nurture",

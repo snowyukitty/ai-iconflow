@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "master.svg",
-  "source_sha256": "2f3ce8ec1878f8af054336a40d772f37f491e752cc212ff0fe53c9a9cb75ca3e",
-  "contract_sha256": "55cf3ffb722837c20e3a5675565ab2d778163cd8fa23180ce22fa569d4c98cab",
+  "source_sha256": "35fddab67e436491e01d70b4efd12c32da688f1f0beb80695bd13cd6d8004406",
+  "contract_sha256": "16b564bcc8ad659fca817794625db3c8dacd4ebd6bdef345d65a5f54120da6a5",
   "project": "Cue Light Hood",
   "user_job": "give a performer one unambiguous offstage entrance cue",
   "essence": "enter",
