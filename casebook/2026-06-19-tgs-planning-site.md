@@ -6,7 +6,11 @@ targets: web,pwa,electron
 essence: route
 style_family: flat-geometric
 signature_device: letterform fusion
+device_family: letterform-fusion
+device_detail: A negative-space T route crosses a folded-map silhouette and terminates at one amber checkpoint.
+concept_lens: user-job-first
 cliche_avoided: gamepad / pixel alien / expo badge / tiny TGS lettering
+status: shipped
 scores_first: legibility=3 distinctiveness=4 balance=4 color=4 scalability=3 craft=4
 scores_final: legibility=4 distinctiveness=5 balance=4 color=4 scalability=4 craft=4
 iterations: 3

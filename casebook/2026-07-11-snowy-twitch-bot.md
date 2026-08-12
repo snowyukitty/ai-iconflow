@@ -6,7 +6,11 @@ targets: web,electron,tray
 essence: understand
 style_family: flat-geometric
 signature_device: asymmetric S-ribbon with a negative-space dovetail handoff cut
+device_family: negative-space-cut
+device_detail: An asymmetric S ribbon opens around one broad dovetail handoff cut that remains visible at 16px.
+concept_lens: letterform-fusion
 cliche_avoided: plain speech bubble, snowflake, globe, robot, and bidirectional arrows
+status: shipped
 scores_first: legibility=4 distinctiveness=3 balance=4 color=5 scalability=4 craft=4
 scores_final: legibility=4 distinctiveness=4 balance=5 color=5 scalability=4 craft=4
 iterations: 3

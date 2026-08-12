@@ -1,12 +1,16 @@
 ---
 slug: ctrl-rescue
 date: 2026-07-12
-project: system-maintainance Ctrl rescue Desktop shortcut
-targets: electron ICO, Windows Desktop shortcut
+project: system-maintenance Ctrl rescue desktop shortcut
+targets: electron,shortcut
 essence: release
-style_family: flat geometric
+style_family: flat-geometric
 signature_device: hinged C-clamp with paired angled jaws and one escaped amber keycap
+device_family: object-metaphor
+device_detail: Paired angled jaws turn a C clamp into a release mechanism while one amber keycap escapes the opening.
+concept_lens: object-verb
 cliche_avoided: literal Ctrl keycap, padlock or shield, generic refresh or upload arrow
+status: shipped
 scores_first: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
 scores_final: legibility=5 distinctiveness=4 balance=5 color=5 scalability=5 craft=5
 iterations: 1

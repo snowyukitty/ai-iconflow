@@ -6,7 +6,11 @@ targets: web
 essence: attitude
 style_family: mascot
 signature_device: a confident emote face in a safe rounded pink badge with sunglasses as the signature detail
+device_family: mascot-single-trait
+device_detail: The close-cropped creator face keeps its sunglasses while outer props are removed from the maskable footprint.
+concept_lens: identity-mascot-plus-verb
 cliche_avoided: generic rabbit emoji favicon, tiny text, oversized decorative star
+status: shipped
 scores_first: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
 scores_final: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
 iterations: 2

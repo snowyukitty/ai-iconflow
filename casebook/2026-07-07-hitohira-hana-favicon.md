@@ -6,7 +6,11 @@ targets: web,pwa
 essence: identity
 style_family: mascot
 signature_device: Hana avatar face close-crop with the hair flower as the signature detail inside a soft rose ring
+device_family: framed-cameo
+device_detail: A close-cropped creator face preserves the built-in hair flower inside one soft contrast ring.
+concept_lens: identity-trait-plus-unexpected-crop
 cliche_avoided: generic tulip emoji favicon or detached flower mark
+status: shipped
 scores_first: legibility=3 distinctiveness=4 balance=4 color=5 scalability=3 craft=4
 scores_final: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
 iterations: 2

@@ -1,6 +1,6 @@
 # Launch readiness
 
-Status date: 2026-08-12. This file records evidence and remaining owner gates;
+Status date: 2026-08-13. This file records evidence and remaining owner gates;
 it is not a claim that a release has been published.
 
 ## Current readiness
@@ -16,15 +16,18 @@ it is not a claim that a release has been published.
   results, native 16px visual proof, tray guidance, and clean-room provenance.
 - [x] Security, provenance, changelog, contribution, issue, pull-request, and release guidance exists.
 - [x] Owner selected Apache-2.0; the checkout includes license, notice, package metadata, and trademark policy.
+- [x] Launch commits are on the public `main` branch, GitHub recognizes the
+  Apache-2.0 license, and the cross-platform CI matrix is green.
+- [x] Owner applied a public repository description and topic baseline.
 - [ ] Owner enables GitHub private vulnerability reporting.
-- [ ] Owner approves and applies repository metadata and social preview.
+- [ ] Owner approves and applies the remaining homepage and social-preview settings.
 - [ ] Owner approves a tag, GitHub Release, and PyPI publication.
 
-This checkout is licensed under Apache-2.0. The public GitHub repository will
-not display that license until these local commits are pushed; its
-[Releases page](https://github.com/snowyukitty/ai-iconflow/releases) remains
-empty. The [official PyPI JSON endpoint](https://pypi.org/pypi/ai-iconflow/json)
-for `ai-iconflow` returned HTTP 404 on 2026-08-11, so the README intentionally
+This checkout and the public GitHub repository are licensed under Apache-2.0.
+The [Releases page](https://github.com/snowyukitty/ai-iconflow/releases) remains
+empty and no `v*` tag exists. The
+[official PyPI JSON endpoint](https://pypi.org/pypi/ai-iconflow/json) for
+`ai-iconflow` returned HTTP 404 again on 2026-08-13, so the README intentionally
 documents source installation only. Name availability is not guaranteed until
 PyPI accepts a first publication.
 
@@ -48,19 +51,23 @@ as IconFlow. [`TRADEMARKS.md`](../TRADEMARKS.md) permits truthful references,
 compatibility descriptions, and clear provenance while reserving the IconFlow
 name, logo, and official-release identity against confusing use.
 
-## Proposed GitHub metadata
+## Current and proposed GitHub metadata
 
-- Description: `Design, review, and ship platform-ready favicon, PWA, desktop, and tray icon families from one semantic SVG.`
-- Topics: `app-icon`, `cli`, `design-system`, `developer-tools`, `electron`,
-  `favicon`, `favicon-generator`, `icon-design`, `playwright`, `pwa`, `python`,
-  `svg`, `tauri`, `tray-icon`
+Verified on 2026-08-13, the public repository currently has:
+
+- Description: `Reviewed, platform-ready icon families from one semantic SVG master — favicon, PWA, Tauri, Electron, tray. Distinctiveness = specificity, proven at 16px.`
+- Topics: `app-icon`, `cli`, `design-system`, `electron`, `favicon`,
+  `favicon-generator`, `icon`, `pwa`, `python`, `svg`, `tauri`, `tray-icon`
+- Homepage: not set
+
+The remaining owner-controlled proposals are:
+
 - Homepage: `https://github.com/snowyukitty/ai-iconflow#readme`
 - Documentation: `https://github.com/snowyukitty/ai-iconflow/tree/main/docs`
 - Social preview: `docs/assets/social-preview.png` (1280×640, 47 KB; matches
   [GitHub's recommended dimensions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview))
 
-These are proposals only. Applying them changes GitHub repository settings and
-requires owner approval.
+Applying them changes GitHub repository settings and requires owner approval.
 
 ## Market position and discoverability
 
@@ -111,13 +118,14 @@ real need rather than creating promises the maintainer cannot yet support.
 
 ## Recommended launch sequence
 
-1. Review and push the Apache-2.0 license, notice, trademark policy, and package metadata.
-2. Enable private vulnerability reporting and run CI on the final release commit.
-3. Apply the proposed description, topics, homepage, and reviewed social preview.
-4. Manually run the release-candidate workflow; verify checksums and clean-wheel behavior.
+1. Keep the reviewed Apache-2.0, notice, trademark, and package metadata on `main`.
+2. Enable private vulnerability reporting and keep CI green on the release commit.
+3. Apply the remaining homepage and reviewed social preview.
+4. Manually run the non-publishing release-candidate workflow; verify checksums and clean-wheel behavior.
 5. Tag `v0.4.0`, create the GitHub Release, and publish the exact candidate through PyPI Trusted Publishing only after explicit approval.
 6. Run the documented PyPI clean-install smoke test, then share the visual proof and reproducible commands.
 
-The smallest remaining owner action is to review these local commits and decide
-when to push them. Publishing and repository-setting changes still require
-separate explicit approval.
+The smallest remaining owner action is to enable private vulnerability
+reporting, then decide whether to apply the homepage/social preview and approve
+the `v0.4.0` publication sequence. Publishing and repository-setting changes
+still require separate explicit approval.

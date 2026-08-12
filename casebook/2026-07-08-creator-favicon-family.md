@@ -6,7 +6,11 @@ targets: web
 essence: cute
 style_family: mascot
 signature_device: one shared vector chibi persona face (scalloped bangs + twin black headdress bows as silhouette bumps); per-page expression + badge-hue swap
+device_family: character-silhouette
+device_detail: Twin headdress bows interrupt one shared face contour while expression and badge hue encode page variants.
+concept_lens: identity-system
 cliche_avoided: raster emote rescaled into a badge (16px mush); unrelated per-page glyphs (camera for IG, gamepad for game)
+status: shipped
 scores_first: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=3
 scores_final: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
 iterations: 2

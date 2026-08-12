@@ -6,7 +6,11 @@ targets: tauri (icon.ico for a WPF exe + desktop shortcut)
 essence: tether
 style_family: flat-geometric
 signature_device: letterform fusion: T stem ends in USB plug
+device_family: letterform-fusion
+device_detail: The T stem terminates in an aqua USB plug with one broad negative-space slot.
+concept_lens: letterform-fusion
 cliche_avoided: wifi arcs / signal bars / USB trident / magnifier-lookalike ring
+status: shipped
 scores_first: legibility=4 distinctiveness=3 balance=4 color=5 scalability=4 craft=4
 scores_final: legibility=5 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
 iterations: 2

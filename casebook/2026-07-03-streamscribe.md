@@ -1,12 +1,16 @@
 ---
 slug: streamscribe
 date: 2026-07-03
-project: 
-targets: 
+project: StreamScribe
+targets: tauri,tray
 essence: distill
-style_family: 
+style_family: flat-geometric
 signature_device: negative-space waveform inside a speech bubble with a bold pointed tail (dual reading: talk + captured transcript)
+device_family: negative-space-cut
+device_detail: Four broad waveform cuts sit inside a speech bubble whose pointed tail changes the visible silhouette.
+concept_lens: negative-space-dual-reading
 cliche_avoided: plain microphone / plain equalizer waveform / plain speech bubble; acid-green-on-black
+status: shipped
 scores_first: legibility=4 distinctiveness=3 balance=4 color=5 scalability=4 craft=4
 scores_final: legibility=4 distinctiveness=4 balance=5 color=5 scalability=4 craft=4
 iterations: 2

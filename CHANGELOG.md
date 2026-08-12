@@ -54,6 +54,10 @@ first published release remains under `Unreleased`.
 - Source-bound SVG hashes normalize line endings, keeping review receipts valid
   across LF and CRLF worktrees, and distribution verification runs without
   importing the uninstalled source package.
+- Casebook metadata is normalized across the full corpus, with strict lint and
+  the generated Atlas covering 181 reviewed or shipped cases.
+- Windows package guidance now treats manifest-defined dimensions and filenames
+  as part of the reviewed asset contract instead of relying on implicit scaling.
 
 ### Security
 
@@ -68,5 +72,5 @@ first published release remains under `Unreleased`.
 - Introduced the brief-to-concept-to-review workflow, multi-target icon engine,
   six-axis quality gate, Review Lab receipts, and evolving casebook.
 
-`0.4.0` is the repository's current package version. As of 2026-08-11 it has no
+`0.4.0` is the repository's current package version. As of 2026-08-13 it has no
 Git tag, GitHub Release, or PyPI distribution.

@@ -6,7 +6,11 @@ targets: web
 essence: affection
 style_family: mascot
 signature_device: a love emote face in a rounded pink badge with one heart tag
+device_family: mascot-single-trait
+device_detail: The creator-side emote keeps one heart tag as its only external identity accent.
+concept_lens: identity-owner
 cliche_avoided: generic rabbit emoji favicon, generic bunny head, tiny text
+status: shipped
 scores_first: legibility=3 distinctiveness=4 balance=4 color=5 scalability=3 craft=4
 scores_final: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
 iterations: 2

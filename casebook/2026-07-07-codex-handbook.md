@@ -6,7 +6,11 @@ targets: web,pwa,shortcut
 essence: decide
 style_family: flat-geometric
 signature_device: folded guide-card corner plus negative-space C route
+device_family: negative-space-cut
+device_detail: A C-shaped route is cut through a guide card whose folded corner changes the outer contour.
+concept_lens: user-job-first
 cliche_avoided: AI brain, robot head, sparkles, terminal chevron, blue-purple gradient
+status: shipped
 scores_first: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
 scores_final: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
 iterations: 2
