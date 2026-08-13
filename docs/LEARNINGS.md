@@ -627,3 +627,16 @@ small-size regression.
 preserved the reviewed listening-puff geometry in exact 44, 50, and 150px Store
 slots, then fixed the package by assigning the required manifest names. Folded
 into `OUTPUT_TARGETS.md`.
+
+## L44 — Put the action beside a compact noun before putting it above
+When a tiny utility mark must carry both a specific object and an action, test
+the action accent on a side edge first. At 16px, an accent above a compact object
+readily becomes a chimney, antenna, or upload arrow and replaces the intended
+noun. In the blacked-out proof, require at least two pixels of lateral extension
+while the primary mass still names the same object.
+*Why:* small-size grouping gives vertical appendages familiar meanings before
+color can explain their role; lateral displacement preserves the noun and turns
+the appendage into an edge interaction.
+*Evidence:* [Input State Recovery](../casebook/2026-08-13-input-state-recovery.md)
+moved its release tab from the keycap's top edge to its side after the top version
+read as a chimney. Folded into `DESIGN_PLAYBOOK.md` §5.

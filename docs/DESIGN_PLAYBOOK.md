@@ -245,6 +245,13 @@ zoom in `review.png`:
   Keep at least one clear rendered pixel between the accent and the primary
   glyph—if they merge, the glyph's first reading must remain pure and the accent
   has failed.
+- For a compact noun-plus-action utility mark, test the action accent on a
+  **side edge before the top edge**. At 16px, a top accent on an otherwise
+  nameable object readily becomes a chimney, antenna, or upload arrow and
+  replaces the noun. Black out the finalist and require the accent to extend at
+  least two rendered pixels laterally beyond the primary mass while the remaining
+  contour still names the same object. If it only works above the object, return
+  to divergence instead of explaining the shape with color or a label.
 - For adjacent automation toggles, review the whole on/off family as a monochrome
   16px row. Keep one object silhouette per feature, but make the state change alter
   the object's **outer contour** by at least two rendered pixels (about 128 units on
