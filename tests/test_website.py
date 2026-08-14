@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-import json
+import base64
 import hashlib
+import json
 import random
 import unittest
 import xml.etree.ElementTree as ET
@@ -19,6 +20,7 @@ SITE = ROOT / "website"
 HTML_PAGES = (
     "index.html",
     "404.html",
+    "getting-started/index.html",
     "gallery/index.html",
     "gallery/social-signals/index.html",
     "gallery/emoji-matrix/index.html",
@@ -47,6 +49,7 @@ class _SiteParser(HTMLParser):
         self.ids: set[str] = set()
         self.references: list[tuple[str, str]] = []
         self.images_without_alt: list[str] = []
+        self.images_without_dimensions: list[str] = []
         self.buttons_without_type: list[str] = []
         self.inline_styles: list[str] = []
 
@@ -59,6 +62,8 @@ class _SiteParser(HTMLParser):
                 self.references.append((attribute, value))
         if tag == "img" and "alt" not in values:
             self.images_without_alt.append(values.get("src", "<unknown>"))
+        if tag == "img" and ("width" not in values or "height" not in values):
+            self.images_without_dimensions.append(values.get("src", "<unknown>"))
         if tag == "button" and "type" not in values:
             self.buttons_without_type.append(values.get("class", "<unknown>"))
         if "style" in values:
@@ -82,6 +87,8 @@ class WebsiteContractTests(unittest.TestCase):
             "sitemap.xml",
             "_headers",
             "_redirects",
+            "getting-started/index.html",
+            "getting-started/getting-started.css",
             "gallery/index.html",
             "gallery/gallery.css",
             "gallery/gallery.js",
@@ -140,6 +147,61 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertIn('https://iconflow.pages.dev/', html)
         self.assertNotIn('https://ai-iconflow.pages.dev/', html)
         self.assertIn("Content-Security-Policy", (SITE / "_headers").read_text(encoding="utf-8"))
+
+    def test_getting_started_is_the_canonical_agent_and_cli_onboarding(self) -> None:
+        home = (SITE / "index.html").read_text(encoding="utf-8")
+        guide = (SITE / "getting-started" / "index.html").read_text(encoding="utf-8")
+        script = (SITE / "app.js").read_text(encoding="utf-8")
+        sitemap = (SITE / "sitemap.xml").read_text(encoding="utf-8")
+        headers = (SITE / "_headers").read_text(encoding="utf-8")
+
+        self.assertIn('/getting-started/', home)
+        self.assertIn('https://iconflow.pages.dev/getting-started/', guide)
+        self.assertIn('https://iconflow.pages.dev/getting-started/', sitemap)
+        self.assertIn('/getting-started/index.html', headers)
+        self.assertIn('data-copy-target="#install-windows"', guide)
+        self.assertIn('data-copy-target="#install-posix"', guide)
+        self.assertIn('data-copy-target="#agent-prompt"', guide)
+        self.assertIn('scripts\\setup.ps1', guide)
+        self.assertIn('scripts/setup.sh', guide)
+        self.assertIn('AGENTS.md', guide)
+        self.assertIn('iconflow review', guide)
+        self.assertIn('iconflow ship', guide)
+        self.assertIn('iconflow case new', guide)
+        self.assertIn('not published on PyPI yet', guide)
+        self.assertNotIn('pip install ai-iconflow', guide.split('not published on PyPI yet')[0])
+        self.assertIn("querySelectorAll('[data-copy-command]')", script)
+        self.assertIn('copyButton.dataset.copyTarget', script)
+        structured_data = []
+        for document in (home, guide):
+            json_ld = document.split('<script type="application/ld+json">', 1)[1].split('</script>', 1)[0]
+            structured_data.append(json.loads(json_ld))
+            json_ld_hash = base64.b64encode(hashlib.sha256(json_ld.encode()).digest()).decode()
+            self.assertIn(f"'sha256-{json_ld_hash}'", headers)
+
+        homepage_types = {item["@type"] for item in structured_data[0]["@graph"]}
+        self.assertEqual({"SoftwareSourceCode", "WebSite"}, homepage_types)
+        self.assertEqual("TechArticle", structured_data[1]["@type"])
+        self.assertNotIn("aggregateRating", home)
+        self.assertNotIn('"offers"', home)
+        self.assertNotIn("'unsafe-inline'", headers)
+
+    def test_getting_started_keeps_a_static_performance_budget(self) -> None:
+        guide_path = SITE / "getting-started" / "index.html"
+        guide_css = SITE / "getting-started" / "getting-started.css"
+        shared_css = SITE / "styles.css"
+        shared_script = SITE / "app.js"
+        guide = guide_path.read_text(encoding="utf-8")
+        parser = self.parse("getting-started/index.html")
+
+        self.assertLess(guide_path.stat().st_size, 25_000)
+        self.assertLess(guide_css.stat().st_size + shared_css.stat().st_size, 60_000)
+        self.assertLess(shared_script.stat().st_size, 8_000)
+        self.assertEqual([], parser.images_without_dimensions)
+        self.assertIn('<script src="/app.js" defer></script>', guide)
+        self.assertNotIn("fonts.googleapis.com", guide)
+        self.assertNotIn("cdn.", guide)
+        self.assertNotIn("<iframe", guide)
 
     def test_theme_worlds_are_source_bound(self) -> None:
         worlds = (

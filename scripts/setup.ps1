@@ -10,12 +10,14 @@ if (-not (Test-Path "$root\.venv")) {
 & "$root\.venv\Scripts\python.exe" -m pip install -e $root
 & "$root\.venv\Scripts\python.exe" -m iconflow setup
 
-# Install the iconflow skill from its canonical directory in this repository.
+# Install the open Agent Skills package from its canonical repository directory.
 $skillSrc = Join-Path $root "skills\iconflow"
 if (Test-Path (Join-Path $skillSrc "SKILL.md")) {
     $skillDestinations = @(
         (Join-Path $env:USERPROFILE ".codex\skills\iconflow"),
-        (Join-Path $env:USERPROFILE ".claude\skills\iconflow")
+        (Join-Path $env:USERPROFILE ".claude\skills\iconflow"),
+        (Join-Path $env:USERPROFILE ".agents\skills\iconflow"),
+        (Join-Path $env:USERPROFILE ".copilot\skills\iconflow")
     )
     foreach ($skillDst in $skillDestinations) {
         New-Item -ItemType Directory -Path $skillDst -Force | Out-Null

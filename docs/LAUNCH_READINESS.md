@@ -1,6 +1,6 @@
 # Launch readiness
 
-Status date: 2026-08-13. This file records evidence and remaining owner gates;
+Status date: 2026-08-14. This file records evidence and remaining owner gates;
 it is not a claim that a release has been published.
 
 ## Current readiness
@@ -12,6 +12,10 @@ it is not a claim that a release has been published.
 - [x] Wheel and sdist contents have a fail-closed verification script.
 - [x] A non-publishing release-candidate workflow builds checksums and proves wheel reproducibility.
 - [x] README provides a source-only installation path and a checked-in reviewed-family proof.
+- [x] The agent-first Getting Started route, Windows/POSIX setup scripts, and
+  open Agent Skill metadata have website and distribution contract tests.
+- [x] A fresh wheel installed outside the source tree passed `doctor` and the
+  source-bound 23-file brand ship on 2026-08-14.
 - [x] Twenty packaged technique families have one metadata source, clean `check`
   results, native 16px visual proof, tray guidance, and clean-room provenance.
 - [x] Security, provenance, changelog, contribution, issue, pull-request, and release guidance exists.
@@ -21,13 +25,16 @@ it is not a claim that a release has been published.
 - [x] Owner applied a public repository description and topic baseline.
 - [ ] Owner enables GitHub private vulnerability reporting.
 - [ ] Owner approves and applies the remaining homepage and social-preview settings.
+- [ ] Complete desktop, tablet, and mobile visual sign-off for
+  `/getting-started/`, then obtain owner approval before deploying it.
 - [ ] Owner approves a tag, GitHub Release, and PyPI publication.
 
 This checkout and the public GitHub repository are licensed under Apache-2.0.
 The [Releases page](https://github.com/snowyukitty/ai-iconflow/releases) remains
 empty and no `v*` tag exists. The
 [official PyPI JSON endpoint](https://pypi.org/pypi/ai-iconflow/json) for
-`ai-iconflow` returned HTTP 404 again on 2026-08-13, so the README intentionally
+`ai-iconflow` returned HTTP 404 again on 2026-08-14; GitHub still reported zero
+releases and zero tags, so the README intentionally
 documents source installation only. Name availability is not guaranteed until
 PyPI accepts a first publication.
 

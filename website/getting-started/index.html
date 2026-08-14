@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting Started — Design and ship an icon with IconFlow</title>
+  <meta name="description" content="Give an AI agent a product brief, inspect the SVG at native size, and ship reviewed favicon, PWA, desktop, and tray assets with IconFlow.">
+  <meta name="theme-color" content="#191a20">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Getting Started with IconFlow — Agent-first, proof-driven icons">
+  <meta property="og:description" content="One honest path from product intent to an editable SVG, native-size proof, and platform-ready icon family.">
+  <meta property="og:url" content="https://iconflow.pages.dev/getting-started/">
+  <meta property="og:image" content="https://iconflow.pages.dev/assets/social-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://iconflow.pages.dev/getting-started/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/getting-started/getting-started.css">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Getting Started with IconFlow",
+      "description": "Use an AI agent or the IconFlow CLI to design, review, and ship a platform-ready icon family.",
+      "url": "https://iconflow.pages.dev/getting-started/",
+      "about": { "@id": "https://iconflow.pages.dev/#source" },
+      "isPartOf": {
+        "@id": "https://iconflow.pages.dev/#website"
+      }
+    }
+  </script>
+  <script src="/app.js" defer></script>
+</head>
+<body class="guide-body">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="/" aria-label="IconFlow home">
+      <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
+      <span>IconFlow</span>
+    </a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu>
+      <span class="sr-only">Toggle navigation</span>
+      <span></span><span></span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+      <a href="#choose">Choose a path</a>
+      <a href="#install">Install</a>
+      <a href="#agent">Agent brief</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#outputs">Outputs</a>
+      <a href="/gallery/">Gallery</a>
+      <a href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="guide-hero section-shell">
+      <div class="guide-hero-copy reveal">
+        <p class="eyebrow"><span class="status-dot"></span> Getting started · source install</p>
+        <h1>Give your agent<br>the brief.<br><em>Keep the proof.</em></h1>
+        <p>IconFlow turns product intent into an editable SVG, then makes the design survive native pixels, platform crops, and a source-bound review before any asset ships.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#install">Run the five-minute proof <span aria-hidden="true">→</span></a>
+          <a class="button button-quiet" href="#agent"><span class="button-pixel"></span> Copy the agent brief</a>
+        </div>
+        <ul class="guide-requirements" aria-label="Requirements">
+          <li>Python 3.10+</li>
+          <li>Git</li>
+          <li>One-time network setup</li>
+        </ul>
+      </div>
+
+      <div class="handoff-card reveal" aria-label="IconFlow agent handoff">
+        <div class="handoff-topline"><span>AGENT HANDOFF</span><strong>01 / 04</strong></div>
+        <div class="handoff-brief">
+          <span class="handoff-label">PRODUCT INTENT</span>
+          <p>Help people compare research without losing the thread.</p>
+          <div class="brief-chips"><span>essence · proof</span><span>avoid · sparkle</span></div>
+        </div>
+        <div class="handoff-flow" aria-hidden="true">
+          <div><span>YOU</span><b></b></div>
+          <div><span>AGENT</span><b></b></div>
+          <div class="handoff-mark"><img src="/assets/iconflow-mark.svg" width="76" height="76" alt=""></div>
+          <div><span>PROOF</span><b></b></div>
+          <div><span>SHIP</span></div>
+        </div>
+        <div class="handoff-receipt">
+          <span class="receipt-pulse" aria-hidden="true"></span>
+          <div><strong>Decision remains inspectable</strong><small>brief · SVG · review · receipt · case</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-principle">
+      <div class="section-shell principle-grid reveal">
+        <p class="section-kicker">The operating model</p>
+        <h2>The agent designs.<br>IconFlow proves.</h2>
+        <p>The agent researches the product, explores distinct concepts, and authors semantic SVG. IconFlow provides the playbook, deterministic renderer, quality gate, target transforms, and learning loop. It is not a prompt-to-image generator.</p>
+      </div>
+    </section>
+
+    <section id="choose" class="guide-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">Choose your path</p>
+        <h2>Two doors.<br><span>One quality gate.</span></h2>
+        <p>Use the agent path when you want help with product thinking and SVG craft. Use the CLI path when you already own the design decisions. Both end at the same review contract.</p>
+      </div>
+      <div class="path-grid">
+        <article class="path-card path-primary reveal">
+          <div class="path-card-top"><span>Recommended</span><strong>Agent-assisted</strong></div>
+          <h3>Describe the product job, not the picture.</h3>
+          <p>Install the open-format IconFlow skill. A compatible agent can discover the workflow when you ask for an app icon, favicon, logo mark, or tray icon.</p>
+          <ol>
+            <li><span>01</span>Install the skill once</li>
+            <li><span>02</span>Give the agent product context</li>
+            <li><span>03</span>Inspect its bake-off and Review Lab</li>
+          </ol>
+          <a href="#agent">Use the agent brief <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="path-card reveal">
+          <div class="path-card-top"><span>Transparent</span><strong>Direct CLI</strong></div>
+          <h3>Drive every decision yourself.</h3>
+          <p>Read the design playbook, author the SVG finalists, and use the same commands the agent runs. No hidden service sits behind the CLI.</p>
+          <ol>
+            <li><span>01</span>Create <code>iconflow.toml</code></li>
+            <li><span>02</span>Compare and review candidates</li>
+            <li><span>03</span>Ship only with current approval</li>
+          </ol>
+          <a href="#workflow">See every command <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+      <p class="compatibility-note reveal"><strong>Using another AI agent?</strong> Any agent that can read repository instructions and run shell commands can use IconFlow through <code>AGENTS.md</code> plus the CLI. Automatic skill discovery depends on the client.</p>
+    </section>
+
+    <section id="install" class="install-section">
+      <div class="section-shell">
+        <div class="guide-heading reveal">
+          <p class="section-kicker">Five-minute engine proof</p>
+          <h2>Prove the pipeline<br><span>before designing.</span></h2>
+          <p>This builds IconFlow’s checked-in reviewed family into a disposable work directory. It proves your environment—not that a distinctive new identity can be designed in five minutes.</p>
+        </div>
+
+        <div class="proof-steps reveal">
+          <div><span>01</span><strong>Clone</strong><small>Get the current source.</small></div>
+          <div><span>02</span><strong>Set up</strong><small>Install Python deps, Chromium, and the agent skill.</small></div>
+          <div><span>03</span><strong>Ship proof</strong><small>Revalidate the receipt and build 23 assets.</small></div>
+        </div>
+
+        <div class="platform-grid">
+          <article class="command-card reveal">
+            <header><div><span></span><span></span><span></span></div><p>Windows · PowerShell</p></header>
+            <pre id="install-windows"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python -m venv .venv
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
+.\.venv\Scripts\python.exe -m iconflow doctor
+.\.venv\Scripts\python.exe -m iconflow ship `
+  --config brand\iconflow.toml `
+  --review brand\master-review.json `
+  --out work\quick-start\icon-out</code></pre>
+            <button class="copy-button" type="button" data-copy-command data-copy-target="#install-windows">Copy</button>
+          </article>
+
+          <article class="command-card reveal">
+            <header><div><span></span><span></span><span></span></div><p>macOS / Linux · shell</p></header>
+            <pre id="install-posix"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python3 -m venv .venv
+sh ./scripts/setup.sh
+./.venv/bin/python -m iconflow doctor
+./.venv/bin/python -m iconflow ship \
+  --config brand/iconflow.toml \
+  --review brand/master-review.json \
+  --out work/quick-start/icon-out</code></pre>
+            <button class="copy-button" type="button" data-copy-command data-copy-target="#install-posix">Copy</button>
+          </article>
+        </div>
+
+        <div class="proof-result reveal">
+          <div class="proof-result-mark"><img src="/assets/iconflow-mark.svg" width="92" height="92" alt="IconFlow mark"></div>
+          <div><span class="proof-result-label">Expected result</span><h3>A gate, not just a folder.</h3><p><code>doctor</code> reports the renderer ready. <code>ship</code> verifies the checked-in source and review contract, reruns QA, and writes web, PWA, Tauri desktop, Electron, and tray assets under <code>work/quick-start/icon-out/</code>.</p></div>
+          <ul><li><span></span>source hash matches</li><li><span></span>0 automated warnings</li><li><span></span>six scores ≥ 4/5</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="agent" class="agent-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">Start with intent</p>
+        <h2>Give the agent<br><span>a useful brief.</span></h2>
+        <p>A noun-only prompt produces decoration. Include the product’s job, audience, personality, palette, clichés to avoid, and exact output surfaces.</p>
+      </div>
+
+      <div class="agent-brief-grid">
+        <article class="brief-builder reveal">
+          <div class="brief-builder-head"><span>BRIEF / 01</span><strong>What the agent needs</strong></div>
+          <dl>
+            <div><dt>Product intent</dt><dd>What does the product enable?</dd></div>
+            <div><dt>User job</dt><dd>What progress is the user making?</dd></div>
+            <div><dt>Essence</dt><dd>One word that guides every choice.</dd></div>
+            <div><dt>Personality</dt><dd>Two or three traits with tension.</dd></div>
+            <div><dt>Clichés</dt><dd>The obvious category symbols to reject.</dd></div>
+            <div><dt>Targets</dt><dd>Web, PWA, desktop, tray—or only what exists.</dd></div>
+          </dl>
+        </article>
+
+        <article class="command-card prompt-card reveal">
+          <header><div><span></span><span></span><span></span></div><p>Agent prompt</p></header>
+          <pre id="agent-prompt"><code>Use the IconFlow skill to design, review, and ship a distinctive icon family for this project.
+
+Product intent: [what the product enables]
+User job: [the progress a person wants]
+Essence: [one word]
+Personality: [two or three traits]
+Existing palette: [tokens or colors]
+Clichés to avoid: [obvious symbols]
+Targets: [web, pwa, tauri, electron, tray]
+
+Keep the editable SVG and iconflow.toml in this project. Show me the concept bake-off and native-size review before shipping. Do not stop before recording the case.</code></pre>
+          <button class="copy-button" type="button" data-copy-command data-copy-target="#agent-prompt">Copy</button>
+        </article>
+      </div>
+
+      <div class="universal-agent reveal">
+        <div><p class="section-kicker">Universal fallback</p><h3>No skill discovery? Give the agent the contract.</h3><p>This works with an agent that can read files and execute the local Python CLI, even when its client does not support Agent Skills.</p></div>
+        <div class="universal-code">
+          <pre id="universal-prompt"><code>Read [ICONFLOW_REPO]/AGENTS.md completely.
+Use [ICONFLOW_REPO]/.venv/.../python -m iconflow ...
+Keep your shell in this consuming project.
+Follow concept → compare → check → review → ship → case.</code></pre>
+          <button class="copy-button" type="button" data-copy-command data-copy-target="#universal-prompt">Copy</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="workflow-section">
+      <div class="section-shell">
+        <div class="guide-heading reveal">
+          <p class="section-kicker">The complete loop</p>
+          <h2>Every command<br><span>earns its place.</span></h2>
+          <p>Run these from the consuming project. Use the IconFlow virtual-environment Python by absolute path so your config and final sources stay with the product they belong to.</p>
+        </div>
+
+        <ol class="workflow-list">
+          <li class="reveal">
+            <div class="workflow-number">01</div>
+            <div class="workflow-copy"><span>Brief</span><h3>Write the product contract.</h3><p>Record intent before drawing. The config also fixes targets, colors, paths, and tray behavior.</p></div>
+            <pre><code>python -m iconflow init --out iconflow.toml \
+  --name "My App" --essence proof \
+  --targets web,tauri,electron,tray</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">02</div>
+            <div class="workflow-copy"><span>Explore</span><h3>Force different visual ideas.</h3><p>Create at least four concepts through different lenses. Technique presets are scaffolds, never finished identities.</p></div>
+            <pre><code>python -m iconflow styles
+python -m iconflow new flat-geometric \
+  --out work/my-app/a.svg</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">03</div>
+            <div class="workflow-copy"><span>Compare</span><h3>Choose shape before polish.</h3><p>Bake two or three finalists together. Read the sheet at 128px, 16px, and in silhouette.</p></div>
+            <pre><code>python -m iconflow compare \
+  work/my-app/a.svg work/my-app/b.svg \
+  work/my-app/c.svg --out work/my-app/bake.png</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">04</div>
+            <div class="workflow-copy"><span>Inspect</span><h3>Review real target transforms.</h3><p>Fix every warning. Then inspect native pixels, alpha, adaptive crops, desktop corners, and tray contexts.</p></div>
+            <pre><code>python -m iconflow check master.svg
+python -m iconflow review --config iconflow.toml \
+  --out work/my-app/review.png \
+  --html work/my-app/review.html</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">05</div>
+            <div class="workflow-copy"><span>Ship</span><h3>Make approval fail closed.</h3><p>Export the Review Lab receipt only after every axis reaches 4/5. Source or target changes make that receipt stale.</p></div>
+            <pre><code>python -m iconflow ship \
+  --config iconflow.toml \
+  --review master-review.json</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">06</div>
+            <div class="workflow-copy"><span>Learn</span><h3>Return the lesson to the system.</h3><p>Record what failed first, what changed, and one reusable rule. An unrecorded icon teaches nothing.</p></div>
+            <pre><code>python -m iconflow case new ...
+python -m iconflow case lint
+python -m iconflow case stats</code></pre>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="outputs" class="outputs-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">Exact output families</p>
+        <h2>Ask only for<br><span>surfaces you ship.</span></h2>
+        <p>Targets are explicit. IconFlow does not claim “all platforms,” and a full app card does not silently become a useful menu-bar silhouette.</p>
+      </div>
+      <div class="output-grid">
+        <article class="output-card reveal"><span>WEB / PWA</span><h3>Browser surfaces</h3><p>Favicon SVG and ICO, Apple touch icon, 192px and 512px PWA assets, plus a maskable icon and manifest snippet.</p><code>--targets web,pwa</code></article>
+        <article class="output-card reveal"><span>TAURI</span><h3>Desktop bundle</h3><p>PNG sizes, ICO, ICNS, and the conventional <code>src-tauri/icons</code> layout for Tauri v2 desktop applications.</p><code>--targets tauri</code></article>
+        <article class="output-card reveal"><span>ELECTRON</span><h3>Packager inputs</h3><p>Cross-platform PNG, ICO, and ICNS assets for Electron and electron-builder packaging workflows.</p><code>--targets electron</code></article>
+        <article class="output-card reveal"><span>TRAY</span><h3>Menu-bar marks</h3><p>Color tray PNGs, macOS template assets, and a TypeScript helper. A dedicated mark-only <code>tray.svg</code> is strongly preferred.</p><code>--targets tray</code></article>
+      </div>
+      <div class="output-tree reveal" aria-label="Example generated file tree">
+        <div><p class="section-kicker">Example build</p><h3>One source. Explicit branches.</h3><p>The editable <code>master.svg</code> remains the source of truth beside the project. Generated files can always be rebuilt.</p></div>
+        <pre><code>icon-out/
+├── favicon.svg
+├── favicon.ico
+├── icon-192.png
+├── icon-512.png
+├── icon-512-maskable.png
+├── icons/
+│   ├── icon.ico
+│   └── icon.icns
+├── build/
+│   ├── icon.png
+│   ├── icon.ico
+│   └── icon.icns
+└── tray/
+    ├── tray.png
+    ├── trayTemplate.png
+    └── trayIcon.ts</code></pre>
+      </div>
+    </section>
+
+    <section class="limits-section">
+      <div class="section-shell limits-grid reveal">
+        <div><p class="section-kicker">Known boundaries</p><h2>Local does not mean<br><span>magical.</span></h2></div>
+        <ul>
+          <li><strong>Source install today.</strong><span>IconFlow is not published on PyPI yet. Do not use <code>pip install ai-iconflow</code> until an official release exists.</span></li>
+          <li><strong>One-time download.</strong><span>Setup needs network access for dependencies and Playwright Chromium; rendering and builds are local afterward.</span></li>
+          <li><strong>Desktop scope.</strong><span>Tauri output currently covers desktop assets, not Android or iOS launch and icon sets.</span></li>
+          <li><strong>Toolchain-bound proof.</strong><span>Repeatability assumes the same normalized SVG, config, IconFlow, Chromium, and Pillow versions.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="guide-cta section-shell reveal">
+      <div><p class="section-kicker">Ready for your project</p><h2>Start with the job.<br>End with evidence.</h2></div>
+      <div><p>Run the engine proof once. Then open your product repository, give the agent a concrete brief, and keep every design decision where future maintainers can inspect it.</p><div class="start-actions"><a class="button button-primary" href="#install">Install IconFlow <span aria-hidden="true">↑</span></a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">Read the design playbook</a></div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div>
+    <p>Apache-2.0 code · IconFlow identity subject to trademark policy.</p>
+    <nav aria-label="Footer navigation"><a href="/">Home</a><a href="/gallery/">Gallery</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">Docs</a><a href="https://github.com/snowyukitty/ai-iconflow">Source</a></nav>
+  </footer>
+</body>
+</html>

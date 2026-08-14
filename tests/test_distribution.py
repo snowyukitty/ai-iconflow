@@ -9,6 +9,9 @@ from iconflow.styles import PRESETS
 from scripts.verify_distribution import main, verify
 
 
+ROOT = Path(__file__).resolve().parents[1]
+
+
 class DistributionVerificationTests(unittest.TestCase):
     @staticmethod
     def _metadata() -> bytes:
@@ -97,6 +100,23 @@ class DistributionVerificationTests(unittest.TestCase):
         self.addCleanup(directory.cleanup)
         with self.assertRaisesRegex(ValueError, "Apache-2.0 package metadata"):
             verify(path)
+
+    def test_setup_scripts_install_the_open_skill_for_supported_clients(self):
+        powershell = (ROOT / "scripts" / "setup.ps1").read_text(encoding="utf-8")
+        posix = (ROOT / "scripts" / "setup.sh").read_text(encoding="utf-8")
+        for skill_home in (".codex", ".claude", ".agents", ".copilot"):
+            with self.subTest(skill_home=skill_home):
+                self.assertIn(skill_home, powershell)
+                self.assertIn(skill_home, posix)
+        self.assertIn('python3 -m venv "$repo_root/.venv"', posix)
+        self.assertIn('"$runner" -m iconflow setup', posix)
+        self.assertNotIn(b"\r\n", (ROOT / "scripts" / "setup.sh").read_bytes())
+
+        skill = (ROOT / "skills" / "iconflow" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertTrue(skill.startswith("---\nname: iconflow\n"))
+        self.assertIn("license: Apache-2.0", skill)
+        self.assertIn("compatibility:", skill)
+        self.assertIn('version: "0.4.0"', skill)
 
 
 if __name__ == "__main__":

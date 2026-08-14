@@ -101,14 +101,25 @@ galleryDialog?.addEventListener('click', (event) => {
   if (event.target === galleryDialog) galleryDialog.close();
 });
 
-const copyButton = document.querySelector('[data-copy-command]');
-const command = document.querySelector('[data-install-command]');
-copyButton?.addEventListener('click', async () => {
-  try {
-    await navigator.clipboard.writeText(command.textContent.trim());
-    copyButton.textContent = 'Copied';
+document.querySelectorAll('[data-copy-command]').forEach((copyButton) => {
+  copyButton.addEventListener('click', async () => {
+    const selector = copyButton.dataset.copyTarget;
+    const source = selector
+      ? document.querySelector(selector)
+      : document.querySelector('[data-install-command]');
+    if (!source) return;
+
+    try {
+      await navigator.clipboard.writeText(source.textContent.trim());
+      copyButton.textContent = 'Copied';
+    } catch {
+      const range = document.createRange();
+      range.selectNodeContents(source);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      copyButton.textContent = 'Selected';
+    }
     window.setTimeout(() => { copyButton.textContent = 'Copy'; }, 1600);
-  } catch {
-    copyButton.textContent = 'Select text';
-  }
+  });
 });

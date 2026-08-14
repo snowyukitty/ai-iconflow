@@ -19,6 +19,31 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://iconflow.pages.dev/#website",
+          "url": "https://iconflow.pages.dev/",
+          "name": "IconFlow",
+          "description": "A proof-driven, agent-native icon production system."
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "@id": "https://iconflow.pages.dev/#source",
+          "name": "IconFlow",
+          "description": "Design, review, and ship platform-ready icon families from one semantic SVG.",
+          "codeRepository": "https://github.com/snowyukitty/ai-iconflow",
+          "programmingLanguage": "Python",
+          "runtimePlatform": "Python 3.10+",
+          "license": "https://github.com/snowyukitty/ai-iconflow/blob/main/LICENSE",
+          "isPartOf": { "@id": "https://iconflow.pages.dev/#website" }
+        }
+      ]
+    }
+  </script>
   <script src="/app.js" defer></script>
 </head>
 <body>
@@ -39,7 +64,7 @@
       <a href="#worlds">Themes</a>
       <a href="/gallery/">Gallery</a>
       <a href="#styles">20 styles</a>
-      <a href="#evidence">Evidence</a>
+      <a href="/getting-started/">Get started</a>
       <a href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
@@ -51,7 +76,7 @@
         <h1>One master.<br>Every surface.<br><em>Proven at 16px.</em></h1>
         <p class="hero-lede">IconFlow turns product intent and one editable SVG into a reviewed icon family for the web, PWA, desktop, and system tray—with a quality gate that refuses weak pixels.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#start">Start with the source <span aria-hidden="true">→</span></a>
+          <a class="button button-primary" href="/getting-started/">Start with IconFlow <span aria-hidden="true">→</span></a>
           <a class="button button-quiet" href="#proof"><span class="button-pixel"></span> Inspect the proof</a>
         </div>
         <dl class="hero-stats" aria-label="IconFlow facts">
@@ -66,7 +91,7 @@
         <div class="stage-label stage-label-top">semantic SVG</div>
         <div class="hero-icon-wrap">
           <div class="hero-icon-halo"></div>
-          <img class="hero-icon" src="/assets/iconflow-mark.svg" width="420" height="420" alt="IconFlow Flow Gate mark">
+          <img class="hero-icon" src="/assets/iconflow-mark.svg" width="420" height="420" alt="IconFlow Petal Haypile mark">
           <div class="gate-orbit"><span></span></div>
         </div>
         <div class="hero-rail" aria-hidden="true">
@@ -376,10 +401,10 @@
         <div>
           <p class="section-kicker">Run the five-minute proof</p>
           <h2>Your icon deserves<br>an honest final mile.</h2>
-          <p>Clone the source, install locally, and build the checked-in IconFlow brand family. No image API, account, or cloud renderer required.</p>
+          <p>Choose the agent-assisted path or drive the CLI directly, then build the checked-in IconFlow brand family. No image API, account, or cloud renderer required.</p>
           <div class="start-actions">
-            <a class="button button-primary" href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
-            <a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs" target="_blank" rel="noreferrer">Read the playbook</a>
+            <a class="button button-primary" href="/getting-started/">Open Getting Started <span aria-hidden="true">→</span></a>
+            <a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
           </div>
         </div>
         <div class="install-terminal">
@@ -398,7 +423,7 @@ python -m venv .venv
   <footer class="site-footer section-shell">
     <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div>
     <p>Apache-2.0 code · IconFlow identity subject to trademark policy.</p>
-    <nav aria-label="Footer navigation"><a href="https://github.com/snowyukitty/ai-iconflow">Source</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">Docs</a><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">Trademark</a></nav>
+    <nav aria-label="Footer navigation"><a href="/getting-started/">Guide</a><a href="https://github.com/snowyukitty/ai-iconflow">Source</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">Docs</a><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">Trademark</a></nav>
   </footer>
 
   <dialog class="gallery-dialog" data-gallery-dialog>

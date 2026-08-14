@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'sha256-nPDZzbHJs18zxDudT8iuwujJ+6vbRhOOYmRQx5H0vik=' 'sha256-AGfmZaqa6EfrSTPRtudqMoSYbJ0U/Y0SmA06OhCLUE4='; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
@@ -10,6 +10,9 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 /gallery/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/getting-started/index.html
   Cache-Control: public, max-age=0, must-revalidate
 
 /gallery/social-signals/index.html

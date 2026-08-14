@@ -70,8 +70,7 @@ Then use the venv interpreter directly—no activation is required:
 
 ```powershell
 # Windows PowerShell
-.venv\Scripts\python.exe -m pip install .
-.venv\Scripts\python.exe -m iconflow setup
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
 .venv\Scripts\python.exe -m iconflow doctor
 .venv\Scripts\python.exe -m iconflow ship `
   --config brand/iconflow.toml --review brand/master-review.json `
@@ -80,8 +79,7 @@ Then use the venv interpreter directly—no activation is required:
 
 ```bash
 # macOS / Linux
-.venv/bin/python -m pip install .
-.venv/bin/python -m iconflow setup
+sh ./scripts/setup.sh
 .venv/bin/python -m iconflow doctor
 .venv/bin/python -m iconflow ship \
   --config brand/iconflow.toml --review brand/master-review.json \
@@ -176,25 +174,30 @@ python -m iconflow case stats
 
 ## The proof is visible
 
-IconFlow's own product identity was designed with the same workflow. Five
-concept lenses produced three SVG finalists. The **Flow Gate** winning concept,
-expressed as the **Proofed Flow** identity, uses a
-continuous master rail, an off-axis square quality gate, and a pixel-step
-terminal. It beat a generic adaptive aperture and a conventional F monogram in
-the silhouette row.
+IconFlow currently uses **Petal Haypile** as an explicitly temporary product
+mark while the permanent identity decision remains open. The owner selected it
+from the Round 3 living exploration: a low-eared pika returns to its hay store
+with three oversized petals. Its editable master, linked tray source,
+source-bound receipt, and checked-in target build live in [`brand/`](brand/).
+
+The earlier **Flow Gate / Proofed Flow** identity remains valuable historical
+evidence and the fixed specimen used for controlled technique comparisons. Five
+concept lenses produced three SVG finalists; Flow Gate beat a generic adaptive
+aperture and a conventional F monogram in the silhouette row.
 
 ![IconFlow brand concept bake-off](docs/assets/concept-bake.png)
 
-The winner then went through two review passes. The first tilted gate blurred at
+That historical winner went through two review passes. The first tilted gate blurred at
 16px; the final gate is aligned to a 64-unit rhythm, with a 128-unit counter that
-remains exactly two deliberate pixels at 16px. The editable source, target-aware
-Review Lab, dedicated tray mark, gated `iconflow.toml`, and complete build live
-in [`brand/`](brand/).
+remains exactly two deliberate pixels at 16px. Its case is preserved in
+[`casebook/2026-07-13-iconflow-brand.md`](casebook/2026-07-13-iconflow-brand.md).
 
 <img src="docs/assets/review-proof.png" width="760" alt="IconFlow final review sheet with actual-size, pixel, silhouette, and adaptive-crop evidence">
 
-Final rubric: legibility 4, distinctiveness 4, balance 4, color 5,
-scalability 5, craft 5. `check` is clean.
+Historical Flow Gate rubric: legibility 4, distinctiveness 4, balance 4,
+color 5, scalability 5, craft 5. Current Petal Haypile rubric: legibility 4,
+distinctiveness 5, balance 4, color 5, scalability 4, craft 4. Both sources
+were `check` clean at their respective review points.
 
 ## Review Lab
 
@@ -301,20 +304,26 @@ docs/
 examples/                   end-to-end usage patterns
 iconflow/                   renderer, QA, review, packaging, config, and CLI
 templates/presets/          check-clean technique scaffolds
-skills/iconflow/            canonical Codex/Claude skill + interface metadata
+skills/iconflow/            canonical open Agent Skill + client metadata
 work/                       gitignored design-session evidence
 AGENTS.md                   required procedure for agent designers
 ```
 
 ## The IconFlow agent skill
 
-Codex and Claude Code users get an `iconflow` skill whose canonical source lives
-at [`skills/iconflow/SKILL.md`](skills/iconflow/SKILL.md), with Codex interface
-metadata in [`skills/iconflow/agents/openai.yaml`](skills/iconflow/agents/openai.yaml).
-It versions with the toolkit so it does not drift from `AGENTS.md`.
-`scripts/setup.ps1` installs the package into both
-`~/.codex/skills/iconflow/` and `~/.claude/skills/iconflow/`; edit the canonical
-repository source and rerun setup rather than hand-editing either deployment.
+IconFlow ships an open-format [Agent Skill](https://agentskills.io/) whose
+canonical source lives at [`skills/iconflow/SKILL.md`](skills/iconflow/SKILL.md),
+with Codex interface metadata in
+[`skills/iconflow/agents/openai.yaml`](skills/iconflow/agents/openai.yaml). It
+versions with the toolkit so it does not drift from `AGENTS.md`.
+
+The setup scripts install the same skill into the personal discovery locations
+used by Codex, Claude Code, open Agent Skills clients, and GitHub Copilot:
+`~/.codex/skills/iconflow/`, `~/.claude/skills/iconflow/`,
+`~/.agents/skills/iconflow/`, and `~/.copilot/skills/iconflow/`. Automatic
+discovery remains client-dependent. Any other agent can read the repository
+[`AGENTS.md`](AGENTS.md) and run the same CLI. Edit the canonical repository
+source and rerun setup rather than hand-editing a deployed copy.
 
 ## Calling IconFlow from another project
 

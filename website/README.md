@@ -8,6 +8,11 @@ is a compatibility redirect.
 The site deliberately uses repository-authored, reviewed assets only. The
 technique SVGs are labeled as scaffolds rather than finished identities.
 
+The dedicated `/getting-started/` route is the canonical public onboarding
+surface. It separates agent-assisted and direct CLI use, provides copyable
+Windows and POSIX setup paths, and keeps current product limits beside the
+commands they qualify.
+
 ## Preview
 
 Serve `website/` with any static server. Do not open `index.html` directly if

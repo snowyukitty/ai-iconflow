@@ -96,7 +96,9 @@ not the repo root — e.g. `work/myapp/a.svg`, `work/myapp/bake.png`. The final
 
 ## Environment
 - Needs Python + Playwright Chromium + Pillow. One-time: `python -m iconflow setup`
-  (or `scripts/setup.ps1` on Windows), which installs the Chromium runtime.
+  installs the Chromium runtime. The repository setup scripts (`setup.ps1` on
+  Windows and `setup.sh` on macOS/Linux) also install the open Agent Skill into
+  the common personal discovery locations.
 - Pure stdlib + two pip deps. No API keys, no external services, fully offline.
 - Rendering runs network-isolated with page JavaScript, external resources, and
   animation disabled. Treat a safety warning as source content to remove, not a
@@ -124,4 +126,5 @@ path issues immediately. Add `--content-address-icon` for delivery: it copies th
 icon to `shortcut-icon-<sha12>.ico`, points the shortcut at the immutable alias,
 and implies `--verify`, avoiding Explorer's stale path-keyed icon pixels.
 
-Codex and Claude Code users also get the global `iconflow` skill (see README).
+Skills-compatible agents can use the open-format `iconflow` skill; every other
+agent can follow this file and call the same CLI (see README).

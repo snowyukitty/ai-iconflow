@@ -1,9 +1,11 @@
 # Launch site brief
 
-Status: implemented in `website/`, promoted to the canonical
-[`iconflow.pages.dev`](https://iconflow.pages.dev/) host on 2026-08-12, and
-expanded with nine source-bound Theme Worlds and the proofed 100-case Gallery
-at `/gallery/`. `ai-iconflow.pages.dev` remains a compatibility redirect.
+Status: implemented in `website/`; the homepage, nine source-bound Theme Worlds,
+and proofed 100-case Gallery at `/gallery/` were promoted to the canonical
+[`iconflow.pages.dev`](https://iconflow.pages.dev/) host on 2026-08-12. The
+local site now also includes the agent-first onboarding guide at
+`/getting-started/`; it has not been deployed in this session.
+`ai-iconflow.pages.dev` remains a compatibility redirect.
 This document remains the acceptance boundary for future promotional-site
 changes.
 
@@ -134,6 +136,7 @@ every control keyboard reachable.
 Core routes:
 
 - `/`
+- `/getting-started/`
 - `/gallery/`
 - `/styles`
 - `/proof`

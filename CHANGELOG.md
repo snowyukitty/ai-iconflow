@@ -17,6 +17,12 @@ first published release remains under `Unreleased`.
   Proof Lab, technique gallery, accessible controls, security headers, and a
   canonical production deployment at `iconflow.pages.dev`, with
   `ai-iconflow.pages.dev` retained as a permanent compatibility redirect.
+- An agent-first `/getting-started/` guide with copyable cross-platform setup,
+  an honest agent/CLI responsibility split, the complete quality-gated loop,
+  exact output families, current limitations beside the workflow, and
+  crawlable `WebSite` / `SoftwareSourceCode` metadata without invented ratings.
+- Cross-platform setup scripts that deploy the open-format IconFlow skill to
+  Codex, Claude Code, open Agent Skills, and GitHub Copilot discovery homes.
 - Nine reviewed Theme Worlds now prove subject range beyond the fixed Flow Gate
   specimen: relationship, cat, dog, fish, original character, and game. Each
   includes an editable SVG, source-bound receipt, native 16px render, shipped

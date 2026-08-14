@@ -1,6 +1,6 @@
 recursive-include templates *.svg
 recursive-include docs *
-recursive-include scripts *.py *.ps1
+recursive-include scripts *.py *.ps1 *.sh
 recursive-include examples *.md
 include brand/master.svg brand/tray.svg brand/iconflow.toml brand/master-review.json
 include requirements.txt AGENTS.md

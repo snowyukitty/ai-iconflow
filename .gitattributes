@@ -1,1 +1,5 @@
 *.svg text eol=lf
+*.sh text eol=lf
+website/index.html text eol=lf
+website/getting-started/index.html text eol=lf
+website/_headers text eol=lf

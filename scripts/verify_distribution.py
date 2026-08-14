@@ -143,6 +143,7 @@ def verify(path: Path) -> None:
             "examples/README.md",
             "iconflow/styles.py",
             "scripts/setup.ps1",
+            "scripts/setup.sh",
             "skills/iconflow/SKILL.md",
             "tests/test_cli.py",
             *(f"templates/presets/{preset}.svg" for preset in PRESETS),
@@ -155,6 +156,10 @@ def verify(path: Path) -> None:
     missing = sorted(required - names)
     if missing:
         raise ValueError(f"required members missing from {path.name}: {', '.join(missing)}")
+    if path.name.endswith(".tar.gz"):
+        setup_sh = _read_member(path, archive_name["scripts/setup.sh"])
+        if b"\r\n" in setup_sh:
+            raise ValueError(f"POSIX setup script has CRLF line endings: {path.name}")
     _verify_license_metadata(path, _read_member(path, archive_name[metadata_name]))
     print(f"OK {path.name}: {len(members)} files, required resources present, no forbidden paths")
 
