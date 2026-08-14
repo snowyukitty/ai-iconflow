@@ -521,7 +521,11 @@ before the shared noun does, leaving two states that look identical at control s
 *Evidence:* [casebook/2026-08-10-yukoe-live-language-controls.md](../casebook/2026-08-10-yukoe-live-language-controls.md) —
 moving speech state from a small handle/shell into a broad call wing versus a deep
 outer notch, and translation state into an open versus closed phrasebook, raised
-legibility 3→4 and scalability 3→4. Folded into `DESIGN_PLAYBOOK.md` §5.
+legibility 3→4 and scalability 3→4. [Yukoe Automatic Speech
+Controls](../casebook/2026-08-14-yukoe-automatic-speech-controls.md) confirmed
+the rule across nine adjacent states: concrete content nouns plus a 4–6px
+stateful right edge survived after gradients and color were removed. Folded
+into `DESIGN_PLAYBOOK.md` §5.
 
 ## L37 — A new style must beat its nearest existing family at 16px
 A catalog family earns a new name only when its **structural move** remains
@@ -611,8 +615,13 @@ whose features share the foreground fill collapses into a featureless template.
 raised legibility and scalability from 1 by cutting the face through the
 silhouette; [Yukoe Tray Brand Fidelity](../casebook/2026-08-12-yukoe-tray-brand-fidelity.md)
 restored the white face and pink listening ear, then increased occupied area
-with a tighter crop. Folded into `DESIGN_PLAYBOOK.md` §5 and
-`SVG_TECHNIQUES.md` §11.
+with a tighter crop. [Yukoe Windows Tray Brand
+Parity](../casebook/2026-08-14-yukoe-windows-tray-brand-parity.md) proved that
+the color and alpha reductions sometimes require separate linked sources;
+[IconFlow Petal Haypile](../casebook/2026-08-14-iconflow-petal-haypile-temporary.md)
+showed that a linked contrast halo can adapt an approved full-card mascot to a
+light tray without redrawing its primary geometry. Folded into
+`DESIGN_PLAYBOOK.md` §5 and `SVG_TECHNIQUES.md` §11.
 
 ## L43 — Package manifests own both the exact raster dimensions and filenames
 When a platform package or store manifest names fixed logo slots, render every
@@ -640,3 +649,17 @@ the appendage into an edge interaction.
 *Evidence:* [Input State Recovery](../casebook/2026-08-13-input-state-recovery.md)
 moved its release tab from the keycap's top edge to its side after the top version
 read as a chimney. Folded into `DESIGN_PLAYBOOK.md` §5.
+
+## L45 — Promote a product mark as one source-bound transaction
+When an approved candidate becomes the current product mark—even temporarily—
+update the editable master, linked target sources, review receipt,
+deterministic outputs, product-facing copies, and status documentation in one
+reviewable change. Preserve the superseded mark as named historical evidence
+instead of leaving two files that both claim to be current.
+*Why:* a logo is a distributed product state. Updating only the visible SVG can
+leave favicons, tray assets, receipts, and documentation bound to different
+identities, making both rollback and future design work ambiguous.
+*Evidence:* [IconFlow Petal Haypile](../casebook/2026-08-14-iconflow-petal-haypile-temporary.md)
+promoted an owner-selected Round 3 mark across source, receipt, 23 deterministic
+outputs, website assets, and brand-status documentation while retaining Flow
+Gate as historical rationale. Folded into `BRAND_SYSTEM.md`.

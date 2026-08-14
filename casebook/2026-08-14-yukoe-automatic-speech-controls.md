@@ -30,4 +30,4 @@ survives mid-gray as well as light and dark surfaces.
 ## Lessons
 <!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
      flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
-- [ ] At 16px, put state on the outer contour and content on one concrete interior object; a color-only fill cannot carry blocked versus off.
+- [x] At 16px, put state on the outer contour and content on one concrete interior object; a color-only fill cannot carry blocked versus off.

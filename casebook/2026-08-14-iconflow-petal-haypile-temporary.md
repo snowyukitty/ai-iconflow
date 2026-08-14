@@ -33,5 +33,5 @@ right-side petal projection as the outer silhouette.
 ## Lessons
 <!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
      flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
-- [ ] When temporarily promoting an existing full-card living icon, preserve the approved master geometry and spend the new design pass on target semantics: a linked tray halo can solve contrast without turning the temporary choice into a redesign.
-- [ ] A temporary product-mark promotion must update source, receipt, deterministic outputs, website assets, and status documentation together while preserving the superseded mark as historical evidence rather than current truth.
+- [x] When temporarily promoting an existing full-card living icon, preserve the approved master geometry and spend the new design pass on target semantics: a linked tray halo can solve contrast without turning the temporary choice into a redesign.
+- [x] A temporary product-mark promotion must update source, receipt, deterministic outputs, website assets, and status documentation together while preserving the superseded mark as historical evidence rather than current truth.

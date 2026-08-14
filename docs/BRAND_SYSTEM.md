@@ -132,6 +132,20 @@ the brand.
 - Do not reorder or independently recolor the three carried petals during the
   temporary-mark period; they are one signature group.
 
+## Promotion contract
+
+Treat a product-mark promotion as one source-bound transaction, including a
+temporary selection. The same reviewable change must update:
+
+- editable master and any geometry-linked target source;
+- source/target-bound review receipt and every deterministic build output;
+- website favicon, PWA, and visible mark assets;
+- current-status documentation, while naming the superseded mark as history.
+
+Do not leave two assets that both claim to be current. A reversible temporary
+choice still needs a complete production state; reversibility comes from the
+preserved history and coherent commit, not from partially updating surfaces.
+
 ## Assets
 
 ```text

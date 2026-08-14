@@ -33,4 +33,4 @@ three backgrounds without weakening either reduction.
 ## Lessons
 <!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
      flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
-- [ ] When a full-color Windows tray and an alpha-only menu-bar template demand incompatible pixel semantics, keep linked platform reductions from shared geometry instead of degrading the color asset with transparent facial holes.
+- [x] When a full-color Windows tray and an alpha-only menu-bar template demand incompatible pixel semantics, keep linked platform reductions from shared geometry instead of degrading the color asset with transparent facial holes.
