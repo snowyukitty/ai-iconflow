@@ -11,16 +11,16 @@ casebook = "../casebook"
 [brief]
 app_intent = "turn app intent and one semantic SVG into a reviewed, platform-ready icon family"
 user_job = "turn app intent into a proven, target-ready icon family"
-essence = "proof"
-personality = ["precise", "opinionated", "calm"]
+essence = "gather"
+personality = ["alive", "gentle", "curious", "precise"]
 
 [design]
-palette = ["graphite #191A20", "signal coral #FF5A4F", "warm paper #FFF4E8"]
-cliches = ["AI sparkles", "robot or brain", "generic arrow/check/bookmark", "blue-purple gradient"]
-signature_device = "continuous master rail through an off-axis square proof gate, resolving into a pixel-step terminal"
-device_family = "ownable-geometry"
-device_detail = "orthogonal master rail, 256-unit proof gate, 128-unit counter, two-step raster terminal"
-concept_lens = "verb-system"
+palette = ["graphite #191A20", "warm paper #FFF4E8", "lagoon #59C7C1", "petal coral #FF5A4F", "petal gold #F2B84B", "petal violet #845EC2"]
+cliches = ["generic flow arrow", "AI sparkles", "robot or brain", "blue-purple SaaS monogram"]
+signature_device = "a low-eared pika returns to its hay store carrying three oversized petals"
+device_family = "character-silhouette"
+device_detail = "low paired ears, broad warm-paper body, lagoon hay cove, and three off-axis carried petals"
+concept_lens = "object-mascot"
 
 [build]
 targets = ["web", "tauri", "electron", "tray"]
@@ -29,15 +29,15 @@ background_color = "#FFF4E8"
 electron_radius = 0
 tray_ts = true
 tray_svg = "tray.svg"
-tray_template_mode = "auto"
+tray_template_mode = "alpha"
 color_scheme = "light"
 optimize_png = true
 
 [review]
 status = "approved"
-source_sha256 = "573007f93fb1c357240a9af383a47d0214dde9fbb95d712b5dd85e1857ece3a2"
-contract_sha256 = "3f7bd53ec671513ee1e4c80e70f684d39535c66ed5f7b4c155856b59303f5ac6"
+source_sha256 = "789de5f7ea1241c4e92939d968ad6cc7720af6549a058febac525b64cbae82d6"
+contract_sha256 = "7e1adf3a3c8ba625c8d271d35b08512bbfa0a19bbf5a439d3c19223ee4f08a0f"
 # Review Lab receipt is preferred. For this manual fallback, set status to
 # "approved" and copy both reviewed hashes; `ship` requires every score >= 4.
-scores = {legibility = 4, distinctiveness = 4, balance = 4, color = 5, scalability = 5, craft = 5}
-notes = "Pass 2 aligned the proof gate and its 128-unit counter to a 64-unit raster rhythm; final maskable and tray-template previews preserve the same idea."
+scores = {legibility = 4, distinctiveness = 5, balance = 4, color = 5, scalability = 4, craft = 4}
+notes = "Owner-selected temporary product mark. Static review confirms the low-eared pika, lagoon hay cove, and right-side petal punctuation survive actual sizes and adaptive crops. The linked tray source adds a graphite halo; exact 16px color assets were inspected on white, gray, and dark, and the 16/32px alpha templates keep the pika-plus-petals footprint. Interactive Review Lab remains blocked by the established managed-browser runtime failure, so this uses the documented source-bound fallback."
