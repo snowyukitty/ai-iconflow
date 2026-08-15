@@ -101,13 +101,20 @@ class DistributionVerificationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Apache-2.0 package metadata"):
             verify(path)
 
-    def test_setup_scripts_install_the_open_skill_for_supported_clients(self):
+    def test_setup_scripts_use_one_codex_user_skill_location(self):
         powershell = (ROOT / "scripts" / "setup.ps1").read_text(encoding="utf-8")
         posix = (ROOT / "scripts" / "setup.sh").read_text(encoding="utf-8")
-        for skill_home in (".codex", ".claude", ".agents", ".copilot"):
+        for skill_home in (".claude", ".agents", ".copilot"):
             with self.subTest(skill_home=skill_home):
                 self.assertIn(skill_home, powershell)
                 self.assertIn(skill_home, posix)
+        self.assertNotIn(
+            '(Join-Path $env:USERPROFILE ".codex\\skills\\iconflow"),',
+            powershell,
+        )
+        self.assertNotIn('"$HOME/.codex/skills" \\', posix)
+        self.assertIn("Removed legacy duplicate iconflow skill", powershell)
+        self.assertIn("Removed legacy duplicate IconFlow skill", posix)
         self.assertIn('python3 -m venv "$repo_root/.venv"', posix)
         self.assertIn('"$runner" -m iconflow setup', posix)
         self.assertNotIn(b"\r\n", (ROOT / "scripts" / "setup.sh").read_bytes())

@@ -49,6 +49,9 @@ first published release remains under `Unreleased`.
 
 ### Changed
 
+- Setup now installs the Codex/Open Agent Skills user copy only under
+  `~/.agents/skills/iconflow/` and removes the legacy
+  `~/.codex/skills/iconflow/` duplicate that current Codex also discovers.
 - The promotional site's canonical host is now `ai-iconflow.com`. Canonical
   links, Open Graph URLs, structured data, `robots.txt`, and the sitemap point
   at the apex, and exactly one host serves content. `www.ai-iconflow.com` and

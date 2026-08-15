@@ -14,7 +14,6 @@ if (-not (Test-Path "$root\.venv")) {
 $skillSrc = Join-Path $root "skills\iconflow"
 if (Test-Path (Join-Path $skillSrc "SKILL.md")) {
     $skillDestinations = @(
-        (Join-Path $env:USERPROFILE ".codex\skills\iconflow"),
         (Join-Path $env:USERPROFILE ".claude\skills\iconflow"),
         (Join-Path $env:USERPROFILE ".agents\skills\iconflow"),
         (Join-Path $env:USERPROFILE ".copilot\skills\iconflow")
@@ -37,6 +36,23 @@ if (Test-Path (Join-Path $skillSrc "SKILL.md")) {
             Remove-Item -LiteralPath $staleReadme -Force
         }
         Write-Host "Installed iconflow skill to $skillDst" -ForegroundColor Cyan
+    }
+
+    # Codex now discovers user skills from .agents. Keeping the former .codex
+    # deployment makes the same named skill appear twice because Codex does not
+    # merge duplicate names across discovery roots.
+    $legacyCodexSkill = [System.IO.Path]::GetFullPath(
+        (Join-Path $env:USERPROFILE ".codex\skills\iconflow")
+    )
+    $legacyCodexParent = [System.IO.Path]::GetFullPath(
+        (Join-Path $env:USERPROFILE ".codex\skills")
+    )
+    if ([System.IO.Path]::GetDirectoryName($legacyCodexSkill) -ne $legacyCodexParent) {
+        throw "Refusing to remove unexpected legacy skill path: $legacyCodexSkill"
+    }
+    if (Test-Path -LiteralPath $legacyCodexSkill) {
+        Remove-Item -LiteralPath $legacyCodexSkill -Recurse -Force
+        Write-Host "Removed legacy duplicate iconflow skill from $legacyCodexSkill" -ForegroundColor Cyan
     }
 }
 

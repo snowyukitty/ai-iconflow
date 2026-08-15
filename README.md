@@ -317,13 +317,16 @@ with Codex interface metadata in
 [`skills/iconflow/agents/openai.yaml`](skills/iconflow/agents/openai.yaml). It
 versions with the toolkit so it does not drift from `AGENTS.md`.
 
-The setup scripts install the same skill into the personal discovery locations
-used by Codex, Claude Code, open Agent Skills clients, and GitHub Copilot:
-`~/.codex/skills/iconflow/`, `~/.claude/skills/iconflow/`,
-`~/.agents/skills/iconflow/`, and `~/.copilot/skills/iconflow/`. Automatic
-discovery remains client-dependent. Any other agent can read the repository
-[`AGENTS.md`](AGENTS.md) and run the same CLI. Edit the canonical repository
-source and rerun setup rather than hand-editing a deployed copy.
+The setup scripts install the skill once in the shared user discovery location
+used by current Codex and open Agent Skills clients,
+`~/.agents/skills/iconflow/`, plus the client-specific
+`~/.claude/skills/iconflow/` and `~/.copilot/skills/iconflow/` locations. They
+also remove the former `~/.codex/skills/iconflow/` deployment: current Codex
+scans both user roots and does not merge same-named skills, so retaining it
+would expose a duplicate. Automatic discovery remains client-dependent. Any
+other agent can read the repository [`AGENTS.md`](AGENTS.md) and run the same
+CLI. Edit the canonical repository source and rerun setup rather than
+hand-editing a deployed copy.
 
 ## Calling IconFlow from another project
 
