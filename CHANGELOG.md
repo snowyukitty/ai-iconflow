@@ -62,6 +62,13 @@ first published release remains under `Unreleased`.
   stay testable. `rel=canonical` was not sufficient on its own: it advises
   crawlers, while root-relative internal links kept a visitor who landed on the
   old host there for the whole session.
+- The site's CSP drops its two pinned inline-script hashes for plain
+  `script-src 'self'`. A Chromium probe confirmed that `application/ld+json`
+  raises no `securitypolicyviolation` under `script-src 'self'` and stays
+  readable from the DOM, so the hashes protected nothing while invalidating the
+  CSP on every structured-data edit. Every executable script is an external
+  file, so the policy is now strictly tighter: no inline allowance at all, with
+  a test that fails if an executable inline script is ever added.
 - Site deploys go through `scripts/deploy-site.ps1`, which pins each directory
   to its Pages project and verifies the host contract afterwards. The mapping is
   easy to get wrong in both directions: deploying the content tree from the

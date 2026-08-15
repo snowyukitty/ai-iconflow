@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import base64
 import hashlib
 import json
 import random
@@ -194,6 +193,29 @@ class WebsiteContractTests(unittest.TestCase):
         # the apex would redirect to itself. Keep the two trees distinguishable.
         self.assertFalse((SITE / "_redirects").read_text(encoding="utf-8").startswith("/*"))
 
+    def test_csp_needs_no_inline_script_allowance(self) -> None:
+        headers = (SITE / "_headers").read_text(encoding="utf-8")
+        self.assertNotIn("'unsafe-inline'", headers)
+        # Every executable script is an external file, so script-src 'self'
+        # covers the site without granting any inline allowance. The two
+        # application/ld+json blocks are data, not script: Chromium raises no
+        # securitypolicyviolation for them under script-src 'self' and their
+        # text stays readable from the DOM, so pinning their hashes bought
+        # nothing and broke the CSP every time their URLs changed.
+        self.assertNotIn("'sha256-", headers)
+        self.assertNotIn("'nonce-", headers)
+
+        inline = re.compile(r"<script(?![^>]*\bsrc=)([^>]*)>", re.I)
+        for page in HTML_PAGES:
+            document = (SITE / page).read_text(encoding="utf-8")
+            for attrs in inline.findall(document):
+                with self.subTest(page=page):
+                    self.assertIn(
+                        "application/ld+json",
+                        attrs,
+                        f"{page} has an executable inline script that CSP now blocks",
+                    )
+
     def test_getting_started_is_the_canonical_agent_and_cli_onboarding(self) -> None:
         home = (SITE / "index.html").read_text(encoding="utf-8")
         guide = (SITE / "getting-started" / "index.html").read_text(encoding="utf-8")
@@ -222,8 +244,6 @@ class WebsiteContractTests(unittest.TestCase):
         for document in (home, guide):
             json_ld = document.split('<script type="application/ld+json">', 1)[1].split('</script>', 1)[0]
             structured_data.append(json.loads(json_ld))
-            json_ld_hash = base64.b64encode(hashlib.sha256(json_ld.encode()).digest()).decode()
-            self.assertIn(f"'sha256-{json_ld_hash}'", headers)
 
         homepage_types = {item["@type"] for item in structured_data[0]["@graph"]}
         self.assertEqual({"SoftwareSourceCode", "WebSite"}, homepage_types)
