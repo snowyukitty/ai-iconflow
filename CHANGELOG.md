@@ -51,8 +51,19 @@ first published release remains under `Unreleased`.
 
 - The promotional site's canonical host is now `ai-iconflow.com`. Canonical
   links, Open Graph URLs, structured data, `robots.txt`, and the sitemap point
-  at the apex; `www.ai-iconflow.com` and `ai-iconflow.pages.dev` are permanent
-  301 redirects to it, and `iconflow.pages.dev` remains the Pages default host.
+  at the apex, and exactly one host serves content. `www.ai-iconflow.com` and
+  `ai-iconflow.pages.dev` redirect through the shell project's `_redirects`;
+  `iconflow.pages.dev` redirects through a Pages Functions middleware, because
+  Pages supports no domain-level `_redirects` rule and a project cannot
+  host-match its own default host. Deployment previews still serve, so they
+  stay testable. `rel=canonical` was not sufficient on its own: it advises
+  crawlers, while root-relative internal links kept a visitor who landed on the
+  old host there for the whole session.
+- Site deploys go through `scripts/deploy-site.ps1`, which pins each directory
+  to its Pages project and verifies the host contract afterwards. The mapping is
+  easy to get wrong in both directions: deploying the content tree from the
+  repository root silently ships no Functions bundle, and deploying the redirect
+  shell to the content project would make the apex redirect to itself.
 - Manual review approvals are bound to the complete source, project, target,
   color, Electron, and semantic tray-source transform contract.
 - `iconflow new` refuses to overwrite an existing destination unless `--force`

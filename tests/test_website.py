@@ -4,6 +4,7 @@ import base64
 import hashlib
 import json
 import random
+import re
 import unittest
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
@@ -18,7 +19,14 @@ from iconflow.config import load_config, load_review_receipt, svg_sha256
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "website"
 CANONICAL_ORIGIN = "https://ai-iconflow.com"
-LEGACY_ORIGINS = ("https://iconflow.pages.dev", "https://ai-iconflow.pages.dev")
+NONCANONICAL_ORIGINS = (
+    "https://iconflow.pages.dev",
+    "https://ai-iconflow.pages.dev",
+    "https://www.ai-iconflow.com",
+)
+LEGACY_ORIGINS = NONCANONICAL_ORIGINS
+# Hosts the site answers on but must never serve content from.
+REDIRECT_ONLY_HOSTS = ("iconflow.pages.dev",)
 HTML_PAGES = (
     "index.html",
     "404.html",
@@ -147,9 +155,44 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertNotIn("fonts.googleapis.com", html)
         self.assertNotIn("cdn.", html)
         self.assertIn(f"{CANONICAL_ORIGIN}/", html)
-        for legacy in LEGACY_ORIGINS:
-            self.assertNotIn(f"{legacy}/", html)
         self.assertIn("Content-Security-Policy", (SITE / "_headers").read_text(encoding="utf-8"))
+
+    def test_every_page_declares_only_the_canonical_origin(self) -> None:
+        for page in HTML_PAGES:
+            document = (SITE / page).read_text(encoding="utf-8")
+            with self.subTest(page=page):
+                for origin in NONCANONICAL_ORIGINS:
+                    self.assertNotIn(f"{origin}/", document)
+                canonicals = re.findall(
+                    r'<link rel="canonical" href="([^"]+)"', document
+                )
+                open_graph = re.findall(
+                    r'<meta property="og:url" content="([^"]+)"', document
+                )
+                # 404.html is intentionally excluded from indexing and declares neither.
+                for url in canonicals + open_graph:
+                    self.assertTrue(
+                        url.startswith(f"{CANONICAL_ORIGIN}/"),
+                        f"{page} points at {url}",
+                    )
+                self.assertLessEqual(len(canonicals), 1, f"{page} has two canonicals")
+
+    def test_legacy_host_middleware_moves_visitors_to_the_canonical_origin(self) -> None:
+        middleware = (SITE / "functions" / "_middleware.js").read_text(encoding="utf-8")
+        # rel=canonical only advises crawlers; every internal link is
+        # root-relative, so a visitor landing on a redirect-only host stays
+        # there for the whole session unless the edge moves them.
+        for host in REDIRECT_ONLY_HOSTS:
+            self.assertIn(f'"{host}"', middleware)
+        self.assertIn('CANONICAL_HOST = "ai-iconflow.com"', middleware)
+        self.assertIn("301", middleware)
+        self.assertIn("context.next()", middleware)
+
+        redirect_shell = (ROOT / "website-redirect" / "_redirects").read_text(encoding="utf-8")
+        self.assertIn(f"{CANONICAL_ORIGIN}/:splat 301", redirect_shell)
+        # The shell's catch-all must never be served from the canonical host, or
+        # the apex would redirect to itself. Keep the two trees distinguishable.
+        self.assertFalse((SITE / "_redirects").read_text(encoding="utf-8").startswith("/*"))
 
     def test_getting_started_is_the_canonical_agent_and_cli_onboarding(self) -> None:
         home = (SITE / "index.html").read_text(encoding="utf-8")
