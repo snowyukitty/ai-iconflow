@@ -25,7 +25,9 @@ $canonical = 'https://ai-iconflow.com'
 Write-Host '==> Deploying site content to project "iconflow"' -ForegroundColor Cyan
 $contentLog = npx wrangler pages deploy . --cwd website --project-name iconflow --branch main --commit-dirty=true 2>&1
 $contentLog | Write-Host
-if ($contentLog -notmatch 'Uploading Functions bundle') {
+# Collapse to one string first: -notmatch against an array returns the
+# non-matching elements, not a boolean, so the guard would always fire.
+if (($contentLog | Out-String) -notmatch 'Uploading Functions bundle') {
     throw 'Content deploy shipped no Functions bundle. iconflow.pages.dev would serve content instead of redirecting.'
 }
 
@@ -40,11 +42,19 @@ Start-Sleep -Seconds 10
 
 $failures = @()
 
+# Invoke-WebRequest throws on a 3xx once redirects are disabled, and
+# -SkipHttpErrorCheck only covers 4xx/5xx. Drive HttpClient directly so a
+# redirect is an ordinary response to inspect.
+$handler = [System.Net.Http.HttpClientHandler]::new()
+$handler.AllowAutoRedirect = $false
+$client = [System.Net.Http.HttpClient]::new($handler)
+$client.Timeout = [TimeSpan]::FromSeconds(30)
+
 function Test-Host {
     param([string]$Url, [int]$Expect, [string]$ExpectLocation)
-    $response = Invoke-WebRequest -Uri $Url -MaximumRedirection 0 -SkipHttpErrorCheck -ErrorAction Stop
+    $response = $client.GetAsync($Url).GetAwaiter().GetResult()
     $status = [int]$response.StatusCode
-    $location = $response.Headers['Location'] -join ''
+    $location = if ($response.Headers.Location) { $response.Headers.Location.AbsoluteUri } else { '' }
     $ok = $status -eq $Expect -and ($ExpectLocation -eq '' -or $location -eq $ExpectLocation)
     $mark = if ($ok) { 'ok  ' } else { 'FAIL' }
     Write-Host ("  {0} {1} -> {2} {3}" -f $mark, $Url, $status, $location)
