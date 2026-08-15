@@ -41,7 +41,7 @@ dev = ["build>=1.2,<2"]
 iconflow = "iconflow.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/snowyukitty/ai-iconflow"
+Homepage = "https://ai-iconflow.com"
 Repository = "https://github.com/snowyukitty/ai-iconflow"
 Issues = "https://github.com/snowyukitty/ai-iconflow/issues"
 Changelog = "https://github.com/snowyukitty/ai-iconflow/blob/main/CHANGELOG.md"
