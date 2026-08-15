@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://iconflow.pages.dev/</loc>
+    <loc>https://ai-iconflow.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://iconflow.pages.dev/gallery/</loc>
+    <loc>https://ai-iconflow.com/gallery/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://iconflow.pages.dev/getting-started/</loc>
+    <loc>https://ai-iconflow.com/getting-started/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://iconflow.pages.dev/gallery/social-signals/</loc>
+    <loc>https://ai-iconflow.com/gallery/social-signals/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://iconflow.pages.dev/gallery/emoji-matrix/</loc>
+    <loc>https://ai-iconflow.com/gallery/emoji-matrix/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://iconflow.pages.dev/gallery/emoji-matrix/all/</loc>
+    <loc>https://ai-iconflow.com/gallery/emoji-matrix/all/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

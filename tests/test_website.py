@@ -17,6 +17,8 @@ from iconflow.config import load_config, load_review_receipt, svg_sha256
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "website"
+CANONICAL_ORIGIN = "https://ai-iconflow.com"
+LEGACY_ORIGINS = ("https://iconflow.pages.dev", "https://ai-iconflow.pages.dev")
 HTML_PAGES = (
     "index.html",
     "404.html",
@@ -144,8 +146,9 @@ class WebsiteContractTests(unittest.TestCase):
         html = (SITE / "index.html").read_text(encoding="utf-8")
         self.assertNotIn("fonts.googleapis.com", html)
         self.assertNotIn("cdn.", html)
-        self.assertIn('https://iconflow.pages.dev/', html)
-        self.assertNotIn('https://ai-iconflow.pages.dev/', html)
+        self.assertIn(f"{CANONICAL_ORIGIN}/", html)
+        for legacy in LEGACY_ORIGINS:
+            self.assertNotIn(f"{legacy}/", html)
         self.assertIn("Content-Security-Policy", (SITE / "_headers").read_text(encoding="utf-8"))
 
     def test_getting_started_is_the_canonical_agent_and_cli_onboarding(self) -> None:
@@ -156,8 +159,8 @@ class WebsiteContractTests(unittest.TestCase):
         headers = (SITE / "_headers").read_text(encoding="utf-8")
 
         self.assertIn('/getting-started/', home)
-        self.assertIn('https://iconflow.pages.dev/getting-started/', guide)
-        self.assertIn('https://iconflow.pages.dev/getting-started/', sitemap)
+        self.assertIn(f"{CANONICAL_ORIGIN}/getting-started/", guide)
+        self.assertIn(f"{CANONICAL_ORIGIN}/getting-started/", sitemap)
         self.assertIn('/getting-started/index.html', headers)
         self.assertIn('data-copy-target="#install-windows"', guide)
         self.assertIn('data-copy-target="#install-posix"', guide)
@@ -507,7 +510,7 @@ class WebsiteContractTests(unittest.TestCase):
         sitemap = (SITE / "sitemap.xml").read_text(encoding="utf-8")
         gallery = (SITE / "gallery" / "index.html").read_text(encoding="utf-8")
         for route in ("/gallery/social-signals/", "/gallery/emoji-matrix/", "/gallery/emoji-matrix/all/"):
-            self.assertIn(f"https://iconflow.pages.dev{route}", sitemap)
+            self.assertIn(f"{CANONICAL_ORIGIN}{route}", sitemap)
             self.assertIn(route, gallery)
         self.assertIn("100 admitted cases", gallery)
 

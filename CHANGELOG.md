@@ -15,7 +15,7 @@ first published release remains under `Unreleased`.
   designed to turn reviewed icon cases into website and video evidence.
 - A responsive, dependency-free promotional site with an interactive native-pixel
   Proof Lab, technique gallery, accessible controls, security headers, and a
-  canonical production deployment at `iconflow.pages.dev`, with
+  canonical production deployment at `ai-iconflow.com`, with
   `ai-iconflow.pages.dev` retained as a permanent compatibility redirect.
 - An agent-first `/getting-started/` guide with copyable cross-platform setup,
   an honest agent/CLI responsibility split, the complete quality-gated loop,
@@ -49,6 +49,10 @@ first published release remains under `Unreleased`.
 
 ### Changed
 
+- The promotional site's canonical host is now `ai-iconflow.com`. Canonical
+  links, Open Graph URLs, structured data, `robots.txt`, and the sitemap point
+  at the apex; `www.ai-iconflow.com` and `ai-iconflow.pages.dev` are permanent
+  301 redirects to it, and `iconflow.pages.dev` remains the Pages default host.
 - Manual review approvals are bound to the complete source, project, target,
   color, Electron, and semantic tray-source transform contract.
 - `iconflow new` refuses to overwrite an existing destination unless `--force`

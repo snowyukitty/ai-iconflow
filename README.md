@@ -2,9 +2,9 @@
 
 ![IconFlow — One master. Every surface. Proven at 16px.](docs/assets/hero-flow.svg)
 
-**Live proof:** [iconflow.pages.dev](https://iconflow.pages.dev/) ·
-**100-case Gallery:** [iconflow.pages.dev/gallery/](https://iconflow.pages.dev/gallery/) ·
-**400-cell Matrix:** [compare all](https://iconflow.pages.dev/gallery/emoji-matrix/all/)
+**Live proof:** [ai-iconflow.com](https://ai-iconflow.com/) ·
+**100-case Gallery:** [ai-iconflow.com/gallery/](https://ai-iconflow.com/gallery/) ·
+**400-cell Matrix:** [compare all](https://ai-iconflow.com/gallery/emoji-matrix/all/)
 
 IconFlow is a local design-and-release workflow for agents, designers, and
 small product teams that need one **reviewed, platform-ready icon family** from

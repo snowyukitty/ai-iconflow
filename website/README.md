@@ -1,9 +1,10 @@
 # IconFlow launch site
 
 Static, dependency-free promotional site for IconFlow. The product name is
-`IconFlow`; the canonical Cloudflare Pages project and default host are
-`iconflow` and `iconflow.pages.dev`. The older `ai-iconflow.pages.dev` project
-is a compatibility redirect.
+`IconFlow`; the canonical host is `ai-iconflow.com`, served by the `iconflow`
+Cloudflare Pages project. `iconflow.pages.dev` remains that project's Pages
+default host. The `ai-iconflow` project is a redirect-only shell that serves
+`www.ai-iconflow.com` and `ai-iconflow.pages.dev` as permanent 301s to the apex.
 
 The site deliberately uses repository-authored, reviewed assets only. The
 technique SVGs are labeled as scaffolds rather than finished identities.
@@ -26,7 +27,7 @@ wrangler pages deploy website --project-name iconflow --branch main
 
 Cloudflare Pages reads `_headers` and `_redirects` from the uploaded directory.
 Deploy `website-redirect/` to the `ai-iconflow` project after the canonical
-site, so legacy links receive a permanent redirect.
+site, so legacy links and `www` receive a permanent redirect.
 
 ```powershell
 wrangler pages deploy website-redirect --project-name ai-iconflow --branch main

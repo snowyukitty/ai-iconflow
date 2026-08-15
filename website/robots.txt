@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://iconflow.pages.dev/sitemap.xml
+Sitemap: https://ai-iconflow.com/sitemap.xml
