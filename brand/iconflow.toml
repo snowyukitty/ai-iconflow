@@ -36,8 +36,8 @@ optimize_png = true
 [review]
 status = "approved"
 source_sha256 = "789de5f7ea1241c4e92939d968ad6cc7720af6549a058febac525b64cbae82d6"
-contract_sha256 = "7e1adf3a3c8ba625c8d271d35b08512bbfa0a19bbf5a439d3c19223ee4f08a0f"
+contract_sha256 = "a0a9bc617f8b17087f08e43d0577f4d2261ffc1b54bf1c92cc1c9159b17a3627"
 # Review Lab receipt is preferred. For this manual fallback, set status to
 # "approved" and copy both reviewed hashes; `ship` requires every score >= 4.
 scores = {legibility = 4, distinctiveness = 5, balance = 4, color = 5, scalability = 4, craft = 4}
-notes = "Owner-selected temporary product mark. Static review confirms the low-eared pika, lagoon hay cove, and right-side petal punctuation survive actual sizes and adaptive crops. The linked tray source adds a graphite halo; exact 16px color assets were inspected on white, gray, and dark, and the 16/32px alpha templates keep the pika-plus-petals footprint. Interactive Review Lab remains blocked by the established managed-browser runtime failure, so this uses the documented source-bound fallback."
+notes = "Owner-selected temporary product mark. Static review confirms the low-eared pika, lagoon hay cove, and right-side petal punctuation survive actual sizes and adaptive crops. The linked tray source adds a graphite halo; exact 16px color assets were inspected on white, gray, and dark, and the 16/32px alpha templates keep the pika-plus-petals footprint and, since 2026-08-21, one broad transparent eye cut so the template keeps a face (L48; check --tray-svg reports no featureless template). Interactive Review Lab remains blocked by the established managed-browser runtime failure, so this uses the documented source-bound fallback."

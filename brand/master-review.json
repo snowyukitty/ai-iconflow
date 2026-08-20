@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "master.svg",
   "source_sha256": "789de5f7ea1241c4e92939d968ad6cc7720af6549a058febac525b64cbae82d6",
-  "contract_sha256": "7e1adf3a3c8ba625c8d271d35b08512bbfa0a19bbf5a439d3c19223ee4f08a0f",
+  "contract_sha256": "a0a9bc617f8b17087f08e43d0577f4d2261ffc1b54bf1c92cc1c9159b17a3627",
   "project": "IconFlow",
   "user_job": "turn app intent into a proven, target-ready icon family",
   "essence": "gather",
@@ -26,7 +26,7 @@
     "electron_radius": 0.0,
     "tray_template_mode": "alpha",
     "color_scheme": "light",
-    "tray_source_sha256": "3d7ac3408e1fef54908d5d9a0e285fba0d6646fc0bb512ed46e3c3d987f448ae"
+    "tray_source_sha256": "354c4061cc5f8170cacfe2239800748f7563fb9a5153bb2781e21a6a165397c3"
   },
   "warnings": [],
   "scores": {
@@ -37,6 +37,6 @@
     "scalability": 4,
     "craft": 4
   },
-  "notes": "Owner-selected temporary product mark. Static review and exact web, desktop, color-tray, and alpha-template targets preserve the low-eared pika, lagoon hay cove, and three carried petals. Interactive Review Lab was blocked by the established managed-browser runtime failure; the documented source-bound fallback was used.",
+  "notes": "Owner-selected temporary product mark. Static review and exact web, desktop, color-tray, and alpha-template targets preserve the low-eared pika, lagoon hay cove, and three carried petals. Interactive Review Lab was blocked by the established managed-browser runtime failure; the documented source-bound fallback was used. 2026-08-21: the tray source gained one broad transparent eye cut (L48) so the macOS alpha template keeps a face; exact 16/32px colour trays on white, gray, and dark and both templates were re-inspected; the mechanized tray-template audit reports no featureless template.",
   "status": "ready"
 }

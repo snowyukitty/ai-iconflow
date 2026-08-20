@@ -19,6 +19,13 @@ iterations: 2
 ## Summary
 The owner temporarily promoted Petal Haypile from the Round 3 living exploration while the permanent IconFlow logo decision remains open. The full-card pika source was preserved geometrically, given semantic source groups, and paired with a linked transparent tray variant whose graphite contrast halo survives white, gray, dark, and alpha-template contexts.
 
+**2026-08-21 follow-up.** The mechanized tray-template audit (L48) reported that
+the alpha template kept none of the colour mark's interior features. One broad
+transparent eye cut (r = 72 units, masked through body and halo) was added to
+`tray.svg`; the receipt was re-bound and the family re-shipped with the same
+six scores. The remaining Flow Gate website, README, and social-preview assets
+were regenerated from this source at the same time.
+
 ## What failed first
 The selected Round 3 SVG was already a clean full-card app icon, so redrawing
 its pika would have violated the owner's request and weakened a known favorite.

@@ -27,7 +27,9 @@ same-object technique demonstrations.
 
 - `master.svg` is the canonical full app/favicon source.
 - `tray.svg` is a geometry-linked transparent variant with a graphite contrast
-  halo so the warm pika survives light, dark, and neutral system bars.
+  halo so the warm pika survives light, dark, and neutral system bars, and one
+  broad transparent eye cut so the macOS alpha template keeps a face instead of
+  a featureless lozenge (`docs/LEARNINGS.md` L48).
 - `iconflow.toml` is the complete brief and target build contract.
 - `master-review.json` is the source/target-bound review receipt.
 - `build/` contains deterministic web, Tauri, Electron, and tray outputs.
