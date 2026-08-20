@@ -4,6 +4,39 @@ These examples demonstrate the decision workflow, not a gallery of presets.
 Keep drafts, bake sheets, and review artifacts in `work/<slug>/`; keep the final
 `master.svg`, `iconflow.toml`, and case record with the consuming project.
 
+## 0. Two worked examples you can read end to end
+
+`iconflow-balloon/` and `iconflow-parachute/` are complete, shipped icon
+families, not snippets. They came from one brief — *keep this mark, but let the
+pika carry a balloon or a parachute* — and were deliberately taken all the way
+through the gated loop so the decisions are inspectable:
+
+| | `iconflow-balloon/` | `iconflow-parachute/` |
+|---|---|---|
+| Mark | Balloon Haypile | Canopy Haypile |
+| Essence | `lift` | `descend` |
+| Bake-off rounds | 2 (4 + 3 candidates) | 3 (3 + 2 + 2 candidates) |
+| First-pass scores | 3/4/3/4/3/4 | 3/3/4/4/3/4 |
+| Shipped scores | 4/4/4/4/4/4 | 4/4/4/4/4/4 |
+| Case record | [balloon](../casebook/2026-08-20-iconflow-balloon-haypile-demo.md) | [canopy](../casebook/2026-08-20-iconflow-canopy-haypile-demo.md) |
+
+Each directory holds `master.svg`, the linked `tray.svg`, the `iconflow.toml`
+brief and build contract with its source-bound review approval, and the 22
+deterministic files under `icons/`. Rebuild either through the same gate a
+consuming project uses:
+
+```bash
+python -m iconflow ship --config examples/iconflow-balloon/iconflow.toml
+```
+
+Read the two case files first. They record what failed *before* the shipped
+version — a carried object that inherited the previous one's 16px failure, an
+outline that was the whole silhouette and knew it too late, a canopy that read
+as a mushroom, and two different ways to produce a featureless macOS tray
+template. Those became `docs/LEARNINGS.md` L46–L50.
+
+---
+
 ## 1. Brief → gated multi-target family
 
 Start by recording the user job. This keeps the icon tied to the app's function
@@ -112,14 +145,30 @@ tray.svg
 ```
 
 [`brand/master.svg`](../brand/master.svg) and
-[`brand/tray.svg`](../brand/tray.svg) are the reference implementation. Review
-the actual 16px color tray and macOS template outputs, not only the app icon.
+[`brand/tray.svg`](../brand/tray.svg) are the reference implementation of the
+semantic group structure. Review the actual 16px color tray and macOS template
+outputs, not only the app icon.
+
+A mark-only tray source is necessary but not sufficient: if its interior is
+opaque wherever its contrast halo reaches, the color asset is fine and the macOS
+template is still a featureless lozenge. Audit both reductions, and cut the one
+feature that identifies the mark clean through the source.
 
 ```bash
 python -m iconflow build master.svg --out ./icon-out \
   --targets web,tauri,electron,tray \
   --name "My App" --tray-svg tray.svg --tray-template-mode auto
+
+python -m iconflow check master.svg --tray-svg tray.svg --tray-template-mode auto
 ```
+
+[`iconflow-parachute/tray.svg`](iconflow-parachute/tray.svg) is the worked
+reference for that: a two-pass graphite halo with the master's exact geometry
+restored on top, and a single broad eye cut punched through both with a `<mask>`
+(`docs/LEARNINGS.md` L48, L49). Run the audit against
+[`brand/tray.svg`](../brand/tray.svg) to see what the failure reports like — the
+current product tray keeps its identity in color and reduces to a footprint-only
+template, which the audit flags honestly.
 
 ## 5. Close the case
 

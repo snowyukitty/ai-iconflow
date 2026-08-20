@@ -1,0 +1,41 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "IconFlow Canopy Haypile"
+master = "master.svg"
+output = "icons"
+casebook = "../../casebook"
+
+[brief]
+app_intent = "turn app intent and one semantic SVG into a reviewed, platform-ready icon family"
+user_job = "bring one design safely down onto every platform surface"
+essence = "descend"
+personality = ["alive", "gentle", "steady", "precise"]
+
+[design]
+palette = ["graphite #191A20", "warm paper #FFF4E8", "lagoon #59C7C1", "panel coral #FF5A4F", "panel gold #F2B84B", "panel violet #845EC2"]
+cliches = ["generic flow arrow", "AI sparkles", "umbrella", "blue-purple SaaS monogram"]
+signature_device = "a low-eared pika descends with its hay store under a deep three-panel canopy on two unequal risers"
+device_family = "character-silhouette"
+device_detail = "492x234 unit canopy with 36-unit warm panel seams and 68-unit hem scallops, 130 units of clear air above the ears, two 64-unit risers of unequal length"
+concept_lens = "object-mascot"
+
+[build]
+targets = ["web", "tauri", "electron", "tray"]
+theme_color = "#191A20"
+background_color = "#FFF4E8"
+electron_radius = 0
+tray_ts = false
+tray_svg = "tray.svg"
+tray_template_mode = "alpha"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "approved"
+source_sha256 = "fffabc0b41056c78c4b52f46920a6d8a1843ed8ca6fff0f08416b81d36847389"
+contract_sha256 = "43ffcac9b439871c5240a67b447470db3d0aa19a1ad02f111ea04d6b54b0d410"
+scores = {legibility = 4, distinctiveness = 4, balance = 4, color = 4, scalability = 4, craft = 4}
+notes = "Second demo of the same request: the pika descends under a canopy instead of carrying a balloon. Three passes. P1 (shallow wide dome, short risers) scored distinctiveness 3 - its silhouette read as a mushroom or table lamp. P2 added 36-unit warm panel seams and deeper 68-unit hem scallops so the canopy reads as fabric panels rather than a solid cap, and lengthened the risers into a visible V. P3 opened 130 units of clear air between the hem scallops and the ears, which is what turned wearing-a-cap into hanging-from-a-canopy. Interactive Review Lab was not opened in this terminal session; evidence is the static review sheet plus every exact target asset at real size, including the tray colour 16/32 and the macOS alpha templates on white, graphite, mid-grey and a blue bar. The tray needed two passes of its own: single-pass graphite strokes shrank the warm shapes and turned the risers into dark bars, so the shipped tray draws a graphite halo first and restores the exact master geometry on top, with one 62-unit transparent eye cut moved off the muzzle join."

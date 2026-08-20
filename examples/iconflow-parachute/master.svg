@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow — Canopy Haypile</title><desc id="desc">A low-eared pika descends with its hay store under a deep panelled canopy on two unequal risers.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark" transform="translate(12 10)">
+    <g id="iconflow-signature">
+      <path d="M242 348L436 556" stroke="#FFF4E8" stroke-width="64" stroke-linecap="round"/>
+      <path d="M692 348L620 610" stroke="#FFF4E8" stroke-width="64" stroke-linecap="round"/>
+      <path d="M220 338A246 234 0 0 1 712 338Q630 406 548 338Q466 406 384 338Q302 406 220 338Z" fill="#FF5A4F"/>
+      <path d="M466 104C356 168 300 270 384 338Q466 406 548 338C632 270 576 168 466 104Z" fill="#F2B84B"/>
+      <path d="M466 104C576 168 632 270 548 338Q630 406 712 338A246 234 0 0 0 466 104Z" fill="#845EC2"/>
+      <path d="M466 104C356 168 300 270 384 338" fill="none" stroke="#FFF4E8" stroke-width="36"/>
+      <path d="M466 104C576 168 632 270 548 338" fill="none" stroke="#FFF4E8" stroke-width="36"/>
+      <path d="M220 338A246 234 0 0 1 712 338Q630 406 548 338Q466 406 384 338Q302 406 220 338Z" fill="none" stroke="#FFF4E8" stroke-width="44"/>
+    </g>
+    <g transform="translate(216 400) scale(0.63)">
+      <path id="iconflow-core" d="M212 628C212 454 334 338 512 342C680 346 790 448 786 604C782 734 678 806 508 806C338 806 212 752 212 628Z" fill="#FFF4E8" stroke="#FFF4E8" stroke-width="70"/>
+      <ellipse cx="340" cy="332" rx="76" ry="108" fill="#FFF4E8" transform="rotate(-18 340 332)"/>
+      <ellipse cx="454" cy="322" rx="72" ry="104" fill="#FFF4E8" transform="rotate(10 454 322)"/>
+      <path d="M266 658C334 602 410 588 488 618C550 642 592 688 616 748C532 790 418 796 326 760Z" fill="#59C7C1"/>
+      <circle cx="658" cy="486" r="44" fill="#191A20"/>
+      <path d="M760 548L842 468" stroke="#FFF4E8" stroke-width="92" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

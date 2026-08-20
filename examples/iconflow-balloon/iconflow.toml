@@ -1,0 +1,41 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "IconFlow Balloon Haypile"
+master = "master.svg"
+output = "icons"
+casebook = "../../casebook"
+
+[brief]
+app_intent = "turn app intent and one semantic SVG into a reviewed, platform-ready icon family"
+user_job = "carry one design up to every platform surface without redrawing it"
+essence = "lift"
+personality = ["alive", "gentle", "buoyant", "precise"]
+
+[design]
+palette = ["graphite #191A20", "warm paper #FFF4E8", "lagoon #59C7C1", "gore coral #FF5A4F", "gore gold #F2B84B", "gore violet #845EC2"]
+cliches = ["generic flow arrow", "AI sparkles", "robot or brain", "blue-purple SaaS monogram"]
+signature_device = "a low-eared pika drifts with its hay store under one large three-gore balloon on a thick tether"
+device_family = "character-silhouette"
+device_detail = "one 336x386 unit three-gore balloon tethered by a 72-unit cord to the pika's muzzle, 139 units clear of the ear"
+concept_lens = "object-mascot"
+
+[build]
+targets = ["web", "tauri", "electron", "tray"]
+theme_color = "#191A20"
+background_color = "#FFF4E8"
+electron_radius = 0
+tray_ts = false
+tray_svg = "tray.svg"
+tray_template_mode = "alpha"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "approved"
+source_sha256 = "36d4d54147f97478e49e28b1ff847dfea31bd97f57e3a8f489ed93d01a94cbed"
+contract_sha256 = "2b456d853e7ecf694f989c847471384b5c2feebbfa2de4631834115b03bd8321"
+scores = {legibility = 4, distinctiveness = 4, balance = 4, color = 4, scalability = 4, craft = 4}
+notes = "Demo variant of the IconFlow product mark: the carried three petals are replaced by one tethered three-gore balloon so the mark reads as lift/flow. Two bake-off rounds (4 + 3 candidates) killed the small carried parachute and the overhead canopy; the large tethered balloon won on the visual-silhouette strip. Second pass centred the mark (was 54 units right of centre) and raised the balloon outline 28 -> 40 units so the silhouette ring survives to 48px. Interactive Review Lab was not opened in this terminal session; evidence is the static review sheet plus every exact target asset inspected at real size: favicon.ico 16/32/48, apple-touch-icon 180, icon-512-maskable, tauri 32, electron 1024, and the tray colour 16/32 plus macOS alpha templates on white, graphite, mid-grey and a blue bar. The first tray source produced a featureless template blob (alpha) and speckle (contrast); the shipped tray punches one broad transparent eye cut so the template keeps balloon, tether, body and face."
