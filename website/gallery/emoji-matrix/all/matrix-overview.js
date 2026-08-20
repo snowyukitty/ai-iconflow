@@ -9,6 +9,10 @@ const focusMode = document.querySelector('[data-focus-mode]');
 const focusValue = document.querySelector('[data-focus-value]');
 const focusGrid = document.querySelector('[data-focus-grid]');
 
+// Initial representative cell for the complete field: inspector, status, focused grid cell, and the
+// default quality-lens meaning. Falls back to the first catalog cell if the id is ever absent.
+const REPRESENTATIVE_CELL = 'u2764-fe0f--mascot';
+
 let catalog;
 let cells = [];
 let activeIndex = 0;
@@ -73,8 +77,8 @@ const renderInspector = (index, moveFocus = false) => {
   status.textContent = `${item.id} · 400/400 reviewed cells`;
 };
 
-const buildHotspots = () => {
-  hotspots.innerHTML = cells.map((item, index) => `<a role="gridcell" href="${detailUrl(item)}" tabindex="${index === 0 ? '0' : '-1'}" aria-rowindex="${item.rank}" aria-colindex="${item.style_index}" data-index="${index}" aria-label="${escapeHtml(item.cldr_short_name)}, ${escapeHtml(labelStyle(item.style))}"></a>`).join('');
+const buildHotspots = (initialIndex) => {
+  hotspots.innerHTML = cells.map((item, index) => `<a role="gridcell" href="${detailUrl(item)}" tabindex="${index === initialIndex ? '0' : '-1'}" aria-rowindex="${item.rank}" aria-colindex="${item.style_index}" data-index="${index}" aria-label="${escapeHtml(item.cldr_short_name)}, ${escapeHtml(labelStyle(item.style))}"></a>`).join('');
   hotspots.addEventListener('pointerover', (event) => {
     const cell = event.target.closest('[data-index]');
     if (cell) renderInspector(Number(cell.dataset.index));
@@ -158,15 +162,16 @@ fetch('/assets/gallery/emoji-matrix/catalog.json')
     catalog = value;
     cells = [...catalog.cells].sort((a, b) => a.rank - b.rank || a.style_index - b.style_index);
     poster.src = catalog.overview.asset;
+    const initialIndex = Math.max(0, cells.findIndex((item) => item.id === REPRESENTATIVE_CELL));
     renderAxes();
-    buildHotspots();
-    renderInspector(0);
+    buildHotspots(initialIndex);
+    renderInspector(initialIndex);
 
     const parameters = new URL(window.location.href).searchParams;
     const requestedMode = parameters.get('axis');
     const requestedValue = parameters.get('value');
     if (['meaning', 'style'].includes(requestedMode)) focusMode.value = requestedMode;
-    populateFocusValues(requestedValue);
+    populateFocusValues(requestedValue ?? cells[initialIndex].emoji_id);
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         if (!focusRendered && entries.some((entry) => entry.isIntersecting)) {

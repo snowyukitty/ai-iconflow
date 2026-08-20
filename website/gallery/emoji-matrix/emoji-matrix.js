@@ -6,6 +6,9 @@ const styleAxis = document.querySelector('[data-style-axis]');
 const detail = document.querySelector('[data-matrix-detail]');
 const status = document.querySelector('#matrix-status');
 
+// Initial representative cell when the URL carries no #cell-id hash; shared with the complete matrix page.
+const REPRESENTATIVE_CELL = 'u2764-fe0f--mascot';
+
 let catalog;
 let selectedEmoji;
 let selectedStyle;
@@ -92,8 +95,9 @@ fetch('/assets/gallery/emoji-matrix/catalog.json')
   .then((value) => {
     if (value.emoji_count !== 20 || value.style_count !== 20 || value.cell_count !== 400 || value.cells.length !== 400) throw new Error('catalog is not the complete 20 × 20 matrix');
     catalog = value;
-    selectedEmoji = catalog.emoji[0].id;
-    selectedStyle = catalog.styles[0].id;
+    const representative = catalog.cells.find((item) => item.id === REPRESENTATIVE_CELL);
+    selectedEmoji = representative ? representative.emoji_id : catalog.emoji[0].id;
+    selectedStyle = representative ? representative.style : catalog.styles[0].id;
     emojiSelect.innerHTML = catalog.emoji.map((item) => `<option value="${escapeHtml(item.id)}">${String(item.rank).padStart(2, '0')} · ${escapeHtml(item.cldr_short_name)}</option>`).join('');
     styleSelect.innerHTML = catalog.styles.map((item) => `<option value="${escapeHtml(item.id)}">${String(item.index).padStart(2, '0')} · ${escapeHtml(item.id)}</option>`).join('');
     chooseFromHash();
