@@ -61,7 +61,7 @@ Primary navigation: `Product · Proof · Styles · Cases · Docs · GitHub`
 
 | Section | Job | Required evidence |
 |---|---|---|
-| Hero | State the outcome in one glance | Flow Gate animation built from approved brand SVG; source-install CTA |
+| Hero | State the outcome in one glance | current brand mark animation built from the approved brand SVG; source-install CTA |
 | An icon is not finished at 1024px | Expose the failure IconFlow solves | true 256→16px before/after, color, silhouette, and pixel zoom |
 | The Flow | Make the workflow memorable | `Brief → Explore → Compare → Inspect → Ship → Learn`, one real artifact per step |
 | Interactive Proof Lab | Let visitors inspect instead of trust claims | size, surface, view, target, and receipt-staleness controls |

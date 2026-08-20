@@ -181,24 +181,26 @@ from the Round 3 living exploration: a low-eared pika returns to its hay store
 with three oversized petals. Its editable master, linked tray source,
 source-bound receipt, and checked-in target build live in [`brand/`](brand/).
 
-The earlier **Flow Gate / Proofed Flow** identity remains valuable historical
-evidence and the fixed specimen used for controlled technique comparisons. Five
-concept lenses produced three SVG finalists; Flow Gate beat a generic adaptive
-aperture and a conventional F monogram in the silhouette row.
+Petal Haypile came out of a 28-direction living exploration. The bake-off
+sheet below places it beside the four Round 3 finalists that also passed the
+full target gate, at every native size, in silhouette, and on dark:
 
-![IconFlow brand concept bake-off](docs/assets/concept-bake.png)
+![IconFlow brand bake-off: Petal Haypile beside four gated Round 3 finalists](docs/assets/concept-bake.png)
 
-That historical winner went through two review passes. The first tilted gate blurred at
-16px; the final gate is aligned to a 64-unit rhythm, with a 128-unit counter that
-remains exactly two deliberate pixels at 16px. Its case is preserved in
-[`casebook/2026-07-13-iconflow-brand.md`](casebook/2026-07-13-iconflow-brand.md).
+Its review sheet is the same artifact every consuming project gets from
+`iconflow review`: actual-size renders on three surfaces, pixel zoom, alpha
+footprint, visual silhouette, and adaptive crops. The case is preserved in
+[`casebook/2026-08-14-iconflow-petal-haypile-temporary.md`](casebook/2026-08-14-iconflow-petal-haypile-temporary.md).
 
-<img src="docs/assets/review-proof.png" width="760" alt="IconFlow final review sheet with actual-size, pixel, silhouette, and adaptive-crop evidence">
+<img src="docs/assets/review-proof.png" width="760" alt="IconFlow review sheet for Petal Haypile with actual-size, pixel, alpha, silhouette, and adaptive-crop evidence">
 
-Historical Flow Gate rubric: legibility 4, distinctiveness 4, balance 4,
-color 5, scalability 5, craft 5. Current Petal Haypile rubric: legibility 4,
-distinctiveness 5, balance 4, color 5, scalability 4, craft 4. Both sources
-were `check` clean at their respective review points.
+Current Petal Haypile rubric: legibility 4, distinctiveness 5, balance 4,
+color 5, scalability 4, craft 4, `check` clean. The earlier **Flow Gate /
+Proofed Flow** identity remains historical evidence and the fixed specimen used
+for controlled technique comparisons; its case is
+[`casebook/2026-07-13-iconflow-brand.md`](casebook/2026-07-13-iconflow-brand.md)
+(historical rubric: legibility 4, distinctiveness 4, balance 4, color 5,
+scalability 5, craft 5).
 
 ## Review Lab
 

@@ -71,7 +71,7 @@ The remaining owner-controlled proposals are:
 
 - Homepage: `https://github.com/snowyukitty/ai-iconflow#readme`
 - Documentation: `https://github.com/snowyukitty/ai-iconflow/tree/main/docs`
-- Social preview: `docs/assets/social-preview.png` (1280×640, 47 KB; matches
+- Social preview: `docs/assets/social-preview.png` (1280×640, Petal Haypile; matches
   [GitHub's recommended dimensions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview))
 
 Applying them changes GitHub repository settings and requires owner approval.

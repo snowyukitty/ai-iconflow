@@ -45,8 +45,9 @@ iconflow-mark
 ```
 
 `brand/tray.svg` reuses that geometry without the app card and adds a graphite
-contrast halo for light system bars. Its alpha footprint preserves the pika and
-right-side petal punctuation as a monochrome template.
+contrast halo for light system bars and one broad transparent eye cut. Its alpha
+footprint preserves the pika, the right-side petal punctuation, and the eye as a
+monochrome template (`iconflow check --tray-svg` reports no featureless template).
 
 ## Historical mark anatomy: Flow Gate
 
@@ -155,8 +156,8 @@ brand/iconflow.toml       portable product brief and build contract
 brand/master-review.json  source/target-bound approved decision receipt
 brand/build/              deterministic web/Tauri/Electron/tray outputs
 docs/assets/hero-flow.svg functional product overview
-docs/assets/concept-bake.png concept comparison evidence
-docs/assets/review-proof.png final small-size and mask proof
+docs/assets/concept-bake.png Petal Haypile beside four gated Round 3 finalists
+docs/assets/review-proof.png current Petal Haypile review sheet
 docs/assets/social-preview.svg editable GitHub social-preview source
 docs/assets/social-preview.png 1280×640 rendered social-preview candidate
 ```
