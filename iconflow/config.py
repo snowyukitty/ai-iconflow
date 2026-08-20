@@ -437,10 +437,18 @@ def _is_sha256(value: str) -> bool:
 
 
 def svg_sha256(path: str | Path) -> str:
-    """Hash the normalized SVG text used by render, review, and ship."""
+    """Hash the normalized SVG text used by render, review, and ship.
+
+    Line endings are normalized first. ``.gitattributes`` checks SVG sources out
+    with LF, so a source authored on Windows would otherwise hash differently
+    before and after a clone and every approval bound to it would read as stale
+    on the next machine. Rendering is unaffected either way, so the durability
+    contract is the right place to make the digest newline-independent.
+    """
 
     from .rasterize import load_svg
-    return hashlib.sha256(load_svg(path).encode("utf-8")).hexdigest()
+    text = load_svg(path).replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def review_build_contract(

@@ -8,6 +8,9 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- An advisory macOS tray-template audit, `iconflow check <master> --tray-svg <tray.svg> [--tray-template-mode auto|alpha|contrast]`, surfaced by `review` as well. It compares the interior detail of the colour tray asset against the enclosed holes of the derived template and reports a template that kept none of the mark's features — the failure that ships a featureless black lozenge to the menu bar. Advisory by design: it audits a linked variant, so it informs the designer without gating `ship`.
+- Two worked `examples/` icon families built through the full gated loop from one brief, `iconflow-balloon` (Balloon Haypile) and `iconflow-parachute` (Canopy Haypile), each with its editable master and tray source, source-bound receipt, shipped web/Tauri/Electron/tray outputs, and casebook record.
+- Five distilled rules, `docs/LEARNINGS.md` L46–L50, folded into `CONCEPTING.md` §3, `DESIGN_PLAYBOOK.md` §2/§5, `SVG_TECHNIQUES.md` §11, and `OUTPUT_TARGETS.md`.
 - Twenty structurally distinct, small-size-first technique scaffolds, a
   machine-readable `iconflow styles --json` catalog, and a Chromium-rendered
   `styles --gallery` proof matrix with per-family tray guidance.

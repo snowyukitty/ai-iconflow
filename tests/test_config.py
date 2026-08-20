@@ -18,6 +18,7 @@ from iconflow.config import (
     load_config,
     load_review_receipt,
     review_build_contract,
+    svg_sha256,
     validate_ship_scores,
     write_config,
 )
@@ -374,6 +375,23 @@ class ConfigTests(unittest.TestCase):
         # symlink/junction remains visible to build's safety check. macOS /var
         # and Windows short temp paths therefore must not be canonicalized here.
         self.assertEqual(Path(build.call_args.args[1]), Path(os.path.abspath(destination)))
+
+    def test_svg_sha256_is_independent_of_line_endings(self):
+        """.gitattributes checks SVG sources out with LF, so a Windows-authored
+        source must not hash differently before and after a clone - otherwise
+        every approval bound to it reads as stale on the next machine."""
+        markup = (
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">' "\n"
+            "</svg>" "\n"
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            unix = Path(tmp) / "unix.svg"
+            windows = Path(tmp) / "windows.svg"
+            unix.write_bytes(markup.encode("utf-8"))
+            windows.write_bytes(
+                markup.replace("\n", "\r\n").encode("utf-8")
+            )
+            self.assertEqual(svg_sha256(unix), svg_sha256(windows))
 
 
 if __name__ == "__main__":

@@ -31,6 +31,7 @@ After the required concept divergence and bake-off:
 
 ```bash
 iconflow check master.svg --bg "#fff4e8"
+iconflow check master.svg --tray-svg tray.svg --tray-template-mode alpha
 iconflow review --config iconflow.toml \
   --out work/my-app/review.png --html work/my-app/review.html
 ```

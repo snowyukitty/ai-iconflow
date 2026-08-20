@@ -119,6 +119,7 @@ python -m iconflow compare \
 
 # Promote the winner to master.svg, then prove it.
 python -m iconflow check master.svg
+python -m iconflow check master.svg --tray-svg tray.svg   # + macOS template audit
 python -m iconflow review --config iconflow.toml \
   --out work/my-app/review.png \
   --html work/my-app/review.html

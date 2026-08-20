@@ -82,6 +82,14 @@ If your concept is the "avoid" cell, it is not done.
 
 ---
 
+> **Swapping what a mark carries is a concept, not an edit.** If an existing
+> mark already carries something and the brief asks for a different something,
+> drawing the new object into the old one's pocket inherits every small-size
+> property of the object it replaced — a speck stays a speck. Either grow the
+> carried object until it is the composition's second mass (which re-cuts the
+> layout, so it belongs in the bake-off) or accept that you are changing the
+> subject and not the icon. (L46.)
+
 ## Step 3 — Add ONE signature device
 
 Distinctiveness usually comes from a single deliberate move, not many. Pick one:

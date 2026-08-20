@@ -663,3 +663,92 @@ identities, making both rollback and future design work ambiguous.
 promoted an owner-selected Round 3 mark across source, receipt, 23 deterministic
 outputs, website assets, and brand-status documentation while retaining Flow
 Gate as historical rationale. Folded into `BRAND_SYSTEM.md`.
+
+## L46 — Swapping a carried object at the size of the one it replaces inherits its failure
+When a mark already carries something and the brief asks for a different
+something, drawing the new object into the pocket the old one occupied is a
+polish move, and it inherits every small-size property of the object it
+replaced. If the outgoing accent was a coloured speck at 16px, the incoming one
+will be too. Growing the carried object until it is the composition's **second
+mass** is a concept change — it re-cuts the whole layout — so run it through the
+bake-off rather than through review.
+*Why:* an accent's legibility is set by its area and its clearance, not by what
+it depicts; the swap feels like an edit but the failure is inherited from the
+geometry, which the edit did not touch.
+*Evidence:* [Balloon Haypile](../casebook/2026-08-20-iconflow-balloon-haypile-demo.md) —
+a balloon drawn into the three petals' 240x250-unit pocket behaved exactly like
+the petals, and the pocket could not grow because the body's shoulder left only
+28–70 units of clearance (L26 wants 128). The same round's small carried
+parachute failed identically, which is what proved the rule was about size, not
+subject. [Canopy Haypile](../casebook/2026-08-20-iconflow-canopy-haypile-demo.md)
+re-cut the composition instead and shipped. Folded into `CONCEPTING.md` §3.
+
+## L47 — On a coloured card, a coloured element's outline IS its silhouette
+The visual-silhouette strip judges luminance, so a coral/gold/violet shape on a
+graphite card blacks out together with the card: everything the distinctiveness
+gate can see is the light outline around it. Budget that outline as a silhouette
+line — **two output pixels at the smallest size where the element must still be
+nameable** — not as a decorative edge at the size you are drawing. `check`'s
+2.3%-of-viewBox stroke floor is a vanishing test, not a silhouette test, and a
+stroke can clear it and still fail this.
+*Why:* the axis that decides the concept is measured on an image where the
+element's own fill contributes nothing.
+*Evidence:* [Balloon Haypile](../casebook/2026-08-20-iconflow-balloon-haypile-demo.md) —
+a 28-unit outline (comfortably above the 23.5-unit floor) fragmented into dots by
+48px and vanished by 32px; 40 units carried the ring to 48px and lifted
+legibility, balance and scalability from 3 to 4 with no change to the concept.
+Folded into `DESIGN_PLAYBOOK.md` §2.
+
+## L48 — A tray source's template is its alpha: give it exactly ONE broad cut, away from any join
+A tray source that is opaque wherever its halo reaches renders a perfectly good
+colour icon and a featureless black lozenge in the menu bar, because the alpha
+reduction keeps only the outer contour and whatever is cut clean through it.
+Encode the single feature that identifies the mark — an eye, a counter, one
+seam — as a broad transparent hole. Exactly one: cuts are paid for twice,
+because every hole that rescues the template also removes colour from the asset
+the taskbar shows. And place it away from any join between two shapes, where a
+hole reads as a bite out of the contour rather than as a feature.
+*Why:* colour reduction and alpha reduction discard different information (L42),
+so the same source must carry the identity twice, and the alpha version has only
+holes to say it with.
+*Evidence:* [Balloon Haypile](../casebook/2026-08-20-iconflow-balloon-haypile-demo.md) —
+`alpha` mode gave a two-lump blob and `contrast` mode gave speckle; two gore
+seams plus a hay-cove seam then fixed the template and wrecked the 32px colour
+tray (the balloon read as a "0"); one broad eye cut fixed both.
+[Canopy Haypile](../casebook/2026-08-20-iconflow-canopy-haypile-demo.md) — the
+same cut placed on the muzzle-to-head seam read as a bite until it moved 44 units
+inboard. **Mechanized:** `iconflow check <master> --tray-svg <tray.svg>` compares
+the two reductions the build actually emits and reports a template that kept
+none of the colour mark's features. It is advisory — a heuristic about a linked
+variant — so it informs the designer without gating `ship`.
+
+## L49 — A contrast halo is drawn under the mark, never carved into it
+The obvious way to give a tray mark a halo is to add a graphite `stroke` to each
+shape. A stroke is centred, so half of it lands *inside* the path: a 126-unit
+halo on a shape whose master version carries a 70-unit warm stroke does not add
+28 units of ring, it removes 98 units of the mark. Thin elements lose their
+colour entirely and read as dark bars. Draw the halo as a **wider stroke in a
+first pass, then restore the master's exact geometry on top** — the tray is then
+the same mark wearing a ring, not a thinner mark.
+*Why:* the halo exists to protect the mark's identity on a light bar; a centred
+stroke spends that identity to buy the protection.
+*Evidence:* [Canopy Haypile](../casebook/2026-08-20-iconflow-canopy-haypile-demo.md) —
+single-pass halos turned 64-unit risers into dark bars and stripped most of the
+head's warm area on a white bar; the two-pass halo restored both.
+Folded into `SVG_TECHNIQUES.md` §11.
+
+## L50 — A suspended mark needs air and two lines, or it is an umbrella
+A dome over a body is an umbrella, a mushroom or a table lamp before it is a
+parachute — L9 applied to the most common "carried from above" layout. Three
+things separate them, and all three are geometry, not styling: the canopy is
+**panelled** so it reads as fabric rather than a solid cap; at least **two output
+pixels of clear air** (about 128 units) separate hem from load, which is what
+turns *wearing* into *hanging from*; and the suspension is **two unequal lines
+from the hem's outer ends** rather than one central stem, which also reads as
+drift.
+*Why:* a single stem is the defining feature of the objects this collides with,
+and without air the two masses fuse into one silhouette that the collision wins.
+*Evidence:* [Canopy Haypile](../casebook/2026-08-20-iconflow-canopy-haypile-demo.md) —
+a shallow solid dome on short inboard risers scored distinctiveness 3 and named a
+mushroom; 36-unit panel seams and a visible V fixed the noun, and opening 115
+units to 130 fixed the relationship. Folded into `DESIGN_PLAYBOOK.md` §5.

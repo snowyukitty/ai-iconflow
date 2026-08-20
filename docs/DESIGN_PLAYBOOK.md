@@ -101,6 +101,13 @@ cleanly to every target and matches Tauri/Electron masters.
   with at least a one-pixel budget (≈64 units). If the concept cannot afford
   those pixels while staying inside its keyline, reject it before the bake-off
   instead of repairing legibility/scalability after review.
+- **On a coloured card, budget the outline as a silhouette line.** The
+  visual-silhouette strip judges luminance, so a coloured element on a coloured
+  card blacks out with it and only its light outline survives. That outline is
+  what the distinctiveness gate sees: give it two output pixels at the smallest
+  size where the element must still be nameable (a 28-unit ring clears `check`'s
+  2.3% stroke floor and still fragments by 48px; 40 units holds). The stroke
+  floor is a vanishing test, not a silhouette test. (L47.)
 - **Spend the whole tile before tuning anything else.** If the budget above
   doesn't fit, the fix is almost never thinner margins or thicker strokes — it
   is deleting the background tile so the object *is* the icon. A mark drawn
@@ -210,12 +217,23 @@ zoom in `review.png`:
   pixel at 16px); then re-check that every semantic counter or panel gap still
   resolves to at least two clear pixels. Do not solve it with a full tile unless
   the product calls for one.
+- Run a **suspension collision test** on anything carried from above. A dome
+  over a body is an umbrella, a mushroom, or a table lamp until the canopy is
+  panelled, at least two output pixels (about 128 units) of clear air separate
+  hem from load, and the suspension reads as two unequal lines from the hem's
+  outer ends rather than one central stem. All three are geometry; none of them
+  can be added later with color. (L50.)
 - If that tray target belongs to an established mascot or brand mark, preserve
   its palette and signature trait in color, and tighten the framing before
   recoloring it for presence. For the alpha-derived template, cut essential
   facial features, counters, and seams out of the silhouette instead of drawing
-  them in the foreground color. Inspect both actual 16px assets; passing only
-  the color or only the template reduction is not enough.
+  them in the foreground color. Cut **exactly one** — every hole that rescues the
+  template also removes color from the asset the taskbar shows — and keep it away
+  from any join between two shapes, where a hole reads as a bite out of the
+  contour. Inspect both actual 16px assets; passing only the color or only the
+  template reduction is not enough. `iconflow check <master> --tray-svg <tray.svg>`
+  audits the two reductions the build emits and reports a template that kept none
+  of the color mark's features. (L48.)
 - For raster/emote-based favicons, check 16px legibility and the maskable row as
   one decision. If scaling the face up triggers a safe-zone warning, preserve the
   strongest expression and shrink or remove peripheral props (stars, ears, labels)

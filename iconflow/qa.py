@@ -222,6 +222,128 @@ def _detail_outside_safe_zone(im: Image.Image) -> float:
     return outside / total if total else 0.0
 
 
+# A tray source whose interior is opaque everywhere renders a perfectly good
+# colour icon and a featureless black blob in the macOS menu bar: the colour
+# reduction keeps hue, the alpha reduction keeps only the outline and whatever
+# is genuinely cut through it (docs/LEARNINGS.md L42, L48). These thresholds
+# separate "the template lost the mark's features" from "the mark never had
+# interior features", measured on the exact 32px bytes the build emits.
+_TEMPLATE_PROBE_SIZE = 32
+_TEMPLATE_MIN_INTERIOR = 32        # px of interior; below this there is nothing to judge
+_TEMPLATE_COLOUR_STRUCTURE = 0.15  # interior edge ratio that counts as "has features"
+_TEMPLATE_MAX_BLOB_HOLES = 2       # enclosed transparent px that still reads as a blob
+
+
+def _erode(mask: Image.Image, passes: int = 2) -> Image.Image:
+    """Shrink a binary mask so its own outer contour stops counting as detail."""
+    for _ in range(passes):
+        mask = mask.filter(ImageFilter.MinFilter(3))
+    return mask
+
+
+def _interior_edge_ratio(gray: Image.Image, interior: Image.Image) -> tuple[float, int]:
+    """Fraction of interior pixels carrying a visible edge, plus the sample size."""
+    edges = _pixels(gray.filter(ImageFilter.FIND_EDGES))
+    inside = [value for value, keep in zip(edges, _pixels(interior)) if keep >= 128]
+    if not inside:
+        return 0.0, 0
+    return sum(1 for value in inside if value > 40) / len(inside), len(inside)
+
+
+def _enclosed_transparent_pixels(alpha: Image.Image) -> int:
+    """Transparent pixels the border cannot reach — the mark's real holes.
+
+    A macOS template carries no colour, so everything it can still say lives in
+    its outer contour and in the cuts punched clean through it. Counting the
+    enclosed transparent pixels is therefore a direct measure of how much the
+    template has left to say.
+    """
+    width, height = alpha.size
+    solid = [value >= 128 for value in _pixels(alpha)]
+    seen = [False] * (width * height)
+    queue: deque[int] = deque()
+
+    def push(index: int) -> None:
+        if not solid[index] and not seen[index]:
+            seen[index] = True
+            queue.append(index)
+
+    for x in range(width):
+        push(x)
+        push((height - 1) * width + x)
+    for y in range(height):
+        push(y * width)
+        push(y * width + width - 1)
+    while queue:
+        index = queue.popleft()
+        x, y = index % width, index // width
+        for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+            if 0 <= nx < width and 0 <= ny < height:
+                push(ny * width + nx)
+    return sum(1 for index, filled in enumerate(solid) if not filled and not seen[index])
+
+
+def tray_template_warnings(
+    tray_svg: str | Path, *, template_mode: str = "auto",
+    rasterizer: Rasterizer | None = None,
+) -> list[str]:
+    """Advisory: does the macOS template keep anything the colour tray shows?
+
+    Colour reduction and alpha reduction discard different information, so a
+    tray source can pass every other check and still ship a black lozenge to the
+    menu bar. This audits the two reductions the build actually emits from one
+    source and reports when the second one keeps none of the first one's
+    features.
+
+    Deliberately NOT part of :func:`check`: it needs a tray source rather than
+    the master, and it is a heuristic about a linked variant, so it advises the
+    designer instead of gating ``ship``.
+    """
+    if template_mode not in {"auto", "alpha", "contrast"}:
+        raise ValueError("template mode must be 'auto', 'alpha', or 'contrast'")
+    text = load_svg(tray_svg)
+
+    def audit(active: Rasterizer) -> list[str]:
+        colour_png = active.render(text, _TEMPLATE_PROBE_SIZE)
+        try:
+            template_png = assemble.to_template(colour_png, template_mode)
+        except ValueError as exc:
+            return [
+                f"The '{template_mode}' tray template cannot be derived from this "
+                f"source: {exc}"
+            ]
+        colour = Image.open(io.BytesIO(colour_png)).convert("RGBA")
+        template_alpha = (
+            Image.open(io.BytesIO(template_png)).convert("RGBA").getchannel("A")
+        )
+        footprint = colour.getchannel("A").point(lambda v: 255 if v >= 128 else 0)
+        flat = Image.new("RGB", colour.size, (128, 128, 128))
+        flat.paste(colour, (0, 0), colour)
+        structure, interior = _interior_edge_ratio(flat.convert("L"), _erode(footprint))
+        holes = _enclosed_transparent_pixels(template_alpha)
+        if (
+            interior >= _TEMPLATE_MIN_INTERIOR
+            and structure >= _TEMPLATE_COLOUR_STRUCTURE
+            and holes <= _TEMPLATE_MAX_BLOB_HOLES
+        ):
+            return [
+                f"The macOS tray template keeps none of this source's features: "
+                f"{structure * 100:.0f}% of the colour mark's interior carries visible "
+                f"detail, but the derived template has {holes} enclosed transparent "
+                "pixel(s) and reads as a featureless silhouette on the menu bar. "
+                "Colour and alpha are two different reductions of one source "
+                "(docs/LEARNINGS.md L42): cut the one feature that identifies the mark "
+                "— an eye, a counter, a seam — clean through the tray source as a broad "
+                "transparent hole, placed away from any join between two shapes."
+            ]
+        return []
+
+    if rasterizer is None:
+        with Rasterizer() as owned:
+            return audit(owned)
+    return audit(rasterizer)
+
+
 def check(
     master_svg: str | Path, *, maskable: bool = True,
     maskable_bg: str = "#ffffff", rasterizer: Rasterizer | None = None,

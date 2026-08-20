@@ -293,7 +293,7 @@ def _web_options(a):
 def _cmd_review(a) -> int:
     from .build import normalize_targets
     from .config import ConfigError, load_config
-    from .qa import check
+    from .qa import check, tray_template_warnings
     from .review import ReviewOptions, contact_sheet, interactive_review
 
     try:
@@ -331,6 +331,12 @@ def _cmd_review(a) -> int:
             maskable=bool({"web", "pwa"} & set(targets)),
             maskable_bg=background,
         )
+        # Advisory only: a linked tray source is a different reduction of the
+        # same mark, so it informs the designer without gating `ship`.
+        tray_advisories = (
+            tray_template_warnings(tray_svg, template_mode=tray_template_mode)
+            if tray_svg and "tray" in targets else []
+        )
         options = ReviewOptions(
             name=a.name or (config.name if config else master.stem),
             user_job=config.user_job if config else "",
@@ -364,6 +370,8 @@ def _cmd_review(a) -> int:
         print("Export its JSON receipt and pass it to `iconflow ship --review <receipt>`.")
     if warnings:
         print(f"Review includes {len(warnings)} automated warning(s); ship remains blocked.")
+    for advisory in tray_advisories:
+        print(f"Tray template advisory: {advisory}")
     return 0
 
 
@@ -380,16 +388,28 @@ def _cmd_compare(a) -> int:
 
 
 def _cmd_check(a) -> int:
-    from .qa import check
+    from .qa import check, tray_template_warnings
     warnings = check(
         a.master, maskable=not a.no_maskable_audit, maskable_bg=a.bg,
     )
-    if not warnings:
+    advisories: list[str] = []
+    if a.tray_svg:
+        try:
+            advisories = tray_template_warnings(
+                a.tray_svg, template_mode=a.tray_template_mode,
+            )
+        except (OSError, RuntimeError, ValueError) as exc:
+            print(f"iconflow check: tray audit could not run: {exc}", file=sys.stderr)
+            return 2
+    if not warnings and not advisories:
         print("OK — no automated warnings. Still do the visual review.")
         return 0
-    print(f"{len(warnings)} warning(s):")
-    for w in warnings:
-        print(f"  ! {w}")
+    if warnings:
+        print(f"{len(warnings)} warning(s):")
+        for w in warnings:
+            print(f"  ! {w}")
+    for advisory in advisories:
+        print(f"  ~ tray template advisory: {advisory}")
     return 1
 
 
@@ -853,6 +873,10 @@ def build_parser() -> argparse.ArgumentParser:
                    help="skip the maskable safe-zone detail audit")
     c.add_argument("--bg", default="#ffffff",
                    help="background used by the exact maskable asset audit")
+    c.add_argument("--tray-svg",
+                   help="also audit the macOS template derived from this tray source")
+    c.add_argument("--tray-template-mode", choices=["auto", "alpha", "contrast"],
+                   default="auto", help="extraction mode used by the tray audit")
     c.set_defaults(func=_cmd_check)
 
     rn = sub.add_parser("render", help="rasterize a master SVG to exact pixel size(s)")

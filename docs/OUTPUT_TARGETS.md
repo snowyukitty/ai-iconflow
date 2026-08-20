@@ -187,6 +187,21 @@ black square. `alpha` and `contrast` are explicit modes for callers that know
 their source semantics. Verify the exact Windows and macOS outputs in the
 target-aware Review Lab on both light and dark bars.
 
+Audit the two reductions before you trust them. The colour asset and the macOS
+template come from one source but discard different information, so a source
+that is opaque wherever its halo reaches ships a good tray icon and a featureless
+black lozenge in the menu bar:
+
+```bash
+python -m iconflow check master.svg --tray-svg tray.svg --tray-template-mode alpha
+```
+
+It compares the interior detail of the colour tray asset against the enclosed
+holes of the derived template and reports when the template kept none of the
+mark's features. The fix is a single broad transparent cut through the tray
+source — see `docs/LEARNINGS.md` L48 and `SVG_TECHNIQUES.md` §11. The audit is
+advisory and does not gate `ship`.
+
 If the tray icon **recolors by state** (e.g. active/paused/error), render it from
 ONE shared mark function used by both the built static icons *and* the live
 recolor path, so the two never drift.

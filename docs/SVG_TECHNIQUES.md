@@ -236,6 +236,30 @@ right semantic role without duplicating the design:
   size presence by cropping the shared geometry more tightly before recoloring
   or inventing a second silhouette.
 
+A tray variant usually needs a contrast halo so a warm mark survives a light
+menu bar. Do not add it as a single graphite `stroke`: strokes are centred, so
+half the width lands inside the path and eats the mark it is meant to protect.
+Draw the halo first and restore the master's exact geometry on top (L49):
+
+```svg
+<!-- pass 1: the halo, wider than the master's own stroke -->
+<path id="iconflow-core" d="..." fill="none" stroke="#191A20" stroke-width="162"/>
+<!-- pass 2: the master's geometry, unchanged -->
+<path id="iconflow-core" d="..." fill="#FFF4E8" stroke="#FFF4E8" stroke-width="70"/>
+```
+
+Punch the template's one identifying feature through everything with a `<mask>`,
+so the hole reaches the halo as well as the fill, and audit the result with
+`iconflow check <master> --tray-svg <tray.svg>` (L48):
+
+```svg
+<mask id="tray-cuts" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+  <rect width="1024" height="1024" fill="#fff"/>
+  <circle cx="614" cy="470" r="62" fill="#000"/>   <!-- the eye, cut clean through -->
+</mask>
+<g id="iconflow-mark" mask="url(#tray-cuts)">...</g>
+```
+
 Always review the transformed target bytes. Judging the raw master alone cannot
 catch a lost tray counter, an incorrect maskable composition, or platform-only
 corner processing.

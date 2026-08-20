@@ -135,6 +135,88 @@ class QaTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "fully opaque"):
                 qa.check(master, maskable_bg="#ffffff00")
 
+    def _tray_rasterizer(self, *, features: bool, cut: bool):
+        """A fake tray source: a warm disc, optionally striped, optionally punched."""
+
+        def tray_png(size):
+            image = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+            draw = ImageDraw.Draw(image)
+            draw.ellipse([4, 4, size - 5, size - 5], fill=(255, 244, 232, 255))
+            if features:
+                for index, x in enumerate(range(8, size - 8, 4)):
+                    fill = (255, 90, 79, 255) if index % 2 else (132, 94, 194, 255)
+                    draw.rectangle([x, 8, x + 1, size - 9], fill=fill)
+            if cut:
+                draw.ellipse([13, 13, 19, 19], fill=(0, 0, 0, 0))
+            out = io.BytesIO()
+            image.save(out, "PNG")
+            return out.getvalue()
+
+        class FakeRasterizer:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                return None
+
+            def render(self, _svg, size, bg="transparent"):
+                return tray_png(size)
+
+        return FakeRasterizer
+
+    def _tray_source(self, tmp):
+        source = Path(tmp) / "tray.svg"
+        source.write_text('<svg viewBox="0 0 1024 1024"></svg>', encoding="utf-8")
+        return source
+
+    def test_tray_audit_flags_a_template_that_lost_every_feature(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = self._tray_source(tmp)
+            fake = self._tray_rasterizer(features=True, cut=False)
+            with patch("iconflow.qa.Rasterizer", fake):
+                warnings = qa.tray_template_warnings(source, template_mode="alpha")
+        self.assertEqual(len(warnings), 1)
+        self.assertIn("featureless silhouette", warnings[0])
+
+    def test_tray_audit_accepts_a_broad_transparent_cut(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = self._tray_source(tmp)
+            fake = self._tray_rasterizer(features=True, cut=True)
+            with patch("iconflow.qa.Rasterizer", fake):
+                warnings = qa.tray_template_warnings(source, template_mode="alpha")
+        self.assertEqual(warnings, [])
+
+    def test_tray_audit_ignores_a_source_with_no_interior_features(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = self._tray_source(tmp)
+            fake = self._tray_rasterizer(features=False, cut=False)
+            with patch("iconflow.qa.Rasterizer", fake):
+                warnings = qa.tray_template_warnings(source, template_mode="alpha")
+        self.assertEqual(warnings, [])
+
+    def test_tray_audit_reuses_a_caller_supplied_rasterizer(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = self._tray_source(tmp)
+            fake = self._tray_rasterizer(features=True, cut=False)
+            with patch("iconflow.qa.Rasterizer", side_effect=AssertionError("must reuse caller")):
+                warnings = qa.tray_template_warnings(
+                    source, template_mode="alpha", rasterizer=fake(),
+                )
+        self.assertEqual(len(warnings), 1)
+
+    def test_tray_audit_rejects_an_unknown_template_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = self._tray_source(tmp)
+            with self.assertRaisesRegex(ValueError, "template mode"):
+                qa.tray_template_warnings(source, template_mode="silhouette")
+
+    def test_enclosed_transparent_pixels_ignores_background(self):
+        image = Image.new("L", (16, 16), 0)
+        ImageDraw.Draw(image).rectangle([3, 3, 12, 12], fill=255)
+        self.assertEqual(qa._enclosed_transparent_pixels(image), 0)
+        ImageDraw.Draw(image).rectangle([6, 6, 8, 8], fill=0)
+        self.assertEqual(qa._enclosed_transparent_pixels(image), 9)
+
 
 if __name__ == "__main__":
     unittest.main()

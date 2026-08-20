@@ -67,6 +67,8 @@ formats, with a render-and-review loop.
    let a card alpha collapse into a featureless tray square.
 6. **Check + review (mandatory):**
    - `<ICONFLOW_PY> -m iconflow check master.svg` → fix every warning.
+     With a linked tray source add `--tray-svg tray.svg --tray-template-mode <mode>`
+     to audit the macOS template the build will emit.
    - `<ICONFLOW_PY> -m iconflow review --config iconflow.toml --out <AI_PROJECTS>/ai-iconflow/work/<slug>/review.png --html <AI_PROJECTS>/ai-iconflow/work/<slug>/review.html` →
      **Read that `review.png` and open that Review Lab** (actual-size pixels,
      silhouette strip, alpha footprint, adaptive crops, target transforms).
