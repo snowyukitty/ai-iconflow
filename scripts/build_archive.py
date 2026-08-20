@@ -373,8 +373,8 @@ def archive_page(catalog: dict) -> str:
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/archive.css">
+  <link rel="stylesheet" href="/styles.css?v=20260821">
+  <link rel="stylesheet" href="/archive.css?v=20260821">
   <script type="application/ld+json">
   {{
    "@context": "https://schema.org",
@@ -385,8 +385,8 @@ def archive_page(catalog: dict) -> str:
    "isPartOf": {{ "@id": "https://ai-iconflow.com/#website" }}
   }}
   </script>
-  <script src="/app.js" defer></script>
-  <script src="/archive.js" defer></script>
+  <script src="/app.js?v=20260821" defer></script>
+  <script src="/archive.js?v=20260821" defer></script>
 </head>
 <body class="archive-body">
   <a class="skip-link" href="#main">Skip to content</a>

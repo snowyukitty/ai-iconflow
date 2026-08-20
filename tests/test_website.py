@@ -274,7 +274,7 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertLess(guide_css.stat().st_size + shared_css.stat().st_size, 60_000)
         self.assertLess(shared_script.stat().st_size, 8_000)
         self.assertEqual([], parser.images_without_dimensions)
-        self.assertIn('<script src="/app.js" defer></script>', guide)
+        self.assertRegex(guide, r'<script src="/app\.js(\?v=[A-Za-z0-9]+)?" defer></script>')
         self.assertNotIn("fonts.googleapis.com", guide)
         self.assertNotIn("cdn.", guide)
         self.assertNotIn("<iframe", guide)

@@ -18,9 +18,9 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/playground.css">
-  <link rel="stylesheet" href="/archive.css">
+  <link rel="stylesheet" href="/styles.css?v=20260821">
+  <link rel="stylesheet" href="/playground.css?v=20260821">
+  <link rel="stylesheet" href="/archive.css?v=20260821">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -46,9 +46,9 @@
       ]
     }
   </script>
-  <script src="/app.js" defer></script>
-  <script src="/playground.js" defer></script>
-  <script src="/archive.js" defer></script>
+  <script src="/app.js?v=20260821" defer></script>
+  <script src="/playground.js?v=20260821" defer></script>
+  <script src="/archive.js?v=20260821" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -100,12 +100,17 @@
         <div class="hero-icon-wrap">
           <div class="hero-icon-halo"></div>
           <img class="hero-icon" src="/assets/iconflow-mark.svg" width="420" height="420" alt="IconFlow Petal Haypile mark">
+          <div class="hero-loupe" data-hero-loupe hidden>
+            <img data-hero-zoom src="/assets/proof/icon-16.png?v=petal" width="256" height="256" alt="Magnified native pixels of the IconFlow mark">
+            <span class="loupe-actual"><img data-hero-actual src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt=""><em>actual size</em></span>
+          </div>
           <div class="gate-orbit"><span></span></div>
         </div>
-        <div class="hero-rail" aria-hidden="true">
-          <span class="rail-source"></span><span class="rail-gate"></span><span class="rail-output"></span>
-        </div>
-        <div class="stage-label stage-label-bottom">review gate passed · 6/6</div>
+        <label class="hero-rail" for="hero-scrub">
+          <span class="sr-only">Preview the mark at a native size, from 16 pixels to the vector source</span>
+          <input id="hero-scrub" class="hero-scrub" type="range" min="0" max="6" step="1" value="6" data-hero-scrub aria-valuetext="vector source">
+        </label>
+        <div class="stage-label stage-label-bottom" data-hero-size aria-live="polite">review gate passed · 6/6</div>
         <div class="size-stack" aria-hidden="true">
           <img src="/assets/proof/icon-64.png?v=petal" width="64" height="64" alt="">
           <img src="/assets/proof/icon-32.png?v=petal" width="32" height="32" alt="">

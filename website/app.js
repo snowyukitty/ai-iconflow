@@ -95,6 +95,34 @@ if (lab) {
   });
 }
 
+const scrub = document.querySelector('[data-hero-scrub]');
+if (scrub) {
+  const icon = document.querySelector('.hero-icon');
+  const wrap = icon.closest('.hero-icon-wrap');
+  const sizeLabel = document.querySelector('[data-hero-size]');
+  const loupe = document.querySelector('[data-hero-loupe]');
+  const zoom = document.querySelector('[data-hero-zoom]');
+  const actual = document.querySelector('[data-hero-actual]');
+  const sizes = [16, 24, 32, 48, 64, 128];
+  scrub.addEventListener('input', () => {
+    const index = Number(scrub.value);
+    const native = index < sizes.length;
+    const size = sizes[index];
+    if (native) {
+      const source = `/assets/proof/icon-${size}.png?v=petal`;
+      zoom.src = source;
+      actual.src = source;
+      actual.width = size;
+      actual.height = size;
+    }
+    icon.hidden = native;
+    loupe.hidden = !native;
+    wrap.classList.toggle('is-native', native);
+    sizeLabel.textContent = native ? `native ${size} × ${size} px · exact pixels` : 'review gate passed · 6/6';
+    scrub.setAttribute('aria-valuetext', native ? `${size} pixels` : 'vector source');
+  });
+}
+
 const galleryDialog = document.querySelector('[data-gallery-dialog]');
 document.querySelector('[data-open-gallery]')?.addEventListener('click', () => galleryDialog?.showModal());
 galleryDialog?.addEventListener('click', (event) => {
