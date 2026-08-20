@@ -1,6 +1,6 @@
 # Launch readiness
 
-Status date: 2026-08-14. This file records evidence and remaining owner gates;
+Status date: 2026-08-21. This file records evidence and remaining owner gates;
 it is not a claim that a release has been published.
 
 ## Current readiness
@@ -25,8 +25,9 @@ it is not a claim that a release has been published.
 - [x] Owner applied a public repository description and topic baseline.
 - [ ] Owner enables GitHub private vulnerability reporting.
 - [ ] Owner approves and applies the remaining homepage and social-preview settings.
-- [ ] Complete desktop, tablet, and mobile visual sign-off for
-  `/getting-started/`, then obtain owner approval before deploying it.
+- [x] Desktop, tablet, and mobile visual sign-off for `/getting-started/`
+  (Playwright at 1440/768/360 on 2026-08-21: no horizontal overflow, no console
+  errors); the route is live on the canonical host.
 - [ ] Owner approves a tag, GitHub Release, and PyPI publication.
 
 This checkout and the public GitHub repository are licensed under Apache-2.0.
