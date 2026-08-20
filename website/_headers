@@ -21,6 +21,9 @@
 /gallery/emoji-matrix/index.html
   Cache-Control: public, max-age=0, must-revalidate
 
+/how-icons-are-made/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/*
   Cache-Control: public, max-age=86400
 

@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How IconFlow Makes Icons — Brief, SVG, proof, review, receipt</title>
+  <meta name="description" content="The IconFlow methodology in plain English: a user-job brief, concept divergence, editable 1024-grid SVG, exact Chromium renders at 16px and 128px, mechanical checks, human review, source-bound receipts, and a transparent cost model.">
+  <meta name="theme-color" content="#191a20">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How IconFlow Makes Icons">
+  <meta property="og:description" content="From user-job brief to editable SVG, native-size proof, human review, and a receipt that binds approval to the exact source. Plus what it costs, honestly.">
+  <meta property="og:url" content="https://ai-iconflow.com/how-icons-are-made/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ai-iconflow.com/how-icons-are-made/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/how-icons-are-made/how-icons-are-made.css">
+  <script type="application/ld+json">
+  {
+   "@context": "https://schema.org",
+   "@type": "TechArticle",
+   "headline": "How IconFlow Makes Icons",
+   "description": "The IconFlow methodology: user-job brief, concept divergence, editable SVG, exact native-size rendering, checks, human review, source-bound receipts, and a transparent cost model.",
+   "url": "https://ai-iconflow.com/how-icons-are-made/",
+   "inLanguage": "en",
+   "about": { "@id": "https://ai-iconflow.com/#source" },
+   "isPartOf": { "@id": "https://ai-iconflow.com/#website" }
+  }
+  </script>
+  <script src="/app.js" defer></script>
+</head>
+<body class="method-body">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+  <a class="brand" href="/" aria-label="IconFlow home">
+   <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
+   <span>IconFlow</span>
+  </a>
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu>
+   <span class="sr-only">Toggle navigation</span>
+   <span></span><span></span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+   <a href="#pipeline">Pipeline</a>
+   <a href="#brief">Brief</a>
+   <a href="#svg">SVG</a>
+   <a href="#check">Checks</a>
+   <a href="#review">Review</a>
+   <a href="#cost">Cost</a>
+   <a href="/gallery/">Gallery</a>
+   <a href="/getting-started/">Get started</a>
+  </nav>
+  </header>
+
+  <main id="main">
+  <section class="method-hero section-shell">
+   <div class="method-hero-copy reveal">
+    <p class="eyebrow"><span class="status-dot"></span> Methodology · how the work is done</p>
+    <h1>How IconFlow<br>makes <em>icons.</em></h1>
+    <p>Not a prompt and a picture. A product brief, competing ideas, one editable SVG on a 1024 grid, exact renders at the sizes people really see, a mechanical check, a scored human review, and a receipt that binds approval to the exact source. Each step in plain English, with the real artifacts beside the claims.</p>
+    <ul class="hero-contract" aria-label="Page contract">
+     <li>Every artifact shown is in the repository</li>
+     <li>16px proofs are shown at 16px</li>
+     <li>No vendor endorsement implied</li>
+    </ul>
+   </div>
+
+   <div class="specimen-card reveal" aria-label="IconFlow product mark as a worked specimen">
+    <div class="specimen-topline"><span>Specimen · Petal Haypile</span><strong>current mark</strong></div>
+    <div class="specimen-stage">
+     <figure>
+      <img src="/assets/iconflow-mark.svg" width="128" height="128" alt="IconFlow mark from its editable SVG: a low-eared pika returning to its hay store with three petals">
+      <figcaption>master.svg · rendered by the browser</figcaption>
+     </figure>
+     <figure>
+      <div class="specimen-native">
+       <img src="/assets/proof/icon-128.png" width="128" height="128" alt="Exact 128 by 128 pixel render of the IconFlow mark">
+       <img src="/assets/proof/icon-16.png" width="16" height="16" alt="Exact 16 by 16 pixel render of the IconFlow mark, shown at actual size">
+       <img class="zoom-16" src="/assets/proof/icon-16.png" width="16" height="16" alt="The same 16 pixel render magnified six times, pixels kept sharp">
+      </div>
+      <figcaption>exact 128px · exact 16px · 16px zoomed</figcaption>
+     </figure>
+    </div>
+    <div class="specimen-receipt" aria-label="Receipt summary">
+     <div><span>check</span><strong>0 warnings</strong></div>
+     <div><span>review</span><strong>6 axes ≥ 4/5</strong></div>
+     <div><span>ship</span><strong>23 files</strong></div>
+    </div>
+   </div>
+  </section>
+
+  <section id="pipeline" class="pipeline-section section-shell">
+   <div class="pipeline-heading reveal">
+    <p class="section-kicker">The real pipeline</p>
+    <h2>Nine stages.<br><span>Two of them are human.</span></h2>
+    <p>Every stage leaves a file behind: a brief, concept thumbnails, an SVG, a warnings list, PNGs, a scored receipt, a build, a case record. Click a stage to read how it works.</p>
+   </div>
+   <ol class="pipeline reveal" aria-label="IconFlow pipeline">
+    <li><a href="#brief"><strong>Brief</strong><small>User job, essence, clichés, targets</small></a></li>
+    <li><a href="#diverge"><strong>Diverge</strong><small>4+ concepts, cliché filter, one device</small></a></li>
+    <li><a href="#svg"><strong>SVG</strong><small>Editable geometry on the 1024 grid</small></a></li>
+    <li><a href="#check"><strong>Check</strong><small>Safety, grid, stroke, contrast, crop</small></a></li>
+    <li><a href="#check"><strong>Render</strong><small>Exact Chromium pixels at 16 and 128</small></a></li>
+    <li><a class="is-human" href="#review"><strong>Review</strong><small>Six axes, scored by a person</small></a></li>
+    <li><a href="#review"><strong>Receipt</strong><small>Approval bound to the source hash</small></a></li>
+    <li><a href="#review"><strong>Ship</strong><small>Fail-closed build of every target</small></a></li>
+    <li><a class="is-human" href="#review"><strong>Learn</strong><small>Case record and distilled rules</small></a></li>
+   </ol>
+   <p class="pipeline-legend"><span>mechanical stage</span><span class="legend-human">human judgment</span></p>
+  </section>
+
+  <section id="brief" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">Stage 01 · Brief</p>
+    <h2>Start with the job,<br><span>not the picture.</span></h2>
+    <p>A noun-only prompt (“make me a chat icon”) produces decoration. IconFlow’s brief records what the person using the product is trying to get done.</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>The user job comes first</h3>
+     <p>The playbook asks for five things before anyone draws: what the icon is (app, favicon, tray), a one-word essence, the brand color, a personality lane, and where the icon will live small. The distilled rule from the casebook is blunt: <em>choose the user’s job, not the category noun</em>. “Route”, “decide”, “compare” and “scout” produce better marks than “game”, “conference” or “travel”, because category nouns are where clichés live.</p>
+     <h3>Then a concrete noun</h3>
+     <p>Distinctiveness in this system means specificity. The strongest marks in the casebook <em>are</em> a specific, ownable thing — a price tag, a cut gem, a folded route map, a maneki-neko — whose blacked-out silhouette names an object rather than a category. A bare initial on a gradient tile is named in the docs as the single most common way an AI icon looks competent and forgettable at once.</p>
+     <p>For privacy-sensitive products the brief is reduced to a neutral job verb, and the public case record keeps the visual evidence without the category noun, repository names or local paths.</p>
+     <ul class="doc-links" aria-label="Related documents">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">docs/DESIGN_PLAYBOOK.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>
+     </ul>
+    </div>
+    <aside class="panel reveal is-side" aria-label="What a brief contains">
+     <div class="panel-head"><span>iconflow.toml · [brief]</span><span>portable</span></div>
+     <dl>
+      <div><dt>User job</dt><dd>The progress a person is making. Example from a shipped Theme World: “keep a small shared ritual tangible over time”.</dd></div>
+      <div><dt>Essence</dt><dd>One word that settles arguments. Keepsake Knot: “together”. IconFlow itself: “proof”.</dd></div>
+      <div><dt>Personality</dt><dd>Two or three traits with tension — “warm, tactile, assured”.</dd></div>
+      <div><dt>Clichés to avoid</dt><dd>The obvious category symbols, written down so they can be rejected: heart, chat bubble, linked circles.</dd></div>
+      <div><dt>Signature-device hypothesis</dt><dd>The one move that will make the mark ownable, stated before drawing and tested after.</dd></div>
+      <div><dt>Targets</dt><dd>Only the surfaces that exist: web, PWA, desktop, tray. The receipt is later bound to this exact set.</dd></div>
+     </dl>
+    </aside>
+   </div>
+  </section>
+
+  <section id="diverge" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">Stage 02 · Diverge</p>
+     <h2>Four ideas,<br><span>then one device.</span></h2>
+     <p>This is the stage most AI-made icons skip, which is why they all look the same. IconFlow makes it mandatory and gives it tests that can be failed.</p>
+    </div>
+    <div class="method-columns">
+     <div class="method-prose reveal">
+      <h3>Diverge through different lenses</h3>
+      <p>For one brief the designer (human or agent) sketches at least four concepts through different lenses — the literal object, a metaphor, the core verb, a letterform <em>fused</em> into the object, an abstract system, or a negative-space dual reading. Two concepts that share a silhouette count as one.</p>
+      <h3>Filter the clichés</h3>
+      <p>A documented cliché table pairs each product category with its overused symbols and a direction to push toward instead. The rule is simple: if your concept is the “avoid” cell, it is not done. The house list also refuses to represent “AI” with brains, robots, sparkles, wands, neural nodes, or the default blue-to-purple gradient.</p>
+      <h3>Add one signature device and test it</h3>
+      <p>One device — a dual reading, ownable geometry, a fused letterform, an unexpected crop, an ownable color pairing, or a single accent. Then four hard tests before any polish: the <strong>name-the-thing test</strong> at 128px and at 16px (a passing answer is a concrete noun), the <strong>silhouette test</strong> with color removed, the <strong>maskable test</strong> (essential detail inside the central 40%-radius safe circle), and the <strong>row test</strong> against eight competitor favicons. Finalists are then baked off side by side with <code>iconflow compare</code>, and the winner is judged by shape, not by 128px color.</p>
+      <ul class="doc-links" aria-label="Related documents">
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/CONCEPTING.md">docs/CONCEPTING.md</a></li>
+      </ul>
+     </div>
+     <div class="reveal is-side">
+      <figure class="figure-wide">
+       <div class="figure-art"><img src="/assets/concept-bake.png" width="1346" height="682" alt="IconFlow concept bake-off sheet comparing three candidate marks at native sizes and as silhouettes" loading="lazy"></div>
+       <figcaption><strong>A real bake-off sheet.</strong> Three finalists rendered at actual sizes and as silhouettes so color cannot hide a generic shape.</figcaption>
+      </figure>
+      <div class="figure-strip">
+       <figure>
+        <div class="figure-art"><img class="is-svg" src="/assets/worlds/keepsake-knot.svg" width="128" height="128" alt="Keepsake Knot icon: two unequal teal and coral bands woven around one offset opening" loading="lazy"></div>
+        <figcaption><strong>Keepsake Knot — the device that survived.</strong> “Two unequal bands share one offset opening.” Pass one was rejected because the crossing read as a power symbol.</figcaption>
+        <p class="figure-links"><a href="/assets/worlds/keepsake-knot.svg">Source SVG</a><a href="/assets/worlds/keepsake-knot-review.json">Receipt JSON</a></p>
+       </figure>
+       <figure>
+        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/keepsake-knot-128.png" width="128" height="128" alt="Keepsake Knot exact 128 pixel render" loading="lazy"><img src="/assets/worlds/keepsake-knot-16.png" width="16" height="16" alt="Keepsake Knot exact 16 pixel render at actual size" loading="lazy"></div></div>
+        <figcaption><strong>Both bands still read at 16px.</strong> The 16px chip is the exact native PNG at 1:1, never an enlargement.</figcaption>
+       </figure>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="svg" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">Stage 03 · SVG</p>
+    <h2>Geometry is authored,<br><span>not generated from noise.</span></h2>
+    <p>The source of truth is a small, editable SVG. It can be read, diffed, hashed, and rebuilt into every target at any time.</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>Direct authoring on the 1024 grid</h3>
+     <p>Every master is drawn at <code>viewBox="0 0 1024 1024"</code>. At 16 pixels, 64 grid units are roughly one output pixel, so the budget is explicit: every idea-carrying accent gets about two pixels (≈128 units), every required separation at least one, and strokes thinner than about 2.3% of the side are expected to vanish. Essential content stays in the central ~80% safe area; anything that must survive an adaptive crop stays inside the central safe circle. A 16px icon has room for exactly one idea, and two opaque foreground elements must never cross.</p>
+     <h3>Twenty technique scaffolds, zero finished logos</h3>
+     <p><code>iconflow new &lt;preset&gt;</code> starts from one of twenty structurally different execution grammars — flat-geometric, line-mark, duotone-cut, pixel-grid, stained-glass, woodcut and so on — each with a 16px survival rule and a monochrome tray strategy. They share the same house rail on purpose; a real icon still replaces it with a product-specific object, then runs the whole gate.</p>
+     <h3>Deterministic Python where a collection needs scale</h3>
+     <p>Collections do not change the method; they script the repeatable parts. The 20-study Social Signals set assigns styles with a seeded <code>random.Random(seed).shuffle</code> checked against the catalog before any render, and keeps each study’s path geometry inside its build script. The 400-cell Emoji Matrix is built by <code>scripts/build_emoji_matrix.py</code>, which re-runs <code>check</code> on every cell, fingerprints every proof, and fails closed if one receipt, digest or review decision is missing. Scale buys repeatability and auditability — never a pass.</p>
+     <ul class="doc-links" aria-label="Related documents">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/STYLE_CATALOG.md">docs/STYLE_CATALOG.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/SVG_TECHNIQUES.md">docs/SVG_TECHNIQUES.md</a></li>
+      <li><a href="/gallery/social-signals/">/gallery/social-signals/</a></li>
+      <li><a href="/gallery/emoji-matrix/all/">/gallery/emoji-matrix/all/</a></li>
+     </ul>
+    </div>
+    <div class="reveal is-side">
+     <figure class="figure-wide">
+      <div class="figure-art"><img src="/assets/style-gallery.png" width="1518" height="836" alt="All twenty IconFlow technique scaffolds on one sheet, each with its native 16 pixel proof" loading="lazy"></div>
+      <figcaption><strong>The twenty-technique sheet.</strong> Rendered by the same network-isolated Chromium as the build; each tile carries its own native 16px proof.</figcaption>
+     </figure>
+    </div>
+   </div>
+  </section>
+
+  <section id="check" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">Stages 04–05 · Check and render</p>
+     <h2>Exact pixels,<br><span>mechanical warnings.</span></h2>
+     <p>IconFlow renders with a pinned Playwright Chromium, then runs a specific list of checks against what it sees.</p>
+    </div>
+    <div class="method-columns">
+     <div class="method-prose reveal">
+      <h3>Rendering is isolated and repeatable</h3>
+      <p>The renderer treats SVG as untrusted input. Chromium runs with network and service workers blocked, page JavaScript disabled, active or animated content removed or frozen, and sRGB, locale and timezone fixed. Input is capped at 4 MiB, 50,000 elements and 128 nesting levels, and DTD or entity declarations are rejected. The 16px and 128px PNGs on this page are those exact renders, not resamples of a larger image.</p>
+      <h3>What <code>check</code> really tests</h3>
+      <ul>
+       <li><strong>SVG safety:</strong> script, iframe, object, embed, audio, video and animation elements, event handlers, external <code>href</code>/<code>src</code>, CSS <code>url()</code> and <code>@import</code>.</li>
+       <li><strong>Grid:</strong> a missing <code>viewBox</code>, or one that is not square.</li>
+       <li><strong>Stroke floor:</strong> any stroke thinner than 2.3% of the viewBox width.</li>
+       <li><strong>16px coverage:</strong> under 6% of the canvas is too small; a hard square with opaque corners will be clipped by circular crops.</li>
+       <li><strong>Contrast:</strong> luminance spread on white and on dark at 16px, and on mid-gray at 32px.</li>
+       <li><strong>Maskable audit:</strong> more than 8% of detected detail outside the 40%-radius safe circle on the 512px maskable asset.</li>
+       <li><strong>Distinctiveness hint:</strong> live <code>&lt;text&gt;</code> glyphs — usually a typed monogram, and rendered through the build machine’s fonts.</li>
+       <li><strong>Tray template audit:</strong> a macOS template that kept none of the color mark’s features.</li>
+      </ul>
+      <h3>Silhouette and similarity are separate proofs</h3>
+      <p>Every reviewed case also gets a 128px visual silhouette, because distinctiveness is judged with color removed. For the 400-cell matrix a similarity report adds exact PNG hashes plus 64-bit alpha and luminance difference hashes; pairs within a Hamming distance of 12 (same meaning) or 6 (different meaning) are flagged high risk, and exact duplicates block integration. The script calls the distance “a triage signal for visual inspection, not an admission score”.</p>
+      <ul class="doc-links" aria-label="Related documents">
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/iconflow/qa.py">iconflow/qa.py</a></li>
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/WORKFLOW.md">docs/WORKFLOW.md</a></li>
+      </ul>
+     </div>
+     <div class="reveal is-side">
+      <div class="figure-strip">
+       <figure>
+        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/catnap-focus-128.png" width="128" height="128" alt="Catnap Focus exact 128 pixel render of a curled sleeping cat" loading="lazy"><img src="/assets/worlds/catnap-focus-16.png" width="16" height="16" alt="Catnap Focus exact 16 pixel render at actual size" loading="lazy"></div></div>
+        <figcaption><strong>Exact renders.</strong> Catnap Focus at 128px and 16px, straight from the pinned Chromium.</figcaption>
+       </figure>
+       <figure>
+        <div class="figure-art"><img src="/assets/worlds/catnap-focus-silhouette-128.png" width="128" height="128" alt="Catnap Focus visual silhouette with color removed, still reading as a curled cat" loading="lazy"></div>
+        <figcaption><strong>The silhouette proof.</strong> Color removed; the noun must survive. This is the strip the distinctiveness score is read from.</figcaption>
+       </figure>
+      </div>
+      <div class="panel">
+       <div class="panel-head"><span>terminal</span><span>a clean check</span></div>
+       <pre><code>$ python -m iconflow check master.svg
+OK — no automated warnings.
+Still do the visual review.</code></pre>
+       <p class="panel-note">A warning is source content to fix, not a renderer feature to re-enable. <code>ship</code> refuses a receipt recorded with warnings.</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="review" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">Stages 06–09 · Review, receipt, ship, learn</p>
+    <h2>A person scores it.<br><span>A hash remembers it.</span></h2>
+    <p>Mechanical checks catch mechanical risks. Whether the mark is any good is decided by eyes on real pixels, recorded in a receipt the build can verify.</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>Human visual review</h3>
+     <p>The reviewer opens the contact sheet and Review Lab: rows on white, dark and mid-gray; columns from 16px to 256px at actual size; a pixel-zoom strip; alpha footprint; visual silhouette; adaptive-crop previews; every selected target transform. Six axes are scored 1–5: legibility at 16px, distinctiveness, balance and grid, color and contrast, scalability, craft. Nothing ships below 4 on any axis, and distinctiveness is an explicit gate — a generic silhouette scores at most 3 no matter how nice the color is.</p>
+     <h3>Rejection and iteration are normal</h3>
+     <p>If an axis is under 4, the reviewer names the weakest axis, makes the single highest-impact change, and re-renders. The docs expect two or three passes. The 100-case gallery edition admitted 100 of 111 candidates and explicitly rejected eleven weaker, less legible or repetitive directions; Keepsake Knot’s receipt records that its first pass was rejected for reading as a power symbol.</p>
+     <h3>Source-bound receipts, fail-closed shipping</h3>
+     <p>The exported receipt carries a <code>source_sha256</code> of the exact SVG and a <code>contract_sha256</code> binding the project, target set, colors, Electron radius, color scheme, tray mode and tray-source hash. <code>iconflow ship</code> verifies both, requires an empty warnings list, <code>status: ready</code> and six scores of at least 4, then re-runs automated QA before writing a single file. Change the SVG by one byte and the receipt is stale.</p>
+     <h3>Casebook learning</h3>
+     <p>Every shipped icon ends with <code>iconflow case new</code>: first-pass and final scores, the cliché avoided, the signature device, one reusable lesson. <code>case stats</code> surfaces the weakest recurring axis and house clichés; the lessons are distilled into fifty numbered rules in <code>docs/LEARNINGS.md</code> that the next brief must read first. An unrecorded icon teaches the system nothing.</p>
+     <ul class="doc-links" aria-label="Related documents">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/REVIEW_CHECKLIST.md">docs/REVIEW_CHECKLIST.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>
+      <li><a href="/gallery/">/gallery/ · 100 admitted cases</a></li>
+     </ul>
+    </div>
+    <div class="reveal is-side">
+     <div class="panel">
+      <div class="panel-head"><span>keepsake-knot-review.json</span><span>excerpt</span></div>
+      <pre><code>"source_sha256": "f27c303a…0aaf305",
+"contract_sha256": "14d5aeb4…261de76",
+"user_job": "keep a small shared ritual
+             tangible over time",
+"essence": "together",
+"signature_device": "two unequal bands
+             share one offset opening",
+"cliches": ["heart", "chat bubble",
+            "linked circles"],
+"warnings": [],
+"scores": {"legibility": 4,
+  "distinctiveness": 4, "balance": 4,
+  "color": 5, "scalability": 4, "craft": 4},
+"notes": "Pass 1 rejected the power-sign
+  reading. …",
+"status": "ready"</code></pre>
+      <p class="panel-note">The full file is public: <a href="/assets/worlds/keepsake-knot-review.json">keepsake-knot-review.json</a>. Its hash matches <a href="/assets/worlds/keepsake-knot.svg">keepsake-knot.svg</a>; the site tests re-verify that on every build.</p>
+     </div>
+     <div class="panel">
+      <div class="panel-head"><span>what ship verifies</span><span>before writing a file</span></div>
+      <ol>
+       <li>Receipt schema and full SHA-256 of the current SVG.</li>
+       <li>Contract digest: project, exact target set, colors, radius, scheme, tray mode, tray-source hash.</li>
+       <li>Empty warnings list and <code>status: ready</code>.</li>
+       <li>Every rubric axis present and at least 4.</li>
+       <li>A second automated QA run on the source right now.</li>
+      </ol>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="vector-vs-raster" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">The distinction that matters</p>
+     <h2>AI-authored vector,<br><span>not prompt-to-raster.</span></h2>
+     <p>Both can involve an AI. They produce different objects, fail differently, and leave different evidence behind.</p>
+    </div>
+    <div class="compare-table reveal">
+     <table>
+      <thead><tr><th scope="col">Question</th><th scope="col">Prompt-to-raster image generator</th><th scope="col">IconFlow’s AI-authored vector workflow</th></tr></thead>
+      <tbody>
+       <tr><th scope="row">What is the source?</th><td>A bitmap sampled from a model. The prompt is not the file.</td><td class="is-us">An editable SVG with named paths on a 1024 grid. The file is the design.</td></tr>
+       <tr><th scope="row">Can you change one thing?</th><td>Regenerate and hope; small edits drift the whole image.</td><td class="is-us">Move a node, widen a gap, recolor a band, rebuild every target.</td></tr>
+       <tr><th scope="row">How does it look at 16px?</th><td>Downsampled after the fact; detail turns to mush or noise.</td><td class="is-us">Designed down: pixel budget first, exact 16px render inspected before approval.</td></tr>
+       <tr><th scope="row">Where does distinctiveness come from?</th><td>The model’s priors, which pull toward the category average.</td><td class="is-us">A forced divergence step, a cliché filter and a silhouette test that can fail.</td></tr>
+       <tr><th scope="row">What is the evidence?</th><td>A picture, a prompt, maybe a seed.</td><td class="is-us">Brief, finalists, warnings list, exact renders, a scored receipt bound to the source hash, a case record.</td></tr>
+       <tr><th scope="row">Does the engine call a model?</th><td>Always; that is the product.</td><td class="is-us">Never. The renderer and build are local Python plus Chromium; only the designing agent, if you use one, consumes model usage.</td></tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+  </section>
+
+  <section id="clean-room" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">Boundaries</p>
+    <h2>The clean-room line<br><span>and what it does not promise.</span></h2>
+    <p>IconFlow’s collections translate familiar jobs and meanings into original geometry. That is a design method and a provenance discipline, not a legal guarantee.</p>
+   </div>
+   <div class="boundary-grid reveal">
+    <article class="boundary-card is-do">
+     <h3>What the clean room means here</h3>
+     <ul>
+      <li>No third-party SVG path, code, image, font, palette, wording, brand mark or trade dress is included in the presets or the gallery; upstream icon sets were studied for lessons, not copied.</li>
+      <li>For the Emoji Matrix, no vendor emoji artwork is copied, modified, traced, sampled or embedded; code points and short names are semantic references only.</li>
+      <li>Social Signals studies start from a generic user job and a concrete noun outside any platform’s trade dress; no official silhouette is combined with official brand colors, and public copy never pairs a platform name with a study mark.</li>
+      <li>Original story, character and game cases must not imitate a named artist, studio, franchise, living creator or trademark.</li>
+     </ul>
+    </article>
+    <article class="boundary-card is-dont">
+     <h3>What it explicitly does not claim</h3>
+     <ul>
+      <li>The collections are independent and unaffiliated; nothing on this site is endorsed by, or associated with, any platform or emoji vendor.</li>
+      <li>Practice specimens are not shipped identities and do not replace official logos.</li>
+      <li>Visual distance is not legal clearance. Residual risk includes undiscovered third-party marks, jurisdiction-specific confusion analysis and future brand changes.</li>
+      <li>A product mark that will carry commercial weight should receive a formal trademark search and professional legal review before adoption. IconFlow makes the design work inspectable; it does not clear it.</li>
+     </ul>
+    </article>
+   </div>
+   <p class="disclaimer reveal"><strong>About IconFlow’s own mark.</strong> Petal Haypile — the low-eared pika returning to its hay store with three petals — is the current, intentionally reversible product mark selected while the permanent identity decision stays open. The code is Apache-2.0; the IconFlow name and mark are subject to the project’s <a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">trademark policy</a>. Documents: <a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/SOCIAL_SIGNALS.md">SOCIAL_SIGNALS.md</a>, <a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/EMOJI_MATRIX.md">EMOJI_MATRIX.md</a>, <a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/GALLERY.md">GALLERY.md</a>.</p>
+  </section>
+
+  <section id="cost" class="cost-section">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">A transparent cost model</p>
+     <h2>Compute is cheap.<br><span>Judgment is the real cost.</span></h2>
+     <p>No currency figures here, on purpose. Exact numbers depend on which model or API your agent uses, where you host, and what professional services cost on the day. What follows is what scales, and why.</p>
+    </div>
+    <ul class="cost-facts reveal" aria-label="Where cost comes from">
+     <li><span>Local / offline</span><strong>Rendering, checking, building</strong><p>After a one-time download of Python dependencies and Playwright Chromium, <code>compare</code>, <code>check</code>, <code>review</code> and <code>ship</code> run on your machine with no API key, no image-model call and no network during rendering. A rebuild costs seconds of local compute.</p></li>
+     <li><span>Can incur model usage</span><strong>The designing agent</strong><p>If an AI agent writes the brief, diverges concepts and authors the SVG, that conversation is billed by whatever client and model you chose — IconFlow itself makes no model calls. Iteration passes, bake-offs and reading review sheets add tokens; so does a vague brief.</p></li>
+     <li><span>Can cost money</span><strong>Deployment and clearance</strong><p>Hosting the output is usually the smallest line: a static site or app bundle on whatever host you already pay for. A trademark search and legal review for a commercial mark is a separate professional fee no toolkit replaces.</p></li>
+    </ul>
+    <div class="method-prose reveal">
+     <h3>Five tiers, relative cost</h3>
+     <p>Scope, not engine time, sets the price. The meter is a relative scale across these tiers; compute cost alone never represents the cost of a finished identity.</p>
+    </div>
+    <ol class="tier-list reveal" aria-label="Cost tiers">
+     <li class="tier">
+      <div><h3>Quick practice specimen<small>one scaffold, one check</small></h3><p>Start from a technique preset, swap the house rail for one product object, run <code>check</code>. Proves the toolchain and a first idea.</p></div>
+      <div><span class="tier-label">Artifacts</span><p>One SVG, a clean warnings list, native 16px and 128px renders.</p></div>
+      <div><span class="tier-label">Review depth</span><p>Self-check on the contact sheet; no receipt exported.</p></div>
+      <div><span class="tier-label">Iteration drivers</span><p>Stroke-floor and contrast warnings; a noun that fails at 16px.</p></div>
+      <div class="tier-cost"><span class="tier-label">Relative cost</span><strong>Minutes</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></span><p>Local compute; trivial model usage if an agent drives it.</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>Original production icon<small>the standard loop</small></h3><p>Brief, four concepts, bake-off, one master SVG, check, scored review, receipt, ship, case record — one product, its web targets.</p></div>
+      <div><span class="tier-label">Artifacts</span><p>iconflow.toml, finalists and bake sheet, master.svg, review sheet and receipt, favicon/PWA set, casebook entry.</p></div>
+      <div><span class="tier-label">Review depth</span><p>All six axes by a person, at actual size and in silhouette; usually two or three passes.</p></div>
+      <div><span class="tier-label">Iteration drivers</span><p>Distinctiveness below 4, a collision with a system icon, an accidental second reading.</p></div>
+      <div class="tier-cost"><span class="tier-label">Relative cost</span><strong>Hours</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><p>Design judgment and review time first, agent usage second, compute negligible.</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>Multi-surface identity family<small>web, desktop, tray</small></h3><p>The production loop plus a linked mark-only tray source, platform crops, desktop bundles, and one contract hash binding all of them.</p></div>
+      <div><span class="tier-label">Artifacts</span><p>master.svg and tray.svg, tray-template audit, ICO/ICNS/PNG families, manifest snippet, one receipt for the whole target set.</p></div>
+      <div><span class="tier-label">Review depth</span><p>Every target transform inspected: adaptive crops, desktop corners, menu-bar template on light and dark bars.</p></div>
+      <div><span class="tier-label">Iteration drivers</span><p>A tray template that keeps none of the color mark’s features; detail outside the maskable safe circle.</p></div>
+      <div class="tier-cost"><span class="tier-label">Relative cost</span><strong>Hours to a day</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><p>More review surfaces, not more compute; each target adds human inspection.</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>Researched brand identity<small>positioning, rounds, clearance</small></h3><p>Product research, several concept rounds with stakeholders, a brand-system document, and promotion of one mark across site and build in a single source-bound transaction.</p></div>
+      <div><span class="tier-label">Artifacts</span><p>Everything above plus a brand-system doc, palette and clear-space rules, historical rationale, a trademark review outcome.</p></div>
+      <div><span class="tier-label">Review depth</span><p>Multiple reviewers and rounds; explicit rejection of earlier marks; professional clearance where the mark carries commercial weight.</p></div>
+      <div><span class="tier-label">Iteration drivers</span><p>Positioning changes, stakeholder disagreement, clearance findings, reversibility requirements.</p></div>
+      <div class="tier-cost"><span class="tier-label">Relative cost</span><strong>Days to weeks</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><p>Professional time and legal services dominate; model and compute are a footnote.</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>Large generated-and-curated collection<small>hundreds of cells</small></h3><p>Scripted, seeded generation of many sources; every cell still passes check, render, silhouette, similarity triage and visual review before a fail-closed integration.</p></div>
+      <div><span class="tier-label">Artifacts</span><p>Per-cell SVG, renders, silhouette and receipt; a similarity report; a catalog with set-level digests; a composited overview poster.</p></div>
+      <div><span class="tier-label">Review depth</span><p>Contact sheets for every cell, an adversarial curation pass, replacement of weak cells, one collection-level decision file.</p></div>
+      <div><span class="tier-label">Iteration drivers</span><p>Perceptual near-duplicates, repeated constructions, style-grammar drift, weak 16px cells.</p></div>
+      <div class="tier-cost"><span class="tier-label">Relative cost</span><strong>Days, mostly review</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><p>Model usage becomes noticeable at hundreds of cells; curation hours still exceed it.</p></div>
+     </li>
+    </ol>
+    <p class="cost-footnote reveal"><strong>Read the meter as proportion, not price.</strong> Model usage, hosting and professional fees are each billed by someone else at rates that change; IconFlow adds no fee of its own and runs its engine locally. Across every tier, the dominant cost of a finished identity is the time a person spends deciding and reviewing — which is exactly the part this method refuses to skip.</p>
+   </div>
+  </section>
+
+  <section class="method-cta section-shell reveal">
+   <div><p class="section-kicker">See it, then run it</p><h2>Every claim here<br>has a file behind it.</h2></div>
+   <div><p>Browse the admitted cases with their native proofs and receipts, or run the five-minute engine proof on your own machine and inspect the pixels yourself.</p><div class="start-actions"><a class="button button-primary" href="/gallery/">Open the Gallery <span aria-hidden="true">→</span></a><a class="button button-quiet" href="/getting-started/">Getting started</a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">Read the docs</a></div></div>
+  </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+  <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div>
+  <p>Apache-2.0 code · IconFlow identity subject to trademark policy.</p>
+  <nav aria-label="Footer navigation"><a href="/">Home</a><a href="/gallery/">Gallery</a><a href="/getting-started/">Guide</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">Docs</a><a href="https://github.com/snowyukitty/ai-iconflow">Source</a></nav>
+  </footer>
+</body>
+</html>
