@@ -19,6 +19,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/playground.css">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -45,6 +46,7 @@
     }
   </script>
   <script src="/app.js" defer></script>
+  <script src="/playground.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -60,6 +62,7 @@
     </button>
     <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
       <a href="#proof">Proof</a>
+      <a href="#remix">Remix</a>
       <a href="#flow">Workflow</a>
       <a href="#worlds">Themes</a>
       <a href="/gallery/">Gallery</a>
@@ -173,7 +176,7 @@
               <div class="zoom-grid">
                 <img data-zoom src="/assets/proof/icon-16.png" width="256" height="256" alt="Magnified native pixels">
               </div>
-              <div class="pixel-verdict"><span></span> counter open · gate detached · silhouette stable</div>
+              <div class="pixel-verdict"><span></span> ears paired · petals detached · silhouette stable</div>
             </div>
           </div>
 
@@ -192,14 +195,100 @@
             </div>
             <dl class="receipt-scores">
               <div><dt>Legibility</dt><dd>4/5</dd></div>
-              <div><dt>Distinctiveness</dt><dd>4/5</dd></div>
+              <div><dt>Distinctiveness</dt><dd>5/5</dd></div>
               <div><dt>Balance</dt><dd>4/5</dd></div>
               <div><dt>Color</dt><dd>5/5</dd></div>
-              <div><dt>Scalability</dt><dd>5/5</dd></div>
-              <div><dt>Craft</dt><dd>5/5</dd></div>
+              <div><dt>Scalability</dt><dd>4/5</dd></div>
+              <div><dt>Craft</dt><dd>4/5</dd></div>
             </dl>
-            <p class="receipt-hash"><span>SHA-256</span> 6c9f…2b41</p>
+            <p class="receipt-hash"><span>SHA-256</span> 789d…82d6</p>
           </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="remix" class="remix-section section-shell">
+      <div class="section-heading reveal">
+        <p class="section-kicker">Remix Lab · runs entirely in your browser</p>
+        <h2>Change the design.<br><span>Watch the pixels answer.</span></h2>
+        <p>One semantic source, three carried objects from one brief, and your own palette. Every thumbnail is rasterized by your browser at its native size—no upload, no image API, no account.</p>
+      </div>
+
+      <div class="remix-lab reveal" data-remix-lab data-object="petal">
+        <div class="remix-controls">
+          <fieldset>
+            <legend>Carried object</legend>
+            <div class="segmented" data-object-controls>
+              <button type="button" class="is-active" data-object="petal" aria-pressed="true">Petals</button>
+              <button type="button" data-object="balloon" aria-pressed="false">Balloon</button>
+              <button type="button" data-object="canopy" aria-pressed="false">Canopy</button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Palette</legend>
+            <div class="palette-chips">
+              <button type="button" class="chip chip-graphite" data-palette="graphite">Graphite</button>
+              <button type="button" class="chip chip-paper" data-palette="paper">Paper</button>
+              <button type="button" class="chip chip-lagoon" data-palette="lagoon">Lagoon</button>
+              <button type="button" class="chip chip-dusk" data-palette="dusk">Dusk</button>
+            </div>
+            <div class="color-grid">
+              <label><input type="color" data-color="card" value="#191a20"><span>Card</span></label>
+              <label><input type="color" data-color="body" value="#fff4e8"><span>Body</span></label>
+              <label><input type="color" data-color="cove" value="#59c7c1"><span>Hay cove</span></label>
+              <label><input type="color" data-color="a1" value="#ff5a4f"><span>Accent 1</span></label>
+              <label><input type="color" data-color="a2" value="#f2b84b"><span>Accent 2</span></label>
+              <label><input type="color" data-color="a3" value="#845ec2"><span>Accent 3</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Geometry</legend>
+            <label class="range-row"><span>Card radius</span><input type="range" min="0" max="50" value="22" data-radius><output data-radius-out>22%</output></label>
+            <label class="range-row"><span>Mark scale</span><input type="range" min="80" max="120" value="100" data-scale><output data-scale-out>100%</output></label>
+            <div class="toggle-row">
+              <label class="source-toggle"><input type="checkbox" data-mirror><span></span>Mirror</label>
+              <label class="source-toggle"><input type="checkbox" data-card-on checked><span></span>App card</label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Surface</legend>
+            <div class="surface-buttons">
+              <button class="surface-dark is-active" type="button" data-remix-surface="dark" aria-label="Dark surface" aria-pressed="true"></button>
+              <button class="surface-light" type="button" data-remix-surface="light" aria-label="Light surface" aria-pressed="false"></button>
+              <button class="surface-gray" type="button" data-remix-surface="gray" aria-label="Gray surface" aria-pressed="false"></button>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="remix-stage" data-remix-stage data-surface="dark">
+          <div class="remix-hero">
+            <img data-remix-preview src="/assets/iconflow-mark.svg" width="300" height="300" alt="Live preview of the remixed IconFlow mark">
+          </div>
+          <div class="remix-natives" aria-label="Native sizes rendered by your browser">
+            <figure><canvas data-native="16" width="16" height="16" role="img" aria-label="Remix at 16 pixels"></canvas><figcaption>16</figcaption></figure>
+            <figure><canvas data-native="24" width="24" height="24" role="img" aria-label="Remix at 24 pixels"></canvas><figcaption>24</figcaption></figure>
+            <figure><canvas data-native="32" width="32" height="32" role="img" aria-label="Remix at 32 pixels"></canvas><figcaption>32</figcaption></figure>
+            <figure><canvas data-native="48" width="48" height="48" role="img" aria-label="Remix at 48 pixels"></canvas><figcaption>48</figcaption></figure>
+            <figure><canvas data-native="64" width="64" height="64" role="img" aria-label="Remix at 64 pixels"></canvas><figcaption>64</figcaption></figure>
+            <figure><canvas data-native="128" width="128" height="128" role="img" aria-label="Remix at 128 pixels"></canvas><figcaption>128</figcaption></figure>
+          </div>
+          <div class="remix-proofs">
+            <figure><canvas data-remix-zoom width="256" height="256" role="img" aria-label="The 16 pixel remix magnified sixteen times"></canvas><figcaption>16px · 16× zoom</figcaption></figure>
+            <figure><canvas data-remix-silhouette width="128" height="128" role="img" aria-label="Remix silhouette with colour removed"></canvas><figcaption>silhouette · colour removed</figcaption></figure>
+            <figure><canvas data-remix-template width="128" height="128" role="img" aria-label="Remix alpha template as a macOS menu bar would see it"></canvas><figcaption>alpha template · menu bar</figcaption></figure>
+          </div>
+          <p class="remix-note" data-template-note>Alpha template = a featureless rounded square. This is why the brand ships a linked mark-only tray source.</p>
+        </div>
+
+        <div class="remix-actions">
+          <p class="remix-verdict"><strong>Unreviewed remix.</strong> This lab shows consequences; IconFlow's gate decides what ships. Take it home and run it through check, review, and ship.</p>
+          <div class="remix-buttons">
+            <button class="button button-primary" type="button" data-remix-download>Download master.svg</button>
+            <button class="button button-quiet" type="button" data-remix-copy-svg>Copy SVG</button>
+            <button class="button button-quiet" type="button" data-remix-copy-brief>Copy agent brief</button>
+            <button class="text-button" type="button" data-remix-reset>Reset</button>
+          </div>
+          <p class="remix-status" data-remix-status aria-live="polite"></p>
         </div>
       </div>
     </section>
@@ -372,11 +461,11 @@
         </div>
         <div class="evidence-grid">
           <figure class="evidence-card evidence-wide reveal">
-            <div class="evidence-image"><img src="/assets/concept-bake.png" alt="IconFlow concept bake-off comparing three candidates across native sizes and silhouettes" loading="lazy"></div>
-            <figcaption><span>01 · Compare</span><h3>Concept bake-off</h3><p>The Flow Gate beat a generic aperture and an F monogram in silhouette.</p></figcaption>
+            <div class="evidence-image"><img src="/assets/concept-bake.png" alt="IconFlow bake-off sheet comparing Petal Haypile with four gated Round 3 finalists across native sizes, silhouettes, and a dark surface" loading="lazy"></div>
+            <figcaption><span>01 · Compare</span><h3>Concept bake-off</h3><p>Petal Haypile was chosen from a 28-direction living exploration; here it sits beside four gated finalists at native sizes.</p></figcaption>
           </figure>
           <figure class="evidence-card reveal">
-            <div class="evidence-image evidence-review"><img src="/assets/review-proof.png" alt="IconFlow review sheet showing native sizes, pixel zoom, silhouettes, and adaptive crops" loading="lazy"></div>
+            <div class="evidence-image evidence-review"><img src="/assets/review-proof.png" alt="IconFlow review sheet for Petal Haypile showing native sizes on three surfaces, pixel zoom, alpha footprint, silhouettes, and adaptive crops" loading="lazy"></div>
             <figcaption><span>02 · Inspect</span><h3>Target-aware review</h3><p>Actual pixels, not a decorative device mockup.</p></figcaption>
           </figure>
           <article class="evidence-card evidence-receipt reveal">

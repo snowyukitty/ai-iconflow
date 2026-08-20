@@ -8,6 +8,8 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- A browser-side **Remix Lab** on the homepage: the Petal, Balloon, and Canopy Haypile sources from one brief, live palette, card-radius, scale, mirror, and card controls, exact native 16–128px canvases rasterized by the visitor's own browser, a 16× pixel zoom, a colour-removed silhouette, an alpha-template preview, and Download SVG / Copy SVG / Copy agent brief actions. Nothing is uploaded; the lab labels its output as unreviewed and points at `check`, `review`, and `ship`.
+- Four distilled rules, `docs/LEARNINGS.md` L51–L54 (dense control families keep the noun and give state its own rail; a coloured band on a dark block is a folder tab until a wedge and a cut say otherwise; repeated teeth cannot say "torn" at 16px; scan the 128/256px strips for spikes before scoring craft), folded into `DESIGN_PLAYBOOK.md` §6 and `REVIEW_CHECKLIST.md`, with the two recorded cases that produced them.
 - An advisory macOS tray-template audit, `iconflow check <master> --tray-svg <tray.svg> [--tray-template-mode auto|alpha|contrast]`, surfaced by `review` as well. It compares the interior detail of the colour tray asset against the enclosed holes of the derived template and reports a template that kept none of the mark's features — the failure that ships a featureless black lozenge to the menu bar. Advisory by design: it audits a linked variant, so it informs the designer without gating `ship`.
 - Two worked `examples/` icon families built through the full gated loop from one brief, `iconflow-balloon` (Balloon Haypile) and `iconflow-parachute` (Canopy Haypile), each with its editable master and tray source, source-bound receipt, shipped web/Tauri/Electron/tray outputs, and casebook record.
 - Five distilled rules, `docs/LEARNINGS.md` L46–L50, folded into `CONCEPTING.md` §3, `DESIGN_PLAYBOOK.md` §2/§5, `SVG_TECHNIQUES.md` §11, and `OUTPUT_TARGETS.md`.
@@ -52,6 +54,8 @@ first published release remains under `Unreleased`.
 
 ### Changed
 
+- Every remaining Flow Gate brand asset now shows the current Petal Haypile mark: the homepage proof PNGs (`/assets/proof/icon-16…256.png`), the Proof Lab receipt scores and hash, the bake-off and review-sheet evidence images, the README hero, and the social preview SVG/PNG. Flow Gate stays only where it is explicitly historical or the fixed technique specimen.
+- `brand/tray.svg` gained one broad transparent eye cut so the macOS alpha template keeps a face; the receipt and contract hashes were re-bound and the tray outputs re-shipped (web/Tauri/Electron outputs were byte-identical).
 - Setup now installs the Codex/Open Agent Skills user copy only under
   `~/.agents/skills/iconflow/` and removes the legacy
   `~/.codex/skills/iconflow/` duplicate that current Codex also discovers.
