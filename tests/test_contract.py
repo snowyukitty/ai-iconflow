@@ -4,6 +4,7 @@ Rendering is mocked wherever the contract shape is what matters; the demo
 end-to-end test needs real Chromium and is gated like the other browser tests.
 """
 import contextlib
+import importlib
 import io
 import json
 import os
@@ -20,6 +21,13 @@ from iconflow.config import (
     config_review_contract_digest, load_config, svg_sha256,
 )
 from iconflow.qa import Finding, warning_code
+
+BUILD_MODULE = importlib.import_module("iconflow.build")
+
+
+def _real(path) -> str:
+    """Envelope paths are canonical; temp dirs may be symlinked (macOS) or 8.3 (Windows)."""
+    return os.path.realpath(str(path))
 
 ROOT = Path(__file__).resolve().parents[1]
 ENVELOPE_KEYS = [
@@ -105,8 +113,10 @@ class EnvelopeShapeTests(unittest.TestCase):
         self.assert_envelope(envelope, command="check", status="ok", exit_code=0)
         self.assertEqual(envelope["warnings"], [])
         self.assertEqual(envelope["advisories"], [])
-        self.assertEqual(envelope["outputs"], {
-            "source": os.path.abspath(master),
+        outputs = dict(envelope["outputs"])
+        outputs["source"] = _real(outputs["source"])
+        self.assertEqual(outputs, {
+            "source": _real(master),
             "source_sha256": expected_hash,
             "tray_source": None,
         })
@@ -139,7 +149,7 @@ class EnvelopeShapeTests(unittest.TestCase):
                 human = io.StringIO()
                 with contextlib.redirect_stdout(human):
                     human_code = main(["check", str(master), "--tray-svg", str(tray)])
-            self.assertEqual(envelope["outputs"]["tray_source"], os.path.abspath(tray))
+            self.assertEqual(_real(envelope["outputs"]["tray_source"]), _real(tray))
         self.assertEqual(code, 0)
         self.assertEqual(human_code, 0)
         self.assertEqual(envelope["status"], "ok")
@@ -299,7 +309,7 @@ class ShipEnvelopeTests(DemoFamilyFixture):
     def test_qa_warnings_block_with_qa_warnings_and_finding_codes(self):
         finding = Finding("stroke-floor", "stroke-width=1 is very thin")
         with mock.patch("iconflow.qa.check", return_value=[finding]), \
-             mock.patch("iconflow.build.build") as build:
+             mock.patch.object(BUILD_MODULE, "build") as build:
             code, envelope, err = self.ship()
         self.assertEqual(code, 1)
         self.assertEqual(
@@ -319,16 +329,16 @@ class ShipEnvelopeTests(DemoFamilyFixture):
     def test_successful_ship_reports_files_receipt_scores_and_packet(self):
         out = self.dir / "icon-out"
         with mock.patch("iconflow.qa.check", return_value=[]), \
-             mock.patch("iconflow.build.build", return_value=["favicon.svg", "tray/tray.png"]):
+             mock.patch.object(BUILD_MODULE, "build", return_value=["favicon.svg", "tray/tray.png"]):
             code, envelope, err = self.ship("--out", str(out))
         self.assertEqual(code, 0)
         self.assertEqual(envelope["status"], "ok")
         outputs = envelope["outputs"]
         self.assertEqual(
-            outputs["files"],
-            [os.path.abspath(out / "favicon.svg"), os.path.abspath(out / "tray/tray.png")],
+            [_real(path) for path in outputs["files"]],
+            [_real(out / "favicon.svg"), _real(out / "tray/tray.png")],
         )
-        self.assertEqual(outputs["receipt"], os.path.abspath(self.receipt))
+        self.assertEqual(_real(outputs["receipt"]), _real(self.receipt))
         self.assertEqual(outputs["source_sha256"], svg_sha256(self.master))
         self.assertEqual(outputs["contract_sha256"], load_config(self.config).review_contract_sha256)
         self.assertEqual(outputs["scores"]["distinctiveness"], 5)
@@ -346,7 +356,7 @@ class ShipEnvelopeTests(DemoFamilyFixture):
             unknown_future_key={"ignored": True},
         )
         with mock.patch("iconflow.qa.check", return_value=[]), \
-             mock.patch("iconflow.build.build", return_value=[]):
+             mock.patch.object(BUILD_MODULE, "build", return_value=[]):
             code, envelope, _ = self.ship()
         self.assertEqual(code, 0)
         self.assertEqual(envelope["outputs"]["artifacts"], {"review_png_sha256": "ab" * 32})
@@ -374,10 +384,13 @@ class ReviewEnvelopeTests(DemoFamilyFixture):
         self.assertEqual(code, 0)
         self.assertEqual(envelope["status"], "ok")
         config = load_config(self.config)
-        self.assertEqual(envelope["outputs"], {
-            "sheet": os.path.abspath(sheet),
-            "html": os.path.abspath(html),
-            "receipt_template": os.path.abspath(template),
+        outputs = dict(envelope["outputs"])
+        for key in ("sheet", "html", "receipt_template"):
+            outputs[key] = _real(outputs[key])
+        self.assertEqual(outputs, {
+            "sheet": _real(sheet),
+            "html": _real(html),
+            "receipt_template": _real(template),
             "source_sha256": config.review_source_sha256,
             "contract_sha256": config.review_contract_sha256,
             "targets": ["web", "tauri", "electron", "tray"],
@@ -391,12 +404,12 @@ class ReviewEnvelopeTests(DemoFamilyFixture):
         draft.update({"scores": {axis: 4 for axis in AXES}, "status": "ready", "notes": "agent"})
         template.write_text(json.dumps(draft), encoding="utf-8")
         with mock.patch("iconflow.qa.check", return_value=[]), \
-             mock.patch("iconflow.build.build", return_value=[]):
+             mock.patch.object(BUILD_MODULE, "build", return_value=[]):
             code, envelope, _ = run_json([
                 "ship", "--config", str(self.config), "--review", str(template), "--json",
             ])
         self.assertEqual(code, 0)
-        self.assertEqual(envelope["outputs"]["receipt"], os.path.abspath(template))
+        self.assertEqual(_real(envelope["outputs"]["receipt"]), _real(template))
 
     def test_review_with_qa_warnings_is_blocked_but_still_renders(self):
         sheet = self.dir / "review.png"
@@ -466,8 +479,8 @@ class DemoEndToEndTests(unittest.TestCase):
                 ["doctor", "check", "review", "ship"],
             )
             self.assertTrue(all(step["exit_code"] == 0 for step in envelope["outputs"]["steps"]))
-            self.assertEqual(envelope["outputs"]["out"], str(out))
-            self.assertEqual(envelope["outputs"]["receipt"], str(out / "master-review.json"))
+            self.assertEqual(_real(envelope["outputs"]["out"]), _real(out))
+            self.assertEqual(_real(envelope["outputs"]["receipt"]), _real(out / "master-review.json"))
             self.assertEqual(len(envelope["outputs"]["files"]), 23)
             self.assertTrue(all(Path(path).is_file() for path in envelope["outputs"]["files"]))
             self.assertTrue((out / "review.png").is_file())
