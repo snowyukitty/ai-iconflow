@@ -27,6 +27,30 @@
 /how-icons-are-made/index.html
   Cache-Control: public, max-age=0, must-revalidate
 
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/gallery/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/getting-started/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/archive/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/how-icons-are-made/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/gallery/social-signals/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/gallery/emoji-matrix/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/gallery/emoji-matrix/all/
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/*
   Cache-Control: public, max-age=86400
 

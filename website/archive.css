@@ -2,14 +2,26 @@
 .archive-section { padding: 110px 0 40px; overflow: hidden; }
 .archive-section .section-heading { margin-bottom: 34px; }
 
+/* Works wall directly under the hero */
+.archive-wall { padding: 10px 0 30px; overflow: hidden; }
+.archive-wall-head { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 14px; }
+.archive-wall-caption { max-width: 640px; margin: 0; color: var(--muted); font-size: .95rem; }
+.archive-wall-caption strong { color: var(--paper); }
+.archive-wall-actions { display: flex; flex: none; align-items: center; gap: 12px; }
+.marquee-toggle { min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 13px; color: var(--paper); background: transparent; font-size: .85rem; font-weight: 650; cursor: pointer; }
+.marquee-toggle:hover { border-color: rgba(255,244,232,.35); }
+.marquee-toggle[aria-pressed="true"] { color: var(--ink); background: var(--paper); }
+html:not(.js) .marquee-toggle { display: none; }
+@media (max-width: 760px) { .archive-wall-head { flex-direction: column; align-items: flex-start; } }
+
 /* Marquee wall */
 .archive-marquee { display: grid; gap: 16px; padding: 14px 0 10px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
 .archive-row { display: flex; overflow: hidden; }
 .archive-track { display: flex; flex: none; gap: 16px; padding-right: 16px; }
-html.js .archive-track { animation: archive-scroll 120s linear infinite; }
+html.js .archive-track { animation: archive-scroll 120s linear infinite; will-change: transform; }
 html.js .archive-row-2 .archive-track { animation-direction: reverse; animation-duration: 140s; }
 html.js .archive-row-3 .archive-track { animation-duration: 105s; }
-.archive-row:hover .archive-track, .archive-row:focus-within .archive-track, .archive-marquee.is-offscreen .archive-track { animation-play-state: paused; }
+.archive-row:hover .archive-track, .archive-row:focus-within .archive-track, .archive-marquee.is-offscreen .archive-track, .archive-marquee.is-paused .archive-track { animation-play-state: paused; }
 .archive-tile { display: grid; flex: none; width: 112px; height: 112px; place-items: center; border: 1px solid rgba(255,244,232,.07); border-radius: 26px; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,.07), rgba(255,255,255,.02)); transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .35s, background .35s; }
 .archive-tile img { width: 84px; height: 84px; filter: drop-shadow(0 8px 16px rgba(0,0,0,.35)); }
 .archive-tile:hover, .archive-tile:focus-visible { z-index: 2; border-color: rgba(255,90,79,.7); background: rgba(255,244,232,.08); transform: translateY(-6px) scale(1.08) rotate(-2deg); outline: none; }

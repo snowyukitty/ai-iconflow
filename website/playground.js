@@ -61,7 +61,7 @@
     return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
   };
   const svgFor = (s) => {
-    // The eye takes the card colour on a card; without one it contrasts with the body.
+    // The eye takes the card color on a card; without one it contrasts with the body.
     const ink = s.cardOn ? s.card : (luminance(s.body) > 0.5 ? '#191a20' : '#fff4e8');
     const c = { body: s.body, cove: s.cove, a1: s.a1, a2: s.a2, a3: s.a3, ink };
     const rx = Math.round((s.radius / 100) * 944);
@@ -110,7 +110,7 @@
     zctx.clearRect(0, 0, zoom.width, zoom.height);
     zctx.drawImage(base, 0, 0, zoom.width, zoom.height);
 
-    // Silhouette: colour removed, what shape is left against the card?
+    // Silhouette: color removed, what shape is left against the card?
     const work = document.createElement('canvas');
     work.width = work.height = 128;
     const wctx = work.getContext('2d');
@@ -160,6 +160,7 @@
   };
 
   const syncControls = () => {
+    syncPalette();
     colorInputs.forEach((input) => { input.value = state[input.dataset.color]; });
     radius.value = state.radius; radiusOut.textContent = `${state.radius}%`;
     scale.value = state.scale; scaleOut.textContent = `${state.scale}%`;
@@ -176,8 +177,15 @@
 
   qa('[data-object]').forEach((b) => b.addEventListener('click', () => { state.object = b.dataset.object; syncControls(); render(); }));
   qa('[data-palette]').forEach((b) => b.addEventListener('click', () => { Object.assign(state, PALETTES[b.dataset.palette]); syncControls(); render(); }));
+  const syncPalette = () => {
+    qa('[data-palette]').forEach((b) => {
+      const preset = PALETTES[b.dataset.palette];
+      const on = Object.keys(preset).every((k) => state[k] === preset[k]);
+      b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on));
+    });
+  };
   qa('[data-remix-surface]').forEach((b) => b.addEventListener('click', () => { state.surface = b.dataset.remixSurface; syncControls(); render(); }));
-  colorInputs.forEach((input) => input.addEventListener('input', () => { state[input.dataset.color] = input.value; render(); }));
+  colorInputs.forEach((input) => input.addEventListener('input', () => { state[input.dataset.color] = input.value; syncPalette(); render(); }));
   radius.addEventListener('input', () => { state.radius = Number(radius.value); radiusOut.textContent = `${state.radius}%`; render(); });
   scale.addEventListener('input', () => { state.scale = Number(scale.value); scaleOut.textContent = `${state.scale}%`; render(); });
   mirror.addEventListener('change', () => { state.mirror = mirror.checked; render(); });
@@ -206,12 +214,11 @@
   };
   q('[data-remix-copy-svg]')?.addEventListener('click', () => copy(svgFor(state), 'SVG copied. Save it as master.svg.'));
   q('[data-remix-download]')?.addEventListener('click', () => {
-    const blob = new Blob([svgFor(state)], { type: 'image/svg+xml' });
+    // A data: URL keeps the download inside the site's CSP (no blob: source).
     const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
+    link.href = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgFor(state))}`;
     link.download = 'master.svg';
     document.body.append(link); link.click(); link.remove();
-    window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
     flash('Downloaded master.svg — now run iconflow check / review / ship.');
   });
   q('[data-remix-copy-brief]')?.addEventListener('click', () => {

@@ -8,16 +8,20 @@ const updateHeader = () => header?.classList.toggle('is-scrolled', window.scroll
 updateHeader();
 window.addEventListener('scroll', updateHeader, { passive: true });
 
-menuButton?.addEventListener('click', () => {
-  const open = menuButton.getAttribute('aria-expanded') === 'true';
-  menuButton.setAttribute('aria-expanded', String(!open));
-  nav?.classList.toggle('is-open', !open);
+const setMenu = (open) => {
+  menuButton.setAttribute('aria-expanded', String(open));
+  menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+  nav?.classList.toggle('is-open', open);
+};
+menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && menuButton?.getAttribute('aria-expanded') === 'true') { setMenu(false); menuButton.focus(); }
+});
+document.addEventListener('click', (event) => {
+  if (menuButton?.getAttribute('aria-expanded') === 'true' && !event.target.closest('.site-header')) setMenu(false);
 });
 
-nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-  menuButton?.setAttribute('aria-expanded', 'false');
-  nav.classList.remove('is-open');
-}));
+nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { if (menuButton) setMenu(false); }));
 
 const revealItems = document.querySelectorAll('.reveal');
 if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

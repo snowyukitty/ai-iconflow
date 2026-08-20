@@ -180,6 +180,7 @@ def collect() -> list[dict]:
             key = f"{spec['id']}/{slug}"
             name = title_from_slug(strip_prefix(path.stem))
             story = stories.get(letters(name), "")
+
             meta = {"status": "study", "scores": None}
             if key in gated:
                 meta = dict(gated[key])
@@ -213,6 +214,13 @@ def collect() -> list[dict]:
                 "_source": path,
                 "_svg_text": svg,
             })
+    # Disambiguate a refined redraw only when its round still holds the original name.
+    seen: dict[tuple[str, str], int] = {}
+    for entry in entries:
+        seen[(entry["round"], entry["name"])] = seen.get((entry["round"], entry["name"]), 0) + 1
+    for entry in entries:
+        if seen[(entry["round"], entry["name"])] > 1 and entry["slug"].endswith("-refined"):
+            entry["name"] += " (refined)"
     return entries
 
 
@@ -266,9 +274,10 @@ def marquee_html(catalog: dict) -> str:
         rows[index % 3].append(entry)
     out = [MARQUEE_START]
     for row_index, row in enumerate(rows, start=1):
+        loading = "eager" if row_index == 1 else "lazy"
         tiles = "".join(
-            f'<a class="archive-tile" href="/archive/#{esc(e["id"])}">'
-            f'<img src="{esc(e["svg"])}" width="84" height="84" alt="{esc(e["name"])}" loading="lazy"></a>'
+            f'<a class="archive-tile" href="/archive/#{esc(e["id"])}" aria-label="{esc(e["name"])} — open in the archive with its exact 16px proof">'
+            f'<img src="{esc(e["svg"])}" width="84" height="84" alt="" loading="{loading}" decoding="async"></a>'
             for e in row
         )
         # One track per row; archive.js clones it for the seamless loop, and the
@@ -285,7 +294,7 @@ def finalists_html(catalog: dict) -> str:
     cards = []
     for e in picks:
         scores = "/".join(str(s) for s in e["scores"]) if e["scores"] else ""
-        badge = {"production": "temporary mark", "gated": "gated", "promoted": "promoted"}[e["status"]]
+        badge = {"production": "current mark, temporary", "gated": "passed review", "promoted": "promoted"}[e["status"]]
         cards.append(
             f'<a class="finalist-card finalist-{esc(e["status"])}" href="/archive/#{esc(e["id"])}">'
             f'<img src="{esc(e["svg"])}" width="128" height="128" alt="{esc(e["name"])}" loading="lazy">'
@@ -294,7 +303,7 @@ def finalists_html(catalog: dict) -> str:
         )
     counts = catalog["counts"]
     tally = (f'<p class="archive-tally">{counts["directions"]} directions · {counts["rounds"]} rounds · '
-             f'{counts["gated"]} gated or promoted · 1 temporary product mark</p>')
+             f'{counts["gated"]} passed review or were promoted, including the current temporary mark</p>')
     return "\n".join([FINALISTS_START, tally, '<div class="finalist-strip">', *cards, "</div>", FINALISTS_END])
 
 
@@ -328,17 +337,17 @@ def archive_page(catalog: dict) -> str:
     rounds = catalog["rounds"]
     entries = catalog["entries"]
     chips = ['<button type="button" class="chip is-active" data-filter="all" aria-pressed="true">All</button>',
-             '<button type="button" class="chip" data-filter="gated" aria-pressed="false">Gated &amp; promoted</button>']
+             '<button type="button" class="chip" data-filter="gated" aria-pressed="false">Passed review</button>']
     chips += [f'<button type="button" class="chip" data-filter="{esc(r["id"])}" aria-pressed="false">{esc(r["label"])}</button>' for r in rounds]
     cards = []
     for e in entries:
         scores = "/".join(str(s) for s in e["scores"]) if e["scores"] else ""
-        status_label = {"production": "Temporary product mark", "gated": "Gated finalist", "promoted": "Promoted locally", "study": "Study"}[e["status"]]
+        status_label = {"production": "Current mark (temporary)", "gated": "Passed review", "promoted": "Promoted locally", "study": "Study"}[e["status"]]
         gated_attr = "true" if e["status"] != "study" else "false"
         story = f'<p>{esc(e["story"])}</p>' if e["story"] else ""
         score_html = f'<span class="card-scores" title="legibility / distinctiveness / balance / color / scalability / craft">{esc(scores)}</span>' if scores else ""
         cards.append(
-            f'<article class="archive-card status-{esc(e["status"])}" id="{esc(e["id"])}" data-round="{esc(e["round"])}" data-gated="{gated_attr}" tabindex="0">'
+            f'<article class="archive-card status-{esc(e["status"])}" id="{esc(e["id"])}" data-round="{esc(e["round"])}" data-gated="{gated_attr}" tabindex="0" role="button" aria-haspopup="dialog" aria-label="{esc(e["name"])} — open details">'
             f'<div class="card-visual"><img src="{esc(e["svg"])}" width="160" height="160" alt="{esc(e["name"])}" loading="lazy"></div>'
             f'<div class="card-copy"><span class="card-round">{esc(e["roundLabel"])}</span><h3>{esc(e["name"])}</h3>{story}'
             f'<div class="card-foot"><span class="card-status">{esc(status_label)}</span>{score_html}'
@@ -400,7 +409,7 @@ def archive_page(catalog: dict) -> str:
       <span></span><span></span>
     </button>
     <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-      <a href="#finalists">Finalists</a>
+      <a href="#finalists">Passed review</a>
       <a href="#rounds">Rounds</a>
       <a href="/gallery/">Gallery</a>
       <a href="/how-icons-are-made/">Method</a>
@@ -414,10 +423,10 @@ def archive_page(catalog: dict) -> str:
       <div class="archive-hero-copy reveal">
         <p class="eyebrow"><span class="status-dot"></span> The living archive · identity exploration</p>
         <h1>{counts["directions"]} marks.<br>One method.<br><em>Every pixel kept.</em></h1>
-        <p class="hero-lede">While IconFlow looked for its own logo it drew {counts["directions"]} original directions across {counts["rounds"]} rounds — machines, companions, hidden-brand anatomy, an orchard, a canopy, a cat. Each one was rendered by the same engine, compared at native size, and either gated or kept as an honest study. Nothing here is a stock asset; nothing here claims trademark clearance.</p>
+        <p class="hero-lede">While IconFlow looked for its own logo it drew {counts["directions"]} original directions across {counts["rounds"]} rounds — machines, companions, hidden-brand anatomy, an orchard, a canopy, a cat. Each one was rendered by the same engine, compared at native size, and either passed review or was kept as an honest study. Nothing here is a stock asset; nothing here claims trademark clearance.</p>
         <dl class="hero-stats" aria-label="Archive facts">
           <div><dt>{counts["directions"]}</dt><dd>directions drawn</dd></div>
-          <div><dt>{counts["gated"]}</dt><dd>gated or promoted</dd></div>
+          <div><dt>{counts["gated"]}</dt><dd>passed review</dd></div>
           <div><dt>1</dt><dd>temporary product mark</dd></div>
         </dl>
       </div>
@@ -431,7 +440,7 @@ def archive_page(catalog: dict) -> str:
     </section>
 
     <section id="finalists" class="section-shell archive-finalists reveal">
-      <div class="round-head"><h2>Gated finalists and the current mark</h2><p>Each of these passed the complete draft-local target gate: clean <code>check</code>, static review, exact colour tray and alpha template, a source-bound receipt, and <code>ship</code> with every rubric axis at 4/5 or better.</p></div>
+      <div class="round-head"><h2>The ones that passed review, and the current mark</h2><p>Each of these passed the complete draft-local target gate: clean <code>check</code>, static review, exact color tray and alpha template, a receipt bound to the SVG hash, and <code>ship</code> with every rubric axis at 4/5 or better (legibility / distinctiveness / balance / color / scalability / craft).</p></div>
 {finalists_html(catalog).replace(FINALISTS_START, "").replace(FINALISTS_END, "")}
     </section>
 

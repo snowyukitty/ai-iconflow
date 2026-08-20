@@ -8,6 +8,8 @@
 .chip { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px 6px 7px; border: 1px solid var(--line); border-radius: 999px; color: var(--paper); background: #0f1014; font-family: var(--mono); font-size: .66rem; cursor: pointer; }
 .chip::before { width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); content: ""; }
 .chip:hover { border-color: rgba(255,244,232,.35); }
+.chip.is-active { color: var(--ink); border-color: var(--paper); background: var(--paper); }
+.chip.is-active::before { box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
 .chip-graphite::before { background: linear-gradient(135deg, #191a20 50%, #ff5a4f 50%); }
 .chip-paper::before { background: linear-gradient(135deg, #fff4e8 50%, #191a20 50%); }
 .chip-lagoon::before { background: linear-gradient(135deg, #0f5f63 50%, #f2b84b 50%); }

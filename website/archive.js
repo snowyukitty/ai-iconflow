@@ -11,6 +11,15 @@
       track.after(copy);
     });
   }
+  const toggle = document.querySelector('[data-marquee-toggle]');
+  if (marquee && toggle) {
+    toggle.addEventListener('click', () => {
+      const paused = !marquee.classList.contains('is-paused');
+      marquee.classList.toggle('is-paused', paused);
+      toggle.setAttribute('aria-pressed', String(paused));
+      toggle.textContent = paused ? 'Resume' : 'Pause';
+    });
+  }
   if (marquee && 'IntersectionObserver' in window) {
     const watch = new IntersectionObserver((entries) => {
       entries.forEach((entry) => marquee.classList.toggle('is-offscreen', !entry.isIntersecting));
