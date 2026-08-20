@@ -223,6 +223,7 @@ class CliTests(unittest.TestCase):
             image_out = root / "review.png"
             html_out = root / "review.html"
             with mock.patch("iconflow.qa.check", return_value=["thin counter"]), \
+                 mock.patch("iconflow.qa.tray_template_warnings", return_value=[]), \
                  mock.patch("iconflow.review.contact_sheet", return_value=image_out), \
                  mock.patch("iconflow.review.interactive_review", return_value=html_out) as lab, \
                  contextlib.redirect_stdout(io.StringIO()):
