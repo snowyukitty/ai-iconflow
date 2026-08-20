@@ -29,6 +29,14 @@ surface. It separates agent-assisted and direct CLI use, provides copyable
 Windows and POSIX setup paths, and keeps current product limits beside the
 commands they qualify.
 
+## Regenerated images
+
+`_headers` lets the edge cache every `*.png` for seven days, so a regenerated
+image at an unchanged URL can stay stale for visitors and crawlers. When a
+tracked PNG is regenerated (proof icons, evidence sheets, the social preview),
+bump the `?v=` query on its references in the HTML/JS rather than relying on a
+cache purge.
+
 ## Preview
 
 Serve `website/` with any static server. Do not open `index.html` directly if

@@ -50,7 +50,7 @@ if (lab) {
         item.classList.toggle('is-active', selected);
         item.setAttribute('aria-pressed', String(selected));
       });
-      const source = `/assets/proof/icon-${size}.png`;
+      const source = `/assets/proof/icon-${size}.png?v=petal`;
       actual.src = source;
       actual.width = size;
       actual.height = size;
