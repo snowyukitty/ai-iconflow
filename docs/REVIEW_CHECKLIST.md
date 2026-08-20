@@ -38,6 +38,10 @@ offenders, but it is a hint, not the judge — you still score the axis by eye.
 - **Pixel-zoom strip** = 16px and 32px blown up. Anti-aliasing mush, lost detail
   and off-grid blur show up here.
 - **Alpha footprint** = the outer/container shape and safe-area footprint.
+- Before scoring **craft**, scan the 128px and 256px alpha and visual-silhouette
+  strips for spikes, pips and hairs: a doubled-back path segment is invisible at
+  16px and in the source but renders from ~128px up, and `check` does not catch
+  it. (L54.)
 - **Visual silhouette** = the visible shape with color removed; use this for
   distinctiveness, especially on opaque rounded-card icons.
 - **Target contexts** = the transformed web/app/tray assets, not just the raw

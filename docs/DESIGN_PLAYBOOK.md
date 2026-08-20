@@ -320,6 +320,13 @@ can afford (subtle gradients, glow, inner shadows). Don't design a detailed
 - A vertical slit/cut centered over a detached circular accent. At 16px it is an
   exclamation mark before it is your intended object; offset or redesign the
   pair during the bake-off, not after color polish.
+- Forcing every control in a dense button family into an ownable filled
+  silhouette. Neighbouring actions then read as unrelated objects; keep the
+  familiar noun in a stable line field and put ON / OFF / BLOCKED in a separate
+  two-pixel state rail. (L51.)
+- Perforation, serration or any repeated-tooth edge meant to say "torn". Only
+  3–5 teeth survive 16px and they read as a crown, a fort or a saw; cut ONE large
+  irregular event instead. (L53.)
 
 ---
 

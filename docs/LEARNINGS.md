@@ -752,3 +752,53 @@ and without air the two masses fuse into one silhouette that the collision wins.
 a shallow solid dome on short inboard risers scored distinctiveness 3 and named a
 mushroom; 36-unit panel seams and a visible V fixed the noun, and opening 115
 units to 130 fixed the relationship. Folded into `DESIGN_PLAYBOOK.md` §5.
+
+## L51 — In a dense control family, keep the noun familiar and give state its own rail
+When several small UI controls sit side by side (18–24px buttons, toolbar
+toggles), forcing each one into an ownable filled silhouette makes neighbouring
+actions read as unrelated objects. Keep the **familiar feature noun in a stable
+left-hand line field**, and express ON / OFF / BLOCKED in a **separate two-pixel
+state rail** with consistent geometry (bow outward, close inward, two still
+bars). Distinctiveness belongs to the app icon; a control row has to be scanned.
+*Why:* the job of a control is to be found among its siblings, so the variable
+must be state, not shape.
+*Evidence:* [Yukoe button icon recovery](../casebook/2026-08-14-yukoe-button-icon-recovery.md) —
+filled "folded folio" blobs scored colour 3 and broke feature recognition;
+line nouns plus one shared rail shipped at 5/4/5/4/5/5. Folded into
+`DESIGN_PLAYBOOK.md` §6.
+
+## L52 — A coloured band on a dark block is a folder tab until a wedge and a cut say otherwise
+A coloured band resting on a dark block reads as a folder tab or a card header
+first. What converts it into a lifting page is a **wedge-shaped counter** (a gap
+that widens from hinge to free end — 46 units at the hinge, 78 at the free end
+in the shipped case) plus **one angled corner cut** on the page, because folder
+tabs are uniform-height and never cut at an angle. The overhang of the page past
+the block's edge (28 units) is the third cue.
+*Why:* the collision is a geometry collision, so only geometry resolves it;
+colour and texture do not.
+*Evidence:* [yonago-koyomi favicon](../casebook/2026-08-15-yonago-koyomi-favicon.md) —
+distinctiveness 3 → 4 once the slot became a wedge and the corner was cut.
+
+## L53 — Repeated teeth cannot say "torn" at 16px; use one large irregular event
+Perforation, serration and other repeated-tooth edges need so much width per
+tooth to survive 16px that only 3–5 teeth fit, and 3–5 large teeth read as a
+crown, a fort or a saw — never as *torn*. If an edge must say torn, cut **ONE
+large irregular event** (a single missing corner, one uneven tear) and let the
+rest of the edge stay clean.
+*Why:* a pattern needs repetition to be read as a pattern, and repetition is
+exactly what 16px removes (L7, L31).
+*Evidence:* [yonago-koyomi favicon](../casebook/2026-08-15-yonago-koyomi-favicon.md) —
+a perforated tear-off edge named a crown; one clean edge plus the lifting page
+restored the calendar noun. Folded into `DESIGN_PLAYBOOK.md` §6.
+
+## L54 — Inspect the 128/256px alpha and silhouette strips for spikes before scoring craft
+A doubled-back segment in a path (right, up, left with no width) is invisible in
+the source and at 16px, but renders as a visible pip from about 128px up. The
+automated `check` does not catch it. Before scoring *craft*, look specifically at
+the **128px and 256px alpha-footprint and visual-silhouette strips** for spikes,
+pips and hairs; score the bake sheet's 128px cell, not only the native row.
+*Why:* craft failures at large sizes ship into the Tauri, Electron and PWA
+targets even when the favicon is perfect.
+*Evidence:* [yonago-koyomi favicon](../casebook/2026-08-15-yonago-koyomi-favicon.md) —
+a retraced hinge segment produced a pip at 128px that two 16px passes never
+showed. Folded into `REVIEW_CHECKLIST.md`.
