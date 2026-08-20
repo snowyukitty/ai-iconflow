@@ -91,6 +91,14 @@ receipt and builds 23 web, Tauri desktop, Electron, and tray files. It is a
 reproducible engine proof, not a claim that a distinctive new identity can be
 designed in five minutes.
 
+The same proof is packaged as one command, `iconflow demo --out iconflow-demo`
+(`.venv\Scripts\python.exe -m iconflow demo ...` from this checkout; it is not on
+PyPI yet). It copies the reviewed brand family — `master.svg`, `tray.svg`,
+`iconflow.toml`, `master-review.json` — into that directory and runs `doctor` →
+`check` → `review` (sheet + Review Lab) → `ship` against the bundled receipt; add
+`--setup` to install Chromium first and `--json` for the machine-readable result.
+Edit the copied `master.svg` and re-run `ship` to watch it refuse the stale receipt.
+
 ## Design and ship your own icon
 
 Create the project brief and build contract first:

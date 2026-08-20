@@ -2,29 +2,50 @@
 name: iconflow
 description: Design and generate high-quality app icons, website favicons, PWA icons, and system-tray/menu-bar icons. Use whenever a project needs an icon/favicon/logo mark created or regenerated — the agent authors an SVG following a design playbook, renders it small to self-review, then builds every format (.ico/.icns/.png, manifest, tray). Triggers on requests like "make an icon", "design a favicon", "tray icon", "app icon for this Tauri/Electron app".
 license: Apache-2.0
-compatibility: Requires Python 3.10+, filesystem and shell access, and network access for one-time dependency and Playwright Chromium setup. Rendering and builds are local afterward.
+compatibility: Requires Python 3.10+, filesystem and shell access, and network access for one-time dependency and Playwright Chromium setup. Works with `iconflow` on PATH (uv tool / pipx / pip, once published on PyPI) or a source checkout's venv interpreter. Rendering and builds are local afterward.
 metadata:
   version: "0.4.0"
 ---
 
 # IconFlow skill
 
-Toolkit lives at **`<AI_PROJECTS>/ai-iconflow`** (the source of truth), where
-`<AI_PROJECTS>` is the workspace root directory named `AI_Projects`. Its drive
-letter is not fixed — resolve it from the current repository's ancestors or the
-workspace, and use that resolved path everywhere below. You are the designer;
-the toolkit rasterizes your SVG exactly as a browser would and packs all
-formats, with a render-and-review loop.
+You are the designer; the toolkit rasterizes your SVG exactly as a browser
+would and packs all formats, with a render-and-review loop. Two placeholders
+are used below and resolved once, in step 0:
+
+- **`<ICONFLOW_PY> -m iconflow`** is the runner. The primary form is the
+  `iconflow` command on PATH (`python -m iconflow` is equivalent) after
+  `uv tool install ai-iconflow`, `pipx install ai-iconflow`, or
+  `pip install ai-iconflow` — once the package is published on PyPI. From a
+  source checkout (contributor/editable mode, and the only mode until PyPI is
+  live) it is that checkout's venv interpreter: `.venv\Scripts\python.exe` on
+  Windows, `.venv/bin/python` on POSIX. Never `cd` into a hardcoded toolkit
+  path; keep the shell in the consuming project.
+- **`<AI_PROJECTS>/ai-iconflow`** is the toolkit root used for docs, scratch,
+  and the shared casebook. In checkout mode it is the checkout directory
+  (`<AI_PROJECTS>` is the workspace root named `AI_Projects`; its drive letter
+  is not fixed — resolve it from the current repository's ancestors). In PATH
+  mode there is no checkout: `<AI_PROJECTS>/ai-iconflow/docs/<file>` is the
+  packaged copy, printed by
+  `python -c "from importlib.resources import files; print(files('iconflow.resources.docs'))"`;
+  `<AI_PROJECTS>/ai-iconflow/work/<slug>/` is the consuming project's own
+  gitignored `work/<slug>/`; and `<AI_PROJECTS>/ai-iconflow/casebook` is the
+  consuming project's casebook (`iconflow.toml` `project.casebook`, default
+  `./casebook`, or `ICONFLOW_CASEBOOK_DIR`) — every `--dir` below points there.
 
 ## Procedure (follow in order — do not skip diverge or review)
 
-0. **Resolve the toolkit and runner first.** Resolve the absolute
-   `<AI_PROJECTS>/ai-iconflow` path, then use its venv Python
-   (`.venv\Scripts\python.exe` on Windows or `.venv/bin/python` on POSIX) when
-   present, otherwise `python`. `<ICONFLOW_PY>` below means that resolved
-   executable. First time only: `<ICONFLOW_PY> -m iconflow setup`. Keep the
-   shell in the consuming project unless a path explicitly points into the
-   toolkit; do not `cd` in a way that changes where project files land.
+0. **Resolve the runner and toolkit root first.** Run `iconflow --version`; if
+   it answers, `<ICONFLOW_PY> -m iconflow` is simply `iconflow` (PATH mode).
+   Otherwise resolve the checkout `<AI_PROJECTS>/ai-iconflow` and use its venv
+   Python (`.venv\Scripts\python.exe` on Windows or `.venv/bin/python` on
+   POSIX) when present, otherwise `python` with the package installed
+   (checkout mode; `scripts/setup.ps1` / `scripts/setup.sh` create that venv,
+   install the checkout editable, run `iconflow setup`, and install this skill).
+   First time only: `<ICONFLOW_PY> -m iconflow setup`, then
+   `<ICONFLOW_PY> -m iconflow doctor`. Keep the shell in the consuming project
+   unless a path explicitly points into the toolkit; do not `cd` in a way that
+   changes where project files land.
 1. **Read** `<AI_PROJECTS>/ai-iconflow/docs/LEARNINGS.md` (rules distilled from
    every previously shipped icon) and run
    `<ICONFLOW_PY> -m iconflow case stats --dir <AI_PROJECTS>/ai-iconflow/casebook`.

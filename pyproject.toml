@@ -54,19 +54,22 @@ packages = [
   "iconflow.resources.templates",
   "iconflow.resources.presets",
   "iconflow.resources.docs",
+  "iconflow.resources.demo",
 ]
 include-package-data = false
 
 # Keep authoring assets in their readable top-level directories while mapping
 # immutable wheel resources under the IconFlow package.  The CLI accesses them
-# exclusively through importlib.resources, so `iconflow new` also works from an
-# isolated wheel install with no source checkout nearby.
+# exclusively through importlib.resources, so `iconflow new` and `iconflow demo`
+# also work from an isolated wheel install with no source checkout nearby.
 [tool.setuptools.package-dir]
 "iconflow.resources.templates" = "templates"
 "iconflow.resources.presets" = "templates/presets"
 "iconflow.resources.docs" = "docs"
+"iconflow.resources.demo" = "demo"
 
 [tool.setuptools.package-data]
 "iconflow.resources.templates" = ["*.svg"]
 "iconflow.resources.presets" = ["*.svg"]
 "iconflow.resources.docs" = ["*.md", "assets/*"]
+"iconflow.resources.demo" = ["master.svg", "tray.svg", "iconflow.toml", "master-review.json"]

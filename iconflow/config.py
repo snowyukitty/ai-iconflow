@@ -29,7 +29,29 @@ REVIEW_STATUSES = ("pending", "reviewed", "approved", "shipped", "archived")
 
 
 class ConfigError(ValueError):
-    """Raised when an IconFlow project configuration is invalid."""
+    """Raised when an IconFlow project configuration is invalid.
+
+    ``code`` is set when the failure is one of IconFlow's own gates rather than
+    a malformed input: ``ship`` reports those as *blocked* (exit 1) with the
+    stable identifier from ``docs/AGENT_CONTRACT.md``; a plain ``ConfigError``
+    remains a configuration failure (exit 2).
+    """
+
+    def __init__(self, message: str, *, code: str | None = None):
+        super().__init__(message)
+        self.code = code
+
+
+# Gate identifiers shared by the receipt validator and the config fallback.
+GATE_STALE_SOURCE = "receipt-stale-source"
+GATE_STALE_CONTRACT = "receipt-stale-contract"
+GATE_NOT_READY = "receipt-not-ready"
+GATE_SCORE_FLOOR = "score-below-floor"
+GATE_QA_WARNINGS = "qa-warnings"
+GATE_CODES = (
+    GATE_STALE_SOURCE, GATE_STALE_CONTRACT, GATE_NOT_READY,
+    GATE_SCORE_FLOOR, GATE_QA_WARNINGS,
+)
 
 
 @dataclass(frozen=True)
@@ -43,6 +65,11 @@ class ReviewReceipt:
     targets: tuple[str, ...]
     scores: dict[str, int]
     notes: str
+    # Review Packet v1 optional provenance (docs/AGENT_CONTRACT.md). Recorded
+    # when present, never required, and never trusted as authority.
+    toolchain: dict[str, Any] | None = None
+    artifacts: dict[str, Any] | None = None
+    reviewer: dict[str, Any] | None = None
 
 
 @dataclass
@@ -298,12 +325,14 @@ def validate_ship_scores(scores: Mapping[str, int]) -> None:
     missing = [axis for axis in AXES if axis not in normalized]
     if missing:
         raise ConfigError(
-            "review.scores is incomplete; add: " + ", ".join(missing)
+            "review.scores is incomplete; add: " + ", ".join(missing),
+            code=GATE_SCORE_FLOOR,
         )
     below = [f"{axis}={normalized[axis]}" for axis in AXES if normalized[axis] < 4]
     if below:
         raise ConfigError(
-            "review gate failed (every axis must be >=4): " + ", ".join(below)
+            "review gate failed (every axis must be >=4): " + ", ".join(below),
+            code=GATE_SCORE_FLOOR,
         )
 
 
@@ -336,13 +365,15 @@ def load_review_receipt(
     current = svg_sha256(config.master_path)
     if digest.lower() != current:
         raise ConfigError(
-            "review receipt is stale: source_sha256 does not match the current master SVG"
+            "review receipt is stale: source_sha256 does not match the current master SVG",
+            code=GATE_STALE_SOURCE,
         )
 
     project = value.get("project")
     if not isinstance(project, str) or project != config.name:
         raise ConfigError(
-            f"review receipt project mismatch: expected {config.name!r}, got {project!r}"
+            f"review receipt project mismatch: expected {config.name!r}, got {project!r}",
+            code=GATE_STALE_CONTRACT,
         )
     raw_targets = value.get("targets")
     if not isinstance(raw_targets, list) or any(
@@ -358,7 +389,8 @@ def load_review_receipt(
             "review receipt target mismatch: expected "
             + ",".join(config.targets)
             + "; got "
-            + ",".join(targets)
+            + ",".join(targets),
+            code=GATE_STALE_CONTRACT,
         )
 
     actual_build = value.get("build")
@@ -377,7 +409,8 @@ def load_review_receipt(
     if dict(actual_build) != expected_build:
         raise ConfigError(
             "review receipt build contract mismatch; regenerate after changing "
-            "colors, Electron radius, color scheme, or tray source/mode"
+            "colors, Electron radius, color scheme, or tray source/mode",
+            code=GATE_STALE_CONTRACT,
         )
     expected_contract_digest = review_contract_digest(
         source_sha256=current,
@@ -396,16 +429,20 @@ def load_review_receipt(
         if receipt_contract_digest.lower() != expected_contract_digest:
             raise ConfigError(
                 "review receipt contract hash mismatch; regenerate after changing the source, "
-                "project, targets, colors, Electron radius, color scheme, or tray source/mode"
+                "project, targets, colors, Electron radius, color scheme, or tray source/mode",
+                code=GATE_STALE_CONTRACT,
             )
 
     warnings = value.get("warnings")
     if not isinstance(warnings, list) or any(not isinstance(item, str) for item in warnings):
         raise ConfigError("review receipt warnings must be an array of strings")
     if warnings:
-        raise ConfigError("review receipt contains automated warnings; regenerate after fixing them")
+        raise ConfigError(
+            "review receipt contains automated warnings; regenerate after fixing them",
+            code=GATE_NOT_READY,
+        )
     if value.get("status") != "ready":
-        raise ConfigError("review receipt status must be 'ready'")
+        raise ConfigError("review receipt status must be 'ready'", code=GATE_NOT_READY)
 
     raw_scores = value.get("scores")
     if not isinstance(raw_scores, Mapping):
@@ -419,6 +456,12 @@ def load_review_receipt(
     notes = value.get("notes", "")
     if not isinstance(notes, str):
         raise ConfigError("review receipt notes must be a string")
+    packet: dict[str, dict[str, Any] | None] = {}
+    for key in ("toolchain", "artifacts", "reviewer"):
+        extra = value.get(key)
+        if extra is not None and not isinstance(extra, Mapping):
+            raise ConfigError(f"review receipt {key} must be an object when present")
+        packet[key] = dict(extra) if extra is not None else None
     return ReviewReceipt(
         source=source,
         source_sha256=current,
@@ -427,6 +470,7 @@ def load_review_receipt(
         targets=tuple(targets),
         scores=scores,
         notes=notes.strip(),
+        **packet,
     )
 
 

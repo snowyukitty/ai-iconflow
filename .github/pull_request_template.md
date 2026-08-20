@@ -1,3 +1,6 @@
+<!-- Contributing a reviewed icon family + case record? Use the case template
+     instead: add ?template=case.md to this PR's URL (.github/PULL_REQUEST_TEMPLATE/case.md). -->
+
 ## Outcome
 
 Describe the user-visible or maintainer-visible result and why it is needed.

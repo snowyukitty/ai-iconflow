@@ -25,6 +25,8 @@ LICENSE_METADATA = {
     *(f"License-File: {name}" for name in LEGAL_FILES),
 }
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
+# The packaged demo family `iconflow demo` materializes (docs/AGENT_CONTRACT.md).
+DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
 PRESETS = tuple(
     path.stem
     for path in sorted((SOURCE_ROOT / "templates" / "presets").glob("*.svg"))
@@ -114,6 +116,7 @@ def verify(path: Path) -> None:
             "iconflow/resources/docs/STYLE_CATALOG.md",
             "iconflow/resources/docs/assets/style-gallery.png",
             *(f"iconflow/resources/presets/{preset}.svg" for preset in PRESETS),
+            *(f"iconflow/resources/demo/{name}" for name in DEMO_FILES),
         }
         metadata = [name for name in names if name.endswith(".dist-info/METADATA")]
         wheel_records = [name for name in names if name.endswith(".dist-info/RECORD")]
@@ -138,6 +141,7 @@ def verify(path: Path) -> None:
             "brand/master-review.json",
             "brand/master.svg",
             "brand/tray.svg",
+            *(f"demo/{name}" for name in DEMO_FILES),
             "docs/STYLE_CATALOG.md",
             "docs/assets/style-gallery.png",
             "examples/README.md",

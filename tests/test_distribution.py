@@ -6,7 +6,7 @@ import zipfile
 from pathlib import Path
 
 from iconflow.styles import PRESETS
-from scripts.verify_distribution import main, verify
+from scripts.verify_distribution import DEMO_FILES, main, verify
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,6 +49,7 @@ class DistributionVerificationTests(unittest.TestCase):
             "iconflow/resources/docs/STYLE_CATALOG.md",
             "iconflow/resources/docs/assets/style-gallery.png",
             *(f"iconflow/resources/presets/{preset}.svg" for preset in PRESETS),
+            *(f"iconflow/resources/demo/{name}" for name in DEMO_FILES),
             "ai_iconflow-0.4.0.dist-info/METADATA",
             "ai_iconflow-0.4.0.dist-info/RECORD",
             "ai_iconflow-0.4.0.dist-info/licenses/LICENSE",

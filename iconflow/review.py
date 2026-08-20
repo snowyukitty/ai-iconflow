@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import base64
 from dataclasses import dataclass, field
-import hashlib
 import html
 import io
 import json
@@ -24,7 +23,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from . import assemble
 from .build import electron_frames, preview_assets
-from .config import review_build_contract, review_contract_digest
+from .config import review_build_contract, review_contract_digest, svg_sha256
 from .rasterize import Rasterizer, load_svg
 from .styles import StyleSpec
 
@@ -291,6 +290,69 @@ def _data_url(png: bytes) -> str:
     return "data:image/png;base64," + base64.b64encode(png).decode("ascii")
 
 
+def receipt_seed(master_svg: str | Path, *,
+                 options: ReviewOptions | None = None) -> dict:
+    """Return the unscored receipt the Review Lab seeds and exports.
+
+    The seed binds the brief, the source hash, the target set, and the visual
+    build contract; a reviewer adds ``scores``, ``notes``, and ``status``. It
+    is also what ``review --receipt-template`` writes so an agent can score
+    the evidence and hand the file to ``ship --review`` without the browser.
+    """
+    path = Path(master_svg)
+    options = options or ReviewOptions(name=path.stem)
+    product_name = options.name or path.stem
+    # Hashes are line-ending independent (see ``svg_sha256``) so a receipt
+    # exported on one machine still matches ``ship`` on the next.
+    tray_source_hash = svg_sha256(options.tray_svg) if options.tray_svg else None
+    build_contract = review_build_contract(
+        theme_color=options.theme_color,
+        background_color=options.background_color,
+        electron_radius=options.electron_radius,
+        tray_template_mode=options.tray_template_mode,
+        color_scheme=options.color_scheme,
+        tray_source_sha256=tray_source_hash,
+    )
+    source_hash = svg_sha256(path)
+    contract_hash = review_contract_digest(
+        source_sha256=source_hash,
+        project=product_name,
+        targets=options.targets,
+        build=build_contract,
+    )
+    return {
+        "schema": 1,
+        "source": path.name,
+        "source_sha256": source_hash,
+        "contract_sha256": contract_hash,
+        "project": product_name,
+        "user_job": options.user_job,
+        "essence": options.essence,
+        "personality": options.personality,
+        "signature_device": options.signature_device,
+        "cliches": list(options.cliches),
+        "targets": list(options.targets),
+        "build": build_contract,
+        "warnings": list(options.warnings),
+    }
+
+
+def receipt_template(master_svg: str | Path, out: str | Path, *,
+                     options: ReviewOptions | None = None) -> Path:
+    """Write an unscored receipt template next to the review evidence.
+
+    Filling ``scores`` (every axis 1-5), ``notes``, and setting ``status`` to
+    ``"ready"`` turns it into the file ``ship --review`` accepts; ``ship`` still
+    re-checks the source hash, the contract, and the >=4 floor itself.
+    """
+    seed = receipt_seed(master_svg, options=options)
+    seed.update({"scores": {}, "notes": "", "status": "unscored"})
+    out = Path(out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(seed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return out
+
+
 def interactive_review(master_svg: str | Path, out: str | Path, *,
                        options: ReviewOptions | None = None) -> Path:
     """Write a self-contained, target-aware Review Lab.
@@ -311,24 +373,17 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
         with Rasterizer(color_scheme=scheme) as r:
             renders[scheme] = {s: r.render(svg, s) for s in sizes}
 
-    tray_source_hash = None
     tray_renders = {scheme: {s: renders[scheme][s] for s in (16, 32)}
                     for scheme in ("light", "dark")}
     if options.tray_svg:
         tray_text = load_svg(options.tray_svg)
-        tray_source_hash = hashlib.sha256(tray_text.encode("utf-8")).hexdigest()
         for scheme in ("light", "dark"):
             with Rasterizer(color_scheme=scheme) as r:
                 tray_renders[scheme] = {s: r.render(tray_text, s) for s in (16, 32)}
 
-    build_contract = review_build_contract(
-        theme_color=options.theme_color,
-        background_color=options.background_color,
-        electron_radius=options.electron_radius,
-        tray_template_mode=options.tray_template_mode,
-        color_scheme=options.color_scheme,
-        tray_source_sha256=tray_source_hash,
-    )
+    review_seed = receipt_seed(path, options=options)
+    build_contract = review_seed["build"]
+    source_hash = review_seed["source_sha256"]
 
     caches = {scheme: _FrozenRenderCache(renders[scheme]) for scheme in ("light", "dark")}
     tray_caches = {
@@ -341,13 +396,6 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
         for scheme in ("light", "dark")
     }
 
-    source_hash = hashlib.sha256(svg.encode("utf-8")).hexdigest()
-    contract_hash = review_contract_digest(
-        source_sha256=source_hash,
-        project=product_name,
-        targets=options.targets,
-        build=build_contract,
-    )
     silhouette_sizes = [32, 48, 64, 128, 256]
     visual = {s: _data_url(_png(visual_silhouette(renders["light"][s])))
               for s in silhouette_sizes}
@@ -479,21 +527,6 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
         f'<output>{options.scores.get(axis, 0) or "—"}</output></label>'
         for axis, label in axes
     )
-    review_seed = {
-        "schema": 1,
-        "source": path.name,
-        "source_sha256": source_hash,
-        "contract_sha256": contract_hash,
-        "project": product_name,
-        "user_job": options.user_job,
-        "essence": options.essence,
-        "personality": options.personality,
-        "signature_device": options.signature_device,
-        "cliches": list(options.cliches),
-        "targets": list(options.targets),
-        "build": build_contract,
-        "warnings": list(options.warnings),
-    }
     seed_json = json.dumps(review_seed, ensure_ascii=False).replace("</", "<\\/")
     name = html.escape(path.name)
     product = html.escape(product_name)

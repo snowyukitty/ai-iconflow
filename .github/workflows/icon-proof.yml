@@ -1,0 +1,52 @@
+name: Icon proof
+
+# Mechanical gate for icon sources on pull requests. Runs on the plain
+# `pull_request` event (never the `_target` variant) so a fork PR executes with
+# a read-only token and no secrets. See docs/PROOF_ACTION.md.
+on:
+  pull_request:
+    paths:
+      - "**/*.svg"
+      - "**/iconflow.toml"
+      - "**/*-review.json"
+      - "**/master-review.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: icon-proof-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
+jobs:
+  proof:
+    name: check + review + receipt binding
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: List the files this pull request changes
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          git diff --name-only --diff-filter=d "$BASE_SHA" HEAD > "$RUNNER_TEMP/changed-files.txt"
+          echo "Changed files:"
+          cat "$RUNNER_TEMP/changed-files.txt"
+
+      # In this repository the action proves the checkout itself (`install: .`).
+      # A foreign repository pins the release instead: install: ai-iconflow==0.5.0
+      - name: Prove changed icon families (brand/, examples/*, any iconflow.toml)
+        uses: ./.github/actions/proof
+        with:
+          install: .
+          python-version: "3.12"
+          changed-files: ${{ runner.temp }}/changed-files.txt
+          artifact-name: iconflow-proof-${{ github.event.pull_request.number }}

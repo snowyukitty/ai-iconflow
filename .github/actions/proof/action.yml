@@ -1,0 +1,106 @@
+name: IconFlow PR proof
+description: >-
+  Run IconFlow's mechanical icon gate on a pull request: `check --json`,
+  `review --json` (review sheet + Review Lab), and a read-only receipt
+  staleness check for every iconflow.toml in scope. Fails on QA warnings or a
+  stale receipt; never scores taste, never approves, needs only contents: read.
+author: IconFlow maintainers
+
+inputs:
+  install:
+    description: >-
+      pip requirement spec for IconFlow. In a foreign repository pin the
+      release, e.g. "ai-iconflow==0.5.0" (once published). Inside this
+      repository use "." to prove the checkout itself.
+    required: false
+    default: "ai-iconflow==0.5.0"
+  python-version:
+    description: Python version handed to actions/setup-python.
+    required: false
+    default: "3.12"
+  configs:
+    description: >-
+      Newline- or space-separated iconflow.toml paths relative to the
+      workspace. Empty = discover every iconflow.toml (skipping .git, .venv,
+      node_modules, work/).
+    required: false
+    default: ""
+  changed-files:
+    description: >-
+      Path to a newline-separated list of changed files relative to the
+      workspace. When given, only configs whose directory, master, or tray
+      source is in that list are proven. Empty = prove every discovered config.
+    required: false
+    default: ""
+  artifact-name:
+    description: Name of the uploaded artifact holding review.png / review.html / proof.json.
+    required: false
+    default: iconflow-proof
+  upload-artifacts:
+    description: Set to "false" to skip the artifact upload step.
+    required: false
+    default: "true"
+
+outputs:
+  status:
+    description: ok | blocked | error (fail-closed fold of every envelope).
+    value: ${{ steps.prove.outputs.status }}
+  artifact-dir:
+    description: Directory holding the review sheets and proof.json.
+    value: ${{ steps.prove.outputs.artifact-dir }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install IconFlow
+      id: install
+      shell: bash
+      env:
+        PIP_DISABLE_PIP_VERSION_CHECK: "1"
+        INSTALL_SPEC: ${{ inputs.install }}
+      run: |
+        python -m pip install "$INSTALL_SPEC"
+        python -m iconflow --version
+        version="$(python -c 'import playwright; print(playwright.__version__)')"
+        echo "playwright-version=$version" >> "$GITHUB_OUTPUT"
+        # One OS-independent browser location so the cache key below is exact.
+        echo "PLAYWRIGHT_BROWSERS_PATH=$RUNNER_TEMP/ms-playwright" >> "$GITHUB_ENV"
+
+    - name: Restore Playwright Chromium
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: ${{ runner.temp }}/ms-playwright
+        key: iconflow-proof-chromium-${{ runner.os }}-${{ runner.arch }}-playwright-${{ steps.install.outputs.playwright-version }}
+
+    - name: Install Chromium (no-op on a cache hit)
+      shell: bash
+      run: python -m playwright install --with-deps chromium
+
+    - name: Prove the changed icon sources
+      id: prove
+      shell: bash
+      env:
+        PIP_DISABLE_PIP_VERSION_CHECK: "1"
+        ACTION_PATH: ${{ github.action_path }}
+        PROOF_CONFIGS: ${{ inputs.configs }}
+        PROOF_CHANGED_FILES: ${{ inputs.changed-files }}
+        PROOF_ARTIFACT_DIR: ${{ runner.temp }}/iconflow-proof
+        PROOF_ARTIFACT_NAME: ${{ inputs.artifact-name }}
+        # The action is checked out with its whole repository, so the helper
+        # sits three levels up from .github/actions/proof in both the local
+        # (`uses: ./.github/actions/proof`) and remote (`uses: owner/repo/...@ref`) case.
+        PROOF_RECEIPT_SCRIPT: ${{ github.action_path }}/../../../scripts/proof_receipt.py
+      run: python "$ACTION_PATH/proof.py"
+
+    - name: Upload review sheets
+      if: ${{ always() && inputs.upload-artifacts == 'true' }}
+      uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ runner.temp }}/iconflow-proof
+        if-no-files-found: ignore
+        retention-days: 14

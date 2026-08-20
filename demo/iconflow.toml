@@ -1,0 +1,43 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "IconFlow"
+master = "master.svg"
+output = "build"
+casebook = "casebook"
+
+[brief]
+app_intent = "turn app intent and one semantic SVG into a reviewed, platform-ready icon family"
+user_job = "turn app intent into a proven, target-ready icon family"
+essence = "gather"
+personality = ["alive", "gentle", "curious", "precise"]
+
+[design]
+palette = ["graphite #191A20", "warm paper #FFF4E8", "lagoon #59C7C1", "petal coral #FF5A4F", "petal gold #F2B84B", "petal violet #845EC2"]
+cliches = ["generic flow arrow", "AI sparkles", "robot or brain", "blue-purple SaaS monogram"]
+signature_device = "a low-eared pika returns to its hay store carrying three oversized petals"
+device_family = "character-silhouette"
+device_detail = "low paired ears, broad warm-paper body, lagoon hay cove, and three off-axis carried petals"
+concept_lens = "object-mascot"
+
+[build]
+targets = ["web", "tauri", "electron", "tray"]
+theme_color = "#191A20"
+background_color = "#FFF4E8"
+electron_radius = 0
+tray_ts = true
+tray_svg = "tray.svg"
+tray_template_mode = "alpha"
+color_scheme = "light"
+optimize_png = true
+
+[review]
+status = "approved"
+source_sha256 = "789de5f7ea1241c4e92939d968ad6cc7720af6549a058febac525b64cbae82d6"
+contract_sha256 = "a0a9bc617f8b17087f08e43d0577f4d2261ffc1b54bf1c92cc1c9159b17a3627"
+# Review Lab receipt is preferred. For this manual fallback, set status to
+# "approved" and copy both reviewed hashes; `ship` requires every score >= 4.
+scores = {legibility = 4, distinctiveness = 5, balance = 4, color = 5, scalability = 4, craft = 4}
+notes = "Owner-selected temporary product mark. Static review confirms the low-eared pika, lagoon hay cove, and right-side petal punctuation survive actual sizes and adaptive crops. The linked tray source adds a graphite halo; exact 16px color assets were inspected on white, gray, and dark, and the 16/32px alpha templates keep the pika-plus-petals footprint and, since 2026-08-21, one broad transparent eye cut so the template keeps a face (L48; check --tray-svg reports no featureless template). Interactive Review Lab remains blocked by the established managed-browser runtime failure, so this uses the documented source-bound fallback."

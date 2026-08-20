@@ -230,7 +230,8 @@ class CliTests(unittest.TestCase):
                     "review", "--config", str(config_path),
                     "--out", str(image_out), "--html", str(html_out),
                 ])
-        self.assertEqual(code, 0)
+        # Review rendered, but automated QA warnings gate it (exit 1).
+        self.assertEqual(code, 1)
         options = lab.call_args.kwargs["options"]
         self.assertEqual(options.name, "Proof App")
         self.assertEqual(options.targets, ("web", "electron", "tray"))

@@ -12,6 +12,32 @@ docs (the brain)  →  casebook (experience)  →  iconflow case stats (the sign
         └──────────────── distill lessons ────────────────┘
 ```
 
+## First 30 minutes
+
+> PyPI is **not live yet**. The `uv tool` / `pipx` / `pip` rows below work once
+> `ai-iconflow` 0.5.0 is published; today every command runs from a checkout
+> with its venv interpreter (`.venv\Scripts\python.exe -m iconflow ...` on
+> Windows, `.venv/bin/python -m iconflow ...` elsewhere) - the last row.
+
+| You want to | Install | Then run |
+|---|---|---|
+| use IconFlow as a tool (agent or human) | `uv tool install ai-iconflow` | `iconflow setup`, `iconflow doctor`, `iconflow demo --out work/demo` |
+| same, without uv | `pipx install ai-iconflow` | same (`pipx ensurepath` first on Windows if `iconflow` is not found) |
+| pin it inside one project | `python -m venv .venv && .venv/bin/pip install ai-iconflow` | `.venv/bin/iconflow setup` ... |
+| contribute / run the tests | `git clone ... && cd ai-iconflow && python -m pip install -e ".[dev]"` (or `scripts/setup.ps1` / `scripts/setup.sh`, which also create `.venv` and install the agent skill) | `python -m iconflow setup`, `python -m iconflow doctor`, `python -m iconflow demo --out work/demo` |
+
+`setup` downloads Playwright Chromium once (the only network step); `doctor`
+proves the environment; `demo` materializes the packaged, already-reviewed brand
+family into a directory and runs `doctor -> check -> review -> ship` against its
+bundled receipt, so your first success is a real gated ship, not a render. From
+a checkout today the same proof is
+`python -m iconflow ship --config brand/iconflow.toml --review brand/master-review.json --out work/quick-start/icon-out`.
+
+Then read [`AGENTS.md`](AGENTS.md) (the procedure) and
+[`docs/AGENT_CONTRACT.md`](docs/AGENT_CONTRACT.md) (`--json`, exit codes).
+Icon contributions go through **the case lane** below; engine and doc changes
+through the sections after it.
+
 ## Development setup
 
 Python 3.10+ is required. Rendering uses a headless Chromium via Playwright.
@@ -55,6 +81,42 @@ An icon is not "done" because it renders. It ships only when:
 Never end an icon session without recording the case
 (`python -m iconflow case new ...`) — an unrecorded icon teaches the system
 nothing.
+
+## The case lane (contributing an icon family)
+
+A case is one reviewed icon family plus what it taught. Three things carry it,
+and none can be skipped:
+
+1. **The PR template** - open the PR with `?template=case.md`
+   (`.github/PULL_REQUEST_TEMPLATE/case.md`). Every box is a gate: semantic
+   `master.svg` (+ linked `tray.svg` when a tray target is selected), clean
+   `iconflow check`, a Review Lab receipt with all six axes >= 4 bound to the
+   exact source and contract, the cliché avoided, the signature device, one
+   reusable *testable* lesson, the `iconflow case new` record with `case lint`
+   clean, the clean-room provenance checklist, and the privacy checklist.
+2. **The fixture** - copy [`examples/community-case/`](examples/community-case/)
+   (`iconflow.toml`, `master.svg`, `master-review.json`). It is the smallest
+   real, receipt-bound family; replace the mark, keep the shape.
+3. **The PR Proof action** - `.github/workflows/icon-proof.yml` runs
+   `check --json`, `review --json`, and the receipt binding on every PR that
+   touches an SVG, `iconflow.toml`, or receipt, uploads the review sheet, and
+   fails on a QA warning or a stale receipt ([`docs/PROOF_ACTION.md`](docs/PROOF_ACTION.md)).
+   It never scores taste: a green action is necessary, not sufficient.
+
+### What reviewers will and will not accept
+
+Reviewers **will** accept a case that passes the mechanical gate, whose receipt
+binds to the submitted bytes, whose 16px cell still names the thing, and whose
+lesson a future reader can test. They will **not** accept, regardless of how the
+128px render looks: any axis below 4/5 or a distinctiveness score argued up from
+3; a receipt for a different source, target set, or transform; a traced,
+adapted, or recognizable third-party mark; a bare letter or generic shape on a
+gradient tile (the monogram trap); a lesson phrased as taste ("make it
+cleaner"); or a case that carries private repository names, local paths, or
+generated `work/` files. The bar does not move for a first contribution:
+[`docs/EVOLUTION.md`](docs/EVOLUTION.md) §3, "Never weaken a gate" - evolution
+adds constraints and sharpens guidance; it never relaxes the >= 4/5 floor, the
+distinctiveness gate, or the mandatory review step.
 
 ## Changing the style catalog
 

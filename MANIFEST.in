@@ -3,6 +3,7 @@ recursive-include docs *
 recursive-include scripts *.py *.ps1 *.sh
 recursive-include examples *.md
 include brand/master.svg brand/tray.svg brand/iconflow.toml brand/master-review.json
+include demo/master.svg demo/tray.svg demo/iconflow.toml demo/master-review.json
 include requirements.txt AGENTS.md
 recursive-include skills/iconflow *.md *.yaml
 include README.md CONTRIBUTING.md CHANGELOG.md SECURITY.md THIRD_PARTY_NOTICES.md

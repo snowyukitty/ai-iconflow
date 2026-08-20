@@ -1,6 +1,10 @@
 """Automated, fast sanity checks. These catch the failure modes that AI-authored
 SVG icons most often hit; they do NOT replace the agent's visual review of the
-contact sheet. Returns a list of human-readable warnings (empty == clean)."""
+contact sheet. Returns a list of human-readable warnings (empty == clean).
+
+Every warning is a :class:`Finding`: a plain ``str`` for human output that also
+carries the stable machine ``code`` published in ``docs/AGENT_CONTRACT.md``.
+"""
 from __future__ import annotations
 
 import io
@@ -12,6 +16,51 @@ from PIL import Image, ImageChops, ImageFilter
 
 from . import assemble
 from .rasterize import Rasterizer, load_svg
+
+
+class Finding(str):
+    """A human-readable warning that also carries a stable machine code.
+
+    It *is* the message string, so every existing caller, receipt, and test
+    keeps working; ``--json`` consumers read ``.code`` instead of parsing prose.
+    """
+
+    code: str
+
+    def __new__(cls, code: str, message: str) -> "Finding":
+        finding = super().__new__(cls, message)
+        finding.code = code
+        return finding
+
+    def __reduce__(self):
+        return (Finding, (self.code, str(self)))
+
+
+# Fallback classification for warnings that arrive as plain strings (for
+# example from an older receipt or a mocked check). First match wins.
+_CODE_PATTERNS: tuple[tuple[str, str], ...] = (
+    (r"^SVG (?:contains|references)", "svg-safety"),
+    (r"^SVG uses a live <text>", "distinctiveness-text"),
+    (r"^SVG has no viewBox|^viewBox is not square", "viewbox"),
+    (r"^stroke-width=", "stroke-floor"),
+    (r"^At 16px the mark", "coverage-16"),
+    (r"^Low contrast on", "contrast"),
+    (r"^Final maskable asset audit", "maskable-detail"),
+    (r"^The macOS tray template keeps none", "tray-template-featureless"),
+    (r"tray template cannot be derived", "tray-template-underivable"),
+)
+
+
+def warning_code(warning: str) -> str:
+    """Return the stable machine code for a warning message."""
+    code = getattr(warning, "code", None)
+    if code:
+        return str(code)
+    for pattern, known in _CODE_PATTERNS:
+        if re.search(pattern, warning):
+            return known
+    return "qa-warning"
+
 
 _VIEWBOX_RE = re.compile(
     r'viewBox\s*=\s*["\']\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)\s*["\']',
@@ -44,18 +93,20 @@ _CSS_IMPORT_RE = re.compile(
 _LIVE_TEXT_RE = re.compile(r"<text[\s>]|<tspan[\s>]", re.I)
 
 
-def _renderer_safety_warnings(svg_text: str) -> list[str]:
+def _renderer_safety_warnings(svg_text: str) -> list[Finding]:
     """Explain content that the deterministic renderer intentionally disables."""
-    warnings: list[str] = []
+    warnings: list[Finding] = []
     if _ACTIVE_ELEMENT_RE.search(svg_text):
-        warnings.append(
+        warnings.append(Finding(
+            "svg-safety",
             "SVG contains script, embedded active content, or animation; "
-            "IconFlow disables it for safe deterministic rendering."
-        )
+            "IconFlow disables it for safe deterministic rendering.",
+        ))
     elif _EVENT_HANDLER_RE.search(svg_text):
-        warnings.append(
-            "SVG contains event-handler JavaScript; IconFlow disables it for safe rendering."
-        )
+        warnings.append(Finding(
+            "svg-safety",
+            "SVG contains event-handler JavaScript; IconFlow disables it for safe rendering.",
+        ))
     css_urls = (
         value.strip().strip("\"'").strip().lower()
         for value in _CSS_URL_RE.findall(svg_text)
@@ -65,14 +116,15 @@ def _renderer_safety_warnings(svg_text: str) -> list[str]:
         for value in css_urls
     )
     if _EXTERNAL_ATTR_RE.search(svg_text) or external_css or _CSS_IMPORT_RE.search(svg_text):
-        warnings.append(
+        warnings.append(Finding(
+            "svg-safety",
             "SVG references an external resource; IconFlow blocks all network/file "
-            "resources. Inline it (data URI or SVG definition) before shipping."
-        )
+            "resources. Inline it (data URI or SVG definition) before shipping.",
+        ))
     return warnings
 
 
-def _distinctiveness_warnings(svg_text: str) -> list[str]:
+def _distinctiveness_warnings(svg_text: str) -> list[Finding]:
     """Advisory: flag the mechanically-detectable form of the monogram trap.
 
     A live ``<text>`` glyph is a typed-letter monogram — the most common way an
@@ -80,17 +132,18 @@ def _distinctiveness_warnings(svg_text: str) -> list[str]:
     letter, a generic silhouette) is not mechanically separable from good marks,
     so it stays with the human name-the-thing gate in the review rubric.
     """
-    warnings: list[str] = []
+    warnings: list[Finding] = []
     if _LIVE_TEXT_RE.search(svg_text):
-        warnings.append(
+        warnings.append(Finding(
+            "distinctiveness-text",
             "SVG uses a live <text>/<tspan> glyph. A bare letter on a tile is the "
             "monogram trap — legible but low on distinctiveness (see "
             "docs/CONCEPTING.md 'Distinctiveness = specificity') — and live text "
             "renders via the build machine's fonts, so it is non-deterministic. "
             "Fuse the letter into an object (fado's plate-F) or use a specific "
             "object silhouette; if the letterform is intentional, convert it to a "
-            "<path>."
-        )
+            "<path>.",
+        ))
     return warnings
 
 
@@ -286,7 +339,7 @@ def _enclosed_transparent_pixels(alpha: Image.Image) -> int:
 def tray_template_warnings(
     tray_svg: str | Path, *, template_mode: str = "auto",
     rasterizer: Rasterizer | None = None,
-) -> list[str]:
+) -> list[Finding]:
     """Advisory: does the macOS template keep anything the colour tray shows?
 
     Colour reduction and alpha reduction discard different information, so a
@@ -303,15 +356,16 @@ def tray_template_warnings(
         raise ValueError("template mode must be 'auto', 'alpha', or 'contrast'")
     text = load_svg(tray_svg)
 
-    def audit(active: Rasterizer) -> list[str]:
+    def audit(active: Rasterizer) -> list[Finding]:
         colour_png = active.render(text, _TEMPLATE_PROBE_SIZE)
         try:
             template_png = assemble.to_template(colour_png, template_mode)
         except ValueError as exc:
-            return [
+            return [Finding(
+                "tray-template-underivable",
                 f"The '{template_mode}' tray template cannot be derived from this "
-                f"source: {exc}"
-            ]
+                f"source: {exc}",
+            )]
         colour = Image.open(io.BytesIO(colour_png)).convert("RGBA")
         template_alpha = (
             Image.open(io.BytesIO(template_png)).convert("RGBA").getchannel("A")
@@ -326,7 +380,8 @@ def tray_template_warnings(
             and structure >= _TEMPLATE_COLOUR_STRUCTURE
             and holes <= _TEMPLATE_MAX_BLOB_HOLES
         ):
-            return [
+            return [Finding(
+                "tray-template-featureless",
                 f"The macOS tray template keeps none of this source's features: "
                 f"{structure * 100:.0f}% of the colour mark's interior carries visible "
                 f"detail, but the derived template has {holes} enclosed transparent "
@@ -334,8 +389,8 @@ def tray_template_warnings(
                 "Colour and alpha are two different reductions of one source "
                 "(docs/LEARNINGS.md L42): cut the one feature that identifies the mark "
                 "— an eye, a counter, a seam — clean through the tray source as a broad "
-                "transparent hole, placed away from any join between two shapes."
-            ]
+                "transparent hole, placed away from any join between two shapes.",
+            )]
         return []
 
     if rasterizer is None:
@@ -347,8 +402,8 @@ def tray_template_warnings(
 def check(
     master_svg: str | Path, *, maskable: bool = True,
     maskable_bg: str = "#ffffff", rasterizer: Rasterizer | None = None,
-) -> list[str]:
-    warnings: list[str] = []
+) -> list[Finding]:
+    warnings: list[Finding] = []
     text = load_svg(master_svg)
     warnings.extend(_renderer_safety_warnings(text))
     warnings.extend(_distinctiveness_warnings(text))
@@ -357,11 +412,15 @@ def check(
 
     viewbox = _VIEWBOX_RE.search(text)
     if not re.search(r"\bviewBox\s*=", text, re.I):
-        warnings.append("SVG has no viewBox — it will not scale cleanly. Add one.")
+        warnings.append(Finding(
+            "viewbox", "SVG has no viewBox — it will not scale cleanly. Add one.",
+        ))
     if viewbox:
         w, h = float(viewbox.group(1)), float(viewbox.group(2))
         if abs(w - h) > 0.5:
-            warnings.append(f"viewBox is not square ({w}x{h}) — icons must be 1:1.")
+            warnings.append(Finding(
+                "viewbox", f"viewBox is not square ({w}x{h}) — icons must be 1:1.",
+            ))
     else:
         w = h = 1024.0
 
@@ -371,9 +430,10 @@ def check(
     for stroke_match in _STROKE_WIDTH_RE.findall(text):
         sw = next(value for value in stroke_match if value)
         if float(sw) and float(sw) < stroke_floor:
-            warnings.append(
-                f"stroke-width={sw} is very thin for a {w:.0f}px viewBox and may disappear at 16px."
-            )
+            warnings.append(Finding(
+                "stroke-floor",
+                f"stroke-width={sw} is very thin for a {w:.0f}px viewBox and may disappear at 16px.",
+            ))
             break
 
     def render_checks(r: Rasterizer):
@@ -394,33 +454,44 @@ def check(
 
     cov = _alpha_coverage(im16)
     if cov < 0.06:
-        warnings.append(
-            f"At 16px the mark fills only {cov*100:.0f}% of the canvas — too small/thin."
-        )
+        warnings.append(Finding(
+            "coverage-16",
+            f"At 16px the mark fills only {cov*100:.0f}% of the canvas — too small/thin.",
+        ))
     # Edge-to-edge only matters when the artwork is a HARD square reaching the
     # corners — a maskable/adaptive (circle) crop will clip it. A rounded
     # full-bleed container (app-icon squircle) leaves the corners transparent
     # and is intentional, so don't flag it.
     if cov > 0.97 and _corners_opaque(im16):
-        warnings.append("At 16px the mark is a hard square reaching the corners — "
-                        "a maskable/adaptive (circle) crop will clip it. Round the "
-                        "container corners or add safe-area padding.")
+        warnings.append(Finding(
+            "coverage-16",
+            "At 16px the mark is a hard square reaching the corners — "
+            "a maskable/adaptive (circle) crop will clip it. Round the "
+            "container corners or add safe-area padding.",
+        ))
 
     if _luma_spread(im16, (255, 255, 255)) < 0.06:
-        warnings.append("Low contrast on WHITE at 16px — mark may be invisible on light UI.")
+        warnings.append(Finding(
+            "contrast", "Low contrast on WHITE at 16px — mark may be invisible on light UI.",
+        ))
     if _luma_spread(im16, (11, 13, 18)) < 0.06:
-        warnings.append("Low contrast on DARK at 16px — mark may be invisible on dark UI/taskbar.")
+        warnings.append(Finding(
+            "contrast", "Low contrast on DARK at 16px — mark may be invisible on dark UI/taskbar.",
+        ))
 
     if _luma_spread(im32, (128, 128, 128)) < 0.04:
-        warnings.append("Low contrast on MID-GRAY at 32px — weak on neutral backgrounds.")
+        warnings.append(Finding(
+            "contrast", "Low contrast on MID-GRAY at 32px — weak on neutral backgrounds.",
+        ))
 
     if im512 is not None:
         outside_ratio = _detail_outside_safe_zone(im512)
         if outside_ratio > 0.08:
-            warnings.append(
+            warnings.append(Finding(
+                "maskable-detail",
                 "Final maskable asset audit: visible detail sits outside the central 40% "
                 "safe-zone circle "
-                f"({outside_ratio*100:.0f}% of detected detail). Review the maskable preview."
-            )
+                f"({outside_ratio*100:.0f}% of detected detail). Review the maskable preview.",
+            ))
 
     return warnings

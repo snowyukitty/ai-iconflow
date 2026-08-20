@@ -13,10 +13,18 @@
     python -m iconflow case new --slug my-app --essence save --device "letterform fusion" ...
     python -m iconflow case stats
     python -m iconflow setup
+    python -m iconflow demo   --out ./iconflow-demo [--json]
+
+``doctor``, ``check``, ``review``, ``ship``, and ``demo`` accept ``--json`` and
+then follow docs/AGENT_CONTRACT.md: stdout carries exactly one envelope, human
+lines go to stderr, and the exit code is 0 (ok), 1 (blocked by an IconFlow
+gate), or 2 (usage, configuration, or runtime failure).
 """
 from __future__ import annotations
 
 import argparse
+import contextlib
+import hashlib
 import importlib.metadata
 import importlib.resources
 import json
@@ -24,9 +32,102 @@ import os
 import re
 import subprocess
 import sys
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from .styles import PRESETS, STYLE_CATALOG
+
+# Commands whose result is a machine-readable Report (docs/AGENT_CONTRACT.md).
+JSON_COMMANDS = frozenset({"doctor", "check", "review", "ship", "demo"})
+DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
+JSON_HELP = "emit one docs/AGENT_CONTRACT.md envelope on stdout; human lines go to stderr"
+
+
+@dataclass
+class Report:
+    """Outcome of one command in the Agent Contract v1 envelope shape.
+
+    Commands keep printing their human lines; this object carries the same
+    facts with stable codes so ``--json`` never has to parse prose.
+    """
+
+    command: str
+    exit_code: int = 0
+    warnings: list[dict] = field(default_factory=list)
+    advisories: list[dict] = field(default_factory=list)
+    outputs: dict = field(default_factory=dict)
+    errors: list[dict] = field(default_factory=list)
+
+    def warn(self, code: str, message: str) -> None:
+        """Record a gating finding; the command is blocked (exit 1) unless it errors."""
+        self.warnings.append({"code": code, "message": str(message)})
+        self.exit_code = max(self.exit_code, 1)
+
+    def advise(self, code: str, message: str) -> None:
+        """Record a non-gating finding; it never changes the exit code."""
+        self.advisories.append({"code": code, "message": str(message)})
+
+    def error(self, code: str, message: str) -> None:
+        """Record a usage, configuration, or runtime failure (exit 2)."""
+        self.errors.append({"code": code, "message": str(message)})
+        self.exit_code = 2
+
+    @property
+    def status(self) -> str:
+        return {0: "ok", 1: "blocked"}.get(self.exit_code, "error")
+
+    def envelope(self) -> dict:
+        return {
+            "schema": 1,
+            "command": self.command,
+            "status": self.status,
+            "exit_code": self.exit_code,
+            "warnings": list(self.warnings),
+            "advisories": list(self.advisories),
+            "outputs": dict(self.outputs),
+            "errors": list(self.errors),
+        }
+
+
+def _abs(path: str | Path | None) -> str | None:
+    """Absolute string form for envelope paths (``None`` stays ``None``)."""
+    if path is None:
+        return None
+    return os.path.abspath(Path(path).expanduser())
+
+
+def _shell_quote(value: str) -> str:
+    """Quote a copy-paste path for both PowerShell and POSIX shells."""
+    return f'"{value}"' if re.search(r"[\s()&|;<>^]", value) else value
+
+
+def _toolchain() -> dict[str, str | None]:
+    """Versions the Review Packet records as provenance (never as authority)."""
+    from . import __version__
+    try:
+        iconflow_version = importlib.metadata.version("ai-iconflow")
+    except importlib.metadata.PackageNotFoundError:
+        iconflow_version = __version__
+    try:
+        import PIL
+        pillow_version = getattr(PIL, "__version__", None)
+    except ImportError:
+        pillow_version = None
+    chromium_version = None
+    try:
+        import playwright
+        catalog = Path(playwright.__file__).resolve().parent / "driver" / "package" / "browsers.json"
+        for browser in json.loads(catalog.read_text(encoding="utf-8")).get("browsers", []):
+            if browser.get("name") == "chromium":
+                chromium_version = browser.get("browserVersion") or None
+                break
+    except (ImportError, OSError, ValueError, AttributeError):
+        chromium_version = None
+    return {"iconflow": iconflow_version, "chromium": chromium_version, "pillow": pillow_version}
+
+
+def _file_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _version_at_least(current: str, required: tuple[int, ...]) -> bool:
@@ -66,6 +167,7 @@ def _resource(package: str, name: str):
         "presets": ("templates", "presets"),
         "templates": ("templates",),
         "docs": ("docs",),
+        "demo": ("demo",),
     }.get(package)
     if subdir is not None:
         source = Path(__file__).resolve().parent.parent.joinpath(*subdir, name)
@@ -77,6 +179,7 @@ def _resource(package: str, name: str):
         source_package = (
             "templates.presets" if package == "presets"
             else "templates" if package == "templates"
+            else "demo" if package == "demo"
             else "docs"
         )
         root = importlib.resources.files(source_package)
@@ -151,55 +254,84 @@ def _cmd_init(a) -> int:
     return 0
 
 
-def _cmd_ship(a) -> int:
+def _ship_approval(a):
+    """Resolve the reviewed approval ``ship`` must honour.
+
+    Returns ``(config, master, receipt, scores, contract_sha256)``. Raises
+    :class:`ConfigError` with a gate ``code`` when IconFlow's own rules block
+    the ship, and a plain one when the configuration itself is invalid.
+    """
+
+    from .casebook import parse_scores
+    from .config import (
+        GATE_NOT_READY, GATE_STALE_CONTRACT, GATE_STALE_SOURCE, ConfigError,
+        config_review_contract_digest, load_config, load_review_receipt,
+        svg_sha256, validate_ship_scores,
+    )
+
+    config = load_config(a.config)
+    master = config.master_path
+    if not master.is_file():
+        raise ConfigError(f"master SVG not found: {master}")
+    if a.review:
+        receipt = load_review_receipt(a.review, config)
+        return config, master, receipt, receipt.scores, receipt.contract_sha256
+
+    scores = parse_scores(a.scores) if a.scores is not None else config.review_scores
+    validate_ship_scores(scores)
+    if config.review_status not in {"approved", "shipped"}:
+        raise ConfigError(
+            "review.status must be 'approved' (or provide a ready Review Lab receipt)",
+            code=GATE_NOT_READY,
+        )
+    if not config.review_source_sha256:
+        raise ConfigError(
+            "approved config fallback requires review.source_sha256 "
+            "(or provide a ready Review Lab receipt)",
+            code=GATE_NOT_READY,
+        )
+    if config.review_source_sha256 != svg_sha256(master):
+        raise ConfigError(
+            "approved config review is stale: review.source_sha256 does not "
+            "match the current master SVG",
+            code=GATE_STALE_SOURCE,
+        )
+    if not config.review_contract_sha256:
+        raise ConfigError(
+            "approved config fallback requires review.contract_sha256 "
+            "from the reviewed contract (or provide a ready Review Lab receipt)",
+            code=GATE_NOT_READY,
+        )
+    if config.review_contract_sha256 != config_review_contract_digest(config):
+        raise ConfigError(
+            "approved config review is stale: review.contract_sha256 does not "
+            "match the current source, project, targets, or visual transforms",
+            code=GATE_STALE_CONTRACT,
+        )
+    return config, master, None, scores, config.review_contract_sha256
+
+
+def _cmd_ship(a) -> Report:
     """Run the fail-closed quality gate, then delegate to the low-level build."""
 
     from .build import build
-    from .casebook import parse_scores
-    from .config import (
-        ConfigError, config_review_contract_digest, load_config,
-        load_review_receipt, svg_sha256, validate_ship_scores,
-    )
-    from .qa import check
+    from .config import GATE_CODES, GATE_QA_WARNINGS, ConfigError, svg_sha256
+    from .qa import check, warning_code
 
+    report = Report("ship")
     try:
-        config = load_config(a.config)
-        master = config.master_path
-        if not master.is_file():
-            raise ConfigError(f"master SVG not found: {master}")
-        receipt = load_review_receipt(a.review, config) if a.review else None
-        if receipt:
-            scores = receipt.scores
-        else:
-            scores = parse_scores(a.scores) if a.scores is not None else config.review_scores
-            validate_ship_scores(scores)
-            if config.review_status not in {"approved", "shipped"}:
-                raise ConfigError(
-                    "review.status must be 'approved' (or provide a ready Review Lab receipt)"
-                )
-            if not config.review_source_sha256:
-                raise ConfigError(
-                    "approved config fallback requires review.source_sha256 "
-                    "(or provide a ready Review Lab receipt)"
-                )
-            if config.review_source_sha256 != svg_sha256(master):
-                raise ConfigError(
-                    "approved config review is stale: review.source_sha256 does not "
-                    "match the current master SVG"
-                )
-            if not config.review_contract_sha256:
-                raise ConfigError(
-                    "approved config fallback requires review.contract_sha256 "
-                    "from the reviewed contract (or provide a ready Review Lab receipt)"
-                )
-            if config.review_contract_sha256 != config_review_contract_digest(config):
-                raise ConfigError(
-                    "approved config review is stale: review.contract_sha256 does not "
-                    "match the current source, project, targets, or visual transforms"
-                )
-    except (ConfigError, ValueError) as exc:
+        config, master, receipt, scores, contract_sha256 = _ship_approval(a)
+    except ConfigError as exc:
         print(f"iconflow ship: {exc}", file=sys.stderr)
-        return 2
+        if exc.code in GATE_CODES:
+            report.warn(exc.code, str(exc))
+        else:
+            report.error("config", str(exc))
+        return report
+    except ValueError as exc:
+        print(f"iconflow ship: {exc}", file=sys.stderr)
+        report.error("config", str(exc))
+        return report
 
     try:
         warnings = check(
@@ -209,13 +341,18 @@ def _cmd_ship(a) -> int:
         )
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"iconflow ship: QA could not run: {exc}", file=sys.stderr)
-        return 2
+        report.error("runtime", f"QA could not run: {exc}")
+        return report
     if warnings:
         print(f"SHIP BLOCKED — automated check found {len(warnings)} warning(s):", file=sys.stderr)
+        report.warn(
+            GATE_QA_WARNINGS, f"automated check found {len(warnings)} warning(s)",
+        )
         for warning in warnings:
             print(f"  ! {warning}", file=sys.stderr)
+            report.warn(warning_code(warning), warning)
         print("Fix the warnings, regenerate review.png, and rescore before shipping.", file=sys.stderr)
-        return 1
+        return report
 
     try:
         output_path = (
@@ -238,7 +375,8 @@ def _cmd_ship(a) -> int:
         )
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"iconflow ship: build failed: {exc}", file=sys.stderr)
-        return 2
+        report.error("runtime", f"build failed: {exc}")
+        return report
     print(f"SHIP PASSED — built {len(produced)} files into {output_path}:")
     for path in produced:
         print(f"  {path}")
@@ -246,7 +384,18 @@ def _cmd_ship(a) -> int:
     if receipt:
         print(f"Review receipt: {receipt.source}")
     print(f"Record the shipped case in: {config.casebook_path}")
-    return 0
+    report.outputs = {
+        "files": [_abs(output_path / path) for path in produced],
+        "receipt": _abs(receipt.source) if receipt else None,
+        "source_sha256": svg_sha256(master),
+        "contract_sha256": contract_sha256,
+        "scores": dict(scores),
+        # Review Packet v1: provenance recorded when present, never required.
+        "toolchain": _toolchain(),
+        "artifacts": receipt.artifacts if receipt else None,
+        "reviewer": receipt.reviewer if receipt else None,
+    }
+    return report
 
 
 def _parse_pairs(items: list[str], *, value_json: bool) -> dict:
@@ -290,12 +439,16 @@ def _web_options(a):
     )
 
 
-def _cmd_review(a) -> int:
+def _cmd_review(a) -> Report:
     from .build import normalize_targets
-    from .config import ConfigError, load_config
-    from .qa import check, tray_template_warnings
-    from .review import ReviewOptions, contact_sheet, interactive_review
+    from .config import ConfigError, load_config, svg_sha256
+    from .qa import check, tray_template_warnings, warning_code
+    from .review import (
+        ReviewOptions, contact_sheet, interactive_review, receipt_seed,
+        receipt_template,
+    )
 
+    report = Report("review")
     try:
         config = load_config(a.config) if a.config else None
         if a.master:
@@ -357,22 +510,41 @@ def _cmd_review(a) -> int:
         )
     except (ConfigError, ValueError) as exc:
         print(f"iconflow review: {exc}", file=sys.stderr)
-        return 2
+        report.error("config", str(exc))
+        return report
 
     out = contact_sheet(
         master, a.out, background_color=background, color_scheme=color_scheme,
     )
     print(f"Review sheet -> {out}")
     print("Open it (or Read it as an image) and score against docs/REVIEW_CHECKLIST.md.")
+    html_out = None
     if a.html:
         html_out = interactive_review(master, a.html, options=options)
         print(f"Review Lab -> {html_out}")
         print("Export its JSON receipt and pass it to `iconflow ship --review <receipt>`.")
+    template_out = None
+    if getattr(a, "receipt_template", None):
+        template_out = receipt_template(master, a.receipt_template, options=options)
+        print(f"Receipt template -> {template_out}")
+        print("Score every axis, set status to \"ready\", then `iconflow ship --review <receipt>`.")
     if warnings:
         print(f"Review includes {len(warnings)} automated warning(s); ship remains blocked.")
+    for warning in warnings:
+        report.warn(warning_code(warning), warning)
     for advisory in tray_advisories:
         print(f"Tray template advisory: {advisory}")
-    return 0
+        report.advise(warning_code(advisory), advisory)
+    seed = receipt_seed(master, options=options)
+    report.outputs = {
+        "sheet": _abs(out),
+        "html": _abs(html_out),
+        "receipt_template": _abs(template_out),
+        "source_sha256": svg_sha256(master),
+        "contract_sha256": seed["contract_sha256"],
+        "targets": list(targets),
+    }
+    return report
 
 
 def _cmd_compare(a) -> int:
@@ -387,8 +559,11 @@ def _cmd_compare(a) -> int:
     return 0
 
 
-def _cmd_check(a) -> int:
-    from .qa import check, tray_template_warnings
+def _cmd_check(a) -> Report:
+    from .config import svg_sha256
+    from .qa import check, tray_template_warnings, warning_code
+
+    report = Report("check")
     warnings = check(
         a.master, maskable=not a.no_maskable_audit, maskable_bg=a.bg,
     )
@@ -400,17 +575,25 @@ def _cmd_check(a) -> int:
             )
         except (OSError, RuntimeError, ValueError) as exc:
             print(f"iconflow check: tray audit could not run: {exc}", file=sys.stderr)
-            return 2
-    if not warnings and not advisories:
-        print("OK — no automated warnings. Still do the visual review.")
-        return 0
+            report.error("runtime", f"tray audit could not run: {exc}")
+            return report
     if warnings:
         print(f"{len(warnings)} warning(s):")
         for w in warnings:
             print(f"  ! {w}")
+            report.warn(warning_code(w), w)
+    else:
+        print("OK — no automated warnings. Still do the visual review.")
+    # Advisories inform the designer; they never turn a clean check into a block.
     for advisory in advisories:
         print(f"  ~ tray template advisory: {advisory}")
-    return 1
+        report.advise(warning_code(advisory), advisory)
+    report.outputs = {
+        "source": _abs(a.master),
+        "source_sha256": svg_sha256(a.master),
+        "tray_source": _abs(a.tray_svg) if a.tray_svg else None,
+    }
+    return report
 
 
 def _cmd_render(a) -> int:
@@ -614,142 +797,295 @@ def _cmd_case_atlas(a) -> int:
 
 def _cmd_setup(a) -> int:
     print("Installing Playwright Chromium...")
-    return subprocess.call([sys.executable, "-m", "playwright", "install", "chromium"])
+    # `demo --json --setup`: the installer's own output must not reach stdout.
+    sink = sys.__stderr__ if getattr(a, "json", False) else None
+    return subprocess.call(
+        [sys.executable, "-m", "playwright", "install", "chromium"], stdout=sink,
+    )
 
 
-def _cmd_doctor(a) -> int:
+def _writable_dir_probe(path: Path) -> bool:
+    """True when ``path`` or its nearest existing ancestor is a writable directory."""
+    probe = path
+    while not probe.exists() and probe != probe.parent:
+        probe = probe.parent
+    return probe.is_dir() and os.access(probe, os.W_OK)
+
+
+def _cmd_doctor(a) -> Report:
     """Diagnose install/runtime readiness without mutating the environment."""
 
-    failures = 0
+    python = _shell_quote(sys.executable)
+    report = Report("doctor")
+    checks: list[dict] = []
 
-    def report(ok: bool | None, label: str, detail: str = "") -> None:
-        nonlocal failures
+    def record(ok: bool | None, label: str, detail: str = "", fix: str | None = None) -> None:
+        # Human: PASS / SKIP / FAIL. Machine: PASS / WARN / FAIL — a skipped
+        # check is reported as WARN because nothing was verified.
         state = "PASS" if ok is True else "SKIP" if ok is None else "FAIL"
-        if ok is False:
-            failures += 1
         suffix = f" — {detail}" if detail else ""
         print(f"{state:<4} {label}{suffix}")
+        checks.append({
+            "name": label,
+            "status": "PASS" if ok is True else "WARN" if ok is None else "FAIL",
+            "detail": detail,
+            "fix": fix if ok is False else None,
+        })
+        if ok is False:
+            report.warn(re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-"), f"{label}: {detail}")
 
-    report(sys.version_info >= (3, 10), "Python", sys.version.split()[0])
+    record(
+        sys.version_info >= (3, 10), "Python", sys.version.split()[0],
+        fix="Install Python 3.10 or newer and recreate the virtual environment: python3 -m venv .venv",
+    )
     try:
         import PIL
         pillow_version = getattr(PIL, "__version__", "unknown")
-        report(
+        record(
             _version_at_least(pillow_version, (10, 0)),
             "Pillow",
             f"{pillow_version} (requires >=10.0)",
+            fix=f'{python} -m pip install "Pillow>=10.0"',
         )
     except ImportError as exc:
-        report(False, "Pillow", str(exc))
+        record(False, "Pillow", str(exc), fix=f'{python} -m pip install "Pillow>=10.0"')
     try:
         import playwright  # noqa: F401
         playwright_version = importlib.metadata.version("playwright")
-        report(
+        record(
             _version_at_least(playwright_version, (1, 40)),
             "Playwright package",
             f"{playwright_version} (requires >=1.40)",
+            fix=f'{python} -m pip install "playwright>=1.40"',
         )
     except (ImportError, importlib.metadata.PackageNotFoundError) as exc:
-        report(False, "Playwright package", str(exc))
+        record(
+            False, "Playwright package", str(exc),
+            fix=f'{python} -m pip install "playwright>=1.40"',
+        )
 
     missing_resources: list[str] = []
-    for preset in PRESETS:
-        try:
-            if not _resource("presets", f"{preset}.svg").is_file():
-                missing_resources.append(f"presets/{preset}.svg")
-        except (ModuleNotFoundError, TypeError):
-            missing_resources.append(f"presets/{preset}.svg")
-    for template in ("master.svg", "grid-overlay.svg"):
-        try:
-            if not _resource("templates", template).is_file():
-                missing_resources.append(f"templates/{template}")
-        except (ModuleNotFoundError, TypeError):
-            missing_resources.append(f"templates/{template}")
-    for doc in ("DESIGN_PLAYBOOK.md", "REVIEW_CHECKLIST.md", "OUTPUT_TARGETS.md"):
-        try:
-            if not _resource("docs", doc).is_file():
-                missing_resources.append(f"docs/{doc}")
-        except (ModuleNotFoundError, TypeError):
-            missing_resources.append(f"docs/{doc}")
-    report(not missing_resources, "Packaged resources",
-           ", ".join(missing_resources) if missing_resources
-           else f"{len(PRESETS)} presets + base templates + docs")
+    resource_sets = (
+        ("presets", [f"{preset}.svg" for preset in PRESETS]),
+        ("templates", ["master.svg", "grid-overlay.svg"]),
+        ("docs", ["DESIGN_PLAYBOOK.md", "REVIEW_CHECKLIST.md", "OUTPUT_TARGETS.md"]),
+        ("demo", list(DEMO_FILES)),
+    )
+    for package, names in resource_sets:
+        for name in names:
+            try:
+                if not _resource(package, name).is_file():
+                    missing_resources.append(f"{package}/{name}")
+            except (ModuleNotFoundError, TypeError):
+                missing_resources.append(f"{package}/{name}")
+    record(
+        not missing_resources, "Packaged resources",
+        ", ".join(missing_resources) if missing_resources
+        else f"{len(PRESETS)} presets + base templates + docs + demo family",
+        fix=f"{python} -m pip install --force-reinstall --no-deps ai-iconflow",
+    )
 
     config = None
     config_path = Path(a.config) if a.config else Path("iconflow.toml")
+    config_arg = _shell_quote(str(config_path))
     if config_path.exists() or a.config:
         try:
             from .config import config_review_contract_digest, load_config, svg_sha256
             config = load_config(config_path)
-            report(True, "Project config", str(config.source))
+            record(True, "Project config", str(config.source))
             master_exists = config.master_path.is_file()
-            report(master_exists, "Master SVG", str(config.master_path))
+            record(
+                master_exists, "Master SVG", str(config.master_path),
+                fix=f"{python} -m iconflow new flat-geometric --out {_shell_quote(str(config.master_path))}",
+            )
             if config.tray_svg_path:
-                report(
+                record(
                     config.tray_svg_path.is_file(),
                     "Semantic tray SVG",
                     str(config.tray_svg_path),
+                    fix=f"{python} -m iconflow new flat-geometric --out {_shell_quote(str(config.tray_svg_path))}",
                 )
+            re_review = f"{python} -m iconflow review --config {config_arg} --html review.html"
             if config.review_source_sha256 and master_exists:
                 current_digest = svg_sha256(config.master_path)
-                report(
+                record(
                     config.review_source_sha256 == current_digest,
                     "Approved source hash",
                     "matches current master" if config.review_source_sha256 == current_digest
                     else "stale review.source_sha256",
+                    fix=re_review,
                 )
             else:
-                report(None, "Approved source hash", "no bound approved fallback")
+                record(None, "Approved source hash", "no bound approved fallback")
             if config.review_contract_sha256 and master_exists:
                 current_contract = config_review_contract_digest(config)
-                report(
+                record(
                     config.review_contract_sha256 == current_contract,
                     "Approved review contract",
                     "matches current build" if config.review_contract_sha256 == current_contract
                     else "stale review.contract_sha256",
+                    fix=re_review,
                 )
             else:
-                report(None, "Approved review contract", "no bound approved fallback")
-            output_probe = config.output_path
-            while not output_probe.exists() and output_probe != output_probe.parent:
-                output_probe = output_probe.parent
-            report(
-                output_probe.is_dir() and os.access(output_probe, os.W_OK),
+                record(None, "Approved review contract", "no bound approved fallback")
+            record(
+                _writable_dir_probe(config.output_path),
                 "Writable build output",
                 str(config.output_path),
+                fix=f"mkdir {_shell_quote(str(config.output_path))}",
             )
         except (OSError, ValueError) as exc:
-            report(False, "Project config", str(exc))
+            record(
+                False, "Project config", str(exc),
+                fix=f"{python} -m iconflow init --out {config_arg} --force",
+            )
     else:
-        report(None, "Project config", "no iconflow.toml in this directory")
+        record(None, "Project config", "no iconflow.toml in this directory")
 
     from .casebook import default_casebook_dir
     casebook = (
         config.casebook_path if config is not None
         else default_casebook_dir().expanduser().resolve(strict=False)
     )
-    probe = casebook
-    while not probe.exists() and probe != probe.parent:
-        probe = probe.parent
-    report(probe.is_dir() and os.access(probe, os.W_OK), "Writable casebook", str(casebook))
+    record(
+        _writable_dir_probe(casebook), "Writable casebook", str(casebook),
+        fix=f"mkdir {_shell_quote(str(casebook))}",
+    )
 
+    chromium = "SKIPPED"
     if a.no_browser:
-        report(None, "Chromium runtime", "skipped by --no-browser")
+        record(None, "Chromium runtime", "skipped by --no-browser")
     else:
         try:
             from playwright.sync_api import sync_playwright
             with sync_playwright() as manager:
                 browser = manager.chromium.launch(headless=True)
                 browser.close()
-            report(True, "Chromium runtime")
+            record(True, "Chromium runtime")
+            chromium = "PASS"
         except Exception as exc:  # Playwright exposes several runtime-specific exceptions
-            report(False, "Chromium runtime", f"{exc} (run `iconflow setup`)")
+            record(
+                False, "Chromium runtime", f"{exc} (run `iconflow setup`)",
+                fix=f"{python} -m iconflow setup",
+            )
+            chromium = "FAIL"
 
+    report.outputs = {"checks": checks, "chromium": chromium}
+    failures = len(report.warnings)
     if failures:
         print(f"Doctor found {failures} blocking issue(s).", file=sys.stderr)
-        return 1
+        return report
     print("IconFlow is ready.")
-    return 0
+    return report
+
+
+def _materialize_demo(out: Path, *, force: bool) -> dict[str, Path]:
+    """Copy the packaged, already-reviewed brand family into ``out``."""
+    if out.is_symlink():
+        raise ValueError(f"destination must not be a symlink: {out}")
+    if out.exists() and not force:
+        raise ValueError(f"destination already exists: {out} (use --force to reuse it)")
+    try:
+        sources = {name: _resource("demo", name) for name in DEMO_FILES}
+        missing = [name for name, source in sources.items() if not source.is_file()]
+    except (ModuleNotFoundError, TypeError) as exc:
+        raise RuntimeError(f"packaged demo family is unavailable: {exc}") from exc
+    if missing:
+        raise RuntimeError(
+            "packaged demo family is incomplete: missing " + ", ".join(missing)
+        )
+    out.mkdir(parents=True, exist_ok=True)
+    copied: dict[str, Path] = {}
+    for name, source in sources.items():
+        destination = out / name
+        if destination.is_symlink():
+            raise ValueError(f"destination must not be a symlink: {destination}")
+        destination.write_bytes(source.read_bytes())
+        copied[name] = destination
+    return copied
+
+
+def _cmd_demo(a) -> Report:
+    """Prove the engine end to end on the packaged brand family."""
+
+    report = Report("demo")
+    out = Path(os.path.abspath(Path(a.out).expanduser()))
+    try:
+        files = _materialize_demo(out, force=a.force)
+    except ValueError as exc:
+        print(f"iconflow demo: {exc}", file=sys.stderr)
+        report.error("usage", str(exc))
+        return report
+    except (OSError, RuntimeError) as exc:
+        print(f"iconflow demo: {exc}", file=sys.stderr)
+        report.error("runtime", str(exc))
+        return report
+    print(f"Demo family -> {out}")
+    for name in DEMO_FILES:
+        print(f"  {name}")
+
+    if a.setup:
+        print("Step setup: iconflow setup")
+        setup_code = _cmd_setup(a)
+        if setup_code != 0:
+            print("iconflow demo: setup failed; Chromium is required for review and ship", file=sys.stderr)
+            report.error("runtime", f"iconflow setup exited with {setup_code}")
+            report.outputs = {"out": str(out), "steps": [], "files": [], "receipt": None}
+            return report
+
+    from .config import load_config
+    config = load_config(files["iconflow.toml"])
+    config_arg = str(files["iconflow.toml"])
+    plan = [
+        ("doctor", ["doctor", "--config", config_arg]),
+        ("check", [
+            "check", str(files["master.svg"]), "--bg", config.background_color,
+            "--tray-svg", str(files["tray.svg"]),
+            "--tray-template-mode", config.tray_template_mode,
+        ]),
+        ("review", [
+            "review", "--config", config_arg,
+            "--out", str(out / "review.png"), "--html", str(out / "review.html"),
+        ]),
+        ("ship", ["ship", "--config", config_arg, "--review", str(files["master-review.json"])]),
+    ]
+    parser = build_parser()
+    steps: list[dict] = []
+    shipped: Report | None = None
+    for name, argv in plan:
+        print(f"Step {name}: iconflow {' '.join(argv)}")
+        step = _execute(parser.parse_args(argv))
+        assert isinstance(step, Report)
+        steps.append({"name": name, "status": step.status, "exit_code": step.exit_code})
+        report.warnings.extend(step.warnings)
+        report.advisories.extend(step.advisories)
+        report.errors.extend(step.errors)
+        report.exit_code = max(report.exit_code, step.exit_code)
+        if step.exit_code != 0:
+            print(f"iconflow demo: step '{name}' {step.status} (exit {step.exit_code}); stopping.", file=sys.stderr)
+            break
+        if name == "ship":
+            shipped = step
+
+    evidence = {
+        "review_png_sha256": out / "review.png",
+        "review_html_sha256": out / "review.html",
+    }
+    report.outputs = {
+        "out": str(out),
+        "steps": steps,
+        "files": list(shipped.outputs.get("files", [])) if shipped else [],
+        "receipt": str(files["master-review.json"]),
+        # Review Packet v1 artifact hashes for the evidence this run produced.
+        "artifacts": {
+            key: _file_sha256(path) if path.is_file() else None
+            for key, path in evidence.items()
+        },
+    }
+    if report.exit_code == 0:
+        print(f"DEMO PASSED — doctor, check, review, and ship agreed on {out}")
+        print(f"Open {out / 'review.html'} to see the evidence; edit master.svg and re-run ship to watch it fail closed.")
+    return report
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -802,6 +1138,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--scores",
         help="six-axis override for an approved config, e.g. 'legibility=4 ...'",
     )
+    ship.add_argument("--json", action="store_true", help=JSON_HELP)
     ship.set_defaults(func=_cmd_ship)
 
     b = sub.add_parser("build", help="build icon set(s) from a master SVG")
@@ -860,6 +1197,9 @@ def build_parser() -> argparse.ArgumentParser:
                    help="macOS template extraction override")
     r.add_argument("--color-scheme", choices=["light", "dark"],
                    help="static review sheet SVG color scheme")
+    r.add_argument("--receipt-template", metavar="JSON",
+                   help="also write an unscored receipt bound to this source and contract")
+    r.add_argument("--json", action="store_true", help=JSON_HELP)
     r.set_defaults(func=_cmd_review)
 
     cmp = sub.add_parser("compare", help="bake-off: compare candidate SVGs side by side")
@@ -877,6 +1217,7 @@ def build_parser() -> argparse.ArgumentParser:
                    help="also audit the macOS template derived from this tray source")
     c.add_argument("--tray-template-mode", choices=["auto", "alpha", "contrast"],
                    default="auto", help="extraction mode used by the tray audit")
+    c.add_argument("--json", action="store_true", help=JSON_HELP)
     c.set_defaults(func=_cmd_check)
 
     rn = sub.add_parser("render", help="rasterize a master SVG to exact pixel size(s)")
@@ -975,8 +1316,47 @@ def build_parser() -> argparse.ArgumentParser:
     doctor = sub.add_parser("doctor", help="diagnose package resources and Chromium readiness")
     doctor.add_argument("--config", help="also validate this project configuration")
     doctor.add_argument("--no-browser", action="store_true", help="skip launching Chromium")
+    doctor.add_argument("--json", action="store_true", help=JSON_HELP)
     doctor.set_defaults(func=_cmd_doctor)
+
+    demo = sub.add_parser(
+        "demo",
+        help="materialize the packaged, reviewed brand family and run doctor → check → review → ship",
+    )
+    demo.add_argument("--out", required=True, help="directory to create (must not exist unless --force)")
+    demo.add_argument("--setup", action="store_true", help="run `iconflow setup` first (network)")
+    demo.add_argument("--force", action="store_true", help="reuse an existing --out directory")
+    demo.add_argument("--json", action="store_true", help=JSON_HELP)
+    demo.set_defaults(func=_cmd_demo)
     return p
+
+
+
+def _execute(args) -> Report | int:
+    """Run one parsed command, translating stray exceptions into exit 2.
+
+    Contract commands always come back as a :class:`Report` so ``--json`` (and
+    ``demo``, which runs them in-process) can read the structured outcome.
+    """
+    report = Report(args.cmd) if args.cmd in JSON_COMMANDS else None
+    try:
+        return args.func(args)
+    except FileNotFoundError as exc:
+        print(f"iconflow {args.cmd}: file not found: {exc.filename or exc}", file=sys.stderr)
+        if report is None:
+            return 2
+        report.error("file-not-found", f"file not found: {exc.filename or exc}")
+    except PermissionError as exc:
+        print(f"iconflow {args.cmd}: permission denied: {exc.filename or exc}", file=sys.stderr)
+        if report is None:
+            return 2
+        report.error("permission-denied", f"permission denied: {exc.filename or exc}")
+    except (OSError, RuntimeError, ValueError) as exc:
+        print(f"iconflow {args.cmd}: {exc}", file=sys.stderr)
+        if report is None:
+            return 2
+        report.error("config" if isinstance(exc, ValueError) else "runtime", str(exc))
+    return report
 
 
 def main(argv=None) -> int:
@@ -988,14 +1368,13 @@ def main(argv=None) -> int:
         except (AttributeError, ValueError):
             pass
     args = build_parser().parse_args(argv)
-    try:
-        return args.func(args)
-    except FileNotFoundError as exc:
-        print(f"iconflow {args.cmd}: file not found: {exc.filename or exc}", file=sys.stderr)
-        return 2
-    except PermissionError as exc:
-        print(f"iconflow {args.cmd}: permission denied: {exc.filename or exc}", file=sys.stderr)
-        return 2
-    except (OSError, RuntimeError, ValueError) as exc:
-        print(f"iconflow {args.cmd}: {exc}", file=sys.stderr)
-        return 2
+    json_mode = args.cmd in JSON_COMMANDS and bool(getattr(args, "json", False))
+    stdout = sys.stdout
+    # In JSON mode every human line moves to stderr so stdout is exactly one object.
+    with contextlib.redirect_stdout(sys.stderr) if json_mode else contextlib.nullcontext():
+        result = _execute(args)
+    if isinstance(result, Report):
+        if json_mode:
+            print(json.dumps(result.envelope(), ensure_ascii=False, indent=2), file=stdout)
+        return result.exit_code
+    return result

@@ -7,12 +7,15 @@ shipping. This file is the contract for Claude, Codex, and any other agent.
 
 ## The procedure (follow in order)
 
-Before step 0, resolve this toolkit's absolute path and runner. Prefer its venv
-Python (`.venv\Scripts\python.exe` on Windows or `.venv/bin/python` on POSIX),
-run `-m iconflow setup` once if needed, and use that interpreter for every
-command below. When invoked from another repository, keep the shell in the
-consuming project so its config and final sources land there; use absolute paths
-for toolkit docs and `work/<slug>/` drafts.
+Before step 0, resolve the runner. `python -m iconflow` below means the
+`iconflow` command on PATH when the package is installed (`uv tool install
+ai-iconflow`, `pipx install ai-iconflow`, or `pip install ai-iconflow` — once
+published on PyPI); from a source checkout use that checkout's venv interpreter
+(`.venv\Scripts\python.exe` on Windows or `.venv/bin/python` on POSIX). Run
+`-m iconflow setup` once if needed, and use that one runner for every command
+below. When invoked from another repository, keep the shell in the consuming
+project so its config and final sources land there; use absolute paths for
+toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
 
 0. **Read** `docs/LEARNINGS.md` — the rules distilled from every previously
    shipped icon. This is what makes the system self-evolving: past mistakes
@@ -98,25 +101,42 @@ not the repo root — e.g. `work/myapp/a.svg`, `work/myapp/bake.png`. The final
   unrecorded icon teaches the system nothing.
 
 ## Environment
-- Needs Python + Playwright Chromium + Pillow. One-time: `python -m iconflow setup`
-  installs the Chromium runtime. The repository setup scripts (`setup.ps1` on
-  Windows and `setup.sh` on macOS/Linux) also install the open Agent Skill into
-  the common personal discovery locations.
+- Needs Python 3.10+ + Playwright Chromium + Pillow. Two ways to have the runner:
+  - **PATH install (primary, once `ai-iconflow` is published on PyPI):**
+    `uv tool install ai-iconflow`, `pipx install ai-iconflow`, or
+    `pip install ai-iconflow` in a venv. Then `iconflow` (≡ `python -m iconflow`)
+    is on PATH; run `iconflow setup` once (the only network step) and
+    `iconflow doctor` to prove the environment. The docs this file cites are
+    packaged with the wheel
+    (`python -c "from importlib.resources import files; print(files('iconflow.resources.docs'))"`).
+  - **Checkout / contributor (editable) mode — the only mode until PyPI is live:**
+    clone the repository and run `scripts/setup.ps1` (Windows) or
+    `scripts/setup.sh` (macOS/Linux). Each creates `.venv`, installs the checkout
+    editable into it, runs `iconflow setup`, and installs the open Agent Skill
+    into the common personal discovery locations. Use that venv interpreter
+    (`.venv\Scripts\python.exe` / `.venv/bin/python`) as the runner.
+- One-time `python -m iconflow setup` installs the Chromium runtime in either mode.
 - Pure stdlib + two pip deps. No API keys, no external services, fully offline.
 - Rendering runs network-isolated with page JavaScript, external resources, and
   animation disabled. Treat a safety warning as source content to remove, not a
   renderer feature to re-enable.
+- Machine consumers (CI, other agents) read `--json` envelopes and the 0/1/2 exit
+  codes from `docs/AGENT_CONTRACT.md`; the PR Proof action in
+  `docs/PROOF_ACTION.md` is the reference consumer.
 
 ## Invocation from another project
-This repo is self-contained. For the smoothest cross-project use, install it
-editable once into the toolkit venv:
-```
-path\to\ai-iconflow\.venv\Scripts\python.exe -m pip install -e path\to\ai-iconflow
-```
+With a PATH install nothing else is needed: run `iconflow ...` from the
+consuming repository; its `iconflow.toml`, `master.svg`, receipt, and casebook
+stay there.
 
-Then agents can call `python -m iconflow ...` from any consuming repo. If it is
-not installed editable, run commands from the `ai-iconflow` checkout and pass
-absolute paths to candidate SVGs and output files.
+From a checkout, the smoothest cross-project use is still the toolkit venv,
+which the setup scripts already install editable:
+```
+path\to\ai-iconflow\.venv\Scripts\python.exe -m iconflow ...
+```
+(or `python -m pip install -e path\to\ai-iconflow` into any other interpreter).
+If it is not installed editable, run commands from the `ai-iconflow` checkout and
+pass absolute paths to candidate SVGs and output files.
 
 For Windows desktop shortcuts, prefer the high-level helper when launching a
 PowerShell script:

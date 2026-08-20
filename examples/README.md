@@ -29,6 +29,14 @@ consuming project uses:
 python -m iconflow ship --config examples/iconflow-balloon/iconflow.toml
 ```
 
+`community-case/` is the third, deliberately minimal, directory: the three
+files a case PR has to carry (`iconflow.toml`, `master.svg`,
+`master-review.json`) for one reviewed Theme World, Keepsake Knot, with a
+genuine source- and contract-bound receipt. It is the fixture behind the case
+PR template and the PR Proof action (`docs/PROOF_ACTION.md`); see its README
+for the three outcomes it reproduces (clean pass, QA-warning fail, stale-receipt
+fail).
+
 Read the two case files first. They record what failed *before* the shipped
 version — a carried object that inherited the previous one's 16px failure, an
 outline that was the whole silhouette and knew it too late, a canopy that read

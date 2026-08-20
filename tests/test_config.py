@@ -236,12 +236,15 @@ class ConfigTests(unittest.TestCase):
         write_config(config)
         return path
 
+    # An approved-config fallback that is incomplete, unapproved, or stale is
+    # blocked by IconFlow's own gate (exit 1, docs/AGENT_CONTRACT.md); only a
+    # malformed configuration is a configuration failure (exit 2).
     def test_ship_blocks_incomplete_scores_before_qa(self):
         path = self._ship_config({"legibility": 4})
         with mock.patch("iconflow.qa.check") as check, \
              contextlib.redirect_stderr(io.StringIO()):
             code = main(["ship", "--config", str(path)])
-        self.assertEqual(code, 2)
+        self.assertEqual(code, 1)
         check.assert_not_called()
 
     def test_ship_requires_explicit_approval_without_receipt(self):
@@ -253,7 +256,7 @@ class ConfigTests(unittest.TestCase):
         with mock.patch("iconflow.qa.check") as check, \
              contextlib.redirect_stderr(io.StringIO()):
             code = main(["ship", "--config", str(path)])
-        self.assertEqual(code, 2)
+        self.assertEqual(code, 1)
         check.assert_not_called()
 
     def test_approved_fallback_requires_bound_source_hash(self):
@@ -270,7 +273,7 @@ class ConfigTests(unittest.TestCase):
         with mock.patch("iconflow.qa.check") as check, \
              contextlib.redirect_stderr(io.StringIO()):
             code = main(["ship", "--config", str(path)])
-        self.assertEqual(code, 2)
+        self.assertEqual(code, 1)
         check.assert_not_called()
 
     def test_approved_fallback_requires_current_build_contract(self):
@@ -287,7 +290,7 @@ class ConfigTests(unittest.TestCase):
         with mock.patch("iconflow.qa.check") as check, \
              contextlib.redirect_stderr(io.StringIO()):
             code = main(["ship", "--config", str(path)])
-        self.assertEqual(code, 2)
+        self.assertEqual(code, 1)
         check.assert_not_called()
 
         path.write_text(
@@ -297,7 +300,7 @@ class ConfigTests(unittest.TestCase):
         with mock.patch("iconflow.qa.check") as check, \
              contextlib.redirect_stderr(io.StringIO()):
             code = main(["ship", "--config", str(path)])
-        self.assertEqual(code, 2)
+        self.assertEqual(code, 1)
         check.assert_not_called()
 
     def test_ready_receipt_can_approve_and_bind_ship(self):

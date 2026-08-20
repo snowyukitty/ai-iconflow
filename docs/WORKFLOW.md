@@ -93,6 +93,22 @@ first→final score movement, taxonomy concentration, status, and undistilled
 lessons visible to people. Follow `EVOLUTION.md` whenever either surface flags
 an evolution target or `DISTILL NOW`.
 
+## Machine output
+
+`doctor`, `check`, `review`, `ship`, and `demo` accept `--json`. Stdout then
+carries exactly one envelope (`schema`, `command`, `status`, `exit_code`,
+`warnings`, `advisories`, `outputs`, `errors`) and every human line moves to
+stderr, so an agent or CI job reads codes such as `stroke-floor` or
+`receipt-stale-source` instead of prose. Exit codes mean the same thing with or
+without `--json`: `0` completed (advisories allowed), `1` blocked by an IconFlow
+gate (QA warnings, stale receipt, axis < 4, doctor FAIL), `2` usage,
+configuration, or runtime failure. `review --receipt-template receipt.json`
+also writes an unscored receipt bound to the current source and contract, which
+an agent fills in and hands to `ship --review`. The frozen shape, the warning
+codes, and the optional Review Packet fields are in
+[`AGENT_CONTRACT.md`](AGENT_CONTRACT.md); `iconflow demo --out DIR` runs the
+whole loop on the packaged brand family.
+
 ## Security and determinism
 
 SVG is treated as untrusted render input. Before Chromium sees it, IconFlow
