@@ -97,7 +97,7 @@
   const cardOn = q('[data-card-on]');
   const status = q('[data-remix-status]');
 
-  const paint = (img) => {
+  const paint = (img, s) => {
     sizeCanvases.forEach((canvas) => {
       const size = Number(canvas.dataset.native);
       const ctx = canvas.getContext('2d');
@@ -117,38 +117,45 @@
     wctx.drawImage(img, 0, 0, 128, 128);
     const data = wctx.getImageData(0, 0, 128, 128);
     const px = data.data;
-    const [cr, cg, cb] = hexToRgb(state.card);
+    const [cr, cg, cb] = hexToRgb(s.card);
     const sil = silhouette.getContext('2d').createImageData(128, 128);
     const tpl = template.getContext('2d').createImageData(128, 128);
     for (let i = 0; i < px.length; i += 4) {
       const a = px[i + 3];
-      const onCard = state.cardOn && Math.abs(px[i] - cr) + Math.abs(px[i + 1] - cg) + Math.abs(px[i + 2] - cb) < 90;
+      const onCard = s.cardOn && Math.abs(px[i] - cr) + Math.abs(px[i + 1] - cg) + Math.abs(px[i + 2] - cb) < 90;
       const visible = a > 128 && !onCard;
       sil.data[i] = sil.data[i + 1] = sil.data[i + 2] = visible ? 255 : 0;
       sil.data[i + 3] = 255;
-      const opaque = a > 128;
+      // macOS reads the source alpha as-is (iconflow's 'alpha' template mode),
+      // so keep the anti-aliased coverage instead of thresholding it.
       tpl.data[i] = tpl.data[i + 1] = tpl.data[i + 2] = 0;
-      tpl.data[i + 3] = opaque ? 255 : 0;
+      tpl.data[i + 3] = a;
     }
     silhouette.getContext('2d').putImageData(sil, 0, 0);
     template.getContext('2d').putImageData(tpl, 0, 0);
-    templateNote.textContent = state.cardOn
+    templateNote.textContent = s.cardOn
       ? 'Alpha template = a featureless rounded square. This is why the brand ships a linked mark-only tray source.'
-      : 'Alpha template keeps only the outline of the mark. For a menu bar, cut one identifying feature clean through as a transparent hole (docs/LEARNINGS.md L42).';
+      : 'Alpha template keeps the whole silhouette but no interior feature. For a menu bar, cut one identifying feature clean through as a transparent hole (docs/LEARNINGS.md L42).';
   };
 
   let pending = 0;
+  let sequence = 0;
   const render = () => {
     cancelAnimationFrame(pending);
     pending = requestAnimationFrame(() => {
-      const svg = svgFor(state);
+      // Snapshot the state so a slow decode cannot paint with newer thresholds,
+      // and drop any load that finishes after a later render started.
+      const snapshot = { ...state };
+      const ticket = ++sequence;
+      const svg = svgFor(snapshot);
       const url = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
       preview.src = url;
       const img = new Image();
-      img.onload = () => paint(img);
+      img.onload = () => { if (ticket === sequence) paint(img, snapshot); };
+      img.onerror = () => { if (ticket === sequence) flash('This remix could not be rendered. Reset and try again.'); };
       img.src = url;
-      stage.dataset.surface = state.surface;
-      lab.dataset.object = state.object;
+      stage.dataset.surface = snapshot.surface;
+      lab.dataset.object = snapshot.object;
     });
   };
 
@@ -182,15 +189,27 @@
     window.clearTimeout(flash.timer);
     flash.timer = window.setTimeout(() => { status.textContent = ''; }, 2400);
   };
+  const fallback = q('[data-remix-fallback]');
   const copy = async (text, done) => {
-    try { await navigator.clipboard.writeText(text); flash(done); } catch { flash('Clipboard blocked — use Download instead.'); }
+    try {
+      await navigator.clipboard.writeText(text);
+      fallback.hidden = true;
+      flash(done);
+    } catch {
+      // No clipboard access: reveal the text so it can be selected by hand.
+      fallback.value = text;
+      fallback.hidden = false;
+      fallback.focus();
+      fallback.select();
+      flash('Clipboard blocked — the text is shown below; select and copy it.');
+    }
   };
   q('[data-remix-copy-svg]')?.addEventListener('click', () => copy(svgFor(state), 'SVG copied. Save it as master.svg.'));
   q('[data-remix-download]')?.addEventListener('click', () => {
     const blob = new Blob([svgFor(state)], { type: 'image/svg+xml' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `iconflow-remix-${state.object}.svg`;
+    link.download = 'master.svg';
     document.body.append(link); link.click(); link.remove();
     window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
     flash('Downloaded master.svg — now run iconflow check / review / ship.');
