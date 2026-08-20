@@ -4,7 +4,7 @@ description: Design and generate high-quality app icons, website favicons, PWA i
 license: Apache-2.0
 compatibility: Requires Python 3.10+, filesystem and shell access, and network access for one-time dependency and Playwright Chromium setup. Works with `iconflow` on PATH (uv tool / pipx / pip, once published on PyPI) or a source checkout's venv interpreter. Rendering and builds are local afterward.
 metadata:
-  version: "0.4.0"
+  version: "0.5.0"
 ---
 
 # IconFlow skill

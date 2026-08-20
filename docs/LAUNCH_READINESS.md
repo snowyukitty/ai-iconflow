@@ -130,10 +130,10 @@ real need rather than creating promises the maintainer cannot yet support.
 2. Enable private vulnerability reporting and keep CI green on the release commit.
 3. Apply the remaining homepage and reviewed social preview.
 4. Manually run the non-publishing release-candidate workflow; verify checksums and clean-wheel behavior.
-5. Tag `v0.4.0`, create the GitHub Release, and publish the exact candidate through PyPI Trusted Publishing only after explicit approval.
+5. Tag `v0.5.0`, create the GitHub Release, and publish the exact candidate through PyPI Trusted Publishing only after explicit approval.
 6. Run the documented PyPI clean-install smoke test, then share the visual proof and reproducible commands.
 
 The smallest remaining owner action is to enable private vulnerability
 reporting, then decide whether to apply the homepage/social preview and approve
-the `v0.4.0` publication sequence. Publishing and repository-setting changes
+the `v0.5.0` publication sequence. Publishing and repository-setting changes
 still require separate explicit approval.

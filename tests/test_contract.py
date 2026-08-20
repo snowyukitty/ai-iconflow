@@ -340,7 +340,7 @@ class ShipEnvelopeTests(DemoFamilyFixture):
 
     def test_receipt_packet_fields_are_recorded_not_required(self):
         self._edit_receipt(
-            toolchain={"iconflow": "0.4.0"},
+            toolchain={"iconflow": "0.5.0"},
             artifacts={"review_png_sha256": "ab" * 32},
             reviewer={"kind": "agent", "name": "fixture", "declared_at": "2026-08-21T00:00:00Z"},
             unknown_future_key={"ignored": True},

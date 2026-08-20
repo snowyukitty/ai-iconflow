@@ -120,5 +120,7 @@ first published release remains under `Unreleased`.
 - Introduced the brief-to-concept-to-review workflow, multi-target icon engine,
   six-axis quality gate, Review Lab receipts, and evolving casebook.
 
-`0.4.0` is the repository's current package version. As of 2026-08-13 it has no
-Git tag, GitHub Release, or PyPI distribution.
+`0.4.0` was the package version while the work above accumulated; nothing was
+tagged or published under it. The package now carries `0.5.0` as the first
+public release candidate (see `docs/MILESTONE_v0.5.md`); the *Unreleased*
+section folds into `0.5.0` when the owner tags it.

@@ -14,11 +14,11 @@ verifies artifacts; no step should be interpreted as permission to publish.
 - Confirm that the package name is still available on PyPI. A 404 project page
   is evidence that no public distribution exists, not a reservation guarantee.
 
-For the first public release, `v0.4.0` is the recommended tag: that version has
+For the first public release, `v0.5.0` is the recommended tag: that version has
 been consistent since the repository's first commit and has never been tagged
-or published. Move the current `Unreleased` changelog entries into `0.4.0`
+or published. Move the current `Unreleased` changelog entries into `0.5.0`
 before tagging. Use `v0.5.0` only if the maintainer deliberately wants to treat
-the July 2026 repository state as an internal 0.4.0 baseline.
+the July 2026 repository state as an internal 0.5.0 baseline.
 
 ## 2. Verify the checkout
 
@@ -97,7 +97,7 @@ Recommended order after the owner approves publication:
 
 1. Confirm the approved license, trademark policy, and GitHub metadata.
 2. Merge the release commit and require a green CI run.
-3. Create the signed or annotated `v0.4.0` tag.
+3. Create the signed or annotated `v0.5.0` tag.
 4. Review the release-candidate artifact and checksums.
 5. Create the GitHub Release with changelog notes and artifacts.
 6. Configure PyPI Trusted Publishing with a protected GitHub environment and

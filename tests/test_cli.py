@@ -26,7 +26,7 @@ class CliTests(unittest.TestCase):
         with contextlib.redirect_stdout(out), self.assertRaises(SystemExit) as raised:
             main(["--version"])
         self.assertEqual(raised.exception.code, 0)
-        self.assertEqual(out.getvalue().strip(), "IconFlow 0.4.0")
+        self.assertEqual(out.getvalue().strip(), "IconFlow 0.5.0")
 
     def test_build_rejects_unknown_target_before_rendering(self):
         err = io.StringIO()

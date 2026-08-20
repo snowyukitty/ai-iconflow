@@ -31,7 +31,7 @@ class DistributionVerificationTests(unittest.TestCase):
         self, names: list[str], *, metadata: bytes | None = None
     ) -> tuple[tempfile.TemporaryDirectory, Path]:
         directory = tempfile.TemporaryDirectory()
-        path = Path(directory.name) / "ai_iconflow-0.4.0-py3-none-any.whl"
+        path = Path(directory.name) / "ai_iconflow-0.5.0-py3-none-any.whl"
         metadata = self._metadata() if metadata is None else metadata
         with zipfile.ZipFile(path, "w") as archive:
             for name in names:
@@ -50,12 +50,12 @@ class DistributionVerificationTests(unittest.TestCase):
             "iconflow/resources/docs/assets/style-gallery.png",
             *(f"iconflow/resources/presets/{preset}.svg" for preset in PRESETS),
             *(f"iconflow/resources/demo/{name}" for name in DEMO_FILES),
-            "ai_iconflow-0.4.0.dist-info/METADATA",
-            "ai_iconflow-0.4.0.dist-info/RECORD",
-            "ai_iconflow-0.4.0.dist-info/licenses/LICENSE",
-            "ai_iconflow-0.4.0.dist-info/licenses/NOTICE",
-            "ai_iconflow-0.4.0.dist-info/licenses/TRADEMARKS.md",
-            "ai_iconflow-0.4.0.dist-info/licenses/THIRD_PARTY_NOTICES.md",
+            "ai_iconflow-0.5.0.dist-info/METADATA",
+            "ai_iconflow-0.5.0.dist-info/RECORD",
+            "ai_iconflow-0.5.0.dist-info/licenses/LICENSE",
+            "ai_iconflow-0.5.0.dist-info/licenses/NOTICE",
+            "ai_iconflow-0.5.0.dist-info/licenses/TRADEMARKS.md",
+            "ai_iconflow-0.5.0.dist-info/licenses/THIRD_PARTY_NOTICES.md",
         ]
 
     def test_accepts_minimal_expected_wheel(self):
@@ -124,7 +124,7 @@ class DistributionVerificationTests(unittest.TestCase):
         self.assertTrue(skill.startswith("---\nname: iconflow\n"))
         self.assertIn("license: Apache-2.0", skill)
         self.assertIn("compatibility:", skill)
-        self.assertIn('version: "0.4.0"', skill)
+        self.assertIn('version: "0.5.0"', skill)
 
 
 if __name__ == "__main__":
