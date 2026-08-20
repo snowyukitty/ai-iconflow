@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Tapir Ford</title>
+  <desc id="desc">A Malayan tapir keeps one stable silhouette across species-true target-state regions and a sensory proof dip.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M134 566C154 374 314 262 528 282C726 300 858 420 842 594C826 760 670 842 466 822C262 802 118 724 134 566Z" fill="#24313A" stroke="#FFF4E8" stroke-width="50"/>
+  <path d="M342 304C470 250 646 288 734 384L704 676C594 750 442 744 336 674Z" fill="#FFF4E8"/>
+  <path d="M160 450L72 382L116 282L238 390L252 532Z" fill="#24313A" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M94 364C74 460 88 536 150 588" fill="none" stroke="#FF5A4F" stroke-width="76" stroke-linecap="round"/>
+  <path d="M270 752L232 878M446 790L432 906M660 758L724 878" stroke="#24313A" stroke-width="74" stroke-linecap="round"/>
+  <path d="M202 358L236 338" stroke="#FFF4E8" stroke-width="28" stroke-linecap="round"/>
+</svg>

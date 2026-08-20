@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">String Midwife</title>
+  <desc id="desc">A midwife toad carries one fused egg loop until the family is ready.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M168 576C180 406 318 286 492 314C636 336 720 444 706 584C692 728 568 806 414 790C252 774 158 694 168 576Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="48"/>
+  <path d="M192 500L112 454L164 374L266 418Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M604 600C720 512 894 566 890 710C888 830 754 884 658 814C612 780 592 716 604 600Z" fill="none" stroke="#FF5A4F" stroke-width="116" stroke-linecap="round"/>
+  <path d="M516 700L626 764M344 714L290 834M234 676L162 770" stroke="#7BBF6A" stroke-width="74" stroke-linecap="round"/>
+  <path d="M230 470L276 450" stroke="#191A20" stroke-width="30" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Lyrebird Lectern — many songs</title>
+  <desc id="desc">Two thick non-meeting tail ribbons rise behind a grounded lyrebird wedge.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M430 694C224 610 188 386 302 226C344 168 392 138 430 126C366 254 358 394 428 506" fill="none" stroke="#FFF4E8" stroke-width="110" stroke-linecap="round"/>
+  <path d="M594 694C800 610 836 386 722 226C680 168 632 138 594 126C658 254 666 394 596 506" fill="none" stroke="#FFF4E8" stroke-width="110" stroke-linecap="round"/>
+  <path d="M292 714L390 502C450 432 570 426 646 486C710 536 728 626 680 700L814 752L748 832H274L214 770Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M620 492L792 432L680 550Z" fill="#FFF4E8" stroke="#191A20" stroke-width="32" stroke-linejoin="round"/>
+  <circle cx="626" cy="506" r="24" fill="#191A20"/>
+  <path d="M310 700C420 630 558 632 676 706" fill="none" stroke="#845EC2" stroke-width="76" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Grain Sleeve — caddisfly maker</title>
+  <desc id="desc">A caddisfly larva leans from a tapered case built from three broad found panes.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M188 744L244 398L680 230L812 422L506 760Z" fill="#FFF4E8" stroke="#FFF4E8" stroke-width="46" stroke-linejoin="round"/>
+  <path d="M238 690L276 442L404 394L386 674Z" fill="#59C7C1"/>
+  <path d="M430 374L554 326L610 560L404 674Z" fill="#F2B84B"/>
+  <path d="M580 316L672 280L756 416L610 560Z" fill="#FF5A4F"/>
+  <path d="M694 328C780 302 854 356 862 432C868 500 814 550 744 536L662 500L704 420L650 368Z" fill="#FFF4E8" stroke="#191A20" stroke-width="34" stroke-linejoin="round"/>
+  <path d="M744 536L812 616M708 520L748 626" fill="none" stroke="#FFF4E8" stroke-width="72" stroke-linecap="round"/>
+  <circle cx="796" cy="418" r="26" fill="#191A20"/>
+</svg>

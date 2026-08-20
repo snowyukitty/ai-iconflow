@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Heartwing Moth — asymmetric night companion</title>
+  <desc id="desc">A moth's unequal coral and teal wings close into an imperfect heart whose gold body creates the central cleft.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <path d="M510 858C382 780 148 622 126 402C108 226 314 160 448 292L510 354L582 286C704 170 906 226 894 398C884 526 802 638 700 730L740 804L626 786C582 818 542 842 510 858Z" fill="#191A20"/>
+  <path d="M468 790C354 712 188 578 176 412C166 286 310 242 406 332L468 400Z" fill="#FF5A4F"/>
+  <path d="M554 780C648 712 808 574 842 420C868 302 726 244 626 330L554 400Z" fill="#59C7C1"/>
+  <path d="M470 346H552L608 480L568 762L510 852L454 762L414 480Z" fill="#F2B84B"/>
+  <path d="M476 346L420 214M548 346L616 236" stroke="#191A20" stroke-width="42" stroke-linecap="round"/>
+  <circle cx="406" cy="198" r="38" fill="#191A20"/>
+  <circle cx="630" cy="220" r="38" fill="#191A20"/>
+  <path d="M752 636L866 650L798 718L700 730Z" fill="#FFF4E8"/>
+</svg>

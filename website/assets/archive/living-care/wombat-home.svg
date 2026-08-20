@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Wombat Home — carrying a living roof</title>
+  <desc id="desc">A blunt square-backed wombat carries a broad turf roof home; the broken grass edge keeps it botanical.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M190 424L248 282L334 352L408 246L486 334L566 226L646 332L726 260L792 390L844 478V710L760 798H292L184 718Z" fill="#59C7C1"/>
+  <path d="M168 478C216 398 320 374 448 392H710C812 392 874 466 866 566L850 704L770 790H316L202 724Z" fill="#FFF4E8"/>
+  <path d="M650 394C756 390 840 426 866 510L850 704L770 790H632Z" fill="#F2B84B"/>
+  <path d="M194 516L114 554L190 626Z" fill="#FF5A4F"/>
+  <circle cx="272" cy="514" r="24" fill="#191A20"/>
+  <path d="M318 734V838M692 734V838" stroke="#FFF4E8" stroke-width="92" stroke-linecap="square"/>
+</svg>

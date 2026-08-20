@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Mango Lift</title>
+  <desc id="desc">An asymmetric leaf canopy carries one off-axis ripe mango by its leaf shoulder.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <g id="iconflow-mark" stroke="#191A20" stroke-linejoin="round">
+    <path id="iconflow-canopy" d="M150 426C192 236 354 142 544 160C724 178 842 286 884 438L744 418L678 480L592 398L512 466L426 386L342 448L258 374Z" fill="#7BBF6A" stroke-width="44"/>
+    <path d="M342 448L402 578M678 480L638 586" fill="none" stroke-width="44" stroke-linecap="round"/>
+    <path id="iconflow-payload" d="M430 558C514 520 636 554 690 642C752 742 706 856 590 900C486 940 346 888 314 786C282 684 332 602 430 558Z" fill="#F2B84B" stroke-width="48"/>
+    <path id="iconflow-signature" d="M430 586C448 520 516 486 586 510C566 578 508 614 430 586Z" fill="#7BBF6A" stroke-width="36"/>
+    <path d="M360 788C430 846 526 852 606 804" fill="none" stroke="#FF5A4F" stroke-width="64" stroke-linecap="round"/>
+  </g>
+</svg>

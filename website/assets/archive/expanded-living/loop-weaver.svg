@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Loop Weaver — nest maker</title>
+  <desc id="desc">A weaver bird tightens a hanging nest whose long entrance tube changes the pear silhouette.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M472 168C300 194 224 344 258 520C286 666 388 754 534 746C640 740 710 684 734 596L824 620V802H686V684C614 786 486 844 354 792C206 734 146 568 188 398C230 230 356 144 472 168Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M260 470C354 404 474 388 624 420M246 570C354 510 486 500 688 534M292 668C400 620 526 624 652 658" fill="none" stroke="#191A20" stroke-width="42" stroke-linecap="round"/>
+  <path d="M370 232C404 136 504 112 586 166C656 212 664 304 604 362C550 414 448 410 392 346L318 326Z" fill="#FFF4E8" stroke="#191A20" stroke-width="34" stroke-linejoin="round"/>
+  <path d="M580 242L728 286L594 332Z" fill="#FF5A4F" stroke="#191A20" stroke-width="28" stroke-linejoin="round"/>
+  <circle cx="542" cy="230" r="24" fill="#191A20"/>
+</svg>

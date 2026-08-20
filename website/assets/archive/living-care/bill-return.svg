@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Bill Return — platypus courier</title>
+  <desc id="desc">A swimming platypus brings one coral river stone home on its broad bill.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <path d="M174 580L84 430L282 478C340 342 506 282 666 346C738 374 790 422 816 480L940 472L858 580L928 670L798 630C738 722 602 774 452 742C330 716 250 648 222 584Z" fill="#191A20"/>
+  <path d="M250 566C282 420 458 344 626 390C550 434 494 512 474 608C438 690 342 666 270 612Z" fill="#59C7C1"/>
+  <path d="M724 438L946 430L858 554L706 536Z" fill="#F2B84B"/>
+  <path d="M178 580L90 438L286 490L252 602Z" fill="#FFF4E8"/>
+  <circle cx="712" cy="424" r="22" fill="#FFF4E8"/>
+  <path d="M828 398C854 364 908 370 918 412C930 370 984 366 1006 402C1032 446 978 478 916 514C852 478 802 438 828 398Z" fill="#FF5A4F" transform="translate(-70 16) scale(.82)"/>
+</svg>

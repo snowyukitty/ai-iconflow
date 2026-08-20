@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Otter Embrace — floating heart keeper</title>
+  <desc id="desc">A top-view sea otter floats with round ears, paddle feet, and both paws wrapped around one coral heart-pebble.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M364 274C364 176 438 118 512 118C586 118 660 176 660 274C742 340 772 466 738 590C712 686 648 750 574 774L626 894H512L464 812L414 894H300L352 772C278 744 218 676 194 580C164 456 194 338 272 274C272 214 314 180 364 192Z" fill="#FFF4E8"/>
+  <circle cx="350" cy="244" r="82" fill="#FFF4E8"/>
+  <circle cx="674" cy="244" r="82" fill="#FFF4E8"/>
+  <path d="M270 448C326 366 410 330 512 330C614 330 698 366 754 448C730 614 642 724 512 744C382 724 294 614 270 448Z" fill="#59C7C1"/>
+  <circle cx="444" cy="280" r="24" fill="#191A20"/>
+  <circle cx="580" cy="280" r="24" fill="#191A20"/>
+  <path d="M462 340Q512 380 562 340" fill="none" stroke="#191A20" stroke-width="32" stroke-linecap="round"/>
+  <path d="M388 488C420 444 486 450 510 500C536 452 602 450 632 496C664 550 596 614 510 666C418 614 354 542 388 488Z" fill="#FF5A4F"/>
+  <path d="M334 480L414 548M690 480L610 548" stroke="#191A20" stroke-width="52" stroke-linecap="round"/>
+</svg>

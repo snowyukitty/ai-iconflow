@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Token Avenue — bowerbird curator</title>
+  <desc id="desc">A lowered bowerbird arranges three blue tokens inside one broad avenue bracket.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M226 700V332H456V426H322V700M798 700V332H568V426H702V700" fill="none" stroke="#FFF4E8" stroke-width="88" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M336 610C342 470 444 352 574 384C684 410 716 518 642 600C584 664 476 674 388 646L318 704L342 626Z" fill="#F2B84B" stroke="#191A20" stroke-width="34" stroke-linejoin="round"/>
+  <path d="M606 474C720 478 804 530 842 606L716 594L638 546Z" fill="#F2B84B" stroke="#191A20" stroke-width="34" stroke-linejoin="round"/>
+  <circle cx="620" cy="456" r="24" fill="#191A20"/>
+  <path d="M714 594L788 622" stroke="#4C8DDA" stroke-width="84" stroke-linecap="round"/>
+  <circle cx="408" cy="736" r="72" fill="#4C8DDA" stroke="#FFF4E8" stroke-width="28"/>
+  <circle cx="560" cy="754" r="58" fill="#4C8DDA" stroke="#FFF4E8" stroke-width="28"/>
+</svg>

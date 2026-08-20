@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Capybara Ferry — quiet accompaniment</title>
+  <desc id="desc">A square-muzzled swimming capybara carries one passenger bump above a protected saddle notch.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M164 650C180 484 304 386 500 386H730L854 470V680C806 774 690 824 520 820C346 816 216 766 164 650Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M730 386H854L922 462L862 540H752Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M322 386L354 272L438 386M620 386L646 294L724 398" fill="#F2B84B" stroke="#FFF4E8" stroke-width="40" stroke-linejoin="round"/>
+  <path d="M436 398C466 354 526 356 550 404C578 356 638 360 658 410C678 460 620 510 550 560C478 510 408 452 436 398Z" fill="#191A20"/>
+  <path d="M512 346C512 258 574 204 652 216C722 226 764 294 742 362Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="38"/>
+  <path d="M132 666C304 716 524 726 886 672" fill="none" stroke="#59C7C1" stroke-width="92" stroke-linecap="round"/>
+  <circle cx="818" cy="446" r="24" fill="#191A20"/>
+</svg>

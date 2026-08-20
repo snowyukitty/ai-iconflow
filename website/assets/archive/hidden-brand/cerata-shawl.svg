@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Cerata Shawl</title>
+  <desc id="desc">A lettuce sea slug keeps one crawling identity while its broad living folds change state.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M128 670C186 540 300 486 438 500C490 338 626 264 760 322C876 374 918 504 862 612C810 710 698 748 590 716C516 824 326 842 202 770Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="50" stroke-linejoin="round"/>
+  <path d="M338 540C336 412 430 322 542 342C640 358 688 458 650 544C626 600 574 628 518 622C478 706 356 704 314 622Z" fill="#59C7C1" stroke="#191A20" stroke-width="38"/>
+  <path d="M600 420C614 310 714 244 810 286C898 324 922 432 870 508C826 574 736 590 674 548Z" fill="#F2B84B" stroke="#191A20" stroke-width="38"/>
+  <path d="M190 592L128 450M278 530L254 380" stroke="#FF5A4F" stroke-width="54" stroke-linecap="round"/>
+  <path d="M180 750H818" stroke="#FF5A4F" stroke-width="58" stroke-linecap="round"/>
+</svg>

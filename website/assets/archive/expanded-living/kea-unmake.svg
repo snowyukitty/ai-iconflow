@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Kea Unmake — curious craft</title>
+  <desc id="desc">A kea uses its long bill to reduce one cone into three broad belly teeth.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M304 780C234 672 248 510 326 382C406 252 552 210 680 276C780 328 824 446 788 552L908 500L796 644C752 756 650 820 522 826C432 830 350 814 304 780Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M690 330C770 300 836 344 846 414C854 476 808 520 742 510L654 458Z" fill="#FFF4E8" stroke="#191A20" stroke-width="34"/>
+  <path d="M812 402L948 354L826 466Z" fill="#F2B84B" stroke="#191A20" stroke-width="32" stroke-linejoin="round"/>
+  <path d="M396 506C470 450 574 458 638 526L598 760C528 796 444 784 390 730Z" fill="#FF5A4F"/>
+  <path d="M430 702L470 566L520 716L568 570L610 704" fill="none" stroke="#F2B84B" stroke-width="78" stroke-linecap="square" stroke-linejoin="miter"/>
+  <circle cx="748" cy="382" r="24" fill="#191A20"/>
+</svg>

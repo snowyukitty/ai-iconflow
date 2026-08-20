@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Knot Haul</title>
+  <desc id="desc">One hagfish body remains a continuous route while pulling through a single knot.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M200 690C314 774 494 750 548 632C608 500 480 414 364 476C242 542 288 710 438 748C604 790 788 700 806 540C822 402 700 306 556 332C430 354 360 282 428 194" fill="none" stroke="#FF5A4F" stroke-width="148" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M414 172L520 206L446 302L366 244Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="34" stroke-linejoin="round"/>
+  <path d="M420 220L476 232" stroke="#191A20" stroke-width="26" stroke-linecap="round"/>
+  <path d="M760 494L838 456" stroke="#59C7C1" stroke-width="52" stroke-linecap="round"/>
+</svg>

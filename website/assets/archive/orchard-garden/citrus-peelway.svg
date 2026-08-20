@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Citrus Peelway</title><desc id="desc">One citrus peel leaves the fruit as a continuous curling flow route.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M218 534C218 338 358 212 550 226C742 240 858 394 820 586C790 744 650 836 476 810C316 786 218 696 218 534Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M354 334C442 270 592 286 666 368C738 450 716 594 634 668C552 742 406 724 340 628C280 540 294 408 354 334Z" fill="#FFF4E8" stroke="#FF5A4F" stroke-width="40"/>
+  <path d="M520 326V684M348 506H700M404 376L642 636M638 374L402 638" stroke="#F2B84B" stroke-width="54" stroke-linecap="round"/>
+  <path d="M722 630C884 650 924 774 844 850C776 914 674 880 672 802" fill="none" stroke="#FF5A4F" stroke-width="86" stroke-linecap="round"/>
+  <path d="M638 244C682 160 770 154 824 204C760 270 698 286 638 244Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="34"/>
+</svg>

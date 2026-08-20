@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Hoopoe Gift — crested caretaker</title>
+  <desc id="desc">A colorful hoopoe offers one heart-leaf from an unmistakable fan crest and long bill profile.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M408 310L248 136L304 382L134 252L260 464L96 438L304 552Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="40" stroke-linejoin="round"/>
+  <path d="M322 462C354 306 526 242 664 332C742 382 780 470 750 568L698 796H326L282 626Z" fill="#FFF4E8"/>
+  <path d="M342 590C430 488 594 486 718 558L680 750C582 820 424 810 326 730Z" fill="#59C7C1"/>
+  <path d="M632 354L894 410L680 508L588 430Z" fill="#F2B84B"/>
+  <circle cx="632" cy="378" r="22" fill="#191A20"/>
+  <path d="M850 376C876 342 928 348 942 390C960 350 1012 350 1032 386C1056 430 1000 468 932 506C862 468 824 416 850 376Z" fill="#FF5A4F" transform="translate(-52 20) scale(.82)"/>
+</svg>

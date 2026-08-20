@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow Pixel Shuttle concept</title>
+  <desc id="desc">A broad warm loom shuttle carries one square coral bobbin through its central eye.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark">
+    <path id="iconflow-core" fill="#FFF4E8" fill-rule="evenodd" d="M144 512L304 288H720L880 512L720 736H304L144 512ZM368 416V608H656V416H368Z"/>
+    <g id="iconflow-signature">
+      <rect x="448" y="448" width="128" height="128" rx="16" fill="#FF5A4F"/>
+    </g>
+  </g>
+</svg>

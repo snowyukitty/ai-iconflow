@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Banana Cradle</title><desc id="desc">A thick banana crescent becomes one protective cradle around a fused source pod.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M166 338C248 610 444 762 710 736C820 726 890 678 918 608C860 824 656 906 430 832C230 766 108 600 112 412Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M140 350L92 226L196 194L236 326Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="38" stroke-linejoin="round"/>
+  <path d="M776 708L872 660L918 744L818 798Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="38" stroke-linejoin="round"/>
+  <path d="M410 604C458 540 546 542 584 604C628 544 720 554 748 620C776 686 704 744 582 798C466 744 374 676 410 604Z" fill="#FF5A4F" stroke="#191A20" stroke-width="38"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Tomato Cove</title>
+  <desc id="desc">A broad tomato opens at one side where a small cat profile meets the fruit beneath a wind-swept calyx.</desc>
+  <defs><mask id="tomato-bite"><rect width="1024" height="1024" fill="white"/><circle cx="798" cy="508" r="92" fill="black"/><circle cx="846" cy="610" r="78" fill="black"/></mask></defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M206 556C206 346 360 260 520 276C692 248 836 366 838 566C840 756 688 852 514 832C328 854 206 740 206 556Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="52" mask="url(#tomato-bite)"/>
+  <path d="M220 400L292 198L454 314L548 142L628 318L808 236L752 430L536 474L342 438Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M722 450L786 374L830 466L914 440L884 530C944 582 918 714 820 760C746 796 680 760 646 700C704 704 754 678 776 636C806 582 788 510 722 450Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="46" stroke-linejoin="round"/>
+  <path d="M800 556Q838 584 876 552" fill="none" stroke="#191A20" stroke-width="28" stroke-linecap="round"/>
+  <path d="M756 744C692 824 718 900 808 900" fill="none" stroke="#F2B84B" stroke-width="68" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Tomato Proof Chute</title>
+  <desc id="desc">A leaf parachute carries a tomato whose edge opens into one square proof bite.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <g id="iconflow-mark" stroke="#191A20" stroke-linejoin="round">
+    <path id="iconflow-canopy" d="M150 426C192 236 354 142 544 160C724 178 842 286 884 438L744 418L678 480L592 398L512 466L426 386L342 448L258 374Z" fill="#7BBF6A" stroke-width="44"/>
+    <path d="M342 448L388 570M678 480L628 572" fill="none" stroke-width="44" stroke-linecap="round"/>
+    <path id="iconflow-payload" d="M332 650C328 584 390 546 452 562C490 520 552 520 594 562C664 544 730 590 730 660V706H602V834H676C632 868 576 882 512 882C380 882 292 790 300 664C302 650 312 646 332 650Z" fill="#FF5A4F" stroke-width="48"/>
+    <path id="iconflow-signature" d="M382 600L428 518L510 574L588 518L638 602L512 638Z" fill="#7BBF6A" stroke-width="36"/>
+  </g>
+</svg>

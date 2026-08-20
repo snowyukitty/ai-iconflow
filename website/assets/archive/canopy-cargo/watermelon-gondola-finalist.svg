@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Watermelon Gondola</title>
+  <desc id="desc">A leaf parachute carries a bitten watermelon wedge as a living gondola.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <g id="iconflow-mark" stroke="#191A20" stroke-linejoin="round">
+    <path id="iconflow-canopy" d="M150 426C192 236 354 142 544 160C724 178 842 286 884 438L744 418L678 480L592 398L512 466L426 386L342 448L258 374Z" fill="#7BBF6A" stroke-width="44"/>
+    <path d="M342 448L350 600M678 480L674 600" fill="none" stroke-width="44" stroke-linecap="round"/>
+    <path id="iconflow-payload" d="M278 602H590C590 648 628 676 674 676C718 676 744 646 744 602C718 774 632 884 512 902C388 884 304 774 278 602Z" fill="#7BBF6A" stroke-width="48"/>
+    <path d="M330 650H570C584 716 630 748 692 728C654 790 594 830 512 846C430 828 366 760 330 650Z" fill="#FF5A4F" stroke-width="34"/>
+    <path id="iconflow-signature" d="M420 706C438 672 478 672 496 706C514 740 480 776 446 796C414 776 402 740 420 706ZM546 700C564 666 604 666 622 700C640 734 606 770 572 790C540 770 528 734 546 700Z" fill="#191A20" stroke="none"/>
+  </g>
+</svg>

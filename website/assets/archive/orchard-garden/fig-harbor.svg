@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Fig Harbor</title><desc id="desc">A cut fig's teardrop body opens into one protected source-shaped harbor.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M512 122C646 268 824 374 824 584C824 768 682 868 512 868C338 868 196 766 196 584C196 374 376 266 512 122Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M512 258C606 358 718 440 718 594C718 710 628 770 512 770C394 770 306 706 306 594C306 442 418 356 512 258Z" fill="#FF5A4F" stroke="#191A20" stroke-width="40"/>
+  <path d="M422 520C458 466 524 470 554 522C590 470 660 482 682 538C706 602 640 670 554 726C466 670 388 590 422 520Z" fill="#FFF4E8"/>
+  <path d="M500 536C526 506 568 512 582 546C598 582 564 616 528 640C492 612 474 568 500 536Z" fill="#F2B84B"/>
+</svg>

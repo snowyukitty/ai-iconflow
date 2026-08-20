@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Heart Sprout — living source</title>
+  <desc id="desc">An irregular heart-shaped seed splits into two unequal cotyledons and one large silhouette-changing sprout.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M152 390C210 222 396 208 494 348C580 188 786 194 866 348C966 544 738 742 512 876C286 746 78 602 152 390Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M510 344C466 430 444 528 454 642C466 730 490 798 512 842C540 784 566 706 568 618C570 510 548 420 510 344Z" fill="#191A20"/>
+  <path d="M506 344C430 314 384 232 420 160C502 166 548 232 526 310Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="38"/>
+  <path d="M522 334C558 246 642 210 714 254C688 338 610 372 522 334Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="38"/>
+  <path d="M244 456C324 404 410 410 474 474L438 650C356 626 286 564 244 456Z" fill="#FF5A4F"/>
+</svg>

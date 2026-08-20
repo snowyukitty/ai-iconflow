@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Strawberry Descent</title>
+  <desc id="desc">An asymmetric leaf canopy carries a pointed strawberry with two broad seed cuts.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <g id="iconflow-mark" stroke="#191A20" stroke-linejoin="round">
+    <path id="iconflow-canopy" d="M150 426C192 236 354 142 544 160C724 178 842 286 884 438L744 418L678 480L592 398L512 466L426 386L342 448L258 374Z" fill="#7BBF6A" stroke-width="44"/>
+    <path d="M342 448L400 568M678 480L626 568" fill="none" stroke-width="44" stroke-linecap="round"/>
+    <path id="iconflow-payload" d="M338 630C354 564 420 532 512 548C604 532 672 566 688 632C712 730 620 848 512 918C404 848 314 730 338 630Z" fill="#FF5A4F" stroke-width="48"/>
+    <path id="iconflow-signature" d="M364 606L410 514L486 574L512 486L546 576L618 516L658 610L512 650Z" fill="#7BBF6A" stroke-width="36"/>
+    <path d="M432 680L400 740M592 678L626 740" fill="none" stroke="#FFF4E8" stroke-width="54" stroke-linecap="round"/>
+  </g>
+</svg>

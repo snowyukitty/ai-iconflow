@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Shell Walker</title>
+  <desc id="desc">A coconut octopus walks on two arms while carrying two fitted shell halves.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M248 482C270 280 414 190 604 216C756 238 842 332 840 482Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="48"/>
+  <path d="M288 502C318 682 438 760 610 740C748 724 824 636 824 502Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="48"/>
+  <path d="M248 492H840" stroke="#191A20" stroke-width="68" stroke-linecap="round"/>
+  <path d="M260 408C166 372 116 434 144 516C168 584 230 612 298 576Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="44"/>
+  <path d="M372 708L290 842M528 734L488 858M672 706L760 836" stroke="#59C7C1" stroke-width="72" stroke-linecap="round"/>
+  <path d="M224 426L188 360" stroke="#59C7C1" stroke-width="52" stroke-linecap="round"/>
+</svg>

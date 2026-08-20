@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Sand Bloom — pufferfish maker</title>
+  <desc id="desc">A pufferfish tends an asymmetric six-lobed sand nest carved from one repeated arc.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M512 176C594 176 634 248 648 314C708 268 792 292 820 360C850 430 804 492 742 522C810 554 838 638 796 700C750 770 662 760 608 714C594 790 534 840 464 824C394 808 366 744 376 682C306 722 224 688 204 616C184 546 236 492 300 474C244 424 246 338 304 294C364 250 432 278 468 330C464 248 468 176 512 176Z" fill="#FFF4E8" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M512 304C642 304 730 396 710 522C690 644 594 708 478 694C360 680 294 584 318 466C340 362 416 304 512 304Z" fill="#59C7C1" stroke="#191A20" stroke-width="40"/>
+  <path d="M352 480C410 412 498 384 586 410C650 428 690 470 708 520C624 488 548 490 480 530C428 560 394 600 370 644C326 602 312 536 352 480Z" fill="#FF5A4F"/>
+  <circle cx="616" cy="444" r="30" fill="#FFF4E8" stroke="#191A20" stroke-width="24"/>
+  <path d="M710 506L820 448L794 562Z" fill="#F2B84B" stroke="#191A20" stroke-width="30" stroke-linejoin="round"/>
+</svg>

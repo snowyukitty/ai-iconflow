@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Neko Glide</title>
+  <desc id="desc">An asymmetric leaf canopy carries a compact cat whose curled tail keeps the flow moving.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <g id="iconflow-mark" stroke="#191A20" stroke-linejoin="round">
+    <path id="iconflow-canopy" d="M150 426C192 236 354 142 544 160C724 178 842 286 884 438L744 418L678 480L592 398L512 466L426 386L342 448L258 374Z" fill="#7BBF6A" stroke-width="44"/>
+    <path d="M342 448L402 600M678 480L624 600" fill="none" stroke-width="44" stroke-linecap="round"/>
+    <path id="iconflow-payload" d="M326 704L346 552L440 624C484 606 538 606 582 626L670 552L684 718C714 814 636 894 512 900C386 894 304 816 326 704Z" fill="#FF5A4F" stroke-width="48"/>
+    <path d="M414 704Q462 742 504 704M522 704Q566 742 610 704" fill="none" stroke-width="32" stroke-linecap="round"/>
+    <path id="iconflow-signature" d="M656 746C792 742 802 888 680 896C620 900 570 866 552 822" fill="none" stroke-width="112" stroke-linecap="round"/>
+    <path d="M656 746C792 742 802 888 680 896C620 900 570 866 552 822" fill="none" stroke="#7BBF6A" stroke-width="64" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Eyedrift Fluke</title>
+  <desc id="desc">A flatfish keeps one identity while its composition rewrites around a migrated eye cluster.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M154 520C272 300 526 218 742 340L906 262L858 480L934 662L746 638C550 820 292 748 154 520Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="50" stroke-linejoin="round"/>
+  <path d="M244 526C368 408 552 358 718 420C606 506 590 620 696 680C504 748 322 672 244 526Z" fill="#59C7C1" stroke="#191A20" stroke-width="36"/>
+  <path d="M652 344C718 298 812 326 836 398C856 462 804 518 736 514C668 512 622 454 638 394Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="38"/>
+  <path d="M694 378L730 362M750 404L790 392" stroke="#191A20" stroke-width="30" stroke-linecap="round"/>
+  <path d="M736 472L812 490" stroke="#191A20" stroke-width="34" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Chayote Fold</title><desc id="desc">A chayote pear carries one deep continuous side fold into its hooked stem.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M502 182C642 126 790 244 818 430C848 632 730 832 536 866C338 900 188 754 194 558C200 374 328 252 502 182Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M506 224C470 400 500 560 606 724" fill="none" stroke="#FF5A4F" stroke-width="90" stroke-linecap="round"/>
+  <path d="M510 190C580 72 708 86 758 160" fill="none" stroke="#F2B84B" stroke-width="72" stroke-linecap="round"/>
+  <path d="M318 408C362 328 430 300 500 292M294 612C356 688 430 716 520 706" fill="none" stroke="#59C7C1" stroke-width="54" stroke-linecap="round"/>
+</svg>

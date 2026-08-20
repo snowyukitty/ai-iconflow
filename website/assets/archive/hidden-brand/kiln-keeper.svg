@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Kiln Keeper</title>
+  <desc id="desc">An original small maker carries one verified tile from a warm bake-off arch.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M154 722V454C154 260 282 162 444 162C606 162 734 260 734 454V722Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="50" stroke-linejoin="round"/>
+  <path d="M288 722V476C288 370 354 310 444 310C534 310 600 370 600 476V722Z" fill="#191A20"/>
+  <path d="M406 350C532 290 694 348 748 482C812 640 700 826 522 844C360 862 236 742 244 590C250 474 308 398 406 350Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="48"/>
+  <path d="M482 582C560 534 678 554 732 636L884 612L910 774L716 786C622 834 500 790 462 698Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <rect x="690" y="566" width="190" height="190" rx="34" transform="rotate(-8 785 661)" fill="#FF5A4F" stroke="#191A20" stroke-width="38"/>
+  <path d="M476 412L520 394" stroke="#191A20" stroke-width="34" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Koi Heart — returning companion</title>
+  <desc id="desc">A single side-view koi keeps the upstream wake of Koi Return while a coral heart fin becomes one broad internal pane.</desc>
+  <defs>
+    <mask id="fish-mask"><rect width="1024" height="1024" fill="#000"/><path d="M230 512L126 348L330 414C410 286 666 280 820 438L898 512L820 586C666 744 410 738 330 610L126 676Z" fill="#fff"/></mask>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#E8E3D4"/>
+  <g mask="url(#fish-mask)">
+    <rect x="96" y="220" width="280" height="584" fill="#F2B84B"/>
+    <rect x="376" y="220" width="238" height="584" fill="#FF5A4F"/>
+    <rect x="614" y="220" width="314" height="584" fill="#59C7C1"/>
+    <path d="M366 220V804M604 220V804" fill="none" stroke="#172933" stroke-width="58"/>
+  </g>
+  <path d="M230 512L126 348L330 414C410 286 666 280 820 438L898 512L820 586C666 744 410 738 330 610L126 676Z" fill="none" stroke="#172933" stroke-width="64" stroke-linejoin="round"/>
+  <path d="M402 466C430 430 486 436 506 478C530 438 586 440 606 482C628 528 574 574 506 618C434 574 378 512 402 466Z" fill="#FFF4E8" stroke="#172933" stroke-width="34" stroke-linejoin="round"/>
+  <circle cx="786" cy="480" r="38" fill="#F7EFE0" stroke="#172933" stroke-width="26"/>
+  <path d="M874 446H970" stroke="#172933" stroke-width="88" stroke-linecap="square"/>
+  <path d="M874 578H946" stroke="#172933" stroke-width="64" stroke-linecap="square"/>
+</svg>

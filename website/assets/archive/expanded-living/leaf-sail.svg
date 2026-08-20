@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Leaf Sail — leafcutter provisioner</title>
+  <desc id="desc">A leafcutter ant carries a broad bitten leaf whose scallop becomes the signature cut.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M166 554C190 318 404 164 812 184C840 374 772 544 616 628C520 680 396 684 276 632C266 574 228 542 166 554Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="46" stroke-linejoin="round"/>
+  <path d="M176 554C220 518 260 526 292 570C324 614 362 626 408 606C374 662 328 688 270 684C204 680 156 632 176 554Z" fill="#191A20"/>
+  <path d="M258 600C392 522 548 406 736 256" fill="none" stroke="#59C7C1" stroke-width="72" stroke-linecap="round"/>
+  <path d="M366 670C412 620 478 610 526 642C574 674 574 728 532 756C484 790 408 772 374 724Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="34"/>
+  <circle cx="346" cy="694" r="66" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="34"/>
+  <path d="M392 738L340 830M462 752L458 842M518 734L574 820" stroke="#FFF4E8" stroke-width="76" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Mandarin Sail — colorful companion</title>
+  <desc id="desc">A mandarin drake's tall scapular sail and breast become one colorful accompanying form.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M182 624C222 470 364 378 544 390C706 400 824 484 846 616L926 674L822 724C760 804 654 842 518 832C356 820 226 758 182 624Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M588 390C580 254 636 166 722 168C774 260 756 366 692 432Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M308 522C342 378 446 292 560 314L648 392C554 394 480 438 436 510C398 574 390 650 408 720C336 684 292 614 308 522Z" fill="#FF5A4F"/>
+  <path d="M734 444C794 408 862 432 882 488C900 542 862 592 804 588L730 550Z" fill="#FFF4E8" stroke="#191A20" stroke-width="32"/>
+  <path d="M868 480L950 494L870 540Z" fill="#FF5A4F" stroke="#191A20" stroke-width="28" stroke-linejoin="round"/>
+  <circle cx="828" cy="468" r="22" fill="#191A20"/>
+  <path d="M190 650L104 596L166 728" fill="#F2B84B" stroke="#FFF4E8" stroke-width="38" stroke-linejoin="round"/>
+</svg>

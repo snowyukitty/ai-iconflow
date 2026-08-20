@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Grass Globe — harvest mouse home</title>
+  <desc id="desc">A harvest mouse finishes a woven ball nest while its tail becomes the cradle hook.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <circle cx="488" cy="474" r="294" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="48"/>
+  <path d="M258 358C392 288 584 296 712 382M212 492C356 428 564 438 752 528M270 624C406 566 584 584 694 660" fill="none" stroke="#191A20" stroke-width="54" stroke-linecap="round"/>
+  <path d="M560 378C652 342 752 394 774 486C796 576 728 660 638 666C562 672 500 622 486 548L532 432Z" fill="#191A20"/>
+  <path d="M548 476C584 408 674 390 730 444C784 496 756 588 684 616C610 644 540 584 548 476Z" fill="#FFF4E8"/>
+  <circle cx="656" cy="488" r="25" fill="#191A20"/>
+  <circle cx="602" cy="420" r="62" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="28"/>
+  <path d="M376 718C246 732 202 840 300 886C408 934 552 864 570 758" fill="none" stroke="#FFF4E8" stroke-width="88" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Mangosteen Keeper</title><desc id="desc">A mangosteen's oversized calyx shelters one broad inner segment.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M196 570C196 364 338 236 544 244C742 252 860 398 826 600C798 770 654 860 468 840C288 820 196 730 196 570Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M250 352L300 166L458 300L544 132L624 300L788 190L752 386L560 444L366 410Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M400 500C448 424 544 430 578 498C622 430 726 448 742 530C758 612 676 686 570 758C454 692 350 598 400 500Z" fill="#FFF4E8" stroke="#191A20" stroke-width="34"/>
+  <path d="M524 502C552 466 602 476 616 514C632 556 592 596 548 628C504 590 486 544 524 502Z" fill="#FF5A4F"/>
+</svg>

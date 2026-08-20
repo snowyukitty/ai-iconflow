@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Heart Curl Fox — sheltering tail</title>
+  <desc id="desc">A sleeping fox curls its oversized tail around one teal heart-leaf; the ears and white tail tip keep the species in the outer silhouette.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <path d="M272 684C166 566 194 368 330 274L360 142L456 238C578 208 728 274 792 406C866 558 786 760 612 834C476 892 348 828 272 684Z" fill="#191A20"/>
+  <path d="M312 652C226 546 258 394 366 324L386 220L456 292C558 264 674 320 724 420C776 526 718 658 608 712C504 762 390 730 312 652Z" fill="#FF5A4F"/>
+  <path d="M668 456C802 488 836 650 740 744C652 830 492 840 390 752C498 764 594 720 642 646C684 580 680 516 668 456Z" fill="#F2B84B"/>
+  <path d="M708 628C762 622 798 658 798 700C798 736 778 764 748 782C714 804 674 814 630 812C666 774 690 728 696 684Z" fill="#FFF4E8"/>
+  <path d="M444 520C478 476 544 482 564 532C590 484 656 486 676 536C698 590 630 646 562 692C484 642 412 574 444 520Z" fill="#59C7C1"/>
+  <path d="M386 398Q434 432 482 396" fill="none" stroke="#191A20" stroke-width="30" stroke-linecap="round"/>
+</svg>

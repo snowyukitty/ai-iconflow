@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Fairy Scoop — armadillo shelter</title>
+  <desc id="desc">A fairy armadillo's flexible shell folds into a broad protective scoop.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M168 646L246 454C298 326 430 254 594 286C728 312 810 408 826 540L912 604L826 726H276Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M246 454L114 524L222 612L338 562Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M810 430L910 448V720L824 726Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M372 460C420 402 506 410 548 470C596 412 688 420 722 486C758 554 678 628 548 706C420 628 326 540 372 460Z" fill="#191A20"/>
+  <path d="M346 374L414 708M474 312L520 706M608 316L624 692M724 370L704 636" stroke="#845EC2" stroke-width="52" stroke-linecap="round"/>
+  <circle cx="232" cy="516" r="22" fill="#191A20"/>
+</svg>

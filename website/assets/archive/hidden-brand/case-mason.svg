@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Case Mason</title>
+  <desc id="desc">A caddisfly larva carries a tapered case built from one faithful tile in several sizes.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M262 344L770 300L884 500L786 736L270 690L192 520Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M298 356L416 328L456 454L326 490ZM458 320L594 310L620 448L482 454ZM632 310L760 328L808 444L652 448Z" fill="#F2B84B" stroke="#191A20" stroke-width="28" stroke-linejoin="round"/>
+  <path d="M250 458C172 420 112 470 120 552C128 636 202 686 284 644L344 590L342 486Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M206 620L144 738M282 624L254 760" stroke="#FF5A4F" stroke-width="64" stroke-linecap="round"/>
+  <path d="M296 520L358 490V620L292 592Z" fill="#191A20"/>
+</svg>

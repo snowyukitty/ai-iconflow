@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Glass Pulse</title>
+  <desc id="desc">A glass frog's structural inner heart is honest anatomy, never a badge.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M112 716L910 482" stroke="#F2B84B" stroke-width="96" stroke-linecap="round"/>
+  <path d="M210 592C236 398 382 276 574 306C756 334 850 480 804 642C760 796 584 854 398 800C252 758 194 696 210 592Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="50"/>
+  <path d="M694 354L850 278L900 390L786 486Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <circle cx="286" cy="732" r="78" fill="#59C7C1" stroke="#FFF4E8" stroke-width="38"/>
+  <circle cx="712" cy="700" r="80" fill="#59C7C1" stroke="#FFF4E8" stroke-width="38"/>
+  <path d="M438 500C470 444 540 448 568 502C600 448 674 454 696 512C722 582 650 646 566 706C478 650 400 574 438 500Z" fill="#FF5A4F" stroke="#191A20" stroke-width="34"/>
+  <path d="M756 396L806 378" stroke="#191A20" stroke-width="32" stroke-linecap="round"/>
+</svg>

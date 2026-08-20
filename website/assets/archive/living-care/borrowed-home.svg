@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Borrowed Home — generous hermit crab</title>
+  <desc id="desc">A hermit crab carries a spiral home with a heart-shaped aperture and reaches forward with one oversized offering claw.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <path d="M246 662C194 560 220 408 326 294C446 166 656 164 770 282C862 378 842 536 744 622C662 694 544 710 450 654L374 730Z" fill="#191A20"/>
+  <path d="M352 584C278 522 294 400 372 324C456 242 596 246 668 322C732 390 716 494 648 548C590 594 506 596 452 550C408 512 406 450 442 416C480 380 540 386 568 420C590 448 580 484 554 500" fill="none" stroke="#FF5A4F" stroke-width="66" stroke-linecap="round"/>
+  <path d="M500 538C532 502 590 510 606 556C626 510 682 508 712 546C748 594 690 646 604 696C522 642 464 586 500 538Z" fill="#FFF4E8"/>
+  <path d="M418 650C462 612 532 606 590 642L654 700L716 650L788 678L750 736L820 774L752 822L682 784L622 838H416L346 790L260 822L214 766L286 718L246 662L330 626Z" fill="#FF5A4F" stroke="#191A20" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M718 646C782 588 868 616 866 686C864 748 798 780 744 736Z" fill="#F2B84B" stroke="#191A20" stroke-width="44" stroke-linejoin="round"/>
+  <circle cx="486" cy="690" r="22" fill="#191A20"/>
+</svg>

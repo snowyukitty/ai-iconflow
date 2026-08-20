@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Pumpkin Clasp</title><desc id="desc">A squat three-lobed pumpkin carries one off-axis hooked proof stem.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M126 578C126 398 256 286 414 324C474 254 572 252 632 326C798 290 906 412 886 598C866 778 700 842 524 812C342 846 154 776 126 578Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M360 344C294 470 300 666 386 802M630 346C704 472 696 664 620 806M500 304V824" fill="none" stroke="#F2B84B" stroke-width="58" stroke-linecap="round"/>
+  <path d="M494 304C446 200 506 110 606 112C670 114 698 168 674 222C650 276 594 260 582 220" fill="none" stroke="#7BBF6A" stroke-width="78" stroke-linecap="round"/>
+  <rect x="564" y="170" width="168" height="168" rx="38" fill="none" stroke="#191A20" stroke-width="42"/>
+</svg>

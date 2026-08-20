@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Fin Fold — manta shelter</title>
+  <desc id="desc">A manta folds one broad wing into a protected heart-like counter while its horns keep the animal reading.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M116 486C256 374 364 264 512 246C662 264 768 374 908 486L760 694L626 590L574 812L512 740L450 812L398 590L264 694Z" fill="#4C8DDA" stroke="#FFF4E8" stroke-width="50" stroke-linejoin="round"/>
+  <path d="M116 486C244 406 356 376 464 398C394 436 352 500 358 580L264 694Z" fill="#59C7C1"/>
+  <path d="M446 432C474 392 530 394 552 438C578 394 636 398 654 444C674 496 612 550 550 596C484 548 414 486 446 432Z" fill="#191A20"/>
+  <path d="M474 260L446 170M550 260L584 170" stroke="#FFF4E8" stroke-width="74" stroke-linecap="round"/>
+  <circle cx="512" cy="342" r="26" fill="#FF5A4F"/>
+</svg>

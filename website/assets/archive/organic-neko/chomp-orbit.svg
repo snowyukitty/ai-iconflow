@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Chomp Orbit</title>
+  <desc id="desc">A curled cat, tomato, and returning leaf tail form one circulating living gesture.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M276 690C174 554 212 354 366 258L400 126L502 238L610 146L642 284C792 350 858 524 792 680C716 856 472 892 322 768Z" fill="#FFF4E8"/>
+  <path d="M310 650C248 548 286 416 392 354C470 308 572 314 656 358C558 382 488 442 460 522C434 598 450 672 500 730C420 734 346 708 310 650Z" fill="#845EC2"/>
+  <path d="M676 414C810 472 842 626 756 726C690 802 572 820 482 760" fill="none" stroke="#7BBF6A" stroke-width="108" stroke-linecap="round"/>
+  <path d="M466 500C524 442 630 460 668 538C714 632 620 716 510 758C418 690 392 576 466 500Z" fill="#FF5A4F" stroke="#191A20" stroke-width="34"/>
+  <path d="M640 508C688 512 724 540 738 584C698 562 660 562 622 582Z" fill="#191A20"/>
+  <path d="M420 424Q466 462 512 424M532 424Q578 462 624 424" fill="none" stroke="#191A20" stroke-width="28" stroke-linecap="round"/>
+  <path d="M728 702L796 778L864 714" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="34" stroke-linejoin="round"/>
+</svg>

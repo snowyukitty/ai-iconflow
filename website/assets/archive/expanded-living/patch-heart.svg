@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Patch Heart — repaired source</title>
+  <desc id="desc">Three broad panes form one asymmetrical heart repaired by a single coral dovetail.</desc>
+  <defs><clipPath id="heart"><path d="M142 342C214 180 424 174 512 330C600 174 810 180 882 342C974 550 742 740 512 878C282 740 50 550 142 342Z"/></clipPath></defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g clip-path="url(#heart)">
+    <rect x="80" y="120" width="322" height="800" fill="#59C7C1"/>
+    <rect x="402" y="120" width="260" height="800" fill="#F2B84B"/>
+    <rect x="662" y="120" width="300" height="800" fill="#845EC2"/>
+    <path d="M402 110V930M662 110V930" stroke="#191A20" stroke-width="56"/>
+  </g>
+  <path d="M142 342C214 180 424 174 512 330C600 174 810 180 882 342C974 550 742 740 512 878C282 740 50 550 142 342Z" fill="none" stroke="#FFF4E8" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M580 548L656 478L728 548L656 620Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="34" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Heart Nest — woven care</title>
+  <desc id="desc">A heart is built as an asymmetrical woven nest around one warm egg rather than used as a detached badge.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M158 350C214 194 422 174 512 326C604 174 810 194 866 350C932 538 730 714 512 862C294 714 92 538 158 350Z" fill="#FF5A4F"/>
+  <path d="M196 446C330 510 692 510 830 410" fill="none" stroke="#FFF4E8" stroke-width="78" stroke-linecap="round"/>
+  <path d="M232 584C378 654 658 654 792 550" fill="none" stroke="#F2B84B" stroke-width="70" stroke-linecap="round"/>
+  <path d="M390 476C390 378 446 304 512 304C578 304 634 378 634 476C634 596 582 678 512 678C442 678 390 596 390 476Z" fill="#FFF4E8" stroke="#191A20" stroke-width="40"/>
+  <path d="M512 176L512 316" stroke="#191A20" stroke-width="70" stroke-linecap="round"/>
+</svg>

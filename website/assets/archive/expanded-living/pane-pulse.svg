@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Pane Pulse — cuttlefish states</title>
+  <desc id="desc">A side-view cuttlefish runs one passing color wave through three broad mantle bands.</desc>
+  <defs><clipPath id="mantle"><path d="M176 512C176 330 322 220 564 236C754 250 860 360 842 518C824 674 690 772 500 764C304 756 176 666 176 512Z"/></clipPath></defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g clip-path="url(#mantle)">
+    <rect x="140" y="190" width="270" height="620" fill="#F2B84B"/>
+    <rect x="410" y="190" width="230" height="620" fill="#845EC2"/>
+    <rect x="640" y="190" width="250" height="620" fill="#59C7C1"/>
+    <path d="M410 180V820M640 180V820" stroke="#191A20" stroke-width="54"/>
+  </g>
+  <path d="M176 512C176 330 322 220 564 236C754 250 860 360 842 518C824 674 690 772 500 764C304 756 176 666 176 512Z" fill="none" stroke="#FFF4E8" stroke-width="50"/>
+  <path d="M260 706Q314 814 376 724Q438 832 500 740Q562 834 624 726Q686 812 744 692" fill="none" stroke="#FFF4E8" stroke-width="72" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M842 472L914 420M842 528L920 546" stroke="#FFF4E8" stroke-width="72" stroke-linecap="round"/>
+  <path d="M716 416L760 450L716 484L674 450Z" fill="#191A20"/>
+</svg>

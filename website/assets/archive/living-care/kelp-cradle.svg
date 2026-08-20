@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Kelp Cradle — floating otter</title>
+  <desc id="desc">A supine sea otter cups one coral heart-pebble while its paddle tail completes the floating silhouette.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M164 622C108 548 138 456 238 436L344 414C408 310 572 276 706 338L778 316L834 366L804 420C858 470 866 558 824 630C760 740 578 792 394 742L266 708L176 750L204 660Z" fill="#FFF4E8"/>
+  <path d="M178 614C150 554 180 500 252 482L374 454C432 368 564 342 674 382C560 402 464 474 422 574C382 670 292 682 204 660Z" fill="#59C7C1"/>
+  <path d="M746 354L790 326L834 366L806 416L756 406Z" fill="#FF5A4F"/>
+  <circle cx="748" cy="452" r="18" fill="#191A20"/>
+  <path d="M514 514C546 476 610 482 626 532C642 482 706 476 738 514C780 566 716 628 626 682C536 628 472 566 514 514Z" fill="#FF5A4F"/>
+  <path d="M500 488C542 454 598 464 626 506C654 464 710 454 752 488" fill="none" stroke="#191A20" stroke-width="46" stroke-linecap="round"/>
+</svg>

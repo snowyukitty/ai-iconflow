@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Eggplant Cape</title><desc id="desc">An eggplant profile is owned by a three-point calyx cape and one broad belly plane.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M300 310C426 202 650 220 758 366C872 520 794 758 602 838C438 906 252 814 196 654C150 526 196 396 300 310Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M282 338L206 174L390 246L480 100L556 254L744 194L674 372L492 430Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M292 520C368 388 570 368 688 488C768 570 742 700 652 770C520 858 346 776 292 650Z" fill="#59C7C1" stroke="#191A20" stroke-width="38"/>
+  <path d="M482 134L552 58" stroke="#F2B84B" stroke-width="64" stroke-linecap="round"/>
+</svg>

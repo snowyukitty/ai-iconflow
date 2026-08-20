@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Beak Ledger</title>
+  <desc id="desc">A puffin's one bold bill holds a faithful family of parallel catches.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M286 770C222 648 236 400 350 280C436 188 604 180 704 258C828 354 848 620 752 770Z" fill="#4C8DDA" stroke="#FFF4E8" stroke-width="50"/>
+  <path d="M342 324C424 246 574 236 664 302L626 530L386 536Z" fill="#FFF4E8"/>
+  <path d="M602 330L900 438L638 570L526 486Z" fill="#FF5A4F" stroke="#191A20" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M638 402L862 442M620 470L820 490M600 530L764 540" stroke="#FFF4E8" stroke-width="34" stroke-linecap="round"/>
+  <path d="M690 414L734 384M710 476L762 452M698 532L752 520" stroke="#F2B84B" stroke-width="28" stroke-linecap="round"/>
+  <path d="M382 760L340 872M650 762L692 872" stroke="#F2B84B" stroke-width="64" stroke-linecap="round"/>
+</svg>

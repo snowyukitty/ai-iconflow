@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Chamber Heir</title>
+  <desc id="desc">A living nautilus carries earlier faithful chambers along one unbroken growth route.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M182 530C182 310 360 180 576 204C774 226 858 380 810 556C768 712 626 814 438 792C272 774 182 674 182 530Z" fill="#FFF4E8" stroke="#59C7C1" stroke-width="52"/>
+  <path d="M350 566C350 430 458 350 574 378C680 402 718 506 662 596C608 682 466 684 416 606C378 546 410 474 474 454C538 434 592 474 590 530C590 576 550 604 514 594" fill="none" stroke="#24313A" stroke-width="64" stroke-linecap="round"/>
+  <path d="M674 356C794 338 900 408 910 520C920 630 828 694 718 658L640 612L650 406Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="46" stroke-linejoin="round"/>
+  <path d="M806 624L900 730M754 640L812 770M704 630L720 766" stroke="#59C7C1" stroke-width="54" stroke-linecap="round"/>
+  <path d="M718 466L774 438L800 500L730 516Z" fill="#191A20"/>
+</svg>

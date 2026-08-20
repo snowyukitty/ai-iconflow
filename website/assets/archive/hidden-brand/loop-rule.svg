@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Loop Rule</title>
+  <desc id="desc">An inchworm measures one route with the same living stride at every scale.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M126 764H900" stroke="#F2B84B" stroke-width="112" stroke-linecap="round"/>
+  <path d="M232 714C242 432 382 244 574 260C742 274 824 446 784 690" fill="none" stroke="#7BBF6A" stroke-width="154" stroke-linecap="round"/>
+  <path d="M188 656L316 646V784H190Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="36" stroke-linejoin="round"/>
+  <path d="M714 638L844 648L828 786H700Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="36" stroke-linejoin="round"/>
+  <path d="M734 602L802 528" stroke="#7BBF6A" stroke-width="54" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Glass Belly — open-hearted frog</title>
+  <desc id="desc">A glass frog clings with four broad toe pads while one coral anatomical heart shows through its clear belly.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <path d="M326 286C390 198 634 198 698 286L754 398L850 336L920 398L810 492L842 656L936 716L884 794L744 720C682 810 342 810 280 720L140 794L88 716L182 656L214 492L104 398L174 336L270 398Z" fill="#191A20"/>
+  <path d="M332 332C390 260 634 260 692 332L728 428L766 654C690 744 334 744 258 654L296 428Z" fill="#59C7C1"/>
+  <path d="M394 422C442 374 582 374 630 422L654 622C596 680 428 680 370 622Z" fill="#FFF4E8"/>
+  <circle cx="402" cy="372" r="30" fill="#191A20"/>
+  <circle cx="622" cy="372" r="30" fill="#191A20"/>
+  <path d="M448 510C478 470 540 476 558 520C582 476 644 480 666 524C690 574 626 626 556 672C478 622 416 560 448 510Z" fill="#FF5A4F"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Acorn Mouse — peeking shelter</title>
+  <desc id="desc">A dormouse peeks from an acorn cup; one large coral ear, pointed snout, and curled tail interrupt the shelter outline.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M238 454C266 330 374 266 516 266C658 266 770 330 806 452L754 546C612 506 408 506 266 548Z" fill="#59C7C1"/>
+  <path d="M274 530C322 490 390 470 468 472C418 404 450 304 542 278C632 254 710 326 704 418L802 464L720 528C752 636 730 742 668 814H354C288 736 264 632 274 530Z" fill="#F2B84B"/>
+  <path d="M442 462C390 400 408 310 486 286C562 262 632 318 632 398C570 382 504 402 442 462Z" fill="#FFF4E8"/>
+  <path d="M428 348C396 252 456 198 526 272L544 364Z" fill="#FFF4E8" stroke="#FF5A4F" stroke-width="44" stroke-linejoin="round"/>
+  <circle cx="568" cy="356" r="22" fill="#191A20"/>
+  <path d="M706 594C842 560 898 686 824 780C786 828 726 842 682 814" fill="none" stroke="#FFF4E8" stroke-width="76" stroke-linecap="round"/>
+  <path d="M706 594C788 578 822 650 784 710" fill="none" stroke="#FF5A4F" stroke-width="28" stroke-linecap="round"/>
+</svg>

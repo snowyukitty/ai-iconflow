@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Blueberry Crown</title>
+  <desc id="desc">An asymmetric leaf canopy carries one blueberry with an oversized species-true calyx crown.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <g id="iconflow-mark" stroke="#191A20" stroke-linejoin="round">
+    <path id="iconflow-canopy" d="M150 426C192 236 354 142 544 160C724 178 842 286 884 438L744 418L678 480L592 398L512 466L426 386L342 448L258 374Z" fill="#7BBF6A" stroke-width="44"/>
+    <path d="M342 448L398 578M678 480L630 578" fill="none" stroke-width="44" stroke-linecap="round"/>
+    <path id="iconflow-payload" d="M512 548C640 548 728 628 728 746C728 864 638 916 512 916C386 916 296 858 296 742C296 626 386 548 512 548Z" fill="#4C8DDA" stroke-width="48"/>
+    <path id="iconflow-signature" d="M512 528L562 612L654 584L604 672L676 738L578 722L512 806L450 722L350 738L422 672L370 584L462 612Z" fill="#7BBF6A" stroke-width="34"/>
+    <circle cx="512" cy="680" r="72" fill="#191A20" stroke="none"/>
+  </g>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Heart Harbor — protected counter</title>
+  <desc id="desc">A broad asymmetrical heart opens into one deep shelter bay with a nested seed-shaped counter.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M140 336C220 176 416 188 506 326C602 170 816 190 880 354C944 520 792 682 640 786L640 650H510C408 650 326 590 326 500C326 418 380 370 448 356C396 300 296 300 246 356C174 436 246 558 384 658L506 744L506 878C270 738 54 512 140 336Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M430 494C456 448 520 446 548 494C576 544 528 596 488 624C446 594 404 544 430 494Z" fill="#F2B84B" stroke="#191A20" stroke-width="30"/>
+  <path d="M488 472L520 394" stroke="#7BBF6A" stroke-width="48" stroke-linecap="round"/>
+</svg>

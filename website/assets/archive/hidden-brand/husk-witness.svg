@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Husk Witness</title>
+  <desc id="desc">A cicada husk grips a stem while one broad split proves a new form departed.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M292 142L724 884" stroke="#59C7C1" stroke-width="96" stroke-linecap="round"/>
+  <path d="M346 306C438 214 610 236 684 354C756 468 732 672 626 756C538 826 390 790 328 684C262 570 264 390 346 306Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="48"/>
+  <path d="M456 316L500 454L430 632M584 302L552 454L638 624" fill="none" stroke="#24313A" stroke-width="72" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M492 318L516 474L516 716" fill="none" stroke="#191A20" stroke-width="104" stroke-linecap="round"/>
+  <path d="M330 462L198 382M324 566L170 596M688 450L806 352M700 566L846 590" stroke="#F2B84B" stroke-width="68" stroke-linecap="round"/>
+</svg>

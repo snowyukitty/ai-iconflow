@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Shoebill Proof</title>
+  <desc id="desc">A shoebill's occupied mouth cleft becomes a patient off-axis proof clasp.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M260 806V374C260 224 382 150 520 188C654 224 722 358 684 490L634 806Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="50" stroke-linejoin="round"/>
+  <path d="M482 286L862 348L930 492L822 622L456 552Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="46" stroke-linejoin="round"/>
+  <path d="M522 434L842 458" stroke="#191A20" stroke-width="92" stroke-linecap="round"/>
+  <path d="M630 400L760 420L820 470L746 520L620 500Z" fill="#FF5A4F" stroke="#191A20" stroke-width="30" stroke-linejoin="round"/>
+  <path d="M374 806L344 890M538 806L570 890" stroke="#F2B84B" stroke-width="66" stroke-linecap="round"/>
+</svg>

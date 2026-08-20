@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Gharial Clasp</title>
+  <desc id="desc">A gharial's real interlocking bite turns the proof clasp into anatomy.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M112 582C134 392 306 284 500 300C666 314 750 400 742 488L902 444L936 548L764 610C718 746 532 808 344 752C192 708 96 652 112 582Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="50" stroke-linejoin="round"/>
+  <path d="M516 438L906 400L950 486L888 536L950 592L908 680L510 616Z" fill="#FF5A4F" stroke="#191A20" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M590 472L642 530L694 468L750 536L806 470L862 530" fill="none" stroke="#FFF4E8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="918" cy="438" rx="58" ry="74" fill="#F2B84B" stroke="#191A20" stroke-width="32"/>
+  <path d="M274 704L224 826M496 754L520 866" stroke="#59C7C1" stroke-width="66" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Neko in the Fruit</title>
+  <desc id="desc">A tomato opens as a warm living chamber and reveals the cat who made the bite.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M196 570C196 356 350 250 526 270C704 248 844 378 832 586C820 772 668 858 500 834C326 856 196 750 196 570Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M216 404L286 194L454 316L548 138L632 320L812 230L752 432L536 478L338 440Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M370 540C420 426 564 398 668 470L714 416L760 486L830 468L806 546C862 606 826 728 730 770C616 820 462 754 394 674C360 634 350 586 370 540Z" fill="#FFF4E8" stroke="#191A20" stroke-width="36" stroke-linejoin="round"/>
+  <path d="M440 574C478 494 578 482 644 534C594 542 552 574 530 622C510 666 514 708 538 744C468 724 412 644 440 574Z" fill="#59C7C1"/>
+  <path d="M654 552Q696 588 738 552" fill="none" stroke="#191A20" stroke-width="28" stroke-linecap="round"/>
+  <path d="M722 628C756 584 814 590 838 634C864 682 818 730 754 764C698 724 684 676 722 628Z" fill="#F2B84B"/>
+</svg>

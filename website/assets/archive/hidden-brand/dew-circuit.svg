@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Dew Circuit</title>
+  <desc id="desc">A thorny devil carries one unbroken capillary route from tail to mouth.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M112 628C176 444 342 326 554 346C720 362 804 446 820 550L930 500L884 638L804 660C738 790 514 830 320 762C180 714 80 684 112 628Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="50" stroke-linejoin="round"/>
+  <path d="M246 416L310 276L384 406L500 236L572 390L692 286L746 430" fill="#F2B84B" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M870 586C782 590 754 514 676 512C578 510 558 632 454 624C350 616 330 510 230 530C178 540 150 576 126 618" fill="none" stroke="#FF5A4F" stroke-width="78" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M274 728L230 844M476 778L470 894M674 738L736 846" stroke="#59C7C1" stroke-width="66" stroke-linecap="round"/>
+</svg>

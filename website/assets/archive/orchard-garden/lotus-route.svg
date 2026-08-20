@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Lotus Route</title><desc id="desc">An oblique lotus-root segment carries three broad chambers and one sprouting side joint.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M142 616L322 246L842 342L888 582L704 846L220 800Z" fill="#FFF4E8" stroke="#F2B84B" stroke-width="52" stroke-linejoin="round"/>
+  <ellipse cx="392" cy="520" rx="92" ry="114" transform="rotate(18 392 520)" fill="#191A20"/>
+  <ellipse cx="590" cy="544" rx="94" ry="116" transform="rotate(18 590 544)" fill="#191A20"/>
+  <ellipse cx="744" cy="570" rx="76" ry="98" transform="rotate(18 744 570)" fill="#191A20"/>
+  <path d="M738 360C812 218 918 224 952 332C910 426 824 448 744 402Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="40"/>
+  <path d="M264 792L184 900" stroke="#FF5A4F" stroke-width="76" stroke-linecap="round"/>
+</svg>

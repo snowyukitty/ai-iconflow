@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Papaya Canoe</title><desc id="desc">A long half-papaya contains three broad seed chambers beneath one hooked stem.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M122 600C210 330 456 206 742 260C872 284 930 388 886 516C810 744 512 874 246 780C142 744 88 702 122 600Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M238 594C326 406 516 328 724 360C812 374 846 432 814 510C750 666 534 760 352 706C268 682 212 652 238 594Z" fill="#FF5A4F" stroke="#191A20" stroke-width="40"/>
+  <ellipse cx="430" cy="568" rx="80" ry="62" fill="#845EC2"/>
+  <ellipse cx="574" cy="508" rx="82" ry="64" fill="#845EC2"/>
+  <ellipse cx="708" cy="454" rx="78" ry="60" fill="#845EC2"/>
+  <path d="M742 276C804 142 898 160 922 246" fill="none" stroke="#7BBF6A" stroke-width="74" stroke-linecap="round"/>
+</svg>

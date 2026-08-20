@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Wax Heart Press</title>
+  <desc id="desc">A structural heart grip drives one carved master into many faithful warm impressions.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M356 248C356 142 488 108 548 202C614 104 754 144 754 252C754 340 656 412 554 482C454 414 356 342 356 248Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="48"/>
+  <path d="M478 430H632V694H478Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="44"/>
+  <path d="M330 666C408 610 530 628 576 692C648 620 786 642 824 734C860 824 770 890 642 874L558 844L468 878C326 900 202 822 240 734Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="50"/>
+  <path d="M452 722C482 674 542 674 568 720C596 674 660 678 682 728C706 782 642 830 566 874C488 828 420 778 452 722Z" fill="#191A20"/>
+</svg>

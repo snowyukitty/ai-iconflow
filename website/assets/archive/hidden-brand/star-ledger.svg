@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Star Ledger</title>
+  <desc id="desc">A star-nosed mole keeps one living ray master even when target count changes.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M160 640C172 434 326 302 526 318C718 334 846 482 824 658C804 818 642 874 438 834C254 798 152 744 160 640Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="50"/>
+  <path d="M170 530L84 420L218 458L208 318L292 434L364 310L350 466L490 414L384 526L516 590L356 574L372 720L282 604L208 734L220 584L76 618Z" fill="#FF5A4F" stroke="#191A20" stroke-width="32" stroke-linejoin="round"/>
+  <path d="M298 704L206 822L350 788ZM514 756L424 874L586 830Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="36" stroke-linejoin="round"/>
+  <path d="M620 464L670 448" stroke="#191A20" stroke-width="32" stroke-linecap="round"/>
+</svg>

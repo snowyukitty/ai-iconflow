@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Heartwing Moth — night companion</title>
+  <desc id="desc">An asymmetrical moth closes two broad pane wings into a heart silhouette divided by one living body cleft.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <path d="M512 850C388 768 154 616 132 398C114 224 316 168 442 292L512 366L582 292C708 168 910 224 892 398C870 616 636 768 512 850Z" fill="#191A20"/>
+  <path d="M472 786C362 708 190 578 180 408C172 284 310 248 402 334L472 408Z" fill="#FF5A4F"/>
+  <path d="M552 786C662 708 834 578 844 408C852 284 714 248 622 334L552 408Z" fill="#59C7C1"/>
+  <path d="M474 346H550L604 480L566 760L512 846L458 760L420 480Z" fill="#F2B84B"/>
+  <path d="M476 346L420 224M548 346L604 224" stroke="#191A20" stroke-width="42" stroke-linecap="round"/>
+  <circle cx="410" cy="210" r="38" fill="#191A20"/>
+  <circle cx="614" cy="210" r="38" fill="#191A20"/>
+</svg>

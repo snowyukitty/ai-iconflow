@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Fiddle Finch</title>
+  <desc id="desc">A heavy finch and an uncurling fern whisper an organic F without becoming a monogram.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M534 842V328C534 210 624 154 726 190C834 228 868 366 798 446C736 516 626 502 582 428" fill="none" stroke="#7BBF6A" stroke-width="112" stroke-linecap="round"/>
+  <path d="M512 502L370 426M522 634L398 650" stroke="#7BBF6A" stroke-width="86" stroke-linecap="round"/>
+  <path d="M180 572C186 390 330 278 492 330C622 372 684 520 626 650C568 780 384 824 250 738C198 704 176 644 180 572Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="50"/>
+  <path d="M202 476L94 418L132 342L278 414Z" fill="#F2B84B" stroke="#191A20" stroke-width="36" stroke-linejoin="round"/>
+  <path d="M440 728L360 836M520 730L536 850" stroke="#F2B84B" stroke-width="60" stroke-linecap="round"/>
+  <path d="M250 466L290 452" stroke="#191A20" stroke-width="30" stroke-linecap="round"/>
+</svg>

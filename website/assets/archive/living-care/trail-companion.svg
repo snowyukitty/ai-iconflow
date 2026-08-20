@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Trail Companion — colorful walking dog</title>
+  <desc id="desc">A colorful side-view dog keeps a lifted tail, stepped gait, and heart-like resting counter in one bold silhouette.</desc>
+  <defs><clipPath id="dog"><path d="M196 426C120 370 132 260 230 228L280 338L380 364L474 304H642L710 354L814 318L780 410L852 470L784 530L708 512V704L620 790V604H420V790L332 704V558L246 604L172 540Z"/></clipPath></defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <path d="M196 426C120 370 132 260 230 228L280 338L380 364L474 304H642L710 354L814 318L780 410L852 470L784 530L708 512V704L620 790V604H420V790L332 704V558L246 604L172 540Z" fill="#191A20"/>
+  <g clip-path="url(#dog)">
+    <path d="M100 190H390V850H100Z" fill="#F2B84B"/>
+    <path d="M390 190H650V850H390Z" fill="#59C7C1"/>
+    <path d="M650 190H900V850H650Z" fill="#FF5A4F"/>
+    <path d="M382 250L434 850M642 250L600 850" stroke="#191A20" stroke-width="44"/>
+  </g>
+  <path d="M196 426C120 370 132 260 230 228L280 338L380 364L474 304H642L710 354L814 318L780 410L852 470L784 530L708 512V704L620 790V604H420V790L332 704V558L246 604L172 540Z" fill="none" stroke="#191A20" stroke-width="50" stroke-linejoin="round"/>
+  <circle cx="738" cy="420" r="22" fill="#FFF4E8"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Frill Friend — open-hearted companion</title>
+  <desc id="desc">An original axolotl-like companion hugs a coral heart window beneath six broad asymmetric frill leaves.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M376 356L256 174L210 256L306 416ZM448 316L412 124L330 180L378 374ZM648 356L768 174L814 256L718 416ZM576 316L612 124L694 180L646 374Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="40" stroke-linejoin="round"/>
+  <path d="M286 484C286 348 384 274 512 274C640 274 738 348 738 484V654C738 780 646 852 512 852C378 852 286 780 286 654Z" fill="#FFF4E8"/>
+  <path d="M286 572C354 610 430 630 512 630C594 630 670 610 738 572V690C698 648 650 626 598 630C556 634 526 652 512 674C496 652 466 634 426 630C374 626 326 648 286 690Z" fill="#59C7C1"/>
+  <circle cx="420" cy="480" r="30" fill="#191A20"/>
+  <circle cx="604" cy="480" r="30" fill="#191A20"/>
+  <path d="M420 550Q512 616 604 550" fill="none" stroke="#191A20" stroke-width="36" stroke-linecap="round"/>
+  <path d="M418 652C450 608 516 612 540 662C566 614 632 612 662 658C694 712 626 774 540 826C448 774 384 706 418 652Z" fill="#FF5A4F" fill-rule="evenodd"/>
+  <path d="M468 680C486 656 526 660 540 690C556 660 596 658 614 684C634 716 592 748 540 780C486 748 448 712 468 680Z" fill="#191A20"/>
+</svg>

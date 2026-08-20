@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Frill Offering — axolotl crown</title>
+  <desc id="desc">A broad axolotl face offers a coral pebble beneath six oversized external-gill leaves.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M372 360L268 202L222 274L314 414ZM438 320L402 142L326 190L366 372ZM652 360L756 202L802 274L710 414ZM586 320L622 142L698 190L658 372Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="38" stroke-linejoin="round"/>
+  <path d="M292 482C292 350 390 278 512 278C634 278 732 350 732 482V632C732 758 640 834 512 834C384 834 292 758 292 632Z" fill="#FFF4E8"/>
+  <path d="M292 548C360 592 432 608 512 608C592 608 664 592 732 548V690C732 780 636 834 512 834C388 834 292 780 292 690Z" fill="#59C7C1"/>
+  <circle cx="426" cy="494" r="30" fill="#191A20"/>
+  <circle cx="598" cy="494" r="30" fill="#191A20"/>
+  <path d="M430 570Q512 636 594 570" fill="none" stroke="#191A20" stroke-width="36" stroke-linecap="round"/>
+  <path d="M446 666C474 630 532 634 552 674C578 632 636 638 658 678C678 720 628 756 552 800C474 754 422 708 446 666Z" fill="#FF5A4F"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Jacana Raft — living shelter</title>
+  <desc id="desc">A jacana shelters one chick in a wing bulge while three pad scallops replace fragile toes.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M126 692C188 580 322 524 488 534C658 544 794 612 898 742C742 828 576 856 408 832C266 812 164 766 126 692Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="46"/>
+  <path d="M202 684Q290 620 370 694Q456 610 536 694Q630 604 718 704" fill="none" stroke="#191A20" stroke-width="66" stroke-linecap="round"/>
+  <path d="M346 590C300 470 342 340 448 286C548 236 672 270 730 366L838 408L742 486C720 596 624 658 514 644Z" fill="#FFF4E8" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M438 296L448 182L528 274Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="34" stroke-linejoin="round"/>
+  <path d="M438 484C486 430 568 430 616 486V588C562 628 490 624 444 586Z" fill="#59C7C1"/>
+  <path d="M496 502C518 474 558 474 580 504C600 532 574 568 538 592C500 568 474 532 496 502Z" fill="#FF5A4F"/>
+  <circle cx="694" cy="372" r="25" fill="#191A20"/>
+</svg>

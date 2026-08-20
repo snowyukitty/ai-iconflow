@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow Caliper Crab concept</title>
+  <desc id="desc">A compact warm crab holds one coral specimen between unequal measuring claws.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark">
+    <rect id="iconflow-core" x="304" y="320" width="416" height="320" rx="128" fill="#FFF4E8"/>
+    <path d="M320 384H240V272H112V480H240V544H320M704 368H784V240H912V464H784V544H704" fill="none" stroke="#FFF4E8" stroke-width="88" stroke-linecap="square" stroke-linejoin="round"/>
+    <path d="M352 624L272 768M448 640L416 800M576 640L608 800M672 624L752 768" fill="none" stroke="#FFF4E8" stroke-width="72" stroke-linecap="round"/>
+    <g id="iconflow-signature">
+      <rect x="448" y="416" width="128" height="128" rx="16" fill="#FF5A4F"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Curator Crab — living collection</title>
+  <desc id="desc">A decorator crab carries three found forms as an irregular skyline on its shell.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M250 566C276 422 390 338 520 344C658 350 764 438 778 578L858 632L776 686L708 650C656 738 574 786 480 786C378 786 292 730 248 642L166 680L116 614L220 558Z" fill="#FFF4E8" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M300 414L248 260L362 200L438 376Z" fill="#FF5A4F" stroke="#191A20" stroke-width="34" stroke-linejoin="round"/>
+  <path d="M430 356L472 174L612 210L586 366Z" fill="#59C7C1" stroke="#191A20" stroke-width="34" stroke-linejoin="round"/>
+  <path d="M604 382L700 236L810 322L718 450Z" fill="#F2B84B" stroke="#191A20" stroke-width="34" stroke-linejoin="round"/>
+  <path d="M340 576Q480 660 696 566" fill="none" stroke="#FF5A4F" stroke-width="88" stroke-linecap="round"/>
+  <circle cx="404" cy="510" r="30" fill="#191A20"/>
+  <circle cx="622" cy="510" r="30" fill="#191A20"/>
+</svg>

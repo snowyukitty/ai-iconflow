@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Scale Embrace — sheltering pangolin</title>
+  <desc id="desc">A pangolin closes its long tail into a protective coil whose broad color plates remain visible at small size.</desc>
+  <defs><clipPath id="pangolin"><path d="M668 174C794 248 850 384 822 518C792 662 668 786 492 824C340 856 202 786 166 670C126 542 202 438 324 420C250 346 282 238 396 194C482 162 586 162 668 174ZM428 456C350 460 302 520 314 592C326 664 404 698 478 670C554 640 602 572 620 498C552 472 490 452 428 456Z"/></clipPath></defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M668 174C794 248 850 384 822 518C792 662 668 786 492 824C340 856 202 786 166 670C126 542 202 438 324 420C250 346 282 238 396 194C482 162 586 162 668 174ZM428 456C350 460 302 520 314 592C326 664 404 698 478 670C554 640 602 572 620 498C552 472 490 452 428 456Z" fill="#FFF4E8" fill-rule="evenodd"/>
+  <g clip-path="url(#pangolin)">
+    <path d="M416 110L604 154L518 418L300 384Z" fill="#F2B84B"/>
+    <path d="M604 154L798 250L666 492L518 418Z" fill="#FF5A4F"/>
+    <path d="M798 250L898 518L620 588L666 492Z" fill="#59C7C1"/>
+  </g>
+  <path d="M668 174C794 248 850 384 822 518C792 662 668 786 492 824C340 856 202 786 166 670C126 542 202 438 324 420C250 346 282 238 396 194C482 162 586 162 668 174ZM428 456C350 460 302 520 314 592C326 664 404 698 478 670C554 640 602 572 620 498C552 472 490 452 428 456Z" fill="none" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M342 306L258 328L326 390Z" fill="#FFF4E8"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Watermelon Ferry</title><desc id="desc">A bitten watermelon wedge carries two broad source seeds along one curved chamber.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M126 714C224 374 482 190 846 240L920 362C628 332 402 482 306 790Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M226 686C314 438 514 310 812 326L848 394C616 404 456 526 380 750Z" fill="#FF5A4F" stroke="#191A20" stroke-width="42"/>
+  <path d="M720 306L790 214L868 300L824 388Z" fill="#191A20"/>
+  <path d="M458 566C478 520 532 508 560 548C590 508 648 524 660 568C674 618 620 656 560 690C498 656 436 616 458 566Z" fill="#FFF4E8"/>
+  <path d="M650 432C672 400 716 398 738 430C760 462 730 498 694 520C660 494 628 466 650 432Z" fill="#F2B84B"/>
+</svg>

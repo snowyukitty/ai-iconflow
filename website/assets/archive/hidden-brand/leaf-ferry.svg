@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Leaf Ferry</title>
+  <desc id="desc">A leafcutter ant carries one bitten master fragment toward a larger living garden.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M158 448C224 210 482 132 720 234C824 278 886 356 904 448L766 432L694 508L612 420L526 494L438 404L350 470L268 398Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M236 690C236 622 290 568 358 568C422 568 474 616 480 678C492 598 554 542 632 542C724 542 798 616 798 708C798 792 734 860 650 870C572 878 504 830 480 758C458 826 396 868 326 856C272 846 236 782 236 690Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="44"/>
+  <circle cx="500" cy="688" r="86" fill="#F2B84B" stroke="#191A20" stroke-width="32"/>
+  <path d="M322 820L254 904M418 830L390 920M620 834L666 920M720 806L808 878" stroke="#FF5A4F" stroke-width="54" stroke-linecap="round"/>
+  <path d="M392 570L338 478M640 544L700 444" stroke="#FFF4E8" stroke-width="48" stroke-linecap="round"/>
+</svg>

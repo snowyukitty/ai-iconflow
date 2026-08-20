@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Velvet Hammock — uncommon shelter</title>
+  <desc id="desc">A velvet worm's soft body and three broad feet hold one protected hammock void.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M160 700L284 598H832L908 704L814 790H248Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M222 514C236 380 354 292 520 304C688 316 800 404 794 532C788 646 686 704 528 700C370 696 210 638 222 514Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="48"/>
+  <path d="M336 630V758M508 650V784M684 628V756" stroke="#FFF4E8" stroke-width="100" stroke-linecap="round"/>
+  <path d="M374 500C410 450 480 454 510 508C544 454 616 458 644 512C674 572 604 628 510 682C416 628 336 568 374 500Z" fill="#191A20"/>
+  <path d="M264 416L198 330M310 392L300 286" stroke="#FFF4E8" stroke-width="50" stroke-linecap="round"/>
+  <circle cx="306" cy="462" r="24" fill="#191A20"/>
+</svg>

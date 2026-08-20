@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Tailor Leaf — living craft</title>
+  <desc id="desc">A tailorbird pulls two broad leaf edges into one shelter with edge-open stitch bays.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M168 696C178 430 330 226 548 174C620 340 592 560 430 748Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M856 700C840 432 690 230 474 178C408 344 438 562 596 750Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M454 300L504 388L568 302M430 462L502 534L586 458M412 620L506 674L610 612" fill="none" stroke="#191A20" stroke-width="74" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M310 620C280 488 344 370 462 336C560 308 660 354 700 446L812 488L714 554C690 668 596 738 486 726Z" fill="#FFF4E8" stroke="#191A20" stroke-width="36" stroke-linejoin="round"/>
+  <path d="M692 432L862 454L720 516Z" fill="#FF5A4F" stroke="#191A20" stroke-width="30" stroke-linejoin="round"/>
+  <circle cx="650" cy="422" r="24" fill="#191A20"/>
+</svg>

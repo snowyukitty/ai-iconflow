@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Kohlrabi Orbit</title><desc id="desc">A kohlrabi bulb is named by three outward stems and one swept leaf orbit.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M260 536C260 360 386 258 548 276C710 292 814 416 790 590C770 750 632 838 468 812C330 790 260 684 260 536Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M342 392L188 270M548 288L540 126M726 402L858 290" stroke="#F2B84B" stroke-width="76" stroke-linecap="round"/>
+  <path d="M132 234C246 136 380 174 430 284C316 354 202 330 132 234Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="40"/>
+  <path d="M760 270C840 156 932 180 958 288C882 360 802 350 742 302Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="38"/>
+  <path d="M430 792L382 902M588 812L624 920" stroke="#7BBF6A" stroke-width="64" stroke-linecap="round"/>
+</svg>

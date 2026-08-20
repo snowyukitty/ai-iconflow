@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Rambutan Ray</title><desc id="desc">A rambutan uses six broad asymmetric hairs and one off-axis coral proof curl.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M264 344C364 220 596 204 738 306C882 410 872 638 736 770C604 900 370 874 246 730C140 606 152 480 264 344Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M284 310L216 138M414 260L388 80M568 244L626 76M708 300L824 152M780 438L930 382M788 600L946 646M704 744L806 894M528 812L552 950M348 756L264 910M224 630L72 690M214 462L66 418" fill="none" stroke="#7BBF6A" stroke-width="64" stroke-linecap="round"/>
+  <path d="M656 286C720 224 798 260 800 332" fill="none" stroke="#F2B84B" stroke-width="72" stroke-linecap="round"/>
+  <path d="M354 506C402 448 486 454 526 514C570 454 660 462 690 526C724 598 640 680 526 754C412 680 316 586 354 506Z" fill="#FFF4E8" stroke="#191A20" stroke-width="34"/>
+</svg>

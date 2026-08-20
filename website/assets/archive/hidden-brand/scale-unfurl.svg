@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Scale Unfurl</title>
+  <desc id="desc">A walking pangolin repeats one master scale at descendant sizes along an unbroken route.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M126 566C170 360 356 224 584 252C754 274 832 390 800 520C902 570 936 654 884 728C828 808 714 790 628 720C514 810 322 814 210 724C148 674 116 620 126 566Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M230 430L348 290L450 418L544 270L632 424L724 326L790 470" fill="none" stroke="#FF5A4F" stroke-width="92" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M170 540L88 486L148 408L260 446Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="40" stroke-linejoin="round"/>
+  <path d="M292 730L236 854M470 758L450 880M632 718L700 834" stroke="#F2B84B" stroke-width="76" stroke-linecap="round"/>
+</svg>

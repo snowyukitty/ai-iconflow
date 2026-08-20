@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Seahorse Creche — living pouch</title>
+  <desc id="desc">A crowned seahorse curls around its brood pouch, with three broad panes instead of decorative scales.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <path d="M612 136L678 222L764 202L738 302C818 372 812 486 738 550L670 608C620 650 630 720 688 742C746 764 796 724 782 676C770 634 722 628 696 650" fill="none" stroke="#191A20" stroke-width="170" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M612 136L678 222L764 202L738 302C818 372 812 486 738 550L670 608C620 650 630 720 688 742C746 764 796 724 782 676C770 634 722 628 696 650" fill="none" stroke="#FF5A4F" stroke-width="108" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M706 286C642 326 594 392 590 468C586 554 626 622 688 650" fill="none" stroke="#59C7C1" stroke-width="70" stroke-linecap="round"/>
+  <path d="M610 404C526 414 462 486 466 580C470 684 554 750 648 730C602 678 594 610 618 546Z" fill="#F2B84B" stroke="#191A20" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M742 336L912 398L748 462Z" fill="#FF5A4F" stroke="#191A20" stroke-width="36" stroke-linejoin="round"/>
+  <circle cx="746" cy="336" r="20" fill="#FFF4E8"/>
+  <path d="M428 540C458 502 516 508 534 550C556 508 614 510 638 550C662 596 604 642 534 688C460 642 404 584 428 540Z" fill="#FFF4E8"/>
+</svg>

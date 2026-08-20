@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Acorn Peek — dormouse shelter</title>
+  <desc id="desc">A dormouse peeks from an acorn cup; one oversized ear and a curled tail break the shelter silhouette.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M248 480C258 286 400 170 548 190C702 210 810 340 790 498L744 720C722 818 642 866 516 864C388 862 304 814 282 716Z" fill="#F2B84B"/>
+  <path d="M224 454C250 342 354 282 508 282C658 282 770 340 806 450L754 534C614 492 410 492 270 536Z" fill="#59C7C1"/>
+  <path d="M350 438C342 330 416 256 524 268C614 278 670 346 654 446C604 426 548 416 488 418C436 420 388 426 350 438Z" fill="#FFF4E8"/>
+  <path d="M396 334C364 248 414 190 486 248L514 332Z" fill="#FFF4E8" stroke="#FF5A4F" stroke-width="42" stroke-linejoin="round"/>
+  <circle cx="562" cy="350" r="22" fill="#191A20"/>
+  <path d="M710 566C860 558 882 708 786 774C742 804 702 794 676 770" fill="none" stroke="#FFF4E8" stroke-width="72" stroke-linecap="round"/>
+  <path d="M708 566C802 568 820 650 770 696" fill="none" stroke="#FF5A4F" stroke-width="26" stroke-linecap="round"/>
+</svg>

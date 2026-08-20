@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Neko Parachute</title>
+  <desc id="desc">A leaf parachute carries one asymmetric cat face with a calm native-size expression.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <g id="iconflow-mark" stroke="#191A20" stroke-linejoin="round">
+    <path id="iconflow-canopy" d="M150 426C192 236 354 142 544 160C724 178 842 286 884 438L744 418L678 480L592 398L512 466L426 386L342 448L258 374Z" fill="#7BBF6A" stroke-width="44"/>
+    <path d="M342 448L390 602M678 480L634 602" fill="none" stroke-width="44" stroke-linecap="round"/>
+    <path id="iconflow-payload" d="M322 690L348 548L438 618C486 596 538 596 584 618L674 566L690 706C714 816 632 892 512 896C388 892 300 812 322 690Z" fill="#FF5A4F" stroke-width="48"/>
+    <path d="M372 704C406 646 460 624 512 650C564 624 620 648 652 704C680 754 630 832 512 848C394 830 342 756 372 704Z" fill="#FFF4E8" stroke-width="32"/>
+    <path d="M408 710Q448 746 486 710M538 710Q576 746 614 710" fill="none" stroke-width="32" stroke-linecap="round"/>
+    <path id="iconflow-signature" d="M512 742L554 776L512 814L470 776Z" fill="#7BBF6A" stroke-width="28"/>
+  </g>
+</svg>

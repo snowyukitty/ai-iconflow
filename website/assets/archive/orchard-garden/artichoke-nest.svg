@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Artichoke Nest</title><desc id="desc">Broad artichoke bracts layer into one protected heart-like opening without drawing a badge.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M512 104L640 280L784 208L748 408L900 420L790 560L882 672L708 694L688 858L512 776L338 858L314 694L142 672L234 560L124 420L278 408L242 208L386 280Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M512 242L604 374L710 322L674 472L790 500L690 588L728 702L594 672L512 792L428 672L296 702L334 588L234 500L350 472L314 322L420 374Z" fill="#59C7C1" stroke="#191A20" stroke-width="36" stroke-linejoin="round"/>
+  <path d="M410 502C448 442 516 448 548 504C586 448 660 462 680 522C704 594 622 670 548 722C466 668 370 578 410 502Z" fill="#191A20"/>
+  <path d="M472 790V916H612V790" fill="#F2B84B" stroke="#FFF4E8" stroke-width="38" stroke-linejoin="round"/>
+</svg>

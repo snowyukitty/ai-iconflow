@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Garlic Family</title><desc id="desc">One garlic bulb grows three differently sized cloves beneath a tilted stem and scalloped root.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M242 450C286 324 390 258 510 270C640 250 760 328 800 462C844 608 774 792 644 844C552 880 474 844 424 786C358 844 260 816 216 734C166 642 184 530 242 450Z" fill="#FFF4E8" stroke="#7BBF6A" stroke-width="52"/>
+  <path d="M408 274C398 182 460 112 526 90C574 160 590 230 558 294Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M334 500C382 426 468 452 484 538V780C432 844 350 826 318 748C286 672 292 562 334 500Z" fill="#F2B84B" stroke="#191A20" stroke-width="34"/>
+  <path d="M510 438C566 360 656 394 682 492C706 588 686 730 628 808C578 866 516 826 492 768V536Z" fill="#FF5A4F" stroke="#191A20" stroke-width="34"/>
+  <path d="M626 490C684 422 758 468 776 560C794 650 754 766 682 814" fill="#FFF4E8" stroke="#191A20" stroke-width="34"/>
+  <path d="M284 820Q342 900 402 828Q470 916 536 832Q606 908 670 824Q734 884 790 806" fill="none" stroke="#F2B84B" stroke-width="54" stroke-linecap="round"/>
+</svg>

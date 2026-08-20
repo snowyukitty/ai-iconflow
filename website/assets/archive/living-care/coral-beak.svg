@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Coral Beak — offering puffin</title>
+  <desc id="desc">An upright puffin is identified by one enormous faceted coral beak and paddle feet.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <path d="M354 824C270 714 276 520 334 354C382 216 534 156 666 214C778 264 830 390 792 520L738 746L806 824Z" fill="#191A20"/>
+  <path d="M430 338C464 240 598 214 682 286C730 328 742 390 716 448L626 516L468 474Z" fill="#FFF4E8"/>
+  <path d="M668 322L914 430L716 564L604 474Z" fill="#FF5A4F" stroke="#191A20" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M770 366L914 430L798 508Z" fill="#F2B84B"/>
+  <path d="M420 502C518 480 612 556 614 682C546 656 468 660 392 706Z" fill="#59C7C1"/>
+  <circle cx="640" cy="354" r="24" fill="#191A20"/>
+  <path d="M354 790L280 874H454L482 820ZM662 810L630 874H810L738 790Z" fill="#FF5A4F"/>
+</svg>

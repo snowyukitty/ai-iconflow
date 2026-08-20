@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Coin Plug</title>
+  <desc id="desc">A trapdoor spider uses its own flat abdomen as a fitted proof door.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <circle cx="590" cy="510" r="286" fill="#F2B84B" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M330 430L174 342M334 496L132 482M338 570L160 674M414 690L326 842" stroke="#FF5A4F" stroke-width="72" stroke-linecap="round"/>
+  <path d="M340 392C252 392 198 446 202 526C208 620 292 680 394 640L470 580V452L394 408Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="46" stroke-linejoin="round"/>
+  <path d="M332 462L234 420M336 560L230 610" stroke="#191A20" stroke-width="34" stroke-linecap="round"/>
+  <path d="M604 288V728" stroke="#59C7C1" stroke-width="68" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Beet Thread</title><desc id="desc">A beet's single continuous root thread returns into one side notch beneath three leaf shoulders.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M230 492C284 342 444 282 592 330C758 384 832 550 764 704C700 848 500 884 344 790C224 716 184 616 230 492Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M330 368C204 286 208 144 328 108C430 166 452 276 402 376Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="44"/>
+  <path d="M454 328C438 180 548 94 672 144C700 268 626 352 510 390Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="44"/>
+  <path d="M596 350C646 224 772 216 844 302C806 408 714 438 622 402Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="42"/>
+  <path d="M510 810C532 904 654 936 724 866C780 810 740 736 674 756C618 772 630 828 678 826" fill="none" stroke="#FF5A4F" stroke-width="78" stroke-linecap="round"/>
+</svg>

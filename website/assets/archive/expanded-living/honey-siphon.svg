@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Honey Siphon — inverted collector</title>
+  <desc id="desc">An inverted honey possum fuses its long snout to one broad banksia cone.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M206 328C270 190 438 160 548 258C652 350 634 526 506 602C382 676 222 608 188 470C176 420 182 370 206 328Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="48"/>
+  <path d="M224 318L158 226M350 238L330 130M480 278L540 174" stroke="#FFF4E8" stroke-width="78" stroke-linecap="round"/>
+  <path d="M546 468C668 416 802 480 824 612C846 746 730 850 604 806C492 768 452 634 516 536Z" fill="#FFF4E8" stroke="#FFF4E8" stroke-width="44"/>
+  <path d="M604 528C682 502 756 548 766 624C776 698 714 760 642 742C574 724 546 638 580 574Z" fill="#FF5A4F"/>
+  <path d="M562 500L430 416" stroke="#FFF4E8" stroke-width="82" stroke-linecap="round"/>
+  <path d="M724 776C806 824 890 770 876 690" fill="none" stroke="#FFF4E8" stroke-width="80" stroke-linecap="round"/>
+  <circle cx="544" cy="548" r="24" fill="#191A20"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Corn Quilt</title><desc id="desc">A compact corn cob carries three oversized irregular kernels beneath one opening husk fold.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M314 254C404 170 620 176 706 266C802 366 790 676 698 790C616 890 402 884 318 792C218 682 214 348 314 254Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M342 340L478 276L548 420L402 480ZM552 280L688 348L622 488L484 416ZM404 506L546 430L620 584L468 654Z" fill="#FF5A4F" stroke="#191A20" stroke-width="34" stroke-linejoin="round"/>
+  <path d="M300 690C182 566 174 388 260 256C350 376 386 520 356 690ZM710 686C826 548 828 382 752 260C664 388 634 530 656 690Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="42"/>
+</svg>

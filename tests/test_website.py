@@ -31,6 +31,7 @@ HTML_PAGES = (
     "404.html",
     "getting-started/index.html",
     "how-icons-are-made/index.html",
+    "archive/index.html",
     "gallery/index.html",
     "gallery/social-signals/index.html",
     "gallery/emoji-matrix/index.html",
@@ -103,6 +104,10 @@ class WebsiteContractTests(unittest.TestCase):
             "how-icons-are-made/how-icons-are-made.css",
             "playground.js",
             "playground.css",
+            "archive/index.html",
+            "archive.js",
+            "archive.css",
+            "assets/archive/catalog.json",
             "gallery/index.html",
             "gallery/gallery.css",
             "gallery/gallery.js",
@@ -573,6 +578,25 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertIn(".inspector-native img,.focus-proof img { width: 16px; height: 16px", css)
         self.assertIn("@media (max-width: 760px)", css)
         self.assertIn("overflow-x: hidden", css)
+
+    def test_living_archive_is_source_bound_and_mirrored_on_the_homepage(self) -> None:
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location("build_archive", ROOT / "scripts" / "build_archive.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        self.assertEqual(0, module.verify())
+        catalog = json.loads((SITE / "assets" / "archive" / "catalog.json").read_text(encoding="utf-8"))
+        self.assertGreaterEqual(catalog["counts"]["directions"], 100)
+        production = [e for e in catalog["entries"] if e["status"] == "production"]
+        self.assertEqual(1, len(production))
+        self.assertEqual(svg_sha256(ROOT / "brand" / "master.svg"), svg_sha256(SITE / production[0]["svg"].lstrip("/")))
+        for entry in random.Random(7).sample(catalog["entries"], 12):
+            self.assertEqual((16, 16), png_size(SITE / entry["proof16"].lstrip("/")))
+        home = (SITE / "index.html").read_text(encoding="utf-8")
+        self.assertIn('href="/archive/"', home)
+        sitemap = (SITE / "sitemap.xml").read_text(encoding="utf-8")
+        self.assertIn(f"{CANONICAL_ORIGIN}/archive/", sitemap)
 
     def test_collection_routes_are_in_sitemap_and_gallery_navigation(self) -> None:
         sitemap = (SITE / "sitemap.xml").read_text(encoding="utf-8")

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Lop Heart — listening rabbit</title>
+  <desc id="desc">A sitting lop rabbit uses one long dropped ear and its chest to shelter a broad heart-shaped listening space.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#FFF4E8"/>
+  <path d="M354 290C300 158 370 104 456 246C504 210 572 210 624 244C712 104 784 162 730 300C812 370 830 488 780 580C846 678 800 826 680 856H340C216 826 172 678 238 580C188 486 208 366 292 298Z" fill="#191A20"/>
+  <path d="M382 302C342 206 382 172 444 276C492 248 554 248 602 276C666 172 706 208 666 308C738 374 744 478 696 546C630 642 414 642 348 546C300 478 310 370 382 302Z" fill="#59C7C1"/>
+  <path d="M246 548C166 618 196 772 316 814L394 780C322 720 306 642 342 566Z" fill="#FF5A4F"/>
+  <path d="M398 528C430 486 494 492 514 540C538 492 602 494 624 542C650 594 584 650 514 696C438 648 372 582 398 528Z" fill="#FFF4E8"/>
+  <circle cx="430" cy="424" r="24" fill="#191A20"/>
+  <circle cx="590" cy="424" r="24" fill="#191A20"/>
+  <path d="M470 468Q512 504 554 468" fill="none" stroke="#191A20" stroke-width="28" stroke-linecap="round"/>
+</svg>

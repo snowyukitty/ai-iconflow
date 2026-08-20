@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow Master Key concept</title>
+  <desc id="desc">A square-bow warm master key ends in two deliberately unequal pixel teeth.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark">
+    <path id="iconflow-core" fill="#FFF4E8" fill-rule="evenodd" d="M176 288H496V416H848V544H768V672H640V544H496V672H176V288ZM288 400V560H400V400H288Z"/>
+    <g id="iconflow-signature">
+      <rect x="256" y="368" width="176" height="224" rx="24" fill="#FF5A4F"/>
+      <rect x="304" y="416" width="80" height="128" rx="10" fill="#191A20"/>
+    </g>
+  </g>
+</svg>

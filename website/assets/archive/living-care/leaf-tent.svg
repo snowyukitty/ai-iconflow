@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Leaf Tent — sleeping white bat</title>
+  <desc id="desc">A small white bat sleeps beneath a broad shelter leaf whose heart-like central nick is part of the roof.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M126 386C250 178 446 150 512 306C580 150 776 178 898 386L758 520H266Z" fill="#59C7C1"/>
+  <path d="M126 386C250 178 446 150 512 306C580 150 776 178 898 386" fill="none" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M512 350V510" stroke="#F2B84B" stroke-width="42" stroke-linecap="round"/>
+  <path d="M512 470C454 430 366 472 352 570C340 666 418 760 512 836C606 760 684 666 672 570C658 472 570 430 512 470Z" fill="#FFF4E8"/>
+  <path d="M390 556L288 520L352 670L450 642ZM634 556L736 520L672 670L574 642Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="32" stroke-linejoin="round"/>
+  <path d="M446 506L474 442L512 492L550 442L578 506" fill="#F2B84B"/>
+  <path d="M450 572Q512 620 574 572" fill="none" stroke="#191A20" stroke-width="30" stroke-linecap="round"/>
+</svg>

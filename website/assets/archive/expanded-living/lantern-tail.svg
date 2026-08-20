@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Lantern Tail — firefly guide</title>
+  <desc id="desc">A firefly carries its own enlarged flat-bottomed abdomen as a guiding lantern.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g transform="rotate(-24 512 512)">
+    <path d="M386 414C270 346 196 412 216 516C234 614 342 652 446 596Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+    <path d="M638 414C754 346 828 412 808 516C790 614 682 652 578 596Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+    <ellipse cx="512" cy="360" rx="122" ry="112" fill="#FFF4E8" stroke="#191A20" stroke-width="36"/>
+    <path d="M390 438C390 358 444 316 512 316C580 316 634 358 634 438V684C634 770 586 820 512 820C438 820 390 770 390 684Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="46"/>
+    <path d="M390 650H634V720C604 782 558 812 512 812C466 812 420 782 390 720Z" fill="#FF5A4F"/>
+    <path d="M458 532C486 492 540 492 566 532C586 562 566 602 512 648C458 602 438 562 458 532Z" fill="#191A20"/>
+    <path d="M450 264L394 174M574 264L632 174" stroke="#FFF4E8" stroke-width="42" stroke-linecap="round"/>
+  </g>
+</svg>

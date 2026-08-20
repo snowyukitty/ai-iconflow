@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Dragon Crown</title><desc id="desc">A dragon fruit's five broad living fins guard one clean flesh window.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M278 292C398 190 626 194 754 306C884 420 866 668 720 792C598 896 384 872 270 738C158 606 164 390 278 292Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="50"/>
+  <path d="M330 294L292 138L442 242M540 222L616 90L664 268M752 320L896 274L810 430M244 526L100 572L246 632M680 760L760 910L584 824" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M366 376C446 298 600 300 682 388C764 478 736 652 628 724C528 792 388 746 330 632C288 548 302 440 366 376Z" fill="#FFF4E8" stroke="#191A20" stroke-width="38"/>
+  <path d="M430 440L474 420M584 436L626 460M396 578L438 598M548 626L594 608" stroke="#845EC2" stroke-width="38" stroke-linecap="round"/>
+</svg>

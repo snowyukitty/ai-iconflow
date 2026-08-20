@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow Proof Wisp concept</title>
+  <desc id="desc">An original warm-paper creature carries one square coral proof eye and an integrated two-step tail.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark">
+    <path id="iconflow-core" d="M288 192H512V256H640V320H736V384H800V608H736V672H640V736H608V832H480V768H352V704H288C217 704 160 647 160 576V352C160 264 232 192 320 192H288Z" fill="#FFF4E8"/>
+    <g id="iconflow-signature">
+      <rect x="512" y="352" width="224" height="224" rx="32" fill="#FF5A4F"/>
+      <rect x="560" y="400" width="128" height="128" rx="14" fill="#191A20"/>
+    </g>
+  </g>
+</svg>

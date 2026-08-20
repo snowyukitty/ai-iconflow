@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Taildraft Pounce</title>
+  <desc id="desc">A coral cat pounces diagonally with a broad green tail draft and one tomato held at its mouth.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M214 596C122 470 178 282 330 220C460 166 622 218 702 328C566 290 432 322 354 414C286 494 286 590 326 674Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M262 676C248 536 356 424 500 430C578 434 632 466 688 526L736 470L786 516L846 500L834 568C892 604 884 700 824 746C752 802 674 754 610 706C548 660 478 654 414 716C352 776 274 744 262 676Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M386 688L332 822M548 692L536 842" stroke="#FF5A4F" stroke-width="72" stroke-linecap="round"/>
+  <path d="M748 590Q784 618 820 588" fill="none" stroke="#191A20" stroke-width="28" stroke-linecap="round"/>
+  <path d="M818 576C844 526 914 536 930 590C946 648 888 696 828 676C848 650 850 616 818 576Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="38"/>
+  <path d="M842 550L870 498L892 556L928 536L916 586Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="26" stroke-linejoin="round"/>
+</svg>

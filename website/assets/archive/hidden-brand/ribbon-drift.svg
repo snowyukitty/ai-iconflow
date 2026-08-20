@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Ribbon Drift</title>
+  <desc id="desc">A ribbon eel stays one living route while a broad fold changes orientation.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M202 268C330 158 506 190 566 322C618 436 522 524 430 566C338 608 264 684 326 768C396 862 578 820 688 730C786 650 848 518 784 432C746 380 688 370 638 392" fill="none" stroke="#4C8DDA" stroke-width="164" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M146 218L320 198L378 330L224 390L114 324Z" fill="#4C8DDA" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M172 210L124 126M246 198L236 104" stroke="#F2B84B" stroke-width="54" stroke-linecap="round"/>
+  <path d="M154 302H316" stroke="#191A20" stroke-width="42" stroke-linecap="round"/>
+  <path d="M440 570L522 646" stroke="#F2B84B" stroke-width="58" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow — Petal Haypile</title>
+  <desc id="desc">A low-eared pika returns to its hay store with three oversized petals.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark">
+    <path id="iconflow-core" d="M212 628C212 454 334 338 512 342C680 346 790 448 786 604C782 734 678 806 508 806C338 806 212 752 212 628Z" fill="#FFF4E8" stroke="#FFF4E8" stroke-width="44"/>
+    <ellipse cx="340" cy="332" rx="76" ry="108" fill="#FFF4E8" transform="rotate(-18 340 332)"/>
+    <ellipse cx="454" cy="322" rx="72" ry="104" fill="#FFF4E8" transform="rotate(10 454 322)"/>
+    <path d="M266 658C334 602 410 588 488 618C550 642 592 688 616 748C532 790 418 796 326 760Z" fill="#59C7C1"/>
+    <circle cx="658" cy="486" r="28" fill="#191A20"/>
+    <path d="M760 548L842 468" stroke="#FFF4E8" stroke-width="60" stroke-linecap="round"/>
+    <g id="iconflow-signature">
+      <path d="M820 454C758 390 774 304 858 276C904 346 886 420 820 454Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="28"/>
+      <path d="M856 502C818 432 854 356 942 356C964 434 930 492 856 502Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="28"/>
+      <path d="M790 426C726 382 724 300 794 254C854 310 850 382 790 426Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="28"/>
+    </g>
+  </g>
+</svg>

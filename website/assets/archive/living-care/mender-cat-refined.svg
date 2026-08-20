@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Mender Cat — curled repair companion</title>
+  <desc id="desc">A curled sleeping cat closes its gold tail around one coral repair heart held between its paws.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M244 700C164 556 222 374 372 300L410 154L510 268L620 170L654 314C804 374 866 552 790 700C716 846 528 894 378 822Z" fill="#FFF4E8"/>
+  <path d="M286 654C238 544 290 424 398 370C474 332 564 340 640 382C546 388 470 434 432 510C394 586 398 670 444 738C374 732 316 704 286 654Z" fill="#59C7C1"/>
+  <path d="M684 438C798 504 800 666 694 740C616 796 508 790 438 740" fill="none" stroke="#F2B84B" stroke-width="118" stroke-linecap="round"/>
+  <path d="M428 536C460 492 524 498 546 548C570 500 636 502 658 552C684 606 618 658 546 704C468 658 396 590 428 536Z" fill="#FF5A4F"/>
+  <path d="M398 430Q448 466 498 430M516 430Q566 466 616 430" fill="none" stroke="#191A20" stroke-width="30" stroke-linecap="round"/>
+  <path d="M442 604L486 628M650 604L606 628" stroke="#191A20" stroke-width="34" stroke-linecap="round"/>
+</svg>

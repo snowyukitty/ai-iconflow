@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Numbat Courier — carried cradle</title>
+  <desc id="desc">A long-snouted numbat trots with one nested cradle pane and a broad bottlebrush tail.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M204 626C222 458 354 360 530 376C688 390 782 490 766 630C750 752 640 806 486 786C348 768 246 730 204 626Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="48"/>
+  <path d="M714 460L900 394L820 520L930 560L776 620Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="46" stroke-linejoin="round"/>
+  <path d="M244 542L116 478L214 436L350 484Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M420 388L470 256L548 380M296 398L316 286L392 374" fill="#F2B84B" stroke="#FFF4E8" stroke-width="40" stroke-linejoin="round"/>
+  <path d="M438 398C490 374 564 380 612 410L582 748C522 776 458 774 404 746Z" fill="#191A20"/>
+  <path d="M446 488C484 448 548 450 584 492V626C548 664 484 664 448 626Z" fill="#FFF4E8"/>
+  <circle cx="272" cy="482" r="24" fill="#191A20"/>
+  <path d="M346 744V844M624 742V842" stroke="#FFF4E8" stroke-width="76" stroke-linecap="round"/>
+</svg>

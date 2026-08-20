@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Bok Choy Bloom</title><desc id="desc">Three thick stems merge into one root while two unequal leaves open as a canopy.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M256 818C260 640 308 476 394 340L512 430L626 326C714 466 768 636 770 818Z" fill="#FFF4E8" stroke="#7BBF6A" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M400 396C246 344 178 212 250 108C406 92 510 206 492 360Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="44"/>
+  <path d="M584 362C550 198 650 92 804 118C868 240 790 364 636 410Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="44"/>
+  <path d="M396 434C430 560 440 684 430 812M512 430V816M626 420C590 558 582 686 594 812" fill="none" stroke="#F2B84B" stroke-width="58" stroke-linecap="round"/>
+  <path d="M318 812Q390 900 466 816Q544 914 622 816Q696 894 760 806" fill="none" stroke="#FF5A4F" stroke-width="54" stroke-linecap="round"/>
+</svg>

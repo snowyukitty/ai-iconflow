@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow Printer's Chase concept</title>
+  <desc id="desc">A heavy warm printer's chase holds one offset coral proof forme and a side handle.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark">
+    <path id="iconflow-core" fill="#FFF4E8" fill-rule="evenodd" d="M176 224H736V320H848V512H736V800H176V224ZM304 352V672H608V352H304Z"/>
+    <g id="iconflow-signature">
+      <rect x="400" y="432" width="160" height="160" rx="20" fill="#FF5A4F"/>
+      <rect x="448" y="480" width="64" height="64" rx="8" fill="#191A20"/>
+    </g>
+  </g>
+</svg>

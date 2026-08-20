@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Leaf Cape Chomp</title>
+  <desc id="desc">A side-view teal cat bites a tomato while one oversized calyx leaf lifts from its back like a living cape.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M176 430C244 214 472 152 680 232C792 276 864 346 892 432L748 412L670 470L590 394L506 458L420 382L332 438L254 382Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="46" stroke-linejoin="round"/>
+  <path d="M232 650C214 526 308 424 442 424C536 424 600 466 658 526L704 474L758 510L822 488L810 558C864 594 864 684 812 730C750 786 670 756 604 706C542 660 470 648 406 704C344 758 248 734 232 650Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="50" stroke-linejoin="round"/>
+  <path d="M260 614C152 576 140 438 224 372" fill="none" stroke="#F2B84B" stroke-width="72" stroke-linecap="round"/>
+  <path d="M754 598Q790 626 826 594" fill="none" stroke="#191A20" stroke-width="28" stroke-linecap="round"/>
+  <path d="M820 594C850 530 938 548 944 618C950 684 876 724 808 694C838 670 848 638 820 594Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="42"/>
+  <path d="M844 564L876 504L898 570L942 548L926 610Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="28" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow Arbor Press concept</title>
+  <desc id="desc">A compact warm bench press lowers a coral die toward a stepped proof platen.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark">
+    <path id="iconflow-core" d="M176 224H672V352H336V672H736V800H176V224Z" fill="#FFF4E8"/>
+    <rect x="512" y="352" width="128" height="176" fill="#FFF4E8"/>
+    <path d="M608 288L816 184" fill="none" stroke="#FFF4E8" stroke-width="88" stroke-linecap="round"/>
+    <g id="iconflow-signature">
+      <path d="M480 560H672V656H640V704H512V656H480V560Z" fill="#FF5A4F"/>
+      <rect x="528" y="584" width="96" height="72" rx="10" fill="#191A20"/>
+    </g>
+  </g>
+</svg>

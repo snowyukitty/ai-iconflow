@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Tun Survivor</title>
+  <desc id="desc">A tardigrade compacts into a sturdy tun yet keeps its paired claw rhythm.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M284 248C358 172 596 166 704 236C820 310 834 620 716 752C624 856 382 850 292 744C180 612 184 350 284 248Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M700 318L860 374L812 500L704 470Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M314 720L264 846M430 752L406 870M584 752L612 870M700 714L766 832" stroke="#FF5A4F" stroke-width="76" stroke-linecap="round"/>
+  <path d="M364 302C426 266 584 266 648 302" fill="none" stroke="#59C7C1" stroke-width="64" stroke-linecap="round"/>
+</svg>

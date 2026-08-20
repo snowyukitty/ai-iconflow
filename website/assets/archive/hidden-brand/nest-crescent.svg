@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Nest Crescent</title>
+  <desc id="desc">A swiftlet lays one continuous living stream into a wall-fastened shelter.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M206 176H350V824H206Z" fill="#59C7C1" stroke="#FFF4E8" stroke-width="44"/>
+  <path d="M340 370C514 240 796 294 872 492C922 624 842 770 700 806C552 842 398 758 350 622L486 622C532 708 656 736 742 680C832 622 824 496 734 444C654 398 544 416 486 498L350 498Z" fill="#FFF4E8" stroke="#FF5A4F" stroke-width="46" stroke-linejoin="round"/>
+  <path d="M436 348C516 252 654 244 738 328L630 350L560 430L496 382Z" fill="#FF5A4F" stroke="#191A20" stroke-width="38" stroke-linejoin="round"/>
+  <path d="M438 348L388 270" stroke="#FF5A4F" stroke-width="54" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Persimmon Cap</title><desc id="desc">A squat persimmon is identified by one oversized asymmetric calyx cape and deep lower cleft.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M188 534C188 350 340 260 520 270C708 280 848 382 834 574C822 742 684 842 500 834C316 826 188 724 188 534Z" fill="#FF5A4F" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M226 390L300 176L470 310L566 130L646 316L820 230L770 424L534 470Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M438 818L506 728L570 820" fill="#191A20"/>
+  <path d="M520 196L548 86" stroke="#F2B84B" stroke-width="66" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Kakapo Nightfruit — returning ground parrot</title>
+  <desc id="desc">A ground parrot carries one fruit pane under a scalloped back and blunt hook bill.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M286 782C204 694 198 552 258 438C318 324 426 250 560 248C686 246 784 318 826 430L904 478L814 534C810 692 704 804 548 822C446 834 352 820 286 782Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M304 438Q366 352 428 438Q492 332 554 430Q622 330 684 426Q744 350 802 436" fill="none" stroke="#191A20" stroke-width="72" stroke-linecap="round"/>
+  <path d="M688 390C766 366 836 414 842 488C846 546 802 586 738 576L662 528Z" fill="#F2B84B" stroke="#191A20" stroke-width="34" stroke-linejoin="round"/>
+  <path d="M814 478L918 474L828 542Z" fill="#FFF4E8" stroke="#191A20" stroke-width="30" stroke-linejoin="round"/>
+  <path d="M390 570C450 520 544 526 596 584C638 632 632 704 590 746C520 758 444 744 382 704Z" fill="#FFF4E8"/>
+  <path d="M548 604C574 566 630 570 652 610C674 654 626 694 570 728C516 694 474 652 496 614C508 594 530 590 548 604Z" fill="#F2B84B"/>
+  <circle cx="760" cy="448" r="24" fill="#191A20"/>
+</svg>

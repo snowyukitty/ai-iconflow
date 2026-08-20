@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow Proof Caliper concept</title>
+  <desc id="desc">A warm side-view caliper measures one coral square specimen between unequal jaws.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark">
+    <path id="iconflow-core" d="M176 256H848V384H672V736H544V512H320V672H176V256Z" fill="#FFF4E8"/>
+    <g id="iconflow-signature">
+      <rect x="384" y="512" width="128" height="128" rx="16" fill="#FF5A4F"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Trail Prism — colorful continuous companion</title>
+  <desc id="desc">Trail Tail's one continuous walking dog becomes a broad three-color route while preserving its lifted tail and stepped gait.</desc>
+  <defs>
+    <linearGradient id="route" gradientUnits="userSpaceOnUse" x1="160" y1="0" x2="850" y2="0">
+      <stop offset="0" stop-color="#F2B84B"/><stop offset=".34" stop-color="#F2B84B"/>
+      <stop offset=".34" stop-color="#59C7C1"/><stop offset=".68" stop-color="#59C7C1"/>
+      <stop offset=".68" stop-color="#FF5A4F"/><stop offset="1" stop-color="#FF5A4F"/>
+    </linearGradient>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M214 620V498L296 422L390 436L468 388H640L708 438L788 410L752 486L804 534L752 566L704 548V684L646 748V620H410V748L350 684V566L286 612Z" fill="none" stroke="#FFF4E8" stroke-width="174" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M214 620V498L296 422L390 436L468 388H640L708 438L788 410L752 486L804 534L752 566L704 548V684L646 748V620H410V748L350 684V566L286 612Z" fill="none" stroke="url(#route)" stroke-width="104" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M214 498C138 446 148 350 232 320" fill="none" stroke="#FFF4E8" stroke-width="174" stroke-linecap="square"/>
+  <path d="M214 498C138 446 148 350 232 320" fill="none" stroke="#F2B84B" stroke-width="104" stroke-linecap="square"/>
+  <path d="M214 620V498L296 422L390 436L468 388H640L708 438L788 410L752 486L804 534L752 566L704 548V684L646 748V620H410V748L350 684V566L286 612ZM214 498C138 446 148 350 232 320" fill="none" stroke="#191A20" stroke-width="30" stroke-linecap="square" stroke-linejoin="round"/>
+  <rect x="650" y="460" width="126" height="126" rx="24" fill="#FFF4E8" stroke="#FF5A4F" stroke-width="56" transform="rotate(12 713 523)"/>
+  <circle cx="712" cy="522" r="22" fill="#191A20"/>
+</svg>

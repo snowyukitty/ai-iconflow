@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Pineapple Proof</title><desc id="desc">A compact pineapple has a three-leaf crown and only three broad proof cells.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M270 392C342 292 670 292 754 398C842 510 804 744 682 824C574 894 382 866 288 770C198 678 194 498 270 392Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M326 348L264 114L456 288L514 70L586 290L770 130L708 372Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M320 500L466 392L590 508L712 400M292 650L446 548L580 666L738 548" fill="none" stroke="#FF5A4F" stroke-width="70" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M448 548L584 508" stroke="#191A20" stroke-width="36" stroke-linecap="round"/>
+</svg>

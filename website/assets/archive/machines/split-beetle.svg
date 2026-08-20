@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow Split Beetle concept</title>
+  <desc id="desc">Unequal warm beetle wings expose one square coral inspection chamber.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark">
+    <path id="iconflow-core" d="M512 176C688 176 800 320 800 528V656C800 760 704 832 512 832C320 832 224 760 224 656V528C224 320 336 176 512 176Z" fill="#FFF4E8"/>
+    <path d="M512 304V736" stroke="#191A20" stroke-width="80" stroke-linecap="round"/>
+    <path d="M320 384L176 288M704 384L848 288M288 544L144 544M736 544H880M320 704L192 800M704 704L832 800" fill="none" stroke="#FFF4E8" stroke-width="72" stroke-linecap="round"/>
+    <path d="M432 208L352 112M592 208L688 128" fill="none" stroke="#FFF4E8" stroke-width="64" stroke-linecap="round"/>
+    <g id="iconflow-signature">
+      <rect x="544" y="416" width="160" height="160" rx="24" fill="#FF5A4F"/>
+      <rect x="592" y="464" width="64" height="64" rx="8" fill="#191A20"/>
+    </g>
+  </g>
+</svg>

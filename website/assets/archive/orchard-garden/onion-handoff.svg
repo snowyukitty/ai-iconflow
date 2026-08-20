@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Onion Handoff</title><desc id="desc">Two broad onion growth layers open into one side route while the bulb remains whole.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M512 118C642 270 802 382 810 576C818 762 678 860 512 860C342 860 204 758 214 576C224 382 384 268 512 118Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="52"/>
+  <path d="M512 278C602 390 700 470 696 610C694 726 614 786 512 786C406 786 326 724 328 610C330 470 424 388 512 278Z" fill="#FFF4E8" stroke="#191A20" stroke-width="40"/>
+  <path d="M512 414C566 492 610 548 606 632C604 696 564 730 512 730C458 730 418 696 418 632C418 548 460 492 512 414Z" fill="#FF5A4F"/>
+  <path d="M696 608C822 586 906 638 902 726C898 804 810 832 746 784" fill="none" stroke="#59C7C1" stroke-width="82" stroke-linecap="round"/>
+</svg>

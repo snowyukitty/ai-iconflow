@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Deep Canopy — ear-finned shelter</title>
+  <desc id="desc">A deep-sea octopus makes a broad heart-like shelter above one egg pane.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M274 480C274 290 378 192 512 192C646 192 750 290 750 480V650C750 744 694 822 604 844L512 760L420 844C330 822 274 744 274 650Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M290 390C190 342 136 410 174 506C208 590 296 610 374 556Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="44"/>
+  <path d="M734 390C834 342 888 410 850 506C816 590 728 610 650 556Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="44"/>
+  <path d="M414 326C446 278 506 284 528 332C554 284 618 286 640 334C664 390 598 442 528 492C452 442 380 384 414 326Z" fill="#191A20"/>
+  <path d="M402 546C444 506 514 510 550 554C590 512 658 518 690 562V676C626 714 456 712 392 670Z" fill="#FF5A4F"/>
+  <path d="M330 696Q396 814 462 714Q528 826 594 714Q660 814 722 690" fill="none" stroke="#FFF4E8" stroke-width="84" stroke-linecap="round"/>
+</svg>

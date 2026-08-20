@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Mud Wicket</title>
+  <desc id="desc">A hornbill's casqued bill occupies the only opening of a sealed nest.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <path d="M248 824V390C248 250 356 164 512 164C668 164 776 250 776 390V824Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M510 342H786L908 432L784 520H510Z" fill="#FF5A4F" stroke="#191A20" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M550 342C584 238 706 218 790 278L846 342Z" fill="#59C7C1" stroke="#191A20" stroke-width="40" stroke-linejoin="round"/>
+  <path d="M478 316V548" stroke="#191A20" stroke-width="84" stroke-linecap="round"/>
+  <path d="M606 430L804 430" stroke="#FFF4E8" stroke-width="32" stroke-linecap="round"/>
+</svg>

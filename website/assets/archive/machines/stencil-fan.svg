@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IconFlow Stencil Fan concept</title>
+  <desc id="desc">Three warm platform stencils open around one coral proof pivot.</desc>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
+  <g id="iconflow-mark">
+    <path id="iconflow-core" fill="#FFF4E8" d="M184 256H376L448 672H256L184 256ZM416 192H608V672H416V192ZM648 256H840L768 672H576L648 256Z"/>
+    <path d="M248 352H328L360 544H280L248 352ZM472 320H552V544H472V320ZM696 352H776L744 544H664L696 352Z" fill="#191A20"/>
+    <g id="iconflow-signature">
+      <rect x="432" y="608" width="160" height="160" rx="28" fill="#FF5A4F"/>
+      <rect x="480" y="656" width="64" height="64" rx="8" fill="#191A20"/>
+    </g>
+  </g>
+</svg>
