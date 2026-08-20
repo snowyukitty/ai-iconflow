@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How IconFlow Makes Icons — Brief, SVG, proof, review, receipt</title>
-  <meta name="description" content="The IconFlow methodology in plain English: a user-job brief, concept divergence, editable 1024-grid SVG, exact Chromium renders at 16px and 128px, mechanical checks, human review, source-bound receipts, and a transparent cost model.">
+  <meta name="description" content="The IconFlow methodology in plain English: a user-job brief, concept divergence, editable 1024-grid SVG, exact Chromium renders at 16px and 128px, mechanical checks, scored review, source-bound receipts, and a transparent cost model.">
   <meta name="theme-color" content="#191a20">
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="article">
   <meta property="og:title" content="How IconFlow Makes Icons">
-  <meta property="og:description" content="From user-job brief to editable SVG, native-size proof, human review, and a receipt that binds approval to the exact source. Plus what it costs, honestly.">
+  <meta property="og:description" content="From user-job brief to editable SVG, native-size proof, scored review, and a receipt that binds approval to the exact source. Plus what it costs, honestly.">
   <meta property="og:url" content="https://ai-iconflow.com/how-icons-are-made/">
   <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +25,7 @@
    "@context": "https://schema.org",
    "@type": "TechArticle",
    "headline": "How IconFlow Makes Icons",
-   "description": "The IconFlow methodology: user-job brief, concept divergence, editable SVG, exact native-size rendering, checks, human review, source-bound receipts, and a transparent cost model.",
+   "description": "The IconFlow methodology: user-job brief, concept divergence, editable SVG, exact native-size rendering, checks, scored review, source-bound receipts, and a transparent cost model.",
    "url": "https://ai-iconflow.com/how-icons-are-made/",
    "inLanguage": "en",
    "about": { "@id": "https://ai-iconflow.com/#source" },
@@ -63,7 +63,7 @@
    <div class="method-hero-copy reveal">
     <p class="eyebrow"><span class="status-dot"></span> Methodology · how the work is done</p>
     <h1>How IconFlow<br>makes <em>icons.</em></h1>
-    <p>Not a prompt and a picture. A product brief, competing ideas, one editable SVG on a 1024 grid, exact renders at the sizes people really see, a mechanical check, a scored human review, and a receipt that binds approval to the exact source. Each step in plain English, with the real artifacts beside the claims.</p>
+    <p>Not a prompt and a picture. A product brief, competing ideas, one editable SVG on a 1024 grid, exact renders at the sizes people really see, a mechanical check, a scored review by the designer, and a receipt that binds approval to the exact source. Each step in plain English, with the real artifacts beside the claims.</p>
     <ul class="hero-contract" aria-label="Page contract">
      <li>Every artifact shown is in the repository</li>
      <li>16px proofs are shown at 16px</li>
@@ -82,7 +82,7 @@
       <div class="specimen-native">
        <img src="/assets/proof/icon-128.png" width="128" height="128" alt="Exact 128 by 128 pixel render of the IconFlow mark">
        <img src="/assets/proof/icon-16.png" width="16" height="16" alt="Exact 16 by 16 pixel render of the IconFlow mark, shown at actual size">
-       <img class="zoom-16" src="/assets/proof/icon-16.png" width="16" height="16" alt="The same 16 pixel render magnified six times, pixels kept sharp">
+       <img class="zoom-16" src="/assets/proof/icon-16.png" width="16" height="16" alt="The same 16 pixel render magnified five times, pixels kept sharp">
       </div>
       <figcaption>exact 128px · exact 16px · 16px zoomed</figcaption>
      </figure>
@@ -98,7 +98,7 @@
   <section id="pipeline" class="pipeline-section section-shell">
    <div class="pipeline-heading reveal">
     <p class="section-kicker">The real pipeline</p>
-    <h2>Nine stages.<br><span>Two of them are human.</span></h2>
+    <h2>Nine stages.<br><span>Two of them are judgment.</span></h2>
     <p>Every stage leaves a file behind: a brief, concept thumbnails, an SVG, a warnings list, PNGs, a scored receipt, a build, a case record. Click a stage to read how it works.</p>
    </div>
    <ol class="pipeline reveal" aria-label="IconFlow pipeline">
@@ -107,12 +107,12 @@
     <li><a href="#svg"><strong>SVG</strong><small>Editable geometry on the 1024 grid</small></a></li>
     <li><a href="#check"><strong>Check</strong><small>Safety, grid, stroke, contrast, crop</small></a></li>
     <li><a href="#check"><strong>Render</strong><small>Exact Chromium pixels at 16 and 128</small></a></li>
-    <li><a class="is-human" href="#review"><strong>Review</strong><small>Six axes, scored by a person</small></a></li>
+    <li><a class="is-human" href="#review"><strong>Review</strong><small>Six axes, scored by the designer — human or agent</small></a></li>
     <li><a href="#review"><strong>Receipt</strong><small>Approval bound to the source hash</small></a></li>
     <li><a href="#review"><strong>Ship</strong><small>Fail-closed build of every target</small></a></li>
     <li><a class="is-human" href="#review"><strong>Learn</strong><small>Case record and distilled rules</small></a></li>
    </ol>
-   <p class="pipeline-legend"><span>mechanical stage</span><span class="legend-human">human judgment</span></p>
+   <p class="pipeline-legend"><span>mechanical stage</span><span class="legend-human">design judgment</span></p>
   </section>
 
   <section id="brief" class="method-section section-shell">
@@ -134,10 +134,10 @@
      </ul>
     </div>
     <aside class="panel reveal is-side" aria-label="What a brief contains">
-     <div class="panel-head"><span>iconflow.toml · [brief]</span><span>portable</span></div>
+     <div class="panel-head"><span>iconflow.toml · [brief] + [design] + [build]</span><span>portable</span></div>
      <dl>
       <div><dt>User job</dt><dd>The progress a person is making. Example from a shipped Theme World: “keep a small shared ritual tangible over time”.</dd></div>
-      <div><dt>Essence</dt><dd>One word that settles arguments. Keepsake Knot: “together”. IconFlow itself: “proof”.</dd></div>
+      <div><dt>Essence</dt><dd>One word that settles arguments. Keepsake Knot: “together”. The Petal Haypile brand brief: “gather”.</dd></div>
       <div><dt>Personality</dt><dd>Two or three traits with tension — “warm, tactile, assured”.</dd></div>
       <div><dt>Clichés to avoid</dt><dd>The obvious category symbols, written down so they can be rejected: heart, chat bubble, linked circles.</dd></div>
       <div><dt>Signature-device hypothesis</dt><dd>The one move that will make the mark ownable, stated before drawing and tested after.</dd></div>
@@ -237,10 +237,10 @@
        <li><strong>Contrast:</strong> luminance spread on white and on dark at 16px, and on mid-gray at 32px.</li>
        <li><strong>Maskable audit:</strong> more than 8% of detected detail outside the 40%-radius safe circle on the 512px maskable asset.</li>
        <li><strong>Distinctiveness hint:</strong> live <code>&lt;text&gt;</code> glyphs — usually a typed monogram, and rendered through the build machine’s fonts.</li>
-       <li><strong>Tray template audit:</strong> a macOS template that kept none of the color mark’s features.</li>
       </ul>
+      <p>With <code>--tray-svg tray.svg</code>, <code>check</code> and <code>review</code> add an advisory tray-template audit: it reports a macOS template that kept none of the color mark’s features. It is deliberately not part of the default <code>check</code> and never gates <code>ship</code>, because it audits a linked variant rather than the master.</p>
       <h3>Silhouette and similarity are separate proofs</h3>
-      <p>Every reviewed case also gets a 128px visual silhouette, because distinctiveness is judged with color removed. For the 400-cell matrix a similarity report adds exact PNG hashes plus 64-bit alpha and luminance difference hashes; pairs within a Hamming distance of 12 (same meaning) or 6 (different meaning) are flagged high risk, and exact duplicates block integration. The script calls the distance “a triage signal for visual inspection, not an admission score”.</p>
+      <p>Every reviewed case also gets a 128px visual silhouette, because distinctiveness is judged with color removed. For the 400-cell matrix a similarity report adds exact PNG hashes plus 64-bit alpha and luminance difference hashes; pairs whose combined alpha-plus-luminance Hamming distance is within 12 (same meaning) or 6 (different meaning) are flagged high risk, and exact duplicates block integration. The script calls the distance “a triage signal for visual inspection, not an admission score”.</p>
       <ul class="doc-links" aria-label="Related documents">
        <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/iconflow/qa.py">iconflow/qa.py</a></li>
        <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/WORKFLOW.md">docs/WORKFLOW.md</a></li>
@@ -260,8 +260,7 @@
       <div class="panel">
        <div class="panel-head"><span>terminal</span><span>a clean check</span></div>
        <pre><code>$ python -m iconflow check master.svg
-OK — no automated warnings.
-Still do the visual review.</code></pre>
+OK — no automated warnings. Still do the visual review.</code></pre>
        <p class="panel-note">A warning is source content to fix, not a renderer feature to re-enable. <code>ship</code> refuses a receipt recorded with warnings.</p>
       </div>
      </div>
@@ -282,9 +281,9 @@ Still do the visual review.</code></pre>
      <h3>Rejection and iteration are normal</h3>
      <p>If an axis is under 4, the reviewer names the weakest axis, makes the single highest-impact change, and re-renders. The docs expect two or three passes. The 100-case gallery edition admitted 100 of 111 candidates and explicitly rejected eleven weaker, less legible or repetitive directions; Keepsake Knot’s receipt records that its first pass was rejected for reading as a power symbol.</p>
      <h3>Source-bound receipts, fail-closed shipping</h3>
-     <p>The exported receipt carries a <code>source_sha256</code> of the exact SVG and a <code>contract_sha256</code> binding the project, target set, colors, Electron radius, color scheme, tray mode and tray-source hash. <code>iconflow ship</code> verifies both, requires an empty warnings list, <code>status: ready</code> and six scores of at least 4, then re-runs automated QA before writing a single file. Change the SVG by one byte and the receipt is stale.</p>
+     <p>The exported receipt carries a <code>source_sha256</code> of the exact SVG and a <code>contract_sha256</code> binding the project, target set, colors, Electron radius, color scheme, tray mode and tray-source hash. <code>iconflow ship</code> verifies both, requires an empty warnings list, <code>status: ready</code> and six scores of at least 4, then re-runs automated QA before writing a single file. Change the SVG’s content — the digest ignores only line endings — and the receipt is stale.</p>
      <h3>Casebook learning</h3>
-     <p>Every shipped icon ends with <code>iconflow case new</code>: first-pass and final scores, the cliché avoided, the signature device, one reusable lesson. <code>case stats</code> surfaces the weakest recurring axis and house clichés; the lessons are distilled into fifty numbered rules in <code>docs/LEARNINGS.md</code> that the next brief must read first. An unrecorded icon teaches the system nothing.</p>
+     <p>Every shipped icon ends with <code>iconflow case new</code>: first-pass and final scores, the cliché avoided, the signature device, one reusable lesson. <code>case stats</code> surfaces the weakest recurring axis and house clichés; the lessons are distilled into numbered rules in <code>docs/LEARNINGS.md</code> (54 at the time of writing) that the next brief must read first. An unrecorded icon teaches the system nothing.</p>
      <ul class="doc-links" aria-label="Related documents">
       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/REVIEW_CHECKLIST.md">docs/REVIEW_CHECKLIST.md</a></li>
       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>
@@ -337,7 +336,7 @@ Still do the visual review.</code></pre>
      <table>
       <thead><tr><th scope="col">Question</th><th scope="col">Prompt-to-raster image generator</th><th scope="col">IconFlow’s AI-authored vector workflow</th></tr></thead>
       <tbody>
-       <tr><th scope="row">What is the source?</th><td>A bitmap sampled from a model. The prompt is not the file.</td><td class="is-us">An editable SVG with named paths on a 1024 grid. The file is the design.</td></tr>
+       <tr><th scope="row">What is the source?</th><td>A bitmap sampled from a model. The prompt is not the file.</td><td class="is-us">An editable SVG on a 1024 grid, with semantic groups where a tray variant needs them. The file is the design.</td></tr>
        <tr><th scope="row">Can you change one thing?</th><td>Regenerate and hope; small edits drift the whole image.</td><td class="is-us">Move a node, widen a gap, recolor a band, rebuild every target.</td></tr>
        <tr><th scope="row">How does it look at 16px?</th><td>Downsampled after the fact; detail turns to mush or noise.</td><td class="is-us">Designed down: pixel budget first, exact 16px render inspected before approval.</td></tr>
        <tr><th scope="row">Where does distinctiveness come from?</th><td>The model’s priors, which pull toward the category average.</td><td class="is-us">A forced divergence step, a cliché filter and a silhouette test that can fail.</td></tr>
@@ -405,7 +404,7 @@ Still do the visual review.</code></pre>
      <li class="tier">
       <div><h3>Original production icon<small>the standard loop</small></h3><p>Brief, four concepts, bake-off, one master SVG, check, scored review, receipt, ship, case record — one product, its web targets.</p></div>
       <div><span class="tier-label">Artifacts</span><p>iconflow.toml, finalists and bake sheet, master.svg, review sheet and receipt, favicon/PWA set, casebook entry.</p></div>
-      <div><span class="tier-label">Review depth</span><p>All six axes by a person, at actual size and in silhouette; usually two or three passes.</p></div>
+      <div><span class="tier-label">Review depth</span><p>All six axes by the designer, at actual size and in silhouette; usually two or three passes.</p></div>
       <div><span class="tier-label">Iteration drivers</span><p>Distinctiveness below 4, a collision with a system icon, an accidental second reading.</p></div>
       <div class="tier-cost"><span class="tier-label">Relative cost</span><strong>Hours</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><p>Design judgment and review time first, agent usage second, compute negligible.</p></div>
      </li>
