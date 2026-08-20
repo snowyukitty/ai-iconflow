@@ -107,6 +107,17 @@ first published release remains under `Unreleased`.
 - The release-candidate clean-wheel smoke now installs its Chromium runtime
   before exercising render-backed checks.
 
+### Fixed
+
+- The unit-test matrix had failed on every push since 2026-08-20 because the
+  review CLI test let the tray-template audit launch Chromium inside a job that
+  has none; the audit is mocked like the other renderers, and the contract
+  tests compare paths canonically (macOS `/private` symlinks, Windows 8.3 temp
+  names) and patch `iconflow.build.build` through the module object.
+- The homepage hero's decorative rail looked like a slider and did nothing; it
+  is now a labelled range input that previews the mark at native sizes. The
+  floating archive marks no longer occlude the stage labels.
+
 ### Security
 
 - SVG input now rejects DTD/entity declarations, malformed or non-SVG XML,

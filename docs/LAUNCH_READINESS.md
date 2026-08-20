@@ -23,12 +23,26 @@ it is not a claim that a release has been published.
 - [x] Launch commits are on the public `main` branch, GitHub recognizes the
   Apache-2.0 license, and the cross-platform CI matrix is green.
 - [x] Owner applied a public repository description and topic baseline.
+- [x] The homepage opens on the Living Archive (137 directions, 19 passed
+  review) with a Remix Lab, a real native-size hero scrubber, and a
+  methodology page; a three-model UI/UX audit (Codex, Grok, Gemini via ATD)
+  was folded in before publication on 2026-08-21.
+- [x] Agent Contract v1 (`docs/AGENT_CONTRACT.md`): `--json` envelopes,
+  0/1/2 exit codes, `iconflow demo` from the packaged brand family, the PR
+  proof GitHub Action, and a contributor lane (case PR template, community
+  fixture, issue seeds) landed on 2026-08-21 and CI is green on every
+  platform of the matrix.
 - [ ] Owner enables GitHub private vulnerability reporting.
-- [ ] Owner approves and applies the remaining homepage and social-preview settings.
+- [ ] Owner approves and applies the remaining homepage and social-preview settings
+  (`docs/assets/social-preview.png`, 1280×640, Petal Haypile).
+- [ ] Owner confirms the `ai-iconflow` name on PyPI and creates a Trusted
+  Publisher (`docs/MILESTONE_v0.5.md`, Phase 0).
+- [ ] Owner files the eight `docs/ISSUE_SEEDS.md` issues by hand.
 - [x] Desktop, tablet, and mobile visual sign-off for `/getting-started/`
   (Playwright at 1440/768/360 on 2026-08-21: no horizontal overflow, no console
   errors); the route is live on the canonical host.
-- [ ] Owner approves a tag, GitHub Release, and PyPI publication.
+- [ ] Owner approves tag `v0.5.0`, the GitHub Release, and PyPI publication;
+  the changelog's *Unreleased* folds into 0.5.0 at that moment.
 
 This checkout and the public GitHub repository are licensed under Apache-2.0.
 The [Releases page](https://github.com/snowyukitty/ai-iconflow/releases) remains
