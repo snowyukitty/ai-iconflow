@@ -37,7 +37,7 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git fetch --no-tags --depth=1 origin "$BASE_SHA"
-          git diff --name-only --diff-filter=d "$BASE_SHA" HEAD > "$RUNNER_TEMP/changed-files.txt"
+          git diff --name-only "$BASE_SHA" HEAD > "$RUNNER_TEMP/changed-files.txt"
           echo "Changed files:"
           cat "$RUNNER_TEMP/changed-files.txt"
 

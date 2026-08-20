@@ -439,7 +439,7 @@ def load_review_receipt(
     if warnings:
         raise ConfigError(
             "review receipt contains automated warnings; regenerate after fixing them",
-            code=GATE_NOT_READY,
+            code=GATE_QA_WARNINGS,
         )
     if value.get("status") != "ready":
         raise ConfigError("review receipt status must be 'ready'", code=GATE_NOT_READY)

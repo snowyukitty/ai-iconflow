@@ -96,47 +96,59 @@ def run_envelope(command: list[str], *, cwd: Path, expected_command: str) -> dic
     except OSError as exc:
         return _synthetic(expected_command, 2, "launch-failed", str(exc))
     stdout = completed.stdout.strip()
-    envelope, impure = _parse_envelope(stdout)
-    if not isinstance(envelope, dict) or envelope.get("schema") != 1:
-        detail = (stdout or completed.stderr or "").strip()[-1200:]
+    envelope = _parse_envelope(stdout)
+    detail = (stdout or completed.stderr or "").strip()[-1200:]
+    if envelope is None:
         return _synthetic(
             expected_command, completed.returncode, "envelope-unparseable",
-            f"stdout was not one Agent Contract JSON object (exit {completed.returncode}): {detail}",
+            f"stdout was not exactly one Agent Contract JSON object (exit {completed.returncode}): {detail}",
         )
-    envelope.setdefault("warnings", [])
-    envelope.setdefault("advisories", [])
-    envelope.setdefault("errors", [])
-    envelope.setdefault("outputs", {})
-    envelope["exit_code"] = completed.returncode
-    if impure:
-        envelope["advisories"].append({
-            "code": "stdout-impure",
-            "message": "stdout carried text besides the JSON envelope; the contract requires exactly one object",
-        })
+    problem = _validate_envelope(envelope, expected_command, completed.returncode)
+    if problem:
+        return _synthetic(expected_command, completed.returncode, "envelope-invalid", f"{problem}: {detail}")
     if completed.stderr.strip():
         envelope["_stderr"] = completed.stderr.strip()[-1200:]
     return envelope
 
 
-def _parse_envelope(stdout: str) -> tuple[dict[str, Any] | None, bool]:
-    """Parse stdout as one JSON object; tolerate (and flag) a prose prefix."""
+STATUS_EXIT = {"ok": 0, "blocked": 1, "error": 2}
+
+
+def _parse_envelope(stdout: str) -> dict[str, Any] | None:
+    """Parse stdout as exactly one JSON object; anything else is a contract breach."""
 
     if not stdout:
-        return None, False
+        return None
     try:
         value = json.loads(stdout)
-        return (value if isinstance(value, dict) else None), False
     except json.JSONDecodeError:
-        pass
-    start = stdout.find("\n{")
-    while start != -1:
-        try:
-            value = json.loads(stdout[start + 1:])
-        except json.JSONDecodeError:
-            start = stdout.find("\n{", start + 1)
-            continue
-        return (value if isinstance(value, dict) else None), True
-    return None, False
+        return None
+    return value if isinstance(value, dict) else None
+
+
+def _validate_envelope(envelope: dict[str, Any], expected_command: str, returncode: int) -> str | None:
+    """Return a reason when the envelope breaks the Agent Contract, else None."""
+
+    if envelope.get("schema") != 1:
+        return "envelope schema is not 1"
+    if envelope.get("command") != expected_command:
+        return f"envelope command {envelope.get('command')!r} is not {expected_command!r}"
+    status = envelope.get("status")
+    if status not in STATUS_EXIT:
+        return f"envelope status {status!r} is not ok/blocked/error"
+    if envelope.get("exit_code") != STATUS_EXIT[status]:
+        return f"envelope exit_code {envelope.get('exit_code')!r} does not match status {status!r}"
+    if returncode != STATUS_EXIT[status]:
+        return f"process exited {returncode} but the envelope says {status}"
+    for key in ("warnings", "advisories", "errors"):
+        items = envelope.setdefault(key, [])
+        if not isinstance(items, list) or any(
+            not isinstance(item, dict) or "code" not in item or "message" not in item for item in items
+        ):
+            return f"envelope {key} is not a list of code/message objects"
+    if not isinstance(envelope.setdefault("outputs", {}), dict):
+        return "envelope outputs is not an object"
+    return None
 
 
 def _synthetic(command: str, exit_code: int, code: str, message: str) -> dict[str, Any]:
@@ -207,8 +219,10 @@ def decide(results: list[dict[str, Any]]) -> str:
     overall = "ok"
     for result in results:
         for key in ("check", "review", "receipt"):
-            status = result.get(key, {}).get("status", "error")
-            if status == "error":
+            envelope = result.get(key) or {}
+            status = envelope.get("status", "error")
+            exit_code = envelope.get("exit_code", 2)
+            if status not in STATUS_EXIT or exit_code != STATUS_EXIT[status] or status == "error":
                 return "error"
             if status == "blocked":
                 overall = "blocked"

@@ -494,3 +494,25 @@ class DemoEndToEndTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class UsageErrorEnvelopeTests(unittest.TestCase):
+    def test_usage_error_under_json_still_emits_one_envelope(self):
+        import io
+        import contextlib
+        from iconflow.cli import main
+
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = main(["check", "--json", "--no-such-flag"])
+        self.assertEqual(code, 2)
+        envelope = json.loads(out.getvalue())
+        self.assertEqual(envelope["status"], "error")
+        self.assertEqual(envelope["command"], "check")
+        self.assertEqual(envelope["exit_code"], 2)
+        self.assertEqual(envelope["errors"][0]["code"], "usage")
+        self.assertIn("usage", err.getvalue().lower())
+        # Without --json argparse keeps its native behaviour.
+        with self.assertRaises(SystemExit) as raised, contextlib.redirect_stderr(io.StringIO()):
+            main(["check", "--no-such-flag"])
+        self.assertEqual(raised.exception.code, 2)

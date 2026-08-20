@@ -13,7 +13,7 @@ an advisory), 1 = a receipt is present but stale/invalid, 2 = usage/config error
 
 Warning codes (gating): `receipt-stale-source`, `receipt-stale-contract`,
 `receipt-not-ready`, `score-below-floor`, `qa-warnings`, `receipt-invalid`.
-Advisory codes: `receipt-absent`.
+A missing receipt is reported as `receipt-not-ready` (blocked), never as an advisory.
 
 It never scores taste and never writes files. The `iconflow` package must be
 importable (the PR Proof action installs it before calling this script).
@@ -213,11 +213,13 @@ def evaluate(config_path: Path, receipt_path: Path | None, *, auto: bool = True)
                 outputs["scores"] = {axis: config.review_scores[axis] for axis in AXES}
         return _envelope("blocked" if warnings else "ok", warnings=warnings, outputs=outputs)
 
+    # No receipt and no approved fallback: the family cannot ship, so a PR that
+    # touches it is blocked until a review is recorded (fail closed).
     return _envelope(
-        "ok",
-        advisories=[
+        "blocked",
+        warnings=[
             _finding(
-                "receipt-absent",
+                "receipt-not-ready",
                 "no Review Lab receipt or approved [review] fallback found; "
                 "ship will be refused until one exists",
             )

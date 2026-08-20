@@ -113,6 +113,7 @@ def verify(path: Path) -> None:
             "iconflow/styles.py",
             "iconflow/resources/templates/master.svg",
             "iconflow/resources/docs/DESIGN_PLAYBOOK.md",
+            "iconflow/resources/docs/AGENT_CONTRACT.md",
             "iconflow/resources/docs/STYLE_CATALOG.md",
             "iconflow/resources/docs/assets/style-gallery.png",
             *(f"iconflow/resources/presets/{preset}.svg" for preset in PRESETS),

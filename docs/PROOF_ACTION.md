@@ -14,10 +14,7 @@ For every `iconflow.toml` in scope it runs:
 | receipt | `python scripts/proof_receipt.py --config <toml> --json` | a receipt is present **and** stale/invalid: `receipt-stale-source`, `receipt-stale-contract`, `receipt-not-ready`, `score-below-floor`, `qa-warnings`, `receipt-invalid` |
 
 Advisory (reported, never failing): tray-template findings from `check`
-(`tray-template-featureless`); `receipt-absent` when neither a
-`master-review.json` / `<master-stem>-review.json` next to the config nor an
-approved `[review]` fallback exists; and `stdout-impure` when a CLI printed
-prose before its envelope (the object is still used, the impurity is shown). `review.png` and `review.html` are uploaded
+(`tray-template-featureless`). A family with no receipt and no approved `[review]` fallback is **blocked** with `receipt-not-ready`; a CLI that prints anything but exactly one JSON object on stdout, or whose exit code disagrees with its envelope, fails the step with `envelope-unparseable` / `envelope-invalid`. `review.png` and `review.html` are uploaded
 as an artifact; `proof.json` in the same artifact holds every envelope.
 
 What it deliberately does **not** do: score taste, approve a receipt, comment on
@@ -69,7 +66,7 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git fetch --no-tags --depth=1 origin "$BASE_SHA"
-          git diff --name-only --diff-filter=d "$BASE_SHA" HEAD > "$RUNNER_TEMP/changed-files.txt"
+          git diff --name-only "$BASE_SHA" HEAD > "$RUNNER_TEMP/changed-files.txt"
       - uses: snowyukitty/ai-iconflow/.github/actions/proof@v0.5.0   # pin a tag or, better, a commit SHA
         with:
           install: ai-iconflow==0.5.0       # once the release is on PyPI; until then pin a git URL or a wheel path

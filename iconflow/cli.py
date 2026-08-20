@@ -1367,7 +1367,20 @@ def main(argv=None) -> int:
             stream.reconfigure(encoding="utf-8", errors="replace")
         except (AttributeError, ValueError):
             pass
-    args = build_parser().parse_args(argv)
+    raw = list(sys.argv[1:] if argv is None else argv)
+    wants_json = "--json" in raw
+    intended = next((token for token in raw if not token.startswith("-")), None)
+    try:
+        args = build_parser().parse_args(argv)
+    except SystemExit as exc:
+        # argparse already printed usage to stderr. Under --json the contract
+        # still promises exactly one envelope on stdout.
+        if wants_json and exc.code not in (0, None) and intended in JSON_COMMANDS:
+            report = Report(intended)
+            report.error("usage", "invalid arguments; see the usage message on stderr")
+            print(json.dumps(report.envelope(), ensure_ascii=False, indent=2))
+            return 2
+        raise
     json_mode = args.cmd in JSON_COMMANDS and bool(getattr(args, "json", False))
     stdout = sys.stdout
     # In JSON mode every human line moves to stderr so stdout is exactly one object.

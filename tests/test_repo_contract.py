@@ -199,11 +199,12 @@ class ProofReceiptHelperTests(unittest.TestCase):
         self.receipt.write_text(json.dumps(raw), encoding="utf-8")
         self.assertEqual(self._codes(evaluate(self.config, None)), ["receipt-not-ready"])
 
-    def test_absent_receipt_is_an_advisory_not_a_failure(self):
+    def test_absent_receipt_blocks_the_family(self):
         self.receipt.unlink()
         envelope = evaluate(self.config, None)
-        self.assertEqual(envelope["status"], "ok")
-        self.assertEqual(self._codes(envelope, "advisories"), ["receipt-absent"])
+        self.assertEqual(envelope["status"], "blocked")
+        self.assertEqual(envelope["exit_code"], 1)
+        self.assertEqual(self._codes(envelope), ["receipt-not-ready"])
         missing = evaluate(self.config, self.dir / "nope.json")
         self.assertEqual(missing["status"], "error")
         self.assertEqual(missing["exit_code"], 2)
@@ -277,6 +278,31 @@ class ProofDriverTests(unittest.TestCase):
         self.assertEqual(bad["status"], "error")
         self.assertEqual(bad["exit_code"], 2)
         self.assertEqual(bad["errors"][0]["code"], "envelope-unparseable")
+        # A prose prefix is a breach, not an advisory.
+        prefixed = self.driver.run_envelope(
+            [sys.executable, "-c", "import json; print('note'); print(json.dumps({'schema': 1, 'command': 'check', 'status': 'ok', 'exit_code': 0}))"],
+            cwd=ROOT, expected_command="check",
+        )
+        self.assertEqual(prefixed["errors"][0]["code"], "envelope-unparseable")
+        # status must agree with exit_code and with the process return code.
+        lying = self.driver.run_envelope(
+            [sys.executable, "-c", "import json; print(json.dumps({'schema': 1, 'command': 'check', 'status': 'ok', 'exit_code': 0})); raise SystemExit(1)"],
+            cwd=ROOT, expected_command="check",
+        )
+        self.assertEqual(lying["status"], "error")
+        self.assertEqual(lying["errors"][0]["code"], "envelope-invalid")
+        wrong_cmd = self.driver.run_envelope(
+            [sys.executable, "-c", "import json; print(json.dumps({'schema': 1, 'command': 'review', 'status': 'ok', 'exit_code': 0}))"],
+            cwd=ROOT, expected_command="check",
+        )
+        self.assertEqual(wrong_cmd["errors"][0]["code"], "envelope-invalid")
+        unknown = self.driver.run_envelope(
+            [sys.executable, "-c", "import json; print(json.dumps({'schema': 1, 'command': 'check', 'status': 'weird', 'exit_code': 0}))"],
+            cwd=ROOT, expected_command="check",
+        )
+        self.assertEqual(unknown["errors"][0]["code"], "envelope-invalid")
+        self.assertEqual(self.driver.decide([{"check": {"status": "ok", "exit_code": 1}}]), "error")
+        self.assertEqual(self.driver.decide([{"check": {"status": "ok", "exit_code": 0}, "review": {"status": "blocked", "exit_code": 1}, "receipt": {"status": "ok", "exit_code": 0}}]), "blocked")
 
     def test_discover_configs_filters_by_changed_files(self):
         all_configs = self.driver.discover_configs(ROOT, None, None)
