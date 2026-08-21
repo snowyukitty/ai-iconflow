@@ -8,9 +8,16 @@ const updateHeader = () => header?.classList.toggle('is-scrolled', window.scroll
 updateHeader();
 window.addEventListener('scroll', updateHeader, { passive: true });
 
+// Every visitor-facing string lives in the markup so the language builds can
+// translate it; the English default stays here as the fallback.
+const label = (element, name, fallback) => element?.dataset?.[name] || fallback;
+
 const setMenu = (open) => {
   menuButton.setAttribute('aria-expanded', String(open));
-  menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+  menuButton.setAttribute(
+    'aria-label',
+    open ? label(menuButton, 'labelClose', 'Close navigation') : label(menuButton, 'labelOpen', 'Open navigation'),
+  );
   nav?.classList.toggle('is-open', open);
 };
 menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
@@ -94,8 +101,12 @@ if (lab) {
     const stale = sourceToggle.checked;
     receipt.classList.toggle('is-approved', !stale);
     receipt.classList.toggle('is-stale', stale);
-    receiptTitle.textContent = stale ? 'Receipt rejected' : 'Source-bound approval';
-    receiptCopy.textContent = stale ? 'The SVG changed after review. Ship is blocked.' : 'Current SVG matches the reviewed hash.';
+    receiptTitle.textContent = stale
+      ? label(receipt, 'labelStaleTitle', 'Receipt rejected')
+      : label(receipt, 'labelApprovedTitle', 'Source-bound approval');
+    receiptCopy.textContent = stale
+      ? label(receipt, 'labelStaleCopy', 'The SVG changed after review. Ship is blocked.')
+      : label(receipt, 'labelApprovedCopy', 'Current SVG matches the reviewed hash.');
   });
 }
 
@@ -122,8 +133,14 @@ if (scrub) {
     icon.hidden = native;
     loupe.hidden = !native;
     wrap.classList.toggle('is-native', native);
-    sizeLabel.textContent = native ? `native ${size} × ${size} px · exact pixels` : 'review gate passed · 6/6';
-    scrub.setAttribute('aria-valuetext', native ? `${size} pixels` : 'vector source');
+    sizeLabel.textContent = native
+      ? label(sizeLabel, 'labelNative', 'native {size} × {size} px · exact pixels').replaceAll('{size}', String(size))
+      : label(sizeLabel, 'labelGate', 'review gate passed · 6/6');
+    scrub.setAttribute(
+      'aria-valuetext',
+      native ? label(scrub, 'labelPixels', '{size} pixels').replaceAll('{size}', String(size))
+             : label(scrub, 'labelVector', 'vector source'),
+    );
   });
 }
 
@@ -143,15 +160,15 @@ document.querySelectorAll('[data-copy-command]').forEach((copyButton) => {
 
     try {
       await navigator.clipboard.writeText(source.textContent.trim());
-      copyButton.textContent = 'Copied';
+      copyButton.textContent = label(copyButton, 'labelCopied', 'Copied');
     } catch {
       const range = document.createRange();
       range.selectNodeContents(source);
       const selection = window.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
-      copyButton.textContent = 'Selected';
+      copyButton.textContent = label(copyButton, 'labelSelected', 'Selected');
     }
-    window.setTimeout(() => { copyButton.textContent = 'Copy'; }, 1600);
+    window.setTimeout(() => { copyButton.textContent = label(copyButton, 'labelCopy', 'Copy'); }, 1600);
   });
 });

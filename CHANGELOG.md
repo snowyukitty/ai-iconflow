@@ -8,6 +8,30 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- **The site speaks five languages.** English under `website/` stays the source
+  of truth; `scripts/build_i18n.py` extracts every translatable string into
+  `website/i18n/en.json` (keyed by a slug plus a hash of the English text, so a
+  copy edit invalidates its translations instead of silently keeping a stale
+  one) and renders `/es/`, `/ja/`, `/zh-hant/`, and `/zh-hans/` copies of `/`,
+  `/getting-started/`, `/how-icons-are-made/`, `/archive/`, and the 404 page.
+  The build **fails closed**: one missing key drops that whole language rather
+  than mixing English into a translated page, and a translation that loses a
+  markup placeholder or a `{size}`/`{count}` token is rejected the same way.
+  Every page carries the complete `hreflang` set with `x-default`, a canonical
+  URL in its own language, a language switcher in the header and footer, and a
+  matching `sitemap.xml` entry with `xhtml:link` alternates; `_headers` gains a
+  revalidation stanza per language route. Inline markup inside a sentence
+  survives translation as numbered placeholders, so commands such as
+  `iconflow check` stay verbatim inside translated prose. Copy that used to be
+  hard-coded in `app.js`, `archive.js`, `playground.js`, and one CSS
+  `content:` rule now lives in `data-*` attributes on the markup, which is what
+  makes it translatable at all. CJK typography uses installed system faces only
+  (no webfont: `font-src 'self'`) and resets the Latin display tracking.
+  Evidence is never translated — the 137 archive readings, mark names, file
+  names, hashes, and score strings stay exactly as they ship. Terminology,
+  honesty rules, and per-language style are pinned in
+  `website/i18n/GLOSSARY.md`.
+
 - **Agent Contract v1** (`docs/AGENT_CONTRACT.md`): `doctor`, `check`, `review`, `ship`, and `demo` accept `--json` and emit exactly one envelope on stdout (`schema`, `command`, `status`, `exit_code`, `warnings`, `advisories`, `outputs`, `errors`) with human lines on stderr. QA warnings now carry stable codes (`svg-safety`, `viewbox`, `stroke-floor`, `coverage-16`, `contrast`, `maskable-detail`, `distinctiveness-text`; advisory `tray-template-featureless`), `ship` blocks report `receipt-stale-source`, `receipt-stale-contract`, `receipt-not-ready`, `score-below-floor`, or `qa-warnings`, and every `doctor` FAIL carries a copy-paste `fix` (Chromium: the exact `<python> -m iconflow setup`). The exit-code matrix is pinned to `0` ok / `1` blocked by an IconFlow gate / `2` usage, configuration, or runtime failure: `review` now exits `1` when automated QA warnings exist, `check` with only advisories exits `0`, and an incomplete, unapproved, or stale approved-config fallback is a gate block (`1`) rather than a configuration error. Successful ships report Review Packet v1 provenance (`toolchain`, and `artifacts` / `reviewer` when a receipt carries them; unknown receipt keys are tolerated). `review --receipt-template receipt.json` writes an unscored, source-bound receipt an agent can score and pass to `ship --review`.
 - `iconflow demo --out DIR [--setup] [--json] [--force]`: materializes the packaged, already-reviewed brand family (`iconflow.resources.demo`, copied from `brand/` into `demo/` and shipped on the wheel via `importlib.resources`) and runs `doctor` → `check` → `review` (sheet + Review Lab) → `ship` against the bundled receipt, reporting each step and the worst exit code. Editing the materialized `master.svg` and re-running `ship` fails closed with `receipt-stale-source`.
 - The **PR Proof GitHub Action** (`.github/actions/proof`, wired by `.github/workflows/icon-proof.yml` on `pull_request` for `**/*.svg`, `**/iconflow.toml`, and receipts): installs the pinned package, caches Playwright Chromium, runs `check --json` and `review --json` for every touched `iconflow.toml`, validates the receipt read-only through `scripts/proof_receipt.py` (`receipt-stale-source` / `receipt-stale-contract`), uploads the review sheet, writes a job summary parsed only from the Agent Contract envelopes, and fails on a QA warning or stale receipt with `contents: read` and no secrets. Documented in `docs/PROOF_ACTION.md`.

@@ -29,6 +29,47 @@ surface. It separates agent-assisted and direct CLI use, provides copyable
 Windows and POSIX setup paths, and keeps current product limits beside the
 commands they qualify.
 
+## Languages
+
+English is the source of truth and stays at the root. `scripts/build_i18n.py`
+renders the other four languages into prefixed copies:
+
+| Language | Prefix | `lang` / `hreflang` |
+|---|---|---|
+| English | *(root)* | `en`, plus `x-default` |
+| Español | `/es/` | `es` |
+| 日本語 | `/ja/` | `ja` |
+| 繁體中文 | `/zh-hant/` | `zh-Hant` |
+| 简体中文 | `/zh-hans/` | `zh-Hans` |
+
+```powershell
+.venv\Scripts\python.exe scripts/build_i18n.py              # sync + extract + render
+.venv\Scripts\python.exe scripts/build_i18n.py --status     # catalog coverage
+.venv\Scripts\python.exe scripts/build_i18n.py --verify-only
+```
+
+Run it **after** `scripts/build_archive.py`: the archive page is generated, and
+the language copies are generated from it.
+
+The catalogs live in `website/i18n/`. `en.json` is extracted, never edited by
+hand; the four translation catalogs are reviewed and owned in-repo, and
+`GLOSSARY.md` is the contract they follow. Keys are a slug plus a hash of the
+English string, so editing English copy retires its old translations instead of
+leaving a stale one in place, and the build then **fails closed** — a language
+missing one key is not written at all, rather than serving a page with English
+holes in it. `--check-catalog website/i18n/<code>.json` validates a single
+draft (completeness, placeholders, runtime tokens) without writing anything.
+
+The `hreflang` block, the language switcher, `sitemap.xml`, and the `_headers`
+revalidation stanzas are generated between markers; edit the route table in the
+script, not the output. Only prose moves: mark names, commands, file names,
+hashes, scores, and the 137 archive readings stay English because they are the
+evidence. `/gallery/` and its collections are English-only in this phase and
+translated pages link to them at their English URL on purpose.
+
+Language selection is by link only — no `Accept-Language` redirect and no
+geo-targeted banner — so a shared URL always shows the same page.
+
 ## Living archive
 
 `/archive/`, the homepage marquee and finalist strip, and `assets/archive/` are

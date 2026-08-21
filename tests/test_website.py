@@ -26,6 +26,19 @@ NONCANONICAL_ORIGINS = (
 LEGACY_ORIGINS = NONCANONICAL_ORIGINS
 # Hosts the site answers on but must never serve content from.
 REDIRECT_ONLY_HOSTS = ("iconflow.pages.dev",)
+TRANSLATED_ROUTES = (
+    "index.html",
+    "404.html",
+    "getting-started/index.html",
+    "how-icons-are-made/index.html",
+    "archive/index.html",
+)
+# Deliberately spelled out rather than imported: the contract the site owes its
+# visitors must not be defined by the script that generates it.
+LANGUAGE_PREFIXES = ("es", "ja", "zh-hant", "zh-hans")
+TRANSLATED_PAGES = tuple(
+    f"{prefix}/{name}" for prefix in LANGUAGE_PREFIXES for name in TRANSLATED_ROUTES
+)
 HTML_PAGES = (
     "index.html",
     "404.html",
@@ -36,7 +49,7 @@ HTML_PAGES = (
     "gallery/social-signals/index.html",
     "gallery/emoji-matrix/index.html",
     "gallery/emoji-matrix/all/index.html",
-)
+) + TRANSLATED_PAGES
 
 MATRIX_STYLE_ORDER = (
     "flat-geometric", "gradient-glow", "line-mark", "mascot", "duotone",
@@ -45,6 +58,20 @@ MATRIX_STYLE_ORDER = (
     "glass-stack", "cel-shaded", "ink-brush", "chrome", "woodcut",
 )
 MATRIX_STYLES = set(MATRIX_STYLE_ORDER)
+
+
+def load_script(name: str, path: Path):
+    """Import one of the repository's build scripts by path."""
+    import importlib.util
+    import sys
+
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    # dataclasses resolves annotations through sys.modules[cls.__module__],
+    # so a script that defines one has to be registered before it executes.
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
 
 
 def png_size(path: Path) -> tuple[int, int]:
@@ -605,6 +632,231 @@ class WebsiteContractTests(unittest.TestCase):
             self.assertIn(f"{CANONICAL_ORIGIN}{route}", sitemap)
             self.assertIn(route, gallery)
         self.assertIn("100 admitted cases", gallery)
+
+
+class InternationalisationContractTests(unittest.TestCase):
+    """The five-language build: routes, hreflang, catalogs, and typography.
+
+    The structural assertions read the deployed files directly rather than
+    asking the builder, so a bug in ``scripts/build_i18n.py`` cannot certify
+    its own output.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.i18n = load_script("build_i18n", ROOT / "scripts" / "build_i18n.py")
+
+    def parse(self, page: str) -> _SiteParser:
+        parser = _SiteParser()
+        parser.feed((SITE / page).read_text(encoding="utf-8"))
+        return parser
+
+    def test_builder_verifies_its_own_output_is_current(self) -> None:
+        # Catalogs complete, placeholders sound, every generated page and the
+        # sitemap/_headers blocks byte-identical to a fresh render.
+        self.assertEqual(0, self.i18n.verify())
+
+    def test_every_language_ships_every_translated_page(self) -> None:
+        for language in self.i18n.LANGUAGES:
+            for page in self.i18n.PAGES:
+                name = f"{language.directory}/{page.source}" if language.directory else page.source
+                with self.subTest(language=language.code, page=page.source):
+                    self.assertTrue((SITE / name).is_file(), name)
+
+    def test_translated_pages_declare_their_language_and_the_full_hreflang_set(self) -> None:
+        codes = [language.code for language in self.i18n.LANGUAGES]
+        for language in self.i18n.LANGUAGES:
+            for page in self.i18n.PAGES:
+                name = f"{language.directory}/{page.source}" if language.directory else page.source
+                document = (SITE / name).read_text(encoding="utf-8")
+                with self.subTest(language=language.code, page=page.source):
+                    self.assertIn(f'<html lang="{language.code}">', document)
+                    if not page.changefreq:      # 404 is not indexed
+                        continue
+                    alternates = dict(re.findall(
+                        r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">', document))
+                    self.assertEqual(codes + ["x-default"], list(alternates))
+                    for other in self.i18n.LANGUAGES:
+                        self.assertEqual(
+                            self.i18n.language_url(other, page.route), alternates[other.code])
+                    self.assertEqual(self.i18n.language_url(self.i18n.SOURCE_LANGUAGE, page.route),
+                                     alternates["x-default"])
+                    canonical = re.findall(r'<link rel="canonical" href="([^"]+)">', document)
+                    self.assertEqual([self.i18n.language_url(language, page.route)], canonical)
+                    self.assertIn(
+                        f'<meta property="og:url" content="{self.i18n.language_url(language, page.route)}">',
+                        document)
+
+    def test_translated_pages_carry_no_untranslated_markers_or_placeholders(self) -> None:
+        for language in self.i18n.LANGUAGES[1:]:
+            for page in self.i18n.PAGES:
+                document = (SITE / f"{language.directory}/{page.source}").read_text(encoding="utf-8")
+                english = (SITE / page.source).read_text(encoding="utf-8")
+                with self.subTest(language=language.code, page=page.source):
+                    # The placeholder syntax the catalogs use must never reach HTML.
+                    self.assertNotRegex(document, r"<(/?)\d+(/?)>")
+                    self.assertNotIn("TODO", document)
+                    # Runtime tokens survive exactly as often as in the English.
+                    for token in ("{size}", "{count}"):
+                        self.assertEqual(english.count(token), document.count(token), token)
+
+    def test_translated_pages_keep_the_english_evidence(self) -> None:
+        """Commands, file names, mark names and proofs are the artefact."""
+        for language in self.i18n.LANGUAGES[1:]:
+            home = (SITE / language.directory / "index.html").read_text(encoding="utf-8")
+            archive = (SITE / language.directory / "archive" / "index.html").read_text(encoding="utf-8")
+            guide = (SITE / language.directory / "getting-started" / "index.html").read_text(encoding="utf-8")
+            with self.subTest(language=language.code):
+                self.assertIn("Petal Haypile", home)
+                self.assertIn("<code>check</code>", archive)
+                self.assertIn("<code>ship</code>", archive)
+                self.assertIn("scripts/setup.sh", guide)
+                self.assertIn("iconflow review", guide)
+                self.assertIn("master.svg", home)
+                self.assertIn("/assets/proof/icon-16.png", home)
+                # The 137 archive readings stay English until a later phase.
+                self.assertIn('id="expanded-living-petal-haypile"', archive)
+                # The hedge itself is translated; what must survive verbatim is
+                # the command it warns about and the registry it names.
+                self.assertIn("PyPI", guide)
+                self.assertIn("<code>pip install ai-iconflow</code>", guide)
+
+    def test_translated_pages_link_inside_their_own_language(self) -> None:
+        routes = {page.route for page in self.i18n.PAGES if page.linked}
+        switcher = re.compile(r'<nav class="lang-switch".*?</nav>', re.S)
+        for language in self.i18n.LANGUAGES[1:]:
+            for page in self.i18n.PAGES:
+                document = (SITE / language.directory / page.source).read_text(encoding="utf-8")
+                parser = _SiteParser()
+                # The switcher is the one place that must point at other languages.
+                parser.feed(switcher.sub("", document))
+                with self.subTest(language=language.code, page=page.source):
+                    for _, reference in parser.references:
+                        if not reference.startswith("/") or reference.startswith("//"):
+                            continue
+                        path = reference.split("#")[0].split("?")[0]
+                        self.assertNotIn(
+                            path, routes,
+                            f"{language.code}/{page.source} still links at the English {path}")
+                    self.assertIn(self.i18n.language_path(language, "/"), document)
+                    # The gallery is English-only in this phase and must stay linked.
+                    self.assertNotIn(f"{language.prefix}/gallery/", document)
+
+    def test_language_switcher_is_on_every_page_and_marks_the_current_one(self) -> None:
+        for language in self.i18n.LANGUAGES:
+            for page in self.i18n.PAGES:
+                name = f"{language.directory}/{page.source}" if language.directory else page.source
+                document = (SITE / name).read_text(encoding="utf-8")
+                with self.subTest(language=language.code, page=page.source):
+                    switchers = re.findall(
+                        r'<nav class="lang-switch" data-lang-switch aria-label="[^"]+">(.*?)</nav>',
+                        document, re.S)
+                    self.assertTrue(switchers, "no language switcher")
+                    for switcher in switchers:
+                        links = re.findall(r'href="([^"]+)"', switcher)
+                        self.assertEqual(
+                            [self.i18n.language_path(other, page.route) for other in self.i18n.LANGUAGES],
+                            links)
+                        self.assertEqual(1, switcher.count('aria-current="true"'))
+                        current = re.search(r'href="([^"]+)"[^>]*aria-current="true"', switcher)
+                        self.assertEqual(self.i18n.language_path(language, page.route), current.group(1))
+
+    def test_sitemap_covers_every_language_url_with_alternates(self) -> None:
+        namespaces = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9",
+                      "x": "http://www.w3.org/1999/xhtml"}
+        tree = ET.parse(SITE / "sitemap.xml")
+        locations = [element.text for element in tree.iter(f"{{{namespaces['s']}}}loc")]
+        expected = [self.i18n.language_url(language, page.route)
+                    for page in self.i18n.PAGES if page.changefreq
+                    for language in self.i18n.LANGUAGES]
+        for url in expected:
+            self.assertIn(url, locations)
+        for route, _, _ in self.i18n.ENGLISH_ONLY:
+            self.assertIn(f"{CANONICAL_ORIGIN}{route}", locations)
+        self.assertEqual(len(expected) + len(self.i18n.ENGLISH_ONLY), len(locations))
+        for url in tree.iter(f"{{{namespaces['s']}}}url"):
+            alternates = url.findall(f"{{{namespaces['x']}}}link")
+            location = url.find(f"{{{namespaces['s']}}}loc").text
+            if any(location == f"{CANONICAL_ORIGIN}{route}" for route, _, _ in self.i18n.ENGLISH_ONLY):
+                self.assertEqual([], alternates)
+                continue
+            self.assertEqual(len(self.i18n.LANGUAGES) + 1, len(alternates))
+
+    def test_headers_revalidate_every_language_route(self) -> None:
+        headers = (SITE / "_headers").read_text(encoding="utf-8")
+        for language in self.i18n.LANGUAGES[1:]:
+            for page in self.i18n.PAGES:
+                with self.subTest(language=language.code, page=page.route):
+                    self.assertIn(f"\n{self.i18n.language_path(language, page.route)}\n"
+                                  "  Cache-Control: public, max-age=0, must-revalidate", headers)
+        self.assertNotIn("'unsafe-inline'", headers)
+
+    def test_cjk_typography_is_system_only_and_untracked(self) -> None:
+        css = (SITE / "styles.css").read_text(encoding="utf-8")
+        for selector, face in ((":lang(ja)", "Hiragino Sans"),
+                               (":lang(zh-Hant)", "PingFang TC"),
+                               (":lang(zh-Hans)", "PingFang SC")):
+            with self.subTest(selector=selector):
+                self.assertIn(f"{selector} {{ --sans:", css)
+                self.assertIn(face, css)
+        # No webfont may be fetched: the CSP allows font-src 'self' only.
+        self.assertNotIn("@font-face", css)
+        self.assertNotIn("fonts.googleapis.com", css)
+        self.assertNotIn("fonts.gstatic.com", css)
+        # The display type is tracked tight for Latin; CJK must reset it.
+        self.assertIn(":lang(ja) h1", css)
+        self.assertIn("letter-spacing: 0", css)
+
+    def test_page_copy_lives_in_the_markup_not_in_the_scripts(self) -> None:
+        """Every visitor-facing script string reads a data-label with a fallback."""
+        for name, labels in (
+            ("app.js", ("labelClose", "labelOpen", "labelStaleTitle", "labelApprovedCopy",
+                        "labelNative", "labelGate", "labelPixels", "labelVector",
+                        "labelCopied", "labelSelected", "labelCopy")),
+            ("archive.js", ("labelResume", "labelPause", "labelShown", "labelAxes")),
+            ("playground.js", ("labelCardOn", "labelCardOff")),
+        ):
+            script = (SITE / name).read_text(encoding="utf-8")
+            for label in labels:
+                with self.subTest(script=name, label=label):
+                    self.assertIn(label, script)
+        home = (SITE / "index.html").read_text(encoding="utf-8")
+        self.assertIn('data-label-open="Open navigation"', home)
+        self.assertIn('data-label-rail="drag · 16px → source"', home)
+        self.assertIn("content: attr(data-label-rail)", (SITE / "styles.css").read_text(encoding="utf-8"))
+
+    def test_catalogs_are_complete_reviewed_and_free_of_english_leftovers(self) -> None:
+        source = json.loads((SITE / "i18n" / "en.json").read_text(encoding="utf-8"))["strings"]
+        for language in self.i18n.LANGUAGES[1:]:
+            path = SITE / "i18n" / f"{language.code}.json"
+            with self.subTest(language=language.code):
+                self.assertTrue(path.is_file(), path)
+                catalog = json.loads(path.read_text(encoding="utf-8"))
+                self.assertEqual(language.code, catalog["language"])
+                strings = catalog["strings"]
+                self.assertEqual(sorted(source), sorted(strings))
+                self.assertTrue(all(value.strip() for value in strings.values()))
+                # A catalog that simply echoes the English is not a translation.
+                echoed = [key for key, value in strings.items()
+                          if value == source[key]["text"] and len(source[key]["text"]) > 24]
+                self.assertLess(len(echoed), 12, f"{language.code} echoes English: {echoed[:6]}")
+
+    def test_placeholder_contract_round_trips(self) -> None:
+        unit = self.i18n.Unit()
+        unit.add_text("clean ")
+        unit.atomic_slot("<code>check</code>")
+        unit.add_text(" and ")
+        index = unit.open_slot('<a href="/x">')
+        unit.add_text("ship")
+        unit.close_slot(index, "</a>")
+        self.assertEqual("clean <0/> and <1>ship</1>", unit.message)
+        self.assertEqual("", unit.problem("<1>出荷</1>と <0/>"))
+        self.assertEqual('<a href="/x">出荷</a>と <code>check</code>',
+                         unit.render("<1>出荷</1>と <0/>"))
+        self.assertIn("dropped", unit.problem("clean <0/>"))
+        self.assertIn("self-closing", unit.problem("<0>x</0><1>y</1>"))
+        self.assertIn("never closed", unit.problem("<0/><1>y"))
+        self.assertIn("&lt;", unit.render("<0/> a < b <1>c</1>"))
 
 
 if __name__ == "__main__":

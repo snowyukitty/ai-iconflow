@@ -56,3 +56,113 @@
 
 /*.png
   Cache-Control: public, max-age=604800
+
+# i18n:start
+/es/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/es/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/es/getting-started/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/es/getting-started/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/es/how-icons-are-made/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/es/how-icons-are-made/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/es/archive/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/es/archive/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/es/404.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/ja/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/ja/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/ja/getting-started/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/ja/getting-started/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/ja/how-icons-are-made/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/ja/how-icons-are-made/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/ja/archive/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/ja/archive/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/ja/404.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hant/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hant/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hant/getting-started/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hant/getting-started/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hant/how-icons-are-made/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hant/how-icons-are-made/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hant/archive/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hant/archive/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hant/404.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hans/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hans/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hans/getting-started/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hans/getting-started/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hans/how-icons-are-made/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hans/how-icons-are-made/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hans/archive/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hans/archive/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/zh-hans/404.html
+  Cache-Control: public, max-age=0, must-revalidate
+# i18n:end

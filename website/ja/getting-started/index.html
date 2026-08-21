@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting Started — IconFlow でアイコンをデザインし、リリース</title>
+  <meta name="description" content="AI エージェントに製品ブリーフを渡し、SVG をネイティブサイズで確認。IconFlow でレビュー済みの favicon、PWA、デスクトップ、トレイ用アセットをリリースします。">
+  <meta name="theme-color" content="#191a20">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Getting Started with IconFlow — エージェント主導、プルーフ重視のアイコン">
+  <meta property="og:description" content="製品の意図から、編集可能な SVG、ネイティブサイズのプルーフ、各プラットフォーム向けのアイコンファミリーへ至る、一つの誠実な道筋。">
+  <meta property="og:url" content="https://ai-iconflow.com/ja/getting-started/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png?v=petal">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ai-iconflow.com/ja/getting-started/">
+  <!-- i18n:alternates -->
+  <link rel="alternate" hreflang="en" href="https://ai-iconflow.com/getting-started/">
+  <link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/getting-started/">
+  <link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/getting-started/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/getting-started/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/getting-started/">
+  <link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/getting-started/">
+  <!-- /i18n:alternates -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css?v=20260821b">
+  <link rel="stylesheet" href="/getting-started/getting-started.css?v=20260821b">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Getting Started with IconFlow",
+      "description": "AI エージェントまたは IconFlow CLI で、各プラットフォーム向けのアイコンファミリーをデザイン、レビュー、リリースします。",
+      "url": "https://ai-iconflow.com/ja/getting-started/",
+      "about": {
+        "@id": "https://ai-iconflow.com/ja/#source"
+      },
+      "isPartOf": {
+        "@id": "https://ai-iconflow.com/ja/#website"
+      }
+    }
+  </script>
+  <script src="/app.js?v=20260821b" defer></script>
+</head>
+<body class="guide-body">
+  <a class="skip-link" href="#main">本文へスキップ</a>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="/ja/" aria-label="IconFlow ホーム">
+      <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
+      <span>IconFlow</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="ナビゲーションを開く" data-label-close="ナビゲーションを閉じる">
+      <span class="sr-only">ナビゲーションを切り替える</span> <span></span><span></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="メインナビゲーション">
+      <a href="#choose">進め方を選ぶ</a>
+      <a href="#install">インストール</a>
+      <a href="#agent">エージェント用ブリーフ</a>
+      <a href="#workflow">ワークフロー</a>
+      <a href="#outputs">出力</a>
+      <a href="/ja/how-icons-are-made/">手法</a>
+      <a href="/gallery/">ギャラリー</a>
+      <a href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="言語"><a lang="en" hreflang="en" translate="no" href="/getting-started/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/getting-started/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/getting-started/" aria-current="true">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/getting-started/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/getting-started/">简体</a></nav><!-- /i18n:switch -->
+  </header>
+
+  <main id="main">
+    <section class="guide-hero section-shell">
+      <div class="guide-hero-copy reveal">
+        <p class="eyebrow"><span class="status-dot"></span> Getting Started · ソースからインストール</p>
+        <h1>エージェントに<br>ブリーフを渡す。<br><em>プルーフを残す。</em></h1>
+        <p>IconFlow は製品の意図を編集可能な SVG に変え、アセットをリリースする前に、ネイティブピクセル、プラットフォームごとのクロップ、ソースに紐づいたレビューに耐えるデザインへ仕上げます。</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#install">5 分でプルーフを確認 <span aria-hidden="true">→</span></a>
+          <a class="button button-quiet" href="#agent"><span class="button-pixel"></span> エージェント用ブリーフをコピー</a>
+        </div>
+        <ul class="guide-requirements" aria-label="要件">
+          <li>Python 3.10+</li>
+          <li>Git</li>
+          <li>初回のみネットワーク設定</li>
+        </ul>
+      </div>
+
+      <div class="handoff-card reveal" aria-label="IconFlow エージェントへの引き継ぎ">
+        <div class="handoff-topline"><span>エージェントへの引き継ぎ</span><strong>01 / 04</strong></div>
+        <div class="handoff-brief">
+          <span class="handoff-label">製品の意図</span><p>筋道を見失わずに調査を比較できるようにする。</p>
+          <div class="brief-chips"><span>本質 · プルーフ</span><span>避ける · きらめき</span></div>
+        </div>
+        <div class="handoff-flow" aria-hidden="true">
+          <div><span>あなた</span><b></b></div>
+          <div><span>エージェント</span><b></b></div>
+          <div class="handoff-mark"><img src="/assets/iconflow-mark.svg" width="76" height="76" alt=""></div>
+          <div><span>プルーフ</span><b></b></div>
+          <div><span>リリース</span></div>
+        </div>
+        <div class="handoff-receipt">
+          <span class="receipt-pulse" aria-hidden="true"></span><div><strong>判断を後から確認できる</strong><small>ブリーフ · SVG · レビュー · receipt · ケース</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-principle">
+      <div class="section-shell principle-grid reveal">
+        <p class="section-kicker">運用モデル</p>
+        <h2>エージェントがデザイン。<br>IconFlow がプルーフを担う。</h2>
+        <p>エージェントは製品を調査し、異なるコンセプトを探り、セマンティック SVG を作成します。IconFlow はプレイブック、決定論的レンダラー、品質ゲート、ターゲット変換、学習ループを提供します。プロンプトから画像を生成するツールではありません。</p>
+      </div>
+    </section>
+
+    <section id="choose" class="guide-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">進め方を選ぶ</p>
+        <h2>二つの入口。<br><span>品質ゲートは一つ。</span></h2>
+        <p>製品の考え方や SVG 制作の支援が必要なら、エージェント経由を選びます。デザイン判断を自分で担うなら、CLI 経由を選びます。どちらも同じレビュー契約に到達します。</p>
+      </div>
+      <div class="path-grid">
+        <article class="path-card path-primary reveal">
+          <div class="path-card-top"><span>推奨</span><strong>エージェント支援</strong></div>
+          <h3>絵ではなく、製品の役割を伝える。</h3>
+          <p>オープン形式の IconFlow スキルをインストールします。対応するエージェントなら、アプリアイコン、favicon、ロゴマーク、トレイアイコンを頼むとワークフローを検出できます。</p>
+          <ol>
+            <li><span>01</span> スキルを一度だけインストール</li>
+            <li><span>02</span> エージェントに製品コンテキストを渡す</li>
+            <li><span>03</span> 比較検討結果と Review Lab を確認</li>
+          </ol>
+          <a href="#agent">エージェント用ブリーフを使う <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="path-card reveal">
+          <div class="path-card-top"><span>透明性</span><strong>CLI を直接操作</strong></div>
+          <h3>すべての判断を自分で行う。</h3>
+          <p>デザインプレイブックを読み、SVG の最終候補を作成し、エージェントと同じコマンドを使います。CLI の背後に隠れたサービスはありません。</p>
+          <ol>
+            <li><span>01</span> 作成 <code>iconflow.toml</code></li>
+            <li><span>02</span> 候補を比較してレビュー</li>
+            <li><span>03</span> 有効な承認がある場合だけリリース</li>
+          </ol>
+          <a href="#workflow">すべてのコマンドを見る <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+      <p class="compatibility-note reveal"><strong>別の AI エージェントを使いますか？</strong> リポジトリの指示を読み、シェルコマンドを実行できるエージェントなら、<code>AGENTS.md</code> と CLI を介して IconFlow を使えます。スキルの自動検出はクライアント次第です。</p>
+    </section>
+
+    <section id="install" class="install-section">
+      <div class="section-shell">
+        <div class="guide-heading reveal">
+          <p class="section-kicker">5 分のエンジンプルーフ</p>
+          <h2>デザインの前に<br><span>パイプラインを検証。</span></h2>
+          <p>これは、IconFlow リポジトリに含まれるレビュー済みアイコンファミリーを使い捨ての作業ディレクトリにビルドします。確認できるのは環境です。5 分で独自性のある新しいアイデンティティをデザインできるという意味ではありません。</p>
+        </div>
+
+        <div class="proof-steps reveal">
+          <div><span>01</span><strong>クローン</strong><small>最新のソースを取得します。</small></div>
+          <div><span>02</span><strong>セットアップ</strong><small>Python の依存パッケージ、Chromium、エージェントスキルをインストールします。</small></div>
+          <div><span>03</span><strong>リリースのプルーフ</strong><small>receipt を再検証し、23 個のアセットをビルドします。</small></div>
+        </div>
+
+        <div class="platform-grid">
+          <article class="command-card reveal">
+            <header><div><span></span><span></span><span></span></div><p>Windows · PowerShell</p></header>
+            <pre id="install-windows"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python -m venv .venv
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
+.\.venv\Scripts\python.exe -m iconflow doctor
+.\.venv\Scripts\python.exe -m iconflow ship `
+  --config brand\iconflow.toml `
+  --review brand\master-review.json `
+  --out work\quick-start\icon-out</code></pre>
+            <button class="copy-button" type="button" data-copy-command data-label-copy="コピー" data-label-copied="コピーしました" data-label-selected="選択済み" data-copy-target="#install-windows">コピー</button>
+          </article>
+
+          <article class="command-card reveal">
+            <header><div><span></span><span></span><span></span></div><p>macOS / Linux · shell</p></header>
+            <pre id="install-posix"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python3 -m venv .venv
+sh ./scripts/setup.sh
+./.venv/bin/python -m iconflow doctor
+./.venv/bin/python -m iconflow ship \
+  --config brand/iconflow.toml \
+  --review brand/master-review.json \
+  --out work/quick-start/icon-out</code></pre>
+            <button class="copy-button" type="button" data-copy-command data-label-copy="コピー" data-label-copied="コピーしました" data-label-selected="選択済み" data-copy-target="#install-posix">コピー</button>
+          </article>
+        </div>
+
+        <div class="proof-result reveal">
+          <div class="proof-result-mark"><img src="/assets/iconflow-mark.svg" width="92" height="92" alt="IconFlow マーク"></div>
+          <div><span class="proof-result-label">想定される結果</span><h3>単なるフォルダーではなく、ゲート。</h3><p><code>doctor</code>はレンダラーの準備完了を報告します。<code>ship</code> はリポジトリ内のソースとレビュー契約を検証し、QA を再実行して、Web、PWA、Tauri デスクトップ、Electron、トレイ用のアセットを <code>work/quick-start/icon-out/</code> 以下に書き出します。</p></div>
+          <ul><li><span></span>ソースハッシュが一致</li><li><span></span>自動警告 0 件</li><li><span></span>6 つのスコアが 4/5 以上</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="agent" class="agent-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">意図から始める</p>
+        <h2>エージェントに<br><span>役立つブリーフを渡す。</span></h2>
+        <p>名詞だけのプロンプトでは装飾しか生まれません。製品の役割、対象ユーザー、個性、配色、避けるべき定番の落とし穴、正確な出力サーフェスを含めます。</p>
+      </div>
+
+      <div class="agent-brief-grid">
+        <article class="brief-builder reveal">
+          <div class="brief-builder-head"><span>ブリーフ / 01</span><strong>エージェントに必要なもの</strong></div>
+          <dl>
+            <div><dt>製品の意図</dt><dd>製品で何ができるようになりますか？</dd></div>
+            <div><dt>ユーザーの目的</dt><dd>ユーザーはどんな前進を目指していますか？</dd></div>
+            <div><dt>本質</dt><dd>すべての判断を導く一語。</dd></div>
+            <div><dt>個性</dt><dd>相反する二つか三つの特性。</dd></div>
+            <div><dt>定番の落とし穴</dt><dd>避けるべき、ありがちなカテゴリ記号。</dd></div>
+            <div><dt>ターゲット</dt><dd>Web、PWA、デスクトップ、トレイのうち、実在するものだけ。</dd></div>
+          </dl>
+        </article>
+
+        <article class="command-card prompt-card reveal">
+          <header><div><span></span><span></span><span></span></div><p>エージェント用プロンプト</p></header>
+          <pre id="agent-prompt"><code>Use the IconFlow skill to design, review, and ship a distinctive icon family for this project.
+
+Product intent: [what the product enables]
+User job: [the progress a person wants]
+Essence: [one word]
+Personality: [two or three traits]
+Existing palette: [tokens or colors]
+Clichés to avoid: [obvious symbols]
+Targets: [web, pwa, tauri, electron, tray]
+
+Keep the editable SVG and iconflow.toml in this project. Show me the concept bake-off and native-size review before shipping. Do not stop before recording the case.</code></pre>
+          <button class="copy-button" type="button" data-copy-command data-label-copy="コピー" data-label-copied="コピーしました" data-label-selected="選択済み" data-copy-target="#agent-prompt">コピー</button>
+        </article>
+      </div>
+
+      <div class="universal-agent reveal">
+        <div><p class="section-kicker">汎用フォールバック</p><h3>スキルを検出できない場合は、エージェントに契約を渡します。</h3><p>クライアントが Agent Skills に対応していなくても、ファイルを読み、ローカルの Python CLI を実行できるエージェントなら使えます。</p></div>
+        <div class="universal-code">
+          <pre id="universal-prompt"><code>Read [ICONFLOW_REPO]/AGENTS.md completely.
+Use [ICONFLOW_REPO]/.venv/.../python -m iconflow ...
+Keep your shell in this consuming project.
+Follow concept → compare → check → review → ship → case.</code></pre>
+          <button class="copy-button" type="button" data-copy-command data-label-copy="コピー" data-label-copied="コピーしました" data-label-selected="選択済み" data-copy-target="#universal-prompt">コピー</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="workflow-section">
+      <div class="section-shell">
+        <div class="guide-heading reveal">
+          <p class="section-kicker">完全なループ</p>
+          <h2>すべてのコマンドに<br><span>役割がある。</span></h2>
+          <p>これらは利用側のプロジェクトから実行します。IconFlow の仮想環境にある Python を絶対パスで使い、設定と最終ソースを対象の製品と同じ場所に保ちます。</p>
+        </div>
+
+        <ol class="workflow-list">
+          <li class="reveal">
+            <div class="workflow-number">01</div>
+            <div class="workflow-copy"><span>ブリーフ</span><h3>製品契約を書く。</h3><p>描く前に意図を記録します。設定では、ターゲット、色、パス、トレイの動作も固定します。</p></div>
+            <pre><code>python -m iconflow init --out iconflow.toml \
+  --name "My App" --essence proof \
+  --targets web,tauri,electron,tray</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">02</div>
+            <div class="workflow-copy"><span>探索</span><h3>異なるビジュアル案を必ず出す。</h3><p>異なる視点から少なくとも 4 つのコンセプトを作成します。技法プリセットは足場であり、完成したアイデンティティではありません。</p></div>
+            <pre><code>python -m iconflow styles
+python -m iconflow new flat-geometric \
+  --out work/my-app/a.svg</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">03</div>
+            <div class="workflow-copy"><span>比較</span><h3>磨き込む前に形を選ぶ。</h3><p>最終候補を 2 つか 3 つまとめてレンダリングします。シートを 128px、16px、シルエットで確認します。</p></div>
+            <pre><code>python -m iconflow compare \
+  work/my-app/a.svg work/my-app/b.svg \
+  work/my-app/c.svg --out work/my-app/bake.png</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">04</div>
+            <div class="workflow-copy"><span>検査</span><h3>実際のターゲット変換をレビューする。</h3><p>すべての警告を解消します。次に、ネイティブピクセル、アルファ、アダプティブクロップ、デスクトップの角、トレイでの表示を確認します。</p></div>
+            <pre><code>python -m iconflow check master.svg
+python -m iconflow review --config iconflow.toml \
+  --out work/my-app/review.png \
+  --html work/my-app/review.html</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">05</div>
+            <div class="workflow-copy"><span>リリース</span><h3>承認はフェイルクローズにする。</h3><p>すべての評価軸が 4/5 に達してから、Review Lab の receipt をエクスポートします。ソースまたはターゲットを変更すると、その receipt は無効になります。</p></div>
+            <pre><code>python -m iconflow ship \
+  --config iconflow.toml \
+  --review master-review.json</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">06</div>
+            <div class="workflow-copy"><span>学ぶ</span><h3>学びをシステムに戻す。</h3><p>最初に何が失敗し、何を変えたか、再利用できるルールを一つ記録します。記録されないアイコンからは何も学べません。</p></div>
+            <pre><code>python -m iconflow case new ...
+python -m iconflow case lint
+python -m iconflow case stats</code></pre>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="outputs" class="outputs-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">出力ファミリーの仕様</p>
+        <h2>リリースする<br><span>サーフェスだけを指定。</span></h2>
+        <p>ターゲットは明示的です。IconFlow は「全プラットフォーム対応」をうたいません。また、全面を使うアプリカードが暗黙に実用的なメニューバー用シルエットへ変わることもありません。</p>
+      </div>
+      <div class="output-grid">
+        <article class="output-card reveal"><span>WEB / PWA</span><h3>ブラウザ向けサーフェス</h3><p>favicon の SVG と ICO、Apple touch icon、192px と 512px の PWA アセット、さらに maskable icon と manifest スニペット。</p><code>--targets web,pwa</code></article>
+        <article class="output-card reveal"><span>TAURI</span><h3>デスクトップバンドル</h3><p>PNG の各サイズ、ICO、ICNS、および Tauri v2 デスクトップアプリ向けの標準的な <code>src-tauri/icons</code> レイアウト。</p><code>--targets tauri</code></article>
+        <article class="output-card reveal"><span>ELECTRON</span><h3>パッケージャー入力</h3><p>Electron と electron-builder のパッケージングワークフロー向け、クロスプラットフォームの PNG、ICO、ICNS アセット。</p><code>--targets electron</code></article>
+        <article class="output-card reveal"><span>TRAY</span><h3>メニューバー用マーク</h3><p>カラートレイ PNG、macOS テンプレートアセット、TypeScript ヘルパー。マーク専用の <code>tray.svg</code> を強く推奨します。</p><code>--targets tray</code></article>
+      </div>
+      <div class="output-tree reveal" aria-label="生成ファイルツリーの例">
+        <div><p class="section-kicker">ビルド例</p><h3>一つのソース。明示的な分岐。</h3><p>編集可能な <code>master.svg</code>（マスター SVG）は、プロジェクトとともに信頼できる唯一のソースとして残ります。生成ファイルはいつでも再ビルドできます。</p></div>
+        <pre><code>icon-out/
+├── favicon.svg
+├── favicon.ico
+├── icon-192.png
+├── icon-512.png
+├── icon-512-maskable.png
+├── icons/
+│   ├── icon.ico
+│   └── icon.icns
+├── build/
+│   ├── icon.png
+│   ├── icon.ico
+│   └── icon.icns
+└── tray/
+    ├── tray.png
+    ├── trayTemplate.png
+    └── trayIcon.ts</code></pre>
+      </div>
+    </section>
+
+    <section class="limits-section">
+      <div class="section-shell limits-grid reveal">
+        <div><p class="section-kicker">既知の制約</p><h2>ローカルだからといって<br><span>魔法ではない。</span></h2></div>
+        <ul>
+          <li><strong>現時点ではソースからインストール。</strong><span>IconFlow はまだ PyPI で公開されていません。公式リリースが出るまで <code>pip install ai-iconflow</code> は使わないでください。</span></li>
+          <li><strong>初回のみダウンロード。</strong><span>セットアップ時は、依存パッケージと Playwright Chromium の取得にネットワーク接続が必要です。その後のレンダリングとビルドはローカルで行われます。</span></li>
+          <li><strong>デスクトップの範囲。</strong><span>現在の Tauri 出力が対象とするのはデスクトップアセットです。Android や iOS の起動画面とアイコンセットは含みません。</span></li>
+          <li><strong>ツールチェーンに依存するプルーフ。</strong><span>再現性には、同じ正規化済み SVG、設定、IconFlow、Chromium、Pillow のバージョンを使うことが前提です。</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="guide-cta section-shell reveal">
+      <div><p class="section-kicker">プロジェクトで始める準備</p><h2>役割から始める。<br>根拠で終える。</h2></div>
+      <div><p>エンジンプルーフを一度実行します。次に製品リポジトリを開き、エージェントに具体的なブリーフを渡し、将来のメンテナーが確認できる場所にすべてのデザイン判断を残します。</p><div class="start-actions"><a class="button button-primary" href="#install">IconFlow をインストール <span aria-hidden="true">↑</span></a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">デザインプレイブックを読む</a></div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>1 つのマスター。あらゆるサーフェス。</span></div></div>
+    <p>Apache-2.0 のコード · IconFlow のアイデンティティには商標ポリシーが適用されます。</p>
+    <nav aria-label="フッターナビゲーション"><a href="/ja/">ホーム</a><a href="/gallery/">ギャラリー</a><a href="/ja/how-icons-are-made/">制作の仕組み</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">ドキュメント</a><a href="https://github.com/snowyukitty/ai-iconflow">ソース</a></nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="言語"><a lang="en" hreflang="en" translate="no" href="/getting-started/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/getting-started/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/getting-started/" aria-current="true">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/getting-started/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/getting-started/">简体</a></nav><!-- /i18n:switch -->
+  </footer>
+</body>
+</html>

@@ -1,29 +1,229 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ai-iconflow.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://ai-iconflow.com/gallery/</loc>
+    <loc>https://ai-iconflow.com/es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/"/>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/zh-hant/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/zh-hans/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://ai-iconflow.com/getting-started/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/getting-started/"/>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ai-iconflow.com/archive/</loc>
+    <loc>https://ai-iconflow.com/es/getting-started/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/getting-started/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/ja/getting-started/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/getting-started/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/zh-hant/getting-started/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/getting-started/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/zh-hans/getting-started/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/getting-started/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/getting-started/"/>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ai-iconflow.com/how-icons-are-made/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/how-icons-are-made/"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/es/how-icons-are-made/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/how-icons-are-made/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/ja/how-icons-are-made/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/how-icons-are-made/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/zh-hant/how-icons-are-made/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/how-icons-are-made/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/zh-hans/how-icons-are-made/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/how-icons-are-made/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/how-icons-are-made/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/archive/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/archive/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/archive/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/archive/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/archive/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/archive/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/archive/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/es/archive/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/archive/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/archive/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/archive/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/archive/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/archive/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/archive/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/ja/archive/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/archive/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/archive/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/archive/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/archive/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/archive/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/archive/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/zh-hant/archive/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/archive/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/archive/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/archive/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/archive/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/archive/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/archive/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/zh-hans/archive/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-iconflow.com/archive/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/archive/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/archive/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/archive/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/archive/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/archive/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ai-iconflow.com/gallery/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ai-iconflow.com/gallery/social-signals/</loc>

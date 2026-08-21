@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting Started — 用 IconFlow 設計並交付圖示</title>
+  <meta name="description" content="給 AI 代理程式一份產品簡報，以原生尺寸檢視 SVG，再用 IconFlow 交付已審查的 favicon、PWA、桌面與系統匣素材。">
+  <meta name="theme-color" content="#191a20">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Getting Started with IconFlow — 代理程式優先、校樣驅動的圖示">
+  <meta property="og:description" content="一條誠實路徑：從產品意圖到可編輯 SVG、原生尺寸校樣，再到平台就緒的圖示家族。">
+  <meta property="og:url" content="https://ai-iconflow.com/zh-hant/getting-started/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png?v=petal">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ai-iconflow.com/zh-hant/getting-started/">
+  <!-- i18n:alternates -->
+  <link rel="alternate" hreflang="en" href="https://ai-iconflow.com/getting-started/">
+  <link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/getting-started/">
+  <link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/getting-started/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/getting-started/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/getting-started/">
+  <link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/getting-started/">
+  <!-- /i18n:alternates -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css?v=20260821b">
+  <link rel="stylesheet" href="/getting-started/getting-started.css?v=20260821b">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Getting Started with IconFlow",
+      "description": "用 AI 代理程式或 IconFlow CLI 設計、審查並交付平台就緒的圖示家族。",
+      "url": "https://ai-iconflow.com/zh-hant/getting-started/",
+      "about": {
+        "@id": "https://ai-iconflow.com/zh-hant/#source"
+      },
+      "isPartOf": {
+        "@id": "https://ai-iconflow.com/zh-hant/#website"
+      }
+    }
+  </script>
+  <script src="/app.js?v=20260821b" defer></script>
+</head>
+<body class="guide-body">
+  <a class="skip-link" href="#main">跳至內容</a>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="/zh-hant/" aria-label="IconFlow 首頁">
+      <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
+      <span>IconFlow</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="開啟導覽" data-label-close="關閉導覽">
+      <span class="sr-only">切換導覽</span> <span></span><span></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="主要導覽">
+      <a href="#choose">選擇路徑</a>
+      <a href="#install">安裝</a>
+      <a href="#agent">代理程式簡報</a>
+      <a href="#workflow">工作流程</a>
+      <a href="#outputs">產出</a>
+      <a href="/zh-hant/how-icons-are-made/">方法</a>
+      <a href="/gallery/">圖庫</a>
+      <a href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="語言"><a lang="en" hreflang="en" translate="no" href="/getting-started/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/getting-started/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/getting-started/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/getting-started/" aria-current="true">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/getting-started/">简体</a></nav><!-- /i18n:switch -->
+  </header>
+
+  <main id="main">
+    <section class="guide-hero section-shell">
+      <div class="guide-hero-copy reveal">
+        <p class="eyebrow"><span class="status-dot"></span> 開始使用 · 原始碼安裝</p>
+        <h1>把簡報<br>交給代理程式。<br><em>留下校樣。</em></h1>
+        <p>IconFlow 把產品意圖變成可編輯 SVG，再讓設計撐過原生像素、平台裁切，以及綁定原始檔的審查，之後才交付任何素材。</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#install">跑五分鐘校樣 <span aria-hidden="true">→</span></a>
+          <a class="button button-quiet" href="#agent"><span class="button-pixel"></span> 複製代理程式簡報</a>
+        </div>
+        <ul class="guide-requirements" aria-label="系統需求">
+          <li>Python 3.10+</li>
+          <li>Git</li>
+          <li>一次性網路設定</li>
+        </ul>
+      </div>
+
+      <div class="handoff-card reveal" aria-label="IconFlow 代理程式交接">
+        <div class="handoff-topline"><span>代理程式交接</span><strong>01 / 04</strong></div>
+        <div class="handoff-brief">
+          <span class="handoff-label">產品意圖</span><p>幫人比對研究，卻不丟失脈絡。</p>
+          <div class="brief-chips"><span>本質 · 校樣</span><span>避開 · 閃亮</span></div>
+        </div>
+        <div class="handoff-flow" aria-hidden="true">
+          <div><span>你</span><b></b></div>
+          <div><span>代理程式</span><b></b></div>
+          <div class="handoff-mark"><img src="/assets/iconflow-mark.svg" width="76" height="76" alt=""></div>
+          <div><span>校樣</span><b></b></div>
+          <div><span>交付</span></div>
+        </div>
+        <div class="handoff-receipt">
+          <span class="receipt-pulse" aria-hidden="true"></span><div><strong>決策保持可檢視</strong><small>簡報 · SVG · 審查 · receipt（回執） · 案例</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-principle">
+      <div class="section-shell principle-grid reveal">
+        <p class="section-kicker">運作模式</p>
+        <h2>代理程式設計。<br>IconFlow 負責校樣。</h2>
+        <p>代理程式研究產品、探索不同概念，並撰寫語意化 SVG。IconFlow 提供設計手冊、確定性渲染器、品質關卡、目標轉換與學習迴圈。它不是提示詞生圖工具。</p>
+      </div>
+    </section>
+
+    <section id="choose" class="guide-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">選擇路徑</p>
+        <h2>兩扇門。<br><span>一道品質關卡。</span></h2>
+        <p>需要產品思考與 SVG 工藝協助時，走代理程式路徑。你已掌握設計決策時，走 CLI 路徑。兩者都停在同一份審查契約。</p>
+      </div>
+      <div class="path-grid">
+        <article class="path-card path-primary reveal">
+          <div class="path-card-top"><span>建議</span><strong>代理程式協助</strong></div>
+          <h3>描述產品任務，不是畫面。</h3>
+          <p>安裝開放格式的 IconFlow skill。相容的代理程式在你要求應用程式圖示、favicon、標誌或系統匣圖示時，就能發現工作流程。</p>
+          <ol>
+            <li><span>01</span>安裝一次 skill</li>
+            <li><span>02</span>給代理程式產品脈絡</li>
+            <li><span>03</span>檢視比稿與 Review Lab</li>
+          </ol>
+          <a href="#agent">用代理程式簡報 <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="path-card reveal">
+          <div class="path-card-top"><span>透明</span><strong>直接 CLI</strong></div>
+          <h3>每個決策都自己做。</h3>
+          <p>讀設計手冊，撰寫 SVG 決選稿，並使用代理程式所跑的同一組指令。CLI 背後沒有隱藏服務。</p>
+          <ol>
+            <li><span>01</span>建立 <code>iconflow.toml</code></li>
+            <li><span>02</span>比較並審查候選稿</li>
+            <li><span>03</span>僅在核准仍有效時交付</li>
+          </ol>
+          <a href="#workflow">查看每道指令 <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+      <p class="compatibility-note reveal"><strong>用的是別的 AI 代理程式？</strong> 只要代理程式能讀儲存庫說明並執行 shell 指令，就能透過 <code>AGENTS.md</code> 加上 CLI 使用 IconFlow。能否自動發現 skill 取決於用戶端。</p>
+    </section>
+
+    <section id="install" class="install-section">
+      <div class="section-shell">
+        <div class="guide-heading reveal">
+          <p class="section-kicker">五分鐘引擎校樣</p>
+          <h2>驗證管線<br><span>再開始設計。</span></h2>
+          <p>這會把 IconFlow 已提交、已審查的圖示家族建到可拋棄的工作目錄。它證明的是你的環境——不是五分鐘內就能設計出獨特的新識別。</p>
+        </div>
+
+        <div class="proof-steps reveal">
+          <div><span>01</span><strong>Clone</strong><small>取得目前原始碼。</small></div>
+          <div><span>02</span><strong>設定</strong><small>安裝 Python 依賴套件、Chromium 與代理程式 skill。</small></div>
+          <div><span>03</span><strong>交付校樣</strong><small>重新驗證 receipt 並建置 23 個素材。</small></div>
+        </div>
+
+        <div class="platform-grid">
+          <article class="command-card reveal">
+            <header><div><span></span><span></span><span></span></div><p>Windows · PowerShell</p></header>
+            <pre id="install-windows"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python -m venv .venv
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
+.\.venv\Scripts\python.exe -m iconflow doctor
+.\.venv\Scripts\python.exe -m iconflow ship `
+  --config brand\iconflow.toml `
+  --review brand\master-review.json `
+  --out work\quick-start\icon-out</code></pre>
+            <button class="copy-button" type="button" data-copy-command data-label-copy="複製" data-label-copied="已複製" data-label-selected="已選取" data-copy-target="#install-windows">複製</button>
+          </article>
+
+          <article class="command-card reveal">
+            <header><div><span></span><span></span><span></span></div><p>macOS / Linux · shell</p></header>
+            <pre id="install-posix"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python3 -m venv .venv
+sh ./scripts/setup.sh
+./.venv/bin/python -m iconflow doctor
+./.venv/bin/python -m iconflow ship \
+  --config brand/iconflow.toml \
+  --review brand/master-review.json \
+  --out work/quick-start/icon-out</code></pre>
+            <button class="copy-button" type="button" data-copy-command data-label-copy="複製" data-label-copied="已複製" data-label-selected="已選取" data-copy-target="#install-posix">複製</button>
+          </article>
+        </div>
+
+        <div class="proof-result reveal">
+          <div class="proof-result-mark"><img src="/assets/iconflow-mark.svg" width="92" height="92" alt="IconFlow 標誌"></div>
+          <div><span class="proof-result-label">預期結果</span><h3>關卡，不只是資料夾。</h3><p><code>doctor</code>回報渲染器已就緒。<code>ship</code> 驗證已提交的原始檔與審查契約，重跑 QA，並將網頁、PWA、Tauri 桌面、Electron 與系統匣素材寫入 <code>work/quick-start/icon-out/</code>。</p></div>
+          <ul><li><span></span>原始檔雜湊相符</li><li><span></span>0 則自動警告</li><li><span></span>六項分數 ≥ 4/5</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="agent" class="agent-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">從意圖開始</p>
+        <h2>給代理程式<br><span>一份有用的簡報。</span></h2>
+        <p>只給名詞的提示詞會做出裝飾。要包含產品任務、受眾、個性、色盤、該避開的陳腔濫調，以及確切的產出版面。</p>
+      </div>
+
+      <div class="agent-brief-grid">
+        <article class="brief-builder reveal">
+          <div class="brief-builder-head"><span>簡報 / 01</span><strong>代理程式需要什麼</strong></div>
+          <dl>
+            <div><dt>產品意圖</dt><dd>產品讓人做成什麼？</dd></div>
+            <div><dt>使用者任務</dt><dd>使用者在推進什麼？</dd></div>
+            <div><dt>本質</dt><dd>引導每個選擇的一個詞。</dd></div>
+            <div><dt>個性</dt><dd>兩到三個帶張力的特質。</dd></div>
+            <div><dt>陳腔濫調</dt><dd>該拒絕的明顯類別符號。</dd></div>
+            <div><dt>目標</dt><dd>網頁、PWA、桌面、系統匣——或只做既有的。</dd></div>
+          </dl>
+        </article>
+
+        <article class="command-card prompt-card reveal">
+          <header><div><span></span><span></span><span></span></div><p>代理程式提示詞</p></header>
+          <pre id="agent-prompt"><code>Use the IconFlow skill to design, review, and ship a distinctive icon family for this project.
+
+Product intent: [what the product enables]
+User job: [the progress a person wants]
+Essence: [one word]
+Personality: [two or three traits]
+Existing palette: [tokens or colors]
+Clichés to avoid: [obvious symbols]
+Targets: [web, pwa, tauri, electron, tray]
+
+Keep the editable SVG and iconflow.toml in this project. Show me the concept bake-off and native-size review before shipping. Do not stop before recording the case.</code></pre>
+          <button class="copy-button" type="button" data-copy-command data-label-copy="複製" data-label-copied="已複製" data-label-selected="已選取" data-copy-target="#agent-prompt">複製</button>
+        </article>
+      </div>
+
+      <div class="universal-agent reveal">
+        <div><p class="section-kicker">通用後備</p><h3>沒有 skill 發現？把契約給代理程式。</h3><p>即使用戶端不支援 Agent Skills，只要代理程式能讀檔並執行本機 Python CLI，就能這樣做。</p></div>
+        <div class="universal-code">
+          <pre id="universal-prompt"><code>Read [ICONFLOW_REPO]/AGENTS.md completely.
+Use [ICONFLOW_REPO]/.venv/.../python -m iconflow ...
+Keep your shell in this consuming project.
+Follow concept → compare → check → review → ship → case.</code></pre>
+          <button class="copy-button" type="button" data-copy-command data-label-copy="複製" data-label-copied="已複製" data-label-selected="已選取" data-copy-target="#universal-prompt">複製</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="workflow-section">
+      <div class="section-shell">
+        <div class="guide-heading reveal">
+          <p class="section-kicker">完整迴圈</p>
+          <h2>每道指令<br><span>都有其位置。</span></h2>
+          <p>從使用端專案執行這些指令。以絕對路徑使用 IconFlow 虛擬環境的 Python，讓設定與最終原始檔留在所屬產品裡。</p>
+        </div>
+
+        <ol class="workflow-list">
+          <li class="reveal">
+            <div class="workflow-number">01</div>
+            <div class="workflow-copy"><span>設計說明</span><h3>寫下產品契約。</h3><p>先記錄意圖再動手畫。設定也會鎖定目標、顏色、路徑與系統匣行為。</p></div>
+            <pre><code>python -m iconflow init --out iconflow.toml \
+  --name "My App" --essence proof \
+  --targets web,tauri,electron,tray</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">02</div>
+            <div class="workflow-copy"><span>探索</span><h3>逼出不同的視覺構想。</h3><p>至少透過不同視角做出四個概念。技法預設是鷹架，從來不是完成的識別。</p></div>
+            <pre><code>python -m iconflow styles
+python -m iconflow new flat-geometric \
+  --out work/my-app/a.svg</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">03</div>
+            <div class="workflow-copy"><span>比較</span><h3>先選形，再修細節。</h3><p>把兩到三個決選稿一起烘焙。在 128px、16px 與剪影下讀對照表。</p></div>
+            <pre><code>python -m iconflow compare \
+  work/my-app/a.svg work/my-app/b.svg \
+  work/my-app/c.svg --out work/my-app/bake.png</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">04</div>
+            <div class="workflow-copy"><span>檢視</span><h3>審查真實的目標轉換。</h3><p>修掉每則警告。然後檢視原生像素、alpha、自適應裁切、桌面圓角與系統匣情境。</p></div>
+            <pre><code>python -m iconflow check master.svg
+python -m iconflow review --config iconflow.toml \
+  --out work/my-app/review.png \
+  --html work/my-app/review.html</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">05</div>
+            <div class="workflow-copy"><span>交付</span><h3>讓核准失敗即關閉。</h3><p>只有每個評分軸都達到 4/5 之後，才匯出 Review Lab receipt。原始檔或目標一改，那份 receipt 就過期。</p></div>
+            <pre><code>python -m iconflow ship \
+  --config iconflow.toml \
+  --review master-review.json</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">06</div>
+            <div class="workflow-copy"><span>學習</span><h3>把這一課交回系統。</h3><p>記錄最先失敗的是什麼、改了什麼，以及一條可重用的規則。沒記下的圖示什麼也教不了。</p></div>
+            <pre><code>python -m iconflow case new ...
+python -m iconflow case lint
+python -m iconflow case stats</code></pre>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="outputs" class="outputs-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">確切的產出家族</p>
+        <h2>只要求<br><span>你會交付的版面。</span></h2>
+        <p>目標是明示的。IconFlow 不宣稱「所有平台」，完整的 app 卡片也不會默默變成好用的選單列剪影。</p>
+      </div>
+      <div class="output-grid">
+        <article class="output-card reveal"><span>WEB / PWA</span><h3>瀏覽器版面</h3><p>Favicon 的 SVG 與 ICO、Apple touch icon、192px 與 512px 的 PWA 素材，外加 maskable 圖示與 manifest 片段。</p><code>--targets web,pwa</code></article>
+        <article class="output-card reveal"><span>TAURI</span><h3>桌面套件</h3><p>PNG 尺寸、ICO、ICNS，以及 Tauri v2 桌面應用程式慣用的 <code>src-tauri/icons</code> 配置。</p><code>--targets tauri</code></article>
+        <article class="output-card reveal"><span>ELECTRON</span><h3>打包器輸入</h3><p>供 Electron 與 electron-builder 打包流程使用的跨平台 PNG、ICO 與 ICNS 素材。</p><code>--targets electron</code></article>
+        <article class="output-card reveal"><span>TRAY</span><h3>選單列標誌</h3><p>彩色系統匣 PNG、macOS 範本素材，以及 TypeScript 輔助程式。強烈建議使用專用、僅含標誌的 <code>tray.svg</code>。</p><code>--targets tray</code></article>
+      </div>
+      <div class="output-tree reveal" aria-label="產出檔案樹範例">
+        <div><p class="section-kicker">建置範例</p><h3>一份原始檔。明示的分支。</h3><p>可編輯的 <code>master.svg</code>（主檔）仍是專案旁邊的真實來源。產出的檔案隨時都能重建。</p></div>
+        <pre><code>icon-out/
+├── favicon.svg
+├── favicon.ico
+├── icon-192.png
+├── icon-512.png
+├── icon-512-maskable.png
+├── icons/
+│   ├── icon.ico
+│   └── icon.icns
+├── build/
+│   ├── icon.png
+│   ├── icon.ico
+│   └── icon.icns
+└── tray/
+    ├── tray.png
+    ├── trayTemplate.png
+    └── trayIcon.ts</code></pre>
+      </div>
+    </section>
+
+    <section class="limits-section">
+      <div class="section-shell limits-grid reveal">
+        <div><p class="section-kicker">已知界線</p><h2>本機並不代表<br><span>神奇。</span></h2></div>
+        <ul>
+          <li><strong>目前為原始碼安裝。</strong><span>IconFlow 尚未發布到 PyPI。在正式發行前，不要使用 <code>pip install ai-iconflow</code>。</span></li>
+          <li><strong>一次性下載。</strong><span>設定需要網路以取得依賴與 Playwright Chromium；之後的渲染與建置都在本機。</span></li>
+          <li><strong>桌面範圍。</strong><span>Tauri 產出目前涵蓋桌面素材，不含 Android 或 iOS 的啟動畫面與圖示組。</span></li>
+          <li><strong>綁定工具鏈的校樣。</strong><span>可重現性假設使用相同的正規化 SVG、設定、IconFlow、Chromium 與 Pillow 版本。</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="guide-cta section-shell reveal">
+      <div><p class="section-kicker">可以進你的專案了</p><h2>從任務開始。<br>以證據結束。</h2></div>
+      <div><p>先跑一次引擎校樣。然後打開你的產品儲存庫，給代理程式一份具體簡報，並把每個設計決策留在未來維護者能檢視的地方。</p><div class="start-actions"><a class="button button-primary" href="#install">安裝 IconFlow <span aria-hidden="true">↑</span></a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">讀設計手冊</a></div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>一份主檔。每種版面。</span></div></div>
+    <p>Apache-2.0 程式碼 · IconFlow 識別受商標政策約束。</p>
+    <nav aria-label="頁尾導覽"><a href="/zh-hant/">首頁</a><a href="/gallery/">圖庫</a><a href="/zh-hant/how-icons-are-made/">製作方式</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">文件</a><a href="https://github.com/snowyukitty/ai-iconflow">原始碼</a></nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="語言"><a lang="en" hreflang="en" translate="no" href="/getting-started/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/getting-started/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/getting-started/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/getting-started/" aria-current="true">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/getting-started/">简体</a></nav><!-- /i18n:switch -->
+  </footer>
+</body>
+</html>

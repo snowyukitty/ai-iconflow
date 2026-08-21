@@ -17,7 +17,9 @@
       const paused = !marquee.classList.contains('is-paused');
       marquee.classList.toggle('is-paused', paused);
       toggle.setAttribute('aria-pressed', String(paused));
-      toggle.textContent = paused ? 'Resume' : 'Pause';
+      toggle.textContent = paused
+        ? (toggle.dataset.labelResume || 'Resume')
+        : (toggle.dataset.labelPause || 'Pause');
     });
   }
   if (marquee && 'IntersectionObserver' in window) {
@@ -52,7 +54,7 @@
       chip.classList.toggle('is-active', on);
       chip.setAttribute('aria-pressed', String(on));
     });
-    if (count) count.textContent = `${shown} shown`;
+    if (count) count.textContent = (count.dataset.labelShown || '{count} shown').replaceAll('{count}', String(shown));
   };
   chips.forEach((chip) => chip.addEventListener('click', () => applyFilter(chip.dataset.filter)));
 
@@ -71,7 +73,8 @@
     field('name').textContent = card.querySelector('h3').textContent;
     field('story').textContent = story ? story.textContent : '';
     field('status').textContent = status ? status.textContent : '';
-    field('scores').textContent = scores ? `· ${scores.textContent} (legibility / distinctiveness / balance / color / scalability / craft)` : '';
+    const axes = field('scores')?.dataset.labelAxes || '(legibility / distinctiveness / balance / color / scalability / craft)';
+    field('scores').textContent = scores ? `· ${scores.textContent} ${axes}` : '';
     field('proof').src = proof.src;
     field('source').href = img.getAttribute('src');
     field('source').download = `${card.id}.svg`;

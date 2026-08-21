@@ -15,6 +15,11 @@
   --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* CJK falls back to installed system faces; no webfont is loaded (CSP font-src 'self'). */
+:lang(ja) { --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", "Noto Sans CJK JP", sans-serif; }
+:lang(zh-Hant) { --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Hiragino Sans CNS", "Microsoft JhengHei UI", "Microsoft JhengHei", "Noto Sans TC", "Noto Sans CJK TC", sans-serif; }
+:lang(zh-Hans) { --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", sans-serif; }
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 100px; background: var(--ink); }
 body { margin: 0; min-width: 320px; color: var(--paper); background: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
@@ -36,6 +41,12 @@ button { color: inherit; }
 .site-nav { display: flex; align-items: center; gap: 30px; font-size: .88rem; font-weight: 650; }
 .site-nav a { color: rgba(255,244,232,.7); text-decoration: none; transition: color .2s; }
 .site-nav a:hover, .site-nav a:focus-visible { color: var(--paper); }
+.lang-switch { display: inline-flex; align-items: center; gap: 2px; margin-left: 18px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; font-family: var(--mono); font-size: .62rem; }
+.lang-switch a { padding: 5px 9px; border-radius: 999px; color: rgba(255,244,232,.62); text-decoration: none; white-space: nowrap; transition: color .2s, background .2s; }
+.lang-switch a:hover, .lang-switch a:focus-visible { color: var(--paper); }
+.lang-switch a[aria-current="true"] { color: var(--ink); background: var(--paper); }
+.site-footer .lang-switch { margin-left: 0; }
+.not-found .lang-switch { margin: 26px 0 0; }
 .menu-button { display: none; width: 42px; height: 42px; border: 0; border-radius: 12px; background: var(--ink-2); }
 .menu-button span:not(.sr-only) { display: block; width: 17px; height: 1px; margin: 5px auto; background: var(--paper); }
 
@@ -78,7 +89,7 @@ button { color: inherit; }
 .hero-scrub::-moz-range-thumb { width: 16px; height: 16px; border: 7px solid var(--coral); border-radius: 4px; background: #15161b; cursor: grab; }
 .hero-scrub:active::-webkit-slider-thumb { cursor: grabbing; }
 .hero-scrub:focus-visible { outline: 2px solid var(--paper); outline-offset: 6px; border-radius: 4px; }
-.hero-rail::after { position: absolute; top: 100%; left: 0; margin-top: 2px; color: rgba(255,244,232,.5); font-family: var(--mono); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; content: "drag · 16px → source"; pointer-events: none; }
+.hero-rail::after { position: absolute; top: 100%; left: 0; margin-top: 2px; color: rgba(255,244,232,.5); font-family: var(--mono); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; content: attr(data-label-rail); pointer-events: none; }
 .hero-icon-wrap.is-native .hero-icon-halo { opacity: .08; }
 .hero-loupe { position: relative; z-index: 2; display: grid; width: min(100%, 300px); aspect-ratio: 1; margin: 0 auto; place-items: center; border: 1px solid rgba(255,244,232,.22); border-radius: 20px; background-color: rgba(15,16,20,.6); background-image: linear-gradient(rgba(255,244,232,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,244,232,.07) 1px, transparent 1px); background-size: 12.5% 12.5%; box-shadow: 0 28px 38px rgba(0,0,0,.28); }
 .hero-loupe[hidden], .hero-icon[hidden] { display: none; }
@@ -286,6 +297,8 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
 
 @media (max-width: 1000px) {
   .menu-button { display: block; }
+  .site-header .lang-switch { order: 2; margin-left: auto; margin-right: 10px; }
+  .site-header .lang-switch a { padding: 5px 7px; }
   .site-nav { position: absolute; top: 70px; right: 0; left: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; padding: 10px; border: 1px solid var(--line); border-radius: 16px; background: rgba(25,26,32,.97); box-shadow: 0 20px 40px rgba(0,0,0,.35); }
   .site-nav.is-open { display: flex; }.site-nav a { padding: 12px; }
 }
@@ -342,3 +355,30 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .text-button, .copy-button { min-height: 44px; }
 }
 @media (max-width: 760px) { html { scroll-padding-top: 84px; } }
+
+/* The display type is tracked tight for Latin; CJK must not inherit that. */
+:lang(ja) h1, :lang(ja) h2, :lang(ja) h3, :lang(zh-Hant) h1, :lang(zh-Hant) h2, :lang(zh-Hant) h3,
+:lang(zh-Hans) h1, :lang(zh-Hans) h2, :lang(zh-Hans) h3 { letter-spacing: 0; line-height: 1.24; word-break: normal; overflow-wrap: anywhere; }
+:lang(ja) .hero h1, :lang(zh-Hant) .hero h1, :lang(zh-Hans) .hero h1 { font-size: clamp(2.6rem, 5vw, 4.6rem); }
+:lang(ja) .section-heading h2, :lang(zh-Hant) .section-heading h2, :lang(zh-Hans) .section-heading h2,
+:lang(ja) .start-card h2, :lang(zh-Hant) .start-card h2, :lang(zh-Hans) .start-card h2,
+:lang(ja) .world-card h3, :lang(zh-Hant) .world-card h3, :lang(zh-Hans) .world-card h3 { font-size: clamp(1.9rem, 3.4vw, 3rem); }
+:lang(ja) .eyebrow, :lang(zh-Hant) .eyebrow, :lang(zh-Hans) .eyebrow,
+:lang(ja) .section-kicker, :lang(zh-Hant) .section-kicker, :lang(zh-Hans) .section-kicker { letter-spacing: .02em; }
+:lang(ja) .hero h1, :lang(zh-Hant) .hero h1, :lang(zh-Hans) .hero h1 { line-height: 1.16; }
+:lang(ja) .not-found h1, :lang(zh-Hant) .not-found h1, :lang(zh-Hans) .not-found h1 { line-height: 1.2; }
+/* Mono labels are set in a Latin small-caps rhythm; CJK needs the tracking back. */
+:lang(ja) .stage-label, :lang(zh-Hant) .stage-label, :lang(zh-Hans) .stage-label,
+:lang(ja) .panel-label, :lang(zh-Hant) .panel-label, :lang(zh-Hans) .panel-label,
+:lang(ja) .world-number, :lang(zh-Hant) .world-number, :lang(zh-Hans) .world-number,
+:lang(ja) .style-card span, :lang(zh-Hant) .style-card span, :lang(zh-Hans) .style-card span,
+:lang(ja) .axis-note span, :lang(zh-Hant) .axis-note span, :lang(zh-Hans) .axis-note span,
+:lang(ja) .proof-toolbar legend, :lang(zh-Hant) .proof-toolbar legend, :lang(zh-Hans) .proof-toolbar legend,
+:lang(ja) .loupe-actual, :lang(zh-Hant) .loupe-actual, :lang(zh-Hans) .loupe-actual { letter-spacing: .01em; }
+
+/* Five language links plus a wordmark do not fit a phone header bar. */
+@media (max-width: 560px) {
+  .site-header .brand span { display: none; }
+  .site-header .lang-switch { gap: 0; padding: 2px; font-size: .56rem; }
+  .site-header .lang-switch a { padding: 5px 5px; }
+}

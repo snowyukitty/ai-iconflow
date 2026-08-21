@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IconFlow のアイコン制作 — ブリーフ、SVG、プルーフ、レビュー、receipt（承認記録）</title>
+  <meta name="description" content="平易に説明する IconFlow の方法論：ユーザーの目的を捉えるブリーフ、コンセプトの発散、編集可能な 1024 グリッド SVG、16px と 128px の正確な Chromium レンダリング、機械的チェック、採点レビュー、ソースに紐づいた receipt、透明なコストモデル。">
+  <meta name="theme-color" content="#191a20">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="IconFlow のアイコン制作">
+  <meta property="og:description" content="ユーザーの目的を捉えるブリーフから、編集可能な SVG、ネイティブサイズのプルーフ、採点レビュー、承認を正確なソースに結び付ける receipt まで。実際のコストも率直に示します。">
+  <meta property="og:url" content="https://ai-iconflow.com/ja/how-icons-are-made/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png?v=petal">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ai-iconflow.com/ja/how-icons-are-made/">
+  <!-- i18n:alternates -->
+  <link rel="alternate" hreflang="en" href="https://ai-iconflow.com/how-icons-are-made/">
+  <link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/how-icons-are-made/">
+  <link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/how-icons-are-made/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/how-icons-are-made/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/how-icons-are-made/">
+  <link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/how-icons-are-made/">
+  <!-- /i18n:alternates -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css?v=20260821b">
+  <link rel="stylesheet" href="/how-icons-are-made/how-icons-are-made.css?v=20260821b">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "IconFlow のアイコン制作",
+    "description": "IconFlow の方法論：ユーザーの目的を捉えるブリーフ、コンセプトの発散、編集可能な SVG、正確なネイティブサイズのレンダリング、チェック、採点レビュー、ソースに紐づいた receipt、透明なコストモデル。",
+    "url": "https://ai-iconflow.com/ja/how-icons-are-made/",
+    "inLanguage": "en",
+    "about": {
+      "@id": "https://ai-iconflow.com/ja/#source"
+    },
+    "isPartOf": {
+      "@id": "https://ai-iconflow.com/ja/#website"
+    }
+  }
+</script>
+  <script src="/app.js?v=20260821b" defer></script>
+</head>
+<body class="method-body">
+  <a class="skip-link" href="#main">本文へスキップ</a>
+
+  <header class="site-header" data-header>
+  <a class="brand" href="/ja/" aria-label="IconFlow ホーム">
+   <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
+   <span>IconFlow</span></a>
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="ナビゲーションを開く" data-label-close="ナビゲーションを閉じる">
+   <span class="sr-only">ナビゲーションを切り替える</span> <span></span><span></span></button>
+  <nav id="site-nav" class="site-nav" aria-label="メインナビゲーション">
+   <a href="#pipeline">パイプライン</a>
+   <a href="#brief">ブリーフ</a>
+   <a href="#svg">SVG</a>
+   <a href="#check">チェック</a>
+   <a href="#review">レビュー</a>
+   <a href="#cost">コスト</a>
+   <a href="/gallery/">ギャラリー</a>
+   <a href="/ja/getting-started/">はじめる</a>
+  </nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="言語"><a lang="en" hreflang="en" translate="no" href="/how-icons-are-made/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/how-icons-are-made/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/how-icons-are-made/" aria-current="true">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/how-icons-are-made/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/how-icons-are-made/">简体</a></nav><!-- /i18n:switch -->
+  </header>
+
+  <main id="main">
+  <section class="method-hero section-shell">
+   <div class="method-hero-copy reveal">
+    <p class="eyebrow"><span class="status-dot"></span> 方法論 · 制作の進め方</p>
+    <h1>IconFlow は<br>こうして <em>アイコンを作ります。</em></h1>
+    <p>プロンプトと画像だけではありません。製品ブリーフ、競い合うアイデア、1024 グリッド上の編集可能な 1 つの SVG、実際に見られるサイズでの正確なレンダリング、機械的チェック、デザイナーによる採点レビュー、承認を正確なソースに結び付ける receipt。各段階を平易に説明し、主張の横には実際の成果物を示します。</p>
+    <ul class="hero-contract" aria-label="このページの約束">
+     <li>掲載する成果物はすべてリポジトリにあります</li>
+     <li>16px のプルーフは 16px で表示</li>
+     <li>ベンダーによる推奨・承認を示唆しません</li>
+    </ul>
+   </div>
+
+   <div class="specimen-card reveal" aria-label="制作例としての IconFlow 製品マーク">
+    <div class="specimen-topline"><span>作例 · Petal Haypile</span><strong>現行マーク</strong></div>
+    <div class="specimen-stage">
+     <figure>
+      <img src="/assets/iconflow-mark.svg" width="128" height="128" alt="編集可能な SVG から作った IconFlow マーク：3 枚の花びらを携えて干し草置き場へ戻る、耳の低いナキウサギ">
+      <figcaption>master.svg · ブラウザーでレンダリング</figcaption>
+     </figure>
+     <figure>
+      <div class="specimen-native">
+       <img src="/assets/proof/icon-128.png?v=petal" width="128" height="128" alt="IconFlow マークの正確な 128 × 128 ピクセルレンダリング">
+       <img src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="IconFlow マークの正確な 16 × 16 ピクセルレンダリング（実寸表示）">
+       <img class="zoom-16" src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="同じ 16 ピクセルのレンダリングを 5 倍に拡大（ピクセルの輪郭を保持）">
+      </div>
+      <figcaption>正確な 128px · 正確な 16px · 16px 拡大</figcaption>
+     </figure>
+    </div>
+    <div class="specimen-receipt" aria-label="receipt の概要">
+     <div><span>check</span><strong>警告 0 件</strong></div>
+     <div><span>review</span><strong>6 評価軸すべて 4/5 以上</strong></div>
+     <div><span>ship</span><strong>23 ファイル</strong></div>
+    </div>
+   </div>
+  </section>
+
+  <section id="pipeline" class="pipeline-section section-shell">
+   <div class="pipeline-heading reveal">
+    <p class="section-kicker">実際のパイプライン</p>
+    <h2>9 段階。<br><span>うち 2 段階は判断が必要です。</span></h2>
+    <p>各段階でファイルが残ります：ブリーフ、コンセプトのサムネイル、SVG、警告一覧、PNG、採点済み receipt、ビルド、ケース記録。段階をクリックすると仕組みを確認できます。</p>
+   </div>
+   <ol class="pipeline reveal" aria-label="IconFlow パイプライン">
+    <li><a href="#brief"><strong>ブリーフ</strong><small>ユーザーの仕事、本質、定番の落とし穴、対象</small></a></li>
+    <li><a href="#diverge"><strong>発散</strong><small>4 案以上、定番の落とし穴の除外、1 つのシグネチャー要素</small></a></li>
+    <li><a href="#svg"><strong>SVG</strong><small>1024 グリッド上の編集可能な形状</small></a></li>
+    <li><a href="#check"><strong>チェック</strong><small>安全性、グリッド、線幅、コントラスト、クロップ</small></a></li>
+    <li><a href="#check"><strong>レンダリング</strong><small>16 と 128 での正確な Chromium ピクセル</small></a></li>
+    <li><a class="is-human" href="#review"><strong>レビュー</strong><small>6 評価軸をデザイナー（人またはエージェント）が採点</small></a></li>
+    <li><a href="#review"><strong>receipt</strong><small>承認をソースハッシュに紐付け</small></a></li>
+    <li><a href="#review"><strong>リリース</strong><small>全対象をフェイルクローズでビルド</small></a></li>
+    <li><a class="is-human" href="#review"><strong>学習</strong><small>ケース記録と抽出したルール</small></a></li>
+   </ol>
+   <p class="pipeline-legend"><span>機械的な段階</span><span class="legend-human">デザイン判断</span></p>
+  </section>
+
+  <section id="brief" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">ステージ 01 · ブリーフ</p>
+    <h2>まず仕事から。<br><span>絵からではありません。</span></h2>
+    <p>名詞だけのプロンプト（「チャットアイコンを作って」）では、装飾しか生まれません。IconFlow のブリーフは、製品を使う人が達成しようとしていることを記録します。</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>ユーザーの仕事が先</h3>
+     <p>誰かが描き始める前に、プレイブックは 5 つを確認します：アイコンの用途（アプリ、favicon、トレイ）、本質を表す 1 語、ブランドカラー、個性の方向性、小さく表示される場所。ケースブックから得たルールは明快です：<em>カテゴリ名詞ではなく、ユーザーの仕事を選ぶ</em>。「案内する」「決める」「比べる」「探す」は、「ゲーム」「会議」「旅行」より良いマークにつながります。カテゴリ名詞には定番の落とし穴が潜むからです。</p>
+     <h3>次に、具体的な名詞</h3>
+     <p>この仕組みで識別性とは具体性です。ケースブックで最も強いマークは、値札、カット宝石、折り畳んだ路線図、招き猫のような、具体的で自分たちのものにできる物体<em>です</em>。黒一色のシルエットにしても、カテゴリではなく物体を言い当てられます。グラデーションのタイルに頭文字だけを置く手法は、AI 製アイコンをそつなくも忘れやすくする最も一般的な原因として文書に挙げられています。</p>
+     <p>プライバシーに配慮が必要な製品では、ブリーフを中立的な仕事の動詞だけに絞ります。公開ケース記録には視覚的証拠を残し、カテゴリ名詞、リポジトリ名、ローカルパスは含めません。</p>
+     <ul class="doc-links" aria-label="関連文書">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">docs/DESIGN_PLAYBOOK.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>
+     </ul>
+    </div>
+    <aside class="panel reveal is-side" aria-label="ブリーフの内容">
+     <div class="panel-head"><span>iconflow.toml · [brief] + [design] + [build]</span><span>移植可能</span></div>
+     <dl>
+      <div><dt>ユーザーの目的</dt><dd>人が前へ進めようとしていること。リリース済みの Theme World の例：「小さな共有の儀式を、時間がたっても手触りあるものに保つ」。</dd></div>
+      <div><dt>本質</dt><dd>議論を決着させる 1 語。Keepsake Knot：「一緒」。Petal Haypile のブランドブリーフ：「集める」。</dd></div>
+      <div><dt>個性</dt><dd>緊張感のある 2、3 の特性 — 「温かい、触感的、確か」。</dd></div>
+      <div><dt>避けるべき定番の落とし穴</dt><dd>拒否できるよう書き出した、ありふれたカテゴリ記号：ハート、吹き出し、連結した円。</dd></div>
+      <div><dt>シグネチャー要素の仮説</dt><dd>マークを自分たち固有のものにする 1 つの工夫。描く前に明文化し、後で検証します。</dd></div>
+      <div><dt>ターゲット</dt><dd>実在するサーフェスだけ：Web、PWA、デスクトップ、トレイ。後で receipt をこの正確な組み合わせに紐付けます。</dd></div>
+     </dl>
+    </aside>
+   </div>
+  </section>
+
+  <section id="diverge" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">ステージ 02 · 発散</p>
+     <h2>4 つのアイデア。<br><span>そして 1 つのシグネチャー要素。</span></h2>
+     <p>これは AI 製アイコンの多くが省く段階です。だからどれも似て見えます。IconFlow では必須とし、不合格になり得るテストを設けています。</p>
+    </div>
+    <div class="method-columns">
+     <div class="method-prose reveal">
+      <h3>異なる視点で発散</h3>
+      <p>1 つのブリーフに対し、デザイナー（人またはエージェント）は異なる視点から最低 4 つのコンセプトをスケッチします — 具体的な物体、比喩、中心となる動詞、物体に<em>融合した</em>字形、抽象的なシステム、またはネガティブスペースによる二重の読み。シルエットが同じ 2 案は 1 案と数えます。</p>
+      <h3>定番の落とし穴を除外</h3>
+      <p>文書化した定番の落とし穴表では、製品カテゴリごとに使い古された記号と、代わりに進む方向を対応させています。ルールは単純です：コンセプトが「避ける」欄に当たるなら未完成です。共通リストではさらに、「AI」を脳、ロボット、きらめき、杖、ニューラルノード、既定の青から紫のグラデーションで表すことを認めません。</p>
+      <h3>シグネチャー要素を 1 つ加えてテスト</h3>
+      <p>1 つのシグネチャー要素 — 二重の読み、固有にできる形状、融合した字形、意外なクロップ、固有の配色、または 1 つのアクセント。磨き込む前に 4 つの厳しいテストを行います：128px と 16px での <strong>物の名前を言うテスト</strong>（合格は具体名詞）、色を外す <strong>シルエットテスト</strong>、<strong>マスカブルテスト</strong>（重要な細部が中央の半径 40% のセーフサークル内）、8 個の競合 favicon と並べる <strong>列テスト</strong>。最終候補は <code>iconflow compare</code> で横並びに比較し、128px での色ではなく形で勝者を決めます。</p>
+      <ul class="doc-links" aria-label="関連文書">
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/CONCEPTING.md">docs/CONCEPTING.md</a></li>
+      </ul>
+     </div>
+     <div class="reveal is-side">
+      <figure class="figure-wide">
+       <div class="figure-art"><img src="/assets/concept-bake.png?v=petal" width="1346" height="682" alt="3 つの候補マークをネイティブサイズとシルエットで比較する IconFlow コンセプト比較シート" loading="lazy"></div>
+       <figcaption><strong>実際の比較シート。</strong>3 つの最終候補を実寸とシルエットでレンダリングし、色でありふれた形を隠せないようにしています。</figcaption>
+      </figure>
+      <div class="figure-strip">
+       <figure>
+        <div class="figure-art"><img class="is-svg" src="/assets/worlds/keepsake-knot.svg" width="128" height="128" alt="Keepsake Knot アイコン：異なる青緑とコーラルの 2 本の帯を、中心をずらした 1 つの開口部の周りに編んだ形" loading="lazy"></div>
+        <figcaption><strong>Keepsake Knot — 生き残ったシグネチャー要素。</strong>「異なる 2 本の帯が、中心をずらした 1 つの開口部を共有する」。最初の案は、交差部が電源記号に見えたため却下されました。</figcaption>
+        <p class="figure-links"><a href="/assets/worlds/keepsake-knot.svg">ソース SVG</a><a href="/assets/worlds/keepsake-knot-review.json">receipt JSON</a></p>
+       </figure>
+       <figure>
+        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/keepsake-knot-128.png" width="128" height="128" alt="Keepsake Knot の正確な 128 ピクセルレンダリング" loading="lazy"><img src="/assets/worlds/keepsake-knot-16.png" width="16" height="16" alt="Keepsake Knot の正確な 16 ピクセルレンダリング（実寸）" loading="lazy"></div></div>
+        <figcaption><strong>16px でも両方の帯を識別できます。</strong>16px のチップは正確なネイティブ PNG を 1:1 で表示したもので、拡大ではありません。</figcaption>
+       </figure>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="svg" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">ステージ 03 · SVG</p>
+    <h2>形状は設計する。<br><span>ノイズから生成しません。</span></h2>
+    <p>正本は小さく編集可能な SVG です。読み取り、差分比較、ハッシュ化ができ、いつでもすべての対象へ再ビルドできます。</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>1024 グリッド上で直接制作</h3>
+     <p>すべてのマスターは <code>viewBox="0 0 1024 1024"</code> で描きます。16 ピクセルでは 64 グリッド単位が出力約 1 ピクセルに相当するため、使える量は明確です：アイデアを担う各アクセントに約 2 ピクセル（≈128 単位）、必要な間隔に最低 1 ピクセルを割り当て、辺の約 2.3% より細い線は消える前提です。重要な内容は中央約 80% のセーフエリアに収め、アダプティブクロップ後も残すものは中央のセーフサークル内に置きます。16px のアイコンに入るアイデアは 1 つだけで、不透明な前景要素 2 つを交差させてはいけません。</p>
+     <h3>20 の技法スキャフォールド、完成ロゴは 0</h3>
+     <p><code>iconflow new &lt;preset&gt;</code>20 種類の構造的に異なる制作文法 — フラットジオメトリック、ラインマーク、デュオトーンカット、ピクセルグリッド、ステンドグラス、木版など — の 1 つから始めます。各文法には 16px で残るためのルールとモノクロのトレイ戦略があります。意図的に共通の基本形を使いますが、実際のアイコンでは製品固有の物体に置き換え、その後すべてのゲートを通します。</p>
+     <h3>コレクションを大規模化するための決定論的 Python</h3>
+     <p>コレクションでも方法は変えず、反復可能な部分をスクリプト化します。20 点の Social Signals セットは、レンダリング前にカタログと照合するシード付き <code>random.Random(seed).shuffle</code> でスタイルを割り当て、各スタディのパス形状をビルドスクリプト内に保持します。400 セルの Emoji Matrix は <code>scripts/build_emoji_matrix.py</code> でビルドされ、各セルに <code>check</code> を再実行し、すべてのプルーフにフィンガープリントを付け、receipt、ダイジェスト、レビュー判定のどれか 1 つでも欠ければフェイルクローズします。規模がもたらすのは再現性と監査可能性であり、合格ではありません。</p>
+     <ul class="doc-links" aria-label="関連文書">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/STYLE_CATALOG.md">docs/STYLE_CATALOG.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/SVG_TECHNIQUES.md">docs/SVG_TECHNIQUES.md</a></li>
+      <li><a href="/gallery/social-signals/">/gallery/social-signals/</a></li>
+      <li><a href="/gallery/emoji-matrix/all/">/gallery/emoji-matrix/all/</a></li>
+     </ul>
+    </div>
+    <div class="reveal is-side">
+     <figure class="figure-wide">
+      <div class="figure-art"><img src="/assets/style-gallery.png" width="1518" height="836" alt="IconFlow の 20 の技法スキャフォールドを 1 枚に配置し、それぞれにネイティブ 16 ピクセルのプルーフを添えたもの" loading="lazy"></div>
+      <figcaption><strong>20 技法の一覧。</strong>ビルドと同じネットワーク分離 Chromium でレンダリングし、各タイルにネイティブ 16px のプルーフを添えています。</figcaption>
+     </figure>
+    </div>
+   </div>
+  </section>
+
+  <section id="check" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">ステージ 04–05 · チェックとレンダリング</p>
+     <h2>正確なピクセル。<br><span>機械的な警告。</span></h2>
+     <p>IconFlow はバージョンを固定した Playwright Chromium でレンダリングし、見えた結果に対して所定のチェックを実行します。</p>
+    </div>
+    <div class="method-columns">
+     <div class="method-prose reveal">
+      <h3>レンダリングは分離され、再現可能</h3>
+      <p>レンダラーは SVG を信頼できない入力として扱います。Chromium はネットワークと Service Worker を遮断し、ページの JavaScript を無効化し、能動・アニメーションコンテンツを削除または固定し、sRGB、ロケール、タイムゾーンを固定して実行します。入力上限は 4 MiB、50,000 要素、128 階層で、DTD またはエンティティ宣言は拒否します。このページの 16px と 128px の PNG はその正確なレンダリングであり、大きな画像の再サンプリングではありません。</p>
+      <h3><code>check</code> が実際に検査するもの</h3>
+      <ul>
+       <li><strong>SVG の安全性：</strong>script、iframe、object、embed、audio、video、animation 要素、イベントハンドラー、外部 <code>href</code>／<code>src</code>、CSS <code>url()</code> と <code>@import</code>。</li>
+       <li><strong>グリッド：</strong><code>viewBox</code> がない、または正方形でない。</li>
+       <li><strong>線幅の下限：</strong>viewBox 幅の 2.3% より細い線。</li>
+       <li><strong>16px の占有率：</strong>キャンバスの 6% 未満では小さすぎます。不透明な角を持つ硬い正方形は円形クロップで切れます。</li>
+       <li><strong>コントラスト：</strong>白地と暗色地での 16px、および中間グレーでの 32px の輝度差。</li>
+       <li><strong>マスカブル監査：</strong>512px のマスカブルアセットで、検出された細部の 8% 超が半径 40% のセーフサークル外にある。</li>
+       <li><strong>識別性のヒント：</strong>パス化されていない <code><text></code> グリフ — 通常は入力文字のモノグラムで、ビルドマシンのフォントを使ってレンダリングされます。</li>
+      </ul>
+      <p><code>--tray-svg tray.svg</code>、<code>check</code>、<code>review</code> を指定すると、参考用のトレイテンプレート監査も加わります。カラーマークの特徴を 1 つも残していない macOS テンプレートを報告します。これはマスターではなくリンクされたバリアントを監査するため、意図的に既定の <code>check</code> には含めず、<code>ship</code> のゲートにも決して使いません。</p>
+      <h3>シルエットと類似度は別々のプルーフ</h3>
+      <p>レビュー済みの各ケースには 128px の視覚シルエットも用意します。色を外して識別性を判定するためです。400 セルのマトリクスでは、類似度レポートに正確な PNG ハッシュと、64 ビットのアルファ差分ハッシュおよび輝度差分ハッシュを追加します。アルファと輝度を合算したハミング距離が 12 以内（同じ意味）または 6 以内（異なる意味）の組み合わせは高リスクとしてフラグを立て、完全な重複は統合を止めます。スクリプトではこの距離を「視覚検査のトリアージ信号であり、合格点ではない」と呼びます。</p>
+      <ul class="doc-links" aria-label="関連文書">
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/iconflow/qa.py">iconflow/qa.py</a></li>
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/WORKFLOW.md">docs/WORKFLOW.md</a></li>
+      </ul>
+     </div>
+     <div class="reveal is-side">
+      <div class="figure-strip">
+       <figure>
+        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/catnap-focus-128.png" width="128" height="128" alt="丸まって眠る猫を描いた Catnap Focus の正確な 128 ピクセルレンダリング" loading="lazy"><img src="/assets/worlds/catnap-focus-16.png" width="16" height="16" alt="Catnap Focus の正確な 16 ピクセルレンダリング（実寸）" loading="lazy"></div></div>
+        <figcaption><strong>正確なレンダリング。</strong>固定した Chromium から直接出力した Catnap Focus の 128px と 16px。</figcaption>
+       </figure>
+       <figure>
+        <div class="figure-art"><img src="/assets/worlds/catnap-focus-silhouette-128.png" width="128" height="128" alt="色を外しても丸まった猫に見える Catnap Focus の視覚シルエット" loading="lazy"></div>
+        <figcaption><strong>シルエットのプルーフ。</strong>色を外しても、物体名が分からなければなりません。識別性のスコアはこの帯を見て付けます。</figcaption>
+       </figure>
+      </div>
+      <div class="panel">
+       <div class="panel-head"><span>ターミナル</span><span>警告なしのチェック</span></div>
+       <pre><code>$ python -m iconflow check master.svg
+OK — no automated warnings. Still do the visual review.</code></pre>
+       <p class="panel-note">警告は修正すべきソース内容であり、再有効化すべきレンダラー機能ではありません。<code>ship</code> は警告付きで記録された receipt を拒否します。</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="review" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">ステージ 06–09 · レビュー、receipt、リリース、学習</p>
+    <h2>人が採点する。<br><span>ハッシュが記憶する。</span></h2>
+    <p>機械的チェックは機械的リスクを検出します。マークの良し悪しは実ピクセルを人が見て判断し、その結果をビルドで検証できる receipt に記録します。</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>人による視覚レビュー</h3>
+     <p>レビュアーはコンタクトシートと Review Lab を開きます。行は白、暗色、中間グレー、列は実寸の 16px から 256px。さらにピクセル拡大帯、アルファ占有範囲、視覚シルエット、アダプティブクロップのプレビュー、選択した全対象の変換結果を確認します。6 評価軸を 1–5 で採点します：16px での可読性、識別性、バランスとグリッド、色とコントラスト、スケーラビリティ、仕上げ。どの軸も 4 未満ならリリースできません。識別性は明示的なゲートで、一般的なシルエットは色がどれほど良くても最高 3 です。</p>
+     <h3>却下と反復は通常の工程</h3>
+     <p>いずれかの軸が 4 未満なら、レビュアーは最も弱い軸を挙げ、効果が最大の変更を 1 つ加えて再レンダリングします。文書では 2、3 回の試行を想定しています。100 ケースのギャラリー版では 111 候補中 100 を採用し、弱い、読みにくい、または反復的な 11 方向案を明示的に却下しました。Keepsake Knot の receipt には、最初の案が電源記号に見えたため却下されたと記録されています。</p>
+     <h3>ソースに紐づいた receipt、フェイルクローズのリリース</h3>
+     <p>エクスポートした receipt には、正確な SVG の <code>source_sha256</code> と、プロジェクト、対象セット、色、Electron の半径、カラースキーム、トレイモード、トレイソースのハッシュを結び付ける <code>contract_sha256</code> が含まれます。<code>iconflow ship</code> は両方を検証し、空の警告一覧、<code>status: ready</code>、6 つすべてが 4 以上のスコアを要求してから、ファイルを 1 つでも書く前に自動 QA を再実行します。SVG の内容を変更すると — ダイジェストが無視するのは改行形式だけです — receipt は失効します。</p>
+     <h3>ケースブックからの学習</h3>
+     <p>リリースされたすべてのアイコンは <code>iconflow case new</code> で終わります：初回と最終のスコア、避けた定番の落とし穴、シグネチャー要素、再利用できる教訓 1 つ。<code>case stats</code> は繰り返し最も弱い軸と共通の定番の落とし穴を明らかにし、教訓は <code>docs/LEARNINGS.md</code> の番号付きルール（執筆時点で 54）に抽出され、次のブリーフは最初にそれを読みます。記録されないアイコンから、システムは何も学べません。</p>
+     <ul class="doc-links" aria-label="関連文書">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/REVIEW_CHECKLIST.md">docs/REVIEW_CHECKLIST.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>
+      <li><a href="/gallery/">/gallery/ · 採用 100 ケース</a></li>
+     </ul>
+    </div>
+    <div class="reveal is-side">
+     <div class="panel">
+      <div class="panel-head"><span>keepsake-knot-review.json</span><span>抜粋</span></div>
+      <pre><code>"source_sha256": "f27c303a…0aaf305",
+"contract_sha256": "14d5aeb4…261de76",
+"user_job": "keep a small shared ritual
+             tangible over time",
+"essence": "together",
+"signature_device": "two unequal bands
+             share one offset opening",
+"cliches": ["heart", "chat bubble",
+            "linked circles"],
+"warnings": [],
+"scores": {"legibility": 4,
+  "distinctiveness": 4, "balance": 4,
+  "color": 5, "scalability": 4, "craft": 4},
+"notes": "Pass 1 rejected the power-sign
+  reading. …",
+"status": "ready"</code></pre>
+      <p class="panel-note">ファイル全文を公開しています：<a href="/assets/worlds/keepsake-knot-review.json">keepsake-knot-review.json</a>。そのハッシュは <a href="/assets/worlds/keepsake-knot.svg">keepsake-knot.svg</a> と一致し、サイトのテストがビルドごとに再検証します。</p>
+     </div>
+     <div class="panel">
+      <div class="panel-head"><span>ship が検証するもの</span><span>ファイルを書き込む前</span></div>
+      <ol>
+       <li>receipt スキーマと現在の SVG の完全な SHA-256。</li>
+       <li>コントラクトダイジェスト：プロジェクト、正確な対象セット、色、半径、スキーム、トレイモード、トレイソースのハッシュ。</li>
+       <li>空の警告一覧と <code>status: ready</code>。</li>
+       <li>すべての評価軸が揃い、各 4 以上です。</li>
+       <li>今、ソースに対して 2 回目の自動 QA を実行します。</li>
+      </ol>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="vector-vs-raster" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">重要な違い</p>
+     <h2>AI 制作のベクター。<br><span>プロンプトからラスター画像を作る方式ではない。</span></h2>
+     <p>どちらも AI を使い得ます。しかし、生成するもの、失敗の仕方、残す証拠が異なります。</p>
+    </div>
+    <div class="compare-table reveal">
+     <table>
+      <thead><tr><th scope="col">質問</th><th scope="col">プロンプトからラスター画像を生成</th><th scope="col">IconFlow の AI 制作ベクターワークフロー</th></tr></thead>
+      <tbody>
+       <tr><th scope="row">ソースは何ですか？</th><td>モデルからサンプリングされたビットマップ。プロンプトはファイルではありません。</td><td class="is-us">1024 グリッド上の編集可能な SVG。トレイ版で必要な箇所は意味ごとにグループ化されています。ファイルそのものがデザインです。</td></tr>
+       <tr><th scope="row">1 か所だけ変更できますか？</th><td>再生成して祈るだけ。小さな修正でも画像全体がずれます。</td><td class="is-us">ノードを動かし、間隔を広げ、帯の色を変え、全ターゲットを再ビルドします。</td></tr>
+       <tr><th scope="row">16px ではどう見えますか？</th><td>後から縮小するため、細部が潰れたりノイズになったりします。</td><td class="is-us">縮小先から逆算して設計。ピクセル予算を優先し、承認前に正確な 16px レンダリングを確認します。</td></tr>
+       <tr><th scope="row">識別性はどこから生まれますか？</th><td>モデルの事前知識。それがカテゴリー平均へ引き寄せます。</td><td class="is-us">強制的な差別化ステップ、定番の落とし穴を除くフィルター、失敗判定のあるシルエットテスト。</td></tr>
+       <tr><th scope="row">証拠は何ですか？</th><td>画像、プロンプト、場合によってはシード。</td><td class="is-us">ブリーフ、最終候補、警告一覧、正確なレンダリング、ソースハッシュに紐づいた採点済み receipt、ケース記録。</td></tr>
+       <tr><th scope="row">エンジンはモデルを呼び出しますか？</th><td>常に。それが製品です。</td><td class="is-us">いいえ。レンダラーとビルドはローカルの Python と Chromium で動きます。モデル使用量が発生するのは、使う場合の設計エージェントだけです。</td></tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+  </section>
+
+  <section id="clean-room" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">境界</p>
+    <h2>クリーンルームの境界線<br><span>そして保証しないこと。</span></h2>
+    <p>IconFlow のコレクションは、よく知られた役割や意味を独自の形状へ変換します。これは設計手法であり、出所を管理する規律ですが、法的保証ではありません。</p>
+   </div>
+   <div class="boundary-grid reveal">
+    <article class="boundary-card is-do">
+     <h3>ここでのクリーンルームの意味</h3>
+     <ul>
+      <li>プリセットとギャラリーには、第三者の SVG パス、コード、画像、フォント、配色、文言、ブランドマーク、トレードドレスを含めていません。先行するアイコンセットは学びを得るために調査したもので、複製していません。</li>
+      <li>Emoji Matrix では、ベンダーの絵文字アートワークを複製、改変、トレース、サンプリング、埋め込みしていません。コードポイントと短縮名は意味上の参照にのみ使います。</li>
+      <li>Social Signals の習作は、一般的なユーザーの目的と、各プラットフォームのトレードドレス外にある具体名詞から始めます。公式のシルエットと公式ブランドカラーを組み合わせず、公開文ではプラットフォーム名と習作マークを併記しません。</li>
+      <li>オリジナルの物語、キャラクター、ゲームのケースでは、特定のアーティスト、スタジオ、フランチャイズ、存命のクリエイター、商標を模倣してはなりません。</li>
+     </ul>
+    </article>
+    <article class="boundary-card is-dont">
+     <h3>明示的に主張しないこと</h3>
+     <ul>
+      <li>各コレクションは独立しており、提携関係はありません。このサイト上のものは、いかなるプラットフォームまたは絵文字ベンダーからも推奨・承認されておらず、関係もありません。</li>
+      <li>練習用の作例は、実際にリリースするアイデンティティではなく、公式ロゴの代替でもありません。</li>
+      <li>見た目に距離があっても、法的な権利確認にはなりません。残存リスクには、未発見の第三者マーク、法域ごとの混同分析、将来のブランド変更が含まれます。</li>
+      <li>商業的な重みを持つ製品マークは、採用前に正式な商標調査と専門家による法的レビューを受けるべきです。IconFlow は設計作業を検査可能にしますが、権利確認は行いません。</li>
+     </ul>
+    </article>
+   </div>
+   <p class="disclaimer reveal"><strong>IconFlow 独自のマークについて。</strong> Petal Haypile（花びらの干し草）— 3 枚の花びらを持って干し草置き場へ戻る、耳の短いナキウサギ — は、恒久的なアイデンティティの決定を保留している間に選ばれた、現在の、意図的に差し替え可能な暫定製品マークです。コードは Apache-2.0 です。IconFlow の名称とマークには、プロジェクトの <a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">商標ポリシー</a>が適用されます。文書：<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/SOCIAL_SIGNALS.md">SOCIAL_SIGNALS.md</a>、<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/EMOJI_MATRIX.md">EMOJI_MATRIX.md</a>、<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/GALLERY.md">GALLERY.md</a>。</p>
+  </section>
+
+  <section id="cost" class="cost-section">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">透明なコストモデル</p>
+     <h2>計算コストは安い。<br><span>本当のコストは判断。</span></h2>
+     <p>ここに金額を載せないのは意図的です。正確な額は、エージェントが使うモデルや API、ホスティング先、その時点の専門サービス料金によって変わります。以下に示すのは、規模に応じて増えるものと、その理由です。</p>
+    </div>
+    <ul class="cost-facts reveal" aria-label="コストの発生源">
+     <li><span>ローカル／オフライン</span><strong>レンダリング、チェック、ビルド</strong><p>Python の依存関係と Playwright Chromium を一度ダウンロードすれば、<code>compare</code>、<code>check</code>、<code>review</code>、<code>ship</code>は手元のマシンで動作します。API キーも画像モデルの呼び出しも不要で、レンダリング中にネットワークも使いません。再ビルドにかかるのは、ローカル計算の数秒です。</p></li>
+     <li><span>モデル使用量が発生する場合あり</span><strong>設計エージェント</strong><p>AI エージェントがブリーフを書き、コンセプトを分岐させ、SVG を制作する場合、その対話には選択したクライアントとモデルに応じて課金されます。IconFlow 自体はモデルを呼び出しません。反復、比較検討、レビューシートの読み込みはトークンを増やします。曖昧なブリーフも同じです。</p></li>
+     <li><span>費用がかかる場合あり</span><strong>デプロイと権利確認</strong><p>成果物のホスティングは通常、最小の費目です。すでに料金を払っているホスト上の静的サイトやアプリバンドルに置けます。商用マークの商標調査と法的レビューには、どのツールキットでも代替できない別途の専門家費用がかかります。</p></li>
+    </ul>
+    <div class="method-prose reveal">
+     <h3>5 段階の相対コスト</h3>
+     <p>価格を決めるのはエンジン時間ではなくスコープです。メーターは 5 段階を比較する相対尺度であり、計算コストだけで完成したアイデンティティのコストを表すことはできません。</p>
+    </div>
+    <ol class="tier-list reveal" aria-label="コスト段階">
+     <li class="tier">
+      <div><h3>簡易練習作例<small>1 つの雛形、1 回のチェック</small></h3><p>技法プリセットから始め、ハウスレールを 1 つの製品オブジェクトに差し替え、<code>check</code>を実行します。ツールチェーンと最初のアイデアを実証します。</p></div>
+      <div><span class="tier-label">成果物</span><p>SVG 1 点、警告なしの一覧、ネイティブサイズの 16px／128px レンダリング。</p></div>
+      <div><span class="tier-label">レビューの深さ</span><p>コンタクトシートで自己チェック。receipt は書き出しません。</p></div>
+      <div><span class="tier-label">反復の要因</span><p>線幅下限とコントラストの警告。16px で成立しない名詞。</p></div>
+      <div class="tier-cost"><span class="tier-label">相対コスト</span><strong>分単位</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></span><p>ローカル計算。エージェントが動かす場合も、モデル使用量はごくわずかです。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>オリジナルの本番アイコン<small>標準ループ</small></h3><p>ブリーフ、4 つのコンセプト、比較検討、1 つのマスター SVG、check、採点済み review、receipt、ship、ケース記録 — 1 製品とその Web ターゲット。</p></div>
+      <div><span class="tier-label">成果物</span><p>iconflow.toml、最終候補と比較シート、master.svg、レビューシートと receipt、favicon／PWA セット、ケースブックの項目。</p></div>
+      <div><span class="tier-label">レビューの深さ</span><p>設計者が実寸とシルエットで 6 評価軸すべてを確認。通常は 2、3 回のパスです。</p></div>
+      <div><span class="tier-label">反復の要因</span><p>識別性が 4 未満、システムアイコンとの衝突、意図しない別の読み取り。</p></div>
+      <div class="tier-cost"><span class="tier-label">相対コスト</span><strong>時間単位</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><p>設計判断とレビュー時間が第一、エージェント使用量が第二。計算コストは無視できる程度です。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>複数サーフェス対応のアイデンティティファミリー<small>Web、デスクトップ、トレイ</small></h3><p>本番ループに加え、連携したマーク専用トレイソース、プラットフォーム別クロップ、デスクトップバンドル、すべてを結ぶ 1 つの契約ハッシュ。</p></div>
+      <div><span class="tier-label">成果物</span><p>master.svg と tray.svg、トレイテンプレート監査、ICO／ICNS／PNG ファミリー、マニフェスト断片、ターゲットセット全体の receipt 1 点。</p></div>
+      <div><span class="tier-label">レビューの深さ</span><p>各ターゲット変換を確認：アダプティブクロップ、デスクトップの角、明暗それぞれのバー上のメニューバーテンプレート。</p></div>
+      <div><span class="tier-label">反復の要因</span><p>カラーマークの特徴が何も残らないトレイテンプレート。マスカブルセーフサークル外にある細部。</p></div>
+      <div class="tier-cost"><span class="tier-label">相対コスト</span><strong>数時間～1 日</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><p>計算量ではなく、レビューするサーフェスが増えます。ターゲットごとに人の確認が加わります。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>調査に基づくブランドアイデンティティ<small>ポジショニング、ラウンド、権利確認</small></h3><p>製品調査、ステークホルダーとの複数のコンセプトラウンド、ブランドシステム文書、そして 1 つのマークを正式採用し、ソースに紐づいた 1 回のトランザクションでサイトとビルド全体へ反映します。</p></div>
+      <div><span class="tier-label">成果物</span><p>上記すべてに加え、ブランドシステム文書、パレットとクリアスペースの規則、策定経緯、商標レビューの結果。</p></div>
+      <div><span class="tier-label">レビューの深さ</span><p>複数のレビュアーとラウンド。以前のマークの明示的な却下。商業的な重みを持つマークには専門家による権利確認。</p></div>
+      <div><span class="tier-label">反復の要因</span><p>ポジショニングの変更、ステークホルダー間の不一致、権利確認での指摘、可逆性の要件。</p></div>
+      <div class="tier-cost"><span class="tier-label">相対コスト</span><strong>数日～数週間</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><p>専門家の時間と法務サービスが大半を占め、モデルと計算コストは付記程度です。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>大規模な生成・選定コレクション<small>数百セル</small></h3><p>多数のソースをスクリプトとシードで生成。各セルは、フェイルクローズで統合する前に、check、レンダリング、シルエット、類似性の一次選別、視覚レビューを必ず通過します。</p></div>
+      <div><span class="tier-label">成果物</span><p>セルごとの SVG、レンダリング、シルエット、receipt。類似性レポート。セット単位のダイジェスト付きカタログ。合成した概要ポスター。</p></div>
+      <div><span class="tier-label">レビューの深さ</span><p>全セルのコンタクトシート、欠点を探す選定パス、弱いセルの差し替え、コレクション単位の意思決定ファイル 1 点。</p></div>
+      <div><span class="tier-label">反復の要因</span><p>知覚的な近似重複、構造の反復、スタイル文法のずれ、16px で弱いセル。</p></div>
+      <div class="tier-cost"><span class="tier-label">相対コスト</span><strong>日単位、主にレビュー</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><p>数百セル規模ではモデル使用量も目立ちますが、それでも選定にかかる時間の方が上回ります。</p></div>
+     </li>
+    </ol>
+    <p class="cost-footnote reveal"><strong>メーターは価格ではなく比率として見てください。</strong>モデル使用量、ホスティング、専門家費用は、それぞれ別の提供者が変動する料金で請求します。IconFlow 自体は料金を加算せず、エンジンはローカルで動きます。どの段階でも、完成したアイデンティティの主なコストは、人が判断とレビューに費やす時間です — これはまさに、この手法が省略しない部分です。</p>
+   </div>
+  </section>
+
+  <section class="method-cta section-shell reveal">
+   <div><p class="section-kicker">見てから、実行</p><h2>ここでの主張にはすべて<br>裏付けるファイルがあります。</h2></div>
+   <div><p>受け入れ済みのケースを、それぞれのプルーフと receipt とともに見るか、自分のマシンで 5 分のエンジンプルーフを実行し、ピクセルを自分で確認してください。</p><div class="start-actions"><a class="button button-primary" href="/gallery/">ギャラリーを開く <span aria-hidden="true">→</span></a><a class="button button-quiet" href="/ja/getting-started/">Getting Started</a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">ドキュメントを読む</a></div></div>
+  </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+  <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>1 つのマスター。あらゆるサーフェス。</span></div></div>
+  <p>Apache-2.0 のコード · IconFlow のアイデンティティには商標ポリシーが適用されます。</p>
+  <nav aria-label="フッターナビゲーション"><a href="/ja/">ホーム</a><a href="/gallery/">ギャラリー</a><a href="/ja/getting-started/">ガイド</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">ドキュメント</a><a href="https://github.com/snowyukitty/ai-iconflow">ソース</a></nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="言語"><a lang="en" hreflang="en" translate="no" href="/how-icons-are-made/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/how-icons-are-made/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/how-icons-are-made/" aria-current="true">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/how-icons-are-made/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/how-icons-are-made/">简体</a></nav><!-- /i18n:switch -->
+  </footer>
+</body>
+</html>

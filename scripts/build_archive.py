@@ -378,12 +378,14 @@ def archive_page(catalog: dict) -> str:
   <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png?v=petal">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://ai-iconflow.com/archive/">
+  <!-- i18n:alternates -->
+  <!-- /i18n:alternates -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/styles.css?v=20260821">
-  <link rel="stylesheet" href="/archive.css?v=20260821">
+  <link rel="stylesheet" href="/styles.css?v=20260821b">
+  <link rel="stylesheet" href="/archive.css?v=20260821b">
   <script type="application/ld+json">
   {{
    "@context": "https://schema.org",
@@ -394,8 +396,8 @@ def archive_page(catalog: dict) -> str:
    "isPartOf": {{ "@id": "https://ai-iconflow.com/#website" }}
   }}
   </script>
-  <script src="/app.js?v=20260821" defer></script>
-  <script src="/archive.js?v=20260821" defer></script>
+  <script src="/app.js?v=20260821b" defer></script>
+  <script src="/archive.js?v=20260821b" defer></script>
 </head>
 <body class="archive-body">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -404,7 +406,7 @@ def archive_page(catalog: dict) -> str:
       <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
       <span>IconFlow</span>
     </a>
-    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Open navigation" data-label-close="Close navigation">
       <span class="sr-only">Toggle navigation</span>
       <span></span><span></span>
     </button>
@@ -416,6 +418,7 @@ def archive_page(catalog: dict) -> str:
       <a href="/getting-started/">Get started</a>
       <a href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
+    <!-- i18n:switch --><!-- /i18n:switch -->
   </header>
 
   <main id="main">
@@ -435,7 +438,7 @@ def archive_page(catalog: dict) -> str:
       </div>
       <div class="archive-filters reveal" role="group" aria-label="Filter the archive">
         {"".join(chips)}
-        <span class="filter-count" data-filter-count aria-live="polite">{counts["directions"]} shown</span>
+        <span class="filter-count" data-filter-count aria-live="polite" data-label-shown="{{count}} shown">{counts["directions"]} shown</span>
       </div>
     </section>
 
@@ -461,7 +464,7 @@ def archive_page(catalog: dict) -> str:
         <span class="card-round" data-dialog-round></span>
         <h2 data-dialog-name></h2>
         <p data-dialog-story></p>
-        <p class="dialog-meta"><span data-dialog-status></span> <span data-dialog-scores></span></p>
+        <p class="dialog-meta"><span data-dialog-status></span> <span data-dialog-scores data-label-axes="(legibility / distinctiveness / balance / color / scalability / craft)"></span></p>
         <p class="dialog-native"><img data-dialog-proof src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="">exact 16px · <a data-dialog-source href="/assets/iconflow-mark.svg">download the SVG</a></p>
       </div>
     </div>
@@ -471,6 +474,7 @@ def archive_page(catalog: dict) -> str:
     <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div>
     <p>Apache-2.0 code · archive artwork is IconFlow identity material, subject to the trademark policy.</p>
     <nav aria-label="Footer navigation"><a href="/">Home</a><a href="/gallery/">Gallery</a><a href="/how-icons-are-made/">How it's made</a><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">Trademark</a><a href="https://github.com/snowyukitty/ai-iconflow">Source</a></nav>
+    <!-- i18n:switch --><!-- /i18n:switch -->
   </footer>
 </body>
 </html>

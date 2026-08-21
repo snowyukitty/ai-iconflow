@@ -134,8 +134,10 @@
     silhouette.getContext('2d').putImageData(sil, 0, 0);
     template.getContext('2d').putImageData(tpl, 0, 0);
     templateNote.textContent = s.cardOn
-      ? 'Alpha template = a featureless rounded square. This is why the brand ships a linked mark-only tray source.'
-      : 'Alpha template keeps the whole silhouette but no interior feature. For a menu bar, cut one identifying feature clean through as a transparent hole (docs/LEARNINGS.md L42).';
+      ? (templateNote.dataset.labelCardOn
+         || 'Alpha template = a featureless rounded square. This is why the brand ships a linked mark-only tray source.')
+      : (templateNote.dataset.labelCardOff
+         || 'Alpha template keeps the whole silhouette but no interior feature. For a menu bar, cut one identifying feature clean through as a transparent hole (docs/LEARNINGS.md L42).');
   };
 
   let pending = 0;
@@ -152,7 +154,7 @@
       preview.src = url;
       const img = new Image();
       img.onload = () => { if (ticket === sequence) paint(img, snapshot); };
-      img.onerror = () => { if (ticket === sequence) flash('This remix could not be rendered. Reset and try again.'); };
+      img.onerror = () => { if (ticket === sequence) flash(say('renderFailed', 'This remix could not be rendered. Reset and try again.')); };
       img.src = url;
       stage.dataset.surface = snapshot.surface;
       lab.dataset.object = snapshot.object;
@@ -192,6 +194,9 @@
   cardOn.addEventListener('change', () => { state.cardOn = cardOn.checked; render(); });
   q('[data-remix-reset]')?.addEventListener('click', () => { Object.assign(state, DEFAULT); syncControls(); render(); });
 
+  // Visitor-facing strings come from data-label-* on the status paragraph so
+  // the language builds can translate them; English stays as the fallback.
+  const say = (name, fallback) => status?.dataset?.[`label${name[0].toUpperCase()}${name.slice(1)}`] || fallback;
   const flash = (text) => {
     status.textContent = text;
     window.clearTimeout(flash.timer);
@@ -209,17 +214,17 @@
       fallback.hidden = false;
       fallback.focus();
       fallback.select();
-      flash('Clipboard blocked — the text is shown below; select and copy it.');
+      flash(say('clipboardBlocked', 'Clipboard blocked — the text is shown below; select and copy it.'));
     }
   };
-  q('[data-remix-copy-svg]')?.addEventListener('click', () => copy(svgFor(state), 'SVG copied. Save it as master.svg.'));
+  q('[data-remix-copy-svg]')?.addEventListener('click', () => copy(svgFor(state), say('svgCopied', 'SVG copied. Save it as master.svg.')));
   q('[data-remix-download]')?.addEventListener('click', () => {
     // A data: URL keeps the download inside the site's CSP (no blob: source).
     const link = document.createElement('a');
     link.href = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgFor(state))}`;
     link.download = 'master.svg';
     document.body.append(link); link.click(); link.remove();
-    flash('Downloaded master.svg — now run iconflow check / review / ship.');
+    flash(say('downloaded', 'Downloaded master.svg — now run iconflow check / review / ship.'));
   });
   q('[data-remix-copy-brief]')?.addEventListener('click', () => {
     const o = OBJECTS[state.object];
@@ -230,7 +235,7 @@
       `Essence: ${o.essence}. Avoid the AI-sparkle, robot, and blue-purple monogram clichés; keep one signature device.`,
       'Follow ai-iconflow/AGENTS.md: read docs/LEARNINGS.md, write iconflow.toml with python -m iconflow init, run check, then review (inspect the 16px pixels and every target), ship only when every rubric axis is at least 4/5, and record the case with iconflow case new.',
     ].join('\n');
-    copy(brief, 'Agent brief copied. Paste it next to your master.svg.');
+    copy(brief, say('briefCopied', 'Agent brief copied. Paste it next to your master.svg.'));
   });
 
   syncControls();

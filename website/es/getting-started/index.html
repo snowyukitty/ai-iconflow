@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting Started — Diseña y publica un icono con IconFlow</title>
+  <meta name="description" content="Da el brief a un agente de IA, inspecciona el SVG a tamaño nativo y publica con IconFlow activos revisados: favicon, PWA, escritorio y bandeja del sistema.">
+  <meta name="theme-color" content="#191a20">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Getting Started con IconFlow — Iconos centrados en agentes y guiados por pruebas">
+  <meta property="og:description" content="Una vía honesta desde la intención del producto hasta un SVG editable, una prueba a tamaño nativo y una familia de iconos lista para las plataformas de destino.">
+  <meta property="og:url" content="https://ai-iconflow.com/es/getting-started/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png?v=petal">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ai-iconflow.com/es/getting-started/">
+  <!-- i18n:alternates -->
+  <link rel="alternate" hreflang="en" href="https://ai-iconflow.com/getting-started/">
+  <link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/getting-started/">
+  <link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/getting-started/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/getting-started/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/getting-started/">
+  <link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/getting-started/">
+  <!-- /i18n:alternates -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css?v=20260821b">
+  <link rel="stylesheet" href="/getting-started/getting-started.css?v=20260821b">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Getting Started con IconFlow",
+      "description": "Usa un agente de IA o la CLI de IconFlow para diseñar, revisar y publicar una familia de iconos lista para las plataformas de destino.",
+      "url": "https://ai-iconflow.com/es/getting-started/",
+      "about": {
+        "@id": "https://ai-iconflow.com/es/#source"
+      },
+      "isPartOf": {
+        "@id": "https://ai-iconflow.com/es/#website"
+      }
+    }
+  </script>
+  <script src="/app.js?v=20260821b" defer></script>
+</head>
+<body class="guide-body">
+  <a class="skip-link" href="#main">Ir al contenido</a>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="/es/" aria-label="Inicio de IconFlow">
+      <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
+      <span>IconFlow</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Abrir navegación" data-label-close="Cerrar navegación">
+      <span class="sr-only">Alternar navegación</span> <span></span><span></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="Navegación principal">
+      <a href="#choose">Elige una vía</a>
+      <a href="#install">Instalar</a>
+      <a href="#agent">Brief del agente</a>
+      <a href="#workflow">Flujo de trabajo</a>
+      <a href="#outputs">Salidas</a>
+      <a href="/es/how-icons-are-made/">Método</a>
+      <a href="/gallery/">Galería</a>
+      <a href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="Idioma"><a lang="en" hreflang="en" translate="no" href="/getting-started/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/getting-started/" aria-current="true">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/getting-started/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/getting-started/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/getting-started/">简体</a></nav><!-- /i18n:switch -->
+  </header>
+
+  <main id="main">
+    <section class="guide-hero section-shell">
+      <div class="guide-hero-copy reveal">
+        <p class="eyebrow"><span class="status-dot"></span> Getting Started · instalación desde el código fuente</p>
+        <h1>Da a tu agente<br>el brief.<br><em>Conserva la prueba.</em></h1>
+        <p>IconFlow convierte la intención del producto en un SVG editable y somete el diseño a píxeles nativos, recortes de plataforma y una revisión ligada a la fuente antes de publicar cualquier activo.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#install">Ejecuta la prueba de cinco minutos <span aria-hidden="true">→</span></a>
+          <a class="button button-quiet" href="#agent"><span class="button-pixel"></span> Copia el brief del agente</a>
+        </div>
+        <ul class="guide-requirements" aria-label="Requisitos">
+          <li>Python 3.10+</li>
+          <li>Git</li>
+          <li>Acceso a red para la configuración inicial</li>
+        </ul>
+      </div>
+
+      <div class="handoff-card reveal" aria-label="Traspaso al agente de IconFlow">
+        <div class="handoff-topline"><span>TRASPASO AL AGENTE</span><strong>01 / 04</strong></div>
+        <div class="handoff-brief">
+          <span class="handoff-label">INTENCIÓN DEL PRODUCTO</span><p>Ayudar a comparar investigaciones sin perder el hilo.</p>
+          <div class="brief-chips"><span>esencia · prueba</span><span>evitar · destellos</span></div>
+        </div>
+        <div class="handoff-flow" aria-hidden="true">
+          <div><span>TÚ</span><b></b></div>
+          <div><span>AGENTE</span><b></b></div>
+          <div class="handoff-mark"><img src="/assets/iconflow-mark.svg" width="76" height="76" alt=""></div>
+          <div><span>PRUEBA</span><b></b></div>
+          <div><span>PUBLICAR</span></div>
+        </div>
+        <div class="handoff-receipt">
+          <span class="receipt-pulse" aria-hidden="true"></span><div><strong>La decisión se puede inspeccionar</strong><small>brief · SVG · revisión · receipt (comprobante) · caso</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-principle">
+      <div class="section-shell principle-grid reveal">
+        <p class="section-kicker">El modelo operativo</p>
+        <h2>El agente diseña.<br>IconFlow lo prueba.</h2>
+        <p>El agente investiga el producto, explora conceptos distintos y crea SVG semántico. IconFlow aporta el manual de diseño, el renderizador determinista, el control de calidad, las transformaciones de destino y el ciclo de aprendizaje. No es un generador de imágenes a partir de prompts.</p>
+      </div>
+    </section>
+
+    <section id="choose" class="guide-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">Elige tu vía</p>
+        <h2>Dos puertas.<br><span>Un solo control de calidad.</span></h2>
+        <p>Usa la vía del agente si quieres ayuda para pensar el producto y crear el SVG. Usa la vía de la CLI si ya controlas las decisiones de diseño. Ambas terminan en el mismo contrato de revisión.</p>
+      </div>
+      <div class="path-grid">
+        <article class="path-card path-primary reveal">
+          <div class="path-card-top"><span>Recomendado</span><strong>Asistido por agente</strong></div>
+          <h3>Describe la función del producto, no la imagen.</h3>
+          <p>Instala la skill de IconFlow, de formato abierto. Un agente compatible puede descubrir el flujo de trabajo cuando pides un icono de app, un favicon, una marca o un icono de bandeja del sistema.</p>
+          <ol>
+            <li><span>01</span>Instala la skill una vez</li>
+            <li><span>02</span>Da al agente contexto del producto</li>
+            <li><span>03</span>Inspecciona su comparativa y Review Lab</li>
+          </ol>
+          <a href="#agent">Usa el brief del agente <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="path-card reveal">
+          <div class="path-card-top"><span>Transparente</span><strong>CLI directa</strong></div>
+          <h3>Toma todas las decisiones.</h3>
+          <p>Lee el manual de diseño, crea los SVG finalistas y usa los mismos comandos que ejecuta el agente. No hay ningún servicio oculto tras la CLI.</p>
+          <ol>
+            <li><span>01</span>Crea <code>iconflow.toml</code></li>
+            <li><span>02</span>Compara y revisa los candidatos</li>
+            <li><span>03</span>Publica solo con una aprobación vigente</li>
+          </ol>
+          <a href="#workflow">Consulta todos los comandos <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+      <p class="compatibility-note reveal"><strong>¿Usas otro agente de IA?</strong> Cualquier agente capaz de leer las instrucciones del repositorio y ejecutar comandos de shell puede usar IconFlow mediante <code>AGENTS.md</code> y la CLI. La detección automática de skills depende del cliente.</p>
+    </section>
+
+    <section id="install" class="install-section">
+      <div class="section-shell">
+        <div class="guide-heading reveal">
+          <p class="section-kicker">Prueba del motor en cinco minutos</p>
+          <h2>Comprueba el pipeline<br><span>antes de diseñar.</span></h2>
+          <p>Esto compila la familia revisada y versionada de IconFlow en un directorio de trabajo desechable. Demuestra que tu entorno funciona —no que una identidad nueva y distintiva pueda diseñarse en cinco minutos.</p>
+        </div>
+
+        <div class="proof-steps reveal">
+          <div><span>01</span><strong>Clona</strong><small>Obtén el código fuente actual.</small></div>
+          <div><span>02</span><strong>Configura</strong><small>Instala las dependencias de Python, Chromium y la skill del agente.</small></div>
+          <div><span>03</span><strong>Publica la prueba</strong><small>Vuelve a validar el receipt y genera 23 activos.</small></div>
+        </div>
+
+        <div class="platform-grid">
+          <article class="command-card reveal">
+            <header><div><span></span><span></span><span></span></div><p>Windows · PowerShell</p></header>
+            <pre id="install-windows"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python -m venv .venv
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
+.\.venv\Scripts\python.exe -m iconflow doctor
+.\.venv\Scripts\python.exe -m iconflow ship `
+  --config brand\iconflow.toml `
+  --review brand\master-review.json `
+  --out work\quick-start\icon-out</code></pre>
+            <button class="copy-button" type="button" data-copy-command data-label-copy="Copiar" data-label-copied="Copiado" data-label-selected="Seleccionado" data-copy-target="#install-windows">Copiar</button>
+          </article>
+
+          <article class="command-card reveal">
+            <header><div><span></span><span></span><span></span></div><p>macOS / Linux · shell</p></header>
+            <pre id="install-posix"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python3 -m venv .venv
+sh ./scripts/setup.sh
+./.venv/bin/python -m iconflow doctor
+./.venv/bin/python -m iconflow ship \
+  --config brand/iconflow.toml \
+  --review brand/master-review.json \
+  --out work/quick-start/icon-out</code></pre>
+            <button class="copy-button" type="button" data-copy-command data-label-copy="Copiar" data-label-copied="Copiado" data-label-selected="Seleccionado" data-copy-target="#install-posix">Copiar</button>
+          </article>
+        </div>
+
+        <div class="proof-result reveal">
+          <div class="proof-result-mark"><img src="/assets/iconflow-mark.svg" width="92" height="92" alt="Marca de IconFlow"></div>
+          <div><span class="proof-result-label">Resultado esperado</span><h3>Un control, no solo una carpeta.</h3><p><code>doctor</code>informa de que el renderizador está listo. <code>ship</code> verifica la fuente versionada y el contrato de revisión, repite el control de calidad y genera activos web, PWA, de escritorio Tauri, Electron y de bandeja del sistema en <code>work/quick-start/icon-out/</code>.</p></div>
+          <ul><li><span></span>coincide el hash de la fuente</li><li><span></span>0 advertencias automáticas</li><li><span></span>seis puntuaciones ≥ 4/5</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="agent" class="agent-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">Empieza por la intención</p>
+        <h2>Da al agente<br><span>un brief útil.</span></h2>
+        <p>Un prompt con solo un sustantivo genera decoración. Incluye la función del producto, el público, la personalidad, la paleta, los clichés que evitar y las superficies de salida exactas.</p>
+      </div>
+
+      <div class="agent-brief-grid">
+        <article class="brief-builder reveal">
+          <div class="brief-builder-head"><span>BRIEF / 01</span><strong>Lo que necesita el agente</strong></div>
+          <dl>
+            <div><dt>Intención del producto</dt><dd>¿Qué hace posible el producto?</dd></div>
+            <div><dt>Tarea del usuario</dt><dd>¿Qué avance busca el usuario?</dd></div>
+            <div><dt>Esencia</dt><dd>Una palabra que guíe cada decisión.</dd></div>
+            <div><dt>Personalidad</dt><dd>Dos o tres rasgos en tensión.</dd></div>
+            <div><dt>Clichés</dt><dd>Los símbolos obvios de la categoría que debes descartar.</dd></div>
+            <div><dt>Destinos</dt><dd>Web, PWA, escritorio, bandeja del sistema —o solo lo que exista.</dd></div>
+          </dl>
+        </article>
+
+        <article class="command-card prompt-card reveal">
+          <header><div><span></span><span></span><span></span></div><p>Prompt para el agente</p></header>
+          <pre id="agent-prompt"><code>Use the IconFlow skill to design, review, and ship a distinctive icon family for this project.
+
+Product intent: [what the product enables]
+User job: [the progress a person wants]
+Essence: [one word]
+Personality: [two or three traits]
+Existing palette: [tokens or colors]
+Clichés to avoid: [obvious symbols]
+Targets: [web, pwa, tauri, electron, tray]
+
+Keep the editable SVG and iconflow.toml in this project. Show me the concept bake-off and native-size review before shipping. Do not stop before recording the case.</code></pre>
+          <button class="copy-button" type="button" data-copy-command data-label-copy="Copiar" data-label-copied="Copiado" data-label-selected="Seleccionado" data-copy-target="#agent-prompt">Copiar</button>
+        </article>
+      </div>
+
+      <div class="universal-agent reveal">
+        <div><p class="section-kicker">Alternativa universal</p><h3>¿Sin detección de skills? Dale al agente el contrato.</h3><p>Funciona con cualquier agente capaz de leer archivos y ejecutar la CLI local de Python, aunque su cliente no admita Agent Skills.</p></div>
+        <div class="universal-code">
+          <pre id="universal-prompt"><code>Read [ICONFLOW_REPO]/AGENTS.md completely.
+Use [ICONFLOW_REPO]/.venv/.../python -m iconflow ...
+Keep your shell in this consuming project.
+Follow concept → compare → check → review → ship → case.</code></pre>
+          <button class="copy-button" type="button" data-copy-command data-label-copy="Copiar" data-label-copied="Copiado" data-label-selected="Seleccionado" data-copy-target="#universal-prompt">Copiar</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="workflow-section">
+      <div class="section-shell">
+        <div class="guide-heading reveal">
+          <p class="section-kicker">El ciclo completo</p>
+          <h2>Cada comando<br><span>se gana su lugar.</span></h2>
+          <p>Ejecuta estos comandos desde el proyecto que usa IconFlow. Usa Python del entorno virtual de IconFlow mediante su ruta absoluta para que la configuración y las fuentes finales permanezcan con el producto al que pertenecen.</p>
+        </div>
+
+        <ol class="workflow-list">
+          <li class="reveal">
+            <div class="workflow-number">01</div>
+            <div class="workflow-copy"><span>Brief</span><h3>Escribe el contrato del producto.</h3><p>Registra la intención antes de dibujar. La configuración también fija destinos, colores, rutas y el comportamiento de la bandeja del sistema.</p></div>
+            <pre><code>python -m iconflow init --out iconflow.toml \
+  --name "My App" --essence proof \
+  --targets web,tauri,electron,tray</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">02</div>
+            <div class="workflow-copy"><span>Explora</span><h3>Fuerza ideas visuales distintas.</h3><p>Crea al menos cuatro conceptos desde perspectivas distintas. Los preajustes de técnica sirven de andamiaje; nunca son identidades terminadas.</p></div>
+            <pre><code>python -m iconflow styles
+python -m iconflow new flat-geometric \
+  --out work/my-app/a.svg</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">03</div>
+            <div class="workflow-copy"><span>Compara</span><h3>Elige la forma antes de pulir.</h3><p>Renderiza juntos dos o tres finalistas. Evalúa la lámina a 128px, 16px y en silueta.</p></div>
+            <pre><code>python -m iconflow compare \
+  work/my-app/a.svg work/my-app/b.svg \
+  work/my-app/c.svg --out work/my-app/bake.png</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">04</div>
+            <div class="workflow-copy"><span>Inspecciona</span><h3>Revisa transformaciones reales de cada destino.</h3><p>Corrige todas las advertencias. Después inspecciona los píxeles nativos, el alfa, los recortes adaptativos, las esquinas de escritorio y los contextos de bandeja del sistema.</p></div>
+            <pre><code>python -m iconflow check master.svg
+python -m iconflow review --config iconflow.toml \
+  --out work/my-app/review.png \
+  --html work/my-app/review.html</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">05</div>
+            <div class="workflow-copy"><span>Publica</span><h3>Haz que cualquier fallo bloquee la aprobación.</h3><p>Exporta el receipt de Review Lab solo cuando cada eje alcance 4/5. Los cambios en la fuente o los destinos dejan obsoleto ese receipt.</p></div>
+            <pre><code>python -m iconflow ship \
+  --config iconflow.toml \
+  --review master-review.json</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">06</div>
+            <div class="workflow-copy"><span>Aprende</span><h3>Devuelve lo aprendido al sistema.</h3><p>Registra qué falló primero, qué cambió y una regla reutilizable. Un icono sin registro no enseña nada.</p></div>
+            <pre><code>python -m iconflow case new ...
+python -m iconflow case lint
+python -m iconflow case stats</code></pre>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="outputs" class="outputs-section section-shell">
+      <div class="guide-heading reveal">
+        <p class="section-kicker">Familias de salida exactas</p>
+        <h2>Pide solo<br><span>las superficies que publicas.</span></h2>
+        <p>Los destinos son explícitos. IconFlow no promete «todas las plataformas», y una tarjeta de app completa no se convierte sin más en una silueta útil para la barra de menús.</p>
+      </div>
+      <div class="output-grid">
+        <article class="output-card reveal"><span>WEB / PWA</span><h3>Superficies del navegador</h3><p>favicon en SVG e ICO, Apple touch icon, activos PWA de 192px y 512px, además de un icono enmascarable y un fragmento de manifiesto.</p><code>--targets web,pwa</code></article>
+        <article class="output-card reveal"><span>TAURI</span><h3>Paquete de escritorio</h3><p>Tamaños PNG, ICO, ICNS y la estructura convencional <code>src-tauri/icons</code> para aplicaciones de escritorio Tauri v2.</p><code>--targets tauri</code></article>
+        <article class="output-card reveal"><span>ELECTRON</span><h3>Entradas para el empaquetador</h3><p>Activos PNG, ICO e ICNS multiplataforma para los flujos de empaquetado de Electron y electron-builder.</p><code>--targets electron</code></article>
+        <article class="output-card reveal"><span>BANDEJA DEL SISTEMA</span><h3>Marcas para la barra de menús</h3><p>PNG en color para la bandeja del sistema, activos de plantilla de macOS y una utilidad de TypeScript. Se recomienda especialmente un <code>tray.svg</code> dedicado solo a la marca.</p><code>--targets tray</code></article>
+      </div>
+      <div class="output-tree reveal" aria-label="Árbol de archivos generados de ejemplo">
+        <div><p class="section-kicker">Compilación de ejemplo</p><h3>Una sola fuente. Ramas explícitas.</h3><p>El <code>master.svg</code> (archivo maestro) editable sigue siendo la fuente de verdad junto al proyecto. Los archivos generados siempre se pueden reconstruir.</p></div>
+        <pre><code>icon-out/
+├── favicon.svg
+├── favicon.ico
+├── icon-192.png
+├── icon-512.png
+├── icon-512-maskable.png
+├── icons/
+│   ├── icon.ico
+│   └── icon.icns
+├── build/
+│   ├── icon.png
+│   ├── icon.ico
+│   └── icon.icns
+└── tray/
+    ├── tray.png
+    ├── trayTemplate.png
+    └── trayIcon.ts</code></pre>
+      </div>
+    </section>
+
+    <section class="limits-section">
+      <div class="section-shell limits-grid reveal">
+        <div><p class="section-kicker">Límites conocidos</p><h2>Trabajar en local no significa<br><span>que sea mágico.</span></h2></div>
+        <ul>
+          <li><strong>Hoy, instalación desde el código fuente.</strong><span>IconFlow aún no está publicado en PyPI. No uses <code>pip install ai-iconflow</code> hasta que exista una versión oficial.</span></li>
+          <li><strong>Descarga única.</strong><span>La configuración necesita acceso a la red para las dependencias y Playwright Chromium; después, el renderizado y las compilaciones son locales.</span></li>
+          <li><strong>Alcance de escritorio.</strong><span>La salida de Tauri cubre actualmente los activos de escritorio, no los conjuntos de inicio e iconos de Android o iOS.</span></li>
+          <li><strong>Prueba ligada a la cadena de herramientas.</strong><span>La repetibilidad presupone el mismo SVG normalizado, la misma configuración y las mismas versiones de IconFlow, Chromium y Pillow.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="guide-cta section-shell reveal">
+      <div><p class="section-kicker">Listo para tu proyecto</p><h2>Empieza por la tarea.<br>Termina con pruebas.</h2></div>
+      <div><p>Ejecuta una vez la prueba del motor. Después abre el repositorio de tu producto, da al agente un brief concreto y conserva cada decisión de diseño donde los futuros mantenedores puedan inspeccionarla.</p><div class="start-actions"><a class="button button-primary" href="#install">Instala IconFlow <span aria-hidden="true">↑</span></a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">Lee el manual de diseño</a></div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>Un maestro. Todas las superficies.</span></div></div>
+    <p>Código Apache-2.0 · identidad de IconFlow sujeta a la política de marcas.</p>
+    <nav aria-label="Navegación del pie de página"><a href="/es/">Inicio</a><a href="/gallery/">Galería</a><a href="/es/how-icons-are-made/">Cómo se hace</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">Docs</a><a href="https://github.com/snowyukitty/ai-iconflow">Código fuente</a></nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="Idioma"><a lang="en" hreflang="en" translate="no" href="/getting-started/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/getting-started/" aria-current="true">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/getting-started/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/getting-started/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/getting-started/">简体</a></nav><!-- /i18n:switch -->
+  </footer>
+</body>
+</html>

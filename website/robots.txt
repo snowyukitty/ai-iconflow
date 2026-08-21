@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+# Translation catalogs are build input, not pages.
+Disallow: /i18n/
 
 Sitemap: https://ai-iconflow.com/sitemap.xml

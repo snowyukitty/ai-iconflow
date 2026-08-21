@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IconFlow — 本機圖示工具組：一張 SVG 到 favicon、應用與系統匣素材，於 16px 驗證</title>
+  <meta name="description" content="以校樣驅動、為代理程式而生的圖示製作系統。將一張語意化 SVG 轉成經審查的 favicon、PWA、桌面與系統匣素材——於 16px 驗證。">
+  <meta name="theme-color" content="#191a20">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IconFlow — 一份主檔。每種版面。於 16px 驗證。">
+  <meta property="og:description" content="從一張語意化 SVG 設計、檢視並交付平台就緒的圖示家族。">
+  <meta property="og:url" content="https://ai-iconflow.com/zh-hant/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png?v=petal">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="640">
+  <meta property="og:image:alt" content="IconFlow：設計。審查。交付。一張語意化 SVG 成為通過校樣的圖示家族；Petal Haypile（花瓣乾草堆）標誌旁放著審查關卡已通過的徽章。">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ai-iconflow.com/zh-hant/">
+  <!-- i18n:alternates -->
+  <link rel="alternate" hreflang="en" href="https://ai-iconflow.com/">
+  <link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/">
+  <link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/">
+  <link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/">
+  <!-- /i18n:alternates -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="preload" as="image" href="/assets/iconflow-mark.svg">
+  <link rel="stylesheet" href="/styles.css?v=20260821b">
+  <link rel="stylesheet" href="/playground.css?v=20260821b">
+  <link rel="stylesheet" href="/archive.css?v=20260821b">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://ai-iconflow.com/zh-hant/#website",
+          "url": "https://ai-iconflow.com/zh-hant/",
+          "name": "IconFlow",
+          "description": "以校樣驅動、為代理程式而生的圖示製作系統。"
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "@id": "https://ai-iconflow.com/zh-hant/#source",
+          "name": "IconFlow",
+          "description": "從一張語意化 SVG 設計、審查並交付平台就緒的圖示家族。",
+          "codeRepository": "https://github.com/snowyukitty/ai-iconflow",
+          "programmingLanguage": "Python",
+          "runtimePlatform": "Python 3.10+",
+          "license": "https://github.com/snowyukitty/ai-iconflow/blob/main/LICENSE",
+          "isPartOf": {
+            "@id": "https://ai-iconflow.com/zh-hant/#website"
+          }
+        }
+      ]
+    }
+  </script>
+  <script src="/app.js?v=20260821b" defer></script>
+  <script src="/playground.js?v=20260821b" defer></script>
+  <script src="/archive.js?v=20260821b" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至內容</a>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="#top" aria-label="IconFlow 首頁">
+      <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
+      <span>IconFlow</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="開啟導覽" data-label-close="關閉導覽">
+      <span class="sr-only">切換導覽</span> <span></span><span></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="主要導覽">
+      <a href="/zh-hant/getting-started/">開始使用</a>
+      <a href="#proof">校樣</a>
+      <a href="#remix">Remix</a>
+      <a href="/zh-hant/archive/">典藏</a>
+      <a href="/gallery/">圖庫</a>
+      <a href="/zh-hant/how-icons-are-made/">方法</a>
+      <a href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="語言"><a lang="en" hreflang="en" translate="no" href="/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/" aria-current="true">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/">简体</a></nav><!-- /i18n:switch -->
+  </header>
+
+  <main id="main">
+    <section id="top" class="hero section-shell">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="status-dot"></span> 開源 · 在本機執行 · 為 AI 代理程式而建</p>
+        <h1>一份主檔。<br>每種版面。<br><em>於 16px 驗證。</em></h1>
+        <p class="hero-lede">IconFlow 是本機 CLI 與代理程式工作流程，能把一張可編輯的 SVG 轉成你選的網頁、PWA、桌面與系統匣素材。自動化檢查會攔截機械性風險；交付會維持封鎖，直到針對該精確原始檔記錄一筆當前的六軸審查。</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="/zh-hant/getting-started/">開始使用 IconFlow <span aria-hidden="true">→</span></a>
+          <a class="button button-quiet" href="#proof"><span class="button-pixel"></span> 檢視校樣</a>
+        </div>
+        <dl class="hero-stats" aria-label="IconFlow 數據">
+          <div><dt>20</dt><dd>技法</dd></div>
+          <div><dt>6</dt><dd>評分軸</dd></div>
+          <div><dt>100</dt><dd>圖庫案例</dd></div>
+          <div><dt>137</dt><dd>典藏標誌</dd></div>
+        </dl>
+      </div>
+
+      <div class="hero-stage reveal" aria-label="IconFlow 標誌從原始檔移到校樣">
+        <div class="stage-grid" aria-hidden="true"></div>
+        <div class="stage-label stage-label-top">語意化 SVG · 暫時標誌</div>
+        <div class="hero-icon-wrap">
+          <div class="hero-icon-halo"></div>
+          <img class="hero-icon" src="/assets/iconflow-mark.svg" width="420" height="420" alt="IconFlow Petal Haypile 標誌">
+          <div class="hero-loupe" data-hero-loupe hidden>
+            <img data-hero-zoom src="/assets/proof/icon-16.png?v=petal" width="256" height="256" alt="放大後的 IconFlow 標誌原生像素">
+            <span class="loupe-actual"><img data-hero-actual src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt=""><em>實際尺寸</em></span></div>
+          <div class="gate-orbit"><span></span></div>
+        </div>
+        <label class="hero-rail" for="hero-scrub" data-label-rail="拖曳 · 16px → 原始檔">
+          <span class="sr-only">以原生尺寸預覽標誌，從 16 像素到向量原始檔</span><input id="hero-scrub" class="hero-scrub" type="range" min="0" max="6" step="1" value="6" data-hero-scrub aria-valuetext="向量原始檔" data-label-vector="向量原始檔" data-label-pixels="{size} 像素">
+        </label>
+        <div class="stage-label stage-label-bottom" data-hero-size aria-live="polite" data-label-gate="審查關卡已通過 · 6/6" data-label-native="原生 {size} × {size} px · 精確像素">審查關卡已通過 · 6/6</div>
+        <div class="size-stack" aria-hidden="true">
+          <img src="/assets/proof/icon-64.png?v=petal" width="64" height="64" alt="">
+          <img src="/assets/proof/icon-32.png?v=petal" width="32" height="32" alt="">
+          <img src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="">
+        </div>
+        <div class="hero-halo" aria-hidden="true">
+          <img class="halo halo-1" src="/assets/archive/hidden-brand/leaf-ferry.svg" width="72" height="72" alt="">
+          <img class="halo halo-2" src="/assets/archive/living-care/koi-heart-refined.svg" width="60" height="60" alt="">
+          <img class="halo halo-3" src="/assets/archive/orchard-garden/pea-pod-parade.svg" width="64" height="64" alt="">
+          <img class="halo halo-4" src="/assets/archive/hidden-brand/beak-ledger.svg" width="56" height="56" alt="">
+          <img class="halo halo-5" src="/assets/archive/expanded-living/mandarin-sail.svg" width="66" height="66" alt="">
+          <img class="halo halo-6" src="/assets/archive/orchard-garden/citrus-peelway.svg" width="58" height="58" alt="">
+          <img class="halo halo-7" src="/assets/archive/hidden-brand/otter-proof.svg" width="62" height="62" alt="">
+          <img class="halo halo-10" src="/assets/archive/orchard-garden/mangosteen-keeper.svg" width="56" height="56" alt="">
+          <img class="halo halo-11" src="/assets/archive/expanded-living/fairy-scoop.svg" width="64" height="64" alt="">
+          <img class="halo halo-12" src="/assets/archive/organic-neko/taildraft-pounce.svg" width="68" height="68" alt="">
+        </div>
+      </div>
+    </section>
+
+    <section id="archive-wall" class="archive-wall" aria-labelledby="archive-wall-title">
+      <div class="section-shell archive-wall-head reveal">
+        <h2 id="archive-wall-title" class="sr-only">活檔案</h2>
+        <p class="archive-wall-caption"><strong>137 個原創標誌</strong>，是 IconFlow 在尋找自己的 logo 時用這套方法畫的。每一個都能在典藏中打開，並附上精確的 16px 校樣。</p>
+        <div class="archive-wall-actions">
+          <button class="marquee-toggle" type="button" data-marquee-toggle aria-pressed="false" data-label-pause="暫停" data-label-resume="繼續">暫停</button>
+          <a class="button button-quiet" href="/zh-hant/archive/">打開典藏 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="archive-marquee reveal" data-archive-marquee aria-label="捲動中的典藏標誌牆；可用按鈕、游標懸停或鍵盤焦點暫停">
+<!-- archive-marquee:start -->
+<div class="archive-row archive-row-1"><div class="archive-track"><a class="archive-tile" href="/zh-hant/archive/#expanded-living-deep-canopy" aria-label="Deep Canopy — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/deep-canopy.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-star-ledger" aria-label="Star Ledger — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/star-ledger.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-mender-cat-refined" aria-label="Mender Cat — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/mender-cat-refined.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-case-mason" aria-label="Case Mason — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/case-mason.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-pea-pod-parade" aria-label="Pea Pod Parade — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/pea-pod-parade.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-beet-thread" aria-label="Beet Thread — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/beet-thread.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-glass-pulse" aria-label="Glass Pulse — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/glass-pulse.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-archer-crown" aria-label="Archer Crown — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/archer-crown.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#machines-proof-caliper" aria-label="Proof Caliper — open in the archive with its exact 16px proof"><img src="/assets/archive/machines/proof-caliper.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#canopy-cargo-watermelon-gondola-finalist" aria-label="Watermelon Gondola — open in the archive with its exact 16px proof"><img src="/assets/archive/canopy-cargo/watermelon-gondola-finalist.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-kohlrabi-orbit" aria-label="Kohlrabi Orbit — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/kohlrabi-orbit.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-heartwing-moth" aria-label="Heartwing Moth — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/heartwing-moth.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#organic-neko-chomp-orbit" aria-label="Chomp Orbit — open in the archive with its exact 16px proof"><img src="/assets/archive/organic-neko/chomp-orbit.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-sand-bloom" aria-label="Sand Bloom — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/sand-bloom.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#canopy-cargo-tomato-chute" aria-label="Tomato Chute — open in the archive with its exact 16px proof"><img src="/assets/archive/canopy-cargo/tomato-chute.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-frill-friend-refined" aria-label="Frill Friend — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/frill-friend-refined.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-acorn-peek" aria-label="Acorn Peek — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/acorn-peek.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-scale-unfurl" aria-label="Scale Unfurl — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/scale-unfurl.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-grain-sleeve" aria-label="Grain Sleeve — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/grain-sleeve.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-token-avenue" aria-label="Token Avenue — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/token-avenue.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-leaf-sail" aria-label="Leaf Sail — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/leaf-sail.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-fiddle-fin" aria-label="Fiddle Fin — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/fiddle-fin.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-tailor-leaf" aria-label="Tailor Leaf — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/tailor-leaf.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-trail-prism-refined" aria-label="Trail Prism — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/trail-prism-refined.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-oven-keep" aria-label="Oven Keep — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/oven-keep.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#machines-printers-chase" aria-label="Printers Chase — open in the archive with its exact 16px proof"><img src="/assets/archive/machines/printers-chase.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#canopy-cargo-mango-lift" aria-label="Mango Lift — open in the archive with its exact 16px proof"><img src="/assets/archive/canopy-cargo/mango-lift.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#machines-master-key" aria-label="Master Key — open in the archive with its exact 16px proof"><img src="/assets/archive/machines/master-key.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-numbat-courier" aria-label="Numbat Courier — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/numbat-courier.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-shoebill-proof" aria-label="Shoebill Proof — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/shoebill-proof.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#organic-neko-taildraft-pounce" aria-label="Tailwind Chomp — open in the archive with its exact 16px proof"><img src="/assets/archive/organic-neko/taildraft-pounce.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-wombat-home" aria-label="Wombat Home — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/wombat-home.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-eyedrift-fluke" aria-label="Eyedrift Fluke — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/eyedrift-fluke.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-hoopoe-gift-refined" aria-label="Hoopoe Gift (refined) — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/hoopoe-gift-refined.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#machines-split-beetle" aria-label="Split Beetle — open in the archive with its exact 16px proof"><img src="/assets/archive/machines/split-beetle.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#canopy-cargo-strawberry-descent" aria-label="Strawberry Descent — open in the archive with its exact 16px proof"><img src="/assets/archive/canopy-cargo/strawberry-descent.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-citrus-peelway" aria-label="Citrus Peelway — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/citrus-peelway.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-mud-wicket" aria-label="Mud Wicket — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/mud-wicket.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-husk-witness" aria-label="Husk Witness — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/husk-witness.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#canopy-cargo-tomato-proof-chute-finalist" aria-label="Tomato Proof Chute — open in the archive with its exact 16px proof"><img src="/assets/archive/canopy-cargo/tomato-proof-chute-finalist.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-coral-beak" aria-label="Coral Beak — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/coral-beak.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-fairy-scoop" aria-label="Fairy Scoop — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/fairy-scoop.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-seahorse-creche" aria-label="Seahorse Creche — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/seahorse-creche.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-shell-walker" aria-label="Shell Walker — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/shell-walker.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-leaf-ferry" aria-label="Leaf Ferry — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/leaf-ferry.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-eggplant-cape" aria-label="Eggplant Cape — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/eggplant-cape.svg" width="84" height="84" alt="" loading="eager" decoding="async"></a></div></div>
+<div class="archive-row archive-row-2"><div class="archive-track"><a class="archive-tile" href="/zh-hant/archive/#living-care-leaf-tent" aria-label="Leaf Tent — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/leaf-tent.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-heart-curl-fox" aria-label="Heart Curl Fox — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/heart-curl-fox.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-koi-heart-refined" aria-label="Koi Heart — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/koi-heart-refined.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#canopy-cargo-neko-glide" aria-label="Neko Glide — open in the archive with its exact 16px proof"><img src="/assets/archive/canopy-cargo/neko-glide.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-fig-harbor" aria-label="Fig Harbor — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/fig-harbor.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-bill-return" aria-label="Bill Return — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/bill-return.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-pane-pulse" aria-label="Pane Pulse — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/pane-pulse.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-persimmon-cap" aria-label="Persimmon Cap — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/persimmon-cap.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-knot-haul" aria-label="Knot Haul — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/knot-haul.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-loop-weaver" aria-label="Loop Weaver — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/loop-weaver.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#organic-neko-calyx-curl" aria-label="Calyx Curl — open in the archive with its exact 16px proof"><img src="/assets/archive/organic-neko/calyx-curl.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-jacana-raft" aria-label="Jacana Raft — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/jacana-raft.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-wax-heart-press" aria-label="Wax Heart Press — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/wax-heart-press.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-hoopoe-gift" aria-label="Hoopoe Gift — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/hoopoe-gift.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#machines-stencil-fan" aria-label="Stencil Fan — open in the archive with its exact 16px proof"><img src="/assets/archive/machines/stencil-fan.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-pomegranate-family" aria-label="Pomegranate Family — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/pomegranate-family.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#machines-pantograph" aria-label="Pantograph — open in the archive with its exact 16px proof"><img src="/assets/archive/machines/pantograph.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-lop-heart" aria-label="Lop Heart — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/lop-heart.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-heart-curl-fox-refined" aria-label="Heart Curl Fox (refined) — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/heart-curl-fox-refined.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-heart-sprout" aria-label="Heart Sprout — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/heart-sprout.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-mangosteen-keeper" aria-label="Mangosteen Keeper — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/mangosteen-keeper.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-heartwing-moth-refined" aria-label="Heartwing Moth (refined) — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/heartwing-moth-refined.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-cerata-shawl" aria-label="Cerata Shawl — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/cerata-shawl.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-frill-offering" aria-label="Frill Offering — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/frill-offering.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-acorn-mouse-refined" aria-label="Acorn Mouse — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/acorn-mouse-refined.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#machines-proof-wisp" aria-label="Proof Wisp — open in the archive with its exact 16px proof"><img src="/assets/archive/machines/proof-wisp.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-grass-globe" aria-label="Grass Globe — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/grass-globe.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-dragon-crown" aria-label="Dragon Crown — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/dragon-crown.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-gharial-clasp" aria-label="Gharial Clasp — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/gharial-clasp.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-chili-current" aria-label="Chili Current — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/chili-current.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-heart-harbor" aria-label="Heart Harbor — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/heart-harbor.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-kelp-cradle" aria-label="Kelp Cradle — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/kelp-cradle.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#organic-neko-tomato-cove" aria-label="Tomato Cove — open in the archive with its exact 16px proof"><img src="/assets/archive/organic-neko/tomato-cove.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#machines-caliper-crab" aria-label="Caliper Crab — open in the archive with its exact 16px proof"><img src="/assets/archive/machines/caliper-crab.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-ribbon-drift" aria-label="Ribbon Drift — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/ribbon-drift.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-petal-haypile" aria-label="Petal Haypile — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/petal-haypile.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-watermelon-ferry" aria-label="Watermelon Ferry — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/watermelon-ferry.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-velvet-hammock" aria-label="Velvet Hammock — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/velvet-hammock.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-vessel-wasp" aria-label="Vessel Wasp — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/vessel-wasp.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-otter-proof" aria-label="Otter Proof — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/otter-proof.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-lyrebird-lectern" aria-label="Lyrebird Lectern — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/lyrebird-lectern.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-rambutan-ray" aria-label="Rambutan Ray — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/rambutan-ray.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-dew-circuit" aria-label="Dew Circuit — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/dew-circuit.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-fin-fold" aria-label="Fin Fold — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/fin-fold.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#organic-neko-neko-in-the-fruit" aria-label="Neko In The Fruit — open in the archive with its exact 16px proof"><img src="/assets/archive/organic-neko/neko-in-the-fruit.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-heart-nest" aria-label="Heart Nest — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/heart-nest.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a></div></div>
+<div class="archive-row archive-row-3"><div class="archive-track"><a class="archive-tile" href="/zh-hant/archive/#canopy-cargo-watermelon-gondola" aria-label="Watermelon Gondola — open in the archive with its exact 16px proof"><img src="/assets/archive/canopy-cargo/watermelon-gondola.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#machines-pixel-shuttle" aria-label="Pixel Shuttle — open in the archive with its exact 16px proof"><img src="/assets/archive/machines/pixel-shuttle.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-capybara-ferry" aria-label="Capybara Ferry — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/capybara-ferry.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-banana-cradle" aria-label="Banana Cradle — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/banana-cradle.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-lotus-route" aria-label="Lotus Route — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/lotus-route.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-kakapo-nightfruit" aria-label="Kakapo Nightfruit — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/kakapo-nightfruit.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-curator-crab" aria-label="Curator Crab — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/curator-crab.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-patch-heart" aria-label="Patch Heart — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/patch-heart.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-nest-crescent" aria-label="Nest Crescent — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/nest-crescent.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-pineapple-proof" aria-label="Pineapple Proof — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/pineapple-proof.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-trail-companion" aria-label="Trail Companion — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/trail-companion.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-garlic-family" aria-label="Garlic Family — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/garlic-family.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-artichoke-nest" aria-label="Artichoke Nest — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/artichoke-nest.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-bok-choy-bloom" aria-label="Bok Choy Bloom — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/bok-choy-bloom.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-scale-embrace" aria-label="Scale Embrace — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/scale-embrace.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-kea-unmake" aria-label="Kea Unmake — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/kea-unmake.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#canopy-cargo-neko-parachute-finalist" aria-label="Neko Parachute — open in the archive with its exact 16px proof"><img src="/assets/archive/canopy-cargo/neko-parachute-finalist.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-string-midwife" aria-label="String Midwife — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/string-midwife.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-chamber-heir" aria-label="Chamber Heir — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/chamber-heir.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-honey-siphon" aria-label="Honey Siphon — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/honey-siphon.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#organic-neko-leaf-cape-chomp" aria-label="Leaf Cape Chomp — open in the archive with its exact 16px proof"><img src="/assets/archive/organic-neko/leaf-cape-chomp.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#canopy-cargo-orange-peel-drop" aria-label="Orange Peel Drop — open in the archive with its exact 16px proof"><img src="/assets/archive/canopy-cargo/orange-peel-drop.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-starfruit-step" aria-label="Starfruit Step — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/starfruit-step.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-pumpkin-clasp" aria-label="Pumpkin Clasp — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/pumpkin-clasp.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-coin-plug" aria-label="Coin Plug — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/coin-plug.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-otter-embrace-refined" aria-label="Otter Embrace — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/otter-embrace-refined.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-onion-handoff" aria-label="Onion Handoff — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/onion-handoff.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-radish-route" aria-label="Radish Route — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/radish-route.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-strawberry-stitch" aria-label="Strawberry Stitch — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/strawberry-stitch.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-corn-quilt" aria-label="Corn Quilt — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/corn-quilt.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-patch-cat" aria-label="Patch Cat — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/patch-cat.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-chayote-fold" aria-label="Chayote Fold — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/chayote-fold.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#machines-arbor-press" aria-label="Arbor Press — open in the archive with its exact 16px proof"><img src="/assets/archive/machines/arbor-press.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-loop-rule" aria-label="Loop Rule — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/loop-rule.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-kiln-keeper" aria-label="Kiln Keeper — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/kiln-keeper.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-okra-crown" aria-label="Okra Crown — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/okra-crown.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-beak-ledger" aria-label="Beak Ledger — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/beak-ledger.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-glass-belly" aria-label="Glass Belly — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/glass-belly.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#canopy-cargo-blueberry-crown" aria-label="Blueberry Crown — open in the archive with its exact 16px proof"><img src="/assets/archive/canopy-cargo/blueberry-crown.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-mandarin-sail" aria-label="Mandarin Sail — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/mandarin-sail.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#expanded-living-lantern-tail" aria-label="Lantern Tail — open in the archive with its exact 16px proof"><img src="/assets/archive/expanded-living/lantern-tail.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#living-care-borrowed-home" aria-label="Borrowed Home — open in the archive with its exact 16px proof"><img src="/assets/archive/living-care/borrowed-home.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#orchard-garden-papaya-canoe" aria-label="Papaya Canoe — open in the archive with its exact 16px proof"><img src="/assets/archive/orchard-garden/papaya-canoe.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-tapir-ford" aria-label="Tapir Ford — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/tapir-ford.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a><a class="archive-tile" href="/zh-hant/archive/#hidden-brand-tun-survivor" aria-label="Tun Survivor — open in the archive with its exact 16px proof"><img src="/assets/archive/hidden-brand/tun-survivor.svg" width="84" height="84" alt="" loading="lazy" decoding="async"></a></div></div>
+<!-- archive-marquee:end -->
+      </div>
+    </section>
+
+    <section class="problem-band">
+      <div class="section-shell problem-grid reveal">
+        <p class="section-kicker">昂貴的錯誤</p>
+        <h2>圖示不是在 1024px 就完成了。</h2>
+        <p>細節糊掉。內白消失。系統匣剪影變成黑方塊。IconFlow 把最小輸出當成首要設計版面——而不是最後才出現的意外。</p>
+        <div class="problem-sizes" aria-label="同一枚通過審查的圖示，在多種原生尺寸下">
+          <figure><img src="/assets/proof/icon-128.png?v=petal" width="128" height="128" alt="128 像素的 IconFlow 圖示"><figcaption>128</figcaption></figure>
+          <figure><img src="/assets/proof/icon-64.png?v=petal" width="64" height="64" alt="64 像素的 IconFlow 圖示"><figcaption>64</figcaption></figure>
+          <figure><img src="/assets/proof/icon-32.png?v=petal" width="32" height="32" alt="32 像素的 IconFlow 圖示"><figcaption>32</figcaption></figure>
+          <figure class="problem-small"><img src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="16 像素的 IconFlow 圖示"><figcaption>16px</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="proof" class="proof-section section-shell">
+      <div class="section-heading reveal">
+        <p class="section-kicker">互動式 Proof Lab · 審查畫面的示範</p>
+        <h2>別相信效果圖。<br><span>檢視像素。</span></h2>
+        <p>這些是從已審查的語意化原始檔、由 Chromium 精確渲染的 PNG。可改尺寸、版面、裁切或原始檔狀態。</p>
+      </div>
+
+      <div class="proof-lab reveal" data-proof-lab>
+        <div class="proof-toolbar">
+          <fieldset>
+            <legend>原生尺寸</legend>
+            <div class="segmented" data-size-controls>
+              <button type="button" class="is-active" data-size="16" aria-pressed="true">16</button>
+              <button type="button" data-size="24" aria-pressed="false">24</button>
+              <button type="button" data-size="32" aria-pressed="false">32</button>
+              <button type="button" data-size="48" aria-pressed="false">48</button>
+              <button type="button" data-size="64" aria-pressed="false">64</button>
+              <button type="button" data-size="128" aria-pressed="false">128</button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>版面</legend>
+            <div class="surface-buttons" data-surface-controls>
+              <button class="surface-dark is-active" type="button" data-surface="dark" aria-label="深色版面" aria-pressed="true"></button>
+              <button class="surface-light" type="button" data-surface="light" aria-label="淺色版面" aria-pressed="false"></button>
+              <button class="surface-gray" type="button" data-surface="gray" aria-label="灰色版面" aria-pressed="false"></button>
+              <button class="surface-coral" type="button" data-surface="coral" aria-label="珊瑚色版面" aria-pressed="false"></button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>目標裁切</legend>
+            <div class="segmented" data-crop-controls>
+              <button type="button" class="is-active" data-crop="native" aria-pressed="true">原生</button>
+              <button type="button" data-crop="circle" aria-pressed="false">圓形</button>
+              <button type="button" data-crop="rounded" aria-pressed="false">圓角</button>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="proof-workbench" data-surface="dark">
+          <div class="proof-canvas">
+            <div class="actual-panel">
+              <span class="panel-label">實際尺寸</span><div class="actual-stage" data-crop="native">
+                <img data-actual src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="IconFlow 圖示的實際尺寸校樣">
+              </div>
+              <div class="measurement"><span data-measure>16 × 16</span> px</div>
+            </div>
+            <div class="zoom-panel">
+              <span class="panel-label">16× 像素放大</span><div class="zoom-grid">
+                <img data-zoom src="/assets/proof/icon-16.png?v=petal" width="256" height="256" alt="放大後的原生像素">
+              </div>
+              <div class="pixel-verdict"><span></span> 雙耳成對 · 花瓣分離 · 剪影穩定</div>
+            </div>
+          </div>
+
+          <aside class="receipt-panel">
+            <div class="receipt-heading">
+              <p>審查 receipt（憑證）</p>
+              <label class="source-toggle">
+                <input type="checkbox" data-source-toggle>
+                <span></span> 模擬編輯原始檔</label>
+            </div>
+            <div class="receipt-status is-approved" data-receipt-status role="status" aria-live="polite" aria-atomic="true" data-label-approved-title="綁定原始檔的核准" data-label-stale-title="receipt 已遭拒" data-label-approved-copy="目前的 SVG 與已審查的雜湊相符。" data-label-stale-copy="審查後 SVG 已變更。交付已封鎖。">
+              <span class="receipt-icon" aria-hidden="true"></span><div><strong data-receipt-title>綁定原始檔的核准</strong><small data-receipt-copy>此 receipt 為綁定 SVG 雜湊的 JSON；不符即拒絕交付。</small></div>
+            </div>
+            <dl class="receipt-scores">
+              <div><dt>可讀性</dt><dd>4/5</dd></div>
+              <div><dt>辨識度</dt><dd>5/5</dd></div>
+              <div><dt>平衡</dt><dd>4/5</dd></div>
+              <div><dt>色彩</dt><dd>5/5</dd></div>
+              <div><dt>可縮放性</dt><dd>4/5</dd></div>
+              <div><dt>工藝</dt><dd>4/5</dd></div>
+            </dl>
+            <p class="receipt-hash"><span>SHA-256</span> 789d…82d6</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="remix" class="remix-section section-shell">
+      <div class="section-heading reveal">
+        <p class="section-kicker">Remix Lab · 完全在你的瀏覽器裡執行</p>
+        <h2>改變設計。<br><span>看像素回應。</span></h2>
+        <p>一份語意化原始檔、同一份設計說明下的三種攜帶物件，再加上你自己的色盤。每張縮圖都由你的瀏覽器以原生尺寸點陣化——不上傳、沒有圖片 API、不需帳號。</p>
+      </div>
+
+      <div class="remix-lab reveal" data-remix-lab data-object="petal">
+        <div class="remix-controls">
+          <fieldset>
+            <legend>攜帶物件</legend>
+            <div class="segmented" data-object-controls>
+              <button type="button" class="is-active" data-object="petal" aria-pressed="true">花瓣</button>
+              <button type="button" data-object="balloon" aria-pressed="false">氣球</button>
+              <button type="button" data-object="canopy" aria-pressed="false">傘蓋</button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>色盤</legend>
+            <div class="palette-chips">
+              <button type="button" class="chip chip-graphite is-active" data-palette="graphite" aria-pressed="true">石墨</button>
+              <button type="button" class="chip chip-paper" data-palette="paper" aria-pressed="false">紙色</button>
+              <button type="button" class="chip chip-lagoon" data-palette="lagoon" aria-pressed="false">潟湖</button>
+              <button type="button" class="chip chip-dusk" data-palette="dusk" aria-pressed="false">暮色</button>
+            </div>
+            <div class="color-grid">
+              <label><input type="color" data-color="card" value="#191a20"><span>卡片</span></label>
+              <label><input type="color" data-color="body" value="#fff4e8"><span>主體</span></label>
+              <label><input type="color" data-color="cove" value="#59c7c1"><span>頰凹</span></label>
+              <label><input type="color" data-color="a1" value="#ff5a4f"><span>強調色 1</span></label>
+              <label><input type="color" data-color="a2" value="#f2b84b"><span>強調色 2</span></label>
+              <label><input type="color" data-color="a3" value="#845ec2"><span>強調色 3</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>幾何</legend>
+            <label class="range-row"><span>卡片圓角</span><input type="range" min="0" max="50" value="22" data-radius><output data-radius-out>22%</output></label>
+            <label class="range-row"><span>標誌縮放</span><input type="range" min="80" max="120" value="100" data-scale><output data-scale-out>100%</output></label>
+            <div class="toggle-row">
+              <label class="source-toggle"><input type="checkbox" data-mirror><span></span>鏡射</label>
+              <label class="source-toggle"><input type="checkbox" data-card-on checked><span></span>App 圖塊</label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>版面</legend>
+            <div class="surface-buttons">
+              <button class="surface-dark is-active" type="button" data-remix-surface="dark" aria-label="深色版面" aria-pressed="true"></button>
+              <button class="surface-light" type="button" data-remix-surface="light" aria-label="淺色版面" aria-pressed="false"></button>
+              <button class="surface-gray" type="button" data-remix-surface="gray" aria-label="灰色版面" aria-pressed="false"></button>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="remix-stage" data-remix-stage data-surface="dark">
+          <div class="remix-hero">
+            <img data-remix-preview src="/assets/iconflow-mark.svg" width="300" height="300" alt="Remix 後的 IconFlow 標誌即時預覽">
+          </div>
+          <div class="remix-natives" aria-label="由你的瀏覽器渲染的原生尺寸">
+            <figure><canvas data-native="16" width="16" height="16" role="img" aria-label="16 像素的 Remix"></canvas><figcaption>16</figcaption></figure>
+            <figure><canvas data-native="24" width="24" height="24" role="img" aria-label="24 像素的 Remix"></canvas><figcaption>24</figcaption></figure>
+            <figure><canvas data-native="32" width="32" height="32" role="img" aria-label="32 像素的 Remix"></canvas><figcaption>32</figcaption></figure>
+            <figure><canvas data-native="48" width="48" height="48" role="img" aria-label="48 像素的 Remix"></canvas><figcaption>48</figcaption></figure>
+            <figure><canvas data-native="64" width="64" height="64" role="img" aria-label="64 像素的 Remix"></canvas><figcaption>64</figcaption></figure>
+            <figure><canvas data-native="128" width="128" height="128" role="img" aria-label="128 像素的 Remix"></canvas><figcaption>128</figcaption></figure>
+          </div>
+          <div class="remix-proofs">
+            <figure><canvas data-remix-zoom width="256" height="256" role="img" aria-label="放大 16 倍的 16 像素 Remix"></canvas><figcaption>16px · 16× 放大</figcaption></figure>
+            <figure><canvas data-remix-silhouette width="128" height="128" role="img" aria-label="去除顏色的 Remix 剪影"></canvas><figcaption>剪影 · 已去色</figcaption></figure>
+            <figure><canvas data-remix-template width="128" height="128" role="img" aria-label="macOS 選單列會看到的 Remix Alpha 範本"></canvas><figcaption>Alpha 範本 · 選單列</figcaption></figure>
+          </div>
+          <p class="remix-note" data-template-note data-label-card-on="Alpha 範本 = 沒有特徵的圓角方形。這就是品牌會交付一份連結、僅含標誌的系統匣原始檔的原因。" data-label-card-off="Alpha 範本保留完整剪影，但沒有內部特徵。若用於選單列，把一項可識別特徵對穿切成透明孔（docs/LEARNINGS.md L42）。">Alpha 範本 = 沒有特徵的圓角方形。這就是品牌會交付一份連結、僅含標誌的系統匣原始檔的原因。</p>
+        </div>
+
+        <div class="remix-actions">
+          <p class="remix-verdict"><strong>未經審查的 Remix。</strong>此 Lab 展示後果；能否交付由 IconFlow 的審查關卡決定。帶回本機跑 check、review 與 ship。</p>
+          <div class="remix-buttons">
+            <button class="button button-primary" type="button" data-remix-download>下載 master.svg</button>
+            <button class="button button-quiet" type="button" data-remix-copy-svg>複製 SVG</button>
+            <button class="button button-quiet" type="button" data-remix-copy-brief>複製代理說明</button>
+            <button class="text-button" type="button" data-remix-reset>重設</button>
+          </div>
+          <p class="remix-status" data-remix-status aria-live="polite" data-label-render-failed="此 Remix 無法渲染。請重設後再試。" data-label-clipboard-blocked="剪貼簿被封鎖 — 文字顯示於下方；請選取並複製。" data-label-svg-copied="已複製 SVG。請存成 master.svg。" data-label-brief-copied="已複製代理說明。請貼到你的 master.svg 旁邊。" data-label-downloaded="已下載 master.svg — 接著執行 iconflow check / review / ship。"></p>
+          <textarea class="remix-fallback" data-remix-fallback readonly hidden rows="4" aria-label="Text to copy by hand"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow" class="flow-section">
+      <div class="section-shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker">決策工作流程，不是轉檔器</p>
+          <h2>設計。審查。交付。<br><span>然後學習。</span></h2>
+          <p>產生器給出選項。轉檔器產出檔案。IconFlow 讓設計決策可見、可重複、可稽核。</p>
+        </div>
+
+        <ol class="flow-steps">
+          <li class="reveal"><span>01</span><div><h3>設計說明</h3><p>記錄使用者任務、本質、配色、陳腔濫調與精確目標。</p></div></li>
+          <li class="reveal"><span>02</span><div><h3>探索</h3><p>強制產出四個不同概念，並給最強者一個可據為己有的手法。</p></div></li>
+          <li class="reveal"><span>03</span><div><h3>比較</h3><p>把決選方案做成一張剪影優先的對照表。先選形，再修潤。</p></div></li>
+          <li class="reveal"><span>04</span><div><h3>檢視</h3><p>審查原生像素、alpha、裁切、深／淺版面與真實目標。</p></div></li>
+          <li class="reveal"><span>05</span><div><h3>交付</h3><p>僅在自動化 QA 全數通過、且每項人工分數至少 4/5 時才建置。</p></div></li>
+          <li class="reveal"><span>06</span><div><h3>學習</h3><p>把每一次未通過的審查，寫成下一張圖示可重用的案例集規則。</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="worlds" class="worlds-section">
+      <div class="section-shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker">一條管線 · 許多世界</p>
+          <h2>不是又一張網格<br><span>同一題材。</span></h2>
+          <p>關係、同伴、習慣、原創角色、遊戲、協作與民間傳說，各自從不同的使用者任務出發——再掙得一張 16px 仍可辨讀的剪影。</p>
+        </div>
+
+        <div class="axis-note reveal" aria-label="IconFlow 如何把主題與技法分開">
+          <div><span>技法校樣</span><strong>同一物件</strong><p>Flow Gate 維持固定，讓構法——而非題材——成為唯一變數。</p></div>
+          <div><span>Theme Worlds</span><strong>不同物件</strong><p>以下每個案例都改動任務、名詞、標誌性手法、色盤與技法。</p></div>
+        </div>
+
+        <div class="world-grid">
+          <article class="world-card world-knot world-wide reveal">
+            <div class="world-copy">
+              <span class="world-number">01 · 關係 / 編織</span><h3>Keepsake Knot</h3>
+              <p>兩人把同一套儀式做成可觸及的物件。不要愛心、對話泡泡或相連圓圈的簡寫——只有兩條不等寬的帶，共用一個錯位開口。</p>
+              <div class="world-device">標誌性手法 · 共用的不對稱交錯</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/keepsake-knot.svg" width="320" height="320" alt="Keepsake Knot 圖示，青綠與珊瑚紅帶交織於錯位開口周圍" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/keepsake-knot-16.png" width="16" height="16" alt="">原生 16px</span><span><a href="/assets/worlds/keepsake-knot.svg">原始檔</a><a href="/assets/worlds/keepsake-knot-review.json">審查 JSON</a></span></footer>
+          </article>
+
+          <article class="world-card world-cat reveal">
+            <div class="world-copy">
+              <span class="world-number">02 · 貓 / 黏土</span><h3>Catnap Focus</h3>
+              <p>蜷曲的同伴把安頓下來收成一個溫暖手勢。尾巴在睡臉旁留出一道寬闊的時間楔。</p>
+              <div class="world-device">標誌性手法 · 尾貼臉頰的楔形</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/catnap-focus.svg" width="320" height="320" alt="Catnap Focus 圖示，呈現黏土質感、蜷曲沉睡的貓" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/catnap-focus-16.png" width="16" height="16" alt="">原生 16px</span><span><a href="/assets/worlds/catnap-focus.svg">原始檔</a><a href="/assets/worlds/catnap-focus-review.json">審查 JSON</a></span></footer>
+          </article>
+
+          <article class="world-card world-dog reveal">
+            <div class="world-copy">
+              <span class="world-number">03 · 狗 / 線標</span><h3>Trail Tail</h3>
+              <p>狗就是路線：一條連續的行走輪廓、一個敞開的腹部鏤空、一枚偏軸的珊瑚紅扣。不要爪印或地圖圖釘。</p>
+              <div class="world-device">標誌性手法 · 路線化為同伴</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/trail-tail.svg" width="320" height="320" alt="Trail Tail 圖示，以一條連續側視狗輪廓畫成" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/trail-tail-16.png" width="16" height="16" alt="">原生 16px</span><span><a href="/assets/worlds/trail-tail.svg">原始檔</a><a href="/assets/worlds/trail-tail-review.json">審查 JSON</a></span></footer>
+          </article>
+
+          <article class="world-card world-koi reveal">
+            <div class="world-copy">
+              <span class="world-number">04 · 魚 / 彩繪玻璃</span><h3>Koi Return</h3>
+              <p>一條側視錦鯉，讓日常練習有如逆流而上。三塊明亮色片匯向一道邊口敞開的水流切口。</p>
+              <div class="world-device">標誌性手法 · 逆流尾跡閘口</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/koi-return.svg" width="320" height="320" alt="Koi Return 圖示，彩繪玻璃側視錦鯉逆流而上" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/koi-return-16.png" width="16" height="16" alt="">原生 16px</span><span><a href="/assets/worlds/koi-return.svg">原始檔</a><a href="/assets/worlds/koi-return-review.json">審查 JSON</a></span></footer>
+          </article>
+
+          <article class="world-card world-hero reveal">
+            <div class="world-copy">
+              <span class="world-number">05 · 原創故事 / 賽璐珞著色</span><h3>Quiet Hero</h3>
+              <p>原創人物，不模仿任何既有作品。不對稱的側影頭冠與高領，比臉更快讓人認出角色。</p>
+              <div class="world-device">標誌性手法 · 頭冠銜接領口缺口</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/quiet-hero.svg" width="320" height="320" alt="Quiet Hero 圖示，原創賽璐珞著色角色的不對稱側影" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/quiet-hero-16.png" width="16" height="16" alt="">原生 16px</span><span><a href="/assets/worlds/quiet-hero.svg">原始檔</a><a href="/assets/worlds/quiet-hero-review.json">審查 JSON</a></span></footer>
+          </article>
+
+          <article class="world-card world-sky reveal">
+            <div class="world-copy">
+              <span class="world-number">06 · 原創故事 / 墨筆</span><h3>Sky Courier</h3>
+              <p>無劇透的章節提醒，化成一封手提急件。書包蓋翻起成一道掠翼；寬闊的飛白切口在 16px 仍然敞開。</p>
+              <div class="world-device">標誌性手法 · 道具帶出動勢</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/sky-courier.svg" width="320" height="320" alt="Sky Courier 圖示，墨筆信差書包的蓋翻成翅膀" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/sky-courier-16.png" width="16" height="16" alt="">原生 16px</span><span><a href="/assets/worlds/sky-courier.svg">原始檔</a><a href="/assets/worlds/sky-courier-review.json">審查 JSON</a></span></footer>
+          </article>
+
+          <article class="world-card world-coop reveal">
+            <div class="world-copy">
+              <span class="world-number">07 · 協作 / 玻璃疊層</span><h3>Co-op Lock</h3>
+              <p>兩個不對等的隊友一起就緒。半透明鍵帽共用一個不透明的方形鏤空——不要手把、打勾或成對頭像。</p>
+              <div class="world-device">標誌性手法 · 一個鏤空，兩次抵達</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/co-op-lock.svg" width="320" height="320" alt="Co-op Lock 圖示，兩枚不等的玻璃鍵帽共用一個不透明方形鏤空" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/co-op-lock-16.png" width="16" height="16" alt="">原生 16px</span><span><a href="/assets/worlds/co-op-lock.svg">原始檔</a><a href="/assets/worlds/co-op-lock-review.json">審查 JSON</a></span></footer>
+          </article>
+
+          <article class="world-card world-forest reveal">
+            <div class="world-copy">
+              <span class="world-number">08 · 動物民間傳說 / 木刻</span><h3>Forest Familiar</h3>
+              <p>一隻雕刻的角鴞帶小同伴回家。不等長的耳簇與分叉尾巴點出鳥種；兩道邊口敞開的鑿痕只負責描述版印。</p>
+              <div class="world-device">標誌性手法 · 先辨物種，再談紋理</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/forest-familiar.svg" width="320" height="320" alt="Forest Familiar 圖示，角鴞刻成木刻浮雕面" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/forest-familiar-16.png" width="16" height="16" alt="">原生 16px</span><span><a href="/assets/worlds/forest-familiar.svg">原始檔</a><a href="/assets/worlds/forest-familiar-review.json">審查 JSON</a></span></footer>
+          </article>
+
+          <article class="world-card world-helm world-wide reveal">
+            <div class="world-copy">
+              <span class="world-number">09 · 遊戲 / 鍍鉻</span><h3>Boss Helm</h3>
+              <p>得來不易的團隊副本記憶，沒有獎盃、皇冠、劍或手把。一隻角在結構上缺失；餘燼裂紋說明那道傷痕。</p>
+              <div class="world-device">標誌性手法 · 損傷改變剪影</div>
+            </div>
+            <div class="world-visual"><img class="world-icon" src="/assets/worlds/boss-helm.svg" width="320" height="320" alt="Boss Helm 圖示，硬質鍍鉻帶、餘燼護目與一隻斷角" loading="lazy"></div>
+            <footer><span class="world-pixel"><img src="/assets/worlds/boss-helm-16.png" width="16" height="16" alt="">原生 16px</span><span><a href="/assets/worlds/boss-helm.svg">原始檔</a><a href="/assets/worlds/boss-helm-review.json">審查 JSON</a></span></footer>
+          </article>
+        </div>
+        <div class="styles-footer reveal">
+          <p>一百個收錄案例把方法做成實用參照：不同的使用者任務、題材、主題、技法與結構標誌。</p>
+          <a class="button button-quiet" href="/gallery/">瀏覽全部 100 個案例 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="styles" class="styles-section section-shell">
+      <div class="section-heading reveal">
+        <p class="section-kicker">二十種視覺語言 · 一件固定測試物件</p>
+        <h2>刻意同一題材。<br><span>構法不同。</span></h2>
+        <p>Flow Gate 在此重複作為受控標本：固定名詞，才能顯出每種技法的拓撲、16px 契約與單色策略。上方的 Theme Worlds 證明這套系統不限於該題材。</p>
+      </div>
+
+      <div class="style-grid">
+        <article class="style-card reveal"><img src="/assets/styles/woven.svg" width="160" height="160" loading="lazy" alt="編織技法骨架"><div><span>關係</span><h3>編織</h3><p>交織的帶，鏤空缺口刻意保留。</p></div></article>
+        <article class="style-card reveal"><img src="/assets/styles/glass-stack.svg" width="160" height="160" loading="lazy" alt="玻璃疊層技法骨架"><div><span>協作</span><h3>玻璃疊層</h3><p>半透明平面圍繞不透明骨幹。</p></div></article>
+        <article class="style-card reveal"><img src="/assets/styles/cel-shaded.svg" width="160" height="160" loading="lazy" alt="賽璐珞著色技法骨架"><div><span>原創故事</span><h3>賽璐珞著色</h3><p>一道墨線輪廓，一塊果斷的陰影面。</p></div></article>
+        <article class="style-card reveal"><img src="/assets/styles/ink-brush.svg" width="160" height="160" loading="lazy" alt="墨筆技法骨架"><div><span>工藝與文化</span><h3>墨筆</h3><p>一道收尖的筆勢，帶一處寬闊飛白。</p></div></article>
+        <article class="style-card reveal"><img src="/assets/styles/chrome.svg" width="160" height="160" loading="lazy" alt="鍍鉻技法骨架"><div><span>遊戲與音樂</span><h3>鍍鉻</h3><p>一條實心輪廓內，六條硬邊明度帶。</p></div></article>
+        <article class="style-card reveal"><img src="/assets/styles/woodcut.svg" width="160" height="160" loading="lazy" alt="木刻技法骨架"><div><span>動物與民間傳說</span><h3>木刻</h3><p>封閉的浮雕量體，帶邊口敞開的鑿痕。</p></div></article>
+      </div>
+      <div class="styles-footer reveal">
+        <p>另有平面幾何、光暈、線條、吉祥物、雙色、鏤版、像素、等角透視、剪紙、琺瑯、藍圖、彩繪玻璃、Risograph 與黏土。</p>
+        <button class="text-button" type="button" data-open-gallery>打開 20 技法表</button>
+      </div>
+    </section>
+
+    <section id="archive" class="archive-section">
+      <div class="section-shell section-heading reveal">
+        <p class="section-kicker">活檔案 · IconFlow 尋找自身標誌時畫下的每一筆</p>
+        <h2>不是一枚標誌。<br><span>是一整座活檔案。</span></h2>
+        <p>機械、同伴、隱藏品牌解剖、一座果園、一片樹冠、一隻貓。每個方向案都是用這套方法畫出的原創 SVG，由同一引擎渲染，並以原生尺寸比對——點一下就能看到精確的 16px 校樣。</p>
+      </div>
+      <div class="section-shell archive-home-finalists reveal">
+        <div class="archive-home-head">
+          <div>
+            <h3>通過審查的那些。</h3>
+            <p>這些都通過了審查：乾淨的 <code>check</code>、靜態審查、精確色彩的系統匣與 Alpha 範本、綁定 SVG 雜湊的 receipt，以及每軸至少 4/5 的 <code>ship</code>（可讀性 / 辨識度 / 平衡 / 色彩 / 可縮放性 / 工藝）。其餘誠實地留作習作——也收在活檔案裡。</p>
+          </div>
+          <a class="button button-quiet" href="/zh-hant/archive/">打開整座活檔案 <span aria-hidden="true">→</span></a>
+        </div>
+<!-- archive-finalists:start -->
+<p class="archive-tally">137 個方向案 · 7 輪次 · 19 個通過審查或被擢升，含目前的暫時標誌</p>
+<div class="finalist-strip">
+<a class="finalist-card finalist-production" href="/zh-hant/archive/#expanded-living-petal-haypile"><img src="/assets/archive/expanded-living/petal-haypile.svg" width="128" height="128" alt="Petal Haypile" loading="lazy"><span class="finalist-name">Petal Haypile</span><span class="finalist-meta"><span>Expanded living</span><span>current mark, temporary · 4/5/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#living-care-frill-friend-refined"><img src="/assets/archive/living-care/frill-friend-refined.svg" width="128" height="128" alt="Frill Friend" loading="lazy"><span class="finalist-name">Frill Friend</span><span class="finalist-meta"><span>Living care</span><span>passed review · 4/4/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#living-care-koi-heart-refined"><img src="/assets/archive/living-care/koi-heart-refined.svg" width="128" height="128" alt="Koi Heart" loading="lazy"><span class="finalist-name">Koi Heart</span><span class="finalist-meta"><span>Living care</span><span>passed review · 4/5/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#living-care-mender-cat-refined"><img src="/assets/archive/living-care/mender-cat-refined.svg" width="128" height="128" alt="Mender Cat" loading="lazy"><span class="finalist-name">Mender Cat</span><span class="finalist-meta"><span>Living care</span><span>passed review · 4/4/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#living-care-trail-prism-refined"><img src="/assets/archive/living-care/trail-prism-refined.svg" width="128" height="128" alt="Trail Prism" loading="lazy"><span class="finalist-name">Trail Prism</span><span class="finalist-meta"><span>Living care</span><span>passed review · 4/5/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#expanded-living-deep-canopy"><img src="/assets/archive/expanded-living/deep-canopy.svg" width="128" height="128" alt="Deep Canopy" loading="lazy"><span class="finalist-name">Deep Canopy</span><span class="finalist-meta"><span>Expanded living</span><span>passed review · 4/5/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#expanded-living-fairy-scoop"><img src="/assets/archive/expanded-living/fairy-scoop.svg" width="128" height="128" alt="Fairy Scoop" loading="lazy"><span class="finalist-name">Fairy Scoop</span><span class="finalist-meta"><span>Expanded living</span><span>passed review · 4/5/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#expanded-living-heart-harbor"><img src="/assets/archive/expanded-living/heart-harbor.svg" width="128" height="128" alt="Heart Harbor" loading="lazy"><span class="finalist-name">Heart Harbor</span><span class="finalist-meta"><span>Expanded living</span><span>passed review · 4/4/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#expanded-living-mandarin-sail"><img src="/assets/archive/expanded-living/mandarin-sail.svg" width="128" height="128" alt="Mandarin Sail" loading="lazy"><span class="finalist-name">Mandarin Sail</span><span class="finalist-meta"><span>Expanded living</span><span>passed review · 4/4/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#hidden-brand-beak-ledger"><img src="/assets/archive/hidden-brand/beak-ledger.svg" width="128" height="128" alt="Beak Ledger" loading="lazy"><span class="finalist-name">Beak Ledger</span><span class="finalist-meta"><span>Hidden brand</span><span>passed review · 4/5/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#hidden-brand-gharial-clasp"><img src="/assets/archive/hidden-brand/gharial-clasp.svg" width="128" height="128" alt="Gharial Clasp" loading="lazy"><span class="finalist-name">Gharial Clasp</span><span class="finalist-meta"><span>Hidden brand</span><span>passed review · 4/5/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#hidden-brand-leaf-ferry"><img src="/assets/archive/hidden-brand/leaf-ferry.svg" width="128" height="128" alt="Leaf Ferry" loading="lazy"><span class="finalist-name">Leaf Ferry</span><span class="finalist-meta"><span>Hidden brand</span><span>passed review · 4/5/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#hidden-brand-otter-proof"><img src="/assets/archive/hidden-brand/otter-proof.svg" width="128" height="128" alt="Otter Proof" loading="lazy"><span class="finalist-name">Otter Proof</span><span class="finalist-meta"><span>Hidden brand</span><span>passed review · 4/4/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#orchard-garden-artichoke-nest"><img src="/assets/archive/orchard-garden/artichoke-nest.svg" width="128" height="128" alt="Artichoke Nest" loading="lazy"><span class="finalist-name">Artichoke Nest</span><span class="finalist-meta"><span>Orchard &amp; garden</span><span>passed review · 4/5/4/4/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#orchard-garden-citrus-peelway"><img src="/assets/archive/orchard-garden/citrus-peelway.svg" width="128" height="128" alt="Citrus Peelway" loading="lazy"><span class="finalist-name">Citrus Peelway</span><span class="finalist-meta"><span>Orchard &amp; garden</span><span>passed review · 4/4/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#orchard-garden-pea-pod-parade"><img src="/assets/archive/orchard-garden/pea-pod-parade.svg" width="128" height="128" alt="Pea Pod Parade" loading="lazy"><span class="finalist-name">Pea Pod Parade</span><span class="finalist-meta"><span>Orchard &amp; garden</span><span>passed review · 4/5/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#orchard-garden-radish-route"><img src="/assets/archive/orchard-garden/radish-route.svg" width="128" height="128" alt="Radish Route" loading="lazy"><span class="finalist-name">Radish Route</span><span class="finalist-meta"><span>Orchard &amp; garden</span><span>passed review · 4/4/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-gated" href="/zh-hant/archive/#canopy-cargo-tomato-proof-chute-finalist"><img src="/assets/archive/canopy-cargo/tomato-proof-chute-finalist.svg" width="128" height="128" alt="Tomato Proof Chute" loading="lazy"><span class="finalist-name">Tomato Proof Chute</span><span class="finalist-meta"><span>Canopy cargo</span><span>passed review · 4/4/4/5/4/4</span></span></a>
+<a class="finalist-card finalist-promoted" href="/zh-hant/archive/#organic-neko-taildraft-pounce"><img src="/assets/archive/organic-neko/taildraft-pounce.svg" width="128" height="128" alt="Tailwind Chomp" loading="lazy"><span class="finalist-name">Tailwind Chomp</span><span class="finalist-meta"><span>Organic neko</span><span>promoted · 4/5/4/5/4/4</span></span></a>
+</div>
+<!-- archive-finalists:end -->
+      </div>
+    </section>
+
+    <section id="evidence" class="evidence-section">
+      <div class="section-shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker">校樣看得見</p>
+          <h2>每項主張都有<br><span>一件產物在背後。</span></h2>
+        </div>
+        <div class="evidence-grid">
+          <figure class="evidence-card evidence-wide reveal">
+            <div class="evidence-image"><img src="/assets/concept-bake.png?v=petal" width="1346" height="1086" alt="IconFlow 對照評選表，將 Petal Haypile 與四個通過審查關卡的第 3 輪決選案，在原生尺寸、剪影與深色版面上比較" loading="lazy"></div>
+            <figcaption><span>01 · 比較</span><h3>概念對照評選</h3><p>Petal Haypile 從 28 個方向案的活探索中選出；此處與四個通過關卡的決選案並列於原生尺寸。</p></figcaption>
+          </figure>
+          <figure class="evidence-card reveal">
+            <div class="evidence-image evidence-review"><img src="/assets/review-proof.png?v=petal" width="2008" height="2390" alt="IconFlow 審查表，呈現 Petal Haypile 在三種版面上的原生尺寸、像素放大、Alpha 足跡、剪影與自適應裁切" loading="lazy"></div>
+            <figcaption><span>02 · 檢視</span><h3>對準目標的審查</h3><p>真實像素，不是裝飾用的裝置示意。</p></figcaption>
+          </figure>
+          <article class="evidence-card evidence-receipt reveal">
+            <div class="terminal-dots"><span></span><span></span><span></span></div>
+            <pre><code>$ iconflow ship \
+  --config iconflow.toml \
+  --review master-review.json
+
+✓ source hash matches
+✓ 0 automated warnings
+✓ all six axes ≥ 4/5
+
+23 files built</code></pre>
+            <div><span>03 · 交付</span><h3>失敗即關閉的發行</h3><p>過期的 receipt 或偏低的分數會停下建置。</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="start" class="start-section section-shell">
+      <div class="start-card reveal">
+        <div>
+          <p class="section-kicker">跑五分鐘校樣</p>
+          <h2>你的圖示值得<br>一段誠實的最後一哩。</h2>
+          <p>選代理程式協助的路徑，或直接操作 CLI，然後建置已提交的 IconFlow 品牌圖示家族。五分鐘證明的是引擎，不是新的識別；<code>setup</code> 會下載一次 Chromium，此外沒有任何東西離開你的機器。</p>
+          <div class="start-actions">
+            <a class="button button-primary" href="/zh-hant/getting-started/">打開 Getting Started <span aria-hidden="true">→</span></a>
+            <a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">在 GitHub 查看 <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="install-terminal">
+          <div class="terminal-bar"><span></span><span></span><span></span><p>PowerShell</p></div>
+          <pre><code data-install-command>git clone https://github.com/snowyukitty/ai-iconflow.git
+cd ai-iconflow
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install .
+.venv\Scripts\python.exe -m iconflow setup
+.venv\Scripts\python.exe -m iconflow doctor
+.venv\Scripts\python.exe -m iconflow ship --config brand\iconflow.toml --review brand\master-review.json</code></pre>
+          <button class="copy-button" type="button" data-copy-command aria-live="polite" data-label-copy="複製" data-label-copied="已複製" data-label-selected="已選取">複製</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>一份主檔。每種版面。</span></div></div>
+    <p>Apache-2.0 程式碼 · IconFlow 識別受商標政策約束。</p>
+    <nav aria-label="頁尾導覽"><a href="/zh-hant/getting-started/">指南</a><a href="/zh-hant/how-icons-are-made/">製作方式</a><a href="https://github.com/snowyukitty/ai-iconflow">原始碼</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">文件</a><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">商標</a></nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="語言"><a lang="en" hreflang="en" translate="no" href="/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/" aria-current="true">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/">简体</a></nav><!-- /i18n:switch -->
+  </footer>
+
+  <dialog class="gallery-dialog" data-gallery-dialog aria-labelledby="technique-sheet-title">
+    <form method="dialog"><button type="submit" aria-label="關閉圖庫">關閉 <span aria-hidden="true">×</span></button></form>
+    <div><p class="section-kicker">完整目錄</p><h2 id="technique-sheet-title">20 種結構技法</h2><img src="/assets/style-gallery.png" width="1518" height="836" loading="lazy" alt="全部二十種 IconFlow 技法骨架，附原生 16 像素校樣"></div>
+  </dialog>
+</body>
+</html>

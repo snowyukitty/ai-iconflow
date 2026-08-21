@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IconFlow 如何製作圖示 — 簡報、SVG、校樣、審查、receipt</title>
+  <meta name="description" content="IconFlow 方法論白話說明：使用者任務簡報、概念發散、可編輯的 1024 格 SVG、16px 與 128px 的精確 Chromium 算圖、機械檢查、計分審查、綁定原始檔的 receipt（簽收檔），以及透明的成本模型。">
+  <meta name="theme-color" content="#191a20">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="IconFlow 如何製作圖示">
+  <meta property="og:description" content="從使用者任務簡報到可編輯 SVG、原生尺寸校樣、計分審查，以及把核准綁定到精確原始檔的 receipt。再加上誠實的成本說明。">
+  <meta property="og:url" content="https://ai-iconflow.com/zh-hant/how-icons-are-made/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png?v=petal">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ai-iconflow.com/zh-hant/how-icons-are-made/">
+  <!-- i18n:alternates -->
+  <link rel="alternate" hreflang="en" href="https://ai-iconflow.com/how-icons-are-made/">
+  <link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/how-icons-are-made/">
+  <link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/how-icons-are-made/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/how-icons-are-made/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/how-icons-are-made/">
+  <link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/how-icons-are-made/">
+  <!-- /i18n:alternates -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css?v=20260821b">
+  <link rel="stylesheet" href="/how-icons-are-made/how-icons-are-made.css?v=20260821b">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "IconFlow 如何製作圖示",
+    "description": "IconFlow 方法論：使用者任務簡報、概念發散、可編輯 SVG、精確的原生尺寸算圖、檢查、計分審查、綁定原始檔的 receipt，以及透明的成本模型。",
+    "url": "https://ai-iconflow.com/zh-hant/how-icons-are-made/",
+    "inLanguage": "en",
+    "about": {
+      "@id": "https://ai-iconflow.com/zh-hant/#source"
+    },
+    "isPartOf": {
+      "@id": "https://ai-iconflow.com/zh-hant/#website"
+    }
+  }
+</script>
+  <script src="/app.js?v=20260821b" defer></script>
+</head>
+<body class="method-body">
+  <a class="skip-link" href="#main">跳至內容</a>
+
+  <header class="site-header" data-header>
+  <a class="brand" href="/zh-hant/" aria-label="IconFlow 首頁">
+   <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
+   <span>IconFlow</span></a>
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="開啟導覽" data-label-close="關閉導覽">
+   <span class="sr-only">切換導覽</span> <span></span><span></span></button>
+  <nav id="site-nav" class="site-nav" aria-label="主要導覽">
+   <a href="#pipeline">管線</a>
+   <a href="#brief">設計說明</a>
+   <a href="#svg">SVG</a>
+   <a href="#check">檢查</a>
+   <a href="#review">審查</a>
+   <a href="#cost">成本</a>
+   <a href="/gallery/">圖庫</a>
+   <a href="/zh-hant/getting-started/">開始使用</a>
+  </nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="語言"><a lang="en" hreflang="en" translate="no" href="/how-icons-are-made/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/how-icons-are-made/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/how-icons-are-made/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/how-icons-are-made/" aria-current="true">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/how-icons-are-made/">简体</a></nav><!-- /i18n:switch -->
+  </header>
+
+  <main id="main">
+  <section class="method-hero section-shell">
+   <div class="method-hero-copy reveal">
+    <p class="eyebrow"><span class="status-dot"></span> 方法論 · 工作怎麼做</p>
+    <h1>IconFlow 如何<br>製作<em>圖示。</em></h1>
+    <p>不是一句提示詞加一張圖。而是產品簡報、相互競爭的構想、一份 1024 格上可編輯的 SVG、按人們實際看見的尺寸做精確算圖、機械檢查、由設計師計分的審查，以及把核准綁定到精確原始檔的 receipt（簽收檔）。每一步都用白話說明，說法旁邊就是真實產物。</p>
+    <ul class="hero-contract" aria-label="頁面契約">
+     <li>此頁展示的每一份產物都在儲存庫裡</li>
+     <li>16px 校樣以 16px 顯示</li>
+     <li>不暗示任何廠商背書</li>
+    </ul>
+   </div>
+
+   <div class="specimen-card reveal" aria-label="以 IconFlow 產品標誌作為實作標本">
+    <div class="specimen-topline"><span>標本 · Petal Haypile</span><strong>目前標誌</strong></div>
+    <div class="specimen-stage">
+     <figure>
+      <img src="/assets/iconflow-mark.svg" width="128" height="128" alt="出自可編輯 SVG 的 IconFlow 標誌：一隻矮耳鼠兔銜著三片花瓣，走回乾草堆">
+      <figcaption>master.svg（主檔）· 由瀏覽器算圖</figcaption>
+     </figure>
+     <figure>
+      <div class="specimen-native">
+       <img src="/assets/proof/icon-128.png?v=petal" width="128" height="128" alt="IconFlow 標誌的精確 128×128 像素算圖">
+       <img src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="IconFlow 標誌的精確 16×16 像素算圖，以實際尺寸顯示">
+       <img class="zoom-16" src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="同一張 16 像素算圖放大五倍，像素保持銳利">
+      </div>
+      <figcaption>精確 128px · 精確 16px · 16px 放大</figcaption>
+     </figure>
+    </div>
+    <div class="specimen-receipt" aria-label="receipt 摘要">
+     <div><span>check</span><strong>0 則警告</strong></div>
+     <div><span>review</span><strong>6 軸 ≥ 4/5</strong></div>
+     <div><span>ship</span><strong>23 個檔案</strong></div>
+    </div>
+   </div>
+  </section>
+
+  <section id="pipeline" class="pipeline-section section-shell">
+   <div class="pipeline-heading reveal">
+    <p class="section-kicker">真正的管線</p>
+    <h2>九個階段。<br><span>其中兩個是判斷。</span></h2>
+    <p>每個階段都會留下檔案：簡報、概念縮圖、SVG、警告清單、PNG、計分的 receipt、一次建置、一份案例紀錄。點選階段即可閱讀做法。</p>
+   </div>
+   <ol class="pipeline reveal" aria-label="IconFlow 管線">
+    <li><a href="#brief"><strong>簡報</strong><small>使用者任務、本質、陳腔濫調、目標</small></a></li>
+    <li><a href="#diverge"><strong>發散</strong><small>4+ 個概念、陳腔濫調過濾、一個手法</small></a></li>
+    <li><a href="#svg"><strong>SVG</strong><small>1024 格上的可編輯幾何</small></a></li>
+    <li><a href="#check"><strong>檢查</strong><small>安全、格線、筆畫、對比、裁切</small></a></li>
+    <li><a href="#check"><strong>算圖</strong><small>16 與 128 的精確 Chromium 像素</small></a></li>
+    <li><a class="is-human" href="#review"><strong>審查</strong><small>六軸，由設計師計分 — 人或代理程式</small></a></li>
+    <li><a href="#review"><strong>Receipt</strong><small>核准綁定到原始檔 hash</small></a></li>
+    <li><a href="#review"><strong>交付</strong><small>每個目標皆失敗即關閉的建置</small></a></li>
+    <li><a class="is-human" href="#review"><strong>學習</strong><small>案例紀錄與提煉規則</small></a></li>
+   </ol>
+   <p class="pipeline-legend"><span>機械階段</span><span class="legend-human">設計判斷</span></p>
+  </section>
+
+  <section id="brief" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">階段 01 · 簡報</p>
+    <h2>從任務開始，<br><span>不是從圖像。</span></h2>
+    <p>只給名詞的提示詞（「幫我做一個聊天圖示」）做出來的是裝飾。IconFlow 的簡報記錄的是使用產品的人想完成什麼。</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>使用者任務優先</h3>
+     <p>設計手冊在動筆前要求五件事：圖示是什麼（app、favicon、系統匣）、一個字的本質、品牌色、性格路線，以及圖示會以小尺寸出現的位置。案例集提煉出的規則很直白：<em>選使用者的任務，不是類別名詞</em>。「導航」、「決策」、「比較」與「偵察」做出來的標誌，會比「遊戲」、「會議」或「旅遊」好，因為陳腔濫調就住在類別名詞裡。</p>
+     <h3>然後是一個具體名詞</h3>
+     <p>在這套系統裡，辨識度就是具體。案例集裡最強的標誌<em>就是</em>一件具體、可獨有的東西 — 價簽、切面寶石、摺好的路線圖、招財貓 — 其塗黑剪影叫出的是物件，不是類別。文件把漸層色塊上一個光禿字首，點名為 AI 圖示看起來稱職又立刻被忘掉的最常見做法。</p>
+     <p>對隱私敏感的產品，簡報會收束成中性的任務動詞；公開的案例紀錄保留視覺證據，但不含類別名詞、儲存庫名稱或本機路徑。</p>
+     <ul class="doc-links" aria-label="相關文件">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">docs/DESIGN_PLAYBOOK.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>
+     </ul>
+    </div>
+    <aside class="panel reveal is-side" aria-label="簡報包含什麼">
+     <div class="panel-head"><span>iconflow.toml · [brief] + [design] + [build]</span><span>可攜</span></div>
+     <dl>
+      <div><dt>使用者任務</dt><dd>一個人正在推進的進展。出自已交付 Theme World 的例子：「讓一個小小的共同儀式，隨時間仍可觸及」。</dd></div>
+      <div><dt>本質</dt><dd>用來拍板爭議的一個字。Keepsake Knot：「together」。Petal Haypile 品牌簡報：「gather」。</dd></div>
+      <div><dt>個性</dt><dd>兩到三個帶張力的特質 — 「溫暖、可觸、篤定」。</dd></div>
+      <div><dt>要避開的陳腔濫調</dt><dd>寫下來以便拒絕的顯眼類別符號：愛心、對話框、相連圓圈。</dd></div>
+      <div><dt>標誌性手法假設</dt><dd>讓標誌可獨有的那一招，動筆前寫下、畫完後驗證。</dd></div>
+      <div><dt>目標</dt><dd>只列實際存在的版面：網頁、PWA、桌面、系統匣。receipt 之後會綁定到這組精確的集合。</dd></div>
+     </dl>
+    </aside>
+   </div>
+  </section>
+
+  <section id="diverge" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">階段 02 · 發散</p>
+     <h2>四個構想，<br><span>然後一個手法。</span></h2>
+     <p>這是多數 AI 製作的圖示跳過的階段，所以它們長得都一樣。IconFlow 把它設為必做，並附上可以不及格的測試。</p>
+    </div>
+    <div class="method-columns">
+     <div class="method-prose reveal">
+      <h3>用不同視角發散</h3>
+      <p>一份簡報，設計師（人或代理程式）至少用不同視角草擬四個概念 — 字面物件、隱喻、核心動詞、把字形<em>熔進</em>物件、抽象系統，或負空間雙讀。兩個共用同一個剪影的概念算一個。</p>
+      <h3>過濾陳腔濫調</h3>
+      <p>一份寫下來的陳腔濫調表，把每個產品類別配上用濫的符號，以及該改往哪推。規則很簡單：概念落在「避開」那格，就不算完成。內部清單也拒絕用大腦、機器人、閃光、魔杖、神經節點，或預設的藍到紫漸層來代表「AI」。</p>
+      <h3>加上一個標誌性手法並測試</h3>
+      <p>一個手法 — 雙重讀法、可獨有的幾何、熔接字形、意外裁切、可獨有的配色，或單一強調。打磨前先過四道硬測試：128px 與 16px 的<strong>叫出名字測試</strong>（及格答案是具體名詞）、去掉色彩的<strong>剪影測試</strong>、<strong>maskable 測試</strong>（關鍵細節落在中央 40% 半徑安全圓內），以及對上 8 個競品 favicon 的<strong>並排測試</strong>。決選再以 <code>iconflow compare</code> 並排比稿，贏家看形狀，不看 128px 的色彩。</p>
+      <ul class="doc-links" aria-label="相關文件">
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/CONCEPTING.md">docs/CONCEPTING.md</a></li>
+      </ul>
+     </div>
+     <div class="reveal is-side">
+      <figure class="figure-wide">
+       <div class="figure-art"><img src="/assets/concept-bake.png?v=petal" width="1346" height="682" alt="IconFlow 概念比稿表，以原生尺寸與剪影比較三個候選標誌" loading="lazy"></div>
+       <figcaption><strong>一份真實的比稿表。</strong>三個決選以實際尺寸與剪影算圖，讓色彩藏不住泛用形狀。</figcaption>
+      </figure>
+      <div class="figure-strip">
+       <figure>
+        <div class="figure-art"><img class="is-svg" src="/assets/worlds/keepsake-knot.svg" width="128" height="128" alt="Keepsake Knot 圖示：兩條不等寬的青綠與珊瑚色帶子，繞著一個偏移開口交織" loading="lazy"></div>
+        <figcaption><strong>Keepsake Knot — 留下來的手法。</strong>「兩條不等寬的帶子共用一個偏移開口。」第一輪因交叉讀成電源符號而被退回。</figcaption>
+        <p class="figure-links"><a href="/assets/worlds/keepsake-knot.svg">原始 SVG</a><a href="/assets/worlds/keepsake-knot-review.json">Receipt JSON</a></p>
+       </figure>
+       <figure>
+        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/keepsake-knot-128.png" width="128" height="128" alt="Keepsake Knot 精確 128 像素算圖" loading="lazy"><img src="/assets/worlds/keepsake-knot-16.png" width="16" height="16" alt="Keepsake Knot 精確 16 像素算圖，實際尺寸" loading="lazy"></div></div>
+        <figcaption><strong>兩條帶子在 16px 仍讀得出。</strong>16px 小片是精確的原生 PNG，1:1，從來不是放大圖。</figcaption>
+       </figure>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="svg" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">階段 03 · SVG</p>
+    <h2>幾何是編寫的，<br><span>不是從雜訊生成。</span></h2>
+    <p>單一真實來源是一份小而可編輯的 SVG。隨時可讀、可 diff、可 hash，並重建成每個目標。</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>在 1024 格上直接編寫</h3>
+     <p>每份主檔都畫在 <code>viewBox="0 0 1024 1024"</code>。在 16 像素時，約 64 格等於一顆輸出像素，所以預算是明示的：每個承載想法的強調大約分到兩像素（≈128 單位），每道必要間隔至少一像素，細於邊長約 2.3% 的筆畫預期會消失。關鍵內容留在中央約 80% 的安全區；必須撐過自適應裁切的東西留在中央安全圓內。16px 圖示恰好只容一個想法，兩個不透明前景元素絕不可交叉。</p>
+     <h3>二十個技法鷹架，零個完成標誌</h3>
+     <p><code>iconflow new &lt;preset&gt;</code>會從二十種結構不同的執行語法起手 — flat-geometric、line-mark、duotone-cut、pixel-grid、stained-glass、woodcut 等等 — 各有 16px 存活規則與單色系統匣策略。它們刻意共用同一套內建骨架；真正的圖示仍要換成產品專屬物件，再跑完整道關卡。</p>
+     <h3>確定性 Python，用在需要規模的系列</h3>
+     <p>系列不改方法；它們把可重複的部分寫成腳本。20 題 Social Signals 套件用有種子的 <code>random.Random(seed).shuffle</code> 指定風格，算圖前先對照目錄核對，並把每題的路徑幾何留在建置腳本裡。400 格 Emoji Matrix 由 <code>scripts/build_emoji_matrix.py</code> 建置，對每格重跑 <code>check</code>、為每張校樣取指紋，缺一份 receipt、digest 或審查決定就失敗即關閉。規模買到的是可重複與可稽核 — 從來不是過關。</p>
+     <ul class="doc-links" aria-label="相關文件">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/STYLE_CATALOG.md">docs/STYLE_CATALOG.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/SVG_TECHNIQUES.md">docs/SVG_TECHNIQUES.md</a></li>
+      <li><a href="/gallery/social-signals/">/gallery/social-signals/</a></li>
+      <li><a href="/gallery/emoji-matrix/all/">/gallery/emoji-matrix/all/</a></li>
+     </ul>
+    </div>
+    <div class="reveal is-side">
+     <figure class="figure-wide">
+      <div class="figure-art"><img src="/assets/style-gallery.png" width="1518" height="836" alt="一張表上的全部二十個 IconFlow 技法鷹架，各帶原生 16 像素校樣" loading="lazy"></div>
+      <figcaption><strong>二十技法表。</strong>由與建置相同、網路隔離的 Chromium 算圖；每一格都帶著自己的原生 16px 校樣。</figcaption>
+     </figure>
+    </div>
+   </div>
+  </section>
+
+  <section id="check" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">階段 04–05 · 檢查與算圖</p>
+     <h2>精確像素，<br><span>機械警告。</span></h2>
+     <p>IconFlow 用釘選版本的 Playwright Chromium 算圖，再對所見畫面跑一份明確的檢查清單。</p>
+    </div>
+    <div class="method-columns">
+     <div class="method-prose reveal">
+      <h3>算圖是隔離且可重複的</h3>
+      <p>算圖器把 SVG 當不可信輸入。Chromium 封鎖網路與 service worker，停用頁面 JavaScript，移除或凍結動態與動畫內容，並固定 sRGB、地區設定與時區。輸入上限為 4 MiB、50,000 個元素、128 層巢狀，DTD 或實體宣告一律拒絕。本頁的 16px 與 128px PNG 就是那些精確算圖，不是大圖重採樣。</p>
+      <h3><code>check</code> 真正在測什麼</h3>
+      <ul>
+       <li><strong>SVG 安全：</strong> script、iframe、object、embed、audio、video 與 animation 元素、事件處理器、外部 <code>href</code>/<code>src</code>、CSS <code>url()</code> 與 <code>@import</code>。</li>
+       <li><strong>格線：</strong>缺少 <code>viewBox</code>，或不是正方形。</li>
+       <li><strong>筆畫下限：</strong>任何細於 viewBox 寬度 2.3% 的筆畫。</li>
+       <li><strong>16px 覆蓋率：</strong>低於畫布 6% 太小；不透明四角的硬正方形會被圓形裁切剪掉。</li>
+       <li><strong>對比：</strong>16px 在白底與暗底上的亮度跨度，以及 32px 在中灰上的亮度跨度。</li>
+       <li><strong>Maskable 稽核：</strong>512px maskable 資產上，超過 8% 的偵測細節落在 40% 半徑安全圓外。</li>
+       <li><strong>辨識度提示：</strong>即時 <code><text></code> 字形 — 通常是打字的字母組合，並經建置機的字型算圖。</li>
+      </ul>
+      <p>加上 <code>--tray-svg tray.svg</code>、<code>check</code> 與 <code>review</code> 會多一道建議性的系統匣範本稽核：它會回報一份沒留下彩色標誌任何特徵的 macOS template。它刻意不納入預設的 <code>check</code>，也從不管控 <code>ship</code>，因為稽核的是連結變體，不是主檔。</p>
+      <h3>剪影與相似度是分開的證明</h3>
+      <p>每個已審查案例也會得到 128px 視覺剪影，因為辨識度是去掉色彩來評的。400 格矩陣的相似度報告會加上精確 PNG hash，以及 64-bit alpha 與亮度差異 hash；alpha 加亮度的合計 Hamming 距離在 12 以內（同義）或 6 以內（異義）的配對會標成高風險，完全重複則阻擋整合。腳本稱這段距離為「視覺檢查的分流訊號，不是錄取分數」。</p>
+      <ul class="doc-links" aria-label="相關文件">
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/iconflow/qa.py">iconflow/qa.py</a></li>
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/WORKFLOW.md">docs/WORKFLOW.md</a></li>
+      </ul>
+     </div>
+     <div class="reveal is-side">
+      <div class="figure-strip">
+       <figure>
+        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/catnap-focus-128.png" width="128" height="128" alt="Catnap Focus 精確 128 像素算圖：一隻蜷曲的睡貓" loading="lazy"><img src="/assets/worlds/catnap-focus-16.png" width="16" height="16" alt="Catnap Focus 精確 16 像素算圖，實際尺寸" loading="lazy"></div></div>
+        <figcaption><strong>精確算圖。</strong>Catnap Focus 的 128px 與 16px，直接出自釘選的 Chromium。</figcaption>
+       </figure>
+       <figure>
+        <div class="figure-art"><img src="/assets/worlds/catnap-focus-silhouette-128.png" width="128" height="128" alt="Catnap Focus 去掉色彩的視覺剪影，仍讀成一隻蜷曲的貓" loading="lazy"></div>
+        <figcaption><strong>剪影校樣。</strong>去掉色彩；名詞必須活下來。辨識度分數就是從這條帶來讀的。</figcaption>
+       </figure>
+      </div>
+      <div class="panel">
+       <div class="panel-head"><span>終端機</span><span>一次乾淨的 check</span></div>
+       <pre><code>$ python -m iconflow check master.svg
+OK — no automated warnings. Still do the visual review.</code></pre>
+       <p class="panel-note">警告是要修的原始內容，不是要重新啟用的算圖器功能。<code>ship</code> 拒絕帶警告記錄的 receipt。</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="review" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">階段 06–09 · 審查、receipt、交付、學習</p>
+    <h2>由人打分。<br><span>由 hash 記住。</span></h2>
+    <p>機械檢查抓住機械風險。標誌好不好，由眼睛看真實像素決定，並記在建置可核對的 receipt 裡。</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>人眼視覺審查</h3>
+     <p>審查者打開樣張表與 Review Lab：白、暗、中灰為列；16px 到 256px 實際尺寸為欄；像素放大帶；alpha 足跡；視覺剪影；自適應裁切預覽；每個選定目標的變換。六軸以 1–5 計分：16px 可讀性、辨識度、平衡與格線、色彩與對比、可縮放性、工藝。任一軸低於 4 不得交付，辨識度是明示關卡 — 泛用剪影再好看的色彩最多也只得 3。</p>
+     <h3>退回與迭代是常態</h3>
+     <p>任一軸低於 4，審查者點出最弱軸，做一個影響最大的改動，再重新算圖。文件預期兩到三輪。100 案例藝廊版從 111 個候選收錄 100 個，並明示退回 11 個較弱、較難讀或重複的方向案；Keepsake Knot 的 receipt 記錄第一輪因讀成電源符號而被退回。</p>
+     <h3>綁定原始檔的 receipt，失敗即關閉的交付</h3>
+     <p>匯出的 receipt 帶有精確 SVG 的 <code>source_sha256</code>，以及綁定專案、目標集合、色彩、Electron 半徑、配色、系統匣模式與系統匣來源 hash 的 <code>contract_sha256</code>。<code>iconflow ship</code> 核對兩者，要求警告清單為空、<code>status: ready</code>，以及六軸分數至少 4，然後在寫入任何檔案前重跑自動化 QA。改了 SVG 內容 — digest 只忽略換行 — receipt 就過期。</p>
+     <h3>案例集學習</h3>
+     <p>每個已交付圖示以 <code>iconflow case new</code> 作結：第一輪與最終分數、避開的陳腔濫調、標誌性手法、一則可再利用的教訓。<code>case stats</code> 會點出反覆最弱的軸與內部陳腔濫調；這些教訓提煉成 <code>docs/LEARNINGS.md</code> 裡的編號規則（撰寫時為 54 條），下一份簡報必須先讀。沒記錄的圖示，系統什麼也學不到。</p>
+     <ul class="doc-links" aria-label="相關文件">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/REVIEW_CHECKLIST.md">docs/REVIEW_CHECKLIST.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>
+      <li><a href="/gallery/">/gallery/ · 100 個收錄案例</a></li>
+     </ul>
+    </div>
+    <div class="reveal is-side">
+     <div class="panel">
+      <div class="panel-head"><span>keepsake-knot-review.json</span><span>摘錄</span></div>
+      <pre><code>"source_sha256": "f27c303a…0aaf305",
+"contract_sha256": "14d5aeb4…261de76",
+"user_job": "keep a small shared ritual
+             tangible over time",
+"essence": "together",
+"signature_device": "two unequal bands
+             share one offset opening",
+"cliches": ["heart", "chat bubble",
+            "linked circles"],
+"warnings": [],
+"scores": {"legibility": 4,
+  "distinctiveness": 4, "balance": 4,
+  "color": 5, "scalability": 4, "craft": 4},
+"notes": "Pass 1 rejected the power-sign
+  reading. …",
+"status": "ready"</code></pre>
+      <p class="panel-note">完整檔案是公開的：<a href="/assets/worlds/keepsake-knot-review.json">keepsake-knot-review.json</a>。其 hash 與 <a href="/assets/worlds/keepsake-knot.svg">keepsake-knot.svg</a> 相符；網站測試在每次建置時重新核對。</p>
+     </div>
+     <div class="panel">
+      <div class="panel-head"><span>ship 核對什麼</span><span>在寫入檔案之前</span></div>
+      <ol>
+       <li>Receipt 綱要與目前 SVG 的完整 SHA-256。</li>
+       <li>契約 digest：專案、精確目標集合、色彩、半徑、配色、系統匣模式、系統匣來源 hash。</li>
+       <li>空白警告清單與 <code>status: ready</code>。</li>
+       <li>每個評分軸都有分數，且至少為 4。</li>
+       <li>立刻再對原始檔跑一次自動化 QA。</li>
+      </ol>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="vector-vs-raster" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">要緊的區別</p>
+     <h2>AI 撰寫的向量，<br><span>不是提示詞轉點陣。</span></h2>
+     <p>兩者都可以有 AI 參與。產出的物件不同、失敗方式不同，留下的證據也不同。</p>
+    </div>
+    <div class="compare-table reveal">
+     <table>
+      <thead><tr><th scope="col">問題</th><th scope="col">提示詞轉點陣產生器</th><th scope="col">IconFlow 的 AI 撰寫向量工作流程</th></tr></thead>
+      <tbody>
+       <tr><th scope="row">原始檔是什麼？</th><td>從模型取樣的點陣圖。提示詞不是檔案。</td><td class="is-us">可編輯的 SVG，畫在 1024 格網上，並在系統匣變體需要處帶語意分組。檔案就是設計。</td></tr>
+       <tr><th scope="row">能只改一件事嗎？</th><td>重新產生，然後祈禱；小改動會帶偏整張圖。</td><td class="is-us">移動節點、拉開空隙、重塗色帶，重建每個目標。</td></tr>
+       <tr><th scope="row">16px 看起來如何？</th><td>事後再降採樣；細節變成糊或雜訊。</td><td class="is-us">由小往上設計：像素預算優先，核准前先檢查精確的 16px 渲染。</td></tr>
+       <tr><th scope="row">辨識度從哪裡來？</th><td>模型的先驗，會把結果拉向類別平均值。</td><td class="is-us">強制發散步驟、陳腔濫調過濾，以及可能失敗的剪影測試。</td></tr>
+       <tr><th scope="row">證據是什麼？</th><td>一張圖、一句提示詞，也許一個 seed。</td><td class="is-us">設計綱要、決選案、警告清單、精確渲染、綁定原始檔雜湊且帶分數的 receipt（審查憑證）、案例紀錄。</td></tr>
+       <tr><th scope="row">引擎會呼叫模型嗎？</th><td>一定會；那就是產品。</td><td class="is-us">不會。渲染與建置是本機 Python 加上 Chromium；只有設計用的代理程式（若有使用）才會消耗模型用量。</td></tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+  </section>
+
+  <section id="clean-room" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">界線</p>
+    <h2>潔淨室界線<br><span>以及它不保證的事。</span></h2>
+    <p>IconFlow 的圖示集把熟悉的工作與含義轉成原創幾何。那是設計方法與溯源紀律，不是法律保證。</p>
+   </div>
+   <div class="boundary-grid reveal">
+    <article class="boundary-card is-do">
+     <h3>這裡的潔淨室是什麼意思</h3>
+     <ul>
+      <li>預設與圖庫不含任何第三方 SVG 路徑、程式碼、圖像、字型、色盤、文案、品牌標誌或商業外觀；上游圖示集只研究其教訓，並未複製。</li>
+      <li>對 Emoji Matrix 而言，不複製、修改、描摹、取樣或嵌入任何廠商表情符號圖稿；碼位與短名稱只作語意參照。</li>
+      <li>Social Signals 習作從通用使用者工作與平台商業外觀之外的具體名詞出發；不以官方剪影搭配官方品牌色，公開文案從不把平台名稱與習作標誌配在一起。</li>
+      <li>原創故事、角色與遊戲案例不得模仿具名藝術家、工作室、作品系列、在世創作者或商標。</li>
+     </ul>
+    </article>
+    <article class="boundary-card is-dont">
+     <h3>它明確不主張的事</h3>
+     <ul>
+      <li>這些圖示集獨立且無隸屬關係；本站任何內容皆未經任何平台或表情符號廠商背書，亦無關聯。</li>
+      <li>練習樣本不是已交付的識別形象，也不能取代官方標誌。</li>
+      <li>視覺距離不是法律上的權利確認。殘餘風險包含未發現的第三方標誌、特定法域的混淆分析，以及未來的品牌變更。</li>
+      <li>會承載商業重量的產品標誌，採用前應做正式商標檢索與專業法律審閱。IconFlow 讓設計工作可被檢視；但並不代為完成權利確認。</li>
+     </ul>
+    </article>
+   </div>
+   <p class="disclaimer reveal"><strong>關於 IconFlow 自己的標誌。</strong> Petal Haypile（花瓣乾草堆）——低耳鼠兔叼著三片花瓣返回乾草倉——是目前選用的暫時產品標誌，刻意保留日後更換的空間，永久識別尚未定案。程式碼為 Apache-2.0；IconFlow 名稱與標誌受專案<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">商標政策</a>約束。文件：<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/SOCIAL_SIGNALS.md">SOCIAL_SIGNALS.md</a>、<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/EMOJI_MATRIX.md">EMOJI_MATRIX.md</a>、<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/GALLERY.md">GALLERY.md</a>。</p>
+  </section>
+
+  <section id="cost" class="cost-section">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">透明的成本模型</p>
+     <h2>運算很便宜。<br><span>判斷才是真正的成本。</span></h2>
+     <p>這裡刻意不放金額。確切數字取決於你的代理程式用哪個模型或 API、託管在哪，以及當天專業服務的行情。以下說明什麼會隨規模變動，以及為什麼。</p>
+    </div>
+    <ul class="cost-facts reveal" aria-label="成本從哪裡來">
+     <li><span>本機 / 離線</span><strong>渲染、檢查、建置</strong><p>一次性下載 Python 相依套件與 Playwright Chromium 之後，<code>compare</code>、<code>check</code>、<code>review</code> 與 <code>ship</code> 都在你的機器上執行，無需 API 金鑰、不呼叫圖像模型，渲染期間也不連網。重建只需數秒本機運算。</p></li>
+     <li><span>可能產生模型用量</span><strong>設計代理程式</strong><p>若由 AI 代理程式撰寫設計綱要、發散概念並撰寫 SVG，該對話由你選的用戶端與模型計費——IconFlow 本身不呼叫模型。迭代輪次、評比與閱讀審查表會增加 token；含糊的設計綱要也一樣。</p></li>
+     <li><span>可能花錢</span><strong>部署與權利確認</strong><p>託管產出通常是最小的一筆：靜態網站或應用程式套件，放在你本來就在付費的主機上。商業標誌的商標檢索與法律審閱是另一筆專業費用，沒有任何工具包能取代。</p></li>
+    </ul>
+    <div class="method-prose reveal">
+     <h3>五層，相對成本</h3>
+     <p>定價的是範圍，不是引擎時間。這把尺是各層級間的相對尺度；單靠運算成本永遠代表不了完成識別的成本。</p>
+    </div>
+    <ol class="tier-list reveal" aria-label="成本層級">
+     <li class="tier">
+      <div><h3>快速練習樣本<small>一份鷹架、一次檢查</small></h3><p>從技法預設開始，把內建骨架換成一個產品物件，跑 <code>check</code>。證明工具鏈與第一個構想。</p></div>
+      <div><span class="tier-label">產出物</span><p>一份 SVG、一份乾淨的警告清單、原生 16px 與 128px 渲染。</p></div>
+      <div><span class="tier-label">審查深度</span><p>在索引樣張上自檢；不匯出 receipt。</p></div>
+      <div><span class="tier-label">迭代驅動</span><p>筆畫下限與對比警告；一個在 16px 失敗的名詞。</p></div>
+      <div class="tier-cost"><span class="tier-label">相對成本</span><strong>分鐘</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></span><p>本機運算；若由代理程式驅動，模型用量可忽略。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>原創正式圖示<small>標準迴圈</small></h3><p>設計綱要、四個概念、評比、一份主檔 SVG、檢查、帶分數的審查、receipt、交付、案例紀錄——一個產品及其網頁目標。</p></div>
+      <div><span class="tier-label">產出物</span><p>iconflow.toml、決選案與評比表、master.svg（主檔）、審查表與 receipt、favicon/PWA 套組、案例集條目。</p></div>
+      <div><span class="tier-label">審查深度</span><p>6 條評分軸皆由設計者打分，看實際尺寸與剪影；通常兩到三輪。</p></div>
+      <div><span class="tier-label">迭代驅動</span><p>辨識度低於 4、與系統圖示碰撞、意外讀出第二義。</p></div>
+      <div class="tier-cost"><span class="tier-label">相對成本</span><strong>小時</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><p>設計判斷與審查時間為主，代理程式用量其次，運算可忽略。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>多版面識別家族<small>網頁、桌面、系統匣</small></h3><p>正式迴圈再加上一份連結的純標誌系統匣原始檔、平台裁切、桌面套件，以及把全部綁在一起的一份契約雜湊。</p></div>
+      <div><span class="tier-label">產出物</span><p>master.svg 與 tray.svg、系統匣範本稽核、ICO/ICNS/PNG 家族、manifest 片段、整組目標共用一份 receipt。</p></div>
+      <div><span class="tier-label">審查深度</span><p>檢查每個目標轉換：自適應裁切、桌面圓角、淺色與深色列上的選單列範本。</p></div>
+      <div><span class="tier-label">迭代驅動</span><p>系統匣範本留不住彩色標誌的任何特徵；細節落在 maskable 安全圓之外。</p></div>
+      <div class="tier-cost"><span class="tier-label">相對成本</span><strong>數小時到一天</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><p>多的是審查版面，不是運算；每個目標都多一次人眼檢查。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>經過研究的品牌識別<small>定位、輪次、權利確認</small></h3><p>產品研究、與利害關係人進行數輪概念、一份品牌系統文件，並在單一綁定原始檔的交易中把一個標誌推上網站與建置。</p></div>
+      <div><span class="tier-label">產出物</span><p>以上全部，外加品牌系統文件、色盤與淨空規則、歷史理據、商標審閱結果。</p></div>
+      <div><span class="tier-label">審查深度</span><p>多名審查者與多輪；明確否決先前標誌；標誌承載商業重量時做專業的權利確認。</p></div>
+      <div><span class="tier-label">迭代驅動</span><p>定位變更、利害關係人意見不合、權利確認的發現、可撤回要求。</p></div>
+      <div class="tier-cost"><span class="tier-label">相對成本</span><strong>數天到數週</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><p>專業時間與法律服務占大宗；模型與運算只是附註。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>大型生成並策展的圖示集<small>數百格</small></h3><p>以腳本、種子產生大量原始檔；每一格仍須通過檢查、渲染、剪影、相似度篩選與目視審查，才會以失敗即擋下的方式整合。</p></div>
+      <div><span class="tier-label">產出物</span><p>每格一份 SVG、渲染、剪影與 receipt；一份相似度報告；帶集合層摘要的目錄；一張合成總覽海報。</p></div>
+      <div><span class="tier-label">審查深度</span><p>每一格的索引樣張、一輪對抗式策展、替換弱格、一份集合層決策檔。</p></div>
+      <div><span class="tier-label">迭代驅動</span><p>知覺近重複、重複構圖、風格語法漂移、脆弱的 16px 格子。</p></div>
+      <div class="tier-cost"><span class="tier-label">相對成本</span><strong>數天，多半是審查</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><p>到數百格時模型用量會變明顯；策展時數仍超過它。</p></div>
+     </li>
+    </ol>
+    <p class="cost-footnote reveal"><strong>把這把尺當成比例，不是價格。</strong> 模型用量、託管與專業費用各自由別人按會變動的費率計費；IconFlow 不加收自己的費用，引擎在本機執行。無論哪個層級，完成識別的主要成本都是人用來決定與審查的時間——而這正是此方法拒絕省略的部分。</p>
+   </div>
+  </section>
+
+  <section class="method-cta section-shell reveal">
+   <div><p class="section-kicker">先看，再跑</p><h2>這裡的每一項主張<br>背後都有一份檔案。</h2></div>
+   <div><p>瀏覽已收錄案例及其原生校樣與 receipt，或在自己的機器上跑 5 分鐘引擎驗證，親自檢查像素。</p><div class="start-actions"><a class="button button-primary" href="/gallery/">開啟圖庫 <span aria-hidden="true">→</span></a><a class="button button-quiet" href="/zh-hant/getting-started/">Getting Started</a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">閱讀文件</a></div></div>
+  </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+  <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>一份主檔。每種版面。</span></div></div>
+  <p>Apache-2.0 程式碼 · IconFlow 識別受商標政策約束。</p>
+  <nav aria-label="頁尾導覽"><a href="/zh-hant/">首頁</a><a href="/gallery/">圖庫</a><a href="/zh-hant/getting-started/">指南</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">文件</a><a href="https://github.com/snowyukitty/ai-iconflow">原始碼</a></nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="語言"><a lang="en" hreflang="en" translate="no" href="/how-icons-are-made/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/how-icons-are-made/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/how-icons-are-made/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/how-icons-are-made/" aria-current="true">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/how-icons-are-made/">简体</a></nav><!-- /i18n:switch -->
+  </footer>
+</body>
+</html>

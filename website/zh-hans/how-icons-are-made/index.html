@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IconFlow 如何制作图标 — 简报、SVG、校样、审查、receipt（凭证）</title>
+  <meta name="description" content="通俗解读 IconFlow 方法论：用户任务简报、概念发散、1024 网格可编辑 SVG、16px 与 128px 下精确的 Chromium 渲染、机械检查、打分审查、绑定源文件的 receipt，以及透明的成本模型。">
+  <meta name="theme-color" content="#191a20">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="IconFlow 如何制作图标">
+  <meta property="og:description" content="从用户任务简报到可编辑 SVG、原生尺寸校样、评分审查，以及将批准结果与确切源文件绑定的 receipt。外加坦诚公开的成本。">
+  <meta property="og:url" content="https://ai-iconflow.com/zh-hans/how-icons-are-made/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png?v=petal">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ai-iconflow.com/zh-hans/how-icons-are-made/">
+  <!-- i18n:alternates -->
+  <link rel="alternate" hreflang="en" href="https://ai-iconflow.com/how-icons-are-made/">
+  <link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/how-icons-are-made/">
+  <link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/how-icons-are-made/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/how-icons-are-made/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/how-icons-are-made/">
+  <link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/how-icons-are-made/">
+  <!-- /i18n:alternates -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css?v=20260821b">
+  <link rel="stylesheet" href="/how-icons-are-made/how-icons-are-made.css?v=20260821b">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "IconFlow 如何制作图标",
+    "description": "IconFlow 方法论：用户任务简报、概念发散、可编辑 SVG、精确的原生尺寸渲染、检查、评分审查、绑定源文件的 receipt，以及透明的成本模型。",
+    "url": "https://ai-iconflow.com/zh-hans/how-icons-are-made/",
+    "inLanguage": "en",
+    "about": {
+      "@id": "https://ai-iconflow.com/zh-hans/#source"
+    },
+    "isPartOf": {
+      "@id": "https://ai-iconflow.com/zh-hans/#website"
+    }
+  }
+</script>
+  <script src="/app.js?v=20260821b" defer></script>
+</head>
+<body class="method-body">
+  <a class="skip-link" href="#main">跳至内容</a>
+
+  <header class="site-header" data-header>
+  <a class="brand" href="/zh-hans/" aria-label="IconFlow 首页">
+   <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
+   <span>IconFlow</span></a>
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="打开导航" data-label-close="关闭导航">
+   <span class="sr-only">切换导航</span> <span></span><span></span></button>
+  <nav id="site-nav" class="site-nav" aria-label="主导航">
+   <a href="#pipeline">流水线</a>
+   <a href="#brief">简报</a>
+   <a href="#svg">SVG</a>
+   <a href="#check">检查</a>
+   <a href="#review">审查</a>
+   <a href="#cost">成本</a>
+   <a href="/gallery/">画廊</a>
+   <a href="/zh-hans/getting-started/">快速开始</a>
+  </nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="语言"><a lang="en" hreflang="en" translate="no" href="/how-icons-are-made/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/how-icons-are-made/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/how-icons-are-made/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/how-icons-are-made/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/how-icons-are-made/" aria-current="true">简体</a></nav><!-- /i18n:switch -->
+  </header>
+
+  <main id="main">
+  <section class="method-hero section-shell">
+   <div class="method-hero-copy reveal">
+    <p class="eyebrow"><span class="status-dot"></span> 方法论 · 工作是如何完成的</p>
+    <h1>IconFlow 如何<br>制作<em>图标。</em></h1>
+    <p>不是一句提示词加一张图。而是一份产品简报、多方案竞选、1024 网格上的单个可编辑 SVG、人们真实所见尺寸下的精确渲染、机械检查、设计师的评分审查，以及将批准结果与确切源文件绑定的 receipt。每一步都通俗易懂，每项主张旁都有真实的产出文件佐证。</p>
+    <ul class="hero-contract" aria-label="页面约定">
+     <li>展示的所有产出文件均在仓库中</li>
+     <li>16px 校样均以 16px 呈现</li>
+     <li>不暗示任何供应商背书</li>
+    </ul>
+   </div>
+
+   <div class="specimen-card reveal" aria-label="IconFlow 产品标识演练范例">
+    <div class="specimen-topline"><span>范例 · Petal Haypile</span><strong>当前标识</strong></div>
+    <div class="specimen-stage">
+     <figure>
+      <img src="/assets/iconflow-mark.svg" width="128" height="128" alt="源自可编辑 SVG 的 IconFlow 标识：一只垂耳鼠兔带着三片花瓣回到干草堆">
+      <figcaption>master.svg · 由浏览器渲染</figcaption>
+     </figure>
+     <figure>
+      <div class="specimen-native">
+       <img src="/assets/proof/icon-128.png?v=petal" width="128" height="128" alt="IconFlow 标识的 128×128 像素精确渲染">
+       <img src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="IconFlow 标识的 16×16 像素精确渲染，按实际尺寸展示">
+       <img class="zoom-16" src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="同一份 16 像素渲染放大 5 倍展示，像素保持清晰锐利">
+      </div>
+      <figcaption>精确 128px · 精确 16px · 16px 放大</figcaption>
+     </figure>
+    </div>
+    <div class="specimen-receipt" aria-label="receipt 摘要">
+     <div><span>check</span><strong>0 条警告</strong></div>
+     <div><span>review</span><strong>6 个评分轴 ≥ 4/5</strong></div>
+     <div><span>ship</span><strong>23 个文件</strong></div>
+    </div>
+   </div>
+  </section>
+
+  <section id="pipeline" class="pipeline-section section-shell">
+   <div class="pipeline-heading reveal">
+    <p class="section-kicker">真实的流水线</p>
+    <h2>九个阶段。<br><span>其中两个需要设计评判。</span></h2>
+    <p>每个阶段都会留下一个文件：简报、概念草图、SVG、警告列表、PNG 图像、打分 receipt、构建产物、案例记录。点击某个阶段即可了解其运作方式。</p>
+   </div>
+   <ol class="pipeline reveal" aria-label="IconFlow 流水线">
+    <li><a href="#brief"><strong>简报</strong><small>用户任务、核心精髓、陈词滥调、目标版面</small></a></li>
+    <li><a href="#diverge"><strong>发散</strong><small>4+ 个概念、陈词滥调过滤、单一标志性手法</small></a></li>
+    <li><a href="#svg"><strong>SVG</strong><small>1024 网格上的可编辑几何图形</small></a></li>
+    <li><a href="#check"><strong>检查</strong><small>安全性、网格、描边、对比度、裁切</small></a></li>
+    <li><a href="#check"><strong>渲染</strong><small>16 与 128 尺寸下的精确 Chromium 像素</small></a></li>
+    <li><a class="is-human" href="#review"><strong>审查</strong><small>六大评分轴，由设计师（人类或智能体）打分</small></a></li>
+    <li><a href="#review"><strong>Receipt</strong><small>将批准结果与源文件哈希绑定</small></a></li>
+    <li><a href="#review"><strong>交付</strong><small>面向每个目标、失败即阻断的构建</small></a></li>
+    <li><a class="is-human" href="#review"><strong>学习</strong><small>案例记录与提炼规则</small></a></li>
+   </ol>
+   <p class="pipeline-legend"><span>机械阶段</span><span class="legend-human">设计评判</span></p>
+  </section>
+
+  <section id="brief" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">阶段 01 · 需求简报</p>
+    <h2>从任务出发，<br><span>而非画面。</span></h2>
+    <p>仅包含名词的提示词（如“帮我画个聊天图标”）产出的只是装饰品。IconFlow 的简报记录的则是使用该产品的人到底想达成什么目的。</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>用户任务置于首位</h3>
+     <p>设计手册要求在动笔前明确五件事：图标类型（应用、favicon、系统托盘）、一词概括的核心精髓、品牌色、个性基调，以及图标在小尺寸下的应用场景。案例集中提炼出的规则直截了当：<em>选择用户的任务，而非品类名词</em>。“规划路线”、“做决策”、“对比”和“侦察”生成的标识，远比“游戏”、“会议”或“旅行”更出色，因为品类名词正是陈词滥调滋生的地方。</p>
+     <h3>随后确定具象名词</h3>
+     <p>在这一体系中，辨识度意味着具体明确。案例集中最出色的标识，<em>本身就是</em>一件具体且具独占性的事物 —— 价格标签、切面宝石、折叠路线图、招财猫 —— 它们的纯黑剪影指代的是某样具体物件，而非抽象品类。文档中指出，渐变色块上放一个孤零零的首字母，是 AI 图标最常见的套路：看似像模像样，实则过目即忘。</p>
+     <p>对于涉及隐私敏感的产品，简报会精简为一个中立的任务动词，而公开案例记录则仅保留视觉证据，剔除品类名词、仓库名称和本地路径。</p>
+     <ul class="doc-links" aria-label="相关文档">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">docs/DESIGN_PLAYBOOK.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>
+     </ul>
+    </div>
+    <aside class="panel reveal is-side" aria-label="简报包含的内容">
+     <div class="panel-head"><span>iconflow.toml · [brief] + [design] + [build]</span><span>可移植</span></div>
+     <dl>
+      <div><dt>用户任务</dt><dd>用户正在取得的进展。来自已交付 Theme World 的范例：“让一段共同的小小仪式感随时间沉淀、触手可及”。</dd></div>
+      <div><dt>本质</dt><dd>能够平息争议的一词定调。Keepsake Knot：“共聚”。Petal Haypile 品牌简报：“聚集”。</dd></div>
+      <div><dt>个性特质</dt><dd>两三个富有张力的特质 ——“温暖、具触感、沉稳笃定”。</dd></div>
+      <div><dt>应避免的陈词滥调</dt><dd>写明那些显而易见的品类符号以便直接否决：爱心、对话气泡、相连圆环。</dd></div>
+      <div><dt>标志性手法假说</dt><dd>让标识具备独占辨识度的关键构想：动笔前提出，完成后验证。</dd></div>
+      <div><dt>目标平台</dt><dd>仅限实际存在的版面：Web、PWA、桌面端、系统托盘。后续 receipt 将与这组确切版面严格绑定。</dd></div>
+     </dl>
+    </aside>
+   </div>
+  </section>
+
+  <section id="diverge" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">阶段 02 · 概念发散</p>
+     <h2>四个构想，<br><span>随后确定单一手法。</span></h2>
+     <p>这是大多数 AI 制作图标会跳过的阶段，也是它们千篇一律的原因。IconFlow 将其设为必经环节，并提供了可能通不过的严苛测试。</p>
+    </div>
+    <div class="method-columns">
+     <div class="method-prose reveal">
+      <h3>从不同视角进行发散</h3>
+      <p>针对同一份简报，设计师（人类或智能体）需从不同视角草绘至少四个概念 —— 具象实物、隐喻、核心动词、<em>融入</em>实物的字母字形、抽象系统，或是负空间双关图像。凡剪影结构雷同的两个概念只能算作一个。</p>
+      <h3>过滤陈词滥调</h3>
+      <p>一份成文的陈词滥调对照表将每个产品品类与其被滥用的符号、以及应当探索的替代方向一一对应。规则非常简单：如果你的概念落在了“避免使用”单元格中，设计就没有达标。团队规范还明确拒绝用大脑、机器人、闪光星芒、魔杖、神经元节点或默认蓝紫渐变来代表“AI”。</p>
+      <h3>引入一项标志性手法并加以测试</h3>
+      <p>锁定一种手法 —— 双关图形、独占几何形态、融合字母字形、意想不到的裁切、专属色彩搭配，或单一重点元素。随后在任何精细化打磨前先通过四项硬性测试：在 128px 与 16px 下的<strong>指物命名测试</strong>（通过的标准是能说出一个具象名词）、去除色彩后的<strong>剪影测试</strong>、<strong>可遮罩测试</strong>（核心细节必须落在中心 40% 半径的安全圆内），以及与 8 个竞品 favicon 并列对比的<strong>横排测试</strong>。最终入围方案会借助 <code>iconflow compare</code> 进行并排竞选对决，优胜者由轮廓形状决定，而非 128px 下的华丽色彩。</p>
+      <ul class="doc-links" aria-label="相关文档">
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/CONCEPTING.md">docs/CONCEPTING.md</a></li>
+      </ul>
+     </div>
+     <div class="reveal is-side">
+      <figure class="figure-wide">
+       <div class="figure-art"><img src="/assets/concept-bake.png?v=petal" width="1346" height="682" alt="IconFlow 概念竞选对比表，在原生尺寸及剪影状态下对比三款候选标识" loading="lazy"></div>
+       <figcaption><strong>真实的竞选对比表。</strong>三款入围方案均以实际尺寸及剪影形式渲染，确保色彩无法掩盖平庸的造型轮廓。</figcaption>
+      </figure>
+      <div class="figure-strip">
+       <figure>
+        <div class="figure-art"><img class="is-svg" src="/assets/worlds/keepsake-knot.svg" width="128" height="128" alt="Keepsake Knot 图标：两条粗细不一的青色与珊瑚色色带交织环绕着一个偏移开口" loading="lazy"></div>
+        <figcaption><strong>Keepsake Knot — 最终胜出的标志性手法。</strong>“两条不等宽色带共享一个偏移开口。”首轮方案因交叠处看起来像电源符号而被否决。</figcaption>
+        <p class="figure-links"><a href="/assets/worlds/keepsake-knot.svg">源 SVG</a><a href="/assets/worlds/keepsake-knot-review.json">Receipt JSON</a></p>
+       </figure>
+       <figure>
+        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/keepsake-knot-128.png" width="128" height="128" alt="Keepsake Knot 128 像素精确渲染" loading="lazy"><img src="/assets/worlds/keepsake-knot-16.png" width="16" height="16" alt="Keepsake Knot 16 像素实际尺寸精确渲染" loading="lazy"></div></div>
+        <figcaption><strong>两条色带在 16px 下依然清晰可辨。</strong>16px 切片是 1:1 的精确原生 PNG，绝非放大图。</figcaption>
+       </figure>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="svg" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">阶段 03 · SVG</p>
+    <h2>几何图形经由亲手编写，<br><span>而非从噪点中生成。</span></h2>
+    <p>唯一的真实之源是一个精简且可编辑的 SVG。它可以随时被读取、比对差异、计算哈希，并重新构建为各类目标产物。</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>在 1024 网格上直接编写绘制</h3>
+     <p>每份主文件均在 <code>viewBox="0 0 1024 1024"</code> 下绘制。在 16 像素下，64 个网格单位约折合 1 个输出像素，因此预算一目了然：每个承载创意的重点元素分配约 2 个像素（≈128 个单位），每一处必要的间距至少占 1 个像素，而细于边长约 2.3% 的描边则预估会直接消失。核心内容需保持在中心约 80% 的安全区域内；任何必须在自适应裁切中幸存的内容则必须留在中心安全圆内。一个 16px 图标的空间只够表达一个核心构思，且两个不透明的前景元素绝不可相互交叉。</p>
+     <h3>二十种技法脚手架，零成品 Logo</h3>
+     <p><code>iconflow new &lt;preset&gt;</code>从二十种结构各异的执行语法之一开始 —— 扁平几何、线条标识、双色裁切、像素网格、彩绘玻璃、木刻版画等 —— 每一套都包含一套 16px 留存规则和单色系统托盘策略。它们特意共用相同的内置基准构架；真实的图标仍需将其替换为特定产品的具象物体，然后跑通整个审查关卡。</p>
+     <h3>在合集需要规模化时采用确定性 Python</h3>
+     <p>合集并不会改变方法论；它们只是将可复现的部分写成脚本。包含 20 个研究案例的 Social Signals 集合使用带种子的 <code>random.Random(seed).shuffle</code> 分配风格，在任何渲染前均会对照目录进行核验，并将每个研究的路径几何保存在其构建脚本中。包含 400 个单元格的 Emoji Matrix 由 <code>scripts/build_emoji_matrix.py</code> 构建，它对每个单元格重新运行 <code>check</code>，为每份校样提取指纹，只要缺少一份 receipt、摘要或审查裁决，就会严格阻断构建。规模化换来的是可重复性与可审计性 —— 绝非降低标准的通行证。</p>
+     <ul class="doc-links" aria-label="相关文档">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/STYLE_CATALOG.md">docs/STYLE_CATALOG.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/SVG_TECHNIQUES.md">docs/SVG_TECHNIQUES.md</a></li>
+      <li><a href="/gallery/social-signals/">/gallery/social-signals/</a></li>
+      <li><a href="/gallery/emoji-matrix/all/">/gallery/emoji-matrix/all/</a></li>
+     </ul>
+    </div>
+    <div class="reveal is-side">
+     <figure class="figure-wide">
+      <div class="figure-art"><img src="/assets/style-gallery.png" width="1518" height="836" alt="汇集全部二十种 IconFlow 技法脚手架的单张图表，每种均附带其原生 16 像素校样" loading="lazy"></div>
+      <figcaption><strong>二十种技法展示表。</strong>与构建过程使用相同的网络隔离 Chromium 进行渲染；每个图块都带有其专属的原生 16px 校样。</figcaption>
+     </figure>
+    </div>
+   </div>
+  </section>
+
+  <section id="check" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">阶段 04–05 · 检查与渲染</p>
+     <h2>精确像素，<br><span>机械检查警告。</span></h2>
+     <p>IconFlow 使用版本锁定的 Playwright Chromium 进行渲染，随后针对渲染所见画面运行一套具体的检查清单。</p>
+    </div>
+    <div class="method-columns">
+     <div class="method-prose reveal">
+      <h3>渲染过程完全隔离且可复现</h3>
+      <p>渲染器将 SVG 视为不可信输入。Chromium 在运行时阻断了网络与 Service Worker、禁用了页面 JavaScript、移除或冻结了动态/动画内容，并将色彩空间（sRGB）、区域语言及所在时区完全固定。输入内容被限制在 4 MiB、50,000 个元素及 128 层嵌套深度以内，且坚决拒绝 DTD 或实体声明。本页面展示的 16px 和 128px PNG 便是这些精确渲染的实物，而非大图二次采样缩放的结果。</p>
+      <h3><code>check</code> 真正测试的内容</h3>
+      <ul>
+       <li><strong>SVG 安全性：</strong>script、iframe、object、embed、audio、video 及动画元素、事件处理程序、外部 <code>href</code>/<code>src</code>、CSS <code>url()</code> 与 <code>@import</code>。</li>
+       <li><strong>网格：</strong>缺少 <code>viewBox</code>，或者不是正方形。</li>
+       <li><strong>描边底线：</strong>任何细于 viewBox 宽度 2.3% 的描边。</li>
+       <li><strong>16px 覆盖率：</strong>画布覆盖率低于 6% 则判定过小；带有不透明直角的正方形会被圆形裁切截断。</li>
+       <li><strong>对比度：</strong>16px 下在白底与黑底上的亮度跨度，以及 32px 下在中灰底色上的亮度跨度。</li>
+       <li><strong>可遮罩审查：</strong>在 512px 可遮罩资源中，检测到的细节超过 8% 落在 40% 半径的安全圆之外。</li>
+       <li><strong>辨识度提示：</strong>未转曲的实时 <code><text></code> 字形 —— 通常是直接键入的花体字母组合，且通过构建机器的字体进行渲染。</li>
+      </ul>
+      <p>配合 <code>--tray-svg tray.svg</code>、<code>check</code> 与 <code>review</code>，会增加一项建议性质的系统托盘模板审查：用于报告完全未保留彩色标识任何特征的 macOS 模板。它特意未纳入默认的 <code>check</code> 中，也绝不阻断 <code>ship</code>，因为其审查的是关联变体而非主文件本身。</p>
+      <h3>剪影与相似度是两份独立的校样</h3>
+      <p>每个经过审查的案例还会生成一份 128px 视觉剪影，因为辨识度是在剥离色彩的情况下评判的。针对 400 格矩阵，相似度报告还会附带精确的 PNG 哈希以及 64 位 Alpha 和亮度差异哈希；若两者的 Alpha 加亮度汉明距离总和在 12 以内（含义相同）或 6 以内（含义不同），将被标记为高风险，而完全重复的图案将直接阻断集成。脚本中将此距离称为“用于视觉检查的分流信号，而非准入评分”。</p>
+      <ul class="doc-links" aria-label="相关文档">
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/iconflow/qa.py">iconflow/qa.py</a></li>
+       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/WORKFLOW.md">docs/WORKFLOW.md</a></li>
+      </ul>
+     </div>
+     <div class="reveal is-side">
+      <div class="figure-strip">
+       <figure>
+        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/catnap-focus-128.png" width="128" height="128" alt="Catnap Focus 128 像素精确渲染：一只蜷缩熟睡的猫" loading="lazy"><img src="/assets/worlds/catnap-focus-16.png" width="16" height="16" alt="Catnap Focus 16 像素实际尺寸精确渲染" loading="lazy"></div></div>
+        <figcaption><strong>精确渲染。</strong>Catnap Focus 在 128px 与 16px 下的图像，直接输出自版本锁定的 Chromium。</figcaption>
+       </figure>
+       <figure>
+        <div class="figure-art"><img src="/assets/worlds/catnap-focus-silhouette-128.png" width="128" height="128" alt="Catnap Focus 剥离色彩后的视觉剪影，依然清晰可辨为一只蜷睡的猫" loading="lazy"></div>
+        <figcaption><strong>剪影校样。</strong>剥离色彩；指代的名词必须依然可辨。这正是读取辨识度评分所依据的样本条。</figcaption>
+       </figure>
+      </div>
+      <div class="panel">
+       <div class="panel-head"><span>终端</span><span>零警告通过检查</span></div>
+       <pre><code>$ python -m iconflow check master.svg
+OK — no automated warnings. Still do the visual review.</code></pre>
+       <p class="panel-note">警告意味着源文件内容需要修复，而不是去重新开启某项渲染器特性。<code>ship</code> 会直接拒绝记录了警告的 receipt。</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="review" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">阶段 06–09 · 审查、receipt、交付、学习</p>
+    <h2>人工完成评分，<br><span>哈希永久记录。</span></h2>
+    <p>机械检查排查的是机械性风险。标识本身是否足够优秀，则取决于人眼对真实像素的审视，并记录在构建流程可随时验证的 receipt 中。</p>
+   </div>
+   <div class="method-columns">
+    <div class="method-prose reveal">
+     <h3>人工视觉审查</h3>
+     <p>审查者打开索引图和 Review Lab：横行涵盖白底、深色底与中灰底；纵列展示从 16px 到 256px 的实际尺寸；同时包含像素放大比对条、Alpha 轮廓足迹、视觉剪影、自适应裁切预览，以及所选的各项目标转换输出。从六大评分轴进行 1–5 分打分：16px 可读性、辨识度、平衡与网格、色彩与对比度、可缩放性、工艺。任何单项低于 4 分均不得交付，且辨识度是一道硬性门槛 —— 平庸通用的剪影无论色彩多么漂亮，最高也只能打 3 分。</p>
+     <h3>否决与迭代属于常态</h3>
+     <p>若有任何评分轴低于 4 分，审查者需指明最弱的一项，进行一次影响最大的单项修改，然后重新渲染。文档预期通常需经历两到三轮迭代。100 例画廊版本在 111 个候选方案中准入了 100 个，明确否决了 11 个表现较弱、辨识度不足或重复的方向案；Keepsake Knot 的 receipt 中就明确记录了其第一轮方案因容易被误认为电源符号而被否决。</p>
+     <h3>绑定源文件的 receipt，失败即阻断的交付</h3>
+     <p>导出的 receipt 包含确切 SVG 的 <code>source_sha256</code>，以及一份将项目、确切目标格式集、色彩、Electron 圆角半径、配色方案、系统托盘模式和托盘源哈希紧密绑定的 <code>contract_sha256</code>。<code>iconflow ship</code> 会同时验证两者，要求警告列表为空、<code>status: ready</code> 以及六项评分均至少达到 4 分，随后在写入任何文件前重新运行自动化 QA。一旦修改 SVG 的内容（摘要计算仅忽略行尾换行符），receipt 即告失效。</p>
+     <h3>案例集沉淀</h3>
+     <p>每个交付的图标都以 <code>iconflow case new</code> 结束：首轮与最终评分、避开的陈词滥调、标志性手法，以及一条可复用的经验教训。<code>case stats</code> 会揭示最常出现的薄弱评分轴与团队内部陈词滥调；这些经验被提炼为 <code>docs/LEARNINGS.md</code> 中带编号的规则（撰写本文时共有 54 条），也是下一份简报必须率先阅读的内容。未经记录的图标无法给系统带来任何经验。</p>
+     <ul class="doc-links" aria-label="相关文档">
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/REVIEW_CHECKLIST.md">docs/REVIEW_CHECKLIST.md</a></li>
+      <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>
+      <li><a href="/gallery/">/gallery/ · 100 个准入案例</a></li>
+     </ul>
+    </div>
+    <div class="reveal is-side">
+     <div class="panel">
+      <div class="panel-head"><span>keepsake-knot-review.json</span><span>摘录</span></div>
+      <pre><code>"source_sha256": "f27c303a…0aaf305",
+"contract_sha256": "14d5aeb4…261de76",
+"user_job": "keep a small shared ritual
+             tangible over time",
+"essence": "together",
+"signature_device": "two unequal bands
+             share one offset opening",
+"cliches": ["heart", "chat bubble",
+            "linked circles"],
+"warnings": [],
+"scores": {"legibility": 4,
+  "distinctiveness": 4, "balance": 4,
+  "color": 5, "scalability": 4, "craft": 4},
+"notes": "Pass 1 rejected the power-sign
+  reading. …",
+"status": "ready"</code></pre>
+      <p class="panel-note">完整文件已公开：<a href="/assets/worlds/keepsake-knot-review.json">keepsake-knot-review.json</a>。其哈希值与 <a href="/assets/worlds/keepsake-knot.svg">keepsake-knot.svg</a> 严格匹配；网站测试在每次构建时都会重新验证这一点。</p>
+     </div>
+     <div class="panel">
+      <div class="panel-head"><span>ship 验证的内容</span><span>在写入文件之前</span></div>
+      <ol>
+       <li>receipt schema 及当前 SVG 的完整 SHA-256。</li>
+       <li>契约摘要：项目、确切目标格式集、色彩、圆角半径、配色方案、系统托盘模式、托盘源哈希。</li>
+       <li>空的警告列表以及 <code>status: ready</code>。</li>
+       <li>所有评分轴齐全且至少为 4。</li>
+       <li>立即对源文件执行第二次自动化 QA 运行。</li>
+      </ol>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="vector-vs-raster" class="method-section is-alt">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">关键区别</p>
+     <h2>AI 创作矢量，<br><span>而非提示词转光栅。</span></h2>
+     <p>两者都可以涉及 AI。它们产出不同的对象，以不同的方式失效，并留下截然不同的证据。</p>
+    </div>
+    <div class="compare-table reveal">
+     <table>
+      <thead><tr><th scope="col">问题</th><th scope="col">提示词转光栅图像生成器</th><th scope="col">IconFlow 的 AI 创作矢量工作流</th></tr></thead>
+      <tbody>
+       <tr><th scope="row">源文件是什么？</th><td>从模型采样的位图。提示词并非文件本身。</td><td class="is-us">基于 1024 网格的可编辑 SVG，在系统托盘变体需要之处带有语义化分组。文件即设计。</td></tr>
+       <tr><th scope="row">可以只修改一处吗？</th><td>重新生成并祈祷；微小的修改会导致整张图像发生偏移。</td><td class="is-us">移动节点、加宽间隙、重染色带、重新构建每个目标。</td></tr>
+       <tr><th scope="row">在 16px 下效果如何？</th><td>事后降采样；细节沦为糊团或噪点。</td><td class="is-us">面向小尺寸设计：像素预算优先，在批准前审查精确的 16px 渲染结果。</td></tr>
+       <tr><th scope="row">辨识度从何而来？</th><td>模型的先验倾向，这会将其拉向类别平均水平。</td><td class="is-us">强制发散步骤、陈词滥调过滤器，以及可能通不过的剪影测试。</td></tr>
+       <tr><th scope="row">证据是什么？</th><td>一张图片、一段提示词，或许还有一个随机种子。</td><td class="is-us">简报、入围方案、警告列表、精确渲染图、绑定源文件哈希的评分 receipt、案例记录。</td></tr>
+       <tr><th scope="row">引擎会调用模型吗？</th><td>总是会；这就是该产品本身。</td><td class="is-us">从不。渲染器与构建过程均为本地 Python 加 Chromium；只有设计智能体（如果你使用的话）才会产生模型用量。</td></tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+  </section>
+
+  <section id="clean-room" class="method-section section-shell">
+   <div class="method-heading reveal">
+    <p class="section-kicker">边界</p>
+    <h2>净室底线<br><span>及其不作承诺之处。</span></h2>
+    <p>IconFlow 的图标集将熟悉的需求与含义转化为原创几何图形。这是一种设计方法和出处规范，而非法律保证。</p>
+   </div>
+   <div class="boundary-grid reveal">
+    <article class="boundary-card is-do">
+     <h3>此处“净室”的含义</h3>
+     <ul>
+      <li>预设或画廊中不包含任何第三方 SVG 路径、代码、图像、字体、调色板、文案、品牌标识或商业外观；研究上游图标集仅为吸取经验，绝无复制抄袭。</li>
+      <li>对于 Emoji Matrix，绝无复制、修改、描摹、采样或嵌入任何厂商的 Emoji 原作；码位和短名称仅作为语义引用。</li>
+      <li>Social Signals 研究从通用的用户任务以及脱离任何平台商业外观的具体名词出发；官方剪影绝不与官方品牌色彩结合，公开文案也绝不会将平台名称与研究标识配对。</li>
+      <li>原创故事、角色及游戏案例不得模仿知名艺术家、工作室、系列作品、在世创作者或商标。</li>
+     </ul>
+    </article>
+    <article class="boundary-card is-dont">
+     <h3>明确不作声明的事项</h3>
+     <ul>
+      <li>这些图标集均为独立作品且无附属关系；本网站上的任何内容均未获得任何平台或 Emoji 厂商的认可，亦与其无关联。</li>
+      <li>练习样本并非交付的品牌标识，亦不能替代官方 Logo。</li>
+      <li>视觉差异不等于法律合规许可。残留风险包括未被发现的第三方商标、特定司法管辖区的混淆分析以及未来的品牌变更。</li>
+      <li>承载商业价值的产品标识在采纳前应进行正式的商标检索与专业法律审查。IconFlow 使设计工作公开可查，但并不为其提供法律许可。</li>
+     </ul>
+    </article>
+   </div>
+   <p class="disclaimer reveal"><strong>关于 IconFlow 自身的标识。</strong> Petal Haypile（花瓣干草堆）——带着三片花瓣回到干草储藏处的垂耳鼠兔——是当前选定的、特意保留修改余地的临时产品标识，以便在永久标识尚未确定期间使用。代码遵循 Apache-2.0；IconFlow 名称与标识受项目<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">商标政策</a>约束。相关文档：<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/SOCIAL_SIGNALS.md">SOCIAL_SIGNALS.md</a>、<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/EMOJI_MATRIX.md">EMOJI_MATRIX.md</a>、<a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/GALLERY.md">GALLERY.md</a>。</p>
+  </section>
+
+  <section id="cost" class="cost-section">
+   <div class="section-shell">
+    <div class="method-heading reveal">
+     <p class="section-kicker">透明的成本模型</p>
+     <h2>算力成本低廉。<br><span>专业判断才是真正的成本。</span></h2>
+     <p>此处特意不列出具体金额。确切数字取决于你的智能体所使用的模型或 API、托管位置以及当时的专业服务费用。以下将阐述成本如何随规模变化及其原因。</p>
+    </div>
+    <ul class="cost-facts reveal" aria-label="成本来源">
+     <li><span>本地 / 离线</span><strong>渲染、检查、构建</strong><p>在一次性下载 Python 依赖项和 Playwright Chromium 后，<code>compare</code>、<code>check</code>、<code>review</code> 和 <code>ship</code> 均可在你的机器上本地运行，无需 API 密钥，无需调用图像模型，且渲染期间无需联网。重新构建仅需数秒本地算力。</p></li>
+     <li><span>可能会产生模型用量</span><strong>设计智能体</strong><p>如果由 AI 智能体来撰写简报、发散概念并编写 SVG，该对话将由你所选的客户端与模型计费——IconFlow 本身不进行任何模型调用。迭代轮次、方案比选以及读取审查表都会增加 Token 消耗；含糊不清的简报同样如此。</p></li>
+     <li><span>可能会产生费用</span><strong>部署与合规审查</strong><p>托管产出成果通常是最小的开销：在你已付费的任意托管平台上部署静态网站或应用包。而商业标识的商标检索与法律审查是一笔独立的专业费用，没有任何工具包能够替代。</p></li>
+    </ul>
+    <div class="method-prose reveal">
+     <h3>五个层级与相对成本</h3>
+     <p>决定成本的是项目范围，而非引擎运行时间。成本计量表是跨越这几个层级的相对刻度；单凭算力成本绝不能代表一套成型品牌标识的真实成本。</p>
+    </div>
+    <ol class="tier-list reveal" aria-label="成本层级">
+     <li class="tier">
+      <div><h3>快速练习样本<small>一次脚手架生成，一次检查</small></h3><p>从技法预设开始，将现成元素替换为一个产品对象，运行 <code>check</code>。验证工具链和初步构想。</p></div>
+      <div><span class="tier-label">产物</span><p>一个 SVG、一份无警告列表，以及原生 16px 和 128px 渲染图。</p></div>
+      <div><span class="tier-label">审查深度</span><p>在样张上自检；不导出 receipt。</p></div>
+      <div><span class="tier-label">迭代触发因素</span><p>描边下限与对比度警告；在 16px 尺寸下失效的元素。</p></div>
+      <div class="tier-cost"><span class="tier-label">相对成本</span><strong>数分钟</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></span><p>本地算力；若由智能体驱动，模型用量微乎其微。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>原创生产级图标<small>标准循环流程</small></h3><p>简报、四个概念方案、方案比选、单个主 SVG、检查、评分审查、receipt、交付、案例记录——针对单一产品及其网页端目标产物。</p></div>
+      <div><span class="tier-label">产物</span><p>iconflow.toml、入围方案与比选表、master.svg、审查表与 receipt、favicon/PWA 套件、案例集条目。</p></div>
+      <div><span class="tier-label">审查深度</span><p>由设计师在实际尺寸与剪影模式下对全部六个评分轴进行审查；通常需进行两到三轮。</p></div>
+      <div><span class="tier-label">迭代触发因素</span><p>辨识度低于 4、与系统图标撞车、产生意外的二重误读。</p></div>
+      <div class="tier-cost"><span class="tier-label">相对成本</span><strong>数小时</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><p>设计判断与审查时间占主导，智能体用量次之，算力开销可忽略不计。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>多版面品牌标识家族<small>网页端、桌面端、系统托盘</small></h3><p>生产循环流程，外加关联的纯标识系统托盘源文件、平台特定裁切、桌面端资源包，以及绑定所有产物的一致性合约哈希。</p></div>
+      <div><span class="tier-label">产物</span><p>master.svg 与 tray.svg、系统托盘模板审查、ICO/ICNS/PNG 家族、manifest 代码片段，以及覆盖全套目标产物的一份 receipt。</p></div>
+      <div><span class="tier-label">审查深度</span><p>审查每个目标变换：自适应裁切、桌面端圆角、在浅色与深色菜单栏下的菜单栏模板表现。</p></div>
+      <div><span class="tier-label">迭代触发因素</span><p>系统托盘模板未保留彩色标识的任何特征；细节超出可遮罩安全圆形区域。</p></div>
+      <div class="tier-cost"><span class="tier-label">相对成本</span><strong>数小时至一天</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><p>增加了审查版面，而非增加算力；每个目标产物都会增加人工审查工作量。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>经深度调研的品牌标识<small>定位、多轮推演、合规审查</small></h3><p>产品调研、与利益相关者进行数轮概念推演、品牌系统规范文档，以及在单次绑定源文件的事务中将单一标识推广至整个网站与构建流程。</p></div>
+      <div><span class="tier-label">产物</span><p>包含上述所有产物，外加品牌系统文档、调色板与留白规范、设计历史阐述以及商标审查结果。</p></div>
+      <div><span class="tier-label">审查深度</span><p>多位审查者与多轮审查；对早期标识方案的明确否决；在标识承载商业价值时进行专业合规审查。</p></div>
+      <div><span class="tier-label">迭代触发因素</span><p>定位变更、利益相关者意见分歧、合规审查发现的问题、可回滚性要求。</p></div>
+      <div class="tier-cost"><span class="tier-label">相对成本</span><strong>数天至数周</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><p>专业人员时间与法律服务费用占主导；模型和算力开销微不足道。</p></div>
+     </li>
+     <li class="tier">
+      <div><h3>大型生成与精选图标集<small>数百个单元格</small></h3><p>以脚本和固定随机种子批量生成源文件；在失败即阻断的集成之前，每个单元格仍须通过检查、渲染、剪影、相似度分流与视觉审查。</p></div>
+      <div><span class="tier-label">产物</span><p>每个单元格的 SVG、渲染图、剪影和 receipt；相似度报告；包含集合级别摘要的目录；一张合成的总览海报。</p></div>
+      <div><span class="tier-label">审查深度</span><p>每个单元格的样张表、对抗式精选流程、替换薄弱单元格、一份集合层面的决策文件。</p></div>
+      <div><span class="tier-label">迭代触发因素</span><p>感知上的高度相似重复、重复的结构构造、风格语法漂移、在 16px 下表现薄弱的单元格。</p></div>
+      <div class="tier-cost"><span class="tier-label">相对成本</span><strong>数天，主要用于审查</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><p>在拥有数百个单元格时，模型用量开始变得显著；但人工精选所耗费的时间仍然超过它。</p></div>
+     </li>
+    </ol>
+    <p class="cost-footnote reveal"><strong>请将该计量表理解为比例而非固定价格。</strong>模型用量、托管与专业服务费用均由第三方按浮动费率收取；IconFlow 本身不加收任何费用，且其引擎在本地运行。在所有层级中，成型品牌标识的主要成本都是人工用于决策和审查的时间——而这恰恰是本套方法坚决不会跳过的部分。</p>
+   </div>
+  </section>
+
+  <section class="method-cta section-shell reveal">
+   <div><p class="section-kicker">先睹为快，随心运行</p><h2>此处的每项陈述<br>都有真实文件作为依据。</h2></div>
+   <div><p>浏览已收录的案例及其原生校样和 receipt，或者在自己的机器上运行 5 分钟引擎校样，亲自检查每个像素。</p><div class="start-actions"><a class="button button-primary" href="/gallery/">打开画廊 <span aria-hidden="true">→</span></a><a class="button button-quiet" href="/zh-hans/getting-started/">Getting Started</a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">阅读文档</a></div></div>
+  </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+  <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>一份主文件。覆盖每个版面。</span></div></div>
+  <p>Apache-2.0 代码 · IconFlow 标识受商标政策约束。</p>
+  <nav aria-label="页脚导航"><a href="/zh-hans/">首页</a><a href="/gallery/">画廊</a><a href="/zh-hans/getting-started/">指南</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">文档</a><a href="https://github.com/snowyukitty/ai-iconflow">源码</a></nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="语言"><a lang="en" hreflang="en" translate="no" href="/how-icons-are-made/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/how-icons-are-made/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/how-icons-are-made/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/how-icons-are-made/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/how-icons-are-made/" aria-current="true">简体</a></nav><!-- /i18n:switch -->
+  </footer>
+</body>
+</html>

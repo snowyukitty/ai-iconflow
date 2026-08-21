@@ -17,14 +17,22 @@
   <meta property="og:image:alt" content="IconFlow: Design. Review. Ship. One semantic SVG becomes a proven icon family; the Petal Haypile mark beside a review-gate-passed badge.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://ai-iconflow.com/">
+  <!-- i18n:alternates -->
+  <link rel="alternate" hreflang="en" href="https://ai-iconflow.com/">
+  <link rel="alternate" hreflang="es" href="https://ai-iconflow.com/es/">
+  <link rel="alternate" hreflang="ja" href="https://ai-iconflow.com/ja/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://ai-iconflow.com/zh-hant/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://ai-iconflow.com/zh-hans/">
+  <link rel="alternate" hreflang="x-default" href="https://ai-iconflow.com/">
+  <!-- /i18n:alternates -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="image" href="/assets/iconflow-mark.svg">
-  <link rel="stylesheet" href="/styles.css?v=20260821">
-  <link rel="stylesheet" href="/playground.css?v=20260821">
-  <link rel="stylesheet" href="/archive.css?v=20260821">
+  <link rel="stylesheet" href="/styles.css?v=20260821b">
+  <link rel="stylesheet" href="/playground.css?v=20260821b">
+  <link rel="stylesheet" href="/archive.css?v=20260821b">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -50,9 +58,9 @@
       ]
     }
   </script>
-  <script src="/app.js?v=20260821" defer></script>
-  <script src="/playground.js?v=20260821" defer></script>
-  <script src="/archive.js?v=20260821" defer></script>
+  <script src="/app.js?v=20260821b" defer></script>
+  <script src="/playground.js?v=20260821b" defer></script>
+  <script src="/archive.js?v=20260821b" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -62,7 +70,7 @@
       <img src="/assets/iconflow-mark.svg" width="34" height="34" alt="">
       <span>IconFlow</span>
     </a>
-    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Open navigation" data-label-close="Close navigation">
       <span class="sr-only">Toggle navigation</span>
       <span></span><span></span>
     </button>
@@ -75,6 +83,7 @@
       <a href="/how-icons-are-made/">Method</a>
       <a href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="Language"><a lang="en" hreflang="en" translate="no" href="/" aria-current="true">EN</a><a lang="es" hreflang="es" translate="no" href="/es/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/">简体</a></nav><!-- /i18n:switch -->
   </header>
 
   <main id="main">
@@ -107,11 +116,11 @@
           </div>
           <div class="gate-orbit"><span></span></div>
         </div>
-        <label class="hero-rail" for="hero-scrub">
+        <label class="hero-rail" for="hero-scrub" data-label-rail="drag · 16px → source">
           <span class="sr-only">Preview the mark at a native size, from 16 pixels to the vector source</span>
-          <input id="hero-scrub" class="hero-scrub" type="range" min="0" max="6" step="1" value="6" data-hero-scrub aria-valuetext="vector source">
+          <input id="hero-scrub" class="hero-scrub" type="range" min="0" max="6" step="1" value="6" data-hero-scrub aria-valuetext="vector source" data-label-vector="vector source" data-label-pixels="{size} pixels">
         </label>
-        <div class="stage-label stage-label-bottom" data-hero-size aria-live="polite">review gate passed · 6/6</div>
+        <div class="stage-label stage-label-bottom" data-hero-size aria-live="polite" data-label-gate="review gate passed · 6/6" data-label-native="native {size} × {size} px · exact pixels">review gate passed · 6/6</div>
         <div class="size-stack" aria-hidden="true">
           <img src="/assets/proof/icon-64.png?v=petal" width="64" height="64" alt="">
           <img src="/assets/proof/icon-32.png?v=petal" width="32" height="32" alt="">
@@ -137,7 +146,7 @@
         <h2 id="archive-wall-title" class="sr-only">The living archive</h2>
         <p class="archive-wall-caption"><strong>137 original marks</strong>, drawn with this method while IconFlow searched for its own logo. Every one opens in the archive with its exact 16px proof.</p>
         <div class="archive-wall-actions">
-          <button class="marquee-toggle" type="button" data-marquee-toggle aria-pressed="false">Pause</button>
+          <button class="marquee-toggle" type="button" data-marquee-toggle aria-pressed="false" data-label-pause="Pause" data-label-resume="Resume">Pause</button>
           <a class="button button-quiet" href="/archive/">Open the archive <span aria-hidden="true">→</span></a>
         </div>
       </div>
@@ -230,7 +239,7 @@
                 Simulate source edit
               </label>
             </div>
-            <div class="receipt-status is-approved" data-receipt-status role="status" aria-live="polite" aria-atomic="true">
+            <div class="receipt-status is-approved" data-receipt-status role="status" aria-live="polite" aria-atomic="true" data-label-approved-title="Source-bound approval" data-label-stale-title="Receipt rejected" data-label-approved-copy="Current SVG matches the reviewed hash." data-label-stale-copy="The SVG changed after review. Ship is blocked.">
               <span class="receipt-icon" aria-hidden="true"></span>
               <div><strong data-receipt-title>Source-bound approval</strong><small data-receipt-copy>The receipt is JSON bound to the SVG hash; ship refuses a mismatch.</small></div>
             </div>
@@ -318,7 +327,7 @@
             <figure><canvas data-remix-silhouette width="128" height="128" role="img" aria-label="Remix silhouette with color removed"></canvas><figcaption>silhouette · color removed</figcaption></figure>
             <figure><canvas data-remix-template width="128" height="128" role="img" aria-label="Remix alpha template as a macOS menu bar would see it"></canvas><figcaption>alpha template · menu bar</figcaption></figure>
           </div>
-          <p class="remix-note" data-template-note>Alpha template = a featureless rounded square. This is why the brand ships a linked mark-only tray source.</p>
+          <p class="remix-note" data-template-note data-label-card-on="Alpha template = a featureless rounded square. This is why the brand ships a linked mark-only tray source." data-label-card-off="Alpha template keeps the whole silhouette but no interior feature. For a menu bar, cut one identifying feature clean through as a transparent hole (docs/LEARNINGS.md L42).">Alpha template = a featureless rounded square. This is why the brand ships a linked mark-only tray source.</p>
         </div>
 
         <div class="remix-actions">
@@ -329,7 +338,7 @@
             <button class="button button-quiet" type="button" data-remix-copy-brief>Copy agent brief</button>
             <button class="text-button" type="button" data-remix-reset>Reset</button>
           </div>
-          <p class="remix-status" data-remix-status aria-live="polite"></p>
+          <p class="remix-status" data-remix-status aria-live="polite" data-label-render-failed="This remix could not be rendered. Reset and try again." data-label-clipboard-blocked="Clipboard blocked — the text is shown below; select and copy it." data-label-svg-copied="SVG copied. Save it as master.svg." data-label-brief-copied="Agent brief copied. Paste it next to your master.svg." data-label-downloaded="Downloaded master.svg — now run iconflow check / review / ship."></p>
           <textarea class="remix-fallback" data-remix-fallback readonly hidden rows="4" aria-label="Text to copy by hand"></textarea>
         </div>
       </div>
@@ -588,7 +597,7 @@ python -m venv .venv
 .venv\Scripts\python.exe -m iconflow setup
 .venv\Scripts\python.exe -m iconflow doctor
 .venv\Scripts\python.exe -m iconflow ship --config brand\iconflow.toml --review brand\master-review.json</code></pre>
-          <button class="copy-button" type="button" data-copy-command aria-live="polite">Copy</button>
+          <button class="copy-button" type="button" data-copy-command aria-live="polite" data-label-copy="Copy" data-label-copied="Copied" data-label-selected="Selected">Copy</button>
         </div>
       </div>
     </section>
@@ -598,6 +607,7 @@ python -m venv .venv
     <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div>
     <p>Apache-2.0 code · IconFlow identity subject to trademark policy.</p>
     <nav aria-label="Footer navigation"><a href="/getting-started/">Guide</a><a href="/how-icons-are-made/">How it's made</a><a href="https://github.com/snowyukitty/ai-iconflow">Source</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">Docs</a><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">Trademark</a></nav>
+    <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="Language"><a lang="en" hreflang="en" translate="no" href="/" aria-current="true">EN</a><a lang="es" hreflang="es" translate="no" href="/es/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/">简体</a></nav><!-- /i18n:switch -->
   </footer>
 
   <dialog class="gallery-dialog" data-gallery-dialog aria-labelledby="technique-sheet-title">
