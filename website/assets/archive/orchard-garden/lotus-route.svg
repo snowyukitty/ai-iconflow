@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <metadata id="iconflow:provenance">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#">
+      <cc:Work rdf:about="https://ai-iconflow.com/archive/#orchard-garden-lotus-route">
+        <dc:title>Lotus Route</dc:title>
+        <dc:creator><cc:Agent><dc:title>snowyukitty</dc:title></cc:Agent></dc:creator>
+        <dc:source>https://ai-iconflow.com/archive/</dc:source>
+        <dc:rights>Copyright 2026 snowyukitty. IconFlow Living Archive.</dc:rights>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/4.0/"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <title id="title">Lotus Route</title><desc id="desc">An oblique lotus-root segment carries three broad chambers and one sprouting side joint.</desc>
   <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
   <path d="M142 616L322 246L842 342L888 582L704 846L220 800Z" fill="#FFF4E8" stroke="#F2B84B" stroke-width="52" stroke-linejoin="round"/>

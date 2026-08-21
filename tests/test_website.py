@@ -1,8 +1,11 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 from __future__ import annotations
 
 import hashlib
 import json
 import random
+import tempfile
 import re
 import unittest
 import xml.etree.ElementTree as ET
@@ -122,6 +125,7 @@ class WebsiteContractTests(unittest.TestCase):
             "app.js",
             "site.webmanifest",
             "robots.txt",
+            "llms.txt",
             "sitemap.xml",
             "_headers",
             "_redirects",
@@ -617,7 +621,18 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertGreaterEqual(catalog["counts"]["directions"], 100)
         production = [e for e in catalog["entries"] if e["status"] == "production"]
         self.assertEqual(1, len(production))
-        self.assertEqual(svg_sha256(ROOT / "brand" / "master.svg"), svg_sha256(SITE / production[0]["svg"].lstrip("/")))
+        # The published copy carries a provenance block the brand master does
+        # not (docs/PROVENANCE.md); the binding is about the drawing, so compare
+        # the mark itself.
+        published = SITE / production[0]["svg"].lstrip("/")
+        self.assertIn(module.PROVENANCE_MARK, published.read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as tmp:
+            bare = Path(tmp) / "production.svg"
+            bare.write_text(
+                module.strip_provenance(published.read_text(encoding="utf-8")),
+                encoding="utf-8", newline="\n",
+            )
+            self.assertEqual(svg_sha256(ROOT / "brand" / "master.svg"), svg_sha256(bare))
         for entry in random.Random(7).sample(catalog["entries"], 12):
             self.assertEqual((16, 16), png_size(SITE / entry["proof16"].lstrip("/")))
         home = (SITE / "index.html").read_text(encoding="utf-8")

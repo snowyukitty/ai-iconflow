@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Build the public Living Archive from the identity-exploration rounds.
 
 The exploration itself lives in the gitignored ``work/iconflow-logo-refresh``
@@ -224,6 +226,69 @@ def collect() -> list[dict]:
     return entries
 
 
+# Provenance stamped into every published study. Two outcomes and both are
+# useful: a copy that keeps it identifies itself, and a copy that strips it has
+# removed an attribution notice deliberately. See docs/PROVENANCE.md.
+PROVENANCE_MARK = "iconflow:provenance"
+LICENSE_URI = "http://creativecommons.org/licenses/by-nc-nd/4.0/"
+
+
+def provenance_block(entry: dict) -> str:
+    """RDF metadata naming the work, its author, licence, and canonical URL."""
+
+    return (
+        f'  <metadata id="{PROVENANCE_MARK}">\n'
+        '    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
+        ' xmlns:dc="http://purl.org/dc/elements/1.1/"'
+        ' xmlns:cc="http://creativecommons.org/ns#">\n'
+        f'      <cc:Work rdf:about="https://ai-iconflow.com/archive/#{esc(entry["id"])}">\n'
+        f'        <dc:title>{esc(entry["name"])}</dc:title>\n'
+        '        <dc:creator><cc:Agent><dc:title>snowyukitty</dc:title></cc:Agent></dc:creator>\n'
+        '        <dc:source>https://ai-iconflow.com/archive/</dc:source>\n'
+        '        <dc:rights>Copyright 2026 snowyukitty. IconFlow Living Archive.</dc:rights>\n'
+        f'        <cc:license rdf:resource="{LICENSE_URI}"/>\n'
+        '      </cc:Work>\n'
+        '    </rdf:RDF>\n'
+        '  </metadata>\n'
+    )
+
+
+def strip_provenance(svg: str) -> str:
+    """Inverse of :func:`stamp_provenance`.
+
+    The production entry is hash-bound to ``brand/master.svg`` so the site can
+    never show a mark the brand receipt did not approve. That binding is about
+    the drawing, not the licence block, so a comparison strips this first.
+    """
+
+    start = svg.find(f'<metadata id="{PROVENANCE_MARK}"')
+    if start == -1:
+        return svg
+    end = svg.find("</metadata>", start)
+    if end == -1:
+        raise ValueError("unterminated provenance metadata")
+    end += len("</metadata>")
+    head = svg[:start].rstrip(" ")
+    tail = svg[end:].lstrip("\n")
+    return f"{head}{tail}"
+
+
+def stamp_provenance(svg: str, entry: dict) -> str:
+    """Insert the provenance block right after the opening <svg> element.
+
+    Idempotent, and it never touches geometry, so the rendered pixels and every
+    proof already published stay byte-identical.
+    """
+
+    if PROVENANCE_MARK in svg:
+        return svg
+    opening = svg.find(">", svg.find("<svg"))
+    if opening == -1:
+        raise ValueError(f"{entry['slug']}: no <svg> element to stamp")
+    head, rest = svg[: opening + 1], svg[opening + 1 :]
+    return f"{head}\n{provenance_block(entry)}{rest.lstrip(chr(10))}"
+
+
 def render_assets(entries: list[dict]) -> None:
     from iconflow.rasterize import Rasterizer
 
@@ -232,7 +297,10 @@ def render_assets(entries: list[dict]) -> None:
             out_dir = ASSETS / entry["round"]
             out_dir.mkdir(parents=True, exist_ok=True)
             svg_out = out_dir / f"{entry['slug']}.svg"
-            svg_out.write_text(entry["_svg_text"].replace("\r\n", "\n"), encoding="utf-8", newline="\n")
+            stamped = stamp_provenance(
+                entry["_svg_text"].replace("\r\n", "\n"), entry
+            )
+            svg_out.write_text(stamped, encoding="utf-8", newline="\n")
             png = rasterizer.render(entry["_svg_text"], 16, bg="transparent")
             (out_dir / f"{entry['slug']}-16.png").write_bytes(png)
 
@@ -507,6 +575,10 @@ def verify() -> int:
             path = ROOT / "website" / e[key].lstrip("/")
             if not path.is_file():
                 problems.append(f"missing {e[key]}")
+            elif key == "svg" and PROVENANCE_MARK not in path.read_text(encoding="utf-8"):
+                # A published study without its licence metadata is a study that
+                # cannot identify itself once copied (docs/PROVENANCE.md).
+                problems.append(f"{e['id']} is missing its provenance metadata")
         if e["status"] != "study" and (not e["scores"] or len(e["scores"]) != 6 or min(e["scores"]) < 4):
             problems.append(f"{e['id']} is {e['status']} without six scores >= 4")
         if e["status"] not in ("study", "gated", "promoted", "production"):

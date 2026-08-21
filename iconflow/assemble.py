@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Assemble multi-resolution .ico / .icns and post-process PNGs.
 
 ICO and ICNS are packed by hand so each size carries the crisp, natively

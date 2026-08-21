@@ -1,0 +1,16 @@
+IconFlow — community-case fixture
+Originally authored by snowyukitty, 2026. All rights waived below.
+
+SPDX-License-Identifier: CC0-1.0
+
+Dedicated to the public domain under CC0 1.0 Universal.
+Full text: ../../licenses/CC0-1.0.txt
+
+This directory is a FIXTURE, not a showcase piece. It exists so a contributor
+can see the exact shape of a case contribution — the config, the source-bound
+receipt, the record — and copy it. The no-derivatives term on the rest of
+examples/ would contradict that, so this fixture is carved out: copy it,
+adapt it, use it however you like.
+
+The other example families in examples/ are finished designs and stay
+CC-BY-NC-ND-4.0. See ../../LICENSES.md.

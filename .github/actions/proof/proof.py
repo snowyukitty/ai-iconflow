@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Driver for the IconFlow PR Proof composite action.
 
 For every `iconflow.toml` in scope it runs the mechanical gate through the CLI

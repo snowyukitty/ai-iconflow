@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 import unittest
 
 from iconflow.htmlhead import WebMetaOptions, asset_path, head_snippet, manifest

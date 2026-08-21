@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <metadata id="iconflow:provenance">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#">
+      <cc:Work rdf:about="https://ai-iconflow.com/archive/#living-care-trail-companion">
+        <dc:title>Trail Companion</dc:title>
+        <dc:creator><cc:Agent><dc:title>snowyukitty</dc:title></cc:Agent></dc:creator>
+        <dc:source>https://ai-iconflow.com/archive/</dc:source>
+        <dc:rights>Copyright 2026 snowyukitty. IconFlow Living Archive.</dc:rights>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/4.0/"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <title id="title">Trail Companion — colorful walking dog</title>
   <desc id="desc">A colorful side-view dog keeps a lifted tail, stepped gait, and heart-like resting counter in one bold silhouette.</desc>
   <defs><clipPath id="dog"><path d="M196 426C120 370 132 260 230 228L280 338L380 364L474 304H642L710 354L814 318L780 410L852 470L784 530L708 512V704L620 790V604H420V790L332 704V558L246 604L172 540Z"/></clipPath></defs>

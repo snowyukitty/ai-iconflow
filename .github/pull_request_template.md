@@ -29,3 +29,12 @@ For icon or rendering changes, attach the bake-off/review evidence and record:
 - [ ] No secrets, personal data, private project names, local paths, or generated work files were added.
 - [ ] New dependencies/assets include provenance and license information.
 - [ ] The change preserves network isolation and review-receipt binding, or explains and tests the intended boundary change.
+
+## Contributor terms
+
+- [ ] Commits are signed off (`git commit -s`, the DCO).
+- [ ] I have read [`CLA.md`](../CLA.md) and agree to it — paste the signature line below.
+
+```
+I have read CLA.md and I agree to it.  Signed: <your full name>, <YYYY-MM-DD>
+```

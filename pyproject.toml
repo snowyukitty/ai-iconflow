@@ -13,8 +13,24 @@ keywords = [
   "pwa", "svg", "tauri", "tray-icon", "design-system",
 ]
 authors = [{ name = "snowyukitty" }]
-license = "Apache-2.0"
-license-files = ["LICENSE", "NOTICE", "TRADEMARKS.md", "THIRD_PARTY_NOTICES.md"]
+# The wheel ships the engine (Apache-2.0), the public-domain technique
+# scaffolds, the CC BY-SA methodology `iconflow docs` serves, and the CC BY
+# imagery `demo` and the playbook need, so the expression names all four.
+# Every one of them is a free licence, deliberately: a noncommercial or
+# no-derivatives term on anything inside the package would make the whole
+# distribution non-free. IconFlow's identity is protected by TRADEMARKS.md
+# instead, which is the right instrument for it. The restrictively licensed
+# corpus (the 137 archive studies, gallery, showcase, examples) is not
+# packaged. Icons built with the tool are the user's own work and inherit
+# none of this — see LICENSES.md section 1.
+license = "Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND CC-BY-4.0"
+license-files = [
+  "LICENSE", "NOTICE", "TRADEMARKS.md", "THIRD_PARTY_NOTICES.md",
+  "LICENSES.md",
+  # Only the licences the distributions actually use. The NC-ND corpus is
+  # never packaged, so shipping its text would misdescribe the artifact.
+  "licenses/CC0-1.0.txt", "licenses/CC-BY-SA-4.0.txt", "licenses/CC-BY-4.0.txt",
+]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
@@ -55,6 +71,7 @@ packages = [
   "iconflow.resources.presets",
   "iconflow.resources.docs",
   "iconflow.resources.demo",
+  "iconflow.resources.skill",
 ]
 include-package-data = false
 
@@ -67,9 +84,11 @@ include-package-data = false
 "iconflow.resources.presets" = "templates/presets"
 "iconflow.resources.docs" = "docs"
 "iconflow.resources.demo" = "demo"
+"iconflow.resources.skill" = "skills/iconflow"
 
 [tool.setuptools.package-data]
-"iconflow.resources.templates" = ["*.svg"]
+"iconflow.resources.templates" = ["*.svg", "LICENSE"]
 "iconflow.resources.presets" = ["*.svg"]
-"iconflow.resources.docs" = ["*.md", "assets/*"]
+"iconflow.resources.docs" = ["*.md", "assets/*", "LICENSE"]
 "iconflow.resources.demo" = ["master.svg", "tray.svg", "iconflow.toml", "master-review.json"]
+"iconflow.resources.skill" = ["SKILL.md", "LICENSE", "agents/*.yaml"]

@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Tuning Machine serves the job “record a stable setup for an alternate instrument tuning”. The selected tuning peg direction won because its silhouette stays specific while the peg's winding post has one broad indexed flat instead of a circular knob carries the single signature device.
 

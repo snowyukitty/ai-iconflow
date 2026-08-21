@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Small-size-first metadata for IconFlow's technique scaffolds.
 
 Presets demonstrate an execution grammar around IconFlow's house rail. They are

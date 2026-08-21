@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <metadata id="iconflow:provenance">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#">
+      <cc:Work rdf:about="https://ai-iconflow.com/archive/#orchard-garden-onion-handoff">
+        <dc:title>Onion Handoff</dc:title>
+        <dc:creator><cc:Agent><dc:title>snowyukitty</dc:title></cc:Agent></dc:creator>
+        <dc:source>https://ai-iconflow.com/archive/</dc:source>
+        <dc:rights>Copyright 2026 snowyukitty. IconFlow Living Archive.</dc:rights>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/4.0/"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <title id="title">Onion Handoff</title><desc id="desc">Two broad onion growth layers open into one side route while the bulb remains whole.</desc>
   <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
   <path d="M512 118C642 270 802 382 810 576C818 762 678 860 512 860C342 860 204 758 214 576C224 382 384 268 512 118Z" fill="#845EC2" stroke="#FFF4E8" stroke-width="52"/>

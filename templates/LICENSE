@@ -1,0 +1,24 @@
+IconFlow — technique scaffolds and templates
+Originally authored by snowyukitty, 2026. All rights waived below.
+
+SPDX-License-Identifier: CC0-1.0
+
+These files are dedicated to the public domain under CC0 1.0 Universal.
+Full text: ../licenses/CC0-1.0.txt · https://creativecommons.org/publicdomain/zero/1.0/
+
+WHY THIS IS CC0 AND NOT APACHE-2.0
+----------------------------------
+Apache-2.0 would make an icon you evolved from one of these scaffolds a
+derivative work, owing attribution and a copy of the license when you
+shipped it. CC0 removes that chain entirely.
+
+You may use, modify, and ship anything derived from these files, commercially
+or otherwise, with no attribution, no license file, and no conditions. That is
+the entire point: an icon you evolve from a scaffold here must not inherit
+obligations from IconFlow.
+
+`iconflow new` deliberately strips this header from the copy it writes into
+your project, so nothing IconFlow wrote ends up in the favicon you serve.
+
+The IconFlow name and mark are NOT covered by this dedication. See
+../TRADEMARKS.md and ../LICENSES.md.

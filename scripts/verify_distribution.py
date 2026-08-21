@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Fail closed if a wheel or sdist contains unexpected or unsafe files."""
 from __future__ import annotations
 
@@ -19,9 +21,16 @@ FORBIDDEN_PARTS = {
 }
 FORBIDDEN_NAMES = {".env", ".env.local", "credentials.json", "secrets.json"}
 FORBIDDEN_SUFFIXES = {".key", ".p12", ".pfx", ".pem", ".pyc"}
-LEGAL_FILES = ("LICENSE", "NOTICE", "TRADEMARKS.md", "THIRD_PARTY_NOTICES.md")
+LEGAL_FILES = (
+    "LICENSE", "NOTICE", "TRADEMARKS.md", "THIRD_PARTY_NOTICES.md", "LICENSES.md",
+    "licenses/CC0-1.0.txt", "licenses/CC-BY-SA-4.0.txt", "licenses/CC-BY-4.0.txt",
+)
+# Every licence inside the wheel is a free licence. A noncommercial or
+# no-derivatives term on packaged material would make the distribution
+# non-free; IconFlow's identity is protected by trademark instead.
+LICENSE_EXPRESSION = "Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND CC-BY-4.0"
 LICENSE_METADATA = {
-    "License-Expression: Apache-2.0",
+    f"License-Expression: {LICENSE_EXPRESSION}",
     *(f"License-File: {name}" for name in LEGAL_FILES),
 }
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
@@ -77,7 +86,7 @@ def _verify_license_metadata(path: Path, metadata: bytes) -> None:
     missing = sorted(LICENSE_METADATA - fields)
     if missing:
         raise ValueError(
-            f"missing Apache-2.0 package metadata in {path.name}: "
+            f"missing licence metadata in {path.name}: "
             + ", ".join(missing)
         )
 
@@ -118,6 +127,11 @@ def verify(path: Path) -> None:
             "iconflow/resources/docs/assets/style-gallery.png",
             *(f"iconflow/resources/presets/{preset}.svg" for preset in PRESETS),
             *(f"iconflow/resources/demo/{name}" for name in DEMO_FILES),
+            "iconflow/resources/skill/SKILL.md",
+            "iconflow/resources/skill/agents/openai.yaml",
+            "iconflow/resources/skill/LICENSE",
+            "iconflow/resources/docs/LICENSE",
+            "iconflow/resources/templates/LICENSE",
         }
         metadata = [name for name in names if name.endswith(".dist-info/METADATA")]
         wheel_records = [name for name in names if name.endswith(".dist-info/RECORD")]
@@ -150,6 +164,16 @@ def verify(path: Path) -> None:
             "scripts/setup.ps1",
             "scripts/setup.sh",
             "skills/iconflow/SKILL.md",
+            "skills/commands/icon.md",
+            "skills/.claude-plugin/plugin.json",
+            ".claude-plugin/marketplace.json",
+            "LICENSES.md",
+            "licenses/CC0-1.0.txt",
+            "licenses/CC-BY-SA-4.0.txt",
+            "licenses/CC-BY-NC-ND-4.0.txt",
+            "templates/LICENSE",
+            "docs/LICENSE",
+            "brand/LICENSE",
             "tests/test_cli.py",
             *(f"templates/presets/{preset}.svg" for preset in PRESETS),
             *LEGAL_FILES,

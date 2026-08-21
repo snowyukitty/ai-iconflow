@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Validate that an IconFlow review receipt still binds to its source and contract.
 
 `iconflow ship` refuses a stale receipt but has no dry-run mode and writes the

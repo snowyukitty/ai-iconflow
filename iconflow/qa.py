@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Automated, fast sanity checks. These catch the failure modes that AI-authored
 SVG icons most often hit; they do NOT replace the agent's visual review of the
 contact sheet. Returns a list of human-readable warnings (empty == clean).

@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Familiar Saddle serves the job “prepare a small original creature companion for the next journey”. The selected saddle direction won because its silhouette stays specific while an oversized horn and a full two-pixel girth counter make the saddle unmistakable carries the single signature device.
 

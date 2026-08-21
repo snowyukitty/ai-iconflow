@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <metadata id="iconflow:provenance">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#">
+      <cc:Work rdf:about="https://ai-iconflow.com/archive/#orchard-garden-okra-crown">
+        <dc:title>Okra Crown</dc:title>
+        <dc:creator><cc:Agent><dc:title>snowyukitty</dc:title></cc:Agent></dc:creator>
+        <dc:source>https://ai-iconflow.com/archive/</dc:source>
+        <dc:rights>Copyright 2026 snowyukitty. IconFlow Living Archive.</dc:rights>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/4.0/"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <title id="title">Okra Crown</title><desc id="desc">A long ridged okra pod keeps one edge-open star crown fused to its tip.</desc>
   <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
   <path d="M196 774L416 220L584 148L774 296L842 530L416 850Z" fill="#7BBF6A" stroke="#FFF4E8" stroke-width="50" stroke-linejoin="round"/>

@@ -1,3 +1,8 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # Evolution — how this design system improves itself
 
 IconFlow is built to get **better with every icon it ships**, not just to ship

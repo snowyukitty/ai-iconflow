@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <metadata id="iconflow:provenance">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#">
+      <cc:Work rdf:about="https://ai-iconflow.com/archive/#expanded-living-pane-pulse">
+        <dc:title>Pane Pulse</dc:title>
+        <dc:creator><cc:Agent><dc:title>snowyukitty</dc:title></cc:Agent></dc:creator>
+        <dc:source>https://ai-iconflow.com/archive/</dc:source>
+        <dc:rights>Copyright 2026 snowyukitty. IconFlow Living Archive.</dc:rights>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/4.0/"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <title id="title">Pane Pulse — cuttlefish states</title>
   <desc id="desc">A side-view cuttlefish runs one passing color wave through three broad mantle bands.</desc>
   <defs><clipPath id="mantle"><path d="M176 512C176 330 322 220 564 236C754 250 860 360 842 518C824 674 690 772 500 764C304 756 176 666 176 512Z"/></clipPath></defs>

@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <metadata id="iconflow:provenance">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#">
+      <cc:Work rdf:about="https://ai-iconflow.com/archive/#orchard-garden-garlic-family">
+        <dc:title>Garlic Family</dc:title>
+        <dc:creator><cc:Agent><dc:title>snowyukitty</dc:title></cc:Agent></dc:creator>
+        <dc:source>https://ai-iconflow.com/archive/</dc:source>
+        <dc:rights>Copyright 2026 snowyukitty. IconFlow Living Archive.</dc:rights>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/4.0/"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <title id="title">Garlic Family</title><desc id="desc">One garlic bulb grows three differently sized cloves beneath a tilted stem and scalloped root.</desc>
   <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
   <path d="M242 450C286 324 390 258 510 270C640 250 760 328 800 462C844 608 774 792 644 844C552 880 474 844 424 786C358 844 260 816 216 734C166 642 184 530 242 450Z" fill="#FFF4E8" stroke="#7BBF6A" stroke-width="52"/>

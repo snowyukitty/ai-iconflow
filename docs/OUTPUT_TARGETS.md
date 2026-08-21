@@ -1,3 +1,8 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # Output Targets — what each project type needs
 
 The build engine produces the right file set per target. Pick targets with

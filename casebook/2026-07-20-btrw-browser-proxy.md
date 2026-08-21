@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=5 color=5 scalability=5 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 A Chrome toolbar icon for containing one browser profile inside one proxy route. The negative-space gate beat a generic open-B lettermark and an ambiguous single-lane rail; a two-pixel amber egress packet made the final silhouette/action ownable at 16 px.
 

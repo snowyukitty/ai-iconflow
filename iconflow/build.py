@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Orchestrate: one SVG master -> a full icon set for the chosen targets."""
 from __future__ import annotations
 

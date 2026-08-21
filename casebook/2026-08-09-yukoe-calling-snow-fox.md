@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 A local-first multilingual voice companion needed one coherent identity across app, favicon, PWA, and tray. Three mascot directions reached the bake-off; the calling snow-fox profile won because its two ears, long muzzle, and open call remain a specific silhouette without relying on a generic waveform or speech bubble.
 

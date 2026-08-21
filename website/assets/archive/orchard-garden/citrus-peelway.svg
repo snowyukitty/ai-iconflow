@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <metadata id="iconflow:provenance">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#">
+      <cc:Work rdf:about="https://ai-iconflow.com/archive/#orchard-garden-citrus-peelway">
+        <dc:title>Citrus Peelway</dc:title>
+        <dc:creator><cc:Agent><dc:title>snowyukitty</dc:title></cc:Agent></dc:creator>
+        <dc:source>https://ai-iconflow.com/archive/</dc:source>
+        <dc:rights>Copyright 2026 snowyukitty. IconFlow Living Archive.</dc:rights>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/4.0/"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <title id="title">Citrus Peelway</title><desc id="desc">One citrus peel leaves the fruit as a continuous curling flow route.</desc>
   <rect x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
   <path d="M218 534C218 338 358 212 550 226C742 240 858 394 820 586C790 744 650 836 476 810C316 786 218 696 218 534Z" fill="#F2B84B" stroke="#FFF4E8" stroke-width="52"/>

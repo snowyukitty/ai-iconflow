@@ -1,0 +1,24 @@
+IconFlow — website artwork
+Copyright 2026 snowyukitty
+
+SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
+Licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
+International License. Full text: ../../licenses/CC-BY-NC-ND-4.0.txt
+https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+The Living Archive's 137 identity studies, gallery renders, proof sheets,
+and site imagery.
+
+These are finished works published as evidence of what the IconFlow method
+produces. They are not stock assets and not a free icon pack. No commercial
+use, no derivatives, attribution required.
+
+TO START YOUR OWN ICON, DO NOT COPY THESE
+-----------------------------------------
+Use `iconflow init` and `iconflow new <preset>`. The technique scaffolds in
+../../templates/presets/ are CC0 public domain and exist for exactly this purpose,
+so whatever you design from them is unencumbered and yours.
+
+The IconFlow name and mark carry trademark obligations that no copyright
+license grants. See ../../TRADEMARKS.md and ../../LICENSES.md.

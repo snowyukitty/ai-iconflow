@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=5 color=5 scalability=4 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Replaced the 2026-07-11 abstract S-ribbon icon (casebook/2026-07-11-snowy-twitch-bot.md) after the owner (snowy_smile) said it read as a plain letter and did not represent their identity or the brand.json snow-fox mascot. Three lenses reached the bake-off: a fox head tapering into a speech-bubble chin (dual reading), a symmetric front-face fox badge matching the existing persona.json kaomoji expression (=^-w-^=), and a fox peeking over a snowdrift horizon (unexpected crop). The bubble-chin concept blurred into an unreadable blob at 16px and the peeking concept collided with a generic tent/mountain silhouette at small sizes, so the front-face badge won. Its first pass used two tiny snow-dust dots as the signature accent, which failed the two-pixel-at-16px bar (L16); replacing them with a single whole ear filled in an ownable ice-blue accent (asymmetric vs. the brand-periwinkle left ear) fixed distinctiveness and scalability together.
 

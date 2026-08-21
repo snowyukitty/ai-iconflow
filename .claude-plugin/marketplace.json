@@ -1,0 +1,32 @@
+{
+  "name": "iconflow",
+  "description": "IconFlow — reviewed, platform-ready icon families from one semantic SVG master.",
+  "owner": {
+    "name": "snowyukitty",
+    "url": "https://github.com/snowyukitty"
+  },
+  "plugins": [
+    {
+      "name": "iconflow",
+      "source": "./skills",
+      "description": "Design, review at 16px, and ship a distinctive icon family from one semantic SVG master — favicon, PWA, Tauri, Electron, and tray, behind a fail-closed quality gate.",
+      "category": "design",
+      "tags": [
+        "icon",
+        "favicon",
+        "svg",
+        "design",
+        "pwa",
+        "electron",
+        "tauri",
+        "tray"
+      ],
+      "author": {
+        "name": "snowyukitty"
+      },
+      "homepage": "https://ai-iconflow.com",
+      "repository": "https://github.com/snowyukitty/ai-iconflow",
+      "license": "CC-BY-SA-4.0"
+    }
+  ]
+}

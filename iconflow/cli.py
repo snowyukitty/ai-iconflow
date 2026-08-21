@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Command-line interface.
 
     python -m iconflow build  master.svg --out ./out --targets web,tauri,tray
@@ -14,6 +16,8 @@
     python -m iconflow case stats
     python -m iconflow setup
     python -m iconflow demo   --out ./iconflow-demo [--json]
+    python -m iconflow docs   DESIGN_PLAYBOOK
+    python -m iconflow skill  install
 
 ``doctor``, ``check``, ``review``, ``ship``, and ``demo`` accept ``--json`` and
 then follow docs/AGENT_CONTRACT.md: stdout carries exactly one envelope, human
@@ -35,12 +39,45 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from . import agentkit
 from .styles import PRESETS, STYLE_CATALOG
 
 # Commands whose result is a machine-readable Report (docs/AGENT_CONTRACT.md).
 JSON_COMMANDS = frozenset({"doctor", "check", "review", "ship", "demo"})
 DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
 JSON_HELP = "emit one docs/AGENT_CONTRACT.md envelope on stdout; human lines go to stderr"
+
+# `demo` is the only command that copies IconFlow's own identity into a
+# directory the user chose, so the directory has to say what it is holding.
+DEMO_NOTICE = """# What is in this directory
+
+This is **IconFlow's own product mark** — the Petal Haypile family — copied here
+so `iconflow demo` can prove the engine end to end against a real, source-bound
+review receipt. A green run means the whole pipeline works on a design that
+genuinely passed the quality gate.
+
+**It is not a starting point for your icon.** These files are IconFlow's
+finished artwork and identity — and so is everything `ship` just built from
+them, including every `.ico`, `.icns`, and `.png` under `build/` and `icons/`
+in this directory:
+
+- licensed CC BY 4.0 (attribution required), and
+- covered by the IconFlow trademark policy, which no copyright licence grants.
+
+Shipping any of it as your product's identity is a trademark problem no
+copyright licence solves.
+
+## To design your own icon instead
+
+    iconflow init --out iconflow.toml
+    iconflow styles
+    iconflow new <preset> --out work/<slug>/a.svg
+
+The technique scaffolds behind `iconflow new` are CC0 public domain, and
+**whatever you design from them is entirely yours** — no attribution, no
+share-alike, commercial use unrestricted. Run `iconflow license` for the full
+picture, or follow the complete procedure with `iconflow skill print`.
+"""
 
 
 @dataclass
@@ -148,42 +185,9 @@ def _csv(*values: str) -> list[str]:
 
 
 def _resource(package: str, name: str):
-    """Return a packaged resource path/Traversable.
+    """Return a packaged resource path/Traversable (see :mod:`iconflow.agentkit`)."""
 
-    Resolution order, most reliable first:
-
-    1. The on-disk source tree next to this package — an editable install
-       (``pip install -e .``), a plain checkout, or CI. A modern *strict*
-       editable finder does not expose the ``package-dir``-remapped resource
-       subpackages to ``importlib.resources`` (nor put the repo root on
-       ``sys.path`` for the namespace fallback), so the checkout layout is the
-       dependable source there.
-    2. The packaged ``iconflow.resources.*`` subpackage — a real wheel install,
-       where the source tree is absent so step 1 is skipped.
-    3. The top-level namespace directories — legacy source execution.
-    """
-
-    subdir = {
-        "presets": ("templates", "presets"),
-        "templates": ("templates",),
-        "docs": ("docs",),
-        "demo": ("demo",),
-    }.get(package)
-    if subdir is not None:
-        source = Path(__file__).resolve().parent.parent.joinpath(*subdir, name)
-        if source.is_file():
-            return source
-    try:
-        root = importlib.resources.files(f"iconflow.resources.{package}")
-    except ModuleNotFoundError:
-        source_package = (
-            "templates.presets" if package == "presets"
-            else "templates" if package == "templates"
-            else "demo" if package == "demo"
-            else "docs"
-        )
-        root = importlib.resources.files(source_package)
-    return root.joinpath(name)
+    return agentkit.resource(package, name)
 
 
 def _cmd_build(a) -> int:
@@ -646,9 +650,19 @@ def _cmd_new(a) -> int:
         )
         return 2
     destination.parent.mkdir(parents=True, exist_ok=True)
-    destination.write_bytes(src.read_bytes())
+    # The scaffold's licence header stays on IconFlow's copy. Carried into this
+    # one it would ride master.svg into the favicon the user serves in
+    # production, which is precisely the attribution LICENSES.md §1 promises
+    # never to require. Tell the person instead of their visitors' browsers.
+    destination.write_text(
+        agentkit.strip_spdx_comment(src.read_text(encoding="utf-8")),
+        encoding="utf-8",
+        newline="\n",
+    )
     print(f"Copied {a.preset} preset -> {destination}")
-    print("Now edit it following docs/DESIGN_PLAYBOOK.md, then `review` and `build`.")
+    print("It is a public-domain (CC0) scaffold: this file and whatever you make")
+    print("from it are yours — no attribution, no conditions. `iconflow license`.")
+    print("Now edit it following `iconflow docs DESIGN_PLAYBOOK`, then `review` and `ship`.")
     return 0
 
 
@@ -870,6 +884,7 @@ def _cmd_doctor(a) -> Report:
         ("templates", ["master.svg", "grid-overlay.svg"]),
         ("docs", ["DESIGN_PLAYBOOK.md", "REVIEW_CHECKLIST.md", "OUTPUT_TARGETS.md"]),
         ("demo", list(DEMO_FILES)),
+        ("skill", list(agentkit.SKILL_FILES)),
     )
     for package, names in resource_sets:
         for name in names:
@@ -881,7 +896,7 @@ def _cmd_doctor(a) -> Report:
     record(
         not missing_resources, "Packaged resources",
         ", ".join(missing_resources) if missing_resources
-        else f"{len(PRESETS)} presets + base templates + docs + demo family",
+        else f"{len(PRESETS)} presets + base templates + docs + demo family + agent skill",
         fix=f"{python} -m pip install --force-reinstall --no-deps ai-iconflow",
     )
 
@@ -1002,6 +1017,15 @@ def _materialize_demo(out: Path, *, force: bool) -> dict[str, Path]:
             raise ValueError(f"destination must not be a symlink: {destination}")
         destination.write_bytes(source.read_bytes())
         copied[name] = destination
+    # This directory now holds IconFlow's real product mark, which is the one
+    # thing the toolkit copies out that is NOT a starting point for your icon.
+    notice = out / "LICENSE-NOTICE.md"
+    if notice.is_symlink():
+        # Skipping the notice would leave IconFlow's own mark sitting in a
+        # directory with nothing saying so. Fail closed instead.
+        raise ValueError(f"destination must not be a symlink: {notice}")
+    notice.write_text(DEMO_NOTICE, encoding="utf-8", newline="\n")
+    copied["LICENSE-NOTICE.md"] = notice
     return copied
 
 
@@ -1086,6 +1110,170 @@ def _cmd_demo(a) -> Report:
         print(f"DEMO PASSED — doctor, check, review, and ship agreed on {out}")
         print(f"Open {out / 'review.html'} to see the evidence; edit master.svg and re-run ship to watch it fail closed.")
     return report
+
+
+def _cmd_docs(a) -> int:
+    """Serve the packaged reference documents the design procedure cites.
+
+    An agent that installed a wheel has no `docs/` directory to read; this is
+    how it gets DESIGN_PLAYBOOK, CONCEPTING, and the rest without a checkout.
+    """
+    if a.json and a.name:
+        print(
+            "iconflow docs: --json lists the catalog; drop NAME, or read the "
+            "document with `iconflow docs NAME` or `--path`",
+            file=sys.stderr,
+        )
+        return 2
+    try:
+        if a.out:
+            names = [agentkit.resolve_doc(a.name)] if a.name else None
+            written = agentkit.export_docs(Path(a.out), names)
+            for path in written:
+                print(path)
+            print(
+                f"{len(written)} file(s) -> {Path(a.out).resolve()}. "
+                "Read them from disk; images resolve beside the markdown.",
+                file=sys.stderr,
+            )
+            print(
+                "Reference copies, not your work: the documents are CC BY-SA 4.0 and "
+                "the images beside them are CC BY 4.0.\nKeep them out of version "
+                "control unless you accept those terms for your copy — a gitignored "
+                "work/ directory is the usual place.\nReading them obliges you "
+                "nothing, and icons you design afterwards are yours: `iconflow license`.",
+                file=sys.stderr,
+            )
+            return 0
+        if not a.name:
+            names = agentkit.doc_names()
+            if a.json:
+                print(json.dumps(
+                    [{"name": name, "summary": agentkit.doc_summary(name)} for name in names],
+                    ensure_ascii=False, indent=2,
+                ))
+                return 0
+            width = max((len(name) for name in names), default=0)
+            for name in names:
+                summary = agentkit.doc_summary(name)
+                print(f"{name.ljust(width)}  {summary}" if summary else name)
+            sys.stdout.flush()
+            print("\nRead one with: iconflow docs DESIGN_PLAYBOOK", file=sys.stderr)
+            return 0
+        name = agentkit.resolve_doc(a.name)
+        if a.path:
+            return _print_resource_path("docs", f"{name}.md")
+        print(agentkit.read_doc(name))
+        return 0
+    except ValueError as exc:
+        print(f"iconflow docs: {exc}", file=sys.stderr)
+        return 2
+
+
+def _print_resource_path(package: str, name: str) -> int:
+    """Print a packaged resource's real path, or explain why there isn't one.
+
+    An install that keeps resources inside a zip has no filesystem path to
+    print; saying so beats printing something that cannot be opened.
+    """
+    located = agentkit.resource(package, name)
+    path = Path(str(located))
+    if not path.is_file():
+        print(
+            f"iconflow: {name} is packaged without a filesystem path in this "
+            "install; use `iconflow docs --out DIR` or `iconflow skill print`",
+            file=sys.stderr,
+        )
+        return 2
+    print(path)
+    return 0
+
+
+def _skill_roots(a) -> list[Path]:
+    """Resolve which `skills/` roots this invocation writes into."""
+    if a.dir:
+        return [Path(value).expanduser() for value in a.dir]
+    if a.project:
+        return agentkit.project_skill_roots(Path.cwd())
+    return agentkit.default_skill_roots()
+
+
+def _cmd_skill(a) -> int:
+    """Deploy or print the packaged Agent Skill.
+
+    `install` is the no-checkout path: it copies SKILL.md and its client
+    metadata out of the wheel into the discovery roots current Agent Skills
+    clients scan, so any agent picks up the same procedure the repository ships.
+    """
+    if a.skill_cmd == "print":
+        print(agentkit.skill_text())
+        return 0
+    if a.skill_cmd == "path":
+        return _print_resource_path("skill", "SKILL.md")
+
+    chose_roots = bool(a.dir or a.project)
+    roots = _skill_roots(a)
+    try:
+        installed, replaced = agentkit.install_skill(roots)
+    except OSError as exc:
+        print(f"iconflow skill install: {exc}", file=sys.stderr)
+        return 2
+    removed = [] if chose_roots else agentkit.remove_legacy_skills()
+    for path in installed:
+        print(f"Installed IconFlow skill to {path}")
+    for path in replaced + removed:
+        print(f"Removed superseded IconFlow skill file {path}", file=sys.stderr)
+    sys.stdout.flush()
+    plugin_dirs = [] if chose_roots else agentkit.claude_plugin_dirs()
+    if plugin_dirs:
+        print(
+            f"\nSkipped ~/.claude/skills — the IconFlow Claude Code plugin at "
+            f"{plugin_dirs[0]} already carries this skill, and a second copy "
+            "would show up twice.\nPass --dir to install there anyway.",
+            file=sys.stderr,
+        )
+    else:
+        print(
+            "\nClaude Code users can instead install the plugin, which carries this"
+            "\nsame skill plus /iconflow:icon and /iconflow:setup:"
+            "\n  /plugin marketplace add snowyukitty/ai-iconflow"
+            "\n  /plugin install iconflow@iconflow",
+            file=sys.stderr,
+        )
+    print(
+        "Restart the agent client so it rescans skills, then ask it for an icon."
+        "\nThe skill itself is CC BY-SA 4.0 reference material; committing a copy "
+        "to a public\nrepository redistributes it under those terms. It puts no "
+        "condition on the icons you make.",
+        file=sys.stderr,
+    )
+    return 0
+
+
+def _cmd_license(a) -> int:
+    """Answer "may I ship this commercially?" without anyone reading a lawyer.
+
+    An agent working in someone else's repository needs this in one call, and
+    the honest answer is short: the icon it just designed carries no IconFlow
+    conditions at all.
+    """
+    if a.json:
+        print(json.dumps(agentkit.license_summary(), ensure_ascii=False, indent=2))
+        return 0
+    summary = agentkit.license_summary()
+    print(summary["headline"])
+    print()
+    for line in summary["your_output"]:
+        print(f"  - {line}")
+    print()
+    print("This repository is not under one licence. What each part carries:")
+    width = max(len(tier["paths"]) for tier in summary["tiers"])
+    for tier in summary["tiers"]:
+        print(f"  {tier['paths'].ljust(width)}  {tier['license']}")
+    print()
+    for line in summary["notes"]:
+        print(line)
+    return 0
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -1309,6 +1497,57 @@ def build_parser() -> argparse.ArgumentParser:
     atlas.add_argument("--dir", default=default_dir)
     atlas.add_argument("--out", default="case-atlas.html")
     atlas.set_defaults(func=_cmd_case_atlas)
+
+    docs = sub.add_parser(
+        "docs",
+        help="list, print, or export the packaged reference documents",
+    )
+    docs.add_argument("name", nargs="?", help="document name, e.g. DESIGN_PLAYBOOK")
+    docs_mode = docs.add_mutually_exclusive_group()
+    docs_mode.add_argument(
+        "--out",
+        help="export documents (and the images they reference) into this directory",
+    )
+    docs_mode.add_argument(
+        "--path", action="store_true",
+        help="print the resolved file path only, so you can Read the document",
+    )
+    docs_mode.add_argument(
+        "--json", action="store_true", help="list documents as JSON (no NAME)",
+    )
+    docs.set_defaults(func=_cmd_docs)
+
+    skill = sub.add_parser(
+        "skill",
+        help="install or print the packaged IconFlow Agent Skill",
+    )
+    skill_sub = skill.add_subparsers(dest="skill_cmd", required=True)
+    skill_install = skill_sub.add_parser(
+        "install",
+        help="copy the skill into the agent skill discovery roots (no checkout needed)",
+    )
+    skill_scope = skill_install.add_mutually_exclusive_group()
+    skill_scope.add_argument(
+        "--dir", action="append", default=[],
+        help="skills root to install into (an `iconflow/` directory is created "
+             "inside it); repeatable. Default: the user-level roots",
+    )
+    skill_scope.add_argument(
+        "--project", action="store_true",
+        help="install into this project's own skills roots instead of the user's",
+    )
+    skill_install.set_defaults(func=_cmd_skill)
+    skill_print = skill_sub.add_parser("print", help="write SKILL.md to stdout")
+    skill_print.set_defaults(func=_cmd_skill, dir=[], project=False)
+    skill_path = skill_sub.add_parser("path", help="print the packaged SKILL.md path")
+    skill_path.set_defaults(func=_cmd_skill, dir=[], project=False)
+
+    lic = sub.add_parser(
+        "license",
+        help="who owns what: your icons, the tool, the methodology, the artwork",
+    )
+    lic.add_argument("--json", action="store_true", help="emit the summary as JSON")
+    lic.set_defaults(func=_cmd_license)
 
     s = sub.add_parser("setup", help="install the Playwright Chromium runtime")
     s.set_defaults(func=_cmd_setup)

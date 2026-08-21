@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Picnic Basket serves the job “organize food and cloth for a shared outdoor meal”. The selected picnic basket direction won because its silhouette stays specific while A 156-unit coral wrap interrupts one side of the arched handle. carries the single signature device.
 

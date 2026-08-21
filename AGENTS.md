@@ -1,3 +1,8 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # AGENTS.md — how an AI agent uses IconFlow
 
 You are the **designer**. IconFlow gives you a design playbook, reusable SVG
@@ -106,9 +111,10 @@ not the repo root — e.g. `work/myapp/a.svg`, `work/myapp/bake.png`. The final
     `uv tool install ai-iconflow`, `pipx install ai-iconflow`, or
     `pip install ai-iconflow` in a venv. Then `iconflow` (≡ `python -m iconflow`)
     is on PATH; run `iconflow setup` once (the only network step) and
-    `iconflow doctor` to prove the environment. The docs this file cites are
-    packaged with the wheel
-    (`python -c "from importlib.resources import files; print(files('iconflow.resources.docs'))"`).
+    `iconflow doctor` to prove the environment. Every document this file cites
+    is packaged with the wheel and served by the CLI: `iconflow docs` lists
+    them, `iconflow docs DESIGN_PLAYBOOK` prints one, and
+    `iconflow docs --out ./iconflow-docs` exports the set. No checkout needed.
   - **Checkout / contributor (editable) mode — the only mode until PyPI is live:**
     clone the repository and run `scripts/setup.ps1` (Windows) or
     `scripts/setup.sh` (macOS/Linux). Each creates `.venv`, installs the checkout
@@ -149,5 +155,25 @@ path issues immediately. Add `--content-address-icon` for delivery: it copies th
 icon to `shortcut-icon-<sha12>.ico`, points the shortcut at the immutable alias,
 and implies `--verify`, avoiding Explorer's stale path-keyed icon pixels.
 
-Skills-compatible agents can use the open-format `iconflow` skill; every other
-agent can follow this file and call the same CLI (see README).
+## Getting this procedure into another agent
+
+The procedure above ships as an open-format Agent Skill so a session in some
+other repository follows the same gates without being handed this file.
+
+- **Claude Code** — install the plugin, which carries the skill plus the
+  `/iconflow:icon` and `/iconflow:setup` commands:
+
+  ```
+  /plugin marketplace add snowyukitty/ai-iconflow
+  /plugin install iconflow@iconflow
+  ```
+
+- **Codex, Copilot, and other Agent Skills clients** — `iconflow skill install`
+  deploys `SKILL.md` into `~/.claude/skills/`, `~/.agents/skills/`, and
+  `~/.copilot/skills/` straight from the installed package; `--project` writes
+  into the current repository instead. Both the setup scripts and a wheel
+  install use this one code path, so a deployed copy never drifts from the
+  canonical `skills/iconflow/SKILL.md`. Edit the canonical source and rerun the
+  installer rather than editing a deployed copy.
+- **Anything else** — `iconflow skill print` writes the whole procedure to
+  stdout, and every agent can follow this file and call the same CLI.

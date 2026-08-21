@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Rice Paddle serves the job “portion rice gently from a common bowl”. The selected rice paddle direction won because its silhouette stays specific while A 190-unit rice-grain-shaped opening sits in the broad paddle head. carries the single signature device.
 

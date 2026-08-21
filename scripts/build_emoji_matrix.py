@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Integrate, review-bind, and publish the 20 x 20 Emoji Matrix.
 
 Agent drafts remain under work/. This script is the sole renderer that promotes

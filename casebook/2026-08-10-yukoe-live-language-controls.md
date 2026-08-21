@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=5 color=5 scalability=4 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Six compact EN, Japanese, and automatic-translation state icons. The winning voice ticket keeps language identity punched through one silhouette while its edge performs the state change; the phrasebook pair uses open and closed posture without generic arrows.
 

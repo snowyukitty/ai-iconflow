@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Rasterize an SVG to PNG exactly as a browser renders it.
 
 Chromium is the ground truth for how an SVG icon will actually be displayed

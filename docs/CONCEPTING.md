@@ -1,3 +1,8 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # Concepting — how to make an icon distinctive
 
 Legibility gets you a usable icon. **Distinctiveness gets you a memorable one.**

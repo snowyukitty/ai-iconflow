@@ -1,3 +1,8 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # Milestone v0.5 — Adoption Loop: Install → Prove → PR
 
 Decided 2026-08-21 from two independent plans (Codex `gpt-5.6-sol` and Grok

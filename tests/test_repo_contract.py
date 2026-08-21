@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Repository-level contracts for the v0.5 adoption loop.
 
 Light text checks on the PR Proof workflow/action (no PyYAML dependency), the
@@ -124,7 +126,7 @@ class ProofWorkflowContractTests(unittest.TestCase):
             self.assertIn("scripts/setup.ps1", text)
             self.assertIn("scripts/setup.sh", text)
             self.assertNotRegex(text, r"\bcd\s+<AI_PROJECTS>", msg="skill must not cd into a toolkit path")
-        self.assertRegex(skill, r"Never `cd` into a hardcoded toolkit\s+path")
+        self.assertRegex(skill, r"Never `cd` into the toolkit")
         examples = (ROOT / "examples" / "README.md").read_text(encoding="utf-8")
         self.assertIn("community-case/", examples)
 

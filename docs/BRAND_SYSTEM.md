@@ -1,3 +1,8 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # IconFlow brand system
 
 > **Temporary product-mark status (2026-08-14):** the owner selected
@@ -167,10 +172,15 @@ Regenerate the social preview with
 after repository-settings approval. It composes the already approved mark; it
 does not replace or modify the app-icon source.
 
-Copyright permission for these repository assets is provided under
-Apache-2.0, but that license does not grant permission to use the IconFlow name,
-logo, or visual identity to brand or endorse a third-party product, service, or
-modified distribution. Follow [`TRADEMARKS.md`](../TRADEMARKS.md) whenever the
+These brand assets are **not** Apache-2.0. `brand/` is `CC-BY-4.0` —
+attribution required, derivatives and commercial use allowed, because this
+material ships inside the package and a restrictive term would make the whole
+distribution non-free. What actually protects the identity is trademark: the
+name, logo, and visual identity carry obligations no copyright license grants.
+The wider published corpus (`gallery/`, `showcase/`, `website/assets/`) stays
+`CC-BY-NC-ND-4.0`. See [`LICENSES.md`](../LICENSES.md)
+for the tier map. (Icons a *user* designs with IconFlow are unaffected: those
+are theirs outright, `LICENSES.md` §1.) Follow [`TRADEMARKS.md`](../TRADEMARKS.md) whenever the
 mark appears outside the official project.
 
 Every change to the master must repeat the IconFlow procedure: diverge when the

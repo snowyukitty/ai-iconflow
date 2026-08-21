@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Co-op Camp Stove serves the job “see whether every expedition role is ready to leave camp”. The selected camp stove direction won because its silhouette stays specific while three translucent wind guards close around one opaque burner skeleton carries the single signature device.
 

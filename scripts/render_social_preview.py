@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Render the tracked social-preview SVG to its 1280x640 PNG derivative."""
 from __future__ import annotations
 

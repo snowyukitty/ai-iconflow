@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Agent Contract v1 (docs/AGENT_CONTRACT.md): envelopes, exit codes, demo.
 
 Rendering is mocked wherever the contract shape is what matters; the demo

@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """The casebook — the memory that makes the design system self-evolving.
 
 Every shipped icon is recorded as one structured markdown case file in

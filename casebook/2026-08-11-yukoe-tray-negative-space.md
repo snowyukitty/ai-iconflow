@@ -16,6 +16,11 @@ scores_final: legibility=5 distinctiveness=5 balance=4 color=5 scalability=4 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 The existing tray mark collapsed into a purple dot because its same-color face disappeared and its alpha template had no negative-space expression. Four directions were considered: face cuts, an inner-ear cut, a profile notch, and a voice-mouth cut; three SVG finalists were rendered side by side. The face-cut version won because it stayed warm and recognizable at 16 px while preserving the pink listening ear and the master icon silhouette.
 

@@ -1,0 +1,52 @@
+IconFlow — brand family
+Copyright 2026 snowyukitty
+
+SPDX-License-Identifier: CC-BY-4.0
+
+Licensed under the Creative Commons Attribution 4.0 International License.
+Full text: ../licenses/CC-BY-4.0.txt · https://creativecommons.org/licenses/by/4.0/
+
+This directory holds IconFlow's own product mark (Petal Haypile), its
+linked tray source, its source-bound review receipt, and its built family.
+
+WHY ATTRIBUTION-ONLY AND NOT NONCOMMERCIAL
+------------------------------------------
+This material ships inside the `ai-iconflow` package, because `iconflow demo`
+has to carry a real reviewed family to prove the engine and the playbook is not
+useful without its images. A noncommercial or no-derivatives term here would
+make the whole distribution non-free — unpackageable by Linux distributions and
+blocked by many corporate legal reviews — which would cost IconFlow the
+adoption it is built for, in exchange for very little.
+
+Very little, because copyright is the wrong instrument for the thing actually
+being protected. What stops someone adopting Petal Haypile as their product's
+identity is TRADEMARKS.md, and a trademark is not licensed by any Creative
+Commons license. That protection is unchanged and is the one that matters.
+
+The wider published corpus — the 137 Living Archive studies, the gallery, the
+showcase, and the worked examples — stays CC-BY-NC-ND-4.0. None of it ships in
+the package, and it is the material a "free icon pack" ripoff would target.
+
+TO START YOUR OWN ICON, DO NOT COPY THESE
+-----------------------------------------
+Use `iconflow init` and `iconflow new <preset>`. The technique scaffolds in
+../templates/presets/ are CC0 public domain and exist for exactly this purpose,
+so whatever you design from them is unencumbered and yours.
+
+THE REMIX LAB
+-------------
+The Remix Lab at https://ai-iconflow.com/#remix bends these masters in the
+browser and hands the visitor the SVG. That output stays under this same
+CC BY 4.0 licence: derivatives and commercial use are allowed, attribution to
+IconFlow is required. It is deliberately not a CC0 route — an unconditional
+grant on output derived from the official mark would make a barely-modified
+IconFlow logo free for anyone to adopt.
+
+Anyone who wants a starting point with no conditions at all should use
+`iconflow new`, whose scaffolds are CC0 public domain.
+
+No copyright licence answers the trademark question. Adopting an unmodified
+Petal Haypile, or a mark confusingly similar to it, as your product's identity
+is governed by ../TRADEMARKS.md however the copyright is licensed.
+
+See ../TRADEMARKS.md and ../LICENSES.md.

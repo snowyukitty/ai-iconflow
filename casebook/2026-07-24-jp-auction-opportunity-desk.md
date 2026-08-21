@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=5 color=5 scalability=5 cra
 iterations: 1
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 The product needed a calm local desk for scouting previously untracked, ending-soon auction opportunities. A rectangular auction paddle won because it names the domain without a gavel, while one large hourglass cut carries the verified-deadline job at 16 px.
 

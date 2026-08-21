@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """IconFlow — turn one semantic SVG master into a reviewed icon family.
 
 The design step follows docs/DESIGN_PLAYBOOK.md. This package is the

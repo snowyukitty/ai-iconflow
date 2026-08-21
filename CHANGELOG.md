@@ -8,6 +8,166 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- **Per-file attribution across the whole source tree, and a CLA.** The engine
+  stays `Apache-2.0` — a modified fork inside someone else's closed product is
+  permitted, and that permissiveness is what makes the tool safe to adopt. What
+  a redistributor still owes is attribution, so every one of the 41 Python files
+  now carries `SPDX-License-Identifier: Apache-2.0` and a copyright line.
+  `NOTICE` binds a distribution; a per-file header travels with an individual
+  file, which is what makes a stripped copy identifiable later. Apache-2.0 §4
+  obliges a redistributor to keep those notices, to say that files changed, and
+  to reproduce `NOTICE` — and a fork produced by pointing an agent at the
+  repository typically drops all of it. `docs/PROVENANCE.md` §3b writes down
+  exactly what is required, which distinctive gate codes survive modification,
+  and the asymmetry that matters: the engine is Apache, but the playbook is
+  CC BY-SA and the proof corpus is CC BY-NC-ND, so copying the code gets the
+  mechanism without the method.
+- [`CLA.md`](CLA.md) — contributors keep their copyright (it is a license, not
+  an assignment) and grant the right to **relicense**, so one outside pull
+  request cannot freeze IconFlow's licensing permanently. §6 states the reason
+  openly rather than leaving it implied. Wired into `CONTRIBUTING.md`, both PR
+  templates, and `LICENSES.md` §8; `tests/test_licensing.py` fails if a source
+  file loses its header or a referrer loses the link.
+
+- **A three-tier licence split, built so that the icons users make stay theirs.**
+  The repository is no longer under one licence, and
+  [`LICENSES.md`](LICENSES.md) is the map: the engine, scripts, and site code
+  stay `Apache-2.0`; the technique scaffolds in `templates/` become `CC0-1.0`;
+  the written methodology in `docs/`, `casebook/`, and `skills/` becomes
+  `CC-BY-SA-4.0`; IconFlow's product mark and the imagery that ships inside the
+  package — `brand/`, `demo/`, `docs/assets/` — becomes `CC-BY-4.0` on top of
+  the existing trademark policy; and the published corpus that does *not* ship —
+  `showcase/`, `gallery/`, `examples/`, and the 137 Living Archive studies —
+  becomes `CC-BY-NC-ND-4.0`. Each tier carries its own `LICENSE`, 241 files
+  carry an SPDX header, the full texts are vendored in `licenses/`, and the
+  wheel declares `Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND CC-BY-4.0` —
+  every one a free licence, so the distribution stays packageable. Nothing
+  noncommercial is shipped; the identity is protected by trademark, which is
+  the right instrument for it.
+- **The scaffolds are CC0 for one specific reason, and it is load-bearing.**
+  Under `Apache-2.0` an icon evolved from `iconflow new flat-geometric` would
+  technically be a derivative work owing attribution and a licence copy when
+  shipped. `CC0-1.0` removes that chain: **no attribution, no share-alike, no
+  commercial restriction reaches through the tool into anything a user
+  designs**, and applying the published method creates no obligation either
+  because copyright covers the playbook's wording, not its design rules.
+  `LICENSES.md` §1, `NOTICE`, the README, the agent skill, `/llms.txt`, and the
+  new `iconflow license` (with `--json`) all say so, and
+  `tests/test_licensing.py` fails the build if a restrictive tier ever leaks
+  into a user-facing resource.
+- `iconflow new` now **strips the licence header** from the scaffold it copies.
+  Left in, it rode `master.svg` all the way into the `favicon.svg` a user serves
+  in production — an IconFlow URL embedded in someone's shipped asset, which is
+  precisely the attribution §1 promises never to require. The CC0 grant is
+  printed to the terminal instead, where it is information for the person rather
+  than for their visitors' browsers.
+- `iconflow demo` writes a `LICENSE-NOTICE.md` beside the family it
+  materializes, because that one command deliberately copies **IconFlow's own
+  product mark** into a directory the user chose. It says what the directory
+  holds, that it is not a starting point, and which commands are.
+  `iconflow docs --out` likewise reports that its export is CC BY-SA reference
+  material to keep out of version control.
+- The Remix Lab bends IconFlow's actual product mark, so its output carries the
+  mark's own `CC-BY-4.0` — derivatives and commercial use allowed, attribution
+  required — stated on the site in all five languages, in `brand/LICENSE`, and
+  in `LICENSES.md` §5. A no-derivatives term on something a visitor was invited
+  to remix would be dishonest; an unconditional CC0 grant on output derived from
+  the official logo would be too broad, and the lab now points anyone who wants
+  a start with no conditions at all to the CC0 scaffolds behind `iconflow new`.
+  `examples/community-case/` *is* carved out to CC0, because that fixture exists
+  to be copied and a no-derivatives term on a template is a contradiction.
+- **Two adversarial reviews (Codex `gpt-5.6-sol`, Grok `grok-4.6`) attacked the
+  split before publication and found real holes, all closed here.** The
+  scaffold's own licence header was riding `master.svg` into the `favicon.svg`
+  users serve; `LICENSES.md` §1 claimed *every* file the toolkit writes is CC0
+  when `docs --out` and `skill install` write CC BY-SA reference material;
+  `CONTRIBUTING.md` still declared all contributions Apache-2.0, which would
+  have re-created the very problem CC0 on the scaffolds exists to avoid; the
+  `demo` notice could be suppressed by a pre-planted symlink; and `robots.txt`
+  was blocking the on-demand fetchers that agents use on a person's behalf,
+  which costs discovery and does nothing about training. §1 now also carries an
+  explicit catch-all: any IconFlow boilerplate embodied in a generated artifact
+  is supplied under CC0, and the section states plainly what no licence can
+  promise — that an icon is copyrightable, registrable, or clear of other marks.
+  `tests/test_licensing.py` runs a real `build` and fails if any produced file
+  contains an IconFlow notice, URL, or SPDX tag.
+
+- **Provenance that makes copying provable rather than preventable.** All 137
+  published archive studies carry an RDF `<metadata>` block naming the work,
+  its author, its licence, and its canonical URL; `scripts/build_archive.py`
+  writes it and `--verify-only` fails without it.
+  [`docs/PROVENANCE.md`](docs/PROVENANCE.md) records the evidence trail, a dated
+  registry of the coined terminology that fingerprints this corpus, how to check
+  a suspected copy — and, plainly, what none of this can do.
+- `website/llms.txt` states terms for AI systems and doubles as an agent-facing
+  index; `robots.txt` asks named training crawlers to stay out of `/archive/`,
+  `/gallery/`, and `/how-icons-are-made/` in every language while leaving the
+  front door and `/getting-started/` open to everyone, because being found by
+  agents is the point. Both are voluntary, and both say so.
+- `NOTICE` became substantive. Apache-2.0 §4(d) obliges every redistributor to
+  reproduce it, so it is the one attribution a fork cannot quietly drop: it now
+  carries the maintainer attribution, the per-directory licence map, the
+  trademark reservation, and the user-output carve-out.
+- `CONTRIBUTING.md` gains the tier table, the rule that new files carry an SPDX
+  header, and a Developer Certificate of Origin sign-off requirement
+  (`git commit -s`) so the copyright chain stays clean enough to enforce.
+
+- **A one-command front door for other people's agents.** IconFlow ships as a
+  Claude Code plugin: `/plugin marketplace add snowyukitty/ai-iconflow` then
+  `/plugin install iconflow@iconflow` installs the design procedure plus the
+  `/iconflow:icon` and `/iconflow:setup` slash commands. The catalog is
+  `.claude-plugin/marketplace.json` and the plugin itself is the `skills/`
+  directory (`skills/.claude-plugin/plugin.json`), so the published plugin is
+  five files rather than the whole repository, and its skill *is* the canonical
+  `skills/iconflow/SKILL.md` — there is no second copy to drift.
+- `iconflow skill install|print|path`: deploys the Agent Skill into
+  `~/.claude/skills/`, `~/.agents/skills/`, and `~/.copilot/skills/` (and clears
+  the superseded `~/.codex/skills/iconflow/` duplicate) **straight from the
+  installed package**, so a Codex or Copilot session no longer needs a clone to
+  get the procedure. `--project` writes into the current repository and `--dir`
+  names a location. `scripts/setup.ps1` and `scripts/setup.sh` now call this one
+  command instead of each maintaining its own copy of the discovery-root list —
+  the place those two scripts were free to drift apart.
+- `iconflow docs [NAME] [--out DIR] [--path] [--json]`: lists, prints, or
+  exports the packaged reference documents the procedure cites. An agent that
+  installed a wheel used to need
+  `python -c "from importlib.resources import files; ..."` and a walk through
+  `site-packages` to read `DESIGN_PLAYBOOK.md`; it now runs
+  `iconflow docs DESIGN_PLAYBOOK`. `doctor` verifies the packaged skill along
+  with the other resources, and the wheel carries `SKILL.md` and its Codex
+  metadata under `iconflow/resources/skill/`.
+- Two independent reviews of the front door (Codex `gpt-5.6-sol` and Grok
+  `grok-4.6`, sealed read-only ATD delegations) found the same defects, all
+  fixed here: the source-checkout branch of resource resolution now demands
+  this project's own `pyproject.toml` beside the package before it is trusted,
+  so an unrelated distribution's top-level `site-packages/docs` can no longer
+  shadow the packaged playbook; `importlib.resources.files(None)` silently
+  resolving to IconFlow's own package turned an unknown resource set into a
+  wrong answer instead of an error; `skill install` reads every packaged file
+  before writing any destination, so a broken install fails closed rather than
+  leaving an empty skill directory that shadows a working one; the superseded
+  `~/.codex/skills/iconflow/` deployment is retired by deleting only the files
+  IconFlow wrote and then removing the directory only if nothing else is left,
+  instead of an unconditional `rmtree`; every deployed write refuses to follow
+  a symlink out of its target; and `--path` reports honestly when an install
+  keeps resources inside a zip rather than printing a path nothing can open.
+- The skill was rewritten for an agent working in **someone else's**
+  repository. It no longer resolves a two-mode `<AI_PROJECTS>/ai-iconflow`
+  placeholder against the maintainer's private workspace layout: the runner is
+  `iconflow` on PATH, reference documents come from `iconflow docs <NAME>`,
+  drafts go to the consuming project's `work/<slug>/`, and cases land in its own
+  `./casebook`. Both reviews caught the same two regressions in that rewrite
+  and both are repaired: the PyPI warning now leads with a hard stop *before*
+  any index install command, because an agent runs the first command it reads;
+  and the guardrails the old procedure carried — one bold idea on the 1024 grid
+  inside the safe area, reporting the brief's essence, and the rule that a
+  recolored preset is not a finished icon — are back. The managed-browser
+  fallback used to strand an agent by describing the approved-config route and
+  then telling it to `ship --review` anyway; it now names both routes exactly.
+  `tests/test_agentkit.py` fails the build if a workspace path, a `cd` into the
+  toolkit, a dropped quality gate, an index install command that precedes its
+  warning, or a broken exemplar image link comes back.
+
 - **The site speaks five languages.** English under `website/` stays the source
   of truth; `scripts/build_i18n.py` extracts every translatable string into
   `website/i18n/en.json` (keyed by a slug plus a hash of the English text, so a

@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Project configuration for IconFlow's brief-to-ship workflow.
 
 ``iconflow.toml`` is deliberately small and human-editable.  Relative paths are

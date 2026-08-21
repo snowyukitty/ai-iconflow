@@ -5,9 +5,16 @@ recursive-include examples *.md
 include brand/master.svg brand/tray.svg brand/iconflow.toml brand/master-review.json
 include demo/master.svg demo/tray.svg demo/iconflow.toml demo/master-review.json
 include requirements.txt AGENTS.md
-recursive-include skills/iconflow *.md *.yaml
+recursive-include skills *.md *.yaml
+include skills/.claude-plugin/plugin.json .claude-plugin/marketplace.json
 include README.md CONTRIBUTING.md CHANGELOG.md SECURITY.md THIRD_PARTY_NOTICES.md
-include LICENSE NOTICE TRADEMARKS.md
+include LICENSE NOTICE TRADEMARKS.md LICENSES.md
+recursive-include licenses *.txt
+include templates/LICENSE docs/LICENSE docs/assets/LICENSE casebook/LICENSE skills/LICENSE skills/iconflow/LICENSE
+include brand/LICENSE demo/LICENSE examples/community-case/LICENSE
+# Tier 3b directories are not distributed, so their licences would describe
+# content that is not in the archive. Both artifacts stay free-licensed.
+exclude showcase/LICENSE gallery/LICENSE examples/LICENSE website/assets/LICENSE
 recursive-include tests *.py
 
 # Tests are intentional sdist inputs. Harness caches, local case evidence, and

@@ -1,130 +1,168 @@
 ---
 name: iconflow
 description: Design and generate high-quality app icons, website favicons, PWA icons, and system-tray/menu-bar icons. Use whenever a project needs an icon/favicon/logo mark created or regenerated — the agent authors an SVG following a design playbook, renders it small to self-review, then builds every format (.ico/.icns/.png, manifest, tray). Triggers on requests like "make an icon", "design a favicon", "tray icon", "app icon for this Tauri/Electron app".
-license: Apache-2.0
-compatibility: Requires Python 3.10+, filesystem and shell access, and network access for one-time dependency and Playwright Chromium setup. Works with `iconflow` on PATH (uv tool / pipx / pip, once published on PyPI) or a source checkout's venv interpreter. Rendering and builds are local afterward.
+license: CC-BY-SA-4.0
+compatibility: Requires Python 3.10+, filesystem and shell access, and network access for one-time dependency and Playwright Chromium setup. Works with `iconflow` on PATH (uv tool / pipx / pip) or a source checkout's venv interpreter. Rendering and builds are local afterward. The icons you design with it are yours: no attribution, no share-alike, commercial use unrestricted.
 metadata:
   version: "0.5.0"
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # IconFlow skill
 
-You are the designer; the toolkit rasterizes your SVG exactly as a browser
-would and packs all formats, with a render-and-review loop. Two placeholders
-are used below and resolved once, in step 0:
+You are the designer. IconFlow rasterizes your SVG exactly as a browser would,
+packs every platform format, and refuses to ship what you have not looked at.
 
-- **`<ICONFLOW_PY> -m iconflow`** is the runner. The primary form is the
-  `iconflow` command on PATH (`python -m iconflow` is equivalent) after
-  `uv tool install ai-iconflow`, `pipx install ai-iconflow`, or
-  `pip install ai-iconflow` — once the package is published on PyPI. From a
-  source checkout (contributor/editable mode, and the only mode until PyPI is
-  live) it is that checkout's venv interpreter: `.venv\Scripts\python.exe` on
-  Windows, `.venv/bin/python` on POSIX. Never `cd` into a hardcoded toolkit
-  path; keep the shell in the consuming project.
-- **`<AI_PROJECTS>/ai-iconflow`** is the toolkit root used for docs, scratch,
-  and the shared casebook. In checkout mode it is the checkout directory
-  (`<AI_PROJECTS>` is the workspace root named `AI_Projects`; its drive letter
-  is not fixed — resolve it from the current repository's ancestors). In PATH
-  mode there is no checkout: `<AI_PROJECTS>/ai-iconflow/docs/<file>` is the
-  packaged copy, printed by
-  `python -c "from importlib.resources import files; print(files('iconflow.resources.docs'))"`;
-  `<AI_PROJECTS>/ai-iconflow/work/<slug>/` is the consuming project's own
-  gitignored `work/<slug>/`; and `<AI_PROJECTS>/ai-iconflow/casebook` is the
-  consuming project's casebook (`iconflow.toml` `project.casebook`, default
-  `./casebook`, or `ICONFLOW_CASEBOOK_DIR`) — every `--dir` below points there.
+Everything you need — the playbook, the concepting rules, the review checklist —
+comes out of the installed package with `iconflow docs <NAME>`, so you never
+have to guess where a document lives.
+
+## 0. Resolve the runner (once)
+
+Run `iconflow --version`. If it answers, `iconflow` is your runner: use it
+verbatim everywhere below. If it does not, you have to install it — and one
+rule comes before any install command:
+
+> **STOP — do not run `uv tool install ai-iconflow`, `pipx install
+> ai-iconflow`, or `pip install ai-iconflow` yet.** `ai-iconflow` has no release
+> on PyPI. Until the
+> [official project page](https://pypi.org/project/ai-iconflow/) lists one,
+> installing that name from an index gets you whatever else answers to it, not
+> IconFlow. Verify a release exists before using any index command below.
+
+Working install paths today, in order:
+
+1. **A source checkout you already have.** Run its `scripts/setup.ps1`
+   (Windows) or `scripts/setup.sh` (macOS/Linux). Each creates `.venv`,
+   installs the checkout, fetches Chromium, and deploys this skill. Your runner
+   is then that checkout's `.venv\Scripts\python.exe -m iconflow` or
+   `.venv/bin/python -m iconflow`.
+2. **A wheel or repository URL you were given.**
+   `uv tool install <path-to-wheel-or-repo-url>`, or
+   `python -m venv .venv` + `.venv/bin/python -m pip install <same>`.
+3. **After PyPI publication** (check first): `uv tool install ai-iconflow`,
+   `pipx install ai-iconflow`, or `pip install ai-iconflow` in a venv.
+
+If none of these is available, say so and stop — do not substitute another icon
+tool without asking.
+
+Then, first time only: `iconflow setup` (downloads Chromium — the only network
+step) and `iconflow doctor` (every FAIL prints a `fix` command to paste).
+
+**Reading the reference documents.** `iconflow docs <NAME>` prints one to
+stdout, which is fine for a quick check. The playbook and concepting documents
+are long, and a truncated read is how an agent skips the rules at the bottom —
+so for those, run `iconflow docs --out work/<slug>/docs` once and **open the
+files**. That export also brings the images along, which matters: the exemplar
+gallery is the part that stops you drawing a generic mark. `iconflow docs NAME
+--path` prints a single document's path instead.
+
+**Stay in the consuming project.** Never `cd` into the toolkit. The project's
+`iconflow.toml`, `master.svg`, receipt, casebook, and built icons all belong to
+the project you are working on.
 
 ## Procedure (follow in order — do not skip diverge or review)
 
-0. **Resolve the runner and toolkit root first.** Run `iconflow --version`; if
-   it answers, `<ICONFLOW_PY> -m iconflow` is simply `iconflow` (PATH mode).
-   Otherwise resolve the checkout `<AI_PROJECTS>/ai-iconflow` and use its venv
-   Python (`.venv\Scripts\python.exe` on Windows or `.venv/bin/python` on
-   POSIX) when present, otherwise `python` with the package installed
-   (checkout mode; `scripts/setup.ps1` / `scripts/setup.sh` create that venv,
-   install the checkout editable, run `iconflow setup`, and install this skill).
-   First time only: `<ICONFLOW_PY> -m iconflow setup`, then
-   `<ICONFLOW_PY> -m iconflow doctor`. Keep the shell in the consuming project
-   unless a path explicitly points into the toolkit; do not `cd` in a way that
-   changes where project files land.
-1. **Read** `<AI_PROJECTS>/ai-iconflow/docs/LEARNINGS.md` (rules distilled from
-   every previously shipped icon) and run
-   `<ICONFLOW_PY> -m iconflow case stats --dir <AI_PROJECTS>/ai-iconflow/casebook`.
-   Apply the existing guidance to this icon and avoid any house-cliché device it
-   warns about. A stats signal is
-   diagnostic; it does not by itself authorize editing the shared toolkit.
-2. **Read** `<AI_PROJECTS>/ai-iconflow/docs/DESIGN_PLAYBOOK.md`. From the
-   consuming project, run
-   `<ICONFLOW_PY> -m iconflow init --out iconflow.toml`; keep `iconflow.toml`
-   and the final sources in that project. Record the brief in it:
-   app intent, user job, one-word essence, brand color (pull from the target
-   project's existing CSS/theme if present), personality, clichés to avoid,
-   signature-device hypothesis, and exact output targets. A visual decision
-   without a product job is not a complete brief. For privacy-sensitive work,
+1. **Learn from previous icons.** Read `iconflow docs LEARNINGS` — the rules
+   distilled from every case shipped so far — and run `iconflow case stats`.
+   Apply that guidance and avoid any house-cliché device it warns about. A stats
+   signal is diagnostic; it does not by itself authorize editing the toolkit.
+
+2. **Write the brief.** Read `iconflow docs DESIGN_PLAYBOOK`, then
+   `iconflow init --out iconflow.toml` in the project. Record: app intent, user
+   job, one-word essence, brand color (pull it from the project's existing CSS,
+   theme, or manifest if there is one), personality, clichés to avoid, a
+   signature-device hypothesis, and the exact output targets. *A visual decision
+   without a product job is not a complete brief.* For privacy-sensitive work,
    design from a neutral user-job verb (`reveal`, `route`, `discover`) rather
    than a sensitive category noun.
-3. **Diverge for distinctiveness**
-   (`<AI_PROJECTS>/ai-iconflow/docs/CONCEPTING.md`) — generate 4+ concepts
-   via different lenses, apply the cliché filter, add ONE signature device.
-   **Distinctiveness = specificity:** the mark must BE a specific object whose
-   silhouette names a thing (a tag, a gem, a folded map, a cat), not a bare
-   letter on a gradient tile (the *monogram trap*). Study CONCEPTING's exemplar
-   gallery first, and apply the name-the-thing test in the bake-off.
-   Draft 2–3 finalist SVGs (or start from a preset and add a signature device:
-   `<ICONFLOW_PY> -m iconflow new <preset> --out <AI_PROJECTS>/ai-iconflow/work/<slug>/<draft>.svg`).
-4. **Bake-off:** use resolved paths for every scratch artifact:
-   `<ICONFLOW_PY> -m iconflow compare <AI_PROJECTS>/ai-iconflow/work/<slug>/a.svg <AI_PROJECTS>/ai-iconflow/work/<slug>/b.svg <AI_PROJECTS>/ai-iconflow/work/<slug>/c.svg --out <AI_PROJECTS>/ai-iconflow/work/<slug>/bake.png` →
-   **Read that `bake.png`**, run the silhouette + row tests, promote the most
-   distinctive-yet-legible winner to `master.svg`. Run the name-the-thing test
-   at both 128px and 16px: if the noun changes, change the viewpoint before
-   adding detail. Strip color and test detached accents as punctuation; a
+
+3. **Diverge for distinctiveness.** Read `iconflow docs CONCEPTING`. Generate
+   4+ concepts through different lenses, apply the cliché filter, add ONE
+   signature device. **Distinctiveness = specificity:** the mark must BE a
+   specific object whose silhouette names a thing (a tag, a gem, a folded map, a
+   cat), not a bare letter on a gradient tile (the *monogram trap*). Study
+   CONCEPTING's exemplar gallery first. Draft 2–3 finalist SVGs into
+   `work/<slug>/` — or start from a technique family and add your own signature
+   device: `iconflow styles`, then
+   `iconflow new <preset> --out work/<slug>/a.svg`. **A preset is a starting
+   grammar, never a finished icon**: a recolored scaffold is exactly the
+   generic result this step exists to prevent, so a preset-derived finalist has
+   to carry one signature device that is not in the preset, and you must be
+   able to name it.
+
+4. **Bake off.** Compare the finalists you actually drew — two files if you
+   drew two:
+   `iconflow compare work/<slug>/a.svg work/<slug>/b.svg [work/<slug>/c.svg] --out work/<slug>/bake.png`
+   → **read that `bake.png`**, run the silhouette and row tests, and promote the
+   most distinctive-yet-legible winner to `master.svg`. Apply the name-the-thing
+   test at both 128px and 16px: if the noun changes, change the viewpoint before
+   adding detail. Strip color and test detached accents as punctuation — a
    vertical cut centered over a round accent reads as `!` at 16px, so offset
    their centerlines by at least two output pixels (~128 viewBox units) or
    redesign the pair.
-5. **Author** the consuming project's `master.svg` using
-   `<AI_PROJECTS>/ai-iconflow/docs/SVG_TECHNIQUES.md` (§10 signature devices,
-   §11 linked target
-   compositions). If a full-card master also targets tray/menu bar, create a
-   geometry-linked mark-only `tray.svg` and set it in `iconflow.toml`; do not
-   let a card alpha collapse into a featureless tray square.
-6. **Check + review (mandatory):**
-   - `<ICONFLOW_PY> -m iconflow check master.svg` → fix every warning.
-     With a linked tray source add `--tray-svg tray.svg --tray-template-mode <mode>`
-     to audit the macOS template the build will emit.
-   - `<ICONFLOW_PY> -m iconflow review --config iconflow.toml --out <AI_PROJECTS>/ai-iconflow/work/<slug>/review.png --html <AI_PROJECTS>/ai-iconflow/work/<slug>/review.html` →
-     **Read that `review.png` and open that Review Lab** (actual-size pixels,
-     silhouette strip, alpha footprint, adaptive crops, target transforms).
-     Score vs `<AI_PROJECTS>/ai-iconflow/docs/REVIEW_CHECKLIST.md` and export
-     the JSON receipt.
-     Distinctiveness is a gate — don't ship below 4/5. If any axis < 4, make the
-     single highest-impact change and re-render. ~2–3 passes.
-     If a managed browser blocks the local Review Lab, do not bypass policy:
-     inspect the static sheet plus the exact target assets at real sizes, record all
-     six scores and notes in the source-and-contract-hash-bound `[review]`
-     approved fallback, and report the interactive check as blocked. The
+
+5. **Author `master.svg`** using `iconflow docs SVG_TECHNIQUES` (§10 signature
+   devices, §11 linked target compositions). **One bold idea, drawn on the 1024
+   viewBox grid, inside the safe area** — geometry that runs to the edge is the
+   geometry a maskable crop eats. If a full-card master also targets tray or
+   menu bar, author a geometry-linked mark-only `tray.svg` and set it in
+   `iconflow.toml`; do not let a card alpha collapse into a featureless square.
+
+6. **Check and review (mandatory).**
+   - `iconflow check master.svg` → fix every warning. With a linked tray source
+     add `--tray-svg tray.svg --tray-template-mode <mode>` to audit the macOS
+     template the build will emit.
+   - `iconflow review --config iconflow.toml --out work/<slug>/review.png --html work/<slug>/review.html --receipt-template master-review.json`
+     → **read that `review.png` and open that Review Lab**: actual-size pixels,
+     silhouette strip, alpha footprint, adaptive crops, target transforms.
+     Score against `iconflow docs REVIEW_CHECKLIST`. The Lab exports the scored
+     JSON receipt; `--receipt-template` writes an unscored, source-bound one you
+     can fill in yourself. Either way the receipt lives beside `iconflow.toml`
+     as `master-review.json`, because that is what step 7 ships.
+     Distinctiveness is a gate — do not ship below 4/5. If any axis is under 4,
+     make the single highest-impact change and re-render. Usually 2–3 passes.
+   - If a managed browser blocks the local Review Lab, do not bypass policy.
+     Inspect the static sheet plus the exact target assets at real sizes, then
+     take **one** of these two routes and say which you took:
+     (a) fill in the source-bound `master-review.json` written by
+     `--receipt-template` with all six scores and notes, and ship it with
+     `--review` as usual; or (b) record the same six scores in the
+     source-and-contract-hash-bound `[review]` table in `iconflow.toml` and run
+     `iconflow ship --config iconflow.toml` **with no `--review`**. The
      `contract_sha256` must bind the project, targets, colors, Electron radius,
-     color scheme, tray mode, and semantic tray source. The ≥4/5 floor and gated
-     `ship` still apply.
-7. **Ship** into the consuming project:
-   `<ICONFLOW_PY> -m iconflow ship --config iconflow.toml --review master-review.json`.
+     color scheme, tray mode, and semantic tray source. Report the interactive
+     check as blocked. The ≥4/5 floor and the gated `ship` still apply.
+
+7. **Ship.** `iconflow ship --config iconflow.toml --review master-review.json`
+   (or, on the approved-config route above, without `--review`).
    `ship` re-runs QA, verifies the receipt matches the current SVG / tray source
    / targets / colors / scheme / radius / template, and requires all six axes
    ≥4. (The low-level `build` command remains for callers that own an equivalent
-   quality gate.) See `<AI_PROJECTS>/ai-iconflow/docs/OUTPUT_TARGETS.md` for the
-   exact target file set.
-8. **Keep `master.svg`** in the project and **report** the cliché avoided, the
-   signature device, final rubric scores + the produced file list.
-9. **Record the case (mandatory — closes the self-evolution loop):**
-   `<ICONFLOW_PY> -m iconflow case new --dir <AI_PROJECTS>/ai-iconflow/casebook --slug <slug> --essence <word> --device "..." --device-family <family> --device-detail "..." --concept-lens <lens> --cliche "..." --first "legibility=3 ..." --final "legibility=4 ..." --iterations N --lesson "..."`,
-   fill in the created file's *Summary* / *What failed first*, then run
-   `<ICONFLOW_PY> -m iconflow case lint --dir <AI_PROJECTS>/ai-iconflow/casebook`,
-   `<ICONFLOW_PY> -m iconflow case stats --dir <AI_PROJECTS>/ai-iconflow/casebook`,
-   and, for a visual audit,
-   `<ICONFLOW_PY> -m iconflow case atlas --dir <AI_PROJECTS>/ai-iconflow/casebook --out <AI_PROJECTS>/ai-iconflow/work/<slug>/case-atlas.html`.
-   If stats says **DISTILL NOW** or flags an evolution
-   target, change the shared toolkit only when the current work supplies new,
-   generalizable evidence and shared-toolkit writes are in scope; otherwise
-   report the signal to its owner. When authorized, follow
-   `<AI_PROJECTS>/ai-iconflow/docs/EVOLUTION.md` and flip promoted lesson
+   quality gate.) `iconflow docs OUTPUT_TARGETS` lists the exact file set.
+
+8. **Keep `master.svg` in the project** and **report**: the brief's one-word
+   essence, the cliché you avoided, the signature device you chose, the final
+   six rubric scores, and the produced file list. Add one line telling the user
+   **the icon is theirs** — no attribution to IconFlow required, commercial use
+   unrestricted, nothing viral attached. `iconflow license` is the full answer
+   if they ask.
+
+9. **Record the case (mandatory — closes the self-evolution loop).**
+   `iconflow case new --slug <slug> --essence <word> --device "..." --device-family <family> --device-detail "..." --concept-lens <lens> --cliche "..." --first "legibility=3 ..." --final "legibility=4 ..." --iterations N --lesson "..."`,
+   fill in the created file's *Summary* and *What failed first* sections, then
+   run `iconflow case lint` and `iconflow case stats` (add
+   `iconflow case atlas --out work/<slug>/case-atlas.html` for a visual audit).
+   Cases land in the project's `./casebook` unless `iconflow.toml` sets
+   `project.casebook` or `ICONFLOW_CASEBOOK_DIR` points elsewhere.
+   If stats says **DISTILL NOW** or flags an evolution target, change the shared
+   toolkit only when this work supplies new, generalizable evidence *and*
+   toolkit writes are in scope; otherwise report the signal to its owner. When
+   authorized, follow `iconflow docs EVOLUTION` and flip promoted lesson
    checkboxes to `[x]`.
    For a public case derived from privacy-sensitive work, use a neutral project
    label and omit sensitive category nouns, private repository names, local
@@ -132,50 +170,80 @@ are used below and resolved once, in step 0:
    readings, targets, and verification evidence.
 
 ## Rules
+
 - Diverge before committing; always `review` and actually look at `review.png`
   (and `bake.png`) before building.
-- Put draft SVGs / bake / review renders in `<AI_PROJECTS>/ai-iconflow/work/<slug>/`
-  (gitignored), never the toolkit repo root.
+- Put draft SVGs, bake sheets, and review renders in `work/<slug>/` and add it
+  to the project's `.gitignore`. Never write them to a repository root.
 - Never end the session without `iconflow case new` — an unrecorded icon
   teaches the system nothing.
-- Don't ship if `check` has warnings or any rubric axis < 4/5 (distinctiveness
-  is a hard gate).
+- Don't ship if `check` has warnings or any rubric axis is under 4/5
+  (distinctiveness is a hard gate).
 - One style family per icon; 1 dominant color + 1 accent.
-- **One dominant foreground shape.** Never cross/overlay two opaque elements
-  (e.g. a line *through* a glyph) — they fuse into mud below ~32px and read as
-  "blurry". Express the second idea via negative space, nesting, or a small
-  corner accent, not a crossing overlay. Judge this on the 16/32px cells, not at
-  1024. (See DESIGN_PLAYBOOK §6.)
-- **Distinctiveness = specificity (the monogram trap).** A bare letter or generic
-  shape on a gradient tile scores ≤3 on distinctiveness (below the ship gate) — it
-  passes every mechanical check yet reads as generic. Make the mark a specific
-  object; use a letter only when it FUSES into the object (fado's F = plates).
-  `check` emits an advisory warning on live `<text>`; path monograms are yours to
-  catch with the name-the-thing test. (See CONCEPTING "Distinctiveness =
-  specificity" + exemplar gallery; DESIGN_PLAYBOOK §6.)
+- **One dominant foreground shape.** Never cross or overlay two opaque elements
+  (for example a line *through* a glyph) — they fuse into mud below ~32px and
+  read as "blurry". Express the second idea through negative space, nesting, or
+  a small corner accent, not a crossing overlay. Judge this on the 16/32px
+  cells, not at 1024. (`iconflow docs DESIGN_PLAYBOOK` §6.)
+- **Distinctiveness = specificity (the monogram trap).** A bare letter or
+  generic shape on a gradient tile scores ≤3 on distinctiveness — below the ship
+  gate — because it passes every mechanical check yet reads as generic. Make the
+  mark a specific object; use a letter only when it FUSES into the object
+  (fado's F = plates). `check` emits an advisory warning on live `<text>`; path
+  monograms are yours to catch with the name-the-thing test.
 
-## Delivering to a desktop/tray app (esp. Windows)
-- After `build` (or after rebuilding an exe that embeds the `.ico`), the OS shell
-  often keeps showing the OLD icon — that's the **icon cache, not a bad build**.
-  Confirm the file is actually correct before chasing it: extract its embedded
-  icon (`[System.Drawing.Icon]::ExtractAssociatedIcon($exe)`), or copy the exe to
-  a *fresh name* (a new path dodges the per-path cache) and look at that.
+## Who owns what
+
+The user owns everything you make for them: `master.svg`, `tray.svg`, every
+built `.ico` / `.icns` / `.png`, the manifest, the receipt, the case file. No
+attribution, no share-alike, no commercial restriction. The technique scaffolds
+behind `iconflow new` are CC0 public domain precisely so a mark evolved from
+one inherits nothing, and applying the published method creates no obligation
+either — copyright covers the playbook's wording, not its design rules.
+
+Two things are **not** the user's to take: IconFlow's own finished artwork (the
+Living Archive studies, the gallery, and the Petal Haypile family that
+`iconflow demo` materializes) and the IconFlow name and mark. If a user asks
+for "an icon like the IconFlow one", design them their own instead.
+
+`iconflow license` prints this; `iconflow license --json` gives you the same
+thing in a form you can quote exactly.
+
+## Machine-readable mode
+
+`doctor`, `check`, `review`, `ship`, and `demo` accept `--json`: stdout carries
+exactly one envelope, human lines go to stderr, and the exit code is 0 (clean),
+1 (blocked by an IconFlow gate), or 2 (usage or runtime failure). Use it when
+you are scripting or reporting rather than reading. Full contract:
+`iconflow docs AGENT_CONTRACT`.
+
+To prove the toolchain end to end without designing anything, run
+`iconflow demo --out iconflow-demo`: it materializes an already-reviewed family
+and runs doctor → check → review → ship against its bundled receipt.
+
+## Delivering to a desktop/tray app (especially Windows)
+
+- After `build` (or after rebuilding an exe that embeds the `.ico`), the OS
+  shell often keeps showing the OLD icon — that is the **icon cache, not a bad
+  build**. Confirm the file is actually correct before chasing it: extract its
+  embedded icon (`[System.Drawing.Icon]::ExtractAssociatedIcon($exe)`), or copy
+  the exe to a *fresh name* (a new path dodges the per-path cache) and look at
+  that.
 - Recreating a desktop shortcut is not a cache bust when `IconLocation` keeps
-  the same `.ico` path. Prefer
-  `iconflow shortcut ... --content-address-icon`: it installs
-  `shortcut-icon-<sha12>.ico`, recreates the `.lnk`, and implies `--verify` so
-  the actual `IconLocation` is read back. Inspect or extract the Shell-resolved
-  icon when delivery is critical. If scripting the digest yourself,
-  feature-detect `Get-FileHash` or use .NET SHA-256.
+  the same `.ico` path. Prefer `iconflow shortcut ... --content-address-icon`:
+  it installs `shortcut-icon-<sha12>.ico`, recreates the `.lnk`, and implies
+  `--verify` so the actual `IconLocation` is read back. If scripting the digest
+  yourself, feature-detect `Get-FileHash` or use .NET SHA-256.
 - Only with the user's explicit approval, and only after proving the source and
   shortcut are correct, use disruptive cache recovery as a last resort: delete
-  `%LOCALAPPDATA%\Microsoft\Windows\Explorer\iconcache_*.db` plus `IconCache.db`,
-  run `ie4uinit.exe -ClearIconCache`, and restart `explorer.exe`. Prefer the
-  content-addressed shortcut path because it does not disturb the desktop session.
-- If the project regenerates icons with its own Pillow script (not this toolkit),
-  pack the multi-size `.ico` from the **largest** frame as the base image —
-  Pillow's ICO writer drops any requested size larger than the base, silently
-  yielding a 16px-only icon.
+  `%LOCALAPPDATA%\Microsoft\Windows\Explorer\iconcache_*.db` plus
+  `IconCache.db`, run `ie4uinit.exe -ClearIconCache`, and restart
+  `explorer.exe`. Prefer the content-addressed shortcut path because it does not
+  disturb the desktop session.
+- If the project regenerates icons with its own Pillow script (not this
+  toolkit), pack the multi-size `.ico` from the **largest** frame as the base
+  image — Pillow's ICO writer drops any requested size larger than the base,
+  silently yielding a 16px-only icon.
 - For a tray icon that **recolors by state**, render it from ONE shared mark
-  function used by both the built static icons and the live recolor path, so they
-  can't drift.
+  function used by both the built static icons and the live recolor path, so
+  they cannot drift.

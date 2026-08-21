@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Build the language-prefixed copies of the public IconFlow site.
 
 English under ``website/`` stays the source of truth. This script

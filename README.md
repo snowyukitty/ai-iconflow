@@ -321,29 +321,71 @@ docs/
 examples/                   end-to-end usage patterns
 iconflow/                   renderer, QA, review, packaging, config, and CLI
 templates/presets/          check-clean technique scaffolds
-skills/iconflow/            canonical open Agent Skill + client metadata
+skills/                     the agent front door — installed by `iconflow skill install`
+  iconflow/                 canonical open Agent Skill + Codex client metadata
+  commands/                 /iconflow:icon and /iconflow:setup slash commands
+  .claude-plugin/           Claude Code plugin manifest
+.claude-plugin/             marketplace catalog for `/plugin marketplace add`
 work/                       gitignored design-session evidence
 AGENTS.md                   required procedure for agent designers
+LICENSES.md                 the tier map: your output, tool, method, works
+licenses/                   full CC0 / CC BY / CC BY-SA / CC BY-NC-ND texts
 ```
 
-## The IconFlow agent skill
+## Use IconFlow from your AI agent
 
-IconFlow ships an open-format [Agent Skill](https://agentskills.io/) whose
-canonical source lives at [`skills/iconflow/SKILL.md`](skills/iconflow/SKILL.md),
+IconFlow is built to be handed to an agent. The design procedure, the reference
+documents it cites, and the gates that stop a generic mark from shipping all
+travel with the package — so a session in *your* repository follows the same
+rules this one does, without cloning anything.
+
+**Claude Code — two commands.** The plugin carries the skill plus the
+`/iconflow:icon` and `/iconflow:setup` slash commands:
+
+```
+/plugin marketplace add snowyukitty/ai-iconflow
+/plugin install iconflow@iconflow
+```
+
+Then just ask for an icon, or run `/iconflow:icon a tool that turns scattered
+research into a decision`. The agent installs the toolkit itself the first time.
+
+**Codex, Copilot, and other open Agent Skills clients — one command.** From any
+install of the package:
+
+```bash
+iconflow skill install
+```
+
+That deploys `SKILL.md` from the installed wheel into `~/.agents/skills/`,
+`~/.claude/skills/`, and `~/.copilot/skills/`, and removes the superseded
+`~/.codex/skills/iconflow/` copy (current Codex scans both user roots and does
+not merge same-named skills, so keeping it would show a duplicate). Add
+`--project` to install into the current repository instead, or `--dir` to name a
+location. Automatic discovery remains client-dependent.
+
+**Any other agent.** `iconflow skill print` writes the whole procedure to
+stdout, `iconflow docs` lists every reference document, and
+`iconflow docs CONCEPTING` prints one. Nothing requires a checkout:
+
+```bash
+iconflow docs                        # what is available
+iconflow docs DESIGN_PLAYBOOK        # read one
+iconflow docs --out ./iconflow-docs  # export the set
+```
+
+The canonical skill source is [`skills/iconflow/SKILL.md`](skills/iconflow/SKILL.md)
 with Codex interface metadata in
-[`skills/iconflow/agents/openai.yaml`](skills/iconflow/agents/openai.yaml). It
-versions with the toolkit so it does not drift from `AGENTS.md`.
+[`skills/iconflow/agents/openai.yaml`](skills/iconflow/agents/openai.yaml) and
+the Claude Code plugin manifest in `skills/.claude-plugin/plugin.json`. All
+three version with the toolkit, and `iconflow skill install` is the single code
+path the setup scripts use too, so a deployed copy cannot drift from the
+source. Edit the canonical file and rerun the installer; never hand-edit a
+deployed copy.
 
-The setup scripts install the skill once in the shared user discovery location
-used by current Codex and open Agent Skills clients,
-`~/.agents/skills/iconflow/`, plus the client-specific
-`~/.claude/skills/iconflow/` and `~/.copilot/skills/iconflow/` locations. They
-also remove the former `~/.codex/skills/iconflow/` deployment: current Codex
-scans both user roots and does not merge same-named skills, so retaining it
-would expose a duplicate. Automatic discovery remains client-dependent. Any
-other agent can read the repository [`AGENTS.md`](AGENTS.md) and run the same
-CLI. Edit the canonical repository source and rerun setup rather than
-hand-editing a deployed copy.
+Agents that prefer a machine surface get the `--json` envelopes and the 0/1/2
+exit codes in [`docs/AGENT_CONTRACT.md`](docs/AGENT_CONTRACT.md), and can prove
+the whole engine in one command with `iconflow demo --out iconflow-demo`.
 
 ## Calling IconFlow from another project
 
@@ -415,11 +457,59 @@ Release preparation is tracked in
 
 ## License
 
-IconFlow code, documentation, and repository-authored assets are licensed under
-the [Apache License, Version 2.0](LICENSE). See [NOTICE](NOTICE) for attribution
-and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for dependency provenance.
+### The icons you make with IconFlow are yours
 
-Apache-2.0 does not grant permission to use the IconFlow name, logo, or official
+No attribution, no share-alike, no commercial restriction. Ship them, sell them,
+trademark them. The technique scaffolds behind `iconflow new` are **CC0 public
+domain** precisely so that a mark you evolve from one inherits nothing, and
+applying the published method creates no obligation either — copyright covers
+the playbook's wording, not the design rules it describes.
+
+Run `iconflow license` any time for the authoritative summary, or
+`iconflow license --json` if you are an agent that needs to quote it exactly.
+
+### The repository is not under a single license
+
+[`LICENSES.md`](LICENSES.md) is the map; each tiered directory carries its own
+`LICENSE`, and full texts live in [`licenses/`](licenses/).
+
+| What | Where | License |
+|---|---|---|
+| **Your output** | anything you design with IconFlow | **yours, no conditions** |
+| The tool | `iconflow/`, `scripts/`, `tests/`, site code | [`Apache-2.0`](LICENSE) |
+| Starting points | `templates/` scaffolds, files written into your project | `CC0-1.0` |
+| The methodology | `docs/`, `casebook/`, `skills/` | `CC-BY-SA-4.0` |
+| Brand & packaged imagery | `brand/`, `demo/`, `docs/assets/` | `CC-BY-4.0` + [trademark](TRADEMARKS.md) |
+| The published corpus | `gallery/`, `showcase/`, `examples/`, `website/assets/` | `CC-BY-NC-ND-4.0` |
+
+GitHub's sidebar shows "Apache-2.0" because that is what the root `LICENSE`
+file says; it is reporting the tool tier. The written methodology stays open but
+carries ShareAlike, so a work reusing that prose must credit IconFlow and stay
+open too. The 137 Living Archive studies and the rest of IconFlow's finished
+artwork are published as evidence, not as a free icon pack.
+
+One thing IconFlow deliberately copies out is its **own** identity:
+`iconflow demo` materializes the Petal Haypile family to prove the engine
+against a real receipt, and writes a `LICENSE-NOTICE.md` beside it saying so. To
+start your own design, use `iconflow init` and `iconflow new <preset>`.
+
+The engine being Apache-2.0 means a modified fork inside a closed product is
+permitted — that is the deal, and it is what makes the tool safe to adopt. What
+a redistributor still owes is attribution: Apache-2.0 §4 requires them to keep
+the license, keep the per-file notices, state that they changed files, and carry
+`NOTICE`. Every source file carries an SPDX header so that obligation travels
+with the code rather than only with the repository.
+[`docs/PROVENANCE.md`](docs/PROVENANCE.md) records what that looks like when it
+is honoured and when it is not.
+
+Contributions need a DCO sign-off and a signature on [`CLA.md`](CLA.md). You keep
+your copyright; the CLA is a license, not an assignment, and its purpose is
+stated openly in its §6.
+
+Attribution lives in [`NOTICE`](NOTICE); dependency provenance in
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
+No license here grants permission to use the IconFlow name, logo, or official
 project identity to brand or endorse a modified distribution, product, or
 service. Truthful references and compatibility statements remain welcome; see
 the [IconFlow trademark policy](TRADEMARKS.md) for the precise boundary.

@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=5 color=5 scalability=4 cra
 iterations: 3
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 A web guide for understanding and deploying three process-scoped Codex accounts. A patch-cable splitter beat a cactus-like railway turnout and a generic dark route token because its black silhouette names a specific routing object: three keyed connectors converging into one trunk.
 

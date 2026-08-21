@@ -43,3 +43,12 @@
 
 - [ ] No private repository names, local paths, personal data, secrets, or generated `work/` files.
 - [ ] Privacy-sensitive origins are reduced to a neutral user-job verb; the case keeps the visual evidence only.
+
+## Contributor terms
+
+- [ ] Commits are signed off (`git commit -s`, the DCO).
+- [ ] I have read [`CLA.md`](../CLA.md) and agree to it — paste the signature line below.
+
+```
+I have read CLA.md and I agree to it.  Signed: <your full name>, <YYYY-MM-DD>
+```

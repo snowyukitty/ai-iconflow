@@ -2,7 +2,7 @@
   "language": "en",
   "generated_by": "scripts/build_i18n.py",
   "note": "English source strings. Keys are slug.hash(text); a copy edit makes a new key, which makes every translation fail closed.",
-  "count": 707,
+  "count": 708,
   "strings": {
     "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": {
       "text": "IconFlow — Local icon toolkit: one SVG to favicon, app, and tray assets, proven at 16px",
@@ -1115,6 +1115,14 @@
       "text": "Reset",
       "kind": "text",
       "where": "div.remix-lab div.remix-actions div.remix-buttons",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "this-bends-iconflow-s-own-mark-so-your-remix.9618649e": {
+      "text": "This bends IconFlow's own mark, so your remix carries its licence: CC BY 4.0 — change it, use it commercially, credit IconFlow. For a mark with no conditions at all, start from a public-domain scaffold with <0/>.",
+      "kind": "text",
+      "where": "section#remix div.remix-lab div.remix-actions",
       "pages": [
         "index.html"
       ]

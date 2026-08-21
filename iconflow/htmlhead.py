@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Emit the favicon <head> snippet and a web app manifest."""
 from __future__ import annotations
 

@@ -1,4 +1,64 @@
 IconFlow
 Copyright 2026 snowyukitty
 
-Licensed under the Apache License, Version 2.0.
+This product includes software developed by snowyukitty (https://ai-iconflow.com).
+
+The IconFlow engine and tooling are licensed under the Apache License,
+Version 2.0; you may obtain a copy at
+http://www.apache.org/licenses/LICENSE-2.0
+
+Other parts of this work are under different terms. See the map below and
+LICENSES.md before assuming any single license applies.
+
+------------------------------------------------------------------------------
+ICONS YOU MAKE WITH ICONFLOW ARE YOURS
+------------------------------------------------------------------------------
+
+Nothing in this NOTICE, the Apache License, or any other license in this
+repository applies to the icons, favicons, marks, or asset families you design
+and build using IconFlow. Those are your work: no attribution required, no
+share-alike, commercial use unrestricted. See LICENSES.md section 1.
+
+This NOTICE binds a redistributor of IconFlow's source or binaries, never a
+user of its output.
+
+------------------------------------------------------------------------------
+THIS REPOSITORY IS NOT LICENSED UNDER A SINGLE LICENSE
+------------------------------------------------------------------------------
+
+Apache-2.0 governs the IconFlow engine and tooling. Other parts of the source
+repository carry different terms, and a redistributor of those parts must
+observe them:
+
+  templates/           CC0-1.0            public domain technique scaffolds
+  docs/  casebook/     CC-BY-SA-4.0       the written methodology
+  skills/              CC-BY-SA-4.0       the agent skill
+  brand/  demo/        CC-BY-4.0          IconFlow's own product mark
+  docs/assets/         CC-BY-4.0          documentation imagery
+  examples/            CC-BY-NC-ND-4.0    worked example families
+  showcase/  gallery/  CC-BY-NC-ND-4.0    finished official works
+  website/assets/      CC-BY-NC-ND-4.0    Living Archive and site artwork
+
+Everything the published `ai-iconflow` package carries is free-licensed; the
+noncommercial material lives only in the source repository.
+
+The authoritative map, including the boundary cases, is LICENSES.md. Full
+license texts are in licenses/.
+
+------------------------------------------------------------------------------
+TRADEMARKS
+------------------------------------------------------------------------------
+
+"IconFlow", the IconFlow logo, and the distinctive visual identity used to
+identify the official project are marks controlled by snowyukitty. As stated in
+Apache License Section 6, that license does not grant permission to use these
+marks. A fork, modified distribution, or derived product must choose a distinct
+name and identity. See TRADEMARKS.md.
+
+------------------------------------------------------------------------------
+THIRD-PARTY DEPENDENCIES
+------------------------------------------------------------------------------
+
+IconFlow vendors no third-party code, fonts, icon sets, or stock imagery. Its
+runtime dependencies are installed separately and remain under their own
+licenses. See THIRD_PARTY_NOTICES.md.

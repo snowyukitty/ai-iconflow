@@ -16,6 +16,11 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=5 scalability=5 cra
 iterations: 2
 ---
 
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0
+     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+     Reusing this prose requires attribution and the same license.
+     Applying the methods it describes requires nothing: icons you design
+     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 IconFlow needed a product mark tied to its actual job: turning app intent and one semantic SVG into a proven, target-ready icon family. Five lenses produced three SVG finalists. Flow Gate won because its interrupted rail and stepped silhouette stayed more ownable than the generic aperture and conventional F monogram; a 64-unit refinement pass made the proof counter deliberate at 16px. The final 23-file family was shipped through IconFlow's own approved `brand/iconflow.toml`, including the dedicated semantic tray source.
 

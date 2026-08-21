@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Create OS shortcuts that point at a target, wearing the icon you just built.
 
 Windows `.lnk` only for now. This encodes three hard-won lessons so callers never

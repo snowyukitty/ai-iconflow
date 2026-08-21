@@ -14,29 +14,10 @@ fi
 "$runner" -m pip install -e "$repo_root"
 "$runner" -m iconflow setup
 
-skill_src="$repo_root/skills/iconflow"
-if [ -f "$skill_src/SKILL.md" ]; then
-    for skill_parent in \
-        "$HOME/.claude/skills" \
-        "$HOME/.agents/skills" \
-        "$HOME/.copilot/skills"
-    do
-        skill_dst="$skill_parent/iconflow"
-        mkdir -p "$skill_dst"
-        cp -R "$skill_src/." "$skill_dst/"
-        rm -f "$skill_dst/README.md"
-        printf '%s\n' "Installed IconFlow skill to $skill_dst"
-    done
-
-    # Codex now discovers user skills from .agents. Remove the former .codex
-    # deployment so the same named skill is not discovered twice.
-    legacy_codex_skill="$HOME/.codex/skills/iconflow"
-    if [ -e "$legacy_codex_skill" ] || [ -L "$legacy_codex_skill" ]; then
-        rm -rf -- "$legacy_codex_skill"
-        printf '%s\n' "Removed legacy duplicate IconFlow skill from $legacy_codex_skill"
-    fi
-fi
+# `skill install` owns every deployment path, so a wheel install and a checkout
+# put the same files in the same places.
+"$runner" -m iconflow skill install
 
 printf '\n%s\n' "Done. Try:"
-printf '%s\n' "  ./.venv/bin/python -m iconflow new gradient-glow --out master.svg"
-printf '%s\n' "  ./.venv/bin/python -m iconflow review master.svg"
+printf '%s\n' "  ./.venv/bin/python -m iconflow doctor"
+printf '%s\n' "  ./.venv/bin/python -m iconflow demo --out iconflow-demo"
