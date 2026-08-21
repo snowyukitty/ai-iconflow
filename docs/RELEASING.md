@@ -145,9 +145,22 @@ One-time setup, in this order:
 
    Repeat on <https://test.pypi.org/manage/account/publishing/> with environment
    name `testpypi` to rehearse first.
-3. **Create the two GitHub Environments** (`Settings → Environments`): `pypi`
-   and `testpypi`. Add yourself as a required reviewer on `pypi`, which turns
-   the irreversible step into one that waits for a human.
+3. **The two GitHub Environments already exist** — `pypi` and `testpypi` were
+   created on 2026-08-22 and need no further action for Trusted Publishing to
+   work; the environment name only has to match what the pending publisher
+   declares.
+
+   What is *not* yet in place is the human gate. Adding a **required reviewer**
+   to an environment on a **private** repository needs a paid GitHub plan
+   (attempting it returns *"Please ensure the billing plan supports the required
+   reviewers protection rule"*). The rule is free once the repository is public,
+   which is the plan anyway — so the moment the repo goes public, add yourself
+   as a required reviewer on `pypi` at `Settings → Environments → pypi`.
+
+   Until then the workflow's own safeguards are what stand between a stray click
+   and an irreversible upload: `workflow_dispatch` defaults to TestPyPI, and
+   reaching the real index needs either an explicit `index: pypi` choice or a
+   published GitHub Release.
 
 Then, to release:
 
