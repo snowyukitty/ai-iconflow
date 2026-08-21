@@ -410,7 +410,6 @@
   "the-editable-0-remains-the-source-of-truth-b.6cb6786a": "El <0/> (archivo maestro) editable sigue siendo la fuente de verdad junto al proyecto. Los archivos generados siempre se pueden reconstruir.",
   "known-boundaries.2a58bd25": "Límites conocidos",
   "local-does-not-mean-0-1-magical-1.fce0fe44": "Trabajar en local no significa<0/><1>que sea mágico.</1>",
-  "0-source-install-today-0-1-iconflow-is-not-p.7b155d36": "<0>Hoy, instalación desde el código fuente.</0><1>IconFlow aún no está publicado en PyPI. No uses <2/> hasta que exista una versión oficial.</1>",
   "0-one-time-download-0-1-setup-needs-network.4a772b40": "<0>Descarga única.</0><1>La configuración necesita acceso a la red para las dependencias y Playwright Chromium; después, el renderizado y las compilaciones son locales.</1>",
   "0-desktop-scope-0-1-tauri-output-currently-c.6b40b826": "<0>Alcance de escritorio.</0><1>La salida de Tauri cubre actualmente los activos de escritorio, no los conjuntos de inicio e iconos de Android o iOS.</1>",
   "0-toolchain-bound-proof-0-1-repeatability-as.4f3b28dc": "<0>Prueba ligada a la cadena de herramientas.</0><1>La repetibilidad presupone el mismo SVG normalizado, la misma configuración y las mismas versiones de IconFlow, Chromium y Pillow.</1>",
@@ -708,6 +707,7 @@
   "nothing-shipped-here.6e6b6242": "Aquí no se publicó nada.",
   "return-to-the-source-bound-path.fedf1e5c": "Vuelve a la ruta ligada a la fuente.",
   "back-to-iconflow.ea864577": "Vuelve a IconFlow →",
-  "this-bends-iconflow-s-own-mark-so-your-remix.9618649e": "Esto modifica la propia marca de IconFlow, así que tu remezcla mantiene su licencia: CC BY 4.0 — cámbiala, úsala comercialmente, atribuye a IconFlow. Para una marca sin ninguna condición, parte de una plantilla de dominio público con <0/>."
+  "this-bends-iconflow-s-own-mark-so-your-remix.9618649e": "Esto modifica la propia marca de IconFlow, así que tu remezcla mantiene su licencia: CC BY 4.0 — cámbiala, úsala comercialmente, atribuye a IconFlow. Para una marca sin ninguna condición, parte de una plantilla de dominio público con <0/>.",
+  "0-install-from-pypi-0-1-run-2-or-3-a-source.902e30ac": "<0>Instala desde PyPI.</0><1>Ejecuta <2/> o <3/>. La instalación desde el código fuente sigue disponible para quienes contribuyen.</1>"
  }
 }

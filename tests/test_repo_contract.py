@@ -112,7 +112,7 @@ class ProofWorkflowContractTests(unittest.TestCase):
     def test_adoption_docs_are_present_and_keep_the_gate(self):
         contributing = (ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")
         for needle in ("## First 30 minutes", "uv tool install iconflow", "pipx install iconflow",
-                       "iconflow demo", "not live yet", "## The case lane",
+                       "iconflow demo", "pip install iconflow", "## The case lane",
                        "What reviewers will and will not accept", "Never weaken a gate"):
             self.assertIn(needle, contributing, msg=needle)
         self.assertTrue((ROOT / "docs" / "PROOF_ACTION.md").is_file())

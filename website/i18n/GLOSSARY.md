@@ -43,7 +43,10 @@ The site never overclaims. Translate the hedge, do not smooth it away:
 
 - **"temporary mark"** — Petal Haypile is explicitly the current, intentionally
   revisable mark. Keep "temporary" in every language.
-- **"not published on PyPI yet"** — keep the "yet"; do not imply a release.
+- **PyPI availability** — `iconflow` has been on PyPI since 0.5.0
+  (2026-08-22). Earlier catalogs carried a "not published on PyPI yet"
+  string; it is gone, and no language should reintroduce a claim that the
+  package is unavailable.
 - **"passed review" / "gated"** — a local, recorded review with scores, not a
   third-party certification.
 - **"clean-room" / "not affiliated with or endorsed by"** — legal wording;

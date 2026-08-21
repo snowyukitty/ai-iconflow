@@ -3352,8 +3352,8 @@
         "getting-started/index.html"
       ]
     },
-    "0-source-install-today-0-1-iconflow-is-not-p.7b155d36": {
-      "text": "<0>Source install today.</0><1>IconFlow is not published on PyPI yet. Do not use <2/> until an official release exists.</1>",
+    "0-install-from-pypi-0-1-run-2-or-3-a-source.902e30ac": {
+      "text": "<0>Install from PyPI.</0><1>Run <2/>, or <3/>. A source checkout stays available for contributors.</1>",
       "kind": "text",
       "where": "section.limits-section div.section-shell ul",
       "pages": [

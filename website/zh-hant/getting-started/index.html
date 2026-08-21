@@ -162,7 +162,7 @@
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>Windows · PowerShell</p></header>
             <pre id="install-windows"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd iconflow
+cd ai-iconflow
 python -m venv .venv
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
 .\.venv\Scripts\python.exe -m iconflow doctor
@@ -176,7 +176,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>macOS / Linux · shell</p></header>
             <pre id="install-posix"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd iconflow
+cd ai-iconflow
 python3 -m venv .venv
 sh ./scripts/setup.sh
 ./.venv/bin/python -m iconflow doctor
@@ -339,7 +339,7 @@ python -m iconflow case stats</code></pre>
       <div class="section-shell limits-grid reveal">
         <div><p class="section-kicker">已知界線</p><h2>本機並不代表<br><span>神奇。</span></h2></div>
         <ul>
-          <li><strong>目前僅支援原始碼安裝。</strong><span>IconFlow 尚未發布到 PyPI。在正式發行前，請勿使用 <code>pip install iconflow</code>。</span></li>
+          <li><strong>從 PyPI 安裝。</strong><span>執行 <code>pip install iconflow</code> 或 <code>uv tool install iconflow</code>。原始碼安裝仍保留給貢獻者使用。</span></li>
           <li><strong>一次性下載。</strong><span>設定需要網路以取得依賴與 Playwright Chromium；之後的渲染與建置都在本機。</span></li>
           <li><strong>桌面範圍。</strong><span>Tauri 產出目前涵蓋桌面素材，不含 Android 或 iOS 的啟動畫面與圖示組。</span></li>
           <li><strong>綁定工具鏈的校樣。</strong><span>可重現性假設使用相同的正規化 SVG、設定、IconFlow、Chromium 與 Pillow 版本。</span></li>

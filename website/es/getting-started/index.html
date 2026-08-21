@@ -162,7 +162,7 @@
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>Windows · PowerShell</p></header>
             <pre id="install-windows"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd iconflow
+cd ai-iconflow
 python -m venv .venv
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
 .\.venv\Scripts\python.exe -m iconflow doctor
@@ -176,7 +176,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>macOS / Linux · shell</p></header>
             <pre id="install-posix"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd iconflow
+cd ai-iconflow
 python3 -m venv .venv
 sh ./scripts/setup.sh
 ./.venv/bin/python -m iconflow doctor
@@ -339,7 +339,7 @@ python -m iconflow case stats</code></pre>
       <div class="section-shell limits-grid reveal">
         <div><p class="section-kicker">Límites conocidos</p><h2>Trabajar en local no significa<br><span>que sea mágico.</span></h2></div>
         <ul>
-          <li><strong>Hoy, instalación desde el código fuente.</strong><span>IconFlow aún no está publicado en PyPI. No uses <code>pip install iconflow</code> hasta que exista una versión oficial.</span></li>
+          <li><strong>Instala desde PyPI.</strong><span>Ejecuta <code>pip install iconflow</code> o <code>uv tool install iconflow</code>. La instalación desde el código fuente sigue disponible para quienes contribuyen.</span></li>
           <li><strong>Descarga única.</strong><span>La configuración necesita acceso a la red para las dependencias y Playwright Chromium; después, el renderizado y las compilaciones son locales.</span></li>
           <li><strong>Alcance de escritorio.</strong><span>La salida de Tauri cubre actualmente los activos de escritorio, no los conjuntos de inicio e iconos de Android o iOS.</span></li>
           <li><strong>Prueba ligada a la cadena de herramientas.</strong><span>La repetibilidad presupone el mismo SVG normalizado, la misma configuración y las mismas versiones de IconFlow, Chromium y Pillow.</span></li>

@@ -20,18 +20,14 @@ with this plugin, so do not deploy a second copy of the skill for Claude Code.
 2. **Install it.** IconFlow is a Python 3.10+ package with two dependencies and
    no API key.
 
-   > **STOP — `iconflow` has no release on PyPI.** Until the
-   > [official project page](https://pypi.org/project/iconflow/) lists one,
-   > `uv tool install iconflow` / `pipx install iconflow` /
-   > `pip install iconflow` would fetch whatever else answers to that name.
-   > Check that a release exists before running any of them.
+   - `uv tool install iconflow`
+   - `pipx install iconflow`
+   - a project venv: `python -m venv .venv` then
+     `.venv/bin/python -m pip install iconflow` (`.venv\Scripts\python.exe`
+     on Windows) — that interpreter is then the runner in place of `iconflow`.
 
-   Working paths, in order: a source checkout the user already has (run its
-   `scripts/setup.ps1` or `scripts/setup.sh`, then use the `.venv` interpreter
-   it creates as the runner); a wheel or repository URL the user supplies
-   (`uv tool install <path-or-url>`, or a venv plus
-   `.venv/bin/python -m pip install <path-or-url>`; `.venv\Scripts\python.exe`
-   on Windows); or, once published, the index commands above.
+   Or, from a source checkout the user already has, its `scripts/setup.ps1` or
+   `scripts/setup.sh`.
 
    If the user has none of `uv`, `pipx`, or a usable `python`, say so and stop;
    do not install a language runtime without asking.

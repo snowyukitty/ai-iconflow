@@ -276,24 +276,24 @@ class SkillProcedureTest(unittest.TestCase):
             with self.subTest(gate=gate):
                 self.assertIn(gate, self.text)
 
-    def test_warns_about_pypi_before_any_index_install_command(self):
-        """Order matters: an agent runs the first command it reads.
+    def test_the_install_instructions_name_the_published_package(self):
+        """`iconflow` has been on PyPI since 0.5.0 (2026-08-22).
 
-        `iconflow` has no PyPI release, so `install iconflow` would fetch
-        whatever else answers to that name. The warning has to come first, not
-        as a footnote under the command.
+        Before that these documents led with a hard stop, because telling an
+        agent to install an unclaimed name would have fetched whatever else
+        answered to it. The name is claimed now, so the stop is gone — and this
+        test exists so it does not come back, and so the instructions keep
+        naming the package that actually exists.
         """
         for path in (SKILL, PLUGIN.parent.parent / "commands" / "setup.md"):
             with self.subTest(document=path.name):
-                raw = path.read_text(encoding="utf-8")
-                # Both markers wrap across lines, sometimes inside a blockquote.
-                text = " ".join(raw.replace("\n>", " ").split())
-                install = text.find("install iconflow")
-                self.assertNotEqual(-1, install, "expected an index install command")
-                self.assertIn("no release on PyPI", text)
-                stop = text.find("STOP")
-                self.assertNotEqual(-1, stop, "expected a hard stop before installing")
-                self.assertLess(stop, install, "the hard stop must come first")
+                text = " ".join(path.read_text(encoding="utf-8").split())
+                self.assertIn("uv tool install iconflow", text)
+                self.assertIn("pipx install iconflow", text)
+                # The warning was true once and is now false; it must not linger.
+                for stale in ("no release on PyPI", "not published on PyPI",
+                              "not on PyPI yet"):
+                    self.assertNotIn(stale, text)
 
 
 class PluginManifestTest(unittest.TestCase):

@@ -410,7 +410,6 @@
   "the-editable-0-remains-the-source-of-truth-b.6cb6786a": "项目旁可编辑的 <0/> 始终是唯一的事实来源。所有生成的文件均可随时重新构建。",
   "known-boundaries.2a58bd25": "已知边界",
   "local-does-not-mean-0-1-magical-1.fce0fe44": "本地运行并不意味着<0/><1>拥有魔法。</1>",
-  "0-source-install-today-0-1-iconflow-is-not-p.7b155d36": "<0>目前仅支持源码安装。</0><1>IconFlow 尚未在 PyPI 上发布。在官方版本正式发布之前，请勿使用 <2/>。</1>",
   "0-one-time-download-0-1-setup-needs-network.4a772b40": "<0>仅需单次下载。</0><1>安装配置阶段需要联网下载依赖项和 Playwright Chromium；之后的渲染与构建均完全在本地进行。</1>",
   "0-desktop-scope-0-1-tauri-output-currently-c.6b40b826": "<0>桌面端支持范围。</0><1>Tauri 输出目前仅涵盖桌面端资产，不包含 Android 或 iOS 的启动图与图标集。</1>",
   "0-toolchain-bound-proof-0-1-repeatability-as.4f3b28dc": "<0>绑定工具链的校样。</0><1>可复现性建立在相同的规范化 SVG、配置，以及相同版本的 IconFlow、Chromium 和 Pillow 基础之上。</1>",
@@ -708,6 +707,7 @@
   "nothing-shipped-here.6e6b6242": "此处未交付任何内容。",
   "return-to-the-source-bound-path.fedf1e5c": "返回绑定源文件的路径。",
   "back-to-iconflow.ea864577": "返回 IconFlow →",
-  "this-bends-iconflow-s-own-mark-so-your-remix.9618649e": "这是在改动 IconFlow 自己的商标，因此你的混搭沿用相同授权：CC BY 4.0——可以修改、可以商业使用，但需标示 IconFlow。若想要完全没有任何条件的标志，请用 <0/> 从公共领域的范本开始。"
+  "this-bends-iconflow-s-own-mark-so-your-remix.9618649e": "这是在改动 IconFlow 自己的商标，因此你的混搭沿用相同授权：CC BY 4.0——可以修改、可以商业使用，但需标示 IconFlow。若想要完全没有任何条件的标志，请用 <0/> 从公共领域的范本开始。",
+  "0-install-from-pypi-0-1-run-2-or-3-a-source.902e30ac": "<0>从 PyPI 安装。</0><1>运行 <2/> 或 <3/>。源码安装仍保留给贡献者使用。</1>"
  }
 }

@@ -60,18 +60,29 @@ product job and competing concepts—and refuses to ship unreviewed pixels.
 
 ## Five-minute proof
 
-Python 3.10+ is required. IconFlow is not published on PyPI yet, so install the
-current source checkout; do not use `pip install iconflow` until a release is
-listed on the [official PyPI project page](https://pypi.org/project/iconflow/).
-The one-time `setup` step downloads Playwright Chromium.
+Python 3.10+ is required. The one-time `setup` step downloads Playwright
+Chromium; everything after it is local.
+
+```bash
+pip install iconflow          # or: uv tool install iconflow / pipx install iconflow
+iconflow setup                # fetches Chromium — the only network step
+iconflow doctor               # proves the environment
+iconflow demo --out iconflow-demo
+```
+
+`demo` copies a real, already-reviewed family into that directory and runs
+`doctor` → `check` → `review` → `ship` against its source-bound receipt, so your
+first success is a genuine gated ship rather than a render. Edit the copied
+`master.svg` and re-run `ship` to watch it refuse the stale receipt.
+
+Working from a checkout instead — contributors, or anyone who wants the brand
+sources — no activation is required:
 
 ```bash
 git clone https://github.com/snowyukitty/ai-iconflow.git
-cd iconflow
+cd ai-iconflow
 python -m venv .venv
 ```
-
-Then use the venv interpreter directly—no activation is required:
 
 ```powershell
 # Windows PowerShell

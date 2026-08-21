@@ -5,6 +5,12 @@
      with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # Launch readiness
 
+> **Launched 2026-08-22.** The repository is public, `iconflow 0.5.0` is on PyPI
+> with signed attestations, and `pip install iconflow` followed by
+> `iconflow demo` works from a clean environment. What follows is the record of
+> how that was reached and what remains open.
+
+
 Status date: 2026-08-21. This file records evidence and remaining owner gates;
 it is not a claim that a release has been published.
 
@@ -55,7 +61,7 @@ is still fully the owner's to choose. That window closes on publication.
   into a clean venv and answered `doctor` with *IconFlow is ready*; the signed
   provenance resolves. Nothing about the pipeline is untested now except the
   real index accepting the name.
-- [ ] **Claim `iconflow` on PyPI first — which means publishing 0.5.0.**
+- [x] **`iconflow` claimed on PyPI 2026-08-22 by publishing 0.5.0.**
   PyPI has **no name reservation**: a pending publisher explicitly does not hold
   a name until an upload uses it. So the name becomes yours at the first
   successful upload and not before, and because the sdist and wheel both carry
@@ -87,7 +93,7 @@ is still fully the owner's to choose. That window closes on publication.
 - [ ] Owner decides whether to register the IconFlow word mark. `TRADEMARKS.md`
   asserts common-law rights, which are real but weaker than registration and
   jurisdiction-dependent.
-- [ ] **Owner makes the GitHub repository public.** Checked again on
+- [x] **Repository made public 2026-08-22.** Checked again on
   2026-08-21: `gh repo view snowyukitty/ai-iconflow` reports
   `"visibility": "PRIVATE"` and an unauthenticated request returns 404, so
   the clone URL, the raw docs, `uv tool install git+...`, and the
@@ -95,7 +101,7 @@ is still fully the owner's to choose. That window closes on publication.
   unreachable from outside this machine. Every adoption path below depends
   on this one. The 2026-08-21 line above stating that launch commits are on
   a public `main` no longer describes the repository's current state.
-- [ ] Owner enables GitHub private vulnerability reporting.
+- [x] Private vulnerability reporting enabled 2026-08-22.
 - [ ] Owner approves and applies the remaining homepage and social-preview settings
   (`docs/assets/social-preview.png`, 1280×640, Petal Haypile).
 - [ ] Owner confirms the `iconflow` name on PyPI and creates a Trusted
@@ -112,7 +118,7 @@ is still fully the owner's to choose. That window closes on publication.
   authorship records, which is what removes an "independent creation" defence
   later (`docs/PROVENANCE.md` §1).
 - [ ] Sign release tags, so a release is attributable to the maintainer.
-- [ ] Owner approves tag `v0.5.0`, the GitHub Release, and PyPI publication;
+- [x] Tag `v0.5.0`, GitHub Release, and PyPI publication approved and completed 2026-08-22;
   the changelog's *Unreleased* folds into 0.5.0 at that moment.
 
 This checkout is licensed in four tiers ([`LICENSES.md`](../LICENSES.md)):

@@ -24,28 +24,17 @@ have to guess where a document lives.
 ## 0. Resolve the runner (once)
 
 Run `iconflow --version`. If it answers, `iconflow` is your runner: use it
-verbatim everywhere below. If it does not, you have to install it — and one
-rule comes before any install command:
+verbatim everywhere below. If it does not, install it — preferring, in order:
 
-> **STOP — do not run `uv tool install iconflow`, `pipx install
-> iconflow`, or `pip install iconflow` yet.** `iconflow` has no release
-> on PyPI. Until the
-> [official project page](https://pypi.org/project/iconflow/) lists one,
-> installing that name from an index gets you whatever else answers to it, not
-> IconFlow. Verify a release exists before using any index command below.
+1. `uv tool install iconflow`
+2. `pipx install iconflow`
+3. a venv: `python -m venv .venv` then `.venv/bin/python -m pip install iconflow`
+   (`.venv\Scripts\python.exe` on Windows). Your runner is then that
+   interpreter followed by `-m iconflow` — substitute it for `iconflow` in
+   every command below.
 
-Working install paths today, in order:
-
-1. **A source checkout you already have.** Run its `scripts/setup.ps1`
-   (Windows) or `scripts/setup.sh` (macOS/Linux). Each creates `.venv`,
-   installs the checkout, fetches Chromium, and deploys this skill. Your runner
-   is then that checkout's `.venv\Scripts\python.exe -m iconflow` or
-   `.venv/bin/python -m iconflow`.
-2. **A wheel or repository URL you were given.**
-   `uv tool install <path-to-wheel-or-repo-url>`, or
-   `python -m venv .venv` + `.venv/bin/python -m pip install <same>`.
-3. **After PyPI publication** (check first): `uv tool install iconflow`,
-   `pipx install iconflow`, or `pip install iconflow` in a venv.
+Working from a source checkout instead? Run its `scripts/setup.ps1` or
+`scripts/setup.sh` and use the `.venv` interpreter it creates.
 
 If none of these is available, say so and stop — do not substitute another icon
 tool without asking.

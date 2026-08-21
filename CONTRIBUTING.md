@@ -19,11 +19,6 @@ docs (the brain)  →  casebook (experience)  →  iconflow case stats (the sign
 
 ## First 30 minutes
 
-> PyPI is **not live yet**. The `uv tool` / `pipx` / `pip` rows below work once
-> `iconflow` 0.5.0 is published; today every command runs from a checkout
-> with its venv interpreter (`.venv\Scripts\python.exe -m iconflow ...` on
-> Windows, `.venv/bin/python -m iconflow ...` elsewhere) - the last row.
-
 | You want to | Install | Then run |
 |---|---|---|
 | use IconFlow as a tool (agent or human) | `uv tool install iconflow` | `iconflow setup`, `iconflow doctor`, `iconflow demo --out work/demo` |

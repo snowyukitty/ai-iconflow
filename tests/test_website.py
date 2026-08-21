@@ -277,8 +277,13 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertIn('iconflow review', guide)
         self.assertIn('iconflow ship', guide)
         self.assertIn('iconflow case new', guide)
-        self.assertIn('not published on PyPI yet', guide)
-        self.assertNotIn('pip install iconflow', guide.split('not published on PyPI yet')[0])
+        # `iconflow` has been on PyPI since 0.5.0 (2026-08-22). The page used to
+        # warn that it was not; that warning is now false and must not return.
+        self.assertIn('pip install iconflow', guide)
+        self.assertNotIn('not published on PyPI yet', guide)
+        # The clone lands in a directory named after the repository, not the
+        # package; `cd iconflow` after cloning ai-iconflow is a broken command.
+        self.assertNotIn("\ncd iconflow\n", guide)
         self.assertIn("querySelectorAll('[data-copy-command]')", script)
         self.assertIn('copyButton.dataset.copyTarget', script)
         structured_data = []

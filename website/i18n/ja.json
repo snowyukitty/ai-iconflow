@@ -410,7 +410,6 @@
   "the-editable-0-remains-the-source-of-truth-b.6cb6786a": "編集可能な <0/>（マスター SVG）は、プロジェクトとともに信頼できる唯一のソースとして残ります。生成ファイルはいつでも再ビルドできます。",
   "known-boundaries.2a58bd25": "既知の制約",
   "local-does-not-mean-0-1-magical-1.fce0fe44": "ローカルだからといって<0/><1>魔法ではない。</1>",
-  "0-source-install-today-0-1-iconflow-is-not-p.7b155d36": "<0>現時点ではソースからインストール。</0><1>IconFlow はまだ PyPI で公開されていません。公式リリースが出るまで <2/> は使わないでください。</1>",
   "0-one-time-download-0-1-setup-needs-network.4a772b40": "<0>初回のみダウンロード。</0><1>セットアップ時は、依存パッケージと Playwright Chromium の取得にネットワーク接続が必要です。その後のレンダリングとビルドはローカルで行われます。</1>",
   "0-desktop-scope-0-1-tauri-output-currently-c.6b40b826": "<0>デスクトップの範囲。</0><1>現在の Tauri 出力が対象とするのはデスクトップアセットです。Android や iOS の起動画面とアイコンセットは含みません。</1>",
   "0-toolchain-bound-proof-0-1-repeatability-as.4f3b28dc": "<0>ツールチェーンに依存するプルーフ。</0><1>再現性には、同じ正規化済み SVG、設定、IconFlow、Chromium、Pillow のバージョンを使うことが前提です。</1>",
@@ -708,6 +707,7 @@
   "nothing-shipped-here.6e6b6242": "ここには何もリリースされていません。",
   "return-to-the-source-bound-path.fedf1e5c": "ソースに紐づいた経路へ戻ってください。",
   "back-to-iconflow.ea864577": "IconFlow に戻る →",
-  "this-bends-iconflow-s-own-mark-so-your-remix.9618649e": "これは IconFlow 自身の商標を変形するため、リミックスも同じ CC BY 4.0 に従います。改変も商用利用も自由で、IconFlow のクレジット表記が必要です。条件がまったくないマークが欲しい場合は、<0/> でパブリックドメインのひな形から始めてください。"
+  "this-bends-iconflow-s-own-mark-so-your-remix.9618649e": "これは IconFlow 自身の商標を変形するため、リミックスも同じ CC BY 4.0 に従います。改変も商用利用も自由で、IconFlow のクレジット表記が必要です。条件がまったくないマークが欲しい場合は、<0/> でパブリックドメインのひな形から始めてください。",
+  "0-install-from-pypi-0-1-run-2-or-3-a-source.902e30ac": "<0>PyPI からインストール</0><1><2/> または <3/> を実行します。ソースからのインストールもコントリビューター向けに引き続き利用できます。</1>"
  }
 }
