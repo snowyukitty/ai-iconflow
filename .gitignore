@@ -28,7 +28,13 @@ verify_exe_icon.png
 # `iconflow case atlas` output. Regenerate it locally rather than committing it:
 # it aggregates the whole local casebook into one file, so a casebook entry a
 # repository deliberately keeps local would be republished inside the atlas.
+#
+# casebook/ATLAS.md is the same artifact under a different name, and it slipped
+# past this rule: it was committed while citing a case the repository had
+# deliberately left untracked, republishing that case's sensitive category noun
+# in an aggregate nobody thinks to re-read. Both names are ignored now.
 case-atlas.html
+casebook/ATLAS.md
 
 # Published evidence belongs to the documentation package, not session scratch.
 !docs/assets/review-proof.png
