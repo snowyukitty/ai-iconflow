@@ -48,6 +48,13 @@ is still fully the owner's to choose. That window closes on publication.
 - [x] Three-tier license split landed (`LICENSES.md`, per-directory `LICENSE`
   files, SPDX headers, substantive `NOTICE`, `iconflow license`,
   `tests/test_licensing.py`). Verified 2026-08-21.
+- [x] Trusted Publishing proven end to end on TestPyPI, 2026-08-22 (run
+  `32516576257`). Pending publishers are registered on both indexes for project
+  name `iconflow`, repository `snowyukitty/ai-iconflow`, workflow `publish.yml`,
+  environments `pypi` / `testpypi`. `iconflow 0.5.0` installed from TestPyPI
+  into a clean venv and answered `doctor` with *IconFlow is ready*; the signed
+  provenance resolves. Nothing about the pipeline is untested now except the
+  real index accepting the name.
 - [ ] **Claim `iconflow` on PyPI first — which means publishing 0.5.0.**
   PyPI has **no name reservation**: a pending publisher explicitly does not hold
   a name until an upload uses it. So the name becomes yours at the first

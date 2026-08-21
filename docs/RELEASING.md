@@ -170,6 +170,18 @@ Then, to release:
    install from TestPyPI in a clean environment and run the smoke test. This
    costs nothing and is the only way to find a packaging problem *before* the
    version number is spent — a PyPI version can never be re-uploaded.
+
+   Done once already, on 2026-08-22 (run `32516576257`): both jobs green, the
+   OIDC handshake worked on the first attempt, and `iconflow 0.5.0` installed
+   from TestPyPI into a clean venv and answered `iconflow doctor` with
+   *IconFlow is ready*. Install from TestPyPI needs
+   `--extra-index-url https://pypi.org/simple/`, because Playwright and Pillow
+   are not mirrored there.
+
+   Note what actually gets published: the workflow **builds in CI from the
+   checked-out commit**, so the files uploaded are not the ones in a local
+   `dist/`. Their digests will differ from a local build — the reproducibility
+   `cmp` inside the workflow is what proves the CI build is self-consistent.
 4. Create the signed or annotated `v0.5.0` tag.
 5. Create the GitHub Release with changelog notes and the candidate artifacts;
    publishing the Release triggers the workflow against the real index.

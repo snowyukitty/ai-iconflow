@@ -38,6 +38,16 @@ worse than one that admits the gap.
 | GitHub Releases with checksums | The exact bytes of each published artifact |
 | Signed release tags | That a release came from the maintainer |
 | PyPI release history | Independent third-party timestamps of each version |
+| PyPI attestations | A Sigstore-signed statement, published beside each file, binding it to the repository, workflow, and environment that built it |
+
+The attestation is the strongest of these and the least dependent on anyone's
+word. `.github/workflows/publish.yml` sets `attestations: true`, and the
+mechanism was proven end to end on TestPyPI on 2026-08-22 — the published
+provenance names `snowyukitty/ai-iconflow`, `publish.yml`, and the environment,
+signed. Retrieve it for any file at
+`https://pypi.org/integrity/<project>/<version>/<filename>/provenance`. A
+repackaged copy cannot forge one, because the signature chains to the identity
+of the workflow that produced the bytes.
 
 Standing those up belongs in the same change that makes the repository public
 (`docs/LAUNCH_READINESS.md`), not later: their value is the date they record,
