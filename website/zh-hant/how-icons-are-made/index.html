@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>IconFlow 如何製作圖示 — 簡報、SVG、校樣、審查、receipt</title>
-  <meta name="description" content="IconFlow 方法論白話說明：使用者任務簡報、概念發散、可編輯的 1024 格 SVG、16px 與 128px 的精確 Chromium 算圖、機械檢查、計分審查、綁定原始檔的 receipt（簽收檔），以及透明的成本模型。">
+  <meta name="description" content="IconFlow 方法論白話說明：使用者任務簡報、概念發散、可編輯的 1024 格 SVG、16px 與 128px 的精確 Chromium 渲染、機械檢查、計分審查、綁定原始檔的 receipt（簽收檔），以及透明的成本模型。">
   <meta name="theme-color" content="#191a20">
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="article">
@@ -33,7 +33,7 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "IconFlow 如何製作圖示",
-    "description": "IconFlow 方法論：使用者任務簡報、概念發散、可編輯 SVG、精確的原生尺寸算圖、檢查、計分審查、綁定原始檔的 receipt，以及透明的成本模型。",
+    "description": "IconFlow 方法論：使用者任務簡報、概念發散、可編輯 SVG、精確的原生尺寸渲染、檢查、計分審查、綁定原始檔的 receipt，以及透明的成本模型。",
     "url": "https://ai-iconflow.com/zh-hant/how-icons-are-made/",
     "inLanguage": "en",
     "about": {
@@ -73,7 +73,7 @@
    <div class="method-hero-copy reveal">
     <p class="eyebrow"><span class="status-dot"></span> 方法論 · 工作怎麼做</p>
     <h1>IconFlow 如何<br>製作<em>圖示。</em></h1>
-    <p>不是一句提示詞加一張圖。而是產品簡報、相互競爭的構想、一份 1024 格上可編輯的 SVG、按人們實際看見的尺寸做精確算圖、機械檢查、由設計師計分的審查，以及把核准綁定到精確原始檔的 receipt（簽收檔）。每一步都用白話說明，說法旁邊就是真實產物。</p>
+    <p>不是一句提示詞加一張圖。而是產品簡報、相互競爭的構想、一份 1024 格上可編輯的 SVG、按人們實際看見的尺寸做精確渲染、機械檢查、由設計師計分的審查，以及把核准綁定到精確原始檔的 receipt（簽收檔）。每一步都用白話說明，說法旁邊就是真實產物。</p>
     <ul class="hero-contract" aria-label="頁面契約">
      <li>此頁展示的每一份產物都在儲存庫裡</li>
      <li>16px 校樣以 16px 顯示</li>
@@ -82,17 +82,17 @@
    </div>
 
    <div class="specimen-card reveal" aria-label="以 IconFlow 產品標誌作為實作標本">
-    <div class="specimen-topline"><span>標本 · Petal Haypile</span><strong>目前標誌</strong></div>
+    <div class="specimen-topline"><span>樣本 · Petal Haypile</span><strong>目前標誌</strong></div>
     <div class="specimen-stage">
      <figure>
       <img src="/assets/iconflow-mark.svg" width="128" height="128" alt="出自可編輯 SVG 的 IconFlow 標誌：一隻矮耳鼠兔銜著三片花瓣，走回乾草堆">
-      <figcaption>master.svg（主檔）· 由瀏覽器算圖</figcaption>
+      <figcaption>master.svg（主檔）· 由瀏覽器渲染</figcaption>
      </figure>
      <figure>
       <div class="specimen-native">
-       <img src="/assets/proof/icon-128.png?v=petal" width="128" height="128" alt="IconFlow 標誌的精確 128×128 像素算圖">
-       <img src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="IconFlow 標誌的精確 16×16 像素算圖，以實際尺寸顯示">
-       <img class="zoom-16" src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="同一張 16 像素算圖放大五倍，像素保持銳利">
+       <img src="/assets/proof/icon-128.png?v=petal" width="128" height="128" alt="IconFlow 標誌的精確 128×128 像素渲染">
+       <img src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="IconFlow 標誌的精確 16×16 像素渲染，以實際尺寸顯示">
+       <img class="zoom-16" src="/assets/proof/icon-16.png?v=petal" width="16" height="16" alt="同一張 16 像素渲染放大五倍，像素保持銳利">
       </div>
       <figcaption>精確 128px · 精確 16px · 16px 放大</figcaption>
      </figure>
@@ -108,7 +108,7 @@
   <section id="pipeline" class="pipeline-section section-shell">
    <div class="pipeline-heading reveal">
     <p class="section-kicker">真正的管線</p>
-    <h2>九個階段。<br><span>其中兩個是判斷。</span></h2>
+    <h2>九個階段。<br><span>其中兩個需要判斷。</span></h2>
     <p>每個階段都會留下檔案：簡報、概念縮圖、SVG、警告清單、PNG、計分的 receipt、一次建置、一份案例紀錄。點選階段即可閱讀做法。</p>
    </div>
    <ol class="pipeline reveal" aria-label="IconFlow 管線">
@@ -116,10 +116,10 @@
     <li><a href="#diverge"><strong>發散</strong><small>4+ 個概念、陳腔濫調過濾、一個手法</small></a></li>
     <li><a href="#svg"><strong>SVG</strong><small>1024 格上的可編輯幾何</small></a></li>
     <li><a href="#check"><strong>檢查</strong><small>安全、格線、筆畫、對比、裁切</small></a></li>
-    <li><a href="#check"><strong>算圖</strong><small>16 與 128 的精確 Chromium 像素</small></a></li>
+    <li><a href="#check"><strong>渲染</strong><small>16 與 128 的精確 Chromium 像素</small></a></li>
     <li><a class="is-human" href="#review"><strong>審查</strong><small>六軸，由設計師計分 — 人或代理程式</small></a></li>
-    <li><a href="#review"><strong>Receipt</strong><small>核准綁定到原始檔 hash</small></a></li>
-    <li><a href="#review"><strong>交付</strong><small>每個目標皆失敗即關閉的建置</small></a></li>
+    <li><a href="#review"><strong>Receipt</strong><small>核准綁定到原始檔 雜湊</small></a></li>
+    <li><a href="#review"><strong>交付</strong><small>每個目標皆失敗即封鎖的建置</small></a></li>
     <li><a class="is-human" href="#review"><strong>學習</strong><small>案例紀錄與提煉規則</small></a></li>
    </ol>
    <p class="pipeline-legend"><span>機械階段</span><span class="legend-human">設計判斷</span></p>
@@ -179,7 +179,7 @@
      <div class="reveal is-side">
       <figure class="figure-wide">
        <div class="figure-art"><img src="/assets/concept-bake.png?v=petal" width="1346" height="682" alt="IconFlow 概念比稿表，以原生尺寸與剪影比較三個候選標誌" loading="lazy"></div>
-       <figcaption><strong>一份真實的比稿表。</strong>三個決選以實際尺寸與剪影算圖，讓色彩藏不住泛用形狀。</figcaption>
+       <figcaption><strong>一份真實的比稿表。</strong>三個決選以實際尺寸與剪影渲染，讓色彩藏不住泛用形狀。</figcaption>
       </figure>
       <div class="figure-strip">
        <figure>
@@ -188,7 +188,7 @@
         <p class="figure-links"><a href="/assets/worlds/keepsake-knot.svg">原始 SVG</a><a href="/assets/worlds/keepsake-knot-review.json">Receipt JSON</a></p>
        </figure>
        <figure>
-        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/keepsake-knot-128.png" width="128" height="128" alt="Keepsake Knot 精確 128 像素算圖" loading="lazy"><img src="/assets/worlds/keepsake-knot-16.png" width="16" height="16" alt="Keepsake Knot 精確 16 像素算圖，實際尺寸" loading="lazy"></div></div>
+        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/keepsake-knot-128.png" width="128" height="128" alt="Keepsake Knot 精確 128 像素渲染" loading="lazy"><img src="/assets/worlds/keepsake-knot-16.png" width="16" height="16" alt="Keepsake Knot 精確 16 像素渲染，實際尺寸" loading="lazy"></div></div>
         <figcaption><strong>兩條帶子在 16px 仍讀得出。</strong>16px 小片是精確的原生 PNG，1:1，從來不是放大圖。</figcaption>
        </figure>
       </div>
@@ -201,16 +201,16 @@
    <div class="method-heading reveal">
     <p class="section-kicker">階段 03 · SVG</p>
     <h2>幾何是編寫的，<br><span>不是從雜訊生成。</span></h2>
-    <p>單一真實來源是一份小而可編輯的 SVG。隨時可讀、可 diff、可 hash，並重建成每個目標。</p>
+    <p>單一真實來源是一份小而可編輯的 SVG。隨時可讀、可 diff、可計算雜湊，並重建成每個目標。</p>
    </div>
    <div class="method-columns">
     <div class="method-prose reveal">
      <h3>在 1024 格上直接編寫</h3>
-     <p>每份主檔都畫在 <code>viewBox="0 0 1024 1024"</code>。在 16 像素時，約 64 格等於一顆輸出像素，所以預算是明示的：每個承載想法的強調大約分到兩像素（≈128 單位），每道必要間隔至少一像素，細於邊長約 2.3% 的筆畫預期會消失。關鍵內容留在中央約 80% 的安全區；必須撐過自適應裁切的東西留在中央安全圓內。16px 圖示恰好只容一個想法，兩個不透明前景元素絕不可交叉。</p>
+     <p>每份主檔皆以 <code>viewBox="0 0 1024 1024"</code> 繪製。在 16 像素下，64 個格線單位約等於一個輸出像素，因此預算非常明確：每個承載構想的重點細節約分到兩個像素（≈128 單位），每道必要間隔至少佔一個像素，而細於邊長約 2.3% 的線條預期會消失。核心內容留在中央約 80% 的安全區；任何必須撐過自適應裁切的內容都留在中央安全圓內。16px 圖示恰好只容納一個構想，兩個不透明的前景元素絕不可交叉。</p>
      <h3>二十個技法鷹架，零個完成標誌</h3>
      <p><code>iconflow new &lt;preset&gt;</code>會從二十種結構不同的執行語法起手 — flat-geometric、line-mark、duotone-cut、pixel-grid、stained-glass、woodcut 等等 — 各有 16px 存活規則與單色系統匣策略。它們刻意共用同一套內建骨架；真正的圖示仍要換成產品專屬物件，再跑完整道關卡。</p>
      <h3>確定性 Python，用在需要規模的系列</h3>
-     <p>系列不改方法；它們把可重複的部分寫成腳本。20 題 Social Signals 套件用有種子的 <code>random.Random(seed).shuffle</code> 指定風格，算圖前先對照目錄核對，並把每題的路徑幾何留在建置腳本裡。400 格 Emoji Matrix 由 <code>scripts/build_emoji_matrix.py</code> 建置，對每格重跑 <code>check</code>、為每張校樣取指紋，缺一份 receipt、digest 或審查決定就失敗即關閉。規模買到的是可重複與可稽核 — 從來不是過關。</p>
+     <p>系列不改變方法；它們只把可重複的部分寫成腳本。20 題的 Social Signals 套件以帶種子的 <code>random.Random(seed).shuffle</code> 指派風格，在任何渲染前先對照目錄核對，並把每題的路徑幾何留在建置腳本裡。400 格的 Emoji Matrix 由 <code>scripts/build_emoji_matrix.py</code> 建置，對每格重跑 <code>check</code>、為每張校樣取指紋，缺少任何一份 receipt、摘要或審查決定就失敗即封鎖。規模換來的是可重複性與可稽核性——從來不是過關。</p>
      <ul class="doc-links" aria-label="相關文件">
       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/STYLE_CATALOG.md">docs/STYLE_CATALOG.md</a></li>
       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/SVG_TECHNIQUES.md">docs/SVG_TECHNIQUES.md</a></li>
@@ -221,7 +221,7 @@
     <div class="reveal is-side">
      <figure class="figure-wide">
       <div class="figure-art"><img src="/assets/style-gallery.png" width="1518" height="836" alt="一張表上的全部二十個 IconFlow 技法鷹架，各帶原生 16 像素校樣" loading="lazy"></div>
-      <figcaption><strong>二十技法表。</strong>由與建置相同、網路隔離的 Chromium 算圖；每一格都帶著自己的原生 16px 校樣。</figcaption>
+      <figcaption><strong>二十技法表。</strong>由與建置相同、網路隔離的 Chromium 渲染；每一格都帶著自己的原生 16px 校樣。</figcaption>
      </figure>
     </div>
    </div>
@@ -230,27 +230,27 @@
   <section id="check" class="method-section is-alt">
    <div class="section-shell">
     <div class="method-heading reveal">
-     <p class="section-kicker">階段 04–05 · 檢查與算圖</p>
-     <h2>精確像素，<br><span>機械警告。</span></h2>
-     <p>IconFlow 用釘選版本的 Playwright Chromium 算圖，再對所見畫面跑一份明確的檢查清單。</p>
+     <p class="section-kicker">階段 04–05 · 檢查與渲染</p>
+     <h2>精確像素，<br><span>機械式警告。</span></h2>
+     <p>IconFlow 用釘選版本的 Playwright Chromium 渲染，再對所見畫面跑一份明確的檢查清單。</p>
     </div>
     <div class="method-columns">
      <div class="method-prose reveal">
-      <h3>算圖是隔離且可重複的</h3>
-      <p>算圖器把 SVG 當不可信輸入。Chromium 封鎖網路與 service worker，停用頁面 JavaScript，移除或凍結動態與動畫內容，並固定 sRGB、地區設定與時區。輸入上限為 4 MiB、50,000 個元素、128 層巢狀，DTD 或實體宣告一律拒絕。本頁的 16px 與 128px PNG 就是那些精確算圖，不是大圖重採樣。</p>
+      <h3>渲染是隔離且可重複的</h3>
+      <p>渲染器將 SVG 視為不受信任的輸入。Chromium 在封鎖網路與 Service Worker、停用頁面 JavaScript、移除或凍結動態與動畫內容，並固定 sRGB、語系與時區的環境下執行。輸入上限為 4 MiB、50,000 個元素與 128 層巢狀，且拒絕 DTD 或實體宣告。本頁的 16px 與 128px PNG 就是這些精確渲染的結果，而非較大影像的重新取樣。</p>
       <h3><code>check</code> 真正在測什麼</h3>
       <ul>
        <li><strong>SVG 安全：</strong> script、iframe、object、embed、audio、video 與 animation 元素、事件處理器、外部 <code>href</code>/<code>src</code>、CSS <code>url()</code> 與 <code>@import</code>。</li>
        <li><strong>格線：</strong>缺少 <code>viewBox</code>，或不是正方形。</li>
        <li><strong>筆畫下限：</strong>任何細於 viewBox 寬度 2.3% 的筆畫。</li>
-       <li><strong>16px 覆蓋率：</strong>低於畫布 6% 太小；不透明四角的硬正方形會被圓形裁切剪掉。</li>
+       <li><strong>16px 覆蓋率：</strong>畫布覆蓋率低於 6% 會過小；帶有不透明角落的直角方形會被圓形裁切截掉。</li>
        <li><strong>對比：</strong>16px 在白底與暗底上的亮度跨度，以及 32px 在中灰上的亮度跨度。</li>
        <li><strong>Maskable 稽核：</strong>512px maskable 資產上，超過 8% 的偵測細節落在 40% 半徑安全圓外。</li>
-       <li><strong>辨識度提示：</strong>即時 <code><text></code> 字形 — 通常是打字的字母組合，並經建置機的字型算圖。</li>
+       <li><strong>辨識度提示：</strong>未轉外框的 <code><text></code> 字形——通常是鍵入的字母組合，並透過建置機器的字型渲染。</li>
       </ul>
-      <p>加上 <code>--tray-svg tray.svg</code>、<code>check</code> 與 <code>review</code> 會多一道建議性的系統匣範本稽核：它會回報一份沒留下彩色標誌任何特徵的 macOS template。它刻意不納入預設的 <code>check</code>，也從不管控 <code>ship</code>，因為稽核的是連結變體，不是主檔。</p>
+      <p>搭配 <code>--tray-svg tray.svg</code>、<code>check</code> 與 <code>review</code> 會多一道建議性的系統匣範本稽核：它會回報一份沒有留下彩色標誌任何特徵的 macOS 範本。它刻意不納入預設的 <code>check</code>，也從不作為 <code>ship</code> 的關卡，因為它稽核的是連結變體，不是主檔。</p>
       <h3>剪影與相似度是分開的證明</h3>
-      <p>每個已審查案例也會得到 128px 視覺剪影，因為辨識度是去掉色彩來評的。400 格矩陣的相似度報告會加上精確 PNG hash，以及 64-bit alpha 與亮度差異 hash；alpha 加亮度的合計 Hamming 距離在 12 以內（同義）或 6 以內（異義）的配對會標成高風險，完全重複則阻擋整合。腳本稱這段距離為「視覺檢查的分流訊號，不是錄取分數」。</p>
+      <p>每個通過審查的案例也會有一個 128px 視覺剪影，因為辨識度是在移除色彩後判定。400 格矩陣的相似度報告會加入精確 PNG 雜湊，以及 64 位元 Alpha 與亮度差異雜湊；合併 Alpha 與亮度的漢明距離在 12（相同意義）或 6（不同意義）以內的配對會被標為高風險，完全重複者則阻擋整合。腳本將這個距離稱為「供視覺檢查分流的訊號，而非收錄評分」。</p>
       <ul class="doc-links" aria-label="相關文件">
        <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/iconflow/qa.py">iconflow/qa.py</a></li>
        <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/WORKFLOW.md">docs/WORKFLOW.md</a></li>
@@ -259,8 +259,8 @@
      <div class="reveal is-side">
       <div class="figure-strip">
        <figure>
-        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/catnap-focus-128.png" width="128" height="128" alt="Catnap Focus 精確 128 像素算圖：一隻蜷曲的睡貓" loading="lazy"><img src="/assets/worlds/catnap-focus-16.png" width="16" height="16" alt="Catnap Focus 精確 16 像素算圖，實際尺寸" loading="lazy"></div></div>
-        <figcaption><strong>精確算圖。</strong>Catnap Focus 的 128px 與 16px，直接出自釘選的 Chromium。</figcaption>
+        <div class="figure-art"><div class="native-row"><img src="/assets/worlds/catnap-focus-128.png" width="128" height="128" alt="Catnap Focus 精確 128 像素渲染：一隻蜷曲的睡貓" loading="lazy"><img src="/assets/worlds/catnap-focus-16.png" width="16" height="16" alt="Catnap Focus 精確 16 像素渲染，實際尺寸" loading="lazy"></div></div>
+        <figcaption><strong>精確渲染。</strong>Catnap Focus 的 128px 與 16px，直接出自釘選的 Chromium。</figcaption>
        </figure>
        <figure>
         <div class="figure-art"><img src="/assets/worlds/catnap-focus-silhouette-128.png" width="128" height="128" alt="Catnap Focus 去掉色彩的視覺剪影，仍讀成一隻蜷曲的貓" loading="lazy"></div>
@@ -271,7 +271,7 @@
        <div class="panel-head"><span>終端機</span><span>一次乾淨的 check</span></div>
        <pre><code>$ python -m iconflow check master.svg
 OK — no automated warnings. Still do the visual review.</code></pre>
-       <p class="panel-note">警告是要修的原始內容，不是要重新啟用的算圖器功能。<code>ship</code> 拒絕帶警告記錄的 receipt。</p>
+       <p class="panel-note">警告是要修的原始內容，不是要重新啟用的渲染器功能。<code>ship</code> 拒絕帶警告記錄的 receipt。</p>
       </div>
      </div>
     </div>
@@ -281,17 +281,17 @@ OK — no automated warnings. Still do the visual review.</code></pre>
   <section id="review" class="method-section section-shell">
    <div class="method-heading reveal">
     <p class="section-kicker">階段 06–09 · 審查、receipt、交付、學習</p>
-    <h2>由人打分。<br><span>由 hash 記住。</span></h2>
+    <h2>人來評分。<br><span>雜湊留下記錄。</span></h2>
     <p>機械檢查抓住機械風險。標誌好不好，由眼睛看真實像素決定，並記在建置可核對的 receipt 裡。</p>
    </div>
    <div class="method-columns">
     <div class="method-prose reveal">
      <h3>人眼視覺審查</h3>
-     <p>審查者打開樣張表與 Review Lab：白、暗、中灰為列；16px 到 256px 實際尺寸為欄；像素放大帶；alpha 足跡；視覺剪影；自適應裁切預覽；每個選定目標的變換。六軸以 1–5 計分：16px 可讀性、辨識度、平衡與格線、色彩與對比、可縮放性、工藝。任一軸低於 4 不得交付，辨識度是明示關卡 — 泛用剪影再好看的色彩最多也只得 3。</p>
+     <p>審查者打開樣張表與 Review Lab：白、深與中灰為列；16px 到 256px 實際尺寸為欄；像素放大條；Alpha 覆蓋範圍；視覺剪影；自適應裁切預覽；每個選定目標的變換。六軸以 1–5 計分：16px 可讀性、辨識度、平衡與格線、色彩與對比、可縮放性、工藝。任一軸低於 4 不得交付，辨識度是明示關卡——無論色彩多好看，泛用剪影最高只得 3 分。</p>
      <h3>退回與迭代是常態</h3>
-     <p>任一軸低於 4，審查者點出最弱軸，做一個影響最大的改動，再重新算圖。文件預期兩到三輪。100 案例藝廊版從 111 個候選收錄 100 個，並明示退回 11 個較弱、較難讀或重複的方向案；Keepsake Knot 的 receipt 記錄第一輪因讀成電源符號而被退回。</p>
-     <h3>綁定原始檔的 receipt，失敗即關閉的交付</h3>
-     <p>匯出的 receipt 帶有精確 SVG 的 <code>source_sha256</code>，以及綁定專案、目標集合、色彩、Electron 半徑、配色、系統匣模式與系統匣來源 hash 的 <code>contract_sha256</code>。<code>iconflow ship</code> 核對兩者，要求警告清單為空、<code>status: ready</code>，以及六軸分數至少 4，然後在寫入任何檔案前重跑自動化 QA。改了 SVG 內容 — digest 只忽略換行 — receipt 就過期。</p>
+     <p>任一軸低於 4，審查者點出最弱軸，做一個影響最大的改動，再重新渲染。文件預期兩到三輪。100 案例藝廊版從 111 個候選收錄 100 個，並明示退回 11 個較弱、較難讀或重複的方向案；Keepsake Knot 的 receipt 記錄第一輪因讀成電源符號而被退回。</p>
+     <h3>綁定原始檔的 receipt，失敗即封鎖的交付</h3>
+     <p>匯出的 receipt（憑證）帶有精確 SVG 的 <code>source_sha256</code>，以及綁定專案、目標集合、色彩、Electron 圓角、配色、系統匣模式與系統匣來源雜湊的 <code>contract_sha256</code>。<code>iconflow ship</code> 會同時驗證兩者，要求警告清單為空、<code>status: ready</code> 以及六項評分皆至少達 4 分，接著在寫入任何檔案前重新執行自動化 QA。只要更改 SVG 的內容——摘要僅忽略換行——該 receipt 便會失效。</p>
      <h3>案例集學習</h3>
      <p>每個已交付圖示以 <code>iconflow case new</code> 作結：第一輪與最終分數、避開的陳腔濫調、標誌性手法、一則可再利用的教訓。<code>case stats</code> 會點出反覆最弱的軸與內部陳腔濫調；這些教訓提煉成 <code>docs/LEARNINGS.md</code> 裡的編號規則（撰寫時為 54 條），下一份簡報必須先讀。沒記錄的圖示，系統什麼也學不到。</p>
      <ul class="doc-links" aria-label="相關文件">
@@ -319,13 +319,13 @@ OK — no automated warnings. Still do the visual review.</code></pre>
 "notes": "Pass 1 rejected the power-sign
   reading. …",
 "status": "ready"</code></pre>
-      <p class="panel-note">完整檔案是公開的：<a href="/assets/worlds/keepsake-knot-review.json">keepsake-knot-review.json</a>。其 hash 與 <a href="/assets/worlds/keepsake-knot.svg">keepsake-knot.svg</a> 相符；網站測試在每次建置時重新核對。</p>
+      <p class="panel-note">完整檔案已公開：<a href="/assets/worlds/keepsake-knot-review.json">keepsake-knot-review.json</a>。其雜湊與 <a href="/assets/worlds/keepsake-knot.svg">keepsake-knot.svg</a> 相符；網站測試在每次建置時都會重新驗證。</p>
      </div>
      <div class="panel">
       <div class="panel-head"><span>ship 核對什麼</span><span>在寫入檔案之前</span></div>
       <ol>
        <li>Receipt 綱要與目前 SVG 的完整 SHA-256。</li>
-       <li>契約 digest：專案、精確目標集合、色彩、半徑、配色、系統匣模式、系統匣來源 hash。</li>
+       <li>契約 摘要：專案、精確目標集合、色彩、半徑、配色、系統匣模式、系統匣來源 雜湊。</li>
        <li>空白警告清單與 <code>status: ready</code>。</li>
        <li>每個評分軸都有分數，且至少為 4。</li>
        <li>立刻再對原始檔跑一次自動化 QA。</li>
@@ -379,8 +379,8 @@ OK — no automated warnings. Still do the visual review.</code></pre>
      <ul>
       <li>這些圖示集獨立且無隸屬關係；本站任何內容皆未經任何平台或表情符號廠商背書，亦無關聯。</li>
       <li>練習樣本不是已交付的識別形象，也不能取代官方標誌。</li>
-      <li>視覺距離不是法律上的權利確認。殘餘風險包含未發現的第三方標誌、特定法域的混淆分析，以及未來的品牌變更。</li>
-      <li>會承載商業重量的產品標誌，採用前應做正式商標檢索與專業法律審閱。IconFlow 讓設計工作可被檢視；但並不代為完成權利確認。</li>
+      <li>視覺距離不等於法律上的權利確認。殘餘風險包括尚未發現的第三方商標、各司法管轄區特有的混淆分析，以及未來的品牌變更。</li>
+      <li>具商業份量的產品標誌，採用前應接受正式商標檢索與專業法律審查。IconFlow 讓設計工作可供檢視；但不代為完成權利確認。</li>
      </ul>
     </article>
    </div>
@@ -391,7 +391,7 @@ OK — no automated warnings. Still do the visual review.</code></pre>
    <div class="section-shell">
     <div class="method-heading reveal">
      <p class="section-kicker">透明的成本模型</p>
-     <h2>運算很便宜。<br><span>判斷才是真正的成本。</span></h2>
+     <h2>算力廉價。<br><span>判斷才是真正的成本。</span></h2>
      <p>這裡刻意不放金額。確切數字取決於你的代理程式用哪個模型或 API、託管在哪，以及當天專業服務的行情。以下說明什麼會隨規模變動，以及為什麼。</p>
     </div>
     <ul class="cost-facts reveal" aria-label="成本從哪裡來">
@@ -440,7 +440,7 @@ OK — no automated warnings. Still do the visual review.</code></pre>
       <div class="tier-cost"><span class="tier-label">相對成本</span><strong>數天，多半是審查</strong><span class="tier-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><p>到數百格時模型用量會變明顯；策展時數仍超過它。</p></div>
      </li>
     </ol>
-    <p class="cost-footnote reveal"><strong>把這把尺當成比例，不是價格。</strong> 模型用量、託管與專業費用各自由別人按會變動的費率計費；IconFlow 不加收自己的費用，引擎在本機執行。無論哪個層級，完成識別的主要成本都是人用來決定與審查的時間——而這正是此方法拒絕省略的部分。</p>
+    <p class="cost-footnote reveal"><strong>把計量當成比例，不是價格。</strong>模型用量、託管與專業費用各由別人按會變動的費率計費；IconFlow 不加收自己的費用，引擎在本機執行。無論哪個層級，完成識別的主要成本都是人用來決策與審查的時間——而這正是此方法拒絕省略的部分。</p>
    </div>
   </section>
 

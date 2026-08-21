@@ -106,7 +106,7 @@
     <section class="guide-principle">
       <div class="section-shell principle-grid reveal">
         <p class="section-kicker">運作模式</p>
-        <h2>代理程式設計。<br>IconFlow 負責校樣。</h2>
+        <h2>代理程式負責設計。<br>IconFlow 負責驗證。</h2>
         <p>代理程式研究產品、探索不同概念，並撰寫語意化 SVG。IconFlow 提供設計手冊、確定性渲染器、品質關卡、目標轉換與學習迴圈。它不是提示詞生圖工具。</p>
       </div>
     </section>
@@ -149,7 +149,7 @@
         <div class="guide-heading reveal">
           <p class="section-kicker">五分鐘引擎校樣</p>
           <h2>驗證管線<br><span>再開始設計。</span></h2>
-          <p>這會把 IconFlow 已提交、已審查的圖示家族建到可拋棄的工作目錄。它證明的是你的環境——不是五分鐘內就能設計出獨特的新識別。</p>
+          <p>這會把 IconFlow 已簽入、已審查的圖示家族建到可拋棄的工作目錄。它證明的是你的環境——不是五分鐘內就能設計出獨特的新識別。</p>
         </div>
 
         <div class="proof-steps reveal">
@@ -190,7 +190,7 @@ sh ./scripts/setup.sh
 
         <div class="proof-result reveal">
           <div class="proof-result-mark"><img src="/assets/iconflow-mark.svg" width="92" height="92" alt="IconFlow 標誌"></div>
-          <div><span class="proof-result-label">預期結果</span><h3>關卡，不只是資料夾。</h3><p><code>doctor</code>回報渲染器已就緒。<code>ship</code> 驗證已提交的原始檔與審查契約，重跑 QA，並將網頁、PWA、Tauri 桌面、Electron 與系統匣素材寫入 <code>work/quick-start/icon-out/</code>。</p></div>
+          <div><span class="proof-result-label">預期結果</span><h3>關卡，不只是資料夾。</h3><p><code>doctor</code>回報渲染器已就緒。<code>ship</code> 會驗證已簽入的原始檔與審查契約、重新執行 QA，並將 Web、PWA、Tauri 桌面、Electron 與系統匣資產寫入 <code>work/quick-start/icon-out/</code>。</p></div>
           <ul><li><span></span>原始檔雜湊相符</li><li><span></span>0 則自動警告</li><li><span></span>六項分數 ≥ 4/5</li></ul>
         </div>
       </div>
@@ -285,7 +285,7 @@ python -m iconflow review --config iconflow.toml \
           </li>
           <li class="reveal">
             <div class="workflow-number">05</div>
-            <div class="workflow-copy"><span>交付</span><h3>讓核准失敗即關閉。</h3><p>只有每個評分軸都達到 4/5 之後，才匯出 Review Lab receipt。原始檔或目標一改，那份 receipt 就過期。</p></div>
+            <div class="workflow-copy"><span>交付</span><h3>讓核准失敗即封鎖。</h3><p>只有每個評分軸都達到 4/5 之後，才匯出 Review Lab receipt。原始檔或目標一改，那份 receipt 就過期。</p></div>
             <pre><code>python -m iconflow ship \
   --config iconflow.toml \
   --review master-review.json</code></pre>
@@ -305,7 +305,7 @@ python -m iconflow case stats</code></pre>
       <div class="guide-heading reveal">
         <p class="section-kicker">確切的產出家族</p>
         <h2>只要求<br><span>你會交付的版面。</span></h2>
-        <p>目標是明示的。IconFlow 不宣稱「所有平台」，完整的 app 卡片也不會默默變成好用的選單列剪影。</p>
+        <p>目標明確。IconFlow 不宣稱「所有平台」，完整的 App 卡片也不會默默變成好用的選單列剪影。</p>
       </div>
       <div class="output-grid">
         <article class="output-card reveal"><span>WEB / PWA</span><h3>瀏覽器版面</h3><p>Favicon 的 SVG 與 ICO、Apple touch icon、192px 與 512px 的 PWA 素材，外加 maskable 圖示與 manifest 片段。</p><code>--targets web,pwa</code></article>
@@ -339,7 +339,7 @@ python -m iconflow case stats</code></pre>
       <div class="section-shell limits-grid reveal">
         <div><p class="section-kicker">已知界線</p><h2>本機並不代表<br><span>神奇。</span></h2></div>
         <ul>
-          <li><strong>目前為原始碼安裝。</strong><span>IconFlow 尚未發布到 PyPI。在正式發行前，不要使用 <code>pip install ai-iconflow</code>。</span></li>
+          <li><strong>目前僅支援原始碼安裝。</strong><span>IconFlow 尚未發布到 PyPI。在正式發行前，請勿使用 <code>pip install ai-iconflow</code>。</span></li>
           <li><strong>一次性下載。</strong><span>設定需要網路以取得依賴與 Playwright Chromium；之後的渲染與建置都在本機。</span></li>
           <li><strong>桌面範圍。</strong><span>Tauri 產出目前涵蓋桌面素材，不含 Android 或 iOS 的啟動畫面與圖示組。</span></li>
           <li><strong>綁定工具鏈的校樣。</strong><span>可重現性假設使用相同的正規化 SVG、設定、IconFlow、Chromium 與 Pillow 版本。</span></li>

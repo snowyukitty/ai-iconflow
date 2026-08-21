@@ -89,7 +89,7 @@
     <section id="top" class="hero section-shell">
       <div class="hero-copy reveal">
         <p class="eyebrow"><span class="status-dot"></span> 開源 · 在本機執行 · 為 AI 代理程式而建</p>
-        <h1>一份主檔。<br>每種版面。<br><em>於 16px 驗證。</em></h1>
+        <h1>一份主檔。<br>每個版面。<br><em>經 16px 驗證。</em></h1>
         <p class="hero-lede">IconFlow 是本機 CLI 與代理程式工作流程，能把一張可編輯的 SVG 轉成你選的網頁、PWA、桌面與系統匣素材。自動化檢查會攔截機械性風險；交付會維持封鎖，直到針對該精確原始檔記錄一筆當前的六軸審查。</p>
         <div class="hero-actions">
           <a class="button button-primary" href="/zh-hant/getting-started/">開始使用 IconFlow <span aria-hidden="true">→</span></a>
@@ -159,7 +159,7 @@
     <section class="problem-band">
       <div class="section-shell problem-grid reveal">
         <p class="section-kicker">昂貴的錯誤</p>
-        <h2>圖示不是在 1024px 就完成了。</h2>
+        <h2>圖示不會在 1024px 就算完成。</h2>
         <p>細節糊掉。內白消失。系統匣剪影變成黑方塊。IconFlow 把最小輸出當成首要設計版面——而不是最後才出現的意外。</p>
         <div class="problem-sizes" aria-label="同一枚通過審查的圖示，在多種原生尺寸下">
           <figure><img src="/assets/proof/icon-128.png?v=petal" width="128" height="128" alt="128 像素的 IconFlow 圖示"><figcaption>128</figcaption></figure>
@@ -173,7 +173,7 @@
     <section id="proof" class="proof-section section-shell">
       <div class="section-heading reveal">
         <p class="section-kicker">互動式 Proof Lab · 審查畫面的示範</p>
-        <h2>別相信效果圖。<br><span>檢視像素。</span></h2>
+        <h2>別相信示意稿。<br><span>檢視像素。</span></h2>
         <p>這些是從已審查的語意化原始檔、由 Chromium 精確渲染的 PNG。可改尺寸、版面、裁切或原始檔狀態。</p>
       </div>
 
@@ -252,7 +252,7 @@
     <section id="remix" class="remix-section section-shell">
       <div class="section-heading reveal">
         <p class="section-kicker">Remix Lab · 完全在你的瀏覽器裡執行</p>
-        <h2>改變設計。<br><span>看像素回應。</span></h2>
+        <h2>修改設計。<br><span>看像素如何回應。</span></h2>
         <p>一份語意化原始檔、同一份設計說明下的三種攜帶物件，再加上你自己的色盤。每張縮圖都由你的瀏覽器以原生尺寸點陣化——不上傳、沒有圖片 API、不需帳號。</p>
       </div>
 
@@ -277,7 +277,7 @@
             <div class="color-grid">
               <label><input type="color" data-color="card" value="#191a20"><span>卡片</span></label>
               <label><input type="color" data-color="body" value="#fff4e8"><span>主體</span></label>
-              <label><input type="color" data-color="cove" value="#59c7c1"><span>頰凹</span></label>
+              <label><input type="color" data-color="cove" value="#59c7c1"><span>頰窩</span></label>
               <label><input type="color" data-color="a1" value="#ff5a4f"><span>強調色 1</span></label>
               <label><input type="color" data-color="a2" value="#f2b84b"><span>強調色 2</span></label>
               <label><input type="color" data-color="a3" value="#845ec2"><span>強調色 3</span></label>
@@ -289,7 +289,7 @@
             <label class="range-row"><span>標誌縮放</span><input type="range" min="80" max="120" value="100" data-scale><output data-scale-out>100%</output></label>
             <div class="toggle-row">
               <label class="source-toggle"><input type="checkbox" data-mirror><span></span>鏡射</label>
-              <label class="source-toggle"><input type="checkbox" data-card-on checked><span></span>App 圖塊</label>
+              <label class="source-toggle"><input type="checkbox" data-card-on checked><span></span>App 圖磚</label>
             </div>
           </fieldset>
           <fieldset>
@@ -323,14 +323,14 @@
         </div>
 
         <div class="remix-actions">
-          <p class="remix-verdict"><strong>未經審查的 Remix。</strong>此 Lab 展示後果；能否交付由 IconFlow 的審查關卡決定。帶回本機跑 check、review 與 ship。</p>
+          <p class="remix-verdict"><strong>未經審查的 Remix。</strong>這個實驗室只呈現後果；能否交付由 IconFlow 的關卡決定。帶回本機，走完 check、review 與 ship。</p>
           <div class="remix-buttons">
             <button class="button button-primary" type="button" data-remix-download>下載 master.svg</button>
             <button class="button button-quiet" type="button" data-remix-copy-svg>複製 SVG</button>
-            <button class="button button-quiet" type="button" data-remix-copy-brief>複製代理說明</button>
+            <button class="button button-quiet" type="button" data-remix-copy-brief>複製代理程式說明</button>
             <button class="text-button" type="button" data-remix-reset>重設</button>
           </div>
-          <p class="remix-status" data-remix-status aria-live="polite" data-label-render-failed="此 Remix 無法渲染。請重設後再試。" data-label-clipboard-blocked="剪貼簿被封鎖 — 文字顯示於下方；請選取並複製。" data-label-svg-copied="已複製 SVG。請存成 master.svg。" data-label-brief-copied="已複製代理說明。請貼到你的 master.svg 旁邊。" data-label-downloaded="已下載 master.svg — 接著執行 iconflow check / review / ship。"></p>
+          <p class="remix-status" data-remix-status aria-live="polite" data-label-render-failed="此 Remix 無法渲染。請重設後再試。" data-label-clipboard-blocked="剪貼簿被封鎖 — 文字顯示於下方；請選取並複製。" data-label-svg-copied="已複製 SVG。請存成 master.svg。" data-label-brief-copied="已複製代理程式說明。請貼到你的 master.svg 旁邊。" data-label-downloaded="已下載 master.svg — 接著執行 iconflow check / review / ship。"></p>
           <textarea class="remix-fallback" data-remix-fallback readonly hidden rows="4" aria-label="Text to copy by hand"></textarea>
         </div>
       </div>
@@ -490,7 +490,7 @@
     <section id="archive" class="archive-section">
       <div class="section-shell section-heading reveal">
         <p class="section-kicker">活檔案 · IconFlow 尋找自身標誌時畫下的每一筆</p>
-        <h2>不是一枚標誌。<br><span>是一整座活檔案。</span></h2>
+        <h2>不只一枚標誌。<br><span>而是一整座活檔案。</span></h2>
         <p>機械、同伴、隱藏品牌解剖、一座果園、一片樹冠、一隻貓。每個方向案都是用這套方法畫出的原創 SVG，由同一引擎渲染，並以原生尺寸比對——點一下就能看到精確的 16px 校樣。</p>
       </div>
       <div class="section-shell archive-home-finalists reveal">
@@ -532,7 +532,7 @@
       <div class="section-shell">
         <div class="section-heading reveal">
           <p class="section-kicker">校樣看得見</p>
-          <h2>每項主張都有<br><span>一件產物在背後。</span></h2>
+          <h2>每項主張背後<br><span>都有產物佐證。</span></h2>
         </div>
         <div class="evidence-grid">
           <figure class="evidence-card evidence-wide reveal">
@@ -554,7 +554,7 @@
 ✓ all six axes ≥ 4/5
 
 23 files built</code></pre>
-            <div><span>03 · 交付</span><h3>失敗即關閉的發行</h3><p>過期的 receipt 或偏低的分數會停下建置。</p></div>
+            <div><span>03 · 交付</span><h3>失敗即封鎖的發行</h3><p>過期的 receipt 或偏低的分數會停下建置。</p></div>
           </article>
         </div>
       </div>
@@ -564,8 +564,8 @@
       <div class="start-card reveal">
         <div>
           <p class="section-kicker">跑五分鐘校樣</p>
-          <h2>你的圖示值得<br>一段誠實的最後一哩。</h2>
-          <p>選代理程式協助的路徑，或直接操作 CLI，然後建置已提交的 IconFlow 品牌圖示家族。五分鐘證明的是引擎，不是新的識別；<code>setup</code> 會下載一次 Chromium，此外沒有任何東西離開你的機器。</p>
+          <h2>你的圖示值得<br>誠實的最後一哩路。</h2>
+          <p>選代理程式協助的路徑，或直接操作 CLI，然後建置已簽入的 IconFlow 品牌圖示家族。五分鐘證明的是引擎，不是新的識別；<code>setup</code> 會下載一次 Chromium，此外沒有任何東西離開你的機器。</p>
           <div class="start-actions">
             <a class="button button-primary" href="/zh-hant/getting-started/">打開 Getting Started <span aria-hidden="true">→</span></a>
             <a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">在 GitHub 查看 <span aria-hidden="true">↗</span></a>
