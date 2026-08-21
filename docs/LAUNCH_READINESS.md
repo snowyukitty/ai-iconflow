@@ -48,11 +48,18 @@ is still fully the owner's to choose. That window closes on publication.
 - [x] Three-tier license split landed (`LICENSES.md`, per-directory `LICENSE`
   files, SPDX headers, substantive `NOTICE`, `iconflow license`,
   `tests/test_licensing.py`). Verified 2026-08-21.
-- [ ] **Claim `ai-iconflow` on PyPI first.** Publishing a public repository
-  whose package name is unregistered is the one concrete, immediate theft
-  vector: anyone can register the name and ship malware to people following
-  this README. Register the name and create the Trusted Publisher *before* the
-  repository is visible, even if the first real release comes later.
+- [ ] **Claim `ai-iconflow` on PyPI first — which means publishing 0.5.0.**
+  PyPI has **no name reservation**: a pending publisher explicitly does not hold
+  a name until an upload uses it. So the name becomes yours at the first
+  successful upload and not before, and because the sdist and wheel both carry
+  the full source, that upload *is* the public disclosure. There is no ordering
+  that claims the name while keeping the code private. Doing PyPI first still
+  matters, for the narrower reason that it removes the window in which someone
+  who noticed the public repository could take the name.
+  `.github/workflows/publish.yml` and `docs/RELEASING.md` §5–6 have the exact
+  steps; rehearse on TestPyPI first, because a PyPI version can never be
+  re-uploaded. Checked 2026-08-22: `ai-iconflow` and `iconflow` both return 404,
+  so both are still free.
 - [ ] Owner reads `LICENSES.md` end to end and confirms the tier boundaries —
   especially §1, the promise that icons users make with IconFlow are theirs.
 - [ ] Owner enables a CLA signature check (the
@@ -62,6 +69,12 @@ is still fully the owner's to choose. That window closes on publication.
   line by hand on every outside PR — a contribution merged without it freezes
   IconFlow's licensing permanently, which is the one thing the CLA exists to
   prevent.
+- [ ] Owner decides whether the PyPI name should be `ai-iconflow` or the
+  shorter `iconflow`, which is also unregistered as of 2026-08-22. The CLI, the
+  product, and the skill are all called `iconflow`; `ai-iconflow` was chosen for
+  distribution compatibility when the short name looked unavailable. Changing it
+  is cheap now and impossible after the first upload — the same shape of
+  decision as the licence.
 - [ ] Owner decides whether to register the IconFlow word mark. `TRADEMARKS.md`
   asserts common-law rights, which are real but weaker than registration and
   jurisdiction-dependent.

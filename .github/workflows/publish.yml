@@ -1,0 +1,121 @@
+name: Publish
+
+# Publication is the one irreversible step in this repository: PyPI does not
+# allow re-uploading a version, and it has no way to reserve a name without
+# uploading. So this workflow is deliberately hard to fire by accident —
+# `workflow_dispatch` defaults to TestPyPI, the real index needs an explicit
+# choice, and both run in a GitHub Environment the owner can gate with a manual
+# approval. It re-runs the full release-candidate verification first; a build
+# that cannot prove itself never reaches an index.
+#
+# Authentication is PyPI Trusted Publishing (OIDC). There is no API token in
+# this repository and there should never be one: the short-lived credential is
+# minted per run and cannot be stolen from a secret store.
+
+on:
+  workflow_dispatch:
+    inputs:
+      index:
+        description: "Where to publish"
+        type: choice
+        default: testpypi
+        options:
+          - testpypi
+          - pypi
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
+jobs:
+  verify:
+    name: Verify and package
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.14"
+          cache: pip
+      - name: Read and check the package version
+        id: version
+        shell: bash
+        run: |
+          version="$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [[ "$GITHUB_EVENT_NAME" == "release" && "$GITHUB_REF_NAME" != "v$version" ]]; then
+            echo "Release tag $GITHUB_REF_NAME does not match package version $version" >&2
+            exit 1
+          fi
+          echo "Publishing ai-iconflow $version"
+      - name: Test, build, and inspect
+        shell: bash
+        run: |
+          python -m pip install -e ".[dev]"
+          python -m unittest discover -s tests
+          iconflow case lint
+          export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
+          python -m build --outdir dist
+          python scripts/verify_distribution.py dist/*
+          python -m build --wheel --outdir wheel-rebuild
+          cmp dist/*.whl wheel-rebuild/*.whl
+      - name: Smoke-test the wheel outside the checkout
+        shell: bash
+        run: |
+          python -m pip install --force-reinstall dist/*.whl
+          smoke="$RUNNER_TEMP/iconflow-publish-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$smoke"
+          cd "$smoke"
+          iconflow --help >/dev/null
+          iconflow --version
+          iconflow license >/dev/null
+          iconflow docs >/dev/null
+          iconflow new line-mark --out master.svg
+          test -s master.svg
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: ai-iconflow-distribution
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish to ${{ github.event_name == 'release' && 'pypi' || inputs.index }}
+    needs: verify
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    # Add a required reviewer to this environment in repository settings and the
+    # upload waits for a human before it runs. That is the intended setup.
+    environment:
+      name: ${{ github.event_name == 'release' && 'pypi' || inputs.index }}
+      url: ${{ github.event_name == 'release' && format('https://pypi.org/project/ai-iconflow/{0}', needs.verify.outputs.version) || format('https://test.pypi.org/project/ai-iconflow/{0}', needs.verify.outputs.version) }}
+    permissions:
+      contents: read
+      # Mints the short-lived OIDC token Trusted Publishing exchanges for an
+      # upload credential. Nothing else in this repository needs it.
+      id-token: write
+    steps:
+      # v6, matching the upload-artifact major used above.
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
+        with:
+          name: ai-iconflow-distribution
+          path: dist
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
+        with:
+          repository-url: ${{ (github.event_name == 'release' || inputs.index == 'pypi') && 'https://upload.pypi.org/legacy/' || 'https://test.pypi.org/legacy/' }}
+          # Signed provenance for every file, so a later "is this really yours?"
+          # has an answer that does not depend on the maintainer's word.
+          attestations: true
+          print-hash: true

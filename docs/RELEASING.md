@@ -96,17 +96,73 @@ create a GitHub Release or upload to PyPI.
 
 Review the workflow artifact and CI results before any publication decision.
 
-## 5. Publish only after explicit approval
+## 5. Claiming the name on PyPI
 
-Recommended order after the owner approves publication:
+**PyPI has no way to reserve a name.** There is no "register this name" button,
+and a *pending publisher* explicitly does not hold it — the PyPI documentation
+says a pending publisher "does not create a project or reserve a project's name
+until it is actually used to publish", and warns that if someone else registers
+the name first, the pending publisher becomes invalid.
+
+Two consequences worth stating before anyone plans around them:
+
+1. **The name becomes yours at the moment of the first successful upload, and
+   not before.** Configuring everything in advance is preparation, not a claim.
+2. **Uploading is publishing.** The sdist and the wheel both carry the full
+   source, so there is no order of operations that claims the name while keeping
+   the code private. The reason to reach PyPI before the GitHub repository goes
+   public is narrower than it sounds: it removes the window in which someone who
+   noticed the public repository could take the name first.
+
+Name status, checked 2026-08-22: both `ai-iconflow` and `iconflow` return HTTP
+404 on `https://pypi.org/pypi/<name>/json`, meaning both are unregistered.
+Re-check immediately before publishing; this is the one fact that can change
+without warning.
+
+## 6. Publish only after explicit approval
+
+`.github/workflows/publish.yml` does the upload. It re-runs the whole
+release-candidate verification first, authenticates with Trusted Publishing
+(OIDC — there is no API token in this repository and there should never be one),
+and runs the upload inside a GitHub Environment so a required reviewer can hold
+it.
+
+One-time setup, in this order:
+
+1. **PyPI account with 2FA.** PyPI requires two-factor authentication on every
+   account that uploads. Set up a TOTP app or a hardware key at
+   <https://pypi.org/manage/account/#two-factor>.
+2. **Add a pending publisher** at
+   <https://pypi.org/manage/account/publishing/> with exactly these values:
+
+   | Field | Value |
+   |---|---|
+   | PyPI project name | `ai-iconflow` |
+   | Owner | `snowyukitty` |
+   | Repository name | `ai-iconflow` |
+   | Workflow name | `publish.yml` |
+   | Environment name | `pypi` |
+
+   Repeat on <https://test.pypi.org/manage/account/publishing/> with environment
+   name `testpypi` to rehearse first.
+3. **Create the two GitHub Environments** (`Settings → Environments`): `pypi`
+   and `testpypi`. Add yourself as a required reviewer on `pypi`, which turns
+   the irreversible step into one that waits for a human.
+
+Then, to release:
 
 1. Confirm the approved license, trademark policy, and GitHub metadata.
 2. Merge the release commit and require a green CI run.
-3. Create the signed or annotated `v0.5.0` tag.
-4. Review the release-candidate artifact and checksums.
-5. Create the GitHub Release with changelog notes and artifacts.
-6. Configure PyPI Trusted Publishing with a protected GitHub environment and
-   manual approval, then publish the exact already-reviewed artifacts.
+3. **Rehearse:** run the Publish workflow manually with `index: testpypi`, then
+   install from TestPyPI in a clean environment and run the smoke test. This
+   costs nothing and is the only way to find a packaging problem *before* the
+   version number is spent — a PyPI version can never be re-uploaded.
+4. Create the signed or annotated `v0.5.0` tag.
+5. Create the GitHub Release with changelog notes and the candidate artifacts;
+   publishing the Release triggers the workflow against the real index.
+6. Approve the waiting `pypi` environment.
 7. Install from PyPI in a new environment and repeat the CLI/browser smoke test.
 
-Never upload a locally different rebuild after the candidate was reviewed.
+Never upload a locally different rebuild after the candidate was reviewed. The
+workflow builds from the tagged commit and verifies reproducibility, so the
+files it uploads are the files that were reviewed.

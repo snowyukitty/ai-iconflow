@@ -131,6 +131,51 @@ class ProofWorkflowContractTests(unittest.TestCase):
         self.assertIn("community-case/", examples)
 
 
+class PublishWorkflowContractTests(unittest.TestCase):
+    """Publication is the one irreversible step; guard how it can be fired.
+
+    PyPI cannot reserve a name and cannot accept a version twice, so an
+    accidental or unverified upload cannot be undone.
+    """
+
+    WORKFLOW = ROOT / ".github" / "workflows" / "publish.yml"
+
+    def setUp(self):
+        self.text = self.WORKFLOW.read_text(encoding="utf-8")
+
+    def test_uses_trusted_publishing_and_never_a_token(self):
+        self.assertIn("id-token: write", self.text)
+        self.assertIn("pypa/gh-action-pypi-publish@", self.text)
+        self.assertNotIn("${{ secrets.", self.text)
+        self.assertNotIn("password:", self.text)
+        self.assertNotIn("PYPI_API_TOKEN", self.text)
+
+    def test_every_action_is_pinned_to_a_commit(self):
+        for line in _uses_lines(self.text):
+            self.assertRegex(line, PINNED_USES)
+
+    def test_a_manual_run_defaults_to_the_rehearsal_index(self):
+        # `workflow_dispatch` with no thought must not reach the real index.
+        self.assertRegex(self.text, re.compile(r"default:\s*testpypi"))
+        self.assertIn("upload.pypi.org", self.text)
+        self.assertIn("test.pypi.org", self.text)
+
+    def test_the_upload_runs_in_a_gateable_environment(self):
+        self.assertIn("environment:", self.text)
+        self.assertIn("attestations: true", self.text)
+
+    def test_it_verifies_before_it_publishes(self):
+        for step in ("unittest discover", "verify_distribution.py", "cmp dist/"):
+            with self.subTest(step=step):
+                self.assertIn(step, self.text)
+
+    def test_releasing_records_that_pypi_cannot_reserve_a_name(self):
+        doc = (ROOT / "docs" / "RELEASING.md").read_text(encoding="utf-8")
+        self.assertIn("no way to reserve a name", doc)
+        self.assertIn("publish.yml", doc)
+        self.assertIn("two-factor", doc)
+
+
 class CommunityCaseFixtureTests(unittest.TestCase):
     def test_fixture_receipt_is_bound_to_its_source_and_contract(self):
         config = load_config(FIXTURE / "iconflow.toml")
