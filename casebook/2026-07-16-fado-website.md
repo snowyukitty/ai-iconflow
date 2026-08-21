@@ -16,11 +16,6 @@ scores_final: legibility=4 distinctiveness=5 balance=4 color=5 scalability=4 cra
 iterations: 1
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 fado's site needed a favicon and tray mark. The obvious category pulls were a
 wine glass, a grape cluster, or a script "F" on a wine-red tile. The shipped

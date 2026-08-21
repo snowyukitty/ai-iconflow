@@ -16,11 +16,6 @@ scores_final: legibility=5 distinctiveness=5 balance=4 color=5 scalability=5 cra
 iterations: 1
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Extended an already reviewed listening-puff master into exact Microsoft Store MSIX logo slots. Direct SVG renders retained the brand silhouette and remained readable on light, dark, and gray contexts.
 

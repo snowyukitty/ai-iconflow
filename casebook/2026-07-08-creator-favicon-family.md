@@ -16,11 +16,6 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 cra
 iterations: 2
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Replaced the creator fansite's single raster-emote favicon with a five-page
 family (home/game/artwork/IG-archive/404). Bake-off pitted a tighter raster

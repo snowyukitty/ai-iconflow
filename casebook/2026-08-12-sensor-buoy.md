@@ -16,11 +16,6 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 cra
 iterations: 2
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Sensor Buoy serves the job “see whether a remote field sensor is anchored and reporting”. The selected buoy direction won because its silhouette stays specific while the anchor line returns into the buoy body as one broad reporting loop carries the single signature device.
 

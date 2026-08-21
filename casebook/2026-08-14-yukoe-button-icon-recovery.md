@@ -16,11 +16,6 @@ scores_final: legibility=5 distinctiveness=4 balance=5 color=4 scalability=5 cra
 iterations: 2
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 A compact button-family repair that replaced filled Folded Folio blobs with familiar line nouns and one shared state rail. The semantic-rail direction beat cut-caption, folded-folio, and caption-pair concepts because it preserved feature recognition at 18 px while keeping effective state geometric.
 

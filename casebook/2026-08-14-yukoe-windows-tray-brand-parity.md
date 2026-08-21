@@ -16,11 +16,6 @@ scores_final: legibility=5 distinctiveness=5 balance=4 color=5 scalability=5 cra
 iterations: 3
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Four divergent crops and a three-finalist bake-off showed that the Windows tray needed the complete app-icon expression, while the alpha template needed a separate linked reduction. The face-forward crop won because it restored brand parity at exact 16 and 32 px without replacing the mascot.
 

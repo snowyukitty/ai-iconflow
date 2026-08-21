@@ -16,11 +16,6 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 cra
 iterations: 4
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Cue Brush translates the generic job 'Watch live creators while participating with the community.' into an original stage cue brush without vendor geometry or trade dress.
 

@@ -16,11 +16,6 @@ scores_final: legibility=4 distinctiveness=4 balance=5 color=4 scalability=4 cra
 iterations: 2
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 A seventeen-icon live-control family and a new Settings control overview. Four translated-speech directions were compared; the caption wing won because its message tail and broad audible edge survived at 16 px while book seams and relay handles softened.
 

@@ -16,11 +16,6 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 cra
 iterations: 2
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Courier Wing Satchel serves the job “follow a spoiler-free dispatch from an original serial world”. The selected satchel direction won because its silhouette stays specific while the satchel flap becomes a swept wing with one broad dry cut carries the single signature device.
 

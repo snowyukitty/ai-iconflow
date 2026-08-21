@@ -16,11 +16,6 @@ scores_final: legibility=5 distinctiveness=4 balance=5 color=5 scalability=5 cra
 iterations: 3
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Forest Familiar makes a return-home guide feel watched over by a carved horned
 owl. The final full-body relief field uses unequal ear tufts, a broad breast,

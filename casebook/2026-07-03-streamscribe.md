@@ -16,11 +16,6 @@ scores_final: legibility=4 distinctiveness=4 balance=5 color=5 scalability=4 cra
 iterations: 2
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 StreamScribe is a Tauri/Windows desktop app that extracts a stream's spoken transcript and distills the streamer's reflections/preferences/habits into insight. Essence: **distill**. The winning mark is an amber speech bubble on a plum-ink tile, carrying a negative-space voice waveform and a bold downward-pointing tail — a dual reading of "talk → captured transcript". It beat two alternates in the bake-off: a violet equalizer + amber pulse-pin (silhouette was a generic equalizer) and a play-triangle built from waveform bars (the play/waveform dual reading didn't land — read as a bar chart). The bubble+tail won because it is the most *ownable*, *meaningful*, and *legible* of the three, and the on-air-amber-over-nocturnal-plum palette is distinctive versus the usual blue/green voice-app look.
 

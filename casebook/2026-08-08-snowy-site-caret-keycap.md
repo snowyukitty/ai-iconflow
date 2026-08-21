@@ -16,11 +16,6 @@ scores_final: legibility=4 distinctiveness=4 balance=5 color=5 scalability=4 cra
 iterations: 2
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 The marketing site for snowy-twitch-bot needed its own favicon, explicitly only
 *weakly* related to the Snowy identity — the snow-fox badge

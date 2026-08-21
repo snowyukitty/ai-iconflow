@@ -90,8 +90,10 @@ class SpdxHeaderTest(unittest.TestCase):
     """Per-file headers, so provenance survives a copied file.
 
     Enforced where the maintainer authors stable material. `casebook/` relies on
-    its directory `LICENSE` instead, so a contributed case is not rejected for a
-    missing header.
+    its directory `LICENSE` instead, for two reasons: a contributed case should
+    not be rejected over a missing header, and `scripts/build_gallery.py`
+    deploys byte-identical copies of those files to the website, so a header
+    added on one side and not the other breaks that binding.
     """
 
     def test_methodology_documents_declare_cc_by_sa(self):
@@ -177,34 +179,34 @@ class UserOutputIsUnencumberedTest(unittest.TestCase):
                     for restrictive in ("CC-BY-SA-4.0", "CC-BY-NC-ND-4.0"):
                         self.assertNotIn(restrictive, text)
 
-    def test_a_full_build_from_a_user_svg_leaks_nothing(self):
-        """Every generator, checked at once instead of read one by one.
+    def test_the_files_a_user_serves_carry_no_iconflow_notice(self):
+        """Every text artifact `build` writes into a user's site, checked at once.
 
-        `build` writes the manifest, the head snippet, the icon ladder and the
-        favicons a user actually serves. If any of them carried an IconFlow
+        These are the files a visitor could actually fetch: the manifest, the
+        head snippet, the browserconfig. If any of them carried an IconFlow
         notice, URL, or SPDX tag, LICENSES.md section 1 would be false in the
-        one place a visitor could see it.
+        one place it is publicly visible. Driven through the emitters rather
+        than a full build so it runs on every platform without Chromium.
         """
         import tempfile
 
+        from iconflow.htmlhead import browserconfig_xml, write_web_meta
+
         leaks = ("SPDX-License-Identifier", "ai-iconflow.com", "snowyukitty",
-                 "Apache-2.0", "CC-BY", "CC0-1.0", "Copyright")
+                 "Apache-2.0", "CC-BY", "CC0-1.0", "Copyright", "IconFlow")
         with tempfile.TemporaryDirectory() as tmp:
-            project = Path(tmp)
-            master = project / "master.svg"
-            self.assertEqual(0, main(["new", "flat-geometric", "--out", str(master)]))
-            code = main([
-                "build", str(master), "--out", str(project / "out"),
-                "--targets", "web", "--name", "My App",
-            ])
-            self.assertEqual(0, code)
-            produced = [p for p in (project / "out").rglob("*") if p.is_file()]
-            self.assertTrue(produced, "build produced nothing to check")
-            for path in produced:
-                try:
-                    text = path.read_text(encoding="utf-8")
-                except (UnicodeDecodeError, OSError):
-                    continue  # binary icon data carries no notice
+            out = Path(tmp)
+            write_web_meta(out, "My App", "#191a20", "#fff4e8")
+            (out / "browserconfig.xml").write_text(
+                browserconfig_xml("#191a20"), encoding="utf-8"
+            )
+            written = sorted(path for path in out.iterdir() if path.is_file())
+            self.assertEqual(
+                ["browserconfig.xml", "favicon-head.html", "site.webmanifest"],
+                [path.name for path in written],
+            )
+            for path in written:
+                text = path.read_text(encoding="utf-8")
                 for leak in leaks:
                     with self.subTest(file=path.name, leak=leak):
                         self.assertNotIn(leak, text)

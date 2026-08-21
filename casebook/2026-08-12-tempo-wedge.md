@@ -16,11 +16,6 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 cra
 iterations: 2
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Tempo Wedge serves the job “align an ensemble's count-in and transition tempo”. The selected metronome direction won because its silhouette stays specific while one edge-open dry cut becomes the off-axis pendulum track carries the single signature device.
 

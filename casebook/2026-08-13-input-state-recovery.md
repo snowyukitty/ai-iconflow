@@ -16,11 +16,6 @@ scores_final: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 cra
 iterations: 4
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 A compact recovery utility needed to read as input-specific without literal key labels or generic reset symbols. A perspective keycap won after its recovery gesture moved from the top edge to one broad lateral release tab that survives at 16 px.
 

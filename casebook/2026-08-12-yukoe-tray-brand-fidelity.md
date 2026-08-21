@@ -16,11 +16,6 @@ scores_final: legibility=5 distinctiveness=5 balance=4 color=5 scalability=5 cra
 iterations: 2
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 The v0.8.3 tray mark was recognizable only as a small purple silhouette and no longer matched Yukoe's white listening-puff app icon. Three evolutions compared faithful framing, an aggressive listening-ear crop, and a dark inset; the close-cropped faithful mascot won because it enlarged the face and ear without changing brand identity.
 

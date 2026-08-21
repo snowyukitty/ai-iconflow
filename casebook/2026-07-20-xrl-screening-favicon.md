@@ -16,11 +16,6 @@ scores_final: legibility=5 distinctiveness=5 balance=5 color=5 scalability=5 cra
 iterations: 2
 ---
 
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0
-     SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
-     Reusing this prose requires attribution and the same license.
-     Applying the methods it describes requires nothing: icons you design
-     with IconFlow are entirely yours. See LICENSES.md section 1. -->
 ## Summary
 Favicon for the X Reciprocity Lab Claude-style screening webpage. Essence:
 **reciprocity** (curated two-way follow selection). Winning mark is a bold
