@@ -4,7 +4,11 @@ All notable changes to IconFlow are documented here. The project uses Semantic
 Versioning for published releases; repository-only development before the
 first published release remains under `Unreleased`.
 
-## Unreleased
+## 0.5.0 - 2026-08-22
+
+First public release. IconFlow had been developed in a private repository since
+2026-06-23; this is the version that made it installable.
+
 
 ### Added
 
