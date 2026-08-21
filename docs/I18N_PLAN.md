@@ -62,6 +62,13 @@
 
 ## Translation process
 
+- Division of labour (owner's choice): drafts come from three delegated
+  models through ATD — Codex (`gpt-5.6-luna` when the route lists it, else
+  report and use `gpt-5.6-sol`), Antigravity (`gemini-3.7-flash-high`), and
+  Grok (`grok-4.6`, `xhigh`) — each producing a complete catalog for an
+  assigned language pair; the session agent (Claude) reviews every draft
+  against the glossary and the English source, merges, and owns the final
+  catalogs. No draft ships unreviewed.
 - Agents draft each language from the English source with a glossary
   (`website/i18n/GLOSSARY.md`): product terms that stay English (IconFlow,
   Remix Lab, receipt → keep plus a gloss, `check`/`review`/`ship` commands),
