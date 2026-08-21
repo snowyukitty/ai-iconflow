@@ -56,7 +56,7 @@ jobs:
             echo "Release tag $GITHUB_REF_NAME does not match package version $version" >&2
             exit 1
           fi
-          echo "Publishing ai-iconflow $version"
+          echo "Publishing iconflow $version"
       - name: Test, build, and inspect
         shell: bash
         run: |
@@ -83,7 +83,7 @@ jobs:
           test -s master.svg
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
-          name: ai-iconflow-distribution
+          name: iconflow-distribution
           path: |
             dist/*.whl
             dist/*.tar.gz
@@ -99,7 +99,7 @@ jobs:
     # upload waits for a human before it runs. That is the intended setup.
     environment:
       name: ${{ github.event_name == 'release' && 'pypi' || inputs.index }}
-      url: ${{ github.event_name == 'release' && format('https://pypi.org/project/ai-iconflow/{0}', needs.verify.outputs.version) || format('https://test.pypi.org/project/ai-iconflow/{0}', needs.verify.outputs.version) }}
+      url: ${{ github.event_name == 'release' && format('https://pypi.org/project/iconflow/{0}', needs.verify.outputs.version) || format('https://test.pypi.org/project/iconflow/{0}', needs.verify.outputs.version) }}
     permissions:
       contents: read
       # Mints the short-lived OIDC token Trusted Publishing exchanges for an
@@ -109,7 +109,7 @@ jobs:
       # v6, matching the upload-artifact major used above.
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
         with:
-          name: ai-iconflow-distribution
+          name: iconflow-distribution
           path: dist
       - name: Publish
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2

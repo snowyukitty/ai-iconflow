@@ -8,7 +8,7 @@
 `.github/actions/proof` is a composite action that runs IconFlow's
 *mechanical* gate on a pull request and reports it in the job summary. It
 consumes only the Agent Contract JSON envelopes (`docs/AGENT_CONTRACT.md`), so
-it needs `ai-iconflow >= 0.5.0` (`--json` on `check` and `review`).
+it needs `iconflow >= 0.5.0` (`--json` on `check` and `review`).
 
 For every `iconflow.toml` in scope it runs:
 
@@ -74,11 +74,11 @@ jobs:
           git diff --name-only "$BASE_SHA" HEAD > "$RUNNER_TEMP/changed-files.txt"
       - uses: snowyukitty/ai-iconflow/.github/actions/proof@v0.5.0   # pin a tag or, better, a commit SHA
         with:
-          install: ai-iconflow==0.5.0       # once the release is on PyPI; until then pin a git URL or a wheel path
+          install: iconflow==0.5.0       # once the release is on PyPI; until then pin a git URL or a wheel path
           changed-files: ${{ runner.temp }}/changed-files.txt
 ```
 
-Until `ai-iconflow` is on PyPI, `install` can be any pip spec:
+Until `iconflow` is on PyPI, `install` can be any pip spec:
 `git+https://github.com/snowyukitty/ai-iconflow@<sha>` or a vendored wheel
 path. Omit `changed-files` to prove every `iconflow.toml` in the repository on
 each run, or pass `configs:` to name them explicitly.
@@ -87,7 +87,7 @@ each run, or pass `configs:` to name them explicitly.
 
 | Input | Default | Meaning |
 |---|---|---|
-| `install` | `ai-iconflow==0.5.0` | pip requirement spec; `.` inside this repo |
+| `install` | `iconflow==0.5.0` | pip requirement spec; `.` inside this repo |
 | `python-version` | `3.12` | handed to `actions/setup-python` |
 | `configs` | empty | newline/space-separated `iconflow.toml` paths; empty = discover (skips `.git`, `.venv`, `node_modules`, `work/`) |
 | `changed-files` | empty | path to a newline-separated changed-file list; restricts discovery to configs whose directory, master, or tray source changed |

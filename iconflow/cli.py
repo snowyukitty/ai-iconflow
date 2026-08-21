@@ -142,7 +142,7 @@ def _toolchain() -> dict[str, str | None]:
     """Versions the Review Packet records as provenance (never as authority)."""
     from . import __version__
     try:
-        iconflow_version = importlib.metadata.version("ai-iconflow")
+        iconflow_version = importlib.metadata.version("iconflow")
     except importlib.metadata.PackageNotFoundError:
         iconflow_version = __version__
     try:
@@ -897,7 +897,7 @@ def _cmd_doctor(a) -> Report:
         not missing_resources, "Packaged resources",
         ", ".join(missing_resources) if missing_resources
         else f"{len(PRESETS)} presets + base templates + docs + demo family + agent skill",
-        fix=f"{python} -m pip install --force-reinstall --no-deps ai-iconflow",
+        fix=f"{python} -m pip install --force-reinstall --no-deps iconflow",
     )
 
     config = None

@@ -11,8 +11,8 @@ permanent, path- and query-preserving redirect to the apex:
 |---|---|---|
 | `ai-iconflow.com` | `iconflow` | serves the site |
 | `iconflow.pages.dev` | `iconflow` | 301 via `functions/_middleware.js` |
-| `www.ai-iconflow.com` | `ai-iconflow` | 301 via `_redirects` |
-| `ai-iconflow.pages.dev` | `ai-iconflow` | 301 via `_redirects` |
+| `www.ai-iconflow.com` | `iconflow` | 301 via `_redirects` |
+| `iconflow.pages.dev` | `iconflow` | 301 via `_redirects` |
 | `<hash>.iconflow.pages.dev` | `iconflow` | serves, so previews stay testable |
 
 `iconflow.pages.dev` cannot be redirected by `_redirects`: Cloudflare Pages does
@@ -112,7 +112,7 @@ If you deploy by hand, the `--cwd website` is **not optional**:
 
 ```powershell
 wrangler pages deploy . --cwd website --project-name iconflow --branch main
-wrangler pages deploy website-redirect --project-name ai-iconflow --branch main
+wrangler pages deploy website-redirect --project-name iconflow --branch main
 ```
 
 Pages resolves `functions/` relative to Wrangler's working directory, not to the

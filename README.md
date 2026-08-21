@@ -61,13 +61,13 @@ product job and competing concepts—and refuses to ship unreviewed pixels.
 ## Five-minute proof
 
 Python 3.10+ is required. IconFlow is not published on PyPI yet, so install the
-current source checkout; do not use `pip install ai-iconflow` until a release is
-listed on the [official PyPI project page](https://pypi.org/project/ai-iconflow/).
+current source checkout; do not use `pip install iconflow` until a release is
+listed on the [official PyPI project page](https://pypi.org/project/iconflow/).
 The one-time `setup` step downloads Playwright Chromium.
 
 ```bash
 git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+cd iconflow
 python -m venv .venv
 ```
 
@@ -392,7 +392,7 @@ the whole engine in one command with `iconflow demo --out iconflow-demo`.
 Install this repository once into the toolkit venv:
 
 ```powershell
-path\to\ai-iconflow\.venv\Scripts\python.exe -m pip install -e path\to\ai-iconflow
+path\to\iconflow\.venv\Scripts\python.exe -m pip install -e path\to\iconflow
 ```
 
 Then invoke the module from the consuming repository and keep its editable
@@ -429,9 +429,9 @@ required. Runtime rendering validates bounded SVG/XML, blocks network and file
 resources, disables JavaScript and service workers, and freezes animation. See
 [`SECURITY.md`](SECURITY.md) for the reporting process and
 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for dependency and asset
-provenance. The Python package remains named
-`ai-iconflow` for compatibility, while the product and CLI are simply
-**IconFlow**.
+provenance. The package, the CLI, the agent skill, and the product are all
+called **`iconflow`** — one name, so `pip install iconflow` gives you an
+`iconflow` command.
 
 ## Limits and reproducibility
 

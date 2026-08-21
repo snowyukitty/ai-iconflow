@@ -11,7 +11,7 @@ own work, shipped with the package so the playbook's image links resolve.
 
 WHY ATTRIBUTION-ONLY AND NOT NONCOMMERCIAL
 ------------------------------------------
-This material ships inside the `ai-iconflow` package, because `iconflow demo`
+This material ships inside the `iconflow` package, because `iconflow demo`
 has to carry a real reviewed family to prove the engine and the playbook is not
 useful without its images. A noncommercial or no-derivatives term here would
 make the whole distribution non-free — unpackageable by Linux distributions and

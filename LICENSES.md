@@ -92,7 +92,7 @@ genuinely ambiguous, open an issue rather than guessing.
 ### Tier 1 — the tool, `Apache-2.0`
 
 The engine should spread. Apache-2.0 is permissive, carries an explicit patent
-grant, and is what the packaged `ai-iconflow` distribution is built from. Fork
+grant, and is what the packaged `iconflow` distribution is built from. Fork
 it, embed it, sell a product built on it. You must keep the license and the
 [`NOTICE`](NOTICE) with the *code* you redistribute — that obligation is on a
 redistributor of IconFlow, never on a user of its output.
@@ -121,7 +121,7 @@ by someone who read it.
 ### Tier 3a — brand and packaged imagery, `CC-BY-4.0` + trademark
 
 The Petal / Balloon / Canopy Haypile masters and the documentation imagery ship
-**inside the `ai-iconflow` package**, because `iconflow demo` has to carry a
+**inside the `iconflow` package**, because `iconflow demo` has to carry a
 real reviewed family and the playbook is not useful without its images.
 Attribution-only, deliberately: a noncommercial or no-derivatives term on
 anything in the package would make the whole distribution non-free —

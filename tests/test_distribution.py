@@ -22,7 +22,7 @@ class DistributionVerificationTests(unittest.TestCase):
         return b"\n".join(
             [
                 b"Metadata-Version: 2.4",
-                b"Name: ai-iconflow",
+                b"Name: iconflow",
                 f"License-Expression: {LICENSE_EXPRESSION}".encode(),
                 *(f"License-File: {name}".encode() for name in LEGAL_FILES),
             ]
@@ -32,7 +32,7 @@ class DistributionVerificationTests(unittest.TestCase):
         self, names: list[str], *, metadata: bytes | None = None
     ) -> tuple[tempfile.TemporaryDirectory, Path]:
         directory = tempfile.TemporaryDirectory()
-        path = Path(directory.name) / "ai_iconflow-0.5.0-py3-none-any.whl"
+        path = Path(directory.name) / "iconflow-0.5.0-py3-none-any.whl"
         metadata = self._metadata() if metadata is None else metadata
         with zipfile.ZipFile(path, "w") as archive:
             for name in names:
@@ -57,16 +57,16 @@ class DistributionVerificationTests(unittest.TestCase):
             "iconflow/resources/skill/LICENSE",
             "iconflow/resources/docs/LICENSE",
             "iconflow/resources/templates/LICENSE",
-            "ai_iconflow-0.5.0.dist-info/METADATA",
-            "ai_iconflow-0.5.0.dist-info/RECORD",
-            "ai_iconflow-0.5.0.dist-info/licenses/LICENSE",
-            "ai_iconflow-0.5.0.dist-info/licenses/NOTICE",
-            "ai_iconflow-0.5.0.dist-info/licenses/TRADEMARKS.md",
-            "ai_iconflow-0.5.0.dist-info/licenses/THIRD_PARTY_NOTICES.md",
-            "ai_iconflow-0.5.0.dist-info/licenses/LICENSES.md",
-            "ai_iconflow-0.5.0.dist-info/licenses/licenses/CC0-1.0.txt",
-            "ai_iconflow-0.5.0.dist-info/licenses/licenses/CC-BY-SA-4.0.txt",
-            "ai_iconflow-0.5.0.dist-info/licenses/licenses/CC-BY-4.0.txt",
+            "iconflow-0.5.0.dist-info/METADATA",
+            "iconflow-0.5.0.dist-info/RECORD",
+            "iconflow-0.5.0.dist-info/licenses/LICENSE",
+            "iconflow-0.5.0.dist-info/licenses/NOTICE",
+            "iconflow-0.5.0.dist-info/licenses/TRADEMARKS.md",
+            "iconflow-0.5.0.dist-info/licenses/THIRD_PARTY_NOTICES.md",
+            "iconflow-0.5.0.dist-info/licenses/LICENSES.md",
+            "iconflow-0.5.0.dist-info/licenses/licenses/CC0-1.0.txt",
+            "iconflow-0.5.0.dist-info/licenses/licenses/CC-BY-SA-4.0.txt",
+            "iconflow-0.5.0.dist-info/licenses/licenses/CC-BY-4.0.txt",
         ]
 
     def test_accepts_minimal_expected_wheel(self):

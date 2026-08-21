@@ -48,7 +48,7 @@ is still fully the owner's to choose. That window closes on publication.
 - [x] Three-tier license split landed (`LICENSES.md`, per-directory `LICENSE`
   files, SPDX headers, substantive `NOTICE`, `iconflow license`,
   `tests/test_licensing.py`). Verified 2026-08-21.
-- [ ] **Claim `ai-iconflow` on PyPI first — which means publishing 0.5.0.**
+- [ ] **Claim `iconflow` on PyPI first — which means publishing 0.5.0.**
   PyPI has **no name reservation**: a pending publisher explicitly does not hold
   a name until an upload uses it. So the name becomes yours at the first
   successful upload and not before, and because the sdist and wheel both carry
@@ -58,7 +58,7 @@ is still fully the owner's to choose. That window closes on publication.
   who noticed the public repository could take the name.
   `.github/workflows/publish.yml` and `docs/RELEASING.md` §5–6 have the exact
   steps; rehearse on TestPyPI first, because a PyPI version can never be
-  re-uploaded. Checked 2026-08-22: `ai-iconflow` and `iconflow` both return 404,
+  re-uploaded. Checked 2026-08-22: `iconflow` and `iconflow` both return 404,
   so both are still free.
 - [ ] Owner reads `LICENSES.md` end to end and confirms the tier boundaries —
   especially §1, the promise that icons users make with IconFlow are theirs.
@@ -69,12 +69,14 @@ is still fully the owner's to choose. That window closes on publication.
   line by hand on every outside PR — a contribution merged without it freezes
   IconFlow's licensing permanently, which is the one thing the CLA exists to
   prevent.
-- [ ] Owner decides whether the PyPI name should be `ai-iconflow` or the
-  shorter `iconflow`, which is also unregistered as of 2026-08-22. The CLI, the
-  product, and the skill are all called `iconflow`; `ai-iconflow` was chosen for
-  distribution compatibility when the short name looked unavailable. Changing it
-  is cheap now and impossible after the first upload — the same shape of
-  decision as the licence.
+- [x] PyPI name decided 2026-08-22: **`iconflow`**, renamed from
+  `ai-iconflow` before any upload. The CLI, the product, the agent skill, and
+  the plugin were already called `iconflow`; the distribution was the only thing
+  out of step, and `pip install iconflow` giving you an `iconflow` command is
+  the property the whole adoption story rests on. The `ai-` prefix also
+  misdescribed a toolkit that deliberately has no image model. The domain
+  (`ai-iconflow.com`), the GitHub repository, and the Cloudflare Pages project
+  keep their names — none of them has to match the distribution.
 - [ ] Owner decides whether to register the IconFlow word mark. `TRADEMARKS.md`
   asserts common-law rights, which are real but weaker than registration and
   jurisdiction-dependent.
@@ -89,7 +91,7 @@ is still fully the owner's to choose. That window closes on publication.
 - [ ] Owner enables GitHub private vulnerability reporting.
 - [ ] Owner approves and applies the remaining homepage and social-preview settings
   (`docs/assets/social-preview.png`, 1280×640, Petal Haypile).
-- [ ] Owner confirms the `ai-iconflow` name on PyPI and creates a Trusted
+- [ ] Owner confirms the `iconflow` name on PyPI and creates a Trusted
   Publisher (`docs/MILESTONE_v0.5.md`, Phase 0).
 - [ ] Owner files the eight `docs/ISSUE_SEEDS.md` issues by hand.
 - [x] Desktop, tablet, and mobile visual sign-off for `/getting-started/`
@@ -113,8 +115,8 @@ finished artwork — with icons made *with* the tool belonging outright to the
 user who made them. GitHub's sidebar reports only the root `LICENSE`.
 The [Releases page](https://github.com/snowyukitty/ai-iconflow/releases) remains
 empty and no `v*` tag exists. The
-[official PyPI JSON endpoint](https://pypi.org/pypi/ai-iconflow/json) for
-`ai-iconflow` returned HTTP 404 again on 2026-08-14; GitHub still reported zero
+[official PyPI JSON endpoint](https://pypi.org/pypi/iconflow/json) for
+`iconflow` returned HTTP 404 again on 2026-08-14; GitHub still reported zero
 releases and zero tags, so the README intentionally
 documents source installation only. Name availability is not guaranteed until
 PyPI accepts a first publication.

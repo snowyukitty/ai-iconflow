@@ -23,7 +23,7 @@ SITE = ROOT / "website"
 CANONICAL_ORIGIN = "https://ai-iconflow.com"
 NONCANONICAL_ORIGINS = (
     "https://iconflow.pages.dev",
-    "https://ai-iconflow.pages.dev",
+    "https://iconflow.pages.dev",
     "https://www.ai-iconflow.com",
 )
 LEGACY_ORIGINS = NONCANONICAL_ORIGINS
@@ -278,7 +278,7 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertIn('iconflow ship', guide)
         self.assertIn('iconflow case new', guide)
         self.assertIn('not published on PyPI yet', guide)
-        self.assertNotIn('pip install ai-iconflow', guide.split('not published on PyPI yet')[0])
+        self.assertNotIn('pip install iconflow', guide.split('not published on PyPI yet')[0])
         self.assertIn("querySelectorAll('[data-copy-command]')", script)
         self.assertIn('copyButton.dataset.copyTarget', script)
         structured_data = []
@@ -734,7 +734,7 @@ class InternationalisationContractTests(unittest.TestCase):
                 # The hedge itself is translated; what must survive verbatim is
                 # the command it warns about and the registry it names.
                 self.assertIn("PyPI", guide)
-                self.assertIn("<code>pip install ai-iconflow</code>", guide)
+                self.assertIn("<code>pip install iconflow</code>", guide)
 
     def test_translated_pages_link_inside_their_own_language(self) -> None:
         routes = {page.route for page in self.i18n.PAGES if page.linked}

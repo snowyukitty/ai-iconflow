@@ -58,7 +58,7 @@ This site is not a single licensed corpus, and the parts are not equivalent.
   pack and not training material offered for redistribution.
 - **Attribution required, otherwise free:** IconFlow's own product mark and the
   imagery shipped inside the package are CC BY 4.0, including anything the
-  Remix Lab hands a visitor. Everything in the published `ai-iconflow`
+  Remix Lab hands a visitor. Everything in the published `iconflow`
   distribution is free-licensed, deliberately.
 - **The IconFlow name and mark** are trademarks and are not licensed by any of
   the above. See https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md

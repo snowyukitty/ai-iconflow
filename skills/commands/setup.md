@@ -20,10 +20,10 @@ with this plugin, so do not deploy a second copy of the skill for Claude Code.
 2. **Install it.** IconFlow is a Python 3.10+ package with two dependencies and
    no API key.
 
-   > **STOP — `ai-iconflow` has no release on PyPI.** Until the
-   > [official project page](https://pypi.org/project/ai-iconflow/) lists one,
-   > `uv tool install ai-iconflow` / `pipx install ai-iconflow` /
-   > `pip install ai-iconflow` would fetch whatever else answers to that name.
+   > **STOP — `iconflow` has no release on PyPI.** Until the
+   > [official project page](https://pypi.org/project/iconflow/) lists one,
+   > `uv tool install iconflow` / `pipx install iconflow` /
+   > `pip install iconflow` would fetch whatever else answers to that name.
    > Check that a release exists before running any of them.
 
    Working paths, in order: a source checkout the user already has (run its

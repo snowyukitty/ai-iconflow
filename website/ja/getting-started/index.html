@@ -162,7 +162,7 @@
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>Windows · PowerShell</p></header>
             <pre id="install-windows"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+cd iconflow
 python -m venv .venv
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
 .\.venv\Scripts\python.exe -m iconflow doctor
@@ -176,7 +176,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>macOS / Linux · shell</p></header>
             <pre id="install-posix"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+cd iconflow
 python3 -m venv .venv
 sh ./scripts/setup.sh
 ./.venv/bin/python -m iconflow doctor
@@ -339,7 +339,7 @@ python -m iconflow case stats</code></pre>
       <div class="section-shell limits-grid reveal">
         <div><p class="section-kicker">既知の制約</p><h2>ローカルだからといって<br><span>魔法ではない。</span></h2></div>
         <ul>
-          <li><strong>現時点ではソースからインストール。</strong><span>IconFlow はまだ PyPI で公開されていません。公式リリースが出るまで <code>pip install ai-iconflow</code> は使わないでください。</span></li>
+          <li><strong>現時点ではソースからインストール。</strong><span>IconFlow はまだ PyPI で公開されていません。公式リリースが出るまで <code>pip install iconflow</code> は使わないでください。</span></li>
           <li><strong>初回のみダウンロード。</strong><span>セットアップ時は、依存パッケージと Playwright Chromium の取得にネットワーク接続が必要です。その後のレンダリングとビルドはローカルで行われます。</span></li>
           <li><strong>デスクトップの範囲。</strong><span>現在の Tauri 出力が対象とするのはデスクトップアセットです。Android や iOS の起動画面とアイコンセットは含みません。</span></li>
           <li><strong>ツールチェーンに依存するプルーフ。</strong><span>再現性には、同じ正規化済み SVG、設定、IconFlow、Chromium、Pillow のバージョンを使うことが前提です。</span></li>

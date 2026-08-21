@@ -42,7 +42,7 @@ jobs:
           cat "$RUNNER_TEMP/changed-files.txt"
 
       # In this repository the action proves the checkout itself (`install: .`).
-      # A foreign repository pins the release instead: install: ai-iconflow==0.5.0
+      # A foreign repository pins the release instead: install: iconflow==0.5.0
       - name: Prove changed icon families (brand/, examples/*, any iconflow.toml)
         uses: ./.github/actions/proof
         with:

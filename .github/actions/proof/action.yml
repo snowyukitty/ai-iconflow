@@ -10,10 +10,10 @@ inputs:
   install:
     description: >-
       pip requirement spec for IconFlow. In a foreign repository pin the
-      release, e.g. "ai-iconflow==0.5.0" (once published). Inside this
+      release, e.g. "iconflow==0.5.0" (once published). Inside this
       repository use "." to prove the checkout itself.
     required: false
-    default: "ai-iconflow==0.5.0"
+    default: "iconflow==0.5.0"
   python-version:
     description: Python version handed to actions/setup-python.
     required: false

@@ -27,7 +27,7 @@ success, not by missing icon formats.
 
 1. **Owner gates first (human-only).** Enable GitHub private vulnerability
    reporting; set the repository Homepage and social preview
-   (`docs/assets/social-preview.png`); confirm the `ai-iconflow` name on PyPI
+   (`docs/assets/social-preview.png`); confirm the `iconflow` name on PyPI
    and create a Trusted Publisher. If the name is taken, choose the public
    name before any doc rewrite.
 2. **One public release, v0.5.0.** Fold `CHANGELOG.md` *Unreleased* into
@@ -51,7 +51,7 @@ success, not by missing icon formats.
    tool → demo → Action), 5–8 bounded good-first-issue drafts for the owner
    to file.
 7. **Adoption-first docs and CTAs** — after PyPI exists: README and
-   `/getting-started/` lead with `uv tool install ai-iconflow` / `pipx`,
+   `/getting-started/` lead with `uv tool install iconflow` / `pipx`,
    then `iconflow setup`, `iconflow doctor`, `iconflow demo`; clone/editable
    becomes the contributor path; the skill and AGENTS.md resolve `iconflow`
    on PATH with checkout as contributor mode. Until then the copy keeps
@@ -87,7 +87,7 @@ stale-receipt rules, more gallery/archive/remix expansion.
 2. `iconflow demo --out d` produces a review sheet, a receipt, and the
    built family; editing `d/master.svg` then re-running `ship` is refused
    with `receipt-stale-source`.
-3. `pip install ai-iconflow` never needs `brand/` from GitHub.
+3. `pip install iconflow` never needs `brand/` from GitHub.
 4. The skill never tells an agent to `cd` into a hardcoded toolkit path.
 5. Fixture PRs prove clean pass, QA-warning fail, and stale-packet fail in
    the Action.

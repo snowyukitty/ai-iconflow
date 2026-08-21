@@ -27,10 +27,10 @@ Run `iconflow --version`. If it answers, `iconflow` is your runner: use it
 verbatim everywhere below. If it does not, you have to install it — and one
 rule comes before any install command:
 
-> **STOP — do not run `uv tool install ai-iconflow`, `pipx install
-> ai-iconflow`, or `pip install ai-iconflow` yet.** `ai-iconflow` has no release
+> **STOP — do not run `uv tool install iconflow`, `pipx install
+> iconflow`, or `pip install iconflow` yet.** `iconflow` has no release
 > on PyPI. Until the
-> [official project page](https://pypi.org/project/ai-iconflow/) lists one,
+> [official project page](https://pypi.org/project/iconflow/) lists one,
 > installing that name from an index gets you whatever else answers to it, not
 > IconFlow. Verify a release exists before using any index command below.
 
@@ -44,8 +44,8 @@ Working install paths today, in order:
 2. **A wheel or repository URL you were given.**
    `uv tool install <path-to-wheel-or-repo-url>`, or
    `python -m venv .venv` + `.venv/bin/python -m pip install <same>`.
-3. **After PyPI publication** (check first): `uv tool install ai-iconflow`,
-   `pipx install ai-iconflow`, or `pip install ai-iconflow` in a venv.
+3. **After PyPI publication** (check first): `uv tool install iconflow`,
+   `pipx install iconflow`, or `pip install iconflow` in a venv.
 
 If none of these is available, say so and stop — do not substitute another icon
 tool without asking.

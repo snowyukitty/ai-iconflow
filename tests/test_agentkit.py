@@ -149,7 +149,7 @@ class ResourceResolutionTest(unittest.TestCase):
             self.assertIsNone(agentkit.checkout_root(site))
 
             (site / "pyproject.toml").write_text(
-                'name = "ai-iconflow"', encoding="utf-8"
+                'name = "iconflow"', encoding="utf-8"
             )
             self.assertEqual(site, agentkit.checkout_root(site))
 
@@ -160,7 +160,7 @@ class ResourceResolutionTest(unittest.TestCase):
                     agentkit.resource("docs", name)
 
     def test_a_missing_resource_set_reports_the_install_not_a_traceback(self):
-        with self.assertRaisesRegex(RuntimeError, "reinstall ai-iconflow"):
+        with self.assertRaisesRegex(RuntimeError, "reinstall iconflow"):
             agentkit.resource_root("no-such-resource-set")
 
 
@@ -279,7 +279,7 @@ class SkillProcedureTest(unittest.TestCase):
     def test_warns_about_pypi_before_any_index_install_command(self):
         """Order matters: an agent runs the first command it reads.
 
-        `ai-iconflow` has no PyPI release, so `install ai-iconflow` would fetch
+        `iconflow` has no PyPI release, so `install iconflow` would fetch
         whatever else answers to that name. The warning has to come first, not
         as a footnote under the command.
         """
@@ -288,7 +288,7 @@ class SkillProcedureTest(unittest.TestCase):
                 raw = path.read_text(encoding="utf-8")
                 # Both markers wrap across lines, sometimes inside a blockquote.
                 text = " ".join(raw.replace("\n>", " ").split())
-                install = text.find("install ai-iconflow")
+                install = text.find("install iconflow")
                 self.assertNotEqual(-1, install, "expected an index install command")
                 self.assertIn("no release on PyPI", text)
                 stop = text.find("STOP")

@@ -8,6 +8,25 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- **The distribution is now `iconflow`, renamed from `ai-iconflow` before any
+  upload.** `pip install iconflow` gives you an `iconflow` command — the
+  property the entire adoption story rests on, since an agent told to use
+  IconFlow types the obvious thing first. The CLI, the product, the agent skill,
+  the Claude Code plugin, and the slash commands were all already called
+  `iconflow`; the distribution was the only piece out of step, and the `ai-`
+  prefix additionally misdescribed a toolkit that deliberately has no image
+  model and no API key. The README's claim that the package "remains named
+  `ai-iconflow` for compatibility" was compatibility with nothing: nothing had
+  ever been published.
+
+  123 references across 36 files, done before the name could become permanent —
+  PyPI has no rename. The domain `ai-iconflow.com`, the GitHub repository
+  `snowyukitty/ai-iconflow`, and the Cloudflare Pages project keep their names;
+  none of them has to match the distribution. The translation catalogs needed no
+  work, because the one user-visible occurrence sits inside a `<code>` element
+  that `build_i18n.py` carries as a placeholder — 708 strings still verify
+  across four languages.
+
 - **Per-file attribution across the whole source tree, and a CLA.** The engine
   stays `Apache-2.0` — a modified fork inside someone else's closed product is
   permitted, and that permissiveness is what makes the tool safe to adopt. What
@@ -152,7 +171,7 @@ first published release remains under `Unreleased`.
   a symlink out of its target; and `--path` reports honestly when an install
   keeps resources inside a zip rather than printing a path nothing can open.
 - The skill was rewritten for an agent working in **someone else's**
-  repository. It no longer resolves a two-mode `<AI_PROJECTS>/ai-iconflow`
+  repository. It no longer resolves a two-mode `<AI_PROJECTS>/iconflow`
   placeholder against the maintainer's private workspace layout: the runner is
   `iconflow` on PATH, reference documents come from `iconflow docs <NAME>`,
   drafts go to the consuming project's `work/<slug>/`, and cases land in its own
@@ -220,7 +239,7 @@ first published release remains under `Unreleased`.
 - A responsive, dependency-free promotional site with an interactive native-pixel
   Proof Lab, technique gallery, accessible controls, security headers, and a
   canonical production deployment at `ai-iconflow.com`, with
-  `ai-iconflow.pages.dev` retained as a permanent compatibility redirect.
+  `iconflow.pages.dev` retained as a permanent compatibility redirect.
 - An agent-first `/getting-started/` guide with copyable cross-platform setup,
   an honest agent/CLI responsibility split, the complete quality-gated loop,
   exact output families, current limitations beside the workflow, and
@@ -263,7 +282,7 @@ first published release remains under `Unreleased`.
 - The promotional site's canonical host is now `ai-iconflow.com`. Canonical
   links, Open Graph URLs, structured data, `robots.txt`, and the sitemap point
   at the apex, and exactly one host serves content. `www.ai-iconflow.com` and
-  `ai-iconflow.pages.dev` redirect through the shell project's `_redirects`;
+  `iconflow.pages.dev` redirect through the shell project's `_redirects`;
   `iconflow.pages.dev` redirects through a Pages Functions middleware, because
   Pages supports no domain-level `_redirects` rule and a project cannot
   host-match its own default host. Deployment previews still serve, so they

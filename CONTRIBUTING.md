@@ -20,16 +20,16 @@ docs (the brain)  →  casebook (experience)  →  iconflow case stats (the sign
 ## First 30 minutes
 
 > PyPI is **not live yet**. The `uv tool` / `pipx` / `pip` rows below work once
-> `ai-iconflow` 0.5.0 is published; today every command runs from a checkout
+> `iconflow` 0.5.0 is published; today every command runs from a checkout
 > with its venv interpreter (`.venv\Scripts\python.exe -m iconflow ...` on
 > Windows, `.venv/bin/python -m iconflow ...` elsewhere) - the last row.
 
 | You want to | Install | Then run |
 |---|---|---|
-| use IconFlow as a tool (agent or human) | `uv tool install ai-iconflow` | `iconflow setup`, `iconflow doctor`, `iconflow demo --out work/demo` |
-| same, without uv | `pipx install ai-iconflow` | same (`pipx ensurepath` first on Windows if `iconflow` is not found) |
-| pin it inside one project | `python -m venv .venv && .venv/bin/pip install ai-iconflow` | `.venv/bin/iconflow setup` ... |
-| contribute / run the tests | `git clone ... && cd ai-iconflow && python -m pip install -e ".[dev]"` (or `scripts/setup.ps1` / `scripts/setup.sh`, which also create `.venv` and install the agent skill) | `python -m iconflow setup`, `python -m iconflow doctor`, `python -m iconflow demo --out work/demo` |
+| use IconFlow as a tool (agent or human) | `uv tool install iconflow` | `iconflow setup`, `iconflow doctor`, `iconflow demo --out work/demo` |
+| same, without uv | `pipx install iconflow` | same (`pipx ensurepath` first on Windows if `iconflow` is not found) |
+| pin it inside one project | `python -m venv .venv && .venv/bin/pip install iconflow` | `.venv/bin/iconflow setup` ... |
+| contribute / run the tests | `git clone ... && cd iconflow && python -m pip install -e ".[dev]"` (or `scripts/setup.ps1` / `scripts/setup.sh`, which also create `.venv` and install the agent skill) | `python -m iconflow setup`, `python -m iconflow doctor`, `python -m iconflow demo --out work/demo` |
 
 `setup` downloads Playwright Chromium once (the only network step); `doctor`
 proves the environment; `demo` materializes the packaged, already-reviewed brand

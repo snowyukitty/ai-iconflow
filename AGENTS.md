@@ -14,7 +14,7 @@ shipping. This file is the contract for Claude, Codex, and any other agent.
 
 Before step 0, resolve the runner. `python -m iconflow` below means the
 `iconflow` command on PATH when the package is installed (`uv tool install
-ai-iconflow`, `pipx install ai-iconflow`, or `pip install ai-iconflow` — once
+iconflow`, `pipx install iconflow`, or `pip install iconflow` — once
 published on PyPI); from a source checkout use that checkout's venv interpreter
 (`.venv\Scripts\python.exe` on Windows or `.venv/bin/python` on POSIX). Run
 `-m iconflow setup` once if needed, and use that one runner for every command
@@ -107,9 +107,9 @@ not the repo root — e.g. `work/myapp/a.svg`, `work/myapp/bake.png`. The final
 
 ## Environment
 - Needs Python 3.10+ + Playwright Chromium + Pillow. Two ways to have the runner:
-  - **PATH install (primary, once `ai-iconflow` is published on PyPI):**
-    `uv tool install ai-iconflow`, `pipx install ai-iconflow`, or
-    `pip install ai-iconflow` in a venv. Then `iconflow` (≡ `python -m iconflow`)
+  - **PATH install (primary, once `iconflow` is published on PyPI):**
+    `uv tool install iconflow`, `pipx install iconflow`, or
+    `pip install iconflow` in a venv. Then `iconflow` (≡ `python -m iconflow`)
     is on PATH; run `iconflow setup` once (the only network step) and
     `iconflow doctor` to prove the environment. Every document this file cites
     is packaged with the wheel and served by the CLI: `iconflow docs` lists
@@ -138,10 +138,10 @@ stay there.
 From a checkout, the smoothest cross-project use is still the toolkit venv,
 which the setup scripts already install editable:
 ```
-path\to\ai-iconflow\.venv\Scripts\python.exe -m iconflow ...
+path\to\iconflow\.venv\Scripts\python.exe -m iconflow ...
 ```
-(or `python -m pip install -e path\to\ai-iconflow` into any other interpreter).
-If it is not installed editable, run commands from the `ai-iconflow` checkout and
+(or `python -m pip install -e path\to\iconflow` into any other interpreter).
+If it is not installed editable, run commands from the `iconflow` checkout and
 pass absolute paths to candidate SVGs and output files.
 
 For Windows desktop shortcuts, prefer the high-level helper when launching a

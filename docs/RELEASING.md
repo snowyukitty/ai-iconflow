@@ -114,7 +114,7 @@ Two consequences worth stating before anyone plans around them:
    public is narrower than it sounds: it removes the window in which someone who
    noticed the public repository could take the name first.
 
-Name status, checked 2026-08-22: both `ai-iconflow` and `iconflow` return HTTP
+Name status, checked 2026-08-22: both `iconflow` and `iconflow` return HTTP
 404 on `https://pypi.org/pypi/<name>/json`, meaning both are unregistered.
 Re-check immediately before publishing; this is the one fact that can change
 without warning.
@@ -137,9 +137,9 @@ One-time setup, in this order:
 
    | Field | Value |
    |---|---|
-   | PyPI project name | `ai-iconflow` |
+   | PyPI project name | `iconflow` |
    | Owner | `snowyukitty` |
-   | Repository name | `ai-iconflow` |
+   | Repository name | `iconflow` |
    | Workflow name | `publish.yml` |
    | Environment name | `pypi` |
 

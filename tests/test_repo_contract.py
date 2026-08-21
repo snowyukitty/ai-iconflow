@@ -71,7 +71,7 @@ class ProofWorkflowContractTests(unittest.TestCase):
         self.assertIn("using: composite", text)
         for name in ("install", "python-version", "configs", "changed-files", "artifact-name"):
             self.assertIsNotNone(re.search(rf"^  {re.escape(name)}:\n", text, flags=re.M), name)
-        self.assertIn("ai-iconflow==0.5.0", text)
+        self.assertIn("iconflow==0.5.0", text)
         self.assertIn("actions/cache@", text)
         self.assertIn("actions/upload-artifact@", text)
         self.assertIn("proof.py", text)
@@ -111,7 +111,7 @@ class ProofWorkflowContractTests(unittest.TestCase):
 
     def test_adoption_docs_are_present_and_keep_the_gate(self):
         contributing = (ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")
-        for needle in ("## First 30 minutes", "uv tool install ai-iconflow", "pipx install ai-iconflow",
+        for needle in ("## First 30 minutes", "uv tool install iconflow", "pipx install iconflow",
                        "iconflow demo", "not live yet", "## The case lane",
                        "What reviewers will and will not accept", "Never weaken a gate"):
             self.assertIn(needle, contributing, msg=needle)
@@ -121,8 +121,8 @@ class ProofWorkflowContractTests(unittest.TestCase):
         skill = (ROOT / "skills" / "iconflow" / "SKILL.md").read_text(encoding="utf-8")
         agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
         for text in (skill, agents):
-            self.assertIn("uv tool install ai-iconflow", text)
-            self.assertIn("pipx install ai-iconflow", text)
+            self.assertIn("uv tool install iconflow", text)
+            self.assertIn("pipx install iconflow", text)
             self.assertIn("scripts/setup.ps1", text)
             self.assertIn("scripts/setup.sh", text)
             self.assertNotRegex(text, r"\bcd\s+<AI_PROJECTS>", msg="skill must not cd into a toolkit path")

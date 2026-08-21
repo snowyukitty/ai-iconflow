@@ -69,7 +69,7 @@ def checkout_root(candidate: Path | None = None) -> Path | None:
     if not manifest.is_file() or not (candidate / "iconflow" / "cli.py").is_file():
         return None
     try:
-        if 'name = "ai-iconflow"' not in manifest.read_text(encoding="utf-8"):
+        if 'name = "iconflow"' not in manifest.read_text(encoding="utf-8"):
             return None
     except OSError:
         return None
@@ -115,7 +115,7 @@ def resource_root(package: str):
         # is missing and let the CLI report it as exit 2 rather than tracebacking.
         raise RuntimeError(
             f"packaged resource set {package!r} is missing from this install; "
-            "reinstall ai-iconflow"
+            "reinstall iconflow"
         ) from exc
 
 
@@ -458,7 +458,7 @@ def install_skill(roots: list[Path]) -> tuple[list[Path], list[Path]]:
         if not source.is_file():
             raise OSError(
                 f"packaged skill file {name} is missing from this install; "
-                "reinstall ai-iconflow"
+                "reinstall iconflow"
             )
         payload[name] = _read(source)
 

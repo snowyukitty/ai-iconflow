@@ -20,7 +20,7 @@ not from generic AI imagery.
 ## Positioning
 
 **Product name:** IconFlow  
-**Package name:** `ai-iconflow`  
+**Package name:** `iconflow`  
 **Essence:** proof  
 **Personality:** precise, opinionated, calm  
 **Primary line:** **One master. Every surface. Proven at 16px.**
