@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IconFlow 如何製作圖示 — 簡報、SVG、校樣、審查、receipt</title>
-  <meta name="description" content="IconFlow 方法論白話說明：使用者任務簡報、概念發散、可編輯的 1024 格 SVG、16px 與 128px 的精確 Chromium 渲染、機械檢查、計分審查、綁定原始檔的 receipt（簽收檔），以及透明的成本模型。">
+  <title>IconFlow 如何製作圖示 — 設計說明、SVG、校樣、審查、receipt</title>
+  <meta name="description" content="IconFlow 方法論白話說明：使用者任務設計說明、概念發散、可編輯的 1024 格 SVG、16px 與 128px 的精確 Chromium 渲染、機械檢查、計分審查、綁定原始檔的 receipt（簽收檔），以及透明的成本模型。">
   <meta name="theme-color" content="#191a20">
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="article">
   <meta property="og:title" content="IconFlow 如何製作圖示">
-  <meta property="og:description" content="從使用者任務簡報到可編輯 SVG、原生尺寸校樣、計分審查，以及把核准綁定到精確原始檔的 receipt。再加上誠實的成本說明。">
+  <meta property="og:description" content="從使用者任務設計說明到可編輯 SVG、原生尺寸校樣、計分審查，以及把核准綁定到精確原始檔的 receipt。再加上誠實的成本說明。">
   <meta property="og:url" content="https://ai-iconflow.com/zh-hant/how-icons-are-made/">
   <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png?v=petal">
   <meta name="twitter:card" content="summary_large_image">
@@ -26,14 +26,14 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/styles.css?v=20260821b">
-  <link rel="stylesheet" href="/how-icons-are-made/how-icons-are-made.css?v=20260821b">
+  <link rel="stylesheet" href="/styles.css?v=20260821c">
+  <link rel="stylesheet" href="/how-icons-are-made/how-icons-are-made.css?v=20260821c">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "IconFlow 如何製作圖示",
-    "description": "IconFlow 方法論：使用者任務簡報、概念發散、可編輯 SVG、精確的原生尺寸渲染、檢查、計分審查、綁定原始檔的 receipt，以及透明的成本模型。",
+    "description": "IconFlow 方法論：使用者任務設計說明、概念發散、可編輯 SVG、精確的原生尺寸渲染、檢查、計分審查、綁定原始檔的 receipt，以及透明的成本模型。",
     "url": "https://ai-iconflow.com/zh-hant/how-icons-are-made/",
     "inLanguage": "en",
     "about": {
@@ -44,7 +44,7 @@
     }
   }
 </script>
-  <script src="/app.js?v=20260821b" defer></script>
+  <script src="/app.js?v=20260821c" defer></script>
 </head>
 <body class="method-body">
   <a class="skip-link" href="#main">跳至內容</a>
@@ -73,7 +73,7 @@
    <div class="method-hero-copy reveal">
     <p class="eyebrow"><span class="status-dot"></span> 方法論 · 工作怎麼做</p>
     <h1>IconFlow 如何<br>製作<em>圖示。</em></h1>
-    <p>不是一句提示詞加一張圖。而是產品簡報、相互競爭的構想、一份 1024 格上可編輯的 SVG、按人們實際看見的尺寸做精確渲染、機械檢查、由設計師計分的審查，以及把核准綁定到精確原始檔的 receipt（簽收檔）。每一步都用白話說明，說法旁邊就是真實產物。</p>
+    <p>不是一句提示詞加一張圖。而是產品設計說明、相互競爭的構想、一份 1024 格上可編輯的 SVG、按人們實際看見的尺寸做精確渲染、機械檢查、由設計師計分的審查，以及把核准綁定到精確原始檔的 receipt（簽收檔）。每一步都用白話說明，說法旁邊就是真實產物。</p>
     <ul class="hero-contract" aria-label="頁面契約">
      <li>此頁展示的每一份產物都在儲存庫裡</li>
      <li>16px 校樣以 16px 顯示</li>
@@ -109,10 +109,10 @@
    <div class="pipeline-heading reveal">
     <p class="section-kicker">真正的管線</p>
     <h2>九個階段。<br><span>其中兩個需要判斷。</span></h2>
-    <p>每個階段都會留下檔案：簡報、概念縮圖、SVG、警告清單、PNG、計分的 receipt、一次建置、一份案例紀錄。點選階段即可閱讀做法。</p>
+    <p>每個階段都會留下檔案：設計說明、概念縮圖、SVG、警告清單、PNG、計分的 receipt、一次建置、一份案例紀錄。點選階段即可閱讀做法。</p>
    </div>
    <ol class="pipeline reveal" aria-label="IconFlow 管線">
-    <li><a href="#brief"><strong>簡報</strong><small>使用者任務、本質、陳腔濫調、目標</small></a></li>
+    <li><a href="#brief"><strong>設計說明</strong><small>使用者任務、本質、陳腔濫調、目標</small></a></li>
     <li><a href="#diverge"><strong>發散</strong><small>4+ 個概念、陳腔濫調過濾、一個手法</small></a></li>
     <li><a href="#svg"><strong>SVG</strong><small>1024 格上的可編輯幾何</small></a></li>
     <li><a href="#check"><strong>檢查</strong><small>安全、格線、筆畫、對比、裁切</small></a></li>
@@ -127,9 +127,9 @@
 
   <section id="brief" class="method-section section-shell">
    <div class="method-heading reveal">
-    <p class="section-kicker">階段 01 · 簡報</p>
+    <p class="section-kicker">階段 01 · 設計說明</p>
     <h2>從任務開始，<br><span>不是從圖像。</span></h2>
-    <p>只給名詞的提示詞（「幫我做一個聊天圖示」）做出來的是裝飾。IconFlow 的簡報記錄的是使用產品的人想完成什麼。</p>
+    <p>只給名詞的提示詞（「幫我做一個聊天圖示」）做出來的是裝飾。IconFlow 的設計說明記錄的是使用產品的人想完成什麼。</p>
    </div>
    <div class="method-columns">
     <div class="method-prose reveal">
@@ -137,17 +137,17 @@
      <p>設計手冊在動筆前要求五件事：圖示是什麼（app、favicon、系統匣）、一個字的本質、品牌色、性格路線，以及圖示會以小尺寸出現的位置。案例集提煉出的規則很直白：<em>選使用者的任務，不是類別名詞</em>。「導航」、「決策」、「比較」與「偵察」做出來的標誌，會比「遊戲」、「會議」或「旅遊」好，因為陳腔濫調就住在類別名詞裡。</p>
      <h3>然後是一個具體名詞</h3>
      <p>在這套系統裡，辨識度就是具體。案例集裡最強的標誌<em>就是</em>一件具體、可獨有的東西 — 價簽、切面寶石、摺好的路線圖、招財貓 — 其塗黑剪影叫出的是物件，不是類別。文件把漸層色塊上一個光禿字首，點名為 AI 圖示看起來稱職又立刻被忘掉的最常見做法。</p>
-     <p>對隱私敏感的產品，簡報會收束成中性的任務動詞；公開的案例紀錄保留視覺證據，但不含類別名詞、儲存庫名稱或本機路徑。</p>
+     <p>對隱私敏感的產品，設計說明會收束成中性的任務動詞；公開的案例紀錄保留視覺證據，但不含類別名詞、儲存庫名稱或本機路徑。</p>
      <ul class="doc-links" aria-label="相關文件">
       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">docs/DESIGN_PLAYBOOK.md</a></li>
       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>
      </ul>
     </div>
-    <aside class="panel reveal is-side" aria-label="簡報包含什麼">
+    <aside class="panel reveal is-side" aria-label="設計說明包含什麼">
      <div class="panel-head"><span>iconflow.toml · [brief] + [design] + [build]</span><span>可攜</span></div>
      <dl>
       <div><dt>使用者任務</dt><dd>一個人正在推進的進展。出自已交付 Theme World 的例子：「讓一個小小的共同儀式，隨時間仍可觸及」。</dd></div>
-      <div><dt>本質</dt><dd>用來拍板爭議的一個字。Keepsake Knot：「together」。Petal Haypile 品牌簡報：「gather」。</dd></div>
+      <div><dt>本質</dt><dd>用來拍板爭議的一個字。Keepsake Knot：「together」。Petal Haypile 品牌設計說明：「gather」。</dd></div>
       <div><dt>個性</dt><dd>兩到三個帶張力的特質 — 「溫暖、可觸、篤定」。</dd></div>
       <div><dt>要避開的陳腔濫調</dt><dd>寫下來以便拒絕的顯眼類別符號：愛心、對話框、相連圓圈。</dd></div>
       <div><dt>標誌性手法假設</dt><dd>讓標誌可獨有的那一招，動筆前寫下、畫完後驗證。</dd></div>
@@ -167,7 +167,7 @@
     <div class="method-columns">
      <div class="method-prose reveal">
       <h3>用不同視角發散</h3>
-      <p>一份簡報，設計師（人或代理程式）至少用不同視角草擬四個概念 — 字面物件、隱喻、核心動詞、把字形<em>熔進</em>物件、抽象系統，或負空間雙讀。兩個共用同一個剪影的概念算一個。</p>
+      <p>一份設計說明，設計師（人或代理程式）至少用不同視角草擬四個概念 — 字面物件、隱喻、核心動詞、把字形<em>熔進</em>物件、抽象系統，或負空間雙讀。兩個共用同一個剪影的概念算一個。</p>
       <h3>過濾陳腔濫調</h3>
       <p>一份寫下來的陳腔濫調表，把每個產品類別配上用濫的符號，以及該改往哪推。規則很簡單：概念落在「避開」那格，就不算完成。內部清單也拒絕用大腦、機器人、閃光、魔杖、神經節點，或預設的藍到紫漸層來代表「AI」。</p>
       <h3>加上一個標誌性手法並測試</h3>
@@ -293,7 +293,7 @@ OK — no automated warnings. Still do the visual review.</code></pre>
      <h3>綁定原始檔的 receipt，失敗即封鎖的交付</h3>
      <p>匯出的 receipt（憑證）帶有精確 SVG 的 <code>source_sha256</code>，以及綁定專案、目標集合、色彩、Electron 圓角、配色、系統匣模式與系統匣來源雜湊的 <code>contract_sha256</code>。<code>iconflow ship</code> 會同時驗證兩者，要求警告清單為空、<code>status: ready</code> 以及六項評分皆至少達 4 分，接著在寫入任何檔案前重新執行自動化 QA。只要更改 SVG 的內容——摘要僅忽略換行——該 receipt 便會失效。</p>
      <h3>案例集學習</h3>
-     <p>每個已交付圖示以 <code>iconflow case new</code> 作結：第一輪與最終分數、避開的陳腔濫調、標誌性手法、一則可再利用的教訓。<code>case stats</code> 會點出反覆最弱的軸與內部陳腔濫調；這些教訓提煉成 <code>docs/LEARNINGS.md</code> 裡的編號規則（撰寫時為 54 條），下一份簡報必須先讀。沒記錄的圖示，系統什麼也學不到。</p>
+     <p>每個已交付圖示以 <code>iconflow case new</code> 作結：第一輪與最終分數、避開的陳腔濫調、標誌性手法、一則可再利用的教訓。<code>case stats</code> 會點出反覆最弱的軸與內部陳腔濫調；這些教訓提煉成 <code>docs/LEARNINGS.md</code> 裡的編號規則（撰寫時為 54 條），下一份設計說明必須先讀。沒記錄的圖示，系統什麼也學不到。</p>
      <ul class="doc-links" aria-label="相關文件">
       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/REVIEW_CHECKLIST.md">docs/REVIEW_CHECKLIST.md</a></li>
       <li><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/LEARNINGS.md">docs/LEARNINGS.md</a></li>

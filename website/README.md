@@ -51,6 +51,13 @@ renders the other four languages into prefixed copies:
 Run it **after** `scripts/build_archive.py`: the archive page is generated, and
 the language copies are generated from it.
 
+`--status` also prints how closely each catalog follows the terminology table
+in `GLOSSARY.md` — the table is parsed out of the Markdown, so the document
+stays the single source of truth. Read it as a smell test, not a score:
+inflection and compounds count as misses while being correct. A number that
+drops sharply means one concept has acquired two renderings, which is the
+defect that survives string-by-string review.
+
 The catalogs live in `website/i18n/`. `en.json` is extracted, never edited by
 hand; the four translation catalogs are reviewed and owned in-repo, and
 `GLOSSARY.md` is the contract they follow. Keys are a slug plus a hash of the
@@ -64,7 +71,8 @@ The `hreflang` block, the language switcher, `sitemap.xml`, and the `_headers`
 revalidation stanzas are generated between markers; edit the route table in the
 script, not the output. Only prose moves: mark names, commands, file names,
 hashes, scores, and the 137 archive readings stay English because they are the
-evidence. `/gallery/` and its collections are English-only in this phase and
+evidence — and the build **fails closed if a translation drops one**, so a
+description that quietly loses "Chromium" or "16px" cannot ship. `/gallery/` and its collections are English-only in this phase and
 translated pages link to them at their English URL on purpose.
 
 Language selection is by link only — no `Accept-Language` redirect and no

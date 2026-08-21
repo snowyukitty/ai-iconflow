@@ -28,9 +28,18 @@ first published release remains under `Unreleased`.
   makes it translatable at all. CJK typography uses installed system faces only
   (no webfont: `font-src 'self'`) and resets the Latin display tracking.
   Evidence is never translated — the 137 archive readings, mark names, file
-  names, hashes, and score strings stay exactly as they ship. Terminology,
-  honesty rules, and per-language style are pinned in
-  `website/i18n/GLOSSARY.md`.
+  names, hashes, and score strings stay exactly as they ship, and the build
+  now **fails closed when a translation drops one**: if the English says
+  `Chromium`, `master.svg`, `PyPI` or `16px`, every language has to say it too.
+  Terminology, honesty rules, and per-language style are pinned in
+  `website/i18n/GLOSSARY.md`, whose terminology table is parsed by
+  `--status`, which reports per-language adherence so a term splitting into two
+  renderings surfaces as a number instead of waiting for a reader to notice.
+  A controlled four-model benchmark (111 curated zh-Hant strings, one prompt,
+  candidates shuffled per string, mapping withheld until the picks were
+  recorded) settled the drafting comparison and, more usefully, exposed
+  consistency defects in the shipped catalogs that string-by-string review had
+  missed; `docs/I18N_PLAN.md` records the method, the numbers and the caveats.
 
 - **Agent Contract v1** (`docs/AGENT_CONTRACT.md`): `doctor`, `check`, `review`, `ship`, and `demo` accept `--json` and emit exactly one envelope on stdout (`schema`, `command`, `status`, `exit_code`, `warnings`, `advisories`, `outputs`, `errors`) with human lines on stderr. QA warnings now carry stable codes (`svg-safety`, `viewbox`, `stroke-floor`, `coverage-16`, `contrast`, `maskable-detail`, `distinctiveness-text`; advisory `tray-template-featureless`), `ship` blocks report `receipt-stale-source`, `receipt-stale-contract`, `receipt-not-ready`, `score-below-floor`, or `qa-warnings`, and every `doctor` FAIL carries a copy-paste `fix` (Chromium: the exact `<python> -m iconflow setup`). The exit-code matrix is pinned to `0` ok / `1` blocked by an IconFlow gate / `2` usage, configuration, or runtime failure: `review` now exits `1` when automated QA warnings exist, `check` with only advisories exits `0`, and an incomplete, unapproved, or stale approved-config fallback is a gate block (`1`) rather than a configuration error. Successful ships report Review Packet v1 provenance (`toolchain`, and `artifacts` / `reviewer` when a receipt carries them; unknown receipt keys are tolerated). `review --receipt-template receipt.json` writes an unscored, source-bound receipt an agent can score and pass to `ship --review`.
 - `iconflow demo --out DIR [--setup] [--json] [--force]`: materializes the packaged, already-reviewed brand family (`iconflow.resources.demo`, copied from `brand/` into `demo/` and shipped on the wheel via `importlib.resources`) and runs `doctor` → `check` → `review` (sheet + Review Lab) → `ship` against the bundled receipt, reporting each step and the worst exit code. Editing the materialized `master.svg` and re-running `ship` fails closed with `receipt-stale-source`.

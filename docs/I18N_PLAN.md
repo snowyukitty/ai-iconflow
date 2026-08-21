@@ -126,6 +126,66 @@
   the Latin display tracking is reset per `:lang()`, and below 560px the
   wordmark gives way to the five-language switcher.
 
+## The four-model benchmark (2026-08-21)
+
+The first round gave each language to a different model, so "which model
+translates best" was unanswerable — the languages differed as much as the
+models. A controlled run settled it: **111 curated zh-Hant strings, one shared
+prompt, four models, candidates shuffled per string** and the mapping withheld
+until the picks were recorded (`work/bench_build.py`, `work/bench_score.py`).
+The set is not a random sample; it stresses six things on purpose — strings
+that already broke once, display headlines, interface micro-copy, the honesty
+disclaimers, dense technical prose, and placeholder-heavy markup.
+
+| | delivered | machine defects | glossary | wall clock | blind wins | severe |
+|---|---|---|---|---|---|---|
+| codex `gpt-5.6-luna` xhigh | 111/111 | 0 | 94% | 10.1 min | 21.7 | 10 |
+| `grok-4.6` xhigh | 111/111 | 0 | 94% | 11.8 min | 21.3 | 6 |
+| `gemini-3.7-flash-high` | 111/111 | 0 | 95% | 2.3 min | 20.3 | 5 |
+| `claude-sonnet-4-6` | 111/111 | 1 | 91% | ~25 min | 9.7 | 16 |
+
+What it established:
+
+- **The machine gate separates nobody.** Across ~450 translated strings not one
+  model broke a placeholder, dropped a runtime token, or translated a command.
+  Every defect worth finding was semantic, which is why the reviewer is the
+  gate and the build check is only the floor.
+- **The top three are a tie with different shapes.** luna writes the best
+  display copy and technical prose but walks into terminology traps; grok wins
+  the traps and the micro-copy and loses the long paragraphs; gemini never wins
+  a category and never collapses in one, at a quarter of the wall clock.
+- **The benchmark found defects in what had already shipped.** Four renderings
+  side by side exposed what string-by-string review cannot: the zh-Hant catalog
+  carried two words for "render", two for "hash", two for "digest", a
+  "fail-closed" that did not match the glossary, and later a "brief" split
+  between 設計說明 and 簡報. All unified; 35 strings adopted a better rendering,
+  including two real meaning fixes ("third-party marks" as 標誌 where trademark
+  law means 商標; "live `<text>` glyphs" as 即時 where it means 未轉外框).
+- **Two rules came out of it and are now enforced.** `EVIDENCE` in
+  `build_i18n.py` fails the build when a translation drops a name the visitor
+  types or verifies — it caught a Spanish `meta description` that had
+  compressed out "Chromium" and "1024". And `--status` parses the terminology
+  table straight out of `GLOSSARY.md` and reports adherence per language, so a
+  term splitting in two shows up as a number instead of waiting for a reader.
+
+Caveats worth keeping: one language, one reviewer, 111 strings; and Sonnet ran
+through a different harness — ATD cannot route Claude models through `agy`
+because that provider rejects `--effort` for them, so it ran against the raw
+CLI in a sealed directory with the same task and inputs but without ATD's
+contract envelope. Discount its number somewhat; do not discount it to a tie.
+
+## Delegation facts worth not rediscovering
+
+- `atd models list --target codex:default` reports the route's advertised
+  model, **not** what the CLI accepts. `gpt-5.6-luna` routes fine even though
+  the listing shows only `gpt-5.6-sol`. Check with `--dry-run`, not the listing.
+- ATD delegates run **read-only** (`action_authorized: false`): they cannot
+  write a file in the workspace, so a large deliverable has to come back as
+  JSON in the response, in chunks.
+- `agy` refuses `--effort` for `claude-sonnet-4-6` and
+  `claude-opus-4-6-thinking`, and ATD always sends one, so those models cannot
+  be reached through ATD on this machine.
+
 ## Decisions taken (small, by the session agent)
 
 - **No hint banner and no `Accept-Language` redirect.** Language selection is

@@ -357,24 +357,27 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 @media (max-width: 760px) { html { scroll-padding-top: 84px; } }
 
 /* The display type is tracked tight for Latin; CJK must not inherit that. */
-:lang(ja) h1, :lang(ja) h2, :lang(ja) h3, :lang(zh-Hant) h1, :lang(zh-Hant) h2, :lang(zh-Hant) h3,
-:lang(zh-Hans) h1, :lang(zh-Hans) h2, :lang(zh-Hans) h3 { letter-spacing: 0; line-height: 1.24; word-break: normal; overflow-wrap: anywhere; }
-:lang(ja) .hero h1, :lang(zh-Hant) .hero h1, :lang(zh-Hans) .hero h1 { font-size: clamp(2.6rem, 5vw, 4.6rem); }
-:lang(ja) .section-heading h2, :lang(zh-Hant) .section-heading h2, :lang(zh-Hans) .section-heading h2,
-:lang(ja) .start-card h2, :lang(zh-Hant) .start-card h2, :lang(zh-Hans) .start-card h2,
-:lang(ja) .world-card h3, :lang(zh-Hant) .world-card h3, :lang(zh-Hans) .world-card h3 { font-size: clamp(1.9rem, 3.4vw, 3rem); }
-:lang(ja) .eyebrow, :lang(zh-Hant) .eyebrow, :lang(zh-Hans) .eyebrow,
-:lang(ja) .section-kicker, :lang(zh-Hant) .section-kicker, :lang(zh-Hans) .section-kicker { letter-spacing: .02em; }
-:lang(ja) .hero h1, :lang(zh-Hant) .hero h1, :lang(zh-Hans) .hero h1 { line-height: 1.16; }
-:lang(ja) .not-found h1, :lang(zh-Hant) .not-found h1, :lang(zh-Hans) .not-found h1 { line-height: 1.2; }
+html:lang(ja) h1, html:lang(ja) h2, html:lang(ja) h3, html:lang(zh-Hant) h1, html:lang(zh-Hant) h2, html:lang(zh-Hant) h3,
+html:lang(zh-Hans) h1, html:lang(zh-Hans) h2, html:lang(zh-Hans) h3 { letter-spacing: 0; line-height: 1.24; word-break: normal; overflow-wrap: anywhere; }
+html:lang(ja) .hero h1, html:lang(zh-Hant) .hero h1, html:lang(zh-Hans) .hero h1 { font-size: clamp(2.6rem, 5vw, 4.6rem); }
+/* The guide, method and archive heroes each size their own h1; CJK needs
+   the whole family capped, or a seven-character line breaks mid-word. */
+html:lang(ja) h1, html:lang(zh-Hant) h1, html:lang(zh-Hans) h1 { font-size: clamp(2.4rem, 4.4vw, 4.2rem); }
+html:lang(ja) .section-heading h2, html:lang(zh-Hant) .section-heading h2, html:lang(zh-Hans) .section-heading h2,
+html:lang(ja) .start-card h2, html:lang(zh-Hant) .start-card h2, html:lang(zh-Hans) .start-card h2,
+html:lang(ja) .world-card h3, html:lang(zh-Hant) .world-card h3, html:lang(zh-Hans) .world-card h3 { font-size: clamp(1.9rem, 3.4vw, 3rem); }
+html:lang(ja) .eyebrow, html:lang(zh-Hant) .eyebrow, html:lang(zh-Hans) .eyebrow,
+html:lang(ja) .section-kicker, html:lang(zh-Hant) .section-kicker, html:lang(zh-Hans) .section-kicker { letter-spacing: .02em; }
+html:lang(ja) .hero h1, html:lang(zh-Hant) .hero h1, html:lang(zh-Hans) .hero h1 { line-height: 1.16; }
+html:lang(ja) .not-found h1, html:lang(zh-Hant) .not-found h1, html:lang(zh-Hans) .not-found h1 { line-height: 1.2; }
 /* Mono labels are set in a Latin small-caps rhythm; CJK needs the tracking back. */
-:lang(ja) .stage-label, :lang(zh-Hant) .stage-label, :lang(zh-Hans) .stage-label,
-:lang(ja) .panel-label, :lang(zh-Hant) .panel-label, :lang(zh-Hans) .panel-label,
-:lang(ja) .world-number, :lang(zh-Hant) .world-number, :lang(zh-Hans) .world-number,
-:lang(ja) .style-card span, :lang(zh-Hant) .style-card span, :lang(zh-Hans) .style-card span,
-:lang(ja) .axis-note span, :lang(zh-Hant) .axis-note span, :lang(zh-Hans) .axis-note span,
-:lang(ja) .proof-toolbar legend, :lang(zh-Hant) .proof-toolbar legend, :lang(zh-Hans) .proof-toolbar legend,
-:lang(ja) .loupe-actual, :lang(zh-Hant) .loupe-actual, :lang(zh-Hans) .loupe-actual { letter-spacing: .01em; }
+html:lang(ja) .stage-label, html:lang(zh-Hant) .stage-label, html:lang(zh-Hans) .stage-label,
+html:lang(ja) .panel-label, html:lang(zh-Hant) .panel-label, html:lang(zh-Hans) .panel-label,
+html:lang(ja) .world-number, html:lang(zh-Hant) .world-number, html:lang(zh-Hans) .world-number,
+html:lang(ja) .style-card span, html:lang(zh-Hant) .style-card span, html:lang(zh-Hans) .style-card span,
+html:lang(ja) .axis-note span, html:lang(zh-Hant) .axis-note span, html:lang(zh-Hans) .axis-note span,
+html:lang(ja) .proof-toolbar legend, html:lang(zh-Hant) .proof-toolbar legend, html:lang(zh-Hans) .proof-toolbar legend,
+html:lang(ja) .loupe-actual, html:lang(zh-Hant) .loupe-actual, html:lang(zh-Hans) .loupe-actual { letter-spacing: .01em; }
 
 /* Five language links plus a wordmark do not fit a phone header bar. */
 @media (max-width: 560px) {
@@ -382,3 +385,4 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .site-header .lang-switch { gap: 0; padding: 2px; font-size: .56rem; }
   .site-header .lang-switch a { padding: 5px 5px; }
 }
+html:lang(ja) .hero h1, html:lang(zh-Hant) .hero h1, html:lang(zh-Hans) .hero h1 { font-size: clamp(2.6rem, 5vw, 4.6rem); line-height: 1.16; }

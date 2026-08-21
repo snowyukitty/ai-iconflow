@@ -25,8 +25,17 @@ Languages: `es` (Español), `ja` (日本語), `zh-Hant` (繁體中文, Taiwan us
    strings such as `4/5/4/5/4/4`, and rubric-axis identifiers inside code stay
    byte-identical.
 5. **Numbers stay Arabic numerals** (137, 16px, 100, 20, 6/6).
-6. Validate before you hand the draft over:
+6. **One term per concept, across the whole catalog.** Two good renderings of
+   the same word are worse than one mediocre one: the reader cannot tell
+   whether 渲染 and 算圖 are the same step. This is the failure that survives
+   string-by-string review, because it is invisible until you line the strings
+   up. Before handing a draft over, grep your own catalog for the words in §4.
+7. Validate before you hand the draft over:
    `python scripts/build_i18n.py --check-catalog website/i18n/<code>.json`
+   and read the adherence line in `--status`. Adherence is a smell test, not a
+   score: inflection ("revisa" for "revisión"), gender agreement and compounds
+   (カラートレイ) all read as misses while being perfectly correct. A number
+   that drops sharply means a term has split in two, which is what matters.
 
 ## 2. The honesty rules (the reason this site exists)
 
@@ -75,6 +84,13 @@ Use these renderings everywhere. Consistency matters more than variety.
 | fail-closed | bloqueado ante fallos | フェイルクローズ | 失敗即封鎖 | 失败即阻断 |
 | clearance (trademark) | comprobación legal | 権利確認 | 權利確認 | 合规许可 |
 | cost | coste | コスト | 成本 | 成本 |
+| render (verb and noun) | renderizar | レンダリング | 渲染 | 渲染 |
+| hash | hash | ハッシュ | 雜湊 | 哈希 |
+| digest | digest | ダイジェスト | 摘要 | 摘要 |
+| checked-in | versionado | リポジトリ内の | 已簽入 | 已签入 |
+| specimen | muestra | 作例 | 樣本 | 样本 |
+| mark, in trademark law | marca | 商標 | 商標 | 商标 |
+| live text (not outlined) | texto vivo | アウトライン化前のテキスト | 未轉外框 | 未转曲 |
 | icon | icono | アイコン | 圖示 | 图标 |
 | icon family | familia de iconos | アイコンファミリー | 圖示家族 | 图标家族 |
 | master (the one SVG) | maestro | マスター | 主檔 | 主文件 |

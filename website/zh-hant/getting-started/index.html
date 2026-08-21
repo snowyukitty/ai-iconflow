@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Getting Started — 用 IconFlow 設計並交付圖示</title>
-  <meta name="description" content="給 AI 代理程式一份產品簡報，以原生尺寸檢視 SVG，再用 IconFlow 交付已審查的 favicon、PWA、桌面與系統匣素材。">
+  <meta name="description" content="給 AI 代理程式一份產品設計說明，以原生尺寸檢視 SVG，再用 IconFlow 交付已審查的 favicon、PWA、桌面與系統匣素材。">
   <meta name="theme-color" content="#191a20">
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="website">
@@ -26,8 +26,8 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/styles.css?v=20260821b">
-  <link rel="stylesheet" href="/getting-started/getting-started.css?v=20260821b">
+  <link rel="stylesheet" href="/styles.css?v=20260821c">
+  <link rel="stylesheet" href="/getting-started/getting-started.css?v=20260821c">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -43,7 +43,7 @@
       }
     }
   </script>
-  <script src="/app.js?v=20260821b" defer></script>
+  <script src="/app.js?v=20260821c" defer></script>
 </head>
 <body class="guide-body">
   <a class="skip-link" href="#main">跳至內容</a>
@@ -57,7 +57,7 @@
     <nav id="site-nav" class="site-nav" aria-label="主要導覽">
       <a href="#choose">選擇路徑</a>
       <a href="#install">安裝</a>
-      <a href="#agent">代理程式簡報</a>
+      <a href="#agent">代理程式說明</a>
       <a href="#workflow">工作流程</a>
       <a href="#outputs">產出</a>
       <a href="/zh-hant/how-icons-are-made/">方法</a>
@@ -71,11 +71,11 @@
     <section class="guide-hero section-shell">
       <div class="guide-hero-copy reveal">
         <p class="eyebrow"><span class="status-dot"></span> 開始使用 · 原始碼安裝</p>
-        <h1>把簡報<br>交給代理程式。<br><em>留下校樣。</em></h1>
+        <h1>把設計說明<br>交給代理程式。<br><em>留下校樣。</em></h1>
         <p>IconFlow 把產品意圖變成可編輯 SVG，再讓設計撐過原生像素、平台裁切，以及綁定原始檔的審查，之後才交付任何素材。</p>
         <div class="hero-actions">
           <a class="button button-primary" href="#install">跑五分鐘校樣 <span aria-hidden="true">→</span></a>
-          <a class="button button-quiet" href="#agent"><span class="button-pixel"></span> 複製代理程式簡報</a>
+          <a class="button button-quiet" href="#agent"><span class="button-pixel"></span> 複製代理程式說明</a>
         </div>
         <ul class="guide-requirements" aria-label="系統需求">
           <li>Python 3.10+</li>
@@ -98,7 +98,7 @@
           <div><span>交付</span></div>
         </div>
         <div class="handoff-receipt">
-          <span class="receipt-pulse" aria-hidden="true"></span><div><strong>決策保持可檢視</strong><small>簡報 · SVG · 審查 · receipt（回執） · 案例</small></div>
+          <span class="receipt-pulse" aria-hidden="true"></span><div><strong>決策保持可檢視</strong><small>設計說明 · SVG · 審查 · receipt（回執） · 案例</small></div>
         </div>
       </div>
     </section>
@@ -127,7 +127,7 @@
             <li><span>02</span>給代理程式產品脈絡</li>
             <li><span>03</span>檢視比稿與 Review Lab</li>
           </ol>
-          <a href="#agent">用代理程式簡報 <span aria-hidden="true">→</span></a>
+          <a href="#agent">用代理程式說明 <span aria-hidden="true">→</span></a>
         </article>
         <article class="path-card reveal">
           <div class="path-card-top"><span>透明</span><strong>直接 CLI</strong></div>
@@ -199,13 +199,13 @@ sh ./scripts/setup.sh
     <section id="agent" class="agent-section section-shell">
       <div class="guide-heading reveal">
         <p class="section-kicker">從意圖開始</p>
-        <h2>給代理程式<br><span>一份有用的簡報。</span></h2>
+        <h2>給代理程式<br><span>一份有用的設計說明。</span></h2>
         <p>只給名詞的提示詞會做出裝飾。要包含產品任務、受眾、個性、色盤、該避開的陳腔濫調，以及確切的產出版面。</p>
       </div>
 
       <div class="agent-brief-grid">
         <article class="brief-builder reveal">
-          <div class="brief-builder-head"><span>簡報 / 01</span><strong>代理程式需要什麼</strong></div>
+          <div class="brief-builder-head"><span>設計說明 / 01</span><strong>代理程式需要什麼</strong></div>
           <dl>
             <div><dt>產品意圖</dt><dd>產品讓人做成什麼？</dd></div>
             <div><dt>使用者任務</dt><dd>使用者在推進什麼？</dd></div>
@@ -349,7 +349,7 @@ python -m iconflow case stats</code></pre>
 
     <section class="guide-cta section-shell reveal">
       <div><p class="section-kicker">可以進你的專案了</p><h2>從任務開始。<br>以證據結束。</h2></div>
-      <div><p>先跑一次引擎校樣。然後打開你的產品儲存庫，給代理程式一份具體簡報，並把每個設計決策留在未來維護者能檢視的地方。</p><div class="start-actions"><a class="button button-primary" href="#install">安裝 IconFlow <span aria-hidden="true">↑</span></a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">讀設計手冊</a></div></div>
+      <div><p>先跑一次引擎校樣。然後打開你的產品儲存庫，給代理程式一份具體設計說明，並把每個設計決策留在未來維護者能檢視的地方。</p><div class="start-actions"><a class="button button-primary" href="#install">安裝 IconFlow <span aria-hidden="true">↑</span></a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/DESIGN_PLAYBOOK.md">讀設計手冊</a></div></div>
     </section>
   </main>
 

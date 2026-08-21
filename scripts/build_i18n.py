@@ -129,6 +129,16 @@ URL_META = frozenset({"og:url", "twitter:url"})
 DATA_LABEL = re.compile(r"^data-label-[a-z0-9-]+$")
 # Runtime substitutions the page scripts fill in; a translation must keep them.
 TOKEN = re.compile(r"\{[a-z]+\}")
+# Evidence: names a visitor types, clicks, or checks. If the English says it,
+# every translation has to say it too, or the page stops being verifiable.
+EVIDENCE = (
+    "IconFlow", "Petal Haypile", "Remix Lab", "Review Lab", "Proof Lab",
+    "Flow Gate", "PyPI", "GitHub", "Chromium", "Playwright", "Pillow",
+    "Python", "SVG", "PNG", "PWA", "CLI", "JSON", "SHA-256", "Apache-2.0",
+    "favicon", "Tauri", "Electron", "macOS", "Emoji Matrix", "Social Signals",
+    "iconflow", "master.svg", "tray.svg", "16px", "1024",
+)
+GLOSSARY_ROW = re.compile(r"^\|(.+)\|$")
 
 MARK_ALTERNATES = ("<!-- i18n:alternates -->", "<!-- /i18n:alternates -->")
 MARK_SWITCH = ("<!-- i18n:switch -->", "<!-- /i18n:switch -->")
@@ -340,6 +350,11 @@ class Rewriter(HTMLParser):
         if wanted != set(TOKEN.findall(translation)):
             self.problems.append(
                 f"{self.page.source}: {key} must keep the token(s) {sorted(wanted)}")
+            return text
+        lost = [name for name in EVIDENCE if name in text and name not in translation]
+        if lost:
+            self.problems.append(
+                f"{self.page.source}: {key} dropped the evidence {lost}")
             return text
         return translation
 
@@ -807,6 +822,64 @@ def sync_contract() -> list[str]:
 # Catalogs
 
 
+def load_glossary() -> dict[str, dict[str, str]]:
+    """Read the agreed-terminology tables out of GLOSSARY.md.
+
+    The document stays the single source of truth; this only lets ``--status``
+    report how often a required rendering actually reaches the catalog. It is
+    a report, never a gate: a good translation can legitimately paraphrase a
+    term away, and a build that refused those would push translators toward
+    word-for-word rendering, which is the opposite of what the site needs.
+    """
+    path = I18N / "GLOSSARY.md"
+    if not path.is_file():
+        return {}
+    codes = [language.code for language in TARGETS]
+    table: dict[str, dict[str, str]] = {code: {} for code in codes}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        match = GLOSSARY_ROW.match(line.strip())
+        if not match:
+            continue
+        cells = [cell.strip().strip("`") for cell in match.group(1).split("|")]
+        if len(cells) != len(codes) + 1 or set(cells[0]) <= set("- "):
+            continue
+        # "ship (as prose, not the command)" keys on "ship"
+        note = cells[0].lower()
+        term = re.sub(r"\s*\(.*\)", "", cells[0]).strip().lower()
+        # A row that says "not the command" names something that also appears
+        # verbatim as a command; the report cannot tell the two uses apart.
+        if not term or term == "english" or "not the command" in note:
+            continue
+        for code, expected in zip(codes, cells[1:]):
+            if expected and expected.lower() != term:
+                table[code][term] = expected
+    return table
+
+
+def glossary_report(source: dict[str, Slot], strings: dict[str, str], terms: dict[str, str]):
+    """How often a required rendering reaches the catalog, and what misses."""
+    hit = total = 0
+    misses: dict[str, int] = {}
+    for key, slot in source.items():
+        value = strings.get(key)
+        if value is None:
+            continue
+        # File names and command phrases carry the word without using it as a
+        # word: "master.svg" is not a use of "master", and "iconflow review"
+        # is the command, not the noun.
+        english = re.sub(r"[a-z_]+\.[a-z]{2,4}\b|iconflow +[a-z]+", " ", slot.text.lower())
+        for term, expected in terms.items():
+            if not re.search(rf"\b{re.escape(term)}s?\b", english):
+                continue
+            total += 1
+            # Latin renderings get capitalised at the start of a label.
+            if expected.lower() in value.lower():
+                hit += 1
+            else:
+                misses[term] = misses.get(term, 0) + 1
+    return hit, total, misses
+
+
 def load_catalog(code: str) -> dict[str, str]:
     path = I18N / f"{code}.json"
     if not path.is_file():
@@ -930,13 +1003,19 @@ def check_catalog(path: Path) -> int:
 
 def status() -> int:
     source = extract(write=False)
+    glossary = load_glossary()
     print(f"i18n: {len(source)} translatable string(s) on {len(PAGES)} page(s)")
     for language in TARGETS:
         strings = load_catalog(language.code)
         done = len(set(strings) & set(source))
         obsolete = len(set(strings) - set(source))
+        hit, total, misses = glossary_report(source, strings, glossary.get(language.code, {}))
+        worst = ", ".join(f"{term} x{count}" for term, count
+                          in sorted(misses.items(), key=lambda item: -item[1])[:4])
+        coverage = f"{hit / total:4.0%}" if total else "   —"
         print(f"  {language.code:8s} {done:4d}/{len(source)} translated"
-              f"{f', {obsolete} obsolete' if obsolete else ''}")
+              f"{f', {obsolete} obsolete' if obsolete else ''}"
+              f"  · glossary {coverage}{f'  (missed: {worst})' if worst else ''}")
     return 0
 
 

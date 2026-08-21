@@ -841,6 +841,39 @@ class InternationalisationContractTests(unittest.TestCase):
                           if value == source[key]["text"] and len(source[key]["text"]) > 24]
                 self.assertLess(len(echoed), 12, f"{language.code} echoes English: {echoed[:6]}")
 
+    def test_evidence_survives_every_translation(self) -> None:
+        """A name the visitor types, clicks, or verifies is not translatable."""
+        source = json.loads((SITE / "i18n" / "en.json").read_text(encoding="utf-8"))["strings"]
+        for language in self.i18n.LANGUAGES[1:]:
+            strings = json.loads(
+                (SITE / "i18n" / f"{language.code}.json").read_text(encoding="utf-8"))["strings"]
+            for key, entry in source.items():
+                lost = [name for name in self.i18n.EVIDENCE
+                        if name in entry["text"] and name not in strings[key]]
+                with self.subTest(language=language.code, key=key):
+                    self.assertEqual([], lost, entry["text"][:70])
+
+    def test_glossary_is_machine_readable_and_mostly_followed(self) -> None:
+        """The terminology table in GLOSSARY.md is parsed, not just prose.
+
+        Adherence is reported, never gated: inflection ("revisa" for
+        "revisión"), gender agreement and compounds ("カラートレイ") all read as
+        misses while being correct, so the number is a smell test, not a score.
+        """
+        glossary = self.i18n.load_glossary()
+        source = self.i18n.extract(write=False)
+        self.assertEqual({language.code for language in self.i18n.LANGUAGES[1:]}, set(glossary))
+        for code, terms in glossary.items():
+            with self.subTest(language=code):
+                self.assertGreater(len(terms), 20, "the terminology table did not parse")
+                self.assertIn("silhouette", terms)
+                hit, total, _ = self.i18n.glossary_report(
+                    source, self.i18n.load_catalog(code), terms)
+                # Deliberately loose. Spanish inflection alone ("renderizado"
+                # for "renderizar") costs ~10 points, so the floor catches a
+                # term splitting in two, not a catalog being imperfect.
+                self.assertGreater(hit / total, 0.75, f"{code} drifted from the glossary")
+
     def test_placeholder_contract_round_trips(self) -> None:
         unit = self.i18n.Unit()
         unit.add_text("clean ")

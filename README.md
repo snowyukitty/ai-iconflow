@@ -9,6 +9,8 @@
 **400-cell Matrix:** [compare all](https://ai-iconflow.com/gallery/emoji-matrix/all/) ·
 **How it's made:** [the method, stage by stage](https://ai-iconflow.com/how-icons-are-made/)
 
+The site reads in five languages — English, [Español](https://ai-iconflow.com/es/), [日本語](https://ai-iconflow.com/ja/), [繁體中文](https://ai-iconflow.com/zh-hant/), [简体中文](https://ai-iconflow.com/zh-hans/). The toolkit and its documentation stay English.
+
 IconFlow is a local design-and-release workflow for agents, designers, and
 small product teams that need one **reviewed, platform-ready icon family** from
 an editable semantic SVG.
@@ -301,6 +303,7 @@ mechanically enforceable lessons belong in the engine and its tests.
 brand/                      IconFlow's own master, tray source, review, and outputs
 showcase/                   approved cross-theme masters, receipts, and web builds
 website/                    static Cloudflare Pages launch site and reviewed assets
+  i18n/                     translation catalogs and the binding glossary (5 languages)
 website-redirect/           permanent compatibility redirect for the former host
 casebook/                   structured evidence from shipped icons
 docs/
