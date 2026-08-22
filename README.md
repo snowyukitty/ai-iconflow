@@ -1,29 +1,52 @@
+<div align="center">
+
 # IconFlow
+
+**One reviewed, platform-ready icon family from one editable SVG.**<br>
+Favicon, PWA, Tauri, Electron, and tray — proven at 16px before it ships anywhere.
+
+[![PyPI](https://img.shields.io/pypi/v/iconflow?logo=pypi&logoColor=white&label=PyPI)](https://pypi.org/project/iconflow/)
+[![Python](https://img.shields.io/pypi/pyversions/iconflow?logo=python&logoColor=white)](https://pypi.org/project/iconflow/)
+[![CI](https://img.shields.io/github/actions/workflow/status/snowyukitty/ai-iconflow/ci.yml?branch=main&logo=githubactions&logoColor=white&label=CI)](https://github.com/snowyukitty/ai-iconflow/actions/workflows/ci.yml)
+[![Licenses](https://img.shields.io/badge/licenses-Apache--2.0%20·%20CC0%20·%20CC--BY--SA-blue)](LICENSES.md)
+[![Your icons are yours](https://img.shields.io/badge/your%20icons-yours-brightgreen)](LICENSES.md#1-the-icons-you-make-with-iconflow-are-yours)
+
+[**Live proof**](https://ai-iconflow.com/) ·
+[Remix Lab](https://ai-iconflow.com/#remix) ·
+[137-direction Archive](https://ai-iconflow.com/archive/) ·
+[100-case Gallery](https://ai-iconflow.com/gallery/) ·
+[400-cell Matrix](https://ai-iconflow.com/gallery/emoji-matrix/all/) ·
+[How it's made](https://ai-iconflow.com/how-icons-are-made/)
+
+</div>
 
 ![IconFlow — One master. Every surface. Proven at 16px.](docs/assets/hero-flow.svg)
 
-**Live proof:** [ai-iconflow.com](https://ai-iconflow.com/) ·
-**Remix Lab:** [bend the mark in your browser](https://ai-iconflow.com/#remix) ·
-**Living Archive:** [137 identity directions](https://ai-iconflow.com/archive/) ·
-**100-case Gallery:** [ai-iconflow.com/gallery/](https://ai-iconflow.com/gallery/) ·
-**400-cell Matrix:** [compare all](https://ai-iconflow.com/gallery/emoji-matrix/all/) ·
-**How it's made:** [the method, stage by stage](https://ai-iconflow.com/how-icons-are-made/)
+```bash
+pip install iconflow          # or: uv tool install iconflow
+iconflow setup                # fetches Chromium — the only network step
+iconflow demo --out demo      # doctor → check → review → ship, on a real receipt
+```
 
-The site reads in five languages — English, [Español](https://ai-iconflow.com/es/), [日本語](https://ai-iconflow.com/ja/), [繁體中文](https://ai-iconflow.com/zh-hant/), [简体中文](https://ai-iconflow.com/zh-hans/). The toolkit and its documentation stay English.
+**No image model. No API key. No upload.** You author the SVG, a pinned Chromium
+renders it exactly as a browser would, and `ship` fails closed unless automated
+QA is clean and all six human rubric scores are at least 4/5.
 
-IconFlow is a local design-and-release workflow for agents, designers, and
-small product teams that need one **reviewed, platform-ready icon family** from
-an editable semantic SVG.
-
-It is not a stock-glyph generator or a one-off conversion script. IconFlow
-provides the design constraints, browser-faithful Chromium rendering, silhouette-driven
-bake-off, target previews, hard quality gate, and casebook loop needed to make
-an icon specific to what an app actually does—and prove that it still works at
-16px before shipping it everywhere.
+**The icons you make with it are yours** — no attribution, no share-alike,
+commercial use unrestricted. Run `iconflow license` for the whole answer.
 
 ```text
 app intent → distinct concepts → SVG master → 16px proof → target family → casebook
 ```
+
+The site reads in five languages — English, [Español](https://ai-iconflow.com/es/), [日本語](https://ai-iconflow.com/ja/), [繁體中文](https://ai-iconflow.com/zh-hant/), [简体中文](https://ai-iconflow.com/zh-hans/). The toolkit and its documentation stay English.
+
+IconFlow is a local design-and-release workflow for agents, designers, and
+small product teams. It is not a stock-glyph generator or a one-off conversion
+script: it provides the design constraints, browser-faithful rendering,
+silhouette-driven bake-off, target previews, hard quality gate, and casebook
+loop needed to make an icon specific to what an app actually does — and prove
+that it still works at 16px before shipping it everywhere.
 
 Twenty structurally different technique scaffolds help designers choose an
 execution language without pretending a stock shape is a finished identity:

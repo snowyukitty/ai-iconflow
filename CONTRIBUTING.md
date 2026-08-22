@@ -44,6 +44,13 @@ procedure with `/plugin marketplace add snowyukitty/ai-iconflow` then
 Icon contributions go through **the case lane** below; engine and doc changes
 through the sections after it.
 
+## Code of conduct
+
+Participation is governed by [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). It has
+one project-specific clause worth reading before your first review comment:
+critique the mark, the geometry, and the evidence — never the person who drew
+it.
+
 ## Licensing and sign-off
 
 This repository is **not** under a single license. Before you edit, check which

@@ -15,10 +15,17 @@ minor version will receive security fixes unless a release note says otherwise.
 ## Report a vulnerability
 
 Do not post exploit details, credentials, private paths, or sensitive SVGs in a
-public issue. GitHub private vulnerability reporting is not enabled yet. Until
-the maintainer enables it, open a minimal issue that says only that you need a
-private security contact; include no technical details. The maintainer can then
-establish a private channel.
+public issue.
+
+**Use GitHub private vulnerability reporting**, enabled on this repository since
+2026-08-22: open
+<https://github.com/snowyukitty/ai-iconflow/security/advisories/new>. The report
+is visible only to you and the maintainer, and it stays private until a fix is
+published.
+
+If that form is unavailable to you for any reason, open a minimal public issue
+saying only that you need a private security contact — include no technical
+details — and the maintainer will open a private advisory for you.
 
 Useful private reports include the affected version or commit, a minimal
 redacted reproduction, impact, and whether the issue involves network access,
