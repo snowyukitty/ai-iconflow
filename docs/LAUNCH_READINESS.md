@@ -102,11 +102,22 @@ is still fully the owner's to choose. That window closes on publication.
   on this one. The 2026-08-21 line above stating that launch commits are on
   a public `main` no longer describes the repository's current state.
 - [x] Private vulnerability reporting enabled 2026-08-22.
-- [ ] Owner approves and applies the remaining homepage and social-preview settings
-  (`docs/assets/social-preview.png`, 1280×640, Petal Haypile).
+- [ ] **Upload the social preview — the last open gate.** The image is ready at
+  `docs/assets/social-preview.png`, verified 1280×640. GitHub has no API for it,
+  so it is a web-UI upload:
+  <https://github.com/snowyukitty/ai-iconflow/settings> → *Social preview* →
+  *Edit* → *Upload an image*. Until then, links shared to Slack, Discord, or
+  social platforms fall back to a generic card. The repository Homepage,
+  description, and topics are already set.
 - [ ] Owner confirms the `iconflow` name on PyPI and creates a Trusted
   Publisher (`docs/MILESTONE_v0.5.md`, Phase 0).
-- [ ] Owner files the eight `docs/ISSUE_SEEDS.md` issues by hand.
+- [ ] Owner files the eight `docs/ISSUE_SEEDS.md` issues by hand. Now that the
+  repository is public, these are what give a first-time visitor something to
+  pick up.
+- [x] Community health at 100% (GitHub's own measure): README, LICENSE,
+  CONTRIBUTING, CODE_OF_CONDUCT, issue templates, PR template. Added 2026-08-22.
+- [x] README carries live badges — PyPI version, supported Python range, CI
+  status, the multi-licence map, and the user-output guarantee.
 - [x] Desktop, tablet, and mobile visual sign-off for `/getting-started/`
   (Playwright at 1440/768/360 on 2026-08-21: no horizontal overflow, no console
   errors); the route is live on the canonical host.
