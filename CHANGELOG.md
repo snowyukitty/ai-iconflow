@@ -55,6 +55,45 @@ first published release remains under `Unreleased`.
   shipped.
 
 ### Changed
+- **A self-audit that asks the world instead of remembering it.**
+  `scripts/state.py` checks what is actually true — are the generated site
+  artifacts current, does PyPI carry this version with resolvable attestations,
+  does the repository look the way the docs say, and **does the deployed site
+  still serve what the repository holds**. That last one is a failure nothing
+  else here could see: a perfect commit and a two-day-old Cloudflare deploy are
+  indistinguishable from inside a checkout, and the first run found exactly
+  that.
+
+  It writes `docs/STATE.md` with `--write`, speaks the `--json` envelope from
+  `docs/AGENT_CONTRACT.md`, and follows one rule throughout: a probe that could
+  not run reports UNKNOWN, never PASS. A tick meaning "I could not check" is
+  worse than no tick. An open owner gate is reported and never fails the run,
+  because a gate is a decision waiting on a person rather than a defect.
+
+- **`LAUNCH_READINESS.md` rewritten to hold only what cannot drift.** It had
+  become the exact thing IconFlow exists to refuse. On the morning of
+  2026-08-25 it still said the `iconflow` name "returns 404, so both are still
+  free" — three days after 0.5.0 was published from this repository — and in an
+  adjacent bullet announced the repository was public while quoting `gh repo
+  view` reporting it `PRIVATE`. It listed twelve topics when there were twenty.
+
+  Nobody lied; a person ticked a box and the world moved. So the file is now
+  the *record* — a dated history table, the licensing reasoning, the market
+  position, the known limits — and every live-state claim defers to
+  `STATE.md`. `tests/test_state.py` fails if a status checkbox reappears there,
+  because a checkbox is a condition asserted as of whenever someone last
+  looked, and nothing re-checks it.
+
+- **A lint gate pinned to the oldest supported Python.** A backslash inside an
+  f-string expression is legal from 3.12 and a `SyntaxError` on 3.10. One
+  reached `main` in this very changelog's previous entry: green on a 3.12
+  machine, red minutes later on a single leg of the CI matrix. `ruff` reports
+  syntax errors against `target-version` regardless of which rules are
+  selected, so a deliberately narrow rule set — undefined names, unreachable
+  branches, broken comparisons, dead imports — buys that whole class of failure
+  for a job that finishes in under a minute. Restyling 250 existing files would
+  have buried the signal; the two dead imports it did find are gone.
+
 
 - `robots.txt` now carries an explicit `Allow: /reference/` inside the named
   training-crawler block. The line is deliberate, not a loosening: the CC BY-SA

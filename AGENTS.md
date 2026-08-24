@@ -177,3 +177,30 @@ other repository follows the same gates without being handed this file.
   installer rather than editing a deployed copy.
 - **Anything else** — `iconflow skill print` writes the whole procedure to
   stdout, and every agent can follow this file and call the same CLI.
+
+## If you are working *on* IconFlow, not with it
+
+Everything above is for an agent designing an icon. If you are changing this
+repository instead, two commands come first.
+
+```bash
+python scripts/state.py     # what is actually true right now
+python -m ruff check .      # does it still parse on Python 3.10
+```
+
+`scripts/state.py` asks GitHub, PyPI, the deployed site and the generators, and
+writes [`docs/STATE.md`](docs/STATE.md) with `--write`. Start here rather than
+reading a status list in a document: on 2026-08-25 the hand-maintained launch
+checklist still claimed the PyPI name was unclaimed, three days after `0.5.0`
+was published from this repository. Prose about live state goes stale silently;
+this does not, because it re-asks. A probe that cannot run reports UNKNOWN, and
+UNKNOWN is deliberately not a pass.
+
+`ruff` is a floor check, not a style opinion: the project supports Python 3.10
+through 3.14, and a newer interpreter accepts syntax the floor rejects. That
+has already cost one red CI run.
+
+**Never hand-edit a generated file.** The site's pages, the icon-size
+reference, the archive, the five-language trees and `docs/STATE.md` are all
+outputs. Change the generator and rerun it; the tests compare a fresh render
+against what is committed, so an edited output fails rather than surviving.

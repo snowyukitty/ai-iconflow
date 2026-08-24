@@ -177,7 +177,7 @@ def prove(config: Path, *, root: Path, python: str, receipt_script: Path, artifa
     result: dict[str, Any] = {"config": rel, "slug": slug, "artifacts": []}
 
     try:
-        from iconflow.config import ConfigError, load_config
+        from iconflow.config import load_config
 
         loaded = load_config(config)
     except Exception as exc:  # noqa: BLE001 - report, never crash the whole proof

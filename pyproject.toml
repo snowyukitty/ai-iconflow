@@ -51,7 +51,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["build>=1.2,<2"]
+dev = ["build>=1.2,<2", "ruff>=0.14"]
 
 [project.scripts]
 iconflow = "iconflow.cli:main"
@@ -95,3 +95,23 @@ include-package-data = false
 "iconflow.resources.docs" = ["*.md", "assets/*.svg", "assets/*.png", "LICENSE"]
 "iconflow.resources.demo" = ["master.svg", "tray.svg", "iconflow.toml", "master-review.json"]
 "iconflow.resources.skill" = ["SKILL.md", "LICENSE", "agents/*.yaml"]
+
+# Deliberately not a style crusade.
+#
+# This gate exists for one reason: IconFlow supports Python 3.10 through 3.14,
+# and a maintainer working on 3.12 can write code that 3.10 will not parse.
+# That happened — a backslash inside an f-string expression, legal since PEP
+# 701, reached `main` and only the Windows 3.10 matrix leg caught it, minutes
+# after a push that looked green everywhere local.
+#
+# Ruff reports syntax errors against `target-version` no matter which rules are
+# selected, so the narrow set below buys that whole class of failure for one
+# fast job. The rules themselves are only the ones that mean "this is a bug":
+# undefined names, unreachable branches, broken comparisons, dead imports.
+# Restyling 250 existing files would bury the signal this exists to carry.
+[tool.ruff]
+target-version = "py310"
+extend-exclude = ["build", "dist", ".venv", "work", "work-pc4090", "test-examples"]
+
+[tool.ruff.lint]
+select = ["E9", "F63", "F7", "F82", "F401"]

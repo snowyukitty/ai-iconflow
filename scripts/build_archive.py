@@ -20,7 +20,6 @@ from __future__ import annotations
 
 import argparse
 import html
-import io
 import json
 import re
 import sys

@@ -108,10 +108,32 @@ python -m iconflow doctor    # verify the environment
 Run the checks that cover what you touched:
 
 ```bash
+python -m ruff check .                # syntax on the oldest supported Python
 python -m unittest discover -s tests
 python -m iconflow case lint          # casebook integrity
 python -m iconflow case stats         # health report / evolution target
 ```
+
+Run `ruff` even for a one-line change, and especially on a machine newer than
+Python 3.10. It takes under a second, and it is configured for one job the test
+suite does badly: your interpreter accepts syntax that IconFlow's floor does
+not. A backslash inside an f-string expression is legal from 3.12 and a
+`SyntaxError` on 3.10, and it reached `main` once — green on the author's
+machine, caught minutes later by a single leg of the CI matrix. The rule set is
+kept narrow on purpose; it is a floor check, not a style opinion.
+
+To see the project's live state — what is generated and current, what the
+deployed site is actually serving, whether PyPI carries this version, and which
+gates are open:
+
+```bash
+python scripts/state.py                # human report
+python scripts/state.py --offline      # no network; generators only
+python scripts/state.py --write        # regenerate docs/STATE.md
+```
+
+It reports what it could not check as UNKNOWN rather than guessing. An open
+gate is a decision waiting on a person and never fails the report.
 
 Browser-boundary changes also require the opt-in integration tests:
 

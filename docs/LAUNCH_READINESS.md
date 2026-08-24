@@ -5,190 +5,97 @@
      with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # Launch readiness
 
-> **Launched 2026-08-22.** The repository is public, `iconflow 0.5.0` is on PyPI
-> with signed attestations, and `pip install iconflow` followed by
-> `iconflow demo` works from a clean environment. What follows is the record of
-> how that was reached and what remains open.
+> **Current state lives in [`STATE.md`](STATE.md), which is generated.** This
+> file is the *record* — how the launch was reached, and the reasoning behind
+> the decisions that shaped it. It deliberately no longer restates anything a
+> probe can check.
 
+## Why this file was rewritten
 
-Status date: 2026-08-21. This file records evidence and remaining owner gates;
-it is not a claim that a release has been published.
+Until 2026-08-25 this was a live status board: hand-ticked boxes describing the
+repository, the package index and the site as they stood on the day someone
+last looked. By that morning it said, in its own words, that the `iconflow`
+name "returns 404, so both are still free" — three days after `0.5.0` was
+published from this repository. In an adjacent bullet it announced the
+repository was public and then quoted `gh repo view` reporting it `PRIVATE`.
+It listed twelve topics when there were twenty, and a homepage as "not set"
+when it had been set for days.
 
-## Current readiness
+Nobody lied. A person ticked a box, the world moved, and the box stayed ticked.
 
-- [x] Source, wheel resources, console entry point, and clean wheel installation tested.
-- [x] Windows, Linux, and macOS CI spans the supported Python 3.10–3.14 range.
-- [x] Chromium rendering and network/animation security boundaries have integration tests.
-- [x] SVG/XML size, structure, DTD/entity, output-link, and review-contract boundaries have regression tests.
-- [x] Wheel and sdist contents have a fail-closed verification script.
-- [x] A non-publishing release-candidate workflow builds checksums and proves wheel reproducibility.
-- [x] README provides a source-only installation path and a checked-in reviewed-family proof.
-- [x] The agent-first Getting Started route, Windows/POSIX setup scripts, and
-  open Agent Skill metadata have website and distribution contract tests.
-- [x] A fresh wheel installed outside the source tree passed `doctor` and the
-  source-bound 23-file brand ship on 2026-08-14.
-- [x] Twenty packaged technique families have one metadata source, clean `check`
-  results, native 16px visual proof, tray guidance, and clean-room provenance.
-- [x] Security, provenance, changelog, contribution, issue, pull-request, and release guidance exists.
-- [x] Owner selected Apache-2.0; the checkout includes license, notice, package metadata, and trademark policy.
-- [x] Launch commits are on the public `main` branch, GitHub recognizes the
-  Apache-2.0 license, and the cross-platform CI matrix is green.
-- [x] Owner applied a public repository description and topic baseline.
-- [x] The homepage opens on the Living Archive (137 directions, 19 passed
-  review) with a Remix Lab, a real native-size hero scrubber, and a
-  methodology page; a three-model UI/UX audit (Codex, Grok, Gemini via ATD)
-  was folded in before publication on 2026-08-21.
-- [x] Agent Contract v1 (`docs/AGENT_CONTRACT.md`): `--json` envelopes,
-  0/1/2 exit codes, `iconflow demo` from the packaged brand family, the PR
-  proof GitHub Action, and a contributor lane (case PR template, community
-  fixture, issue seeds) landed on 2026-08-21 and CI is green on every
-  platform of the matrix.
-### Before the repository goes public (do these in order)
+That is precisely the failure `iconflow ship` exists to prevent: an approval
+that outlived the thing it approved. The tool refuses to build against a review
+receipt whose source hash no longer matches, and it was doing so while its own
+launch document told visitors something false about where the package lived.
 
-Publishing is one-way: once the repository is cloneable, every file in it is
-distributed under whatever license it carried at that moment, and that grant
-cannot be withdrawn for the copies already taken. The repository has 0 forks
-and 0 stars and has never been meaningfully public, so the licensing structure
-is still fully the owner's to choose. That window closes on publication.
+The fix is structural, not vigilance. `scripts/state.py` asks the world —
+GitHub, PyPI, the deployed site, the generators — and writes
+[`STATE.md`](STATE.md). A probe that cannot run reports UNKNOWN, never PASS.
+`tests/test_state.py` fails if this file starts restating live state again.
 
-- [x] Three-tier license split landed (`LICENSES.md`, per-directory `LICENSE`
-  files, SPDX headers, substantive `NOTICE`, `iconflow license`,
-  `tests/test_licensing.py`). Verified 2026-08-21.
-- [x] Trusted Publishing proven end to end on TestPyPI, 2026-08-22 (run
-  `32516576257`). Pending publishers are registered on both indexes for project
-  name `iconflow`, repository `snowyukitty/ai-iconflow`, workflow `publish.yml`,
-  environments `pypi` / `testpypi`. `iconflow 0.5.0` installed from TestPyPI
-  into a clean venv and answered `doctor` with *IconFlow is ready*; the signed
-  provenance resolves. Nothing about the pipeline is untested now except the
-  real index accepting the name.
-- [x] **`iconflow` claimed on PyPI 2026-08-22 by publishing 0.5.0.**
-  PyPI has **no name reservation**: a pending publisher explicitly does not hold
-  a name until an upload uses it. So the name becomes yours at the first
-  successful upload and not before, and because the sdist and wheel both carry
-  the full source, that upload *is* the public disclosure. There is no ordering
-  that claims the name while keeping the code private. Doing PyPI first still
-  matters, for the narrower reason that it removes the window in which someone
-  who noticed the public repository could take the name.
-  `.github/workflows/publish.yml` and `docs/RELEASING.md` §5–6 have the exact
-  steps; rehearse on TestPyPI first, because a PyPI version can never be
-  re-uploaded. Checked 2026-08-22: `iconflow` and `iconflow` both return 404,
-  so both are still free.
-- [ ] Owner reads `LICENSES.md` end to end and confirms the tier boundaries —
-  especially §1, the promise that icons users make with IconFlow are theirs.
-- [ ] Owner enables a CLA signature check (the
-  [CLA Assistant](https://github.com/cla-assistant/cla-assistant) GitHub App is
-  the usual choice). `CLA.md` and the PR-template checkbox are in place, but
-  nothing yet *records* assent automatically. Until then, check the signature
-  line by hand on every outside PR — a contribution merged without it freezes
-  IconFlow's licensing permanently, which is the one thing the CLA exists to
-  prevent.
-- [x] PyPI name decided 2026-08-22: **`iconflow`**, renamed from
-  `ai-iconflow` before any upload. The CLI, the product, the agent skill, and
-  the plugin were already called `iconflow`; the distribution was the only thing
-  out of step, and `pip install iconflow` giving you an `iconflow` command is
-  the property the whole adoption story rests on. The `ai-` prefix also
-  misdescribed a toolkit that deliberately has no image model. The domain
-  (`ai-iconflow.com`), the GitHub repository, and the Cloudflare Pages project
-  keep their names — none of them has to match the distribution.
-- [ ] Owner decides whether to register the IconFlow word mark. `TRADEMARKS.md`
-  asserts common-law rights, which are real but weaker than registration and
-  jurisdiction-dependent.
-- [x] **Repository made public 2026-08-22.** Checked again on
-  2026-08-21: `gh repo view snowyukitty/ai-iconflow` reports
-  `"visibility": "PRIVATE"` and an unauthenticated request returns 404, so
-  the clone URL, the raw docs, `uv tool install git+...`, and the
-  `/plugin marketplace add snowyukitty/ai-iconflow` catalog are all
-  unreachable from outside this machine. Every adoption path below depends
-  on this one. The 2026-08-21 line above stating that launch commits are on
-  a public `main` no longer describes the repository's current state.
-- [x] Private vulnerability reporting enabled 2026-08-22.
-- [ ] **Upload the social preview — the last open gate.** The image is ready at
-  `docs/assets/social-preview.png`, verified 1280×640. GitHub has no API for it,
-  so it is a web-UI upload:
-  <https://github.com/snowyukitty/ai-iconflow/settings> → *Social preview* →
-  *Edit* → *Upload an image*. Until then, links shared to Slack, Discord, or
-  social platforms fall back to a generic card. The repository Homepage,
-  description, and topics are already set.
-- [ ] Owner confirms the `iconflow` name on PyPI and creates a Trusted
-  Publisher (`docs/MILESTONE_v0.5.md`, Phase 0).
-- [ ] Owner files the eight `docs/ISSUE_SEEDS.md` issues by hand. Now that the
-  repository is public, these are what give a first-time visitor something to
-  pick up.
-- [x] Community health at 100% (GitHub's own measure): README, LICENSE,
-  CONTRIBUTING, CODE_OF_CONDUCT, issue templates, PR template. Added 2026-08-22.
-- [x] README carries live badges — PyPI version, supported Python range, CI
-  status, the multi-licence map, and the user-output guarantee.
-- [x] Desktop, tablet, and mobile visual sign-off for `/getting-started/`
-  (Playwright at 1440/768/360 on 2026-08-21: no horizontal overflow, no console
-  errors); the route is live on the canonical host.
-- [ ] After publication: enable Cloudflare AI Crawl Control for
-  `ai-iconflow.com` (the dashboard setting is the only measure here with
-  teeth; `robots.txt` and `/llms.txt` are notice, honoured voluntarily).
-- [ ] After publication: archive the repository in Software Heritage and mint a
-  Zenodo DOI on the first GitHub Release. Both create dated third-party
-  authorship records, which is what removes an "independent creation" defence
-  later (`docs/PROVENANCE.md` §1).
-- [ ] Sign release tags, so a release is attributable to the maintainer.
-- [x] Tag `v0.5.0`, GitHub Release, and PyPI publication approved and completed 2026-08-22;
-  the changelog's *Unreleased* folds into 0.5.0 at that moment.
+## How the launch was reached
 
-This checkout is licensed in four tiers ([`LICENSES.md`](../LICENSES.md)):
-`Apache-2.0` for the tool, `CC0-1.0` for the technique scaffolds,
-`CC-BY-SA-4.0` for the methodology, and `CC-BY-NC-ND-4.0` for IconFlow's own
-finished artwork — with icons made *with* the tool belonging outright to the
-user who made them. GitHub's sidebar reports only the root `LICENSE`.
-The [Releases page](https://github.com/snowyukitty/ai-iconflow/releases) remains
-empty and no `v*` tag exists. The
-[official PyPI JSON endpoint](https://pypi.org/pypi/iconflow/json) for
-`iconflow` returned HTTP 404 again on 2026-08-14; GitHub still reported zero
-releases and zero tags, so the README intentionally
-documents source installation only. Name availability is not guaranteed until
-PyPI accepts a first publication.
+A dated record, not a status board. Every line below is history: it was true
+when it happened and stays true, because it describes an event rather than a
+condition.
+
+| When | What |
+|---|---|
+| 2026-06-23 | Development began in a private repository. |
+| 2026-08-13 | Dependency and asset audit: no vendored third-party code, font, icon set, or stock image. |
+| 2026-08-14 | A fresh wheel installed outside the source tree passed `doctor` and the source-bound 23-file brand ship. |
+| 2026-08-21 | Three-tier license split landed — `LICENSES.md`, per-directory `LICENSE` files, SPDX headers, a substantive `NOTICE`, `iconflow license`, `tests/test_licensing.py`. |
+| 2026-08-21 | Agent Contract v1: `--json` envelopes, 0/1/2 exit codes, `iconflow demo`, the PR proof action, and a contributor lane. |
+| 2026-08-21 | Homepage rebuilt on the Living Archive with the Remix Lab, native-size hero scrubber, and methodology page, after a three-model UI/UX audit (Codex, Grok, Gemini via ATD). |
+| 2026-08-21 | Responsive sign-off for `/getting-started/` — Playwright at 1440/768/360, no horizontal overflow, no console errors. |
+| 2026-08-22 | Trusted Publishing proven end to end on TestPyPI (run `32516576257`). `0.5.0` installed from TestPyPI into a clean venv and answered *IconFlow is ready*. |
+| 2026-08-22 | Distribution renamed `ai-iconflow` → `iconflow` before any upload — 123 references across 36 files, done while a rename was still possible. |
+| 2026-08-22 | Repository made public; private vulnerability reporting enabled; community health reached GitHub's 100%. |
+| 2026-08-22 | `v0.5.0` tagged, released, and published to PyPI with signed attestations. The name became the project's at that upload and not before. |
+| 2026-08-24 | `/reference/icon-sizes/` generated from `iconflow/build.py`; structured data, `robots.txt` terms, and the README animation landed. |
+| 2026-08-25 | Self-audit (`scripts/state.py`) and a Python-floor lint gate added, after a 3.12-only f-string reached `main` and only the Windows 3.10 matrix leg caught it. |
+
+### What the sequence taught
+
+**Publishing to PyPI *is* the public disclosure.** PyPI has no name
+reservation: a pending publisher explicitly does not hold a name until an
+upload uses it, and because the sdist and wheel both carry the full source,
+that first upload discloses everything. There is no ordering that claims a name
+while keeping the code private. Doing PyPI first still mattered, for the
+narrower reason that it closed the window in which someone who noticed the
+public repository could take the name.
+
+**A version number is spent once.** A PyPI version can never be re-uploaded,
+which is why the TestPyPI rehearsal was not optional.
+
+**Licensing is decided at the moment of publication.** Once a repository is
+cloneable, every file is distributed under whatever license it carried then,
+and that grant cannot be withdrawn for copies already taken.
 
 ## License and trademark decision
 
-The dependency and asset audit found no vendored third-party code, font, icon
-set, or stock image. Runtime dependencies are separately installed under
-Apache-2.0 (Playwright), MIT-CMU (Pillow), and MIT (Tomli); no upstream `NOTICE`
-file was found in the Playwright Python repository. Their licenses do not force
-IconFlow to choose the same project license, but anyone redistributing those
-dependencies must preserve their applicable notices.
+Runtime dependencies are separately installed under Apache-2.0 (Playwright),
+MIT-CMU (Pillow), and MIT (Tomli); no upstream `NOTICE` file exists in the
+Playwright Python repository. Their licenses do not force IconFlow to choose
+the same project license, but anyone redistributing those dependencies must
+preserve their applicable notices.
 
 The owner selected **Apache-2.0** for the engine, for its permissive copyright
-terms and explicit patent grant and termination provisions. On 2026-08-21 that
-was extended into the three-tier split in [`LICENSES.md`](../LICENSES.md), so
-the methodology and the finished artwork are protected without putting any
-condition on the icons users build. `pyproject.toml` uses the PEP 639 SPDX
-expression — now the compound
-`Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND CC-BY-NC-ND-4.0` — and includes
-`LICENSE`, `NOTICE`, `TRADEMARKS.md`, `LICENSES.md`, the vendored CC texts, and
-this dependency notice in both release formats.
+terms and its explicit patent grant and termination provisions. On 2026-08-21
+that was extended into the four-tier split in [`LICENSES.md`](../LICENSES.md):
+`Apache-2.0` for the tool, `CC0-1.0` for the technique scaffolds,
+`CC-BY-SA-4.0` for the methodology, and `CC-BY-NC-ND-4.0` for IconFlow's own
+finished artwork — so the methodology and the artwork are protected without
+putting any condition on the icons users build. GitHub's sidebar reports only
+the root `LICENSE`.
 
-Apache-2.0 licenses repository copyright and applicable contributor patents; it
+Apache-2.0 licenses repository copyright and applicable contributor patents. It
 does not transfer copyright ownership or grant rights to brand another product
 as IconFlow. [`TRADEMARKS.md`](../TRADEMARKS.md) permits truthful references,
 compatibility descriptions, and clear provenance while reserving the IconFlow
 name, logo, and official-release identity against confusing use.
 
-## Current and proposed GitHub metadata
-
-Verified on 2026-08-13, the public repository currently has:
-
-- Description: `Reviewed, platform-ready icon families from one semantic SVG master — favicon, PWA, Tauri, Electron, tray. Distinctiveness = specificity, proven at 16px.`
-- Topics: `app-icon`, `cli`, `design-system`, `electron`, `favicon`,
-  `favicon-generator`, `icon`, `pwa`, `python`, `svg`, `tauri`, `tray-icon`
-- Homepage: not set
-
-The remaining owner-controlled proposals are:
-
-- Homepage: `https://github.com/snowyukitty/ai-iconflow#readme`
-- Documentation: `https://github.com/snowyukitty/ai-iconflow/tree/main/docs`
-- Social preview: `docs/assets/social-preview.png` (1280×640, Petal Haypile; matches
-  [GitHub's recommended dimensions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview))
-
-Applying them changes GitHub repository settings and requires owner approval.
-
-## Market position and discoverability
+## Market position
 
 The nearest tools solve adjacent jobs:
 
@@ -197,54 +104,39 @@ The nearest tools solve adjacent jobs:
 - [Tauri's icon command](https://v2.tauri.app/develop/icons/) converts a source
   image into Tauri platform assets.
 - [electron-builder](https://www.electron.build/docs/features/icons-and-images/)
-  consumes platform icon files and can derive formats for application packaging.
+  consumes platform icon files and derives formats for packaging.
 - [PWA Asset Generator](https://github.com/elegantapp/pwa-asset-generator)
   generates PWA icons and splash assets from a source image.
 
-Those are useful conversion/package tools. IconFlow best serves an agent,
-designer, or small product team that also needs to decide whether the source is
-specific, readable at 16px, correct after target transforms, and approved by a
-receipt that becomes stale when reviewed inputs change. That workflow—not a
-claim of universally better conversion—is the defensible differentiator.
+Those are useful conversion tools. IconFlow serves an agent, designer, or small
+product team that also needs to decide whether the source is specific, readable
+at 16px, correct after target transforms, and approved by a receipt that goes
+stale when the reviewed inputs change. That workflow — not a claim of
+universally better conversion — is the defensible differentiator.
 
-Natural search language to use in docs and launch copy:
-
-- `app icon workflow`, `favicon generator from SVG`, `Tauri icon generator`;
-- `Electron icon generator`, `PWA maskable icon`, `tray icon template`;
-- `review icons at 16px`, `SVG to ICO ICNS`, `cross-platform app icons`.
-
-Evidence-led launch messages:
-
-1. `Twenty execution languages, one semantic SVG, and native 16px proof before you choose a direction.`
-2. `See the same icon in adaptive crops, Electron corners, and menu-bar templates before you ship it.`
-3. `IconFlow starts with the product job and competing silhouettes, then builds 23 favicon, PWA, desktop, and tray assets locally.`
+Search language and launch messaging moved to [`SEO.md`](SEO.md), which keeps
+the keyword map beside the pages that answer it rather than in a checklist.
 
 ## Known limits to keep visible
 
-- Playwright Chromium is a one-time network download and materially larger than
-  the Python package.
+- Playwright Chromium is a one-time network download, and materially larger
+  than the Python package.
 - Reproducibility is scoped to a fixed IconFlow/Chromium/Pillow toolchain.
 - Tauri output is desktop-only; mobile app-icon sets are not generated.
 - The SVG renderer is isolated, but IconFlow is not a sanitizer for serving
   arbitrary original SVG files to web users.
-- Source archive members are content-repeatable locally, but the current sdist
-  archive is not byte-identical because generated timestamps vary.
+- Source archive members are content-repeatable locally, but the sdist archive
+  is not byte-identical, because generated timestamps vary.
 
-A separate `SUPPORT.md` and code of conduct are intentionally deferred. Before
-the first release, usage support can stay in the bug/proposal issue forms; add
-broader community governance documents when contribution volume demonstrates a
-real need rather than creating promises the maintainer cannot yet support.
+## What is still open
 
-## Recommended launch sequence
+Deliberately not listed here. Run:
 
-1. Keep the reviewed Apache-2.0, notice, trademark, and package metadata on `main`.
-2. Enable private vulnerability reporting and keep CI green on the release commit.
-3. Apply the remaining homepage and reviewed social preview.
-4. Manually run the non-publishing release-candidate workflow; verify checksums and clean-wheel behavior.
-5. Tag `v0.5.0`, create the GitHub Release, and publish the exact candidate through PyPI Trusted Publishing only after explicit approval.
-6. Run the documented PyPI clean-install smoke test, then share the visual proof and reproducible commands.
+```bash
+python scripts/state.py
+```
 
-The smallest remaining owner action is to enable private vulnerability
-reporting, then decide whether to apply the homepage/social preview and approve
-the `v0.5.0` publication sequence. Publishing and repository-setting changes
-still require separate explicit approval.
+It reports the open gates it can observe, and names the decisions no probe can
+settle — the ones genuinely waiting on a person. Anything written here instead
+would be correct on the day it was typed and misleading a week later, which is
+the whole reason this file was rewritten.

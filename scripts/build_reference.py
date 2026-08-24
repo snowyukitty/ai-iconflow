@@ -385,6 +385,23 @@ def structured_data() -> str:
     return "\n".join("  " + line for line in body.splitlines())
 
 
+# Built outside the page template on purpose. Python 3.10 and 3.11 reject a
+# backslash inside an f-string expression — PEP 701 relaxed that only in 3.12 —
+# and this project supports 3.10+. The rendered page is byte-identical either
+# way; only the parser's patience differs.
+SHIP_COMMAND = (
+    "pip install iconflow\n"
+    "iconflow setup\n"
+    "iconflow ship --config iconflow.toml \\\n"
+    "  --review master-review.json --out icon-out"
+)
+DEMO_COMMAND = (
+    "pip install iconflow\n"
+    "iconflow setup\n"
+    "iconflow demo --out iconflow-demo"
+)
+
+
 def render() -> str:
     head_snippet = htmlhead.head_snippet("My App", "#0b0d12", "#ffffff")
     manifest = json.dumps(
@@ -445,7 +462,7 @@ def render() -> str:
       </div>
       <aside class="ref-hero-card" aria-label="Produce every file below">
         <p>Produce every file on this page from one SVG:</p>
-        {code_block("pip install iconflow\niconflow setup\niconflow ship --config iconflow.toml \\\n  --review master-review.json --out icon-out")}
+        {code_block(SHIP_COMMAND)}
         <p class="ref-hero-note">No image model, no API key, no upload. A pinned Chromium renders your SVG locally, and <code>ship</code> refuses to run unless the review receipt still matches the source.</p>
         <a class="button button-primary" href="/getting-started/">Getting started <span aria-hidden="true">&rarr;</span></a>
       </aside>
@@ -515,7 +532,7 @@ def render() -> str:
       <div><p class="section-kicker">One master. Every surface.</p><h2>Stop exporting.<br>Start proving.</h2></div>
       <div>
         <p>Everything on this page is one command away, and the first run is a genuine gated ship rather than a render.</p>
-        {code_block("pip install iconflow\niconflow setup\niconflow demo --out iconflow-demo")}
+        {code_block(DEMO_COMMAND)}
         <div class="ref-actions"><a class="button button-primary" href="/getting-started/">Getting started <span aria-hidden="true">&rarr;</span></a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow">Source on GitHub</a></div>
       </div>
     </section>
