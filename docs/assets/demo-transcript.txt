@@ -1,0 +1,47 @@
+# Captured from a real run of `iconflow demo` and a follow-up `iconflow ship`
+# on 2026-08-24 (IconFlow 0.5.0, Python 3.12.6, Windows).
+#
+# Absolute paths were shortened to `demo` and the en dash the CLI prints was
+# kept as-is. Nothing else is edited: every PASS, every filename and the
+# refusal at the end are what the tool actually wrote.
+#
+# Lines are `KIND\tTEXT`. KIND drives colour only:
+#   cmd   a shell prompt line          pass  a PASS / OK result
+#   out   ordinary output              good  the headline success
+#   file  a produced artifact          fail  the fail-closed refusal
+#   note  an editorial aside           gap   a blank spacer
+cmd	pip install iconflow
+out	Successfully installed iconflow-0.5.0
+gap
+cmd	iconflow demo --out demo
+out	Demo family -> demo
+file	master.svg  tray.svg  iconflow.toml  master-review.json
+gap
+out	Step doctor
+pass	PASS  Packaged resources — 20 presets + templates + docs + demo family
+pass	PASS  Approved source hash — matches current master
+pass	PASS  Approved review contract — matches current build
+pass	PASS  Chromium runtime
+pass	IconFlow is ready.
+gap
+out	Step check
+pass	OK — no automated warnings. Still do the visual review.
+gap
+out	Step review
+file	Review sheet -> demo/review.png
+file	Review Lab   -> demo/review.html
+gap
+out	Step ship
+good	SHIP PASSED — built 23 files into demo/build
+file	favicon.svg  favicon.ico  apple-touch-icon.png  icon-192.png
+file	icon-512.png  icon-512-maskable.png  site.webmanifest
+file	icons/icon.ico  icons/icon.icns  build/icon.png  build/icon.icns
+file	tray/tray.png  tray/trayTemplate.png  tray/trayTemplate@2x.png
+out	Review scores: legibility=4 distinctiveness=5 balance=4
+out	                color=5 scalability=4 craft=4
+gap
+note	# now nudge one control point in master.svg
+cmd	iconflow ship --config demo/iconflow.toml --review master-review.json
+fail	iconflow ship: review receipt is stale: source_sha256 does not
+fail	  match the current master SVG
+note	# exit code 1. The pixels changed; the approval did not follow.

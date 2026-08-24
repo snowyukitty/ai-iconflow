@@ -89,6 +89,9 @@ include-package-data = false
 [tool.setuptools.package-data]
 "iconflow.resources.templates" = ["*.svg", "LICENSE"]
 "iconflow.resources.presets" = ["*.svg"]
-"iconflow.resources.docs" = ["*.md", "assets/*", "LICENSE"]
+# Figures the packaged methodology refers to, and nothing else: the README
+# animation and its transcript are repository front-page assets, and half a
+# megabyte of GIF has no business inside a wheel that never displays it.
+"iconflow.resources.docs" = ["*.md", "assets/*.svg", "assets/*.png", "LICENSE"]
 "iconflow.resources.demo" = ["master.svg", "tray.svg", "iconflow.toml", "master-review.json"]
 "iconflow.resources.skill" = ["SKILL.md", "LICENSE", "agents/*.yaml"]

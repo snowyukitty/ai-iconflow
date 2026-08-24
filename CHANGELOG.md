@@ -4,6 +4,69 @@ All notable changes to IconFlow are documented here. The project uses Semantic
 Versioning for published releases; repository-only development before the
 first published release remains under `Unreleased`.
 
+## Unreleased
+
+### Added
+
+- **A reference page the tool generates about itself**, at
+  `/reference/icon-sizes/`. Every icon file and frame size each target needs —
+  web favicon, PWA manifest and maskable safe zone, Windows tiles, Tauri,
+  Electron, macOS tray template — plus the paste-ready `<head>` block, the
+  generated manifest, and nine FAQ answers.
+
+  It exists because the site ranked for nothing. Twenty-four indexed URLs, all
+  of them brand pages that convert someone who already knows what IconFlow is,
+  and none of them containing the words a person in trouble actually types:
+  *favicon.ico sizes*, *maskable icon safe zone*, *macOS menu bar icon black
+  square*. That traffic went to tools whose size tables are human
+  transcriptions, drifting quietly whenever a platform moves.
+
+  `scripts/build_reference.py` reads `preview_assets`, `ICO_FRAME_ORDER`,
+  `ICNS_FRAME_SIZES`, `TAURI_PNG_SPECS` and `assemble.maskable_asset` — the
+  same code a real `ship` runs — so the published table cannot disagree with
+  the tool. A build change that has not been re-rendered fails the website
+  tests, and an output file the page does not describe fails the generator
+  outright. That is the durable difference: every competing table on the web is
+  a transcription nobody can date, and this one breaks CI before it can be
+  wrong.
+
+- **An animated README demo**, `docs/assets/demo.gif`, rendered by
+  `scripts/render_readme_demo.py` from a checked-in transcript of a real run.
+  `ship` builds 23 files; one control point moves in the master SVG; the same
+  command refuses with a stale receipt. Ten seconds, no prose, and it shows the
+  one thing no other icon tool does. Rendered through the same pinned Chromium
+  as every other generated asset, and excluded from the wheel — half a megabyte
+  of GIF has no business in a package that never displays it.
+
+- **Structured data that describes the software.** `SoftwareApplication` on the
+  homepage with category, platforms, requirements, install URL, feature list
+  and `isAccessibleForFree`; `TechArticle` + `FAQPage` + `BreadcrumbList` on
+  the reference page; `CollectionPage` + `ItemList` + `BreadcrumbList` on the
+  four collection pages, three of which published none at all. Still no
+  `offers` and no `aggregateRating`: nobody has rated or sold this, and markup
+  for a rating that does not exist is the one kind of claim this site refuses
+  to make everywhere else. The tests enforce both absences, and now also
+  enforce a distinct, non-thin title and description on every indexed page.
+
+- `docs/SEO.md` and `docs/PROMO_VIDEO.md`: the discoverability diagnosis with
+  the queue of pages worth generating next, and the launch-film brief —
+  including why the film uses real screen capture and HyperFrames rather than a
+  video model, when the product's whole promise is that what you see is what
+  shipped.
+
+### Changed
+
+- `robots.txt` now carries an explicit `Allow: /reference/` inside the named
+  training-crawler block. The line is deliberate, not a loosening: the CC BY-SA
+  methodology and the CC BY-NC-ND artwork stay out of bulk collection, while
+  tables generated from Apache-2.0 code that describe other people's platforms
+  stay open to the answer engines that will be asked these questions. `llms.txt`
+  says the same thing in the terms it publishes.
+
+- The repository's GitHub topics went from 12 to the maximum 20, and the
+  reference route is linked from the homepage, from every footer including the
+  four translated language trees, and from the sitemap.
+
 ## 0.5.0 - 2026-08-22
 
 First public release. IconFlow had been developed in a private repository since
