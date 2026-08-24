@@ -53,6 +53,10 @@ Disallow: /*/how-icons-are-made/
 Allow: /
 Allow: /getting-started/
 Allow: /*/getting-started/
+# The reference tables are generated from the Apache-2.0 build code and state
+# facts about other people's platforms. They are meant to be quoted, including
+# by an answer engine, so they stay open to bulk collection too.
+Allow: /reference/
 Allow: /llms.txt
 
 Sitemap: https://ai-iconflow.com/sitemap.xml

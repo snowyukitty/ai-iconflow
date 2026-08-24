@@ -1,0 +1,227 @@
+/* SPDX-License-Identifier: Apache-2.0
+   SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+   Reference pages: dense, scannable tables over the shared design tokens.
+   Every colour and rhythm value comes from styles.css; nothing is redefined. */
+
+.reference-body { padding-bottom: 40px; }
+
+.ref-breadcrumb {
+  padding-top: 118px;
+  color: rgba(255, 244, 232, .5);
+  font-family: var(--mono);
+  font-size: .74rem;
+}
+.ref-breadcrumb a { color: rgba(255, 244, 232, .72); text-decoration: none; }
+.ref-breadcrumb a:hover, .ref-breadcrumb a:focus-visible { color: var(--paper); }
+.ref-breadcrumb span[aria-hidden="true"] { margin: 0 6px; opacity: .4; }
+
+.ref-hero {
+  display: grid;
+  align-items: start;
+  gap: clamp(32px, 5vw, 64px);
+  padding-block: 34px 76px;
+  grid-template-columns: 1.15fr .85fr;
+}
+.ref-hero h1 {
+  margin: 0;
+  font-size: clamp(2.7rem, 5.4vw, 4.6rem);
+  font-weight: 800;
+  letter-spacing: -.055em;
+  line-height: .92;
+}
+.ref-hero h1 em { color: var(--coral); font-style: normal; }
+.ref-lede {
+  max-width: 62ch;
+  margin: 26px 0 0;
+  color: rgba(255, 244, 232, .78);
+  font-size: clamp(1rem, 1.3vw, 1.16rem);
+}
+.ref-meta {
+  margin: 20px 0 0;
+  color: rgba(255, 244, 232, .46);
+  font-family: var(--mono);
+  font-size: .74rem;
+}
+
+.ref-hero-card {
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #15161b;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .28);
+}
+.ref-hero-card > p { margin: 0 0 14px; color: rgba(255, 244, 232, .78); font-size: .92rem; }
+.ref-hero-note { margin: 16px 0 22px; color: rgba(255, 244, 232, .55); font-size: .82rem; }
+
+/* -- sections -------------------------------------------------------- */
+
+.ref-section { padding-block: 54px; border-top: 1px solid var(--line); scroll-margin-top: 110px; }
+.ref-section h2 {
+  margin: 0 0 18px;
+  font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+  font-weight: 780;
+  letter-spacing: -.04em;
+  line-height: 1.05;
+}
+.ref-section h2 small {
+  margin-left: 10px;
+  color: rgba(255, 244, 232, .42);
+  font-family: var(--mono);
+  font-size: .5em;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.ref-section h3 {
+  margin: 40px 0 12px;
+  font-size: 1.12rem;
+  font-weight: 740;
+  letter-spacing: -.02em;
+}
+.ref-section > p {
+  max-width: 78ch;
+  margin: 0 0 24px;
+  color: rgba(255, 244, 232, .76);
+}
+
+.ref-callout {
+  max-width: none;
+  margin-top: 26px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--coral);
+  border-radius: 0 14px 14px 0;
+  background: rgba(255, 90, 79, .05);
+  font-size: .94rem;
+}
+
+/* -- tables ---------------------------------------------------------- */
+
+.ref-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #15161b;
+}
+.ref-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.ref-table caption {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--line);
+  color: var(--coral-hot);
+  font-family: var(--mono);
+  font-size: .74rem;
+  letter-spacing: .02em;
+  text-align: left;
+}
+.ref-table th, .ref-table td {
+  padding: 13px 20px;
+  border-bottom: 1px solid rgba(255, 244, 232, .07);
+  text-align: left;
+  vertical-align: top;
+}
+.ref-table thead th {
+  color: rgba(255, 244, 232, .5);
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 650;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ref-table tbody th { white-space: nowrap; font-weight: 600; }
+.ref-table tbody th code { color: var(--paper); font-size: .92em; }
+.ref-table tbody td:first-of-type {
+  color: var(--mint);
+  font-family: var(--mono);
+  font-size: .84rem;
+  white-space: nowrap;
+}
+.ref-table tbody td:last-child { max-width: 46ch; color: rgba(255, 244, 232, .7); }
+.ref-table tbody tr:last-child th, .ref-table tbody tr:last-child td { border-bottom: 0; }
+
+/* -- code ------------------------------------------------------------ */
+
+.ref-code {
+  overflow-x: auto;
+  margin: 0 0 8px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #0f1014;
+  color: rgba(255, 244, 232, .88);
+  font-family: var(--mono);
+  font-size: .82rem;
+  line-height: 1.65;
+  tab-size: 2;
+}
+.ref-hero-card .ref-code { font-size: .76rem; }
+.ref-section code:not(.ref-code code) {
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: rgba(255, 244, 232, .07);
+  font-family: var(--mono);
+  font-size: .88em;
+}
+
+/* -- faq ------------------------------------------------------------- */
+
+.ref-faq { display: grid; gap: 10px; max-width: 92ch; }
+.ref-faq-item {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #15161b;
+}
+.ref-faq-item summary {
+  padding: 17px 20px;
+  cursor: pointer;
+  font-weight: 680;
+  list-style: none;
+}
+.ref-faq-item summary::-webkit-details-marker { display: none; }
+.ref-faq-item summary::after {
+  float: right;
+  margin-left: 16px;
+  color: var(--coral);
+  content: "+";
+  font-family: var(--mono);
+}
+.ref-faq-item[open] summary::after { content: "−"; }
+.ref-faq-item[open] summary { border-bottom: 1px solid var(--line); }
+.ref-faq-item p {
+  max-width: 76ch;
+  margin: 0;
+  padding: 17px 20px;
+  color: rgba(255, 244, 232, .74);
+  font-size: .94rem;
+}
+
+/* -- calls to action -------------------------------------------------- */
+
+.ref-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+.ref-cta {
+  display: grid;
+  gap: clamp(28px, 5vw, 60px);
+  align-items: center;
+  margin-top: 54px;
+  padding: clamp(36px, 5vw, 60px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #15161b;
+  grid-template-columns: 1fr 1fr;
+}
+.ref-cta h2 {
+  margin: 0;
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -.05em;
+  line-height: .98;
+}
+.ref-cta p { color: rgba(255, 244, 232, .76); }
+.ref-cta > div > p:first-child { margin-top: 0; }
+
+@media (max-width: 900px) {
+  .ref-hero, .ref-cta { grid-template-columns: 1fr; }
+  .ref-hero { padding-bottom: 48px; }
+  .ref-table th, .ref-table td { padding: 12px 15px; }
+}

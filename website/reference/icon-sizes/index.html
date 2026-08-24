@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>App icon and favicon sizes — every file each platform needs (2026) | IconFlow</title>
+  <meta name="description" content="The complete icon file and size matrix for web favicons, PWA manifests, Tauri, Electron and macOS menu-bar trays — read straight out of the IconFlow build code, with the exact &lt;head&gt; snippet and manifest entries.">
+  <meta name="theme-color" content="#111216">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Every icon file your platform actually needs">
+  <meta property="og:description" content="Favicon, PWA, Tauri, Electron and macOS tray sizes in one table — generated from the build code, so it cannot drift.">
+  <meta property="og:url" content="https://ai-iconflow.com/reference/icon-sizes/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/social-preview.png?v=petal">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="640">
+  <meta property="og:image:alt" content="IconFlow: Design. Review. Ship. One semantic SVG becomes a proven icon family.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ai-iconflow.com/reference/icon-sizes/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css?v=20260821c">
+  <link rel="stylesheet" href="/reference/reference.css?v=20260821c">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": "https://ai-iconflow.com/reference/icon-sizes/#article",
+        "headline": "App icon and favicon sizes for every platform",
+        "description": "The complete icon file and size matrix for web favicons, PWA manifests, Tauri, Electron and macOS menu-bar trays — read straight out of the IconFlow build code, with the exact <head> snippet and manifest entries.",
+        "url": "https://ai-iconflow.com/reference/icon-sizes/",
+        "inLanguage": "en",
+        "about": {
+          "@id": "https://ai-iconflow.com/#source"
+        },
+        "isPartOf": {
+          "@id": "https://ai-iconflow.com/#website"
+        },
+        "dependencies": "IconFlow 0.5.0"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://ai-iconflow.com/reference/icon-sizes/#breadcrumbs",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "IconFlow",
+            "item": "https://ai-iconflow.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Reference",
+            "item": "https://ai-iconflow.com/reference/icon-sizes/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Icon sizes"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://ai-iconflow.com/reference/icon-sizes/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How many favicon files does a website actually need in 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Six, plus a manifest. An SVG favicon for current browsers, a legacy favicon.ico holding the 16, 32 and 48 pixel frames, a 180 pixel apple-touch-icon.png, and 192, 512 and maskable 512 pixel PNGs declared in the web app manifest. Sets larger than this are almost always carrying files no current platform requests."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What sizes go inside favicon.ico?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "16, 32 and 48 pixels. ICO is a container format, so those three frames live inside one file — you do not ship favicon-16.png and favicon-32.png alongside it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the maskable icon safe zone?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Android and other adaptive-icon platforms crop your icon to a shape they choose, so anything near the edge can be cut. IconFlow insets the artwork 10% on each side — leaving it at 80% of the canvas — and flattens the result onto the background colour, so no mask can remove a meaningful part of the mark or reveal transparency."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is my macOS menu bar icon a black square?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A macOS template image carries no colour: the system reads only its alpha channel and paints the shape itself. Handing it a full-card app icon whose background is opaque therefore produces a solid black rectangle. The fix is a separate tray drawing with real transparency around a sparse mark. IconFlow detects the failure instead of shipping it: when a source covers too much of the canvas it derives alpha from the mark's own contrast, and refuses the build outright if no semantic shape can be isolated."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What icon sizes does Tauri need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Five PNGs — 32, 64, 128, 256 (as 128x128@2x.png) and 512 — plus icon.ico for Windows and icon.icns for macOS. IconFlow writes the ICO frames in the same order the Tauri CLI does, so the output is a drop-in replacement."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What icon sizes does Electron need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A 1024 pixel PNG for Linux and as the electron-builder source, an ICO for Windows and an ICNS for macOS. The container frames are the same desktop set used everywhere else: 16, 24, 32, 48, 64, 128, 256, 512 and 1024 pixels, selected per format."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I just resize a 1024 pixel PNG down to 16 pixels?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can, and that is exactly where most icons fail. At 16 pixels a counter closes, a hairline disappears and two colours average into one. Downscaling produces the file but tells you nothing about whether the result is still readable. IconFlow renders every size from the SVG through a pinned Chromium and shows you the native pixels before anything ships."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does IconFlow upload my artwork or call an image model?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. There is no image model and no API key. You author the SVG, a pinned local Chromium renders it exactly as a browser would, and every file is written on your machine. The only network step is the one-time Chromium download."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Who owns the icons made with IconFlow?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You do. No attribution is required, there is no share-alike obligation on your output, and commercial use is unrestricted. Run iconflow license for the full answer."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <script src="/app.js?v=20260821c" defer></script>
+</head>
+<body class="reference-body">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Open navigation" data-label-close="Close navigation"><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#web">Favicon</a><a href="#pwa">PWA</a><a href="#tauri">Tauri</a><a href="#electron">Electron</a><a href="#tray">Tray</a><a href="/getting-started/">Get started</a></nav>
+  </header>
+
+  <main id="main">
+    <nav class="ref-breadcrumb section-shell" aria-label="Breadcrumb">
+      <a href="/">IconFlow</a> <span aria-hidden="true">/</span> <span>Icon size reference</span>
+    </nav>
+
+    <section class="ref-hero section-shell">
+      <div class="ref-hero-copy">
+        <p class="section-kicker">Reference · generated from the build code</p>
+        <h1>Every icon file<br>your platform<br><em>actually needs.</em></h1>
+        <p class="ref-lede">Favicon, PWA manifest, Tauri, Electron and the macOS menu bar — one table per target, with the exact filenames and frame sizes. Nothing here is transcribed by hand: the page is generated from <code>iconflow/build.py</code>, so it says what the tool ships and fails the build when the two disagree.</p>
+        <p class="ref-meta">IconFlow 0.5.0 · targets: <code>web, pwa, tauri, electron, tray</code></p>
+      </div>
+      <aside class="ref-hero-card" aria-label="Produce every file below">
+        <p>Produce every file on this page from one SVG:</p>
+        <pre class="ref-code"><code>pip install iconflow
+iconflow setup
+iconflow ship --config iconflow.toml \
+  --review master-review.json --out icon-out</code></pre>
+        <p class="ref-hero-note">No image model, no API key, no upload. A pinned Chromium renders your SVG locally, and <code>ship</code> refuses to run unless the review receipt still matches the source.</p>
+        <a class="button button-primary" href="/getting-started/">Getting started <span aria-hidden="true">&rarr;</span></a>
+      </aside>
+    </section>
+
+    <section class="ref-section section-shell" id="web">
+      <h2>Web favicon</h2>
+      <p>The modern set is smaller than most guides claim. An SVG covers every current browser at every size; the <code>.ico</code> exists only for legacy fallback, and it is one file, not three.</p>
+    <div class="ref-table-wrap">
+     <table class="ref-table">
+      <caption>iconflow ship --targets web</caption>
+      <thead><tr><th scope="col">File</th><th scope="col">Size</th><th scope="col">Why it exists</th></tr></thead>
+      <tbody>
+      <tr><th scope="row"><code>favicon.svg</code></th><td>vector</td><td>Primary in every current browser. Scales to any size, one file.</td></tr>
+      <tr><th scope="row"><code>favicon.ico</code></th><td>16 · 32 · 48 px frames</td><td>Legacy fallback. One container, three frames — not three files.</td></tr>
+      <tr><th scope="row"><code>apple-touch-icon.png</code></th><td>180 × 180 px</td><td>iOS home screen. Flattened onto the background colour: iOS ignores alpha.</td></tr>
+      <tr><th scope="row"><code>icon-192.png</code></th><td>192 × 192 px</td><td>Android home screen and the PWA install prompt.</td></tr>
+      <tr><th scope="row"><code>icon-512.png</code></th><td>512 × 512 px</td><td>Splash screens and store listings.</td></tr>
+      <tr><th scope="row"><code>icon-512-maskable.png</code></th><td>512 × 512 px</td><td>Adaptive icon. Artwork inset 10% per side and flattened, so no platform mask can remove part of the mark.</td></tr>
+      <tr><th scope="row"><code>site.webmanifest</code></th><td>JSON</td><td>Declares the three PNGs, theme colour and display mode.</td></tr>
+      <tr><th scope="row"><code>favicon-head.html</code></th><td>HTML</td><td>The paste-ready &lt;head&gt; block, generated with the assets.</td></tr>
+      </tbody>
+     </table>
+    </div>
+      <h3>The &lt;head&gt; block</h3>
+      <p>IconFlow writes this next to the assets as <code>favicon-head.html</code>, so the markup and the files are produced together and cannot disagree:</p>
+      <pre class="ref-code"><code>&lt;!-- Paste into &lt;head&gt;. SVG is primary; .ico is the legacy fallback. --&gt;
+&lt;link rel=&quot;icon&quot; href=&quot;/favicon.ico&quot; sizes=&quot;32x32&quot;&gt;
+&lt;link rel=&quot;icon&quot; href=&quot;/favicon.svg&quot; type=&quot;image/svg+xml&quot;&gt;
+&lt;link rel=&quot;apple-touch-icon&quot; href=&quot;/apple-touch-icon.png&quot;&gt;
+&lt;link rel=&quot;manifest&quot; href=&quot;/site.webmanifest&quot;&gt;
+&lt;meta name=&quot;theme-color&quot; content=&quot;#0b0d12&quot;&gt;</code></pre>
+    </section>
+
+    <section class="ref-section section-shell" id="pwa">
+      <h2>PWA manifest and maskable icons</h2>
+      <p>An adaptive platform crops your icon to a shape it chooses. A square drawing that reaches the canvas edge loses its corners; one with transparency shows the mask through. Both problems are solved before export, by insetting the artwork and flattening it onto the background colour.</p>
+      <p>The generated <code>site.webmanifest</code> declares exactly three icons — the third carrying <code>"purpose": "maskable"</code>:</p>
+      <pre class="ref-code"><code>{
+  &quot;name&quot;: &quot;My App&quot;,
+  &quot;short_name&quot;: &quot;My App&quot;,
+  &quot;icons&quot;: [
+    {
+      &quot;src&quot;: &quot;/icon-192.png&quot;,
+      &quot;sizes&quot;: &quot;192x192&quot;,
+      &quot;type&quot;: &quot;image/png&quot;
+    },
+    {
+      &quot;src&quot;: &quot;/icon-512.png&quot;,
+      &quot;sizes&quot;: &quot;512x512&quot;,
+      &quot;type&quot;: &quot;image/png&quot;
+    },
+    {
+      &quot;src&quot;: &quot;/icon-512-maskable.png&quot;,
+      &quot;sizes&quot;: &quot;512x512&quot;,
+      &quot;type&quot;: &quot;image/png&quot;,
+      &quot;purpose&quot;: &quot;maskable&quot;
+    }
+  ],
+  &quot;theme_color&quot;: &quot;#0b0d12&quot;,
+  &quot;background_color&quot;: &quot;#ffffff&quot;,
+  &quot;display&quot;: &quot;standalone&quot;,
+  &quot;start_url&quot;: &quot;/&quot;,
+  &quot;scope&quot;: &quot;/&quot;
+}</code></pre>
+      <p class="ref-callout"><strong>Safe zone.</strong> The maskable asset insets the artwork 10% on every side, leaving it at 80% of the canvas, then flattens it. Any platform mask — circle, squircle, rounded square — lands inside that margin.</p>
+    </section>
+
+    <section class="ref-section section-shell" id="windows">
+      <h2>Windows pinned-site tiles <small>optional</small></h2>
+      <p>Only produced with <code>--windows-tiles</code>. The artwork is centred on each canvas rather than stretched, which is why the wide tile takes a smaller scale than the squares.</p>
+    <div class="ref-table-wrap">
+     <table class="ref-table">
+      <caption>iconflow ship --targets web --windows-tiles</caption>
+      <thead><tr><th scope="col">File</th><th scope="col">Size</th><th scope="col">Why it exists</th></tr></thead>
+      <tbody>
+      <tr><th scope="row"><code>mstile-70x70.png</code></th><td>70 × 70 px</td><td>Small pinned-site tile.</td></tr>
+      <tr><th scope="row"><code>mstile-144x144.png</code></th><td>144 × 144 px</td><td>Legacy pinned-site tile.</td></tr>
+      <tr><th scope="row"><code>mstile-150x150.png</code></th><td>150 × 150 px</td><td>Medium tile.</td></tr>
+      <tr><th scope="row"><code>mstile-310x310.png</code></th><td>310 × 310 px</td><td>Large tile.</td></tr>
+      <tr><th scope="row"><code>mstile-310x150.png</code></th><td>310 × 150 px</td><td>Wide tile — the one rectangle in the set.</td></tr>
+      <tr><th scope="row"><code>browserconfig.xml</code></th><td>XML</td><td>Points at the tiles and sets the tile colour.</td></tr>
+      </tbody>
+     </table>
+    </div>
+    </section>
+
+    <section class="ref-section section-shell" id="tauri">
+      <h2>Tauri</h2>
+      <p>Five PNGs plus the two desktop containers. The ICO frame order matches the Tauri CLI's own output, so the result drops into <code>src-tauri/icons/</code> unchanged.</p>
+    <div class="ref-table-wrap">
+     <table class="ref-table">
+      <caption>iconflow ship --targets tauri</caption>
+      <thead><tr><th scope="col">File</th><th scope="col">Size</th><th scope="col">Why it exists</th></tr></thead>
+      <tbody>
+      <tr><th scope="row"><code>icons/32x32.png</code></th><td>32 × 32 px</td><td>PNG, written into src-tauri/icons/.</td></tr>
+      <tr><th scope="row"><code>icons/64x64.png</code></th><td>64 × 64 px</td><td>PNG, written into src-tauri/icons/.</td></tr>
+      <tr><th scope="row"><code>icons/128x128.png</code></th><td>128 × 128 px</td><td>PNG, written into src-tauri/icons/.</td></tr>
+      <tr><th scope="row"><code>icons/128x128@2x.png</code></th><td>256 × 256 px</td><td>Retina pair for the 128 pixel tile.</td></tr>
+      <tr><th scope="row"><code>icons/icon.png</code></th><td>512 × 512 px</td><td>The Tauri source image.</td></tr>
+      <tr><th scope="row"><code>icons/icon.ico</code></th><td>32 · 16 · 24 · 48 · 64 · 256 px frames</td><td>Windows. Frame order matches the Tauri CLI&#x27;s own output.</td></tr>
+      <tr><th scope="row"><code>icons/icon.icns</code></th><td>16 · 32 · 64 · 128 · 256 · 512 · 1024 px frames</td><td>macOS bundle icon.</td></tr>
+      </tbody>
+     </table>
+    </div>
+    </section>
+
+    <section class="ref-section section-shell" id="electron">
+      <h2>Electron</h2>
+      <p>electron-builder reads one source image per platform. The optional corner radius is applied to the raster frames only — your SVG master keeps its own geometry.</p>
+    <div class="ref-table-wrap">
+     <table class="ref-table">
+      <caption>iconflow ship --targets electron</caption>
+      <thead><tr><th scope="col">File</th><th scope="col">Size</th><th scope="col">Why it exists</th></tr></thead>
+      <tbody>
+      <tr><th scope="row"><code>build/icon.png</code></th><td>1024 × 1024 px</td><td>Linux, and the electron-builder source image.</td></tr>
+      <tr><th scope="row"><code>build/icon.ico</code></th><td>32 · 16 · 24 · 48 · 64 · 256 px frames</td><td>Windows installer and window icon.</td></tr>
+      <tr><th scope="row"><code>build/icon.icns</code></th><td>16 · 32 · 64 · 128 · 256 · 512 · 1024 px frames</td><td>macOS app bundle.</td></tr>
+      </tbody>
+     </table>
+    </div>
+    </section>
+
+    <section class="ref-section section-shell" id="tray">
+      <h2>macOS menu bar and system tray</h2>
+      <p>This is the target that fails most often, and it fails silently: a template image carries no colour at all. macOS reads its alpha channel and paints the shape itself, so a full-card app icon with an opaque background arrives as a solid black rectangle.</p>
+    <div class="ref-table-wrap">
+     <table class="ref-table">
+      <caption>iconflow ship --targets tray</caption>
+      <thead><tr><th scope="col">File</th><th scope="col">Size</th><th scope="col">Why it exists</th></tr></thead>
+      <tbody>
+      <tr><th scope="row"><code>tray/tray.png</code></th><td>32 × 32 px</td><td>Colour tray icon at 2× density.</td></tr>
+      <tr><th scope="row"><code>tray/tray@16.png</code></th><td>16 × 16 px</td><td>Colour tray icon at 1× density.</td></tr>
+      <tr><th scope="row"><code>tray/trayTemplate.png</code></th><td>16 × 16 px</td><td>macOS template: pure black plus alpha. The system recolours it.</td></tr>
+      <tr><th scope="row"><code>tray/trayTemplate@2x.png</code></th><td>32 × 32 px</td><td>Retina template pair. Required, not optional.</td></tr>
+      <tr><th scope="row"><code>tray/trayIcon.ts</code></th><td>TypeScript</td><td>Optional inline data-URL module (--tray-ts).</td></tr>
+      </tbody>
+     </table>
+    </div>
+      <p class="ref-callout"><strong>Give the tray its own drawing.</strong> A menu bar mark needs real transparency around a sparse shape — usually a simplified version of the master, not the master itself. Pass it with <code>--tray-svg</code>. When you do not, IconFlow derives alpha from the mark's contrast, and if no semantic shape can be isolated it refuses the build rather than shipping a black square.</p>
+    </section>
+
+    <section class="ref-section section-shell" id="sizes">
+      <h2>Why 16 pixels decides everything</h2>
+      <p>Every size in the tables above is rendered from the same SVG, but only one of them is where icons actually fail. At 16 pixels a counter closes, a hairline vanishes, and two adjacent colours average into one. A design reviewed at 1024 pixels and exported downward can be unreadable in the browser tab it was made for — and the export step will not tell you.</p>
+      <p>IconFlow inverts the order. It renders native pixels through a pinned Chromium at every target size, shows you the result at 1:1, and <code>ship</code> fails closed unless automated checks are clean and all six human rubric scores are at least 4 out of 5.</p>
+      <div class="ref-actions">
+        <a class="button button-primary" href="/#proof">Open the interactive proof lab <span aria-hidden="true">&rarr;</span></a>
+        <a class="button button-quiet" href="/how-icons-are-made/">How icons are made</a>
+        <a class="button button-quiet" href="/gallery/">100 proofed cases</a>
+      </div>
+    </section>
+
+    <section class="ref-section section-shell" id="faq">
+      <h2>Questions people ask</h2>
+      <div class="ref-faq">
+     <details class="ref-faq-item">
+      <summary>How many favicon files does a website actually need in 2026?</summary>
+      <p>Six, plus a manifest. An SVG favicon for current browsers, a legacy favicon.ico holding the 16, 32 and 48 pixel frames, a 180 pixel apple-touch-icon.png, and 192, 512 and maskable 512 pixel PNGs declared in the web app manifest. Sets larger than this are almost always carrying files no current platform requests.</p>
+     </details>
+     <details class="ref-faq-item">
+      <summary>What sizes go inside favicon.ico?</summary>
+      <p>16, 32 and 48 pixels. ICO is a container format, so those three frames live inside one file — you do not ship favicon-16.png and favicon-32.png alongside it.</p>
+     </details>
+     <details class="ref-faq-item">
+      <summary>What is the maskable icon safe zone?</summary>
+      <p>Android and other adaptive-icon platforms crop your icon to a shape they choose, so anything near the edge can be cut. IconFlow insets the artwork 10% on each side — leaving it at 80% of the canvas — and flattens the result onto the background colour, so no mask can remove a meaningful part of the mark or reveal transparency.</p>
+     </details>
+     <details class="ref-faq-item">
+      <summary>Why is my macOS menu bar icon a black square?</summary>
+      <p>A macOS template image carries no colour: the system reads only its alpha channel and paints the shape itself. Handing it a full-card app icon whose background is opaque therefore produces a solid black rectangle. The fix is a separate tray drawing with real transparency around a sparse mark. IconFlow detects the failure instead of shipping it: when a source covers too much of the canvas it derives alpha from the mark&#x27;s own contrast, and refuses the build outright if no semantic shape can be isolated.</p>
+     </details>
+     <details class="ref-faq-item">
+      <summary>What icon sizes does Tauri need?</summary>
+      <p>Five PNGs — 32, 64, 128, 256 (as 128x128@2x.png) and 512 — plus icon.ico for Windows and icon.icns for macOS. IconFlow writes the ICO frames in the same order the Tauri CLI does, so the output is a drop-in replacement.</p>
+     </details>
+     <details class="ref-faq-item">
+      <summary>What icon sizes does Electron need?</summary>
+      <p>A 1024 pixel PNG for Linux and as the electron-builder source, an ICO for Windows and an ICNS for macOS. The container frames are the same desktop set used everywhere else: 16, 24, 32, 48, 64, 128, 256, 512 and 1024 pixels, selected per format.</p>
+     </details>
+     <details class="ref-faq-item">
+      <summary>Can I just resize a 1024 pixel PNG down to 16 pixels?</summary>
+      <p>You can, and that is exactly where most icons fail. At 16 pixels a counter closes, a hairline disappears and two colours average into one. Downscaling produces the file but tells you nothing about whether the result is still readable. IconFlow renders every size from the SVG through a pinned Chromium and shows you the native pixels before anything ships.</p>
+     </details>
+     <details class="ref-faq-item">
+      <summary>Does IconFlow upload my artwork or call an image model?</summary>
+      <p>No. There is no image model and no API key. You author the SVG, a pinned local Chromium renders it exactly as a browser would, and every file is written on your machine. The only network step is the one-time Chromium download.</p>
+     </details>
+     <details class="ref-faq-item">
+      <summary>Who owns the icons made with IconFlow?</summary>
+      <p>You do. No attribution is required, there is no share-alike obligation on your output, and commercial use is unrestricted. Run iconflow license for the full answer.</p>
+     </details>
+      </div>
+    </section>
+
+    <section class="ref-cta section-shell">
+      <div><p class="section-kicker">One master. Every surface.</p><h2>Stop exporting.<br>Start proving.</h2></div>
+      <div>
+        <p>Everything on this page is one command away, and the first run is a genuine gated ship rather than a render.</p>
+        <pre class="ref-code"><code>pip install iconflow
+iconflow setup
+iconflow demo --out iconflow-demo</code></pre>
+        <div class="ref-actions"><a class="button button-primary" href="/getting-started/">Getting started <span aria-hidden="true">&rarr;</span></a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow">Source on GitHub</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div>
+    <p>Generated from <code>iconflow/build.py</code>. If the tool changes, this page changes or CI fails.</p>
+    <nav aria-label="Footer navigation"><a href="/">Home</a><a href="/getting-started/">Guide</a><a href="/how-icons-are-made/">How it's made</a><a href="/gallery/">Gallery</a><a href="/archive/">Archive</a><a href="https://github.com/snowyukitty/ai-iconflow">Source</a></nav>
+  </footer>
+</body>
+</html>

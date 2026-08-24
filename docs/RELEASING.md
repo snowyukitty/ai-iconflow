@@ -15,6 +15,9 @@ verifies artifacts; no step should be interpreted as permission to publish.
   reports the SPDX expression `Apache-2.0` plus all four legal files.
 - Confirm the release version in `pyproject.toml`, `iconflow/__init__.py`, and
   `CHANGELOG.md`.
+- Re-render the generated reference page, which carries the version and the
+  build code's own output list: `python scripts/build_reference.py`. The
+  website tests fail on a stale one, so this is a step, not a suggestion.
 - Enable GitHub private vulnerability reporting before broad announcement.
 - Confirm that the package name is still available on PyPI. A 404 project page
   is evidence that no public distribution exists, not a reservation guarantee.
