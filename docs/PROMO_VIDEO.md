@@ -29,6 +29,27 @@ Lock the closing line:
 
 > **One master. Every surface. Proven at 16px.**
 
+## Evidence capture contract
+
+Every frame must be real output. Use the packaged demo in a clean temporary
+directory, the actual Review Lab, the exact archive scrubber, native PNGs, and
+the real `ship` refusal. Motion graphics may compose and transition those
+artifacts; they may not manufacture terminal output, UI, pixels, receipt
+values, or success states.
+
+The stale-receipt turn is the film. Capture a passing `ship`, move one real
+control point in the same `master.svg`, rerun the same command in the same
+terminal geometry, and hold on the refusal. If timing runs long, cut another
+beat before shortening this one. Before the capture, clear scrollback and
+confirm that no personal path, credential, or private repository name can enter
+the frame.
+
+Snowy HyperFrames is the production tool because its one-timing-truth pipeline,
+strict check, offline review kit, and human preview gate match IconFlow's own
+quality contract. A generative video model can be considered later for an
+obviously abstract title sting or localized experiment, but not for hero-film
+evidence.
+
 ## Production contract
 
 - Master: 3840×2160, 24 fps, Rec. 709, 60.0 seconds.
@@ -61,6 +82,7 @@ Lock the closing line:
 | Concept decision | `docs/assets/concept-bake.png` |
 | Review evidence | `docs/assets/review-proof.png` |
 | Source-bound receipt | `brand/master-review.json` |
+| Pass/refusal reference | `docs/assets/demo.gif`, `docs/assets/demo-transcript.txt` |
 | Favicon output | `brand/build/favicon.ico`, `brand/build/favicon.svg` |
 | PWA output | `brand/build/icon-192.png`, `icon-512-maskable.png` |
 | Desktop output | `brand/build/icons/128x128.png`, `brand/build/build/icon.png` |
@@ -123,12 +145,11 @@ Use this cut when auditability matters; it retains the stale-receipt proof.
 ### 15 seconds
 
 1. `0–4s` — `PROVE IT AT 16` (`focus`, exact 16px proof).
-2. `4–9s` — locked position line (`rise`, master SVG).
-3. `9–12s` — favicon, PWA, desktop, tray (`hold`, exact outputs).
-4. `12–15s` — `pip install iconflow` (`reveal`, no narration).
+2. `4–11s` — real same-session `receipt stale → ship blocked` capture (`hold`).
+3. `11–15s` — `pip install iconflow` (`reveal`, no narration).
 
-This is a reach hook, not full evidence of source-bound approval. Never imply
-that the 15-second cut proves the receipt contract it omits.
+This is the reach hook: problem, refusal, command. It shows the real gate but
+does not explain the complete receipt contract.
 
 ## HyperFrames production handoff
 

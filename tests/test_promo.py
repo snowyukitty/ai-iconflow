@@ -90,6 +90,15 @@ class PromoStoryboardTests(unittest.TestCase):
                 self.assertNotIn("D:\\", text)
                 self.assertNotIn("AI_Projects", text)
 
+    def test_every_cut_protects_the_real_stale_receipt_turn(self) -> None:
+        for path in STORYBOARDS:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            captures = [slide.get("capture", {}) for slide in data["slides"]]
+            with self.subTest(storyboard=path.name):
+                self.assertTrue(
+                    any("stale receipt" in capture.get("requiredEvent", "") for capture in captures)
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -57,6 +57,36 @@
           "isPartOf": {
             "@id": "https://ai-iconflow.com/ja/#website"
           }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://ai-iconflow.com/ja/#app",
+          "name": "IconFlow",
+          "description": "1 つのセマンティック SVG から、プラットフォーム対応のアイコンファミリーを設計、レビュー、リリース。",
+          "url": "https://ai-iconflow.com/ja/",
+          "applicationCategory": "DeveloperApplication",
+          "applicationSubCategory": "Design tool",
+          "operatingSystem": "Windows, macOS, Linux",
+          "softwareVersion": "0.5.0",
+          "softwareRequirements": "Python 3.10+",
+          "downloadUrl": "https://pypi.org/project/iconflow/",
+          "installUrl": "https://pypi.org/project/iconflow/",
+          "softwareHelp": {
+            "@id": "https://ai-iconflow.com/ja/getting-started/"
+          },
+          "license": "https://github.com/snowyukitty/ai-iconflow/blob/main/LICENSE",
+          "featureList": [
+            "Favicon and web app manifest icons from one SVG master",
+            "PWA maskable icons with a safe-zone inset",
+            "Tauri and Electron ICO and ICNS bundles",
+            "macOS menu bar template images with black-square detection",
+            "Native 16px rendering through a pinned Chromium",
+            "Fail-closed release gate bound to a review receipt"
+          ],
+          "isAccessibleForFree": true,
+          "isPartOf": {
+            "@id": "https://ai-iconflow.com/ja/#website"
+          }
         }
       ]
     }
@@ -570,6 +600,7 @@
           <p>エージェント支援の手順を選ぶか、CLI を直接操作して、チェックイン済みの IconFlow ブランド用アイコンファミリーをビルドしてください。5 分で確かめられるのはエンジンであり、新しいアイデンティティではありません。<code>setup</code> は Chromium を一度だけダウンロードし、それ以外は何もマシンの外へ出ません。</p>
           <div class="start-actions">
             <a class="button button-primary" href="/ja/getting-started/">Getting Started を開く <span aria-hidden="true">→</span></a>
+            <a class="button button-quiet" href="/reference/icon-sizes/">アイコンサイズ一覧</a>
             <a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">GitHub で見る <span aria-hidden="true">↗</span></a>
           </div>
         </div>
@@ -591,7 +622,7 @@ python -m venv .venv
   <footer class="site-footer section-shell">
     <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>1 つのマスター。あらゆるサーフェス。</span></div></div>
     <p>Apache-2.0 のコード · IconFlow のアイデンティティには商標ポリシーが適用されます。</p>
-    <nav aria-label="フッターナビゲーション"><a href="/ja/getting-started/">ガイド</a><a href="/ja/how-icons-are-made/">制作の仕組み</a><a href="https://github.com/snowyukitty/ai-iconflow">ソース</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">ドキュメント</a><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">商標</a></nav>
+    <nav aria-label="フッターナビゲーション"><a href="/ja/getting-started/">ガイド</a><a href="/reference/icon-sizes/">アイコンサイズ</a><a href="/ja/how-icons-are-made/">制作の仕組み</a><a href="https://github.com/snowyukitty/ai-iconflow">ソース</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">ドキュメント</a><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">商標</a></nav>
     <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="言語"><a lang="en" hreflang="en" translate="no" href="/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/" aria-current="true">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/">简体</a></nav><!-- /i18n:switch -->
   </footer>
 

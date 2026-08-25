@@ -57,6 +57,36 @@
           "isPartOf": {
             "@id": "https://ai-iconflow.com/zh-hans/#website"
           }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://ai-iconflow.com/zh-hans/#app",
+          "name": "IconFlow",
+          "description": "基于单个语义化 SVG，设计、审查并交付平台就绪的图标家族。",
+          "url": "https://ai-iconflow.com/zh-hans/",
+          "applicationCategory": "DeveloperApplication",
+          "applicationSubCategory": "Design tool",
+          "operatingSystem": "Windows, macOS, Linux",
+          "softwareVersion": "0.5.0",
+          "softwareRequirements": "Python 3.10+",
+          "downloadUrl": "https://pypi.org/project/iconflow/",
+          "installUrl": "https://pypi.org/project/iconflow/",
+          "softwareHelp": {
+            "@id": "https://ai-iconflow.com/zh-hans/getting-started/"
+          },
+          "license": "https://github.com/snowyukitty/ai-iconflow/blob/main/LICENSE",
+          "featureList": [
+            "Favicon and web app manifest icons from one SVG master",
+            "PWA maskable icons with a safe-zone inset",
+            "Tauri and Electron ICO and ICNS bundles",
+            "macOS menu bar template images with black-square detection",
+            "Native 16px rendering through a pinned Chromium",
+            "Fail-closed release gate bound to a review receipt"
+          ],
+          "isAccessibleForFree": true,
+          "isPartOf": {
+            "@id": "https://ai-iconflow.com/zh-hans/#website"
+          }
         }
       ]
     }
@@ -570,6 +600,7 @@
           <p>可选择智能体辅助路径或直接操作 CLI，进而构建已签入的 IconFlow 品牌家族。5 分钟验证的是引擎本身，而非新标识；<code>setup</code> 仅下载一次 Chromium，此外没有任何数据会离开你的机器。</p>
           <div class="start-actions">
             <a class="button button-primary" href="/zh-hans/getting-started/">打开 Getting Started <span aria-hidden="true">→</span></a>
+            <a class="button button-quiet" href="/reference/icon-sizes/">图标尺寸对照表</a>
             <a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow" target="_blank" rel="noreferrer">在 GitHub 上查看 <span aria-hidden="true">↗</span></a>
           </div>
         </div>
@@ -591,7 +622,7 @@ python -m venv .venv
   <footer class="site-footer section-shell">
     <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>一份主文件。覆盖每个版面。</span></div></div>
     <p>Apache-2.0 代码 · IconFlow 标识受商标政策约束。</p>
-    <nav aria-label="页脚导航"><a href="/zh-hans/getting-started/">指南</a><a href="/zh-hans/how-icons-are-made/">制作原理</a><a href="https://github.com/snowyukitty/ai-iconflow">源码</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">文档</a><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">商标</a></nav>
+    <nav aria-label="页脚导航"><a href="/zh-hans/getting-started/">指南</a><a href="/reference/icon-sizes/">图标尺寸</a><a href="/zh-hans/how-icons-are-made/">制作原理</a><a href="https://github.com/snowyukitty/ai-iconflow">源码</a><a href="https://github.com/snowyukitty/ai-iconflow/tree/main/docs">文档</a><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/TRADEMARKS.md">商标</a></nav>
     <!-- i18n:switch --><nav class="lang-switch" data-lang-switch aria-label="语言"><a lang="en" hreflang="en" translate="no" href="/">EN</a><a lang="es" hreflang="es" translate="no" href="/es/">ES</a><a lang="ja" hreflang="ja" translate="no" href="/ja/">日本語</a><a lang="zh-Hant" hreflang="zh-Hant" translate="no" href="/zh-hant/">繁體</a><a lang="zh-Hans" hreflang="zh-Hans" translate="no" href="/zh-hans/" aria-current="true">简体</a></nav><!-- /i18n:switch -->
   </footer>
 

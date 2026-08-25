@@ -2,7 +2,7 @@
   "language": "en",
   "generated_by": "scripts/build_i18n.py",
   "note": "English source strings. Keys are slug.hash(text); a copy edit makes a new key, which makes every translation fail closed.",
-  "count": 711,
+  "count": 713,
   "strings": {
     "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": {
       "text": "IconFlow — Local icon toolkit: one SVG to favicon, app, and tray assets, proven at 16px",
@@ -2167,6 +2167,14 @@
         "index.html"
       ]
     },
+    "icon-size-reference.10be38d5": {
+      "text": "Icon size reference",
+      "kind": "text",
+      "where": "div.start-card div div.start-actions",
+      "pages": [
+        "index.html"
+      ]
+    },
     "view-on-github-0-0.134bd20c": {
       "text": "View on GitHub <0>↗</0>",
       "kind": "text",
@@ -2249,6 +2257,17 @@
       "pages": [
         "index.html",
         "how-icons-are-made/index.html"
+      ]
+    },
+    "icon-sizes.4ab024eb": {
+      "text": "Icon sizes",
+      "kind": "text",
+      "where": "body footer.site-footer nav",
+      "pages": [
+        "index.html",
+        "getting-started/index.html",
+        "how-icons-are-made/index.html",
+        "archive/index.html"
       ]
     },
     "how-it-s-made.a9115b5f": {

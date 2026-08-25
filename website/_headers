@@ -27,6 +27,9 @@
 /how-icons-are-made/index.html
   Cache-Control: public, max-age=0, must-revalidate
 
+/reference/icon-sizes/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
 /
   Cache-Control: public, max-age=0, must-revalidate
 
@@ -40,6 +43,9 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 /how-icons-are-made/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/reference/icon-sizes/
   Cache-Control: public, max-age=0, must-revalidate
 
 /gallery/social-signals/

@@ -12,21 +12,26 @@ Favicon, PWA, Tauri, Electron, and tray — proven at 16px before it ships anywh
 [![Your icons are yours](https://img.shields.io/badge/your%20icons-yours-brightgreen)](LICENSES.md#1-the-icons-you-make-with-iconflow-are-yours)
 
 [**Live proof**](https://ai-iconflow.com/) ·
+[Icon size reference](https://ai-iconflow.com/reference/icon-sizes/) ·
 [Remix Lab](https://ai-iconflow.com/#remix) ·
 [137-direction Archive](https://ai-iconflow.com/archive/) ·
 [100-case Gallery](https://ai-iconflow.com/gallery/) ·
 [400-cell Matrix](https://ai-iconflow.com/gallery/emoji-matrix/all/) ·
 [How it's made](https://ai-iconflow.com/how-icons-are-made/)
 
-</div>
+![One command ships 23 reviewed icon files; nudging one control point in the master SVG makes the same command refuse, because the review receipt no longer matches the source.](docs/assets/demo.gif)
 
-![IconFlow — One master. Every surface. Proven at 16px.](docs/assets/hero-flow.svg)
+</div>
 
 ```bash
 pip install iconflow          # or: uv tool install iconflow
 iconflow setup                # fetches Chromium — the only network step
 iconflow demo --out demo      # doctor → check → review → ship, on a real receipt
 ```
+
+<sup>That animation is a real capture, not a mock-up — the transcript it is drawn
+from is [checked in](docs/assets/demo-transcript.txt), and
+`scripts/render_readme_demo.py` regenerates it.</sup>
 
 **No image model. No API key. No upload.** You author the SVG, a pinned Chromium
 renders it exactly as a browser would, and `ship` fails closed unless automated
@@ -38,6 +43,8 @@ commercial use unrestricted. Run `iconflow license` for the whole answer.
 ```text
 app intent → distinct concepts → SVG master → 16px proof → target family → casebook
 ```
+
+![IconFlow — One master. Every surface. Proven at 16px.](docs/assets/hero-flow.svg)
 
 The site reads in five languages — English, [Español](https://ai-iconflow.com/es/), [日本語](https://ai-iconflow.com/ja/), [繁體中文](https://ai-iconflow.com/zh-hant/), [简体中文](https://ai-iconflow.com/zh-hans/). The toolkit and its documentation stay English.
 

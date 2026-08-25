@@ -10,7 +10,8 @@ rendered videos and not a vendored HyperFrames project.
 
 - `storyboard-60.json` is the full evidence-led film.
 - `storyboard-30.json` keeps the source-bound receipt gate.
-- `storyboard-15.json` is a reach cut and intentionally makes no receipt claim.
+- `storyboard-15.json` is a reach cut built around the real stale-receipt
+  refusal.
 
 Each file follows the shared HyperFrames storyboard schema: one timing truth,
 no more than three information blocks per slide, the real block vocabulary,

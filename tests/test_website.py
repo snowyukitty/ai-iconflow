@@ -52,6 +52,7 @@ HTML_PAGES = (
     "gallery/social-signals/index.html",
     "gallery/emoji-matrix/index.html",
     "gallery/emoji-matrix/all/index.html",
+    "reference/icon-sizes/index.html",
 ) + TRANSLATED_PAGES
 
 MATRIX_STYLE_ORDER = (
@@ -160,6 +161,8 @@ class WebsiteContractTests(unittest.TestCase):
             "assets/marketing/many-worlds-1200x630.png",
             "assets/marketing/proof-at-16-1080x1080.png",
             "assets/marketing/proof-at-16-1080x1920.png",
+            "reference/icon-sizes/index.html",
+            "reference/reference.css",
         ):
             with self.subTest(name=name):
                 self.assertTrue((SITE / name).is_file())
@@ -376,10 +379,16 @@ class WebsiteContractTests(unittest.TestCase):
             structured_data.append(json.loads(json_ld))
 
         homepage_types = {item["@type"] for item in structured_data[0]["@graph"]}
-        self.assertEqual({"SoftwareSourceCode", "WebSite"}, homepage_types)
+        self.assertEqual({"SoftwareApplication", "SoftwareSourceCode", "WebSite"},
+                         homepage_types)
         self.assertEqual("TechArticle", structured_data[1]["@type"])
+        # Free is stated as a fact about access, not dressed up as commerce.
+        # Rating and price markup on a tool nobody has rated or sold would be
+        # rich-result bait, which is exactly the kind of claim this site does
+        # not make anywhere else either.
         self.assertNotIn("aggregateRating", home)
         self.assertNotIn('"offers"', home)
+        self.assertIn('"isAccessibleForFree": true', home)
         self.assertNotIn("'unsafe-inline'", headers)
 
     def test_getting_started_keeps_a_static_performance_budget(self) -> None:
@@ -736,6 +745,117 @@ class WebsiteContractTests(unittest.TestCase):
             self.assertIn(f"{CANONICAL_ORIGIN}{route}", sitemap)
             self.assertIn(route, gallery)
         self.assertIn("100 admitted cases", gallery)
+
+    def test_reference_page_is_generated_from_the_build_code(self) -> None:
+        """The published icon-size tables must match what the tool ships.
+
+        The page exists to be quoted — by a developer in a hurry and by an
+        answer engine that will not come back to check. So it is generated
+        from ``iconflow.build`` rather than written, and a build change that
+        has not been re-rendered fails here rather than being published as a
+        confident, wrong table.
+        """
+        reference = load_script("build_reference", ROOT / "scripts" / "build_reference.py")
+        published = (SITE / "reference" / "icon-sizes" / "index.html").read_text(encoding="utf-8")
+        self.assertEqual(reference.render(), published,
+                         "run python scripts/build_reference.py")
+
+        # Three of the filenames here read as email addresses to a CDN.
+        # Cloudflare's Email Address Obfuscation rewrote icons/128x128@2x.png,
+        # tray/tray@16.png and tray/trayTemplate@2x.png at the edge into
+        # "[email protected]" links: the repository was right and the served
+        # page was wrong, so a developer copying a filename got one that does
+        # not exist. &#64; parses to the same character for a reader, a copy
+        # and a crawler, while matching no email pattern in the raw HTML.
+        body = re.sub(r'<script type="application/ld\+json">.*?</script>', "",
+                      published, flags=re.S)
+        self.assertNotIn("@", body,
+                         "a literal @ outside the JSON-LD block will be "
+                         "rewritten by an email obfuscator at the CDN")
+        for name in ("128x128&#64;2x.png", "tray&#64;16.png",
+                     "trayTemplate&#64;2x.png"):
+            with self.subTest(name=name):
+                self.assertIn(name, published)
+
+        # Every target the CLI understands has a section a reader can link to.
+        for target in reference.build.TARGETS:
+            anchor = "web" if target == "pwa" else target
+            with self.subTest(target=target):
+                self.assertIn(f'id="{anchor}"', published)
+
+        # The route earns its own crawl surface: sitemap entry, cache header,
+        # inbound links, and an exemption from the training-crawler block that
+        # covers the licensed corpus.
+        self.assertIn(f"{CANONICAL_ORIGIN}/reference/icon-sizes/",
+                      (SITE / "sitemap.xml").read_text(encoding="utf-8"))
+        self.assertIn("\n/reference/icon-sizes/\n"
+                      "  Cache-Control: public, max-age=0, must-revalidate",
+                      (SITE / "_headers").read_text(encoding="utf-8"))
+        self.assertIn("Allow: /reference/", (SITE / "robots.txt").read_text(encoding="utf-8"))
+        for page in ("index.html", "getting-started/index.html", "gallery/index.html"):
+            with self.subTest(page=page):
+                self.assertIn('href="/reference/icon-sizes/"',
+                              (SITE / page).read_text(encoding="utf-8"))
+
+    def test_structured_data_answers_the_questions_search_engines_ask(self) -> None:
+        """Every indexed page carries parseable, self-consistent JSON-LD."""
+        blocks = re.compile(
+            r'<script type="application/ld\+json">(.*?)</script>', re.S)
+        seen: dict[str, set[str]] = {}
+        for page in HTML_PAGES:
+            if page.endswith("404.html"):
+                continue
+            document = (SITE / page).read_text(encoding="utf-8")
+            found = blocks.findall(document)
+            with self.subTest(page=page):
+                self.assertTrue(found, f"{page} publishes no structured data")
+                types = set()
+                for raw in found:
+                    payload = json.loads(raw)
+                    for node in payload.get("@graph", [payload]):
+                        types.add(node["@type"])
+                seen[page] = types
+
+        # The homepage has to answer "what is this software" in machine terms:
+        # category, platforms, price, where to install it from.
+        self.assertLessEqual({"WebSite", "SoftwareSourceCode", "SoftwareApplication"},
+                             seen["index.html"])
+        # The reference page is written to be quoted, so it says what it is,
+        # where it sits, and which questions it answers.
+        self.assertLessEqual({"TechArticle", "FAQPage", "BreadcrumbList"},
+                             seen["reference/icon-sizes/index.html"])
+        for page in ("gallery/index.html", "gallery/social-signals/index.html",
+                     "gallery/emoji-matrix/index.html",
+                     "gallery/emoji-matrix/all/index.html"):
+            with self.subTest(page=page):
+                self.assertIn("CollectionPage", seen[page])
+
+    def test_every_indexed_page_has_a_distinct_title_and_description(self) -> None:
+        """Duplicate titles across a site are the cheapest ranking loss there is."""
+        titles: dict[str, str] = {}
+        descriptions: dict[str, str] = {}
+        for page in HTML_PAGES:
+            if page.endswith("404.html"):
+                continue
+            document = (SITE / page).read_text(encoding="utf-8")
+            title = re.search(r"<title>(.*?)</title>", document, re.S)
+            description = re.search(
+                r'<meta name="description" content="([^"]*)"', document)
+            with self.subTest(page=page):
+                self.assertIsNotNone(title, f"{page} has no title")
+                self.assertIsNotNone(description, f"{page} has no description")
+                text = title.group(1).strip()
+                # Long enough to describe the page, short enough to survive the
+                # ~60-character truncation a result listing applies.
+                self.assertGreater(len(text), 20, f"{page} title is too thin")
+                self.assertNotIn(text, titles.values(),
+                                 f"{page} repeats the title of {titles}")
+                titles[page] = text
+                summary = description.group(1).strip()
+                self.assertGreater(len(summary), 60, f"{page} description is too thin")
+                self.assertNotIn(summary, descriptions.values(),
+                                 f"{page} repeats a description")
+                descriptions[page] = summary
 
 
 class InternationalisationContractTests(unittest.TestCase):

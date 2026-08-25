@@ -1,7 +1,7 @@
 {
   "license": "CC-BY-SA-4.0",
   "copyright": "2026 snowyukitty · https://ai-iconflow.com",
-  "title": "IconFlow — 15-second reach cut",
+  "title": "IconFlow — 15-second refusal cut",
   "targetDurationSeconds": 15,
   "language": "en",
   "voice": {"tool": "none", "voice": "", "rate": "+0%", "pitch": "+0Hz", "volume": "+0%"},
@@ -16,14 +16,11 @@
   },
   "mediaBindings": [
     {"slide": "slide-01", "source": "website/assets/proof/icon-16.png", "target": "assets/images/slide-01-native-16.png", "sha256": "9d69f707633fb25485efa71d185d99251a72115b56084d62304ad10b2ff0c564"},
-    {"slide": "slide-02", "source": "brand/master.svg", "target": "assets/images/slide-02-master.svg", "sha256": "456dcf2ad08b4aa1c518ba6962a785d194f6388d0c066abb4bd11ba19417e46f"},
-    {"slide": "slide-03", "source": "docs/assets/marketing/workflow-1200x630.png", "target": "assets/images/slide-03-outputs.png", "sha256": "b4ad4fbf789344551d1c4bede0cb60968dffbdb084c3a62907909ed83bd9aa7a"},
-    {"slide": "slide-04", "source": "docs/assets/marketing/proof-at-16-1200x630.png", "target": "assets/images/slide-04-proof-at-16.png", "sha256": "c7ca49f1434d210eff3af9c27569cdcd8656596e14ae2554435d48787a071da0"}
+    {"slide": "slide-03", "source": "docs/assets/marketing/proof-at-16-1200x630.png", "target": "assets/images/slide-03-proof-at-16.png", "sha256": "c7ca49f1434d210eff3af9c27569cdcd8656596e14ae2554435d48787a071da0"}
   ],
   "slides": [
     {"id": "slide-01", "title": "Prove it at 16", "chapter": "native-proof", "durationTarget": 4, "image": "assets/images/slide-01-native-16.png", "subtitle": "Exact native pixels. No smoothing. No redraw.", "narration": "", "blocks": [{"type": "lead", "text": "PROVE IT AT 16"}], "motion": "focus"},
-    {"id": "slide-02", "title": "One master", "chapter": "position", "durationTarget": 5, "image": "assets/images/slide-02-master.svg", "subtitle": "One editable source survives every target transform.", "narration": "", "blocks": [{"type": "lead", "text": "One master. Every surface. Proven at 16px."}], "motion": "rise"},
-    {"id": "slide-03", "title": "Every target", "chapter": "outputs", "durationTarget": 3, "image": "assets/images/slide-03-outputs.png", "subtitle": "Favicon, PWA, desktop, and tray.", "narration": "", "blocks": [{"type": "list", "items": ["favicon", "PWA", "desktop", "tray"]}], "motion": "hold"},
-    {"id": "slide-04", "title": "Install IconFlow", "chapter": "cta", "durationTarget": 3, "image": "assets/images/slide-04-proof-at-16.png", "subtitle": "A reach cut, not a receipt claim.", "narration": "", "blocks": [{"type": "lead", "text": "pip install iconflow"}], "motion": "reveal"}
+    {"id": "slide-02", "title": "Stale means stop", "chapter": "gate", "durationTarget": 7, "image": "", "subtitle": "The pixels changed. The approval did not follow.", "narration": "", "capture": {"mode": "same-session-real-terminal", "requiredEvent": "source changes and the same ship command refuses a stale receipt", "privacy": "clean temporary directory and cleared scrollback"}, "blocks": [{"type": "lead", "text": "RECEIPT STALE — SHIP BLOCKED"}], "motion": "hold"},
+    {"id": "slide-03", "title": "Install IconFlow", "chapter": "cta", "durationTarget": 4, "image": "assets/images/slide-03-proof-at-16.png", "subtitle": "One master. Every surface. Proven at 16px.", "narration": "", "blocks": [{"type": "lead", "text": "pip install iconflow"}], "motion": "reveal"}
   ]
 }

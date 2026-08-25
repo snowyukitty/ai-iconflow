@@ -21,11 +21,124 @@ first published release remains under `Unreleased`.
   media targets, timing truth, central vertical-safe guides, and a mandatory
   human preview gate.
 
-### Changed
+- **A reference page the tool generates about itself**, at
+  `/reference/icon-sizes/`. Every icon file and frame size each target needs —
+  web favicon, PWA manifest and maskable safe zone, Windows tiles, Tauri,
+  Electron, macOS tray template — plus the paste-ready `<head>` block, the
+  generated manifest, and nine FAQ answers.
 
-- Replaced the contradictory pre-launch readiness log with a concise current
-  state report, explicit live-state verification commands, and a separate list
-  of owner-only follow-ups.
+  It exists because the site ranked for nothing. Twenty-four indexed URLs, all
+  of them brand pages that convert someone who already knows what IconFlow is,
+  and none of them containing the words a person in trouble actually types:
+  *favicon.ico sizes*, *maskable icon safe zone*, *macOS menu bar icon black
+  square*. That traffic went to tools whose size tables are human
+  transcriptions, drifting quietly whenever a platform moves.
+
+  `scripts/build_reference.py` reads `preview_assets`, `ICO_FRAME_ORDER`,
+  `ICNS_FRAME_SIZES`, `TAURI_PNG_SPECS` and `assemble.maskable_asset` — the
+  same code a real `ship` runs — so the published table cannot disagree with
+  the tool. A build change that has not been re-rendered fails the website
+  tests, and an output file the page does not describe fails the generator
+  outright. That is the durable difference: every competing table on the web is
+  a transcription nobody can date, and this one breaks CI before it can be
+  wrong.
+
+- **An animated README demo**, `docs/assets/demo.gif`, rendered by
+  `scripts/render_readme_demo.py` from a checked-in transcript of a real run.
+  `ship` builds 23 files; one control point moves in the master SVG; the same
+  command refuses with a stale receipt. Ten seconds, no prose, and it shows the
+  one thing no other icon tool does. Rendered through the same pinned Chromium
+  as every other generated asset, and excluded from the wheel — half a megabyte
+  of GIF has no business in a package that never displays it.
+
+- **Structured data that describes the software.** `SoftwareApplication` on the
+  homepage with category, platforms, requirements, install URL, feature list
+  and `isAccessibleForFree`; `TechArticle` + `FAQPage` + `BreadcrumbList` on
+  the reference page; `CollectionPage` + `ItemList` + `BreadcrumbList` on the
+  four collection pages, three of which published none at all. Still no
+  `offers` and no `aggregateRating`: nobody has rated or sold this, and markup
+  for a rating that does not exist is the one kind of claim this site refuses
+  to make everywhere else. The tests enforce both absences, and now also
+  enforce a distinct, non-thin title and description on every indexed page.
+
+- `docs/SEO.md` and `docs/PROMO_VIDEO.md`: the discoverability diagnosis with
+  the queue of pages worth generating next, and the launch-film brief —
+  including why the film uses real screen capture and HyperFrames rather than a
+  video model, when the product's whole promise is that what you see is what
+  shipped.
+
+### Changed
+- **A self-audit that asks the world instead of remembering it.**
+  `scripts/state.py` checks what is actually true — are the generated site
+  artifacts current, does PyPI carry this version with resolvable attestations,
+  does the repository look the way the docs say, and **does the deployed site
+  still serve what the repository holds**. That last one is a failure nothing
+  else here could see: a perfect commit and a two-day-old Cloudflare deploy are
+  indistinguishable from inside a checkout, and the first run found exactly
+  that.
+
+  It writes `docs/STATE.md` with `--write`, speaks the `--json` envelope from
+  `docs/AGENT_CONTRACT.md`, and follows one rule throughout: a probe that could
+  not run reports UNKNOWN, never PASS. A tick meaning "I could not check" is
+  worse than no tick. An open owner gate is reported and never fails the run,
+  because a gate is a decision waiting on a person rather than a defect.
+
+- **`LAUNCH_READINESS.md` rewritten to hold only what cannot drift.** It had
+  become the exact thing IconFlow exists to refuse. On the morning of
+  2026-08-25 it still said the `iconflow` name "returns 404, so both are still
+  free" — three days after 0.5.0 was published from this repository — and in an
+  adjacent bullet announced the repository was public while quoting `gh repo
+  view` reporting it `PRIVATE`. It listed twelve topics when there were twenty.
+
+  Nobody lied; a person ticked a box and the world moved. So the file is now
+  the *record* — a dated history table, the licensing reasoning, the market
+  position, the known limits — and every live-state claim defers to
+  `STATE.md`. `tests/test_state.py` fails if a status checkbox reappears there,
+  because a checkbox is a condition asserted as of whenever someone last
+  looked, and nothing re-checks it.
+
+- **The reference page stopped being rewritten at the CDN.** Three of the
+  filenames it publishes — `icons/128x128@2x.png`, `tray/tray@16.png`,
+  `tray/trayTemplate@2x.png` — read as email addresses to Cloudflare's Email
+  Address Obfuscation, which is on by default. It replaced all three at the
+  edge with `[email protected]` links and injected a decoder script. The
+  repository was correct and the served page was wrong, so a developer copying
+  a filename off the one page built never to lie got a file that does not
+  exist. Nothing in the repository could see it; the self-audit found it on its
+  first run against a fresh deploy.
+
+  `&#64;` parses to the same character for a reader, a copy-paste and a
+  crawler, while matching no email pattern in the raw HTML. The generator now
+  emits it, and refuses to write a page carrying a literal `@` outside the
+  JSON-LD block — where `@context` and `@type` must stay literal to parse.
+
+- **`docs/STATE.md` is excluded from the wheel.** It is a report about *this
+  repository* at the moment it was generated — open gates, whether the deployed
+  site is current, whether CI is green. Frozen into a package it becomes a
+  stale answer to a question the reader never asked, listed by `iconflow docs`
+  beside the methodology, which is the exact drift the report exists to end.
+
+- **A lint gate pinned to the oldest supported Python.** A backslash inside an
+  f-string expression is legal from 3.12 and a `SyntaxError` on 3.10. One
+  reached `main` in this very changelog's previous entry: green on a 3.12
+  machine, red minutes later on a single leg of the CI matrix. `ruff` reports
+  syntax errors against `target-version` regardless of which rules are
+  selected, so a deliberately narrow rule set — undefined names, unreachable
+  branches, broken comparisons, dead imports — buys that whole class of failure
+  for a job that finishes in under a minute. Restyling 250 existing files would
+  have buried the signal; the two dead imports it did find are gone.
+
+
+- `robots.txt` now carries an explicit `Allow: /reference/` inside the named
+  training-crawler block. The line is deliberate, not a loosening: the CC BY-SA
+  methodology and the CC BY-NC-ND artwork stay out of bulk collection, while
+  tables generated from Apache-2.0 code that describe other people's platforms
+  stay open to the answer engines that will be asked these questions. `llms.txt`
+  says the same thing in the terms it publishes.
+
+- The repository's GitHub topics went from 12 to the maximum 20, and the
+  reference route is linked from the homepage, from every footer including the
+  four translated language trees, and from the sitemap.
 
 ## 0.5.0 - 2026-08-22
 

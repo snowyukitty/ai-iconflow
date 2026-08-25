@@ -53,6 +53,29 @@ jobs:
           iconflow case lint
           iconflow case stats
 
+  lint:
+    # Runs in well under a minute and answers one question the matrix answers
+    # slowly: does every file still parse on the oldest Python this project
+    # supports? A 3.12-only syntax reached main once and only the Windows 3.10
+    # leg noticed, several minutes after the push looked fine.
+    name: Syntax and dead code (oldest supported Python)
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install ruff
+        run: python -m pip install "ruff>=0.14"
+      # target-version = "py310" lives in pyproject.toml, so this checks the
+      # floor regardless of which interpreter the runner happens to have.
+      - name: Lint
+        run: python -m ruff check .
+
   wheel-smoke:
     name: Isolated wheel resources
     timeout-minutes: 15

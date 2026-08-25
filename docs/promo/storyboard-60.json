@@ -154,6 +154,11 @@
       "speakerNotes": "A current receipt binds approval to the source.",
       "sourceData": "brand/master-review.json",
       "sourceSha256": "463ddd4398dfc8567e532e0e63efa45b45fc3b9b6045d5af74b1f5fe8036949c",
+      "capture": {
+        "mode": "same-session-real-terminal",
+        "requiredEvent": "passing iconflow ship",
+        "privacy": "clean temporary directory and cleared scrollback"
+      },
       "blocks": [
         {"type": "lead", "text": "SOURCE-BOUND REVIEW"},
         {"type": "list", "items": ["source hash", "contract hash", "selected targets", "six review scores"]}
@@ -169,6 +174,11 @@
       "subtitle": "Change the source and the old approval can no longer ship.",
       "narration": "",
       "speakerNotes": "Change the source, and shipping stops until review catches up.",
+      "capture": {
+        "mode": "same-session-real-terminal",
+        "requiredEvent": "source changes and the same ship command refuses a stale receipt",
+        "privacy": "clean temporary directory and cleared scrollback"
+      },
       "blocks": [
         {"type": "lead", "text": "A REVIEW THAT CAN GO STALE"},
         {"type": "cards", "items": [
