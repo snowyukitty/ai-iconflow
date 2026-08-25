@@ -41,9 +41,18 @@ class Frame:
     body: str
 
 
-def sha256(path: Path) -> str:
-    """Return a stable content digest for a local input or output."""
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+TEXT_INPUT_SUFFIXES = {".json", ".py", ".svg"}
+
+
+def hash_record(path: Path) -> dict[str, str]:
+    """Return a cross-platform digest plus the byte contract it uses."""
+    if path.suffix.lower() in TEXT_INPUT_SUFFIXES:
+        payload = path.read_text(encoding="utf-8").replace("\r\n", "\n").encode("utf-8")
+        mode = "utf8-lf"
+    else:
+        payload = path.read_bytes()
+        mode = "raw-bytes"
+    return {"sha256": hashlib.sha256(payload).hexdigest(), "mode": mode}
 
 
 def source_paths() -> tuple[Path, ...]:
@@ -91,14 +100,14 @@ def write_manifest(rendered: tuple[Frame, ...]) -> None:
             ),
         },
         "inputs": {
-            path.relative_to(ROOT).as_posix(): sha256(path)
+            path.relative_to(ROOT).as_posix(): hash_record(path)
             for path in inputs
         },
         "outputs": {
             frame.name: {
                 "width": frame.width,
                 "height": frame.height,
-                "sha256": sha256(DOCS_OUTPUT / frame.name),
+                "sha256": hash_record(DOCS_OUTPUT / frame.name)["sha256"],
             }
             for frame in rendered
         },

@@ -20,6 +20,16 @@ ITEM_LIMITS = {
 }
 
 
+def bound_digest(path: Path, mode: str) -> str:
+    if mode == "utf8-lf":
+        payload = path.read_text(encoding="utf-8").replace("\r\n", "\n").encode("utf-8")
+    else:
+        if mode != "raw-bytes":
+            raise ValueError(f"unknown hash mode: {mode}")
+        payload = path.read_bytes()
+    return hashlib.sha256(payload).hexdigest()
+
+
 class PromoStoryboardTests(unittest.TestCase):
     def test_all_three_cuts_follow_the_hyperframes_storyboard_contract(self) -> None:
         self.assertEqual(3, len(STORYBOARDS))
@@ -65,6 +75,7 @@ class PromoStoryboardTests(unittest.TestCase):
         for path in STORYBOARDS:
             data = json.loads(path.read_text(encoding="utf-8"))
             slides = {slide["id"]: slide for slide in data["slides"]}
+            hash_contract = data["hashContract"]
             targets: set[str] = set()
             for binding in data["mediaBindings"]:
                 with self.subTest(storyboard=path.name, slide=binding["slide"]):
@@ -74,14 +85,26 @@ class PromoStoryboardTests(unittest.TestCase):
                     self.assertEqual(binding["target"], slides[binding["slide"]]["image"])
                     source = ROOT / binding["source"]
                     self.assertTrue(source.is_file(), binding["source"])
+                    mode = (
+                        hash_contract["text"]
+                        if source.suffix.lower() in {".json", ".py", ".svg"}
+                        else hash_contract["binary"]
+                    )
                     self.assertEqual(
                         binding["sha256"],
-                        hashlib.sha256(source.read_bytes()).hexdigest(),
+                        bound_digest(source, mode),
                     )
 
             for slide in slides.values():
                 if slide["image"]:
                     self.assertIn(slide["image"], targets)
+
+            for slide in slides.values():
+                if "sourceData" in slide:
+                    self.assertEqual(
+                        slide["sourceSha256"],
+                        bound_digest(ROOT / slide["sourceData"], hash_contract["text"]),
+                    )
 
     def test_handoff_contains_no_machine_local_paths(self) -> None:
         for path in STORYBOARDS:

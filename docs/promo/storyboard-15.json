@@ -1,6 +1,7 @@
 {
   "license": "CC-BY-SA-4.0",
   "copyright": "2026 snowyukitty · https://ai-iconflow.com",
+  "hashContract": {"text": "utf8-lf", "binary": "raw-bytes"},
   "title": "IconFlow — 15-second refusal cut",
   "targetDurationSeconds": 15,
   "language": "en",

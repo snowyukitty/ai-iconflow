@@ -20,6 +20,11 @@ slide-specific media targets, and the four supported motion names. The extra
 records the exact IconFlow source and SHA-256 that a production project must
 copy into its own `assets/images/` directory.
 
+The hash contract is cross-platform by design: JSON, Python, and SVG inputs use
+UTF-8 with LF-normalized line endings (`utf8-lf`); binary media use exact raw
+bytes (`raw-bytes`). A Git checkout changing CRLF/LF therefore cannot make an
+unchanged source look stale.
+
 To produce a film, create a private project with `hf new`, copy one storyboard
 to `data/storyboard.json`, copy and verify its media bindings, then follow
 [`PROMO_VIDEO.md`](../PROMO_VIDEO.md). The handoff is still `draft`: do not run

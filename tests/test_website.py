@@ -195,11 +195,17 @@ class WebsiteContractTests(unittest.TestCase):
         )
         self.assertEqual("blocked", manifest["render_contract"]["network"])
         self.assertFalse(manifest["render_contract"]["javascript"])
-        for relative, expected_hash in manifest["inputs"].items():
+        for relative, record in manifest["inputs"].items():
             with self.subTest(input=relative):
+                source = ROOT / relative
+                if record["mode"] == "utf8-lf":
+                    payload = source.read_text(encoding="utf-8").replace("\r\n", "\n").encode("utf-8")
+                else:
+                    self.assertEqual("raw-bytes", record["mode"])
+                    payload = source.read_bytes()
                 self.assertEqual(
-                    expected_hash,
-                    hashlib.sha256((ROOT / relative).read_bytes()).hexdigest(),
+                    record["sha256"],
+                    hashlib.sha256(payload).hexdigest(),
                 )
         for name, record in manifest["outputs"].items():
             with self.subTest(output=name):

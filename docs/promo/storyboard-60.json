@@ -1,6 +1,7 @@
 {
   "license": "CC-BY-SA-4.0",
   "copyright": "2026 snowyukitty · https://ai-iconflow.com",
+  "hashContract": {"text": "utf8-lf", "binary": "raw-bytes"},
   "title": "IconFlow — The proof is the pixel",
   "targetDurationSeconds": 60,
   "language": "en",
@@ -153,7 +154,7 @@
       "narration": "",
       "speakerNotes": "A current receipt binds approval to the source.",
       "sourceData": "brand/master-review.json",
-      "sourceSha256": "463ddd4398dfc8567e532e0e63efa45b45fc3b9b6045d5af74b1f5fe8036949c",
+      "sourceSha256": "d719f5911de7ed8cfbda0e47ef731396f0e6496e9046701f45eaae5fe88f116b",
       "capture": {
         "mode": "same-session-real-terminal",
         "requiredEvent": "passing iconflow ship",
