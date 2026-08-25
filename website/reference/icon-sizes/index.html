@@ -273,7 +273,7 @@ iconflow ship --config iconflow.toml \
       <tr><th scope="row"><code>icons/32x32.png</code></th><td>32 × 32 px</td><td>PNG, written into src-tauri/icons/.</td></tr>
       <tr><th scope="row"><code>icons/64x64.png</code></th><td>64 × 64 px</td><td>PNG, written into src-tauri/icons/.</td></tr>
       <tr><th scope="row"><code>icons/128x128.png</code></th><td>128 × 128 px</td><td>PNG, written into src-tauri/icons/.</td></tr>
-      <tr><th scope="row"><code>icons/128x128@2x.png</code></th><td>256 × 256 px</td><td>Retina pair for the 128 pixel tile.</td></tr>
+      <tr><th scope="row"><code>icons/128x128&#64;2x.png</code></th><td>256 × 256 px</td><td>Retina pair for the 128 pixel tile.</td></tr>
       <tr><th scope="row"><code>icons/icon.png</code></th><td>512 × 512 px</td><td>The Tauri source image.</td></tr>
       <tr><th scope="row"><code>icons/icon.ico</code></th><td>32 · 16 · 24 · 48 · 64 · 256 px frames</td><td>Windows. Frame order matches the Tauri CLI&#x27;s own output.</td></tr>
       <tr><th scope="row"><code>icons/icon.icns</code></th><td>16 · 32 · 64 · 128 · 256 · 512 · 1024 px frames</td><td>macOS bundle icon.</td></tr>
@@ -307,9 +307,9 @@ iconflow ship --config iconflow.toml \
       <thead><tr><th scope="col">File</th><th scope="col">Size</th><th scope="col">Why it exists</th></tr></thead>
       <tbody>
       <tr><th scope="row"><code>tray/tray.png</code></th><td>32 × 32 px</td><td>Colour tray icon at 2× density.</td></tr>
-      <tr><th scope="row"><code>tray/tray@16.png</code></th><td>16 × 16 px</td><td>Colour tray icon at 1× density.</td></tr>
+      <tr><th scope="row"><code>tray/tray&#64;16.png</code></th><td>16 × 16 px</td><td>Colour tray icon at 1× density.</td></tr>
       <tr><th scope="row"><code>tray/trayTemplate.png</code></th><td>16 × 16 px</td><td>macOS template: pure black plus alpha. The system recolours it.</td></tr>
-      <tr><th scope="row"><code>tray/trayTemplate@2x.png</code></th><td>32 × 32 px</td><td>Retina template pair. Required, not optional.</td></tr>
+      <tr><th scope="row"><code>tray/trayTemplate&#64;2x.png</code></th><td>32 × 32 px</td><td>Retina template pair. Required, not optional.</td></tr>
       <tr><th scope="row"><code>tray/trayIcon.ts</code></th><td>TypeScript</td><td>Optional inline data-URL module (--tray-ts).</td></tr>
       </tbody>
      </table>
@@ -349,7 +349,7 @@ iconflow ship --config iconflow.toml \
      </details>
      <details class="ref-faq-item">
       <summary>What icon sizes does Tauri need?</summary>
-      <p>Five PNGs — 32, 64, 128, 256 (as 128x128@2x.png) and 512 — plus icon.ico for Windows and icon.icns for macOS. IconFlow writes the ICO frames in the same order the Tauri CLI does, so the output is a drop-in replacement.</p>
+      <p>Five PNGs — 32, 64, 128, 256 (as 128x128&#64;2x.png) and 512 — plus icon.ico for Windows and icon.icns for macOS. IconFlow writes the ICO frames in the same order the Tauri CLI does, so the output is a drop-in replacement.</p>
      </details>
      <details class="ref-faq-item">
       <summary>What icon sizes does Electron need?</summary>

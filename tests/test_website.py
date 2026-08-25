@@ -676,6 +676,23 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertEqual(reference.render(), published,
                          "run python scripts/build_reference.py")
 
+        # Three of the filenames here read as email addresses to a CDN.
+        # Cloudflare's Email Address Obfuscation rewrote icons/128x128@2x.png,
+        # tray/tray@16.png and tray/trayTemplate@2x.png at the edge into
+        # "[email protected]" links: the repository was right and the served
+        # page was wrong, so a developer copying a filename got one that does
+        # not exist. &#64; parses to the same character for a reader, a copy
+        # and a crawler, while matching no email pattern in the raw HTML.
+        body = re.sub(r'<script type="application/ld\+json">.*?</script>', "",
+                      published, flags=re.S)
+        self.assertNotIn("@", body,
+                         "a literal @ outside the JSON-LD block will be "
+                         "rewritten by an email obfuscator at the CDN")
+        for name in ("128x128&#64;2x.png", "tray&#64;16.png",
+                     "trayTemplate&#64;2x.png"):
+            with self.subTest(name=name):
+                self.assertIn(name, published)
+
         # Every target the CLI understands has a section a reader can link to.
         for target in reference.build.TARGETS:
             anchor = "web" if target == "pwa" else target

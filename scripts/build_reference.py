@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import inspect
 import json
+import re
 import sys
 from dataclasses import dataclass
 from html import escape
@@ -309,10 +310,29 @@ FAQ = [
 # Rendering
 
 
+def text(value: str) -> str:
+    """Escape for HTML, and hide the ``@`` from email obfuscators.
+
+    Three of the filenames on this page — ``128x128@2x.png``, ``tray@16.png``,
+    ``trayTemplate@2x.png`` — read as email addresses to a CDN. Cloudflare's
+    Email Address Obfuscation, on by default, rewrote all three at the edge
+    into ``[email protected]`` links and injected a decoder script. The
+    repository was correct and the served page was wrong, which is the exact
+    failure this page exists not to have: a developer copying a filename from
+    it got something that does not exist.
+
+    ``&#64;`` parses to the same character, so the DOM text, a copy-paste and
+    a crawler all see ``@`` — but the raw HTML no longer matches an email
+    pattern. Do not "tidy" these back into literal ``@``: :func:`render`
+    refuses to write a page that contains one outside the JSON-LD block.
+    """
+    return escape(value).replace("@", "&#64;")
+
+
 def table(caption: str, rows: list[Row]) -> str:
     body = "\n".join(
-        f"      <tr><th scope=\"row\"><code>{escape(row.path)}</code></th>"
-        f"<td>{escape(row.detail)}</td><td>{escape(row.note)}</td></tr>"
+        f"      <tr><th scope=\"row\"><code>{text(row.path)}</code></th>"
+        f"<td>{text(row.detail)}</td><td>{text(row.note)}</td></tr>"
         for row in rows
     )
     return (
@@ -329,15 +349,15 @@ def table(caption: str, rows: list[Row]) -> str:
     )
 
 
-def code_block(text: str) -> str:
-    return f'<pre class="ref-code"><code>{escape(text.rstrip())}</code></pre>'
+def code_block(source: str) -> str:
+    return f'<pre class="ref-code"><code>{text(source.rstrip())}</code></pre>'
 
 
 def faq_markup() -> str:
     items = "\n".join(
         f"     <details class=\"ref-faq-item\">\n"
-        f"      <summary>{escape(question)}</summary>\n"
-        f"      <p>{escape(answer)}</p>\n"
+        f"      <summary>{text(question)}</summary>\n"
+        f"      <p>{text(answer)}</p>\n"
         f"     </details>"
         for question, answer in FAQ
     )
@@ -402,6 +422,26 @@ DEMO_COMMAND = (
 )
 
 
+def _refuse_bare_at(page: str) -> str:
+    """Fail rather than publish a filename a CDN will rewrite.
+
+    See :func:`text`. The JSON-LD block is exempt — its ``@context``/``@type``
+    keys must stay literal to parse as JSON, and no obfuscator mistakes those
+    for an address because there is no dot-domain after them.
+    """
+    body = re.sub(r'<script type="application/ld\+json">.*?</script>', "",
+                  page, flags=re.S)
+    stray = re.findall(r"\S*@\S*", body)
+    if stray:
+        raise SystemExit(
+            "refusing to write the page: a literal '@' survives outside the "
+            f"JSON-LD block ({', '.join(sorted(set(stray))[:4])}). An email "
+            "obfuscator at the CDN will rewrite it into a mailto link and the "
+            "published filename will be wrong. Route the text through text()."
+        )
+    return page
+
+
 def render() -> str:
     head_snippet = htmlhead.head_snippet("My App", "#0b0d12", "#ffffff")
     manifest = json.dumps(
@@ -409,7 +449,7 @@ def render() -> str:
     )
     targets = ", ".join(build.TARGETS)
 
-    return f"""<!doctype html>
+    return _refuse_bare_at(f"""<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -545,7 +585,7 @@ def render() -> str:
   </footer>
 </body>
 </html>
-"""
+""")
 
 
 def main() -> int:

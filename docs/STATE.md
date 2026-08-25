@@ -7,9 +7,9 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-08-24 23:54 UTC.
+Observed 2026-08-25 03:57 UTC.
 
-`7 pass · 5 fail · 2 open gates · 0 unknown`
+`11 pass · 1 fail · 2 open gates · 0 unknown`
 
 An **open gate** is a decision waiting on a person, not a defect, and
 never fails this report. **Unknown** means a probe could not run: it is
@@ -28,10 +28,10 @@ is worse than no tick at all.
 
 | | Check | Detail |
 |---|---|---|
-| `FAIL` | Live site serves current /robots.txt | deployed copy differs (repo e4c58ea56bb6, live db8854efa0f8) — redeploy |
-| `FAIL` | Live site serves current /llms.txt | deployed copy differs (repo 55d977fd6778, live 2a0c4a3772f0) — redeploy |
-| `FAIL` | Live site serves current /sitemap.xml | deployed copy differs (repo a076c7a22180, live 53f289517803) — redeploy |
-| `FAIL` | Live site serves current /reference/icon-sizes/ | HTTP 404 — the sitemap advertises this route |
+| `PASS` | Live site serves current /robots.txt | byte-identical to the checkout |
+| `PASS` | Live site serves current /llms.txt | byte-identical to the checkout |
+| `PASS` | Live site serves current /sitemap.xml | byte-identical to the checkout |
+| `FAIL` | Live site serves current /reference/icon-sizes/ | deployed copy differs (repo e0b8f3c5e5e2, live a2f2246ce2fb) — redeploy |
 
 ## Distribution
 
@@ -48,7 +48,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `OPEN` | Repository social preview is uploaded | still GitHub's generated card — Settings → General → Social preview, upload docs/assets/social-preview.png |
 | `OPEN` | Discussions decision | not enabled — gh repo edit snowyukitty/ai-iconflow --enable-discussions |
-| `FAIL` | CI is green on main | latest main run: failure (28a082c) |
+| `PASS` | CI is green on main | latest main run: success (ba3af80) |
 
 ## Waiting on a person
 

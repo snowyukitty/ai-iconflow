@@ -22,8 +22,15 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $canonical = 'https://ai-iconflow.com'
 
+# Both paths are resolved from this script's own location, never from the
+# caller's working directory. Run from inside website/ and the old relative
+# form asked Wrangler for website/website, which fails with a bare "file or
+# directory could not be found" and no hint that the cwd was the problem.
+$contentDir = Join-Path $repoRoot 'website'
+$redirectDir = Join-Path $repoRoot 'website-redirect'
+
 Write-Host '==> Deploying site content to project "iconflow"' -ForegroundColor Cyan
-$contentLog = npx wrangler pages deploy . --cwd website --project-name iconflow --branch main --commit-dirty=true 2>&1
+$contentLog = npx wrangler pages deploy . --cwd $contentDir --project-name iconflow --branch main --commit-dirty=true 2>&1
 $contentLog | Write-Host
 # Collapse to one string first: -notmatch against an array returns the
 # non-matching elements, not a boolean, so the guard would always fire.
@@ -32,7 +39,7 @@ if (($contentLog | Out-String) -notmatch 'Uploading Functions bundle') {
 }
 
 Write-Host '==> Deploying redirect shell to project "ai-iconflow"' -ForegroundColor Cyan
-npx wrangler pages deploy website-redirect --project-name ai-iconflow --branch main --commit-dirty=true 2>&1 | Write-Host
+npx wrangler pages deploy $redirectDir --project-name ai-iconflow --branch main --commit-dirty=true 2>&1 | Write-Host
 
 if ($SkipVerify) { return }
 

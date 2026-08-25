@@ -84,6 +84,21 @@ first published release remains under `Unreleased`.
   because a checkbox is a condition asserted as of whenever someone last
   looked, and nothing re-checks it.
 
+- **The reference page stopped being rewritten at the CDN.** Three of the
+  filenames it publishes — `icons/128x128@2x.png`, `tray/tray@16.png`,
+  `tray/trayTemplate@2x.png` — read as email addresses to Cloudflare's Email
+  Address Obfuscation, which is on by default. It replaced all three at the
+  edge with `[email protected]` links and injected a decoder script. The
+  repository was correct and the served page was wrong, so a developer copying
+  a filename off the one page built never to lie got a file that does not
+  exist. Nothing in the repository could see it; the self-audit found it on its
+  first run against a fresh deploy.
+
+  `&#64;` parses to the same character for a reader, a copy-paste and a
+  crawler, while matching no email pattern in the raw HTML. The generator now
+  emits it, and refuses to write a page carrying a literal `@` outside the
+  JSON-LD block — where `@context` and `@type` must stay literal to parse.
+
 - **A lint gate pinned to the oldest supported Python.** A backslash inside an
   f-string expression is legal from 3.12 and a `SyntaxError` on 3.10. One
   reached `main` in this very changelog's previous entry: green on a 3.12
