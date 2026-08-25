@@ -47,6 +47,16 @@ app intent → distinct concepts → SVG master → 16px proof → target family
 [checked-in transcript](docs/assets/demo-transcript.txt) and deterministic
 renderer make the demonstration reproducible.</sup>
 
+### The Coral Gate film
+
+<img src="docs/assets/promo/coral-gate-flow-keyframe.jpg" width="1000" alt="A coral square beginning a measured journey along a graphite path on warm paper stock — the abstract opening image for the IconFlow launch film">
+
+The 15-second source → proof → ship cut now passes the complete automated
+Snowy HyperFrames gate and is waiting for its required human cinema preview.
+The tactile frame above is campaign art direction; every product-proof scene
+still uses exact IconFlow outputs, never generated UI. See the
+[production contract and checkpoint](docs/PROMO_VIDEO.md).
+
 The site reads in five languages — English, [Español](https://ai-iconflow.com/es/), [日本語](https://ai-iconflow.com/ja/), [繁體中文](https://ai-iconflow.com/zh-hant/), [简体中文](https://ai-iconflow.com/zh-hans/). The toolkit and its documentation stay English.
 
 IconFlow is a local design-and-release workflow for agents, designers, and

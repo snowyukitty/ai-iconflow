@@ -27,6 +27,7 @@ unchanged source look stale.
 
 To produce a film, create a private project with `hf new`, copy one storyboard
 to `data/storyboard.json`, copy and verify its media bindings, then follow
-[`PROMO_VIDEO.md`](../PROMO_VIDEO.md). The handoff is still `draft`: do not run
-`render` until `npm run check`, `npm run review`, and a real human preview all
-pass.
+[`PROMO_VIDEO.md`](../PROMO_VIDEO.md). The handoff files remain `draft`. A
+private 15-second production instance has reached `ready-to-preview` with clean
+automated checks, but `render` remains blocked until its real human preview
+passes.

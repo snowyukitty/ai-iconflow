@@ -5,8 +5,9 @@
      with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # IconFlow promotional film
 
-Status: production design and machine-readable storyboards ready; render not
-started; human preview gate pending.
+Status: the 15-second production checkpoint passes automated HyperFrames QA;
+human cinema preview and final render are still pending. The 30- and 60-second
+cuts remain machine-readable handoffs.
 
 The production handoff lives in [`docs/promo/`](promo/): independent 60-, 30-,
 and 15-second storyboards that follow Snowy HyperFrames' actual schema and
@@ -50,6 +51,39 @@ quality contract. A generative video model can be considered later for an
 obviously abstract title sting or localized experiment, but not for hero-film
 evidence.
 
+## 15-second production checkpoint — 2026-08-26
+
+The first working cut now exists as a private Snowy HyperFrames production
+project. It uses the deterministic Coral Gate source frame, the real Review
+Lab proof sheet, and the checked-in social-preview art. It is silent, keeps all
+meaning inside the central 9:16-safe band, and contains no invented product UI
+or evidence.
+
+The current checkpoint has:
+
+- three source / proof / ship scenes across exactly 15 seconds;
+- `0` HyperFrames audit errors and `0` warnings;
+- `0` lint, runtime, layout, and motion findings;
+- `21/21` text samples passing WCAG AA contrast; and
+- a self-contained three-frame review artifact for the required human cinema
+  preview.
+
+This is deliberately **ready to preview**, not rendered or published. The
+human gate still owns pacing, readability, sound, pixel fidelity, and final
+permission to render.
+
+Google Flow was used only for a contained abstract-motion study. One tactile
+keyframe was selected and staged under [`assets/promo/`](assets/promo/); the
+first Veo motion attempts were rejected when the coral square rotated, scaled,
+or altered the graphite path. Generated motion is not accepted as proof and
+cannot replace any real IconFlow output in the film.
+
+A matching Grok Imagine Video 1.5 shot is staged in CineChorus with a clean
+prompt lint and dry-run request. It intentionally remains unsubmitted: a paid
+provider call is a separate owner decision, not a hidden side effect of film
+preparation. CineChorus currently exposes Grok Imagine **video** for this lane;
+it does not provide a separate Grok image-generation command.
+
 ## Production contract
 
 - Master: 3840×2160, 24 fps, Rec. 709, 60.0 seconds.
@@ -89,6 +123,8 @@ evidence.
 | Tray output | `brand/build/tray/tray.png`, `trayTemplate.png` |
 | Case range | `docs/assets/marketing/many-worlds-1200x630.png` |
 | Still-frame visual system | `docs/assets/marketing/*.png` |
+| Abstract sting source | `docs/assets/promo/coral-gate-first-frame.svg`, `.png` |
+| Selected Flow keyframe | `docs/assets/promo/coral-gate-flow-keyframe.jpg` |
 
 Before production, copy each use to a slide-specific filename as required by
 the HyperFrames media contract, then verify its SHA-256 against the table's

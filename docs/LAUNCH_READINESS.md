@@ -55,6 +55,7 @@ condition.
 | 2026-08-24 | `/reference/icon-sizes/` generated from `iconflow/build.py`; structured data, `robots.txt` terms, and the README animation landed. |
 | 2026-08-25 | Self-audit (`scripts/state.py`) and a Python-floor lint gate added, after a 3.12-only f-string reached `main` and only the Windows 3.10 matrix leg caught it. |
 | 2026-08-26 | Five source-bound campaign stills, route-specific social cards, and schema-compatible 60/30/15-second HyperFrames handoffs landed with local visual, i18n, manifest, and test gates. No video render or site deployment was part of that checkpoint. |
+| 2026-08-26 | A private 15-second HyperFrames production instance reached `ready-to-preview`: 0 audit warnings, 0 strict browser findings, 21/21 WCAG AA text checks, and a self-contained human-review artifact. One Google Flow keyframe was retained; three motion candidates were rejected. No final render or paid Grok generation was submitted. |
 
 ### What the sequence taught
 
