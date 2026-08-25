@@ -99,6 +99,12 @@ first published release remains under `Unreleased`.
   emits it, and refuses to write a page carrying a literal `@` outside the
   JSON-LD block — where `@context` and `@type` must stay literal to parse.
 
+- **`docs/STATE.md` is excluded from the wheel.** It is a report about *this
+  repository* at the moment it was generated — open gates, whether the deployed
+  site is current, whether CI is green. Frozen into a package it becomes a
+  stale answer to a question the reader never asked, listed by `iconflow docs`
+  beside the methodology, which is the exact drift the report exists to end.
+
 - **A lint gate pinned to the oldest supported Python.** A backslash inside an
   f-string expression is legal from 3.12 and a `SyntaxError` on 3.10. One
   reached `main` in this very changelog's previous entry: green on a 3.12
