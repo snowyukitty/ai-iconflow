@@ -138,11 +138,22 @@ every control keyboard reachable.
 
 ## Routes and discoverability
 
-Core routes:
+Current indexable routes:
 
 - `/`
 - `/getting-started/`
+- `/how-icons-are-made/`
 - `/gallery/`
+- `/archive/`
+
+The homepage, Getting Started, methodology, and archive routes have localized
+copies in Spanish, Japanese, Traditional Chinese, and Simplified Chinese. Each
+localized page has its own canonical URL, matching `og:url`, complete
+`hreflang` alternates, localized title/description/image alt, and a sitemap
+entry. Gallery remains an English evidence surface.
+
+Keyword routes remain expansion candidates, not claims of current coverage:
+
 - `/styles`
 - `/proof`
 - `/cases`
@@ -174,35 +185,34 @@ Ready now:
 - `docs/assets/review-proof.png`;
 - `docs/assets/style-gallery.png`;
 - `docs/assets/social-preview.svg` and `.png`;
+- `docs/assets/marketing/`: three route-specific 1200×630 SEO cards plus
+  approved 1080×1080 and 1080×1920 social crops, all rendered from exact
+  project assets by `scripts/render_marketing_assets.py`;
 - approved brand master, tray source, receipt, and checked-in build;
 - casebook records and reproducible statistics.
 
-Required before site launch:
+Deferred evidence extensions, not launch blockers:
 
 - nine flagship case bundles from `SHOWCASE_PLAN.md`;
 - same-object/six-techniques and same-technique/six-worlds comparison strips;
 - two or three genuine first-pass→repair specimens;
 - an app-card→linked-tray case;
 - a dated stats snapshot generated during the site build;
-- 1200×630, 1280×640, 1080×1080, and 1080×1920 share frames;
+- per-route social metadata beyond the homepage and the current three core
+  evidence cards;
 - per-case open-graph cards with icon, 16px proof, device, and score delta.
 
 The Gallery edition is governed by [`GALLERY.md`](GALLERY.md): 100 admitted
 cases selected from 111 generated candidates, each with source, native proof,
 silhouette, current receipt, and case record.
 
-## Sixty-second launch video
+## Promotional film
 
-| Time | Shot |
-|---:|---|
-| 0–5s | `Looks polished at 1024. Dies at 16.` with a real first-pass failure |
-| 5–13s | brief opens into four concept lenses |
-| 13–21s | three finalists enter the bake-off; color disappears; silhouette wins |
-| 21–33s | 16px pixel zoom, maskable crop, Electron corner, tray template |
-| 33–41s | six axes pass; a source change makes the receipt stale and blocks ship |
-| 41–51s | one semantic SVG fans out to exact platform assets |
-| 51–58s | controlled montage of twenty techniques across many worlds |
-| 58–60s | `One master. Every surface. Proven at 16px.` |
+The production design, exact asset bind, sound plan, and release-cut contract
+live in [`PROMO_VIDEO.md`](PROMO_VIDEO.md). The loadable 60-, 30-, and
+15-second storyboard handoffs live under [`docs/promo/`](promo/); those JSON
+files, rather than an older prose table, are the timing and block-graph source
+of truth.
 
 Video tools may create environments and transitions. Approved icon pixels,
 Review Lab UI, receipts, and output files must be composited from exact project

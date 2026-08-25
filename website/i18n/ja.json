@@ -1,6 +1,9 @@
 {
  "language": "ja",
  "strings": {
+  "iconflow-decision-workflow-one-semantic-svg.4e9cd98c": "IconFlow の意思決定ワークフロー：1つのセマンティック SVG が正確な 16px 検証を経て、favicon、PWA、デスクトップ、トレイ用の出力になります。",
+  "iconflow-native-size-proof-an-editable-svg-b.1251fac3": "IconFlow のネイティブサイズ検証：編集可能な SVG が正確な 16px ピクセルとソースに紐づくレビュー証跡になります。",
+  "six-reviewed-iconflow-cases-with-exact-nativ.60f8fe4a": "正確なネイティブ 16px 検証付きの IconFlow レビュー済み6事例と、Gallery、技法カタログ、Living Archive の件数。",
   "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": "IconFlow — ローカルアイコンツールキット：1 つの SVG から favicon、アプリ、トレイ用アセットへ。16px で検証済み",
   "a-proof-driven-agent-native-icon-production.fa9e55c9": "プルーフ主導、エージェントネイティブのアイコン制作システム。1 つのセマンティック SVG から、レビュー済みの favicon、PWA、デスクトップ、トレイ用アセットを生成。16px で検証済み。",
   "iconflow-one-master-every-surface-proven-at.3b317f65": "IconFlow — 1 つのマスター。あらゆるサーフェス。16px で検証済み。",

@@ -344,6 +344,8 @@ docs/
   DESIGN_PLAYBOOK.md        geometry, color, 16px discipline, critique loop
   STYLE_CATALOG.md          20 technique families, selection, provenance
   LAUNCH_SITE.md            promotional-site narrative and acceptance contract
+  PROMO_VIDEO.md            evidence-led film production contract
+  promo/                    source-bound HyperFrames 60/30/15 storyboards
   SHOWCASE_PLAN.md          cross-theme icon production queue
   CONCEPTING.md             divergence, cliché filter, signature devices, bake-off
   REVIEW_CHECKLIST.md       six-axis shipping rubric

@@ -1,6 +1,9 @@
 {
  "language": "zh-Hans",
  "strings": {
+  "iconflow-decision-workflow-one-semantic-svg.4e9cd98c": "IconFlow 决策工作流：一份语义 SVG 经过精确的 16px 验证，产出 favicon、PWA、桌面和系统托盘图标。",
+  "iconflow-native-size-proof-an-editable-svg-b.1251fac3": "IconFlow 原生尺寸验证：可编辑 SVG 转为精确的 16px 像素，以及与源文件绑定的审核凭证。",
+  "six-reviewed-iconflow-cases-with-exact-nativ.60f8fe4a": "六个带有精确原生 16px 验证的 IconFlow 审核案例，并列出图库、技法目录与 Living Archive 的数量。",
   "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": "IconFlow — 本地图标工具集：从单个 SVG 到 favicon、应用及系统托盘资产，经 16px 验证",
   "a-proof-driven-agent-native-icon-production.fa9e55c9": "校样驱动、智能体原生的图标生产系统。将单个语义化 SVG 转化为经审查的 favicon、PWA、桌面及系统托盘资产——经 16px 验证。",
   "iconflow-one-master-every-surface-proven-at.3b317f65": "IconFlow — 一份主文件。覆盖每个版面。经 16px 验证。",

@@ -4,6 +4,29 @@ All notable changes to IconFlow are documented here. The project uses Semantic
 Versioning for published releases; repository-only development before the
 first published release remains under `Unreleased`.
 
+## Unreleased
+
+### Added
+
+- Five evidence-led campaign stills for route SEO and social sharing: three
+  1200×630 cards plus 1080×1080 and 1080×1920 cuts. A network-isolated
+  Playwright renderer builds them from exact project assets, writes a visual
+  review board and source-bound SHA-256 manifest, and keeps the documentation
+  and website copies byte-identical.
+- Route-specific Open Graph and Twitter images for Getting Started, the
+  methodology, Gallery, and Archive, including localized image alt across all
+  five site languages.
+- Source-bound Snowy HyperFrames storyboards for 60-, 30-, and 15-second
+  promotional-film cuts, with real block and motion vocabularies, slide-specific
+  media targets, timing truth, central vertical-safe guides, and a mandatory
+  human preview gate.
+
+### Changed
+
+- Replaced the contradictory pre-launch readiness log with a concise current
+  state report, explicit live-state verification commands, and a separate list
+  of owner-only follow-ups.
+
 ## 0.5.0 - 2026-08-22
 
 First public release. IconFlow had been developed in a private repository since

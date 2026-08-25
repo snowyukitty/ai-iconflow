@@ -94,6 +94,21 @@ tracked PNG is regenerated (proof icons, evidence sheets, the social preview),
 bump the `?v=` query on its references in the HTML/JS rather than relying on a
 cache purge.
 
+The route-specific SEO cards and social crops are generated from exact,
+reviewed project assets:
+
+```powershell
+.venv\Scripts\python.exe scripts\render_marketing_assets.py
+```
+
+The renderer writes matching copies to `docs/assets/marketing/` and
+`website/assets/marketing/`, validates their pixel dimensions, writes a
+source-bound `docs/assets/marketing/manifest.json`, and emits a gitignored
+review board at `work/marketing/marketing-board.html`. Tests verify every
+manifest input and both output copies. Inspect all five rendered PNGs before
+changing a route's `og:image`; never replace native 16px pixels, receipts, or
+platform outputs with model-generated lookalikes.
+
 ## Preview
 
 Serve `website/` with any static server. Do not open `index.html` directly if

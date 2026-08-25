@@ -1,6 +1,9 @@
 {
  "language": "zh-Hant",
  "strings": {
+  "iconflow-decision-workflow-one-semantic-svg.4e9cd98c": "IconFlow 決策工作流：一份語意 SVG 經過精確的 16px 驗證，產出 favicon、PWA、桌面與系統匣圖示。",
+  "iconflow-native-size-proof-an-editable-svg-b.1251fac3": "IconFlow 原生尺寸驗證：可編輯的 SVG 轉為精確的 16px 像素，以及與原始檔綁定的審核憑證。",
+  "six-reviewed-iconflow-cases-with-exact-nativ.60f8fe4a": "六個附有精確原生 16px 驗證的 IconFlow 審核案例，並列出圖庫、技法目錄與 Living Archive 的數量。",
   "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": "IconFlow — 本機圖示工具組：一張 SVG 到 favicon、應用與系統匣素材，於 16px 驗證",
   "a-proof-driven-agent-native-icon-production.fa9e55c9": "以校樣驅動、為代理程式而生的圖示製作系統。將一張語意化 SVG 轉成經審查的 favicon、PWA、桌面與系統匣素材——於 16px 驗證。",
   "iconflow-one-master-every-surface-proven-at.3b317f65": "IconFlow — 一份主檔。每種版面。於 16px 驗證。",

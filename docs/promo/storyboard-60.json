@@ -1,0 +1,229 @@
+{
+  "license": "CC-BY-SA-4.0",
+  "copyright": "2026 snowyukitty · https://ai-iconflow.com",
+  "title": "IconFlow — The proof is the pixel",
+  "targetDurationSeconds": 60,
+  "language": "en",
+  "voice": {
+    "tool": "none",
+    "voice": "",
+    "rate": "+0%",
+    "pitch": "+0Hz",
+    "volume": "+0%"
+  },
+  "production": {
+    "status": "draft",
+    "width": 3840,
+    "height": 2160,
+    "fps": 24,
+    "colorSpace": "Rec. 709",
+    "safeRegion": {
+      "x": 1312,
+      "y": 0,
+      "width": 1216,
+      "height": 2160,
+      "note": "Even-pixel working width around the exact 1215px 9:16 center."
+    },
+    "humanPreview": "pending"
+  },
+  "mediaBindings": [
+    {
+      "slide": "slide-01",
+      "source": "brand/master.svg",
+      "target": "assets/images/slide-01-master.svg",
+      "sha256": "456dcf2ad08b4aa1c518ba6962a785d194f6388d0c066abb4bd11ba19417e46f"
+    },
+    {
+      "slide": "slide-02",
+      "source": "website/assets/proof/icon-16.png",
+      "target": "assets/images/slide-02-native-16.png",
+      "sha256": "9d69f707633fb25485efa71d185d99251a72115b56084d62304ad10b2ff0c564"
+    },
+    {
+      "slide": "slide-03",
+      "source": "brand/master.svg",
+      "target": "assets/images/slide-03-master.svg",
+      "sha256": "456dcf2ad08b4aa1c518ba6962a785d194f6388d0c066abb4bd11ba19417e46f"
+    },
+    {
+      "slide": "slide-04",
+      "source": "docs/assets/concept-bake.png",
+      "target": "assets/images/slide-04-concept-bake.png",
+      "sha256": "0814e3c9f5e14d9a5d2d0ed34c7f7f9fba87a0b68008a1edcb4aa8ee185a6f0d"
+    },
+    {
+      "slide": "slide-05",
+      "source": "docs/assets/review-proof.png",
+      "target": "assets/images/slide-05-review-proof.png",
+      "sha256": "477bca9b00609f63f6b1bd54bfc33bfa6569454a0cee162d5e3b40ba084d3016"
+    },
+    {
+      "slide": "slide-08",
+      "source": "docs/assets/marketing/workflow-1200x630.png",
+      "target": "assets/images/slide-08-outputs.png",
+      "sha256": "b4ad4fbf789344551d1c4bede0cb60968dffbdb084c3a62907909ed83bd9aa7a"
+    },
+    {
+      "slide": "slide-09",
+      "source": "docs/assets/marketing/many-worlds-1200x630.png",
+      "target": "assets/images/slide-09-many-worlds.png",
+      "sha256": "16f993b34b48a47068656d9c7547e990619143548859a9e458eb0ff9317da691"
+    },
+    {
+      "slide": "slide-10",
+      "source": "docs/assets/marketing/proof-at-16-1200x630.png",
+      "target": "assets/images/slide-10-proof-at-16.png",
+      "sha256": "c7ca49f1434d210eff3af9c27569cdcd8656596e14ae2554435d48787a071da0"
+    }
+  ],
+  "slides": [
+    {
+      "id": "slide-01",
+      "title": "Looks done",
+      "chapter": "false-finish",
+      "durationTarget": 4,
+      "image": "assets/images/slide-01-master.svg",
+      "subtitle": "A polished large icon is only the start.",
+      "narration": "",
+      "speakerNotes": "No narration.",
+      "blocks": [{"type": "lead", "text": "LOOKS DONE"}],
+      "motion": "hold"
+    },
+    {
+      "id": "slide-02",
+      "title": "Prove it at 16",
+      "chapter": "native-proof",
+      "durationTarget": 4,
+      "image": "assets/images/slide-02-native-16.png",
+      "subtitle": "Exact native pixels. No smoothing. No redraw.",
+      "narration": "",
+      "speakerNotes": "Polished at 1024 can still fail at 16.",
+      "blocks": [{"type": "lead", "text": "PROVE IT AT 16"}],
+      "motion": "focus"
+    },
+    {
+      "id": "slide-03",
+      "title": "One master",
+      "chapter": "position",
+      "durationTarget": 6,
+      "image": "assets/images/slide-03-master.svg",
+      "subtitle": "One editable source survives every target transform.",
+      "narration": "",
+      "speakerNotes": "Generators make options. Converters make files. IconFlow makes the decision visible.",
+      "blocks": [{"type": "lead", "text": "One master. Every surface. Proven at 16px."}],
+      "motion": "rise"
+    },
+    {
+      "id": "slide-04",
+      "title": "Compare silhouettes",
+      "chapter": "concept",
+      "durationTarget": 6,
+      "image": "assets/images/slide-04-concept-bake.png",
+      "subtitle": "Color falls away. The silhouette still has to win.",
+      "narration": "",
+      "speakerNotes": "Color falls away. The silhouette has to win.",
+      "blocks": [{"type": "lead", "text": "DISTINCTIVE BEFORE DECORATIVE"}],
+      "motion": "focus"
+    },
+    {
+      "id": "slide-05",
+      "title": "Inspect the pixels",
+      "chapter": "review",
+      "durationTarget": 7,
+      "image": "assets/images/slide-05-review-proof.png",
+      "subtitle": "Native size, adaptive crops, silhouette, and target transforms.",
+      "narration": "",
+      "speakerNotes": "The proof is the pixel, the crop, and the exact target transform.",
+      "blocks": [
+        {"type": "lead", "text": "THE REVIEW IS VISIBLE"},
+        {"type": "metrics", "items": [
+          {"label": "native proof", "value": "16px", "note": "exact output pixels"},
+          {"label": "review gate", "value": "6 axes", "note": "every score at least 4/5"}
+        ]}
+      ],
+      "motion": "hold"
+    },
+    {
+      "id": "slide-06",
+      "title": "Bind the decision",
+      "chapter": "receipt",
+      "durationTarget": 6,
+      "image": "",
+      "subtitle": "Approval belongs to this source, these targets, and these scores.",
+      "narration": "",
+      "speakerNotes": "A current receipt binds approval to the source.",
+      "sourceData": "brand/master-review.json",
+      "sourceSha256": "463ddd4398dfc8567e532e0e63efa45b45fc3b9b6045d5af74b1f5fe8036949c",
+      "blocks": [
+        {"type": "lead", "text": "SOURCE-BOUND REVIEW"},
+        {"type": "list", "items": ["source hash", "contract hash", "selected targets", "six review scores"]}
+      ],
+      "motion": "reveal"
+    },
+    {
+      "id": "slide-07",
+      "title": "Stale means stop",
+      "chapter": "gate",
+      "durationTarget": 6,
+      "image": "",
+      "subtitle": "Change the source and the old approval can no longer ship.",
+      "narration": "",
+      "speakerNotes": "Change the source, and shipping stops until review catches up.",
+      "blocks": [
+        {"type": "lead", "text": "A REVIEW THAT CAN GO STALE"},
+        {"type": "cards", "items": [
+          {"title": "SOURCE CHANGE", "text": "The editable master moves."},
+          {"title": "RECEIPT STALE", "text": "The recorded digest no longer matches."},
+          {"title": "SHIP BLOCKED", "text": "Review must catch up first."}
+        ]}
+      ],
+      "motion": "hold"
+    },
+    {
+      "id": "slide-08",
+      "title": "Every target",
+      "chapter": "outputs",
+      "durationTarget": 8,
+      "image": "assets/images/slide-08-outputs.png",
+      "subtitle": "The reviewed master becomes exact platform files.",
+      "narration": "",
+      "speakerNotes": "Then one master becomes favicon, PWA, desktop, and tray assets.",
+      "blocks": [
+        {"type": "lead", "text": "ONE MASTER. FOUR SURFACES."},
+        {"type": "list", "items": ["favicon", "PWA", "desktop", "tray"]}
+      ],
+      "motion": "rise"
+    },
+    {
+      "id": "slide-09",
+      "title": "Many worlds",
+      "chapter": "evidence",
+      "durationTarget": 7,
+      "image": "assets/images/slide-09-many-worlds.png",
+      "subtitle": "The method learns from shipped evidence, not one house style.",
+      "narration": "",
+      "speakerNotes": "A hundred cases, twenty visual languages, and the archive keep the method honest.",
+      "blocks": [
+        {"type": "lead", "text": "ONE SMALL-SIZE CONTRACT. MANY WORLDS."},
+        {"type": "metrics", "items": [
+          {"label": "reviewed cases", "value": "100", "note": "source-linked evidence"},
+          {"label": "technique scaffolds", "value": "20", "note": "CC0 starting languages"},
+          {"label": "archive marks", "value": "137", "note": "visible exploration history"}
+        ]}
+      ],
+      "motion": "hold"
+    },
+    {
+      "id": "slide-10",
+      "title": "Install IconFlow",
+      "chapter": "cta",
+      "durationTarget": 6,
+      "image": "assets/images/slide-10-proof-at-16.png",
+      "subtitle": "One master. Every surface. Proven at 16px.",
+      "narration": "",
+      "speakerNotes": "No narration. Leave the command readable.",
+      "blocks": [{"type": "lead", "text": "pip install iconflow"}],
+      "motion": "reveal"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "language": "en",
   "generated_by": "scripts/build_i18n.py",
   "note": "English source strings. Keys are slug.hash(text); a copy edit makes a new key, which makes every translation fail closed.",
-  "count": 708,
+  "count": 711,
   "strings": {
     "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": {
       "text": "IconFlow — Local icon toolkit: one SVG to favicon, app, and tray assets, proven at 16px",
@@ -2364,6 +2364,14 @@
         "getting-started/index.html"
       ]
     },
+    "iconflow-decision-workflow-one-semantic-svg.4e9cd98c": {
+      "text": "IconFlow decision workflow: one semantic SVG moves through exact 16px proof into favicon, PWA, desktop, and tray outputs.",
+      "kind": "meta:og:image:alt",
+      "where": "html head",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
     "getting-started-with-iconflow.1c38cbad": {
       "text": "Getting Started with IconFlow",
       "kind": "ld:headline",
@@ -3461,6 +3469,14 @@
     "from-user-job-brief-to-editable-svg-native-s.7e1c7057": {
       "text": "From user-job brief to editable SVG, native-size proof, scored review, and a receipt that binds approval to the exact source. Plus what it costs, honestly.",
       "kind": "meta:og:description",
+      "where": "html head",
+      "pages": [
+        "how-icons-are-made/index.html"
+      ]
+    },
+    "iconflow-native-size-proof-an-editable-svg-b.1251fac3": {
+      "text": "IconFlow native-size proof: an editable SVG becomes exact 16px pixels and a source-bound review receipt.",
+      "kind": "meta:og:image:alt",
       "where": "html head",
       "pages": [
         "how-icons-are-made/index.html"
@@ -5382,6 +5398,14 @@
     "137-original-identity-directions-19-gated-on.25421a77": {
       "text": "137 original identity directions, 19 gated, one temporary mark — all drawn, rendered, and compared with the IconFlow method.",
       "kind": "meta:og:description",
+      "where": "html head",
+      "pages": [
+        "archive/index.html"
+      ]
+    },
+    "six-reviewed-iconflow-cases-with-exact-nativ.60f8fe4a": {
+      "text": "Six reviewed IconFlow cases with exact native 16px proofs beside counts for the gallery, technique catalog, and Living Archive.",
+      "kind": "meta:og:image:alt",
       "where": "html head",
       "pages": [
         "archive/index.html"

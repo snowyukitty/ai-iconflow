@@ -155,9 +155,93 @@ class WebsiteContractTests(unittest.TestCase):
             "gallery/emoji-matrix/all/matrix-overview.js",
             "assets/gallery/emoji-matrix/catalog.json",
             "assets/gallery/emoji-matrix/overview-2560.webp",
+            "assets/marketing/proof-at-16-1200x630.png",
+            "assets/marketing/workflow-1200x630.png",
+            "assets/marketing/many-worlds-1200x630.png",
+            "assets/marketing/proof-at-16-1080x1080.png",
+            "assets/marketing/proof-at-16-1080x1920.png",
         ):
             with self.subTest(name=name):
                 self.assertTrue((SITE / name).is_file())
+
+    def test_marketing_images_are_exact_size_and_match_documentation_copies(self) -> None:
+        expected = {
+            "proof-at-16-1200x630.png": (1200, 630),
+            "workflow-1200x630.png": (1200, 630),
+            "many-worlds-1200x630.png": (1200, 630),
+            "proof-at-16-1080x1080.png": (1080, 1080),
+            "proof-at-16-1080x1920.png": (1080, 1920),
+        }
+        for name, size in expected.items():
+            with self.subTest(name=name):
+                site_asset = SITE / "assets" / "marketing" / name
+                docs_asset = ROOT / "docs" / "assets" / "marketing" / name
+                self.assertEqual(size, png_size(site_asset))
+                self.assertEqual(
+                    hashlib.sha256(docs_asset.read_bytes()).digest(),
+                    hashlib.sha256(site_asset.read_bytes()).digest(),
+                )
+
+    def test_marketing_manifest_binds_inputs_and_outputs(self) -> None:
+        manifest_path = ROOT / "docs" / "assets" / "marketing" / "manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertEqual(1, manifest["schema"])
+        self.assertEqual(
+            "scripts/render_marketing_assets.py",
+            manifest["generator"],
+        )
+        self.assertEqual("blocked", manifest["render_contract"]["network"])
+        self.assertFalse(manifest["render_contract"]["javascript"])
+        for relative, expected_hash in manifest["inputs"].items():
+            with self.subTest(input=relative):
+                self.assertEqual(
+                    expected_hash,
+                    hashlib.sha256((ROOT / relative).read_bytes()).hexdigest(),
+                )
+        for name, record in manifest["outputs"].items():
+            with self.subTest(output=name):
+                docs_asset = manifest_path.parent / name
+                site_asset = SITE / "assets" / "marketing" / name
+                self.assertEqual(
+                    (record["width"], record["height"]),
+                    png_size(docs_asset),
+                )
+                self.assertEqual(record["sha256"], hashlib.sha256(docs_asset.read_bytes()).hexdigest())
+                self.assertEqual(record["sha256"], hashlib.sha256(site_asset.read_bytes()).hexdigest())
+
+    def test_core_routes_use_specific_social_images(self) -> None:
+        expected = {
+            "getting-started/index.html": (
+                "/getting-started/",
+                "workflow-1200x630.png",
+            ),
+            "how-icons-are-made/index.html": (
+                "/how-icons-are-made/",
+                "proof-at-16-1200x630.png",
+            ),
+            "gallery/index.html": ("/gallery/", "many-worlds-1200x630.png"),
+            "archive/index.html": ("/archive/", "many-worlds-1200x630.png"),
+        }
+        for page, (route, image_name) in expected.items():
+            document = (SITE / page).read_text(encoding="utf-8")
+            url = f"{CANONICAL_ORIGIN}/assets/marketing/{image_name}"
+            with self.subTest(page=page):
+                self.assertIn('<meta property="og:title" content="', document)
+                self.assertIn('<meta property="og:description" content="', document)
+                self.assertIn(
+                    f'<meta property="og:url" content="{CANONICAL_ORIGIN}{route}">',
+                    document,
+                )
+                self.assertIn(
+                    f'<link rel="canonical" href="{CANONICAL_ORIGIN}{route}">',
+                    document,
+                )
+                self.assertIn(f'<meta property="og:image" content="{url}', document)
+                self.assertIn('<meta name="twitter:card" content="summary_large_image">', document)
+                self.assertIn(f'<meta name="twitter:image" content="{url}', document)
+                self.assertIn('<meta property="og:image:width" content="1200">', document)
+                self.assertIn('<meta property="og:image:height" content="630">', document)
+                self.assertIn('<meta property="og:image:alt" content="', document)
 
     def test_html_local_references_and_fragments_resolve(self) -> None:
         for page in HTML_PAGES:

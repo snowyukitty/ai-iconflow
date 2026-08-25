@@ -1,6 +1,9 @@
 {
  "language": "es",
  "strings": {
+  "iconflow-decision-workflow-one-semantic-svg.4e9cd98c": "Flujo de decisión de IconFlow: un SVG semántico pasa por una prueba exacta a 16px hasta convertirse en salidas de favicon, PWA, escritorio y bandeja.",
+  "iconflow-native-size-proof-an-editable-svg-b.1251fac3": "Prueba de IconFlow a tamaño nativo: un SVG editable se convierte en píxeles exactos a 16px y en un recibo de revisión vinculado a la fuente.",
+  "six-reviewed-iconflow-cases-with-exact-nativ.60f8fe4a": "Seis casos revisados de IconFlow con sus pruebas nativas exactas a 16px, junto a los recuentos de la galería, el catálogo de técnicas y el Archivo Vivo.",
   "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": "IconFlow — Kit local de iconos: de un SVG a favicon, app y bandeja, probado a 16px",
   "a-proof-driven-agent-native-icon-production.fa9e55c9": "Producción de iconos basada en pruebas y nativa para agentes. De un SVG semántico a recursos revisados de favicon, PWA, escritorio y bandeja, probados a 16px.",
   "iconflow-one-master-every-surface-proven-at.3b317f65": "IconFlow — Un maestro. Todas las superficies. Probado a 16px.",

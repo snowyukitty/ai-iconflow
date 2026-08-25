@@ -1,0 +1,69 @@
+{
+  "generator": "scripts/render_marketing_assets.py",
+  "inputs": {
+    "brand/build/icon-192.png": "d6479b4b980dd6aba441357494af5905bb72e1962629bfe497272023e7ac9a39",
+    "brand/build/icons/128x128.png": "2d4dd74f50cc22224e160561d75f373d084edc158eb735c610c58089c1231821",
+    "brand/build/tray/tray.png": "af13dabe5aca89aee4c39fb011f5298514cc77a2c8e26a5833abd09e1f266faa",
+    "brand/master-review.json": "463ddd4398dfc8567e532e0e63efa45b45fc3b9b6045d5af74b1f5fe8036949c",
+    "brand/master.svg": "456dcf2ad08b4aa1c518ba6962a785d194f6388d0c066abb4bd11ba19417e46f",
+    "scripts/render_marketing_assets.py": "307b56e770a2ccafb17fe08984ea34311d16ddd7d45c00ae25963645daad5d9c",
+    "website/assets/proof/icon-128.png": "0d4b01ac347e2c1d4cc3671d0102fe33e5886cff01361480f0ec2cdf397f91a4",
+    "website/assets/proof/icon-16.png": "9d69f707633fb25485efa71d185d99251a72115b56084d62304ad10b2ff0c564",
+    "website/assets/proof/icon-32.png": "194593eef7ea406734574d4ff71a589b99030548b5bd93cbd5c946a1f20b91f8",
+    "website/assets/worlds/boss-helm-128.png": "c88029c734a41909e9ab07a65208783e26cef709fdc7adbb11275e510aa7bdc5",
+    "website/assets/worlds/boss-helm-16.png": "d378cfe6a88a36c6f4fee09fac6b1b60f71edb7ffcf0359e87df7a5f1355fc67",
+    "website/assets/worlds/catnap-focus-128.png": "5324c6e88b6bd346a26fdb4e60891d7830acf13e019ee7d7ac743b4c25f4ea05",
+    "website/assets/worlds/catnap-focus-16.png": "5a38133b787ec6311d83f2725cd39e5b3f641751ce0d678ab289f20e7e79e32f",
+    "website/assets/worlds/forest-familiar-128.png": "982491a6a82252557c8a11b4681a9917419a7b3f7f2631530d4f4bd00d5ab362",
+    "website/assets/worlds/forest-familiar-16.png": "84c843f441e06c94b14d0606cb1b97c7e1ed9f9759524fc5e9bfefbc061dbf90",
+    "website/assets/worlds/keepsake-knot-128.png": "9d8fd68067c3166c3730c10d5daaf8805ca0d19a215ea6cb2d31a386ad3c0bef",
+    "website/assets/worlds/keepsake-knot-16.png": "def6f8b516968cf93951d79ca5bb9f31b4fe50025e5e3580c2bc503884e461cf",
+    "website/assets/worlds/koi-return-128.png": "6d05686426db5bc335f9b29b159a02492cb1a2d749f4895a1b123298936c1f71",
+    "website/assets/worlds/koi-return-16.png": "1e6df75b26715e3ed97e87f2eac490cc829cd40ca479f333537fce8e752675f3",
+    "website/assets/worlds/sky-courier-128.png": "423547b65cd182eb6d4b6f101175e9fbf0319e95902df6a0848acc04442f9fe1",
+    "website/assets/worlds/sky-courier-16.png": "4f495ef3c33ca7e0f3cc612a999583974536d724d57b1410e9ef71e6e43e898f"
+  },
+  "outputs": {
+    "many-worlds-1200x630.png": {
+      "height": 630,
+      "sha256": "16f993b34b48a47068656d9c7547e990619143548859a9e458eb0ff9317da691",
+      "width": 1200
+    },
+    "proof-at-16-1080x1080.png": {
+      "height": 1080,
+      "sha256": "8d1971b4fb22840109fb9afe532b32ff4d335587b1e5d9771945f943cdc50e72",
+      "width": 1080
+    },
+    "proof-at-16-1080x1920.png": {
+      "height": 1920,
+      "sha256": "dc319da99c9f123351074ff83b43f7954ab34aad6e458a8703e91128e69a7836",
+      "width": 1080
+    },
+    "proof-at-16-1200x630.png": {
+      "height": 630,
+      "sha256": "c7ca49f1434d210eff3af9c27569cdcd8656596e14ae2554435d48787a071da0",
+      "width": 1200
+    },
+    "workflow-1200x630.png": {
+      "height": 630,
+      "sha256": "b4ad4fbf789344551d1c4bede0cb60968dffbdb084c3a62907909ed83bd9aa7a",
+      "width": 1200
+    }
+  },
+  "render_contract": {
+    "browser": "Playwright Chromium from the project environment",
+    "color_profile": "sRGB",
+    "device_scale_factor": 1,
+    "fonts": [
+      "Segoe UI Variable Display",
+      "Segoe UI",
+      "Arial",
+      "Cascadia Mono",
+      "Consolas"
+    ],
+    "javascript": false,
+    "network": "blocked",
+    "reproducibility_scope": "Source freshness and output identity are exact; raster bytes are reproducible within the pinned project browser and host font stack."
+  },
+  "schema": 1
+}

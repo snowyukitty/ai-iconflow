@@ -1,0 +1,34 @@
+{
+  "license": "CC-BY-SA-4.0",
+  "copyright": "2026 snowyukitty · https://ai-iconflow.com",
+  "title": "IconFlow — 30-second proof cut",
+  "targetDurationSeconds": 30,
+  "language": "en",
+  "voice": {"tool": "none", "voice": "", "rate": "+0%", "pitch": "+0Hz", "volume": "+0%"},
+  "production": {
+    "status": "draft",
+    "width": 3840,
+    "height": 2160,
+    "fps": 24,
+    "colorSpace": "Rec. 709",
+    "safeRegion": {"x": 1312, "y": 0, "width": 1216, "height": 2160, "note": "Even-pixel working width around the exact 1215px 9:16 center."},
+    "humanPreview": "pending"
+  },
+  "mediaBindings": [
+    {"slide": "slide-01", "source": "brand/master.svg", "target": "assets/images/slide-01-master.svg", "sha256": "456dcf2ad08b4aa1c518ba6962a785d194f6388d0c066abb4bd11ba19417e46f"},
+    {"slide": "slide-02", "source": "website/assets/proof/icon-16.png", "target": "assets/images/slide-02-native-16.png", "sha256": "9d69f707633fb25485efa71d185d99251a72115b56084d62304ad10b2ff0c564"},
+    {"slide": "slide-03", "source": "brand/master.svg", "target": "assets/images/slide-03-master.svg", "sha256": "456dcf2ad08b4aa1c518ba6962a785d194f6388d0c066abb4bd11ba19417e46f"},
+    {"slide": "slide-04", "source": "docs/assets/review-proof.png", "target": "assets/images/slide-04-review-proof.png", "sha256": "477bca9b00609f63f6b1bd54bfc33bfa6569454a0cee162d5e3b40ba084d3016"},
+    {"slide": "slide-06", "source": "docs/assets/marketing/workflow-1200x630.png", "target": "assets/images/slide-06-outputs.png", "sha256": "b4ad4fbf789344551d1c4bede0cb60968dffbdb084c3a62907909ed83bd9aa7a"},
+    {"slide": "slide-07", "source": "docs/assets/marketing/proof-at-16-1200x630.png", "target": "assets/images/slide-07-proof-at-16.png", "sha256": "c7ca49f1434d210eff3af9c27569cdcd8656596e14ae2554435d48787a071da0"}
+  ],
+  "slides": [
+    {"id": "slide-01", "title": "Looks done", "chapter": "false-finish", "durationTarget": 3, "image": "assets/images/slide-01-master.svg", "subtitle": "A polished large icon is only the start.", "narration": "", "blocks": [{"type": "lead", "text": "LOOKS DONE"}], "motion": "hold"},
+    {"id": "slide-02", "title": "Prove it at 16", "chapter": "native-proof", "durationTarget": 3, "image": "assets/images/slide-02-native-16.png", "subtitle": "Exact native pixels. No smoothing. No redraw.", "narration": "", "blocks": [{"type": "lead", "text": "PROVE IT AT 16"}], "motion": "focus"},
+    {"id": "slide-03", "title": "One master", "chapter": "position", "durationTarget": 5, "image": "assets/images/slide-03-master.svg", "subtitle": "One editable source survives every target transform.", "narration": "", "blocks": [{"type": "lead", "text": "One master. Every surface. Proven at 16px."}], "motion": "rise"},
+    {"id": "slide-04", "title": "Inspect the pixels", "chapter": "review", "durationTarget": 5, "image": "assets/images/slide-04-review-proof.png", "subtitle": "Native size, adaptive crops, silhouette, and target transforms.", "narration": "", "blocks": [{"type": "lead", "text": "THE REVIEW IS VISIBLE"}, {"type": "metrics", "items": [{"label": "native proof", "value": "16px", "note": "exact output pixels"}, {"label": "review gate", "value": "6 axes", "note": "every score at least 4/5"}]}], "motion": "hold"},
+    {"id": "slide-05", "title": "Stale means stop", "chapter": "gate", "durationTarget": 5, "image": "", "subtitle": "Change the source and the old approval can no longer ship.", "narration": "", "sourceData": "brand/master-review.json", "sourceSha256": "463ddd4398dfc8567e532e0e63efa45b45fc3b9b6045d5af74b1f5fe8036949c", "blocks": [{"type": "lead", "text": "A REVIEW THAT CAN GO STALE"}, {"type": "cards", "items": [{"title": "SOURCE CHANGE", "text": "The editable master moves."}, {"title": "RECEIPT STALE", "text": "The digest no longer matches."}, {"title": "SHIP BLOCKED", "text": "Review must catch up first."}]}], "motion": "hold"},
+    {"id": "slide-06", "title": "Every target", "chapter": "outputs", "durationTarget": 5, "image": "assets/images/slide-06-outputs.png", "subtitle": "The reviewed master becomes exact platform files.", "narration": "", "blocks": [{"type": "lead", "text": "ONE MASTER. FOUR SURFACES."}, {"type": "list", "items": ["favicon", "PWA", "desktop", "tray"]}], "motion": "rise"},
+    {"id": "slide-07", "title": "Install IconFlow", "chapter": "cta", "durationTarget": 4, "image": "assets/images/slide-07-proof-at-16.png", "subtitle": "One master. Every surface. Proven at 16px.", "narration": "", "blocks": [{"type": "lead", "text": "pip install iconflow"}], "motion": "reveal"}
+  ]
+}
