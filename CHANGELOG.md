@@ -68,6 +68,14 @@ first published release remains under `Unreleased`.
   shipped.
 
 ### Changed
+
+- Reframed the GitHub README as a visual storefront: the reviewed workflow
+  campaign image now leads the page, the real stale-receipt animation serves as
+  supporting evidence instead of the hero, and the native-size proof and case
+  range appear beside the claims they substantiate. A contract test preserves
+  that narrative order so future campaign work cannot remain hidden in an
+  asset directory.
+
 - **A self-audit that asks the world instead of remembering it.**
   `scripts/state.py` checks what is actually true — are the generated site
   artifacts current, does PyPI carry this version with resolvable attestations,

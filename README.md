@@ -5,21 +5,20 @@
 **One reviewed, platform-ready icon family from one editable SVG.**<br>
 Favicon, PWA, Tauri, Electron, and tray — proven at 16px before it ships anywhere.
 
+<a href="https://ai-iconflow.com/">
+  <img src="docs/assets/marketing/workflow-1200x630.png" width="1200" alt="IconFlow decision workflow: one semantic SVG is inspected at native 16px and shipped as exact favicon, PWA, desktop, and tray outputs">
+</a>
+
 [![PyPI](https://img.shields.io/pypi/v/iconflow?logo=pypi&logoColor=white&label=PyPI)](https://pypi.org/project/iconflow/)
 [![Python](https://img.shields.io/pypi/pyversions/iconflow?logo=python&logoColor=white)](https://pypi.org/project/iconflow/)
 [![CI](https://img.shields.io/github/actions/workflow/status/snowyukitty/ai-iconflow/ci.yml?branch=main&logo=githubactions&logoColor=white&label=CI)](https://github.com/snowyukitty/ai-iconflow/actions/workflows/ci.yml)
 [![Licenses](https://img.shields.io/badge/licenses-Apache--2.0%20·%20CC0%20·%20CC--BY--SA-blue)](LICENSES.md)
 [![Your icons are yours](https://img.shields.io/badge/your%20icons-yours-brightgreen)](LICENSES.md#1-the-icons-you-make-with-iconflow-are-yours)
 
-[**Live proof**](https://ai-iconflow.com/) ·
-[Icon size reference](https://ai-iconflow.com/reference/icon-sizes/) ·
-[Remix Lab](https://ai-iconflow.com/#remix) ·
-[137-direction Archive](https://ai-iconflow.com/archive/) ·
-[100-case Gallery](https://ai-iconflow.com/gallery/) ·
-[400-cell Matrix](https://ai-iconflow.com/gallery/emoji-matrix/all/) ·
-[How it's made](https://ai-iconflow.com/how-icons-are-made/)
-
-![One command ships 23 reviewed icon files; nudging one control point in the master SVG makes the same command refuse, because the review receipt no longer matches the source.](docs/assets/demo.gif)
+[**See the live proof →**](https://ai-iconflow.com/) ·
+[Get started](https://ai-iconflow.com/getting-started/) ·
+[Browse 100 reviewed cases](https://ai-iconflow.com/gallery/) ·
+[See how the gate works](https://ai-iconflow.com/how-icons-are-made/)
 
 </div>
 
@@ -28,10 +27,6 @@ pip install iconflow          # or: uv tool install iconflow
 iconflow setup                # fetches Chromium — the only network step
 iconflow demo --out demo      # doctor → check → review → ship, on a real receipt
 ```
-
-<sup>That animation is a real capture, not a mock-up — the transcript it is drawn
-from is [checked in](docs/assets/demo-transcript.txt), and
-`scripts/render_readme_demo.py` regenerates it.</sup>
 
 **No image model. No API key. No upload.** You author the SVG, a pinned Chromium
 renders it exactly as a browser would, and `ship` fails closed unless automated
@@ -44,7 +39,13 @@ commercial use unrestricted. Run `iconflow license` for the whole answer.
 app intent → distinct concepts → SVG master → 16px proof → target family → casebook
 ```
 
-![IconFlow — One master. Every surface. Proven at 16px.](docs/assets/hero-flow.svg)
+### Watch the quality gate work
+
+![One command ships 23 reviewed icon files; nudging one control point in the master SVG makes the same command refuse, because the review receipt no longer matches the source.](docs/assets/demo.gif)
+
+<sup>This is a real capture, not a mock-up. Its
+[checked-in transcript](docs/assets/demo-transcript.txt) and deterministic
+renderer make the demonstration reproducible.</sup>
 
 The site reads in five languages — English, [Español](https://ai-iconflow.com/es/), [日本語](https://ai-iconflow.com/ja/), [繁體中文](https://ai-iconflow.com/zh-hant/), [简体中文](https://ai-iconflow.com/zh-hans/). The toolkit and its documentation stay English.
 
@@ -70,6 +71,8 @@ clean-room research provenance.
 Most icon pipelines begin after the important decision has already been made.
 They resize an image, but do not tell you whether the idea is generic, whether a
 counter closed at 16px, or whether a menu-bar template became a black square.
+
+![IconFlow native-size proof: editable SVG, exact 16px pixels, and a source-bound review gate](docs/assets/marketing/proof-at-16-1200x630.png)
 
 IconFlow makes those questions part of the build:
 
@@ -317,6 +320,8 @@ cleanly; none is intended to ship unchanged. `new` preserves an existing output
 unless replacement is explicit with `--force`.
 
 ## The casebook closes the loop
+
+![Six distinct reviewed IconFlow cases with their exact native 16px assets](docs/assets/marketing/many-worlds-1200x630.png)
 
 Each case stores the brief, concept lens, device family/detail, clichés avoided,
 first and final rubric scores, review count, and reusable lessons. Aggregation

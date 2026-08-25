@@ -113,6 +113,19 @@ class _SiteParser(HTMLParser):
 
 
 class WebsiteContractTests(unittest.TestCase):
+    def test_readme_surfaces_the_reviewed_campaign_story(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        hero = "docs/assets/marketing/workflow-1200x630.png"
+        proof = "docs/assets/marketing/proof-at-16-1200x630.png"
+        cases = "docs/assets/marketing/many-worlds-1200x630.png"
+        demo = "docs/assets/demo.gif"
+
+        for asset in (hero, proof, cases, demo):
+            self.assertEqual(readme.count(asset), 1, asset)
+        self.assertLess(readme.index(hero), readme.index(demo))
+        self.assertLess(readme.index(demo), readme.index(proof))
+        self.assertLess(readme.index(proof), readme.index(cases))
+
     def parse(self, name: str) -> _SiteParser:
         parser = _SiteParser()
         parser.feed((SITE / name).read_text(encoding="utf-8"))
