@@ -200,6 +200,26 @@ CONTRACT_FILES = (
     ("/reference/icon-sizes/", "reference/icon-sizes/index.html"),
 )
 
+# A body can differ from the checkout without the deploy being stale: a CDN
+# may rewrite HTML on its way out. Telling someone to redeploy in that case
+# sends them to fix the one thing that is not broken, so the difference is
+# named instead. Ordered most-specific first.
+EDGE_REWRITES = (
+    ("cloudflareinsights",
+     "the edge injects a Cloudflare Web Analytics beacon. This site's CSP is "
+     "script-src 'self', so every visitor's browser blocks it and logs a "
+     "violation: the analytics collect nothing and the console is never clean. "
+     "Turn off automatic injection in the Cloudflare dashboard (Web Analytics), "
+     "or accept a third-party script on a site that advertises local-first."),
+    ("__cf_email__",
+     "the edge rewrote something that looks like an email address into a "
+     "mailto link. On the icon-size reference that corrupts real filenames "
+     "(128x128@2x.png). Disable Scrape Shield -> Email Address Obfuscation, or "
+     "emit &#64; from the generator."),
+    ("/cdn-cgi/",
+     "the edge injected a /cdn-cgi/ asset that is not in the checkout."),
+)
+
 
 def check_deployment() -> list[Check]:
     """Does ai-iconflow.com serve what this checkout holds?
@@ -236,12 +256,24 @@ def check_deployment() -> list[Check]:
             checks.append(Check(key, title, FAIL, f"HTTP {status}"))
             continue
         want, got = digest(local.read_bytes()), digest(body)
-        checks.append(Check(
-            key, title, PASS if want == got else FAIL,
-            "byte-identical to the checkout" if want == got
-            else f"deployed copy differs (repo {want[:12]}, live {got[:12]}) — redeploy",
-            evidence={"repo_sha256": want, "live_sha256": got},
-        ))
+        if want == got:
+            checks.append(Check(key, title, PASS, "byte-identical to the checkout",
+                                evidence={"repo_sha256": want}))
+            continue
+
+        # Say *why* it differs. "Redeploy" is actively wrong advice when the
+        # bytes left this repository intact and something rewrote them in
+        # flight, and a report that gives wrong advice gets ignored.
+        marker = next((m for m, _ in EDGE_REWRITES if m.encode() in body), "")
+        if marker:
+            reason = dict(EDGE_REWRITES)[marker]
+            checks.append(Check(key, f"Live {route} is served unmodified", FAIL,
+                                reason, evidence={"marker": marker}))
+        else:
+            checks.append(Check(
+                key, title, FAIL,
+                f"deployed copy differs (repo {want[:12]}, live {got[:12]}) — redeploy",
+                evidence={"repo_sha256": want, "live_sha256": got}))
     for check in checks:
         check.section = "Deployed site"
     return checks

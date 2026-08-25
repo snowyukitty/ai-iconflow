@@ -7,9 +7,9 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-08-25 03:57 UTC.
+Observed 2026-08-25 04:03 UTC.
 
-`11 pass · 1 fail · 2 open gates · 0 unknown`
+`10 pass · 1 fail · 2 open gates · 1 unknown`
 
 An **open gate** is a decision waiting on a person, not a defect, and
 never fails this report. **Unknown** means a probe could not run: it is
@@ -31,7 +31,7 @@ is worse than no tick at all.
 | `PASS` | Live site serves current /robots.txt | byte-identical to the checkout |
 | `PASS` | Live site serves current /llms.txt | byte-identical to the checkout |
 | `PASS` | Live site serves current /sitemap.xml | byte-identical to the checkout |
-| `FAIL` | Live site serves current /reference/icon-sizes/ | deployed copy differs (repo e0b8f3c5e5e2, live a2f2246ce2fb) — redeploy |
+| `FAIL` | Live /reference/icon-sizes/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Turn off automatic injection in the Cloudflare dashboard (Web Analytics), or accept a third-party script on a site that advertises local-first. |
 
 ## Distribution
 
@@ -48,7 +48,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `OPEN` | Repository social preview is uploaded | still GitHub's generated card — Settings → General → Social preview, upload docs/assets/social-preview.png |
 | `OPEN` | Discussions decision | not enabled — gh repo edit snowyukitty/ai-iconflow --enable-discussions |
-| `PASS` | CI is green on main | latest main run: success (ba3af80) |
+| `????` | CI is green on main | latest main run: in_progress (c46bb99) |
 
 ## Waiting on a person
 

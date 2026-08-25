@@ -65,6 +65,18 @@ The page also does the job the homepage cannot: it meets a reader mid-problem
 ("what size is a tray template?"), answers it completely, and only then
 explains that the answer came from a tool that would have produced the file.
 
+**What the edge does to it.** Three filenames on the page —
+`icons/128x128@2x.png`, `tray/tray@16.png`, `tray/trayTemplate@2x.png` — read
+as email addresses to a CDN. Cloudflare's Email Address Obfuscation, on by
+default, replaced all three at the edge with `[email protected]` links. The
+repository was right and the served page was wrong, on the one page whose
+entire premise is that it cannot drift. The generator now emits `&#64;`, which
+parses to the same character for a reader, a copy-paste and a crawler while
+matching no email pattern, and refuses to write a page carrying a literal `@`
+outside the JSON-LD block. Nothing in the repository could have caught this:
+the rewrite happens after the bytes leave it. `scripts/state.py` found it by
+comparing the deployed page against the checkout.
+
 ### 2. Structured data that describes the software
 
 - Homepage: `SoftwareApplication` — category, subcategory, operating systems,
@@ -165,7 +177,16 @@ loudly.
 3. **Google Search Console and Bing Webmaster Tools.** Verify
    `ai-iconflow.com`, submit `sitemap.xml`, and watch which of the reference
    page's anchors earn impressions. Without this the queue above is guesswork.
-4. **Settle the `/how-icons-are-made/` question** above.
+4. **Turn off Cloudflare's automatic Web Analytics injection**, or decide to
+   keep it. Found by `scripts/state.py` on 2026-08-25: the edge injects
+   `static.cloudflareinsights.com/beacon.min.js` into every HTML page, and this
+   site's `Content-Security-Policy` is `script-src 'self'`, so every visitor's
+   browser blocks it and logs a violation. The analytics therefore collect
+   nothing while the console is never clean — the worst of both. Either disable
+   automatic injection in the dashboard, or add the host to the CSP and accept
+   a third-party script on a site whose pitch is that nothing leaves your
+   machine. The first is the choice that matches the product.
+5. **Settle the `/how-icons-are-made/` question** above.
 
 ## How to know it worked
 
