@@ -7,7 +7,7 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-08-25 04:08 UTC.
+Observed 2026-08-25 04:12 UTC.
 
 `11 pass · 1 fail · 2 open gates · 0 unknown`
 
@@ -48,7 +48,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `OPEN` | Repository social preview is uploaded | still GitHub's generated card — Settings → General → Social preview, upload docs/assets/social-preview.png |
 | `OPEN` | Discussions decision | not enabled — gh repo edit snowyukitty/ai-iconflow --enable-discussions |
-| `PASS` | CI is green on main | latest main run: success (a70342e) |
+| `PASS` | CI is green on main | latest main run: success (3c3e29c) |
 
 ## Waiting on a person
 
