@@ -7,9 +7,9 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-08-27 08:26 UTC.
+Observed 2026-08-27 09:56 UTC.
 
-`10 pass · 4 fail · 2 open gates · 0 unknown`
+`13 pass · 3 fail · 2 open gates · 0 unknown`
 
 An **open gate** is a decision waiting on a person, not a defect, and
 never fails this report. **Unknown** means a probe could not run: it is
@@ -24,22 +24,24 @@ is worse than no tick at all.
 | `PASS` | Living archive is current | 137 directions, catalog and page agree |
 | `PASS` | Icon-size reference is current | icon-size tables match iconflow/build.py |
 | `PASS` | Tray-icon reference is current | tray guide and five evidence PNGs match assemble.to_template |
+| `PASS` | First-proof commands are current | README and site first-proof commands share one install-and-demo contract |
 
 ## Deployed site
 
 | | Check | Detail |
 |---|---|---|
 | `PASS` | Live site serves current /robots.txt | byte-identical to the checkout |
-| `FAIL` | Live site serves current /llms.txt | deployed copy differs (repo 05a4356e7057, live 55d977fd6778) — redeploy |
-| `FAIL` | Live site serves current /sitemap.xml | deployed copy differs (repo cf9a7fb8a748, live a076c7a22180) — redeploy |
+| `PASS` | Live site serves current /llms.txt | byte-identical to the checkout |
+| `PASS` | Live site serves current /sitemap.xml | byte-identical to the checkout |
 | `FAIL` | Live /reference/icon-sizes/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Turn off automatic injection in the Cloudflare dashboard (Web Analytics), or accept a third-party script on a site that advertises local-first. |
-| `FAIL` | Live site serves current /reference/tray-icons/ | HTTP 404 — the sitemap advertises this route |
+| `FAIL` | Live /reference/tray-icons/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Turn off automatic injection in the Cloudflare dashboard (Web Analytics), or accept a third-party script on a site that advertises local-first. |
 
 ## Distribution
 
 | | Check | Detail |
 |---|---|---|
 | `PASS` | PyPI carries this version | checkout is 0.5.0; PyPI latest is 0.5.0 (published) |
+| `FAIL` | PyPI first-proof copy is truthful | published 0.5.0 long description contains stale pre-release claim: 'not published on PyPI'; contains stale pre-release claim: 'do not use `pip install iconflow`' — corrected checkout needs a future release |
 | `PASS` | Release attestations resolve | signed provenance for 2 artifacts |
 
 ## Repository
@@ -50,7 +52,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `OPEN` | Repository social preview is uploaded | still GitHub's generated card — Settings → General → Social preview, upload docs/assets/social-preview.png |
 | `OPEN` | Discussions decision | not enabled — gh repo edit snowyukitty/ai-iconflow --enable-discussions |
-| `PASS` | CI is green on main | latest main run: success (dc4485a) |
+| `PASS` | CI is green on main | latest main run: success (05a7d61) |
 
 ## Waiting on a person
 
