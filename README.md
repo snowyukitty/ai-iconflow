@@ -47,14 +47,16 @@ app intent → distinct concepts → SVG master → 16px proof → target family
 [checked-in transcript](docs/assets/demo-transcript.txt) and deterministic
 renderer make the demonstration reproducible.</sup>
 
-### The Coral Gate film
+### One source. Every surface.
 
-<img src="docs/assets/promo/coral-gate-flow-keyframe.jpg" width="1000" alt="A coral square beginning a measured journey along a graphite path on warm paper stock — the abstract opening image for the IconFlow launch film">
+<img src="docs/assets/promo/one-source-every-surface.png" width="1000" alt="The exact IconFlow app icon entering a physical inspection frame, with the words One SVG enters and Editable source, Exact intent">
 
-The 15-second source → proof → ship cut now passes the complete automated
-Snowy HyperFrames gate and is waiting for its required human cinema preview.
-The tactile frame above is campaign art direction; every product-proof scene
-still uses exact IconFlow outputs, never generated UI. See the
+The 15-second product story is now literal: one editable SVG enters, its real
+pixels are proven at 16px, and the reviewed source ships to favicon, PWA,
+desktop, and tray. Google Flow supplies only the physical inspection-bench
+motion; the icon, proof, labels, and outputs are exact deterministic layers.
+The hybrid cut passes the complete automated Snowy HyperFrames gate and is
+waiting for its required human cinema preview. See the
 [production contract and checkpoint](docs/PROMO_VIDEO.md).
 
 The site reads in five languages — English, [Español](https://ai-iconflow.com/es/), [日本語](https://ai-iconflow.com/ja/), [繁體中文](https://ai-iconflow.com/zh-hant/), [简体中文](https://ai-iconflow.com/zh-hans/). The toolkit and its documentation stay English.

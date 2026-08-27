@@ -5,9 +5,9 @@
      with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # IconFlow promotional film
 
-Status: the 15-second production checkpoint passes automated HyperFrames QA;
-human cinema preview and final render are still pending. The 30- and 60-second
-cuts remain machine-readable handoffs.
+Status: the revised 15-second hybrid production checkpoint passes automated
+HyperFrames QA; human cinema preview and final render are still pending. The
+30- and 60-second cuts remain machine-readable handoffs.
 
 The production handoff lives in [`docs/promo/`](promo/): independent 60-, 30-,
 and 15-second storyboards that follow Snowy HyperFrames' actual schema and
@@ -48,16 +48,18 @@ the frame.
 Snowy HyperFrames is the production tool because its one-timing-truth pipeline,
 strict check, offline review kit, and human preview gate match IconFlow's own
 quality contract. A generative video model can be considered later for an
-obviously abstract title sting or localized experiment, but not for hero-film
-evidence.
+environmental plate or localized experiment, but not for hero-film evidence.
+Any exact icon, word, interface, receipt, or output stays a deterministic
+HyperFrames layer over or after that plate.
 
-## 15-second production checkpoint — 2026-08-26
+## 15-second production checkpoint — 2026-08-27
 
 The first working cut now exists as a private Snowy HyperFrames production
-project. It uses the deterministic Coral Gate source frame, the real Review
-Lab proof sheet, and the checked-in social-preview art. It is silent, keeps all
-meaning inside the central 9:16-safe band, and contains no invented product UI
-or evidence.
+project. Its opening uses an accepted Google Flow Quality plate of an empty
+physical inspection frame, then overlays the exact checked-in IconFlow icon as
+a deterministic 2× pixel layer. The real Review Lab proof sheet and checked-in
+social-preview art carry the proof and ship beats. Generated motion never
+represents product UI, review evidence, receipts, labels, or outputs.
 
 The current checkpoint has:
 
@@ -72,17 +74,17 @@ This is deliberately **ready to preview**, not rendered or published. The
 human gate still owns pacing, readability, sound, pixel fidelity, and final
 permission to render.
 
-Google Flow was used only for a contained abstract-motion study. One tactile
-keyframe was selected and staged under [`assets/promo/`](assets/promo/); the
-first Veo motion attempts were rejected when the coral square rotated, scaled,
-or altered the graphite path. Generated motion is not accepted as proof and
+Google Flow was used only for the physical opening plate. A Lite proof
+established motion control, a Fast proof improved material quality, and one
+Quality take won because it kept the frame rigid, stopped cleanly, preserved a
+central overlay area, and visibly established multiple destination plinths.
+Only the deterministic composite poster is staged under
+[`assets/promo/`](assets/promo/). Generated motion is not accepted as proof and
 cannot replace any real IconFlow output in the film.
 
-A matching Grok Imagine Video 1.5 shot is staged in CineChorus with a clean
-prompt lint and dry-run request. It intentionally remains unsubmitted: a paid
-provider call is a separate owner decision, not a hidden side effect of film
-preparation. CineChorus currently exposes Grok Imagine **video** for this lane;
-it does not provide a separate Grok image-generation command.
+A matching Grok Imagine Video 1.5 direction remains a local CineChorus dry-run,
+not a retained campaign asset: it did not provide evidence that justified a
+second paid branch after the Flow Quality take passed the visual gate.
 
 ## Production contract
 
@@ -123,8 +125,7 @@ it does not provide a separate Grok image-generation command.
 | Tray output | `brand/build/tray/tray.png`, `trayTemplate.png` |
 | Case range | `docs/assets/marketing/many-worlds-1200x630.png` |
 | Still-frame visual system | `docs/assets/marketing/*.png` |
-| Abstract sting source | `docs/assets/promo/coral-gate-first-frame.svg`, `.png` |
-| Selected Flow keyframe | `docs/assets/promo/coral-gate-flow-keyframe.jpg` |
+| Hybrid opening poster | `docs/assets/promo/one-source-every-surface.png` |
 
 Before production, copy each use to a slide-specific filename as required by
 the HyperFrames media contract, then verify its SHA-256 against the table's
@@ -180,12 +181,15 @@ Use this cut when auditability matters; it retains the stale-receipt proof.
 
 ### 15 seconds
 
-1. `0–4s` — `PROVE IT AT 16` (`focus`, exact 16px proof).
-2. `4–11s` — real same-session `receipt stale → ship blocked` capture (`hold`).
-3. `11–15s` — `pip install iconflow` (`reveal`, no narration).
+1. `0–4s` — `ONE SVG ENTERS` (`focus`): the physical frame moves, stops,
+   then the exact IconFlow icon appears inside it.
+2. `4–10s` — `PROVE IT AT 16PX` (`reveal`): the real Review Lab proof sheet,
+   native pixels, target previews, and bound receipt.
+3. `10–15s` — `SHIP EVERY SURFACE` (`focus`): the checked-in output family,
+   `pip install iconflow`, and the locked proof-before-ship promise.
 
-This is the reach hook: problem, refusal, command. It shows the real gate but
-does not explain the complete receipt contract.
+This is the reach hook: one source, visible proof, every surface. It explains
+the product before asking the audience to learn the receipt contract.
 
 ## HyperFrames production handoff
 
