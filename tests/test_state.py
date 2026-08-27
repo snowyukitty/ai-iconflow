@@ -44,6 +44,7 @@ class SelfAuditTests(unittest.TestCase):
             "generated.archive",
             "generated.reference",
             "generated.tray_reference",
+            "generated.adoption",
         ):
             with self.subTest(key=key):
                 self.assertIn(key, by_key)
@@ -98,6 +99,18 @@ class SelfAuditTests(unittest.TestCase):
         self.assertEqual(envelope["exit_code"], result.returncode)
         self.assertIn(envelope["status"], ("ok", "blocked"))
         self.assertTrue(envelope["outputs"]["checks"])
+
+    def test_pypi_description_contract_rejects_a_published_package_that_denies_itself(self) -> None:
+        stale = """IconFlow is not published on PyPI yet.
+Do not use `pip install iconflow`. The future proof is `iconflow demo --out d`.
+"""
+        problems = self.state.pypi_description_problems(stale)
+        self.assertTrue(any("stale pre-release claim" in problem for problem in problems))
+
+        current = """Install with `pip install iconflow`.
+Run `iconflow demo --setup --out iconflow-demo` for the complete proof.
+"""
+        self.assertEqual([], self.state.pypi_description_problems(current))
 
 
 class GeneratedDocumentTests(unittest.TestCase):

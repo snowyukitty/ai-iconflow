@@ -142,6 +142,21 @@ network-isolated marketing renderer from those exact evidence PNGs and added to
 the SHA-256 manifest. It is a useful summary image, not a substitute for the
 page or the native-pixel evidence.
 
+### 6. The first proof now starts from the release
+
+A fresh isolated install on 2026-08-27 proved that the public 0.5.0 wheel can
+complete the full `demo --setup` path and write its 23 source-bound outputs.
+The adoption copy had nevertheless drifted in two opposite directions: the
+website sent visitors to a source checkout, while the live PyPI description
+still warned that the package was not published.
+
+README, homepage, and Getting Started now lead with the same two-command path:
+install the wheel, then run `iconflow demo --setup --out iconflow-demo`.
+`scripts/build_adoption.py` makes copy drift fail offline, and the project
+self-audit separately reports stale live PyPI description text. The checkout
+is fixed now; PyPI will stay honestly red until a future justified release
+replaces the already-published metadata. No version was created for SEO copy.
+
 ## Answer engines
 
 By 2026 a large share of "which favicon sizes" questions are answered by a

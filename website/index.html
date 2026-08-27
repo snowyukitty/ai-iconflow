@@ -610,7 +610,7 @@
         <div>
           <p class="section-kicker">Run the five-minute proof</p>
           <h2>Your icon deserves<br>an honest final mile.</h2>
-          <p>Choose the agent-assisted path or drive the CLI directly, then build the checked-in IconFlow brand family. Five minutes proves the engine, not a new identity; <code>setup</code> downloads Chromium once, and nothing else leaves your machine.</p>
+          <p>Choose the agent-assisted path or drive the CLI directly, then build the packaged IconFlow brand family. Five minutes proves the engine, not a new identity; <code>setup</code> downloads Chromium once, and nothing else leaves your machine.</p>
           <div class="start-actions">
             <a class="button button-primary" href="/getting-started/">Open Getting Started <span aria-hidden="true">→</span></a>
             <a class="button button-quiet" href="/reference/icon-sizes/">Icon size reference</a>
@@ -619,13 +619,12 @@
         </div>
         <div class="install-terminal">
           <div class="terminal-bar"><span></span><span></span><span></span><p>PowerShell</p></div>
-          <pre><code data-install-command>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+          <pre><code data-install-command><!-- adoption:windows:start -->
 python -m venv .venv
-.venv\Scripts\python.exe -m pip install .
-.venv\Scripts\python.exe -m iconflow setup
-.venv\Scripts\python.exe -m iconflow doctor
-.venv\Scripts\python.exe -m iconflow ship --config brand\iconflow.toml --review brand\master-review.json</code></pre>
+.\.venv\Scripts\python.exe -m pip install iconflow
+.\.venv\Scripts\python.exe -m iconflow demo --setup `
+  --out iconflow-demo
+<!-- adoption:windows:end --></code></pre>
           <button class="copy-button" type="button" data-copy-command aria-live="polite" data-label-copy="Copy" data-label-copied="Copied" data-label-selected="Selected">Copy</button>
         </div>
       </div>

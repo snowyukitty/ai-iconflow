@@ -110,16 +110,17 @@ product job and competing concepts—and refuses to ship unreviewed pixels.
 Python 3.10+ is required. The one-time `setup` step downloads Playwright
 Chromium; everything after it is local.
 
+<!-- adoption:portable:start -->
 ```bash
 pip install iconflow          # or: uv tool install iconflow / pipx install iconflow
-iconflow setup                # fetches Chromium — the only network step
-iconflow doctor               # proves the environment
-iconflow demo --out iconflow-demo
+iconflow demo --setup --out iconflow-demo
 ```
+<!-- adoption:portable:end -->
 
-`demo` copies a real, already-reviewed family into that directory and runs
-`doctor` → `check` → `review` → `ship` against its source-bound receipt, so your
-first success is a genuine gated ship rather than a render. Edit the copied
+`demo --setup` fetches Chromium once, copies a real, already-reviewed family,
+then runs `doctor` → `check` → `review` → `ship` against its packaged
+source-bound receipt. Your first success is a genuine gated ship rather than a
+render. Edit the copied
 `master.svg` and re-run `ship` to watch it refuse the stale receipt.
 
 Working from a checkout instead — contributors, or anyone who wants the brand
@@ -154,9 +155,8 @@ receipt and builds 23 web, Tauri desktop, Electron, and tray files. It is a
 reproducible engine proof, not a claim that a distinctive new identity can be
 designed in five minutes.
 
-The same proof is packaged as one command, `iconflow demo --out iconflow-demo`
-(`.venv\Scripts\python.exe -m iconflow demo ...` from this checkout; it is not on
-PyPI yet). It copies the reviewed brand family — `master.svg`, `tray.svg`,
+The same proof is packaged as one command, `iconflow demo --out iconflow-demo`.
+It copies the reviewed brand family — `master.svg`, `tray.svg`,
 `iconflow.toml`, `master-review.json` — into that directory and runs `doctor` →
 `check` → `review` (sheet + Review Lab) → `ship` against the bundled receipt; add
 `--setup` to install Chromium first and `--json` for the machine-readable result.

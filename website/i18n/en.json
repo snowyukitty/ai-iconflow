@@ -2151,8 +2151,8 @@
         "index.html"
       ]
     },
-    "choose-the-agent-assisted-path-or-drive-the.87b19f77": {
-      "text": "Choose the agent-assisted path or drive the CLI directly, then build the checked-in IconFlow brand family. Five minutes proves the engine, not a new identity; <0/> downloads Chromium once, and nothing else leaves your machine.",
+    "choose-the-agent-assisted-path-or-drive-the.d3e988d5": {
+      "text": "Choose the agent-assisted path or drive the CLI directly, then build the packaged IconFlow brand family. Five minutes proves the engine, not a new identity; <0/> downloads Chromium once, and nothing else leaves your machine.",
       "kind": "text",
       "where": "section#start div.start-card div",
       "pages": [
@@ -2447,8 +2447,8 @@
         "getting-started/index.html"
       ]
     },
-    "getting-started-source-install.3bf3ce86": {
-      "text": "Getting started · source install",
+    "getting-started-pypi-install.28291c17": {
+      "text": "Getting started · PyPI install",
       "kind": "text",
       "where": "main#main section.guide-hero div.guide-hero-copy",
       "pages": [
@@ -2503,8 +2503,8 @@
         "getting-started/index.html"
       ]
     },
-    "git.58197788": {
-      "text": "Git",
+    "pip-uv-pipx.067a7e98": {
+      "text": "pip / uv / pipx",
       "kind": "text",
       "where": "section.guide-hero div.guide-hero-copy ul.guide-requirements",
       "pages": [
@@ -2783,32 +2783,32 @@
         "getting-started/index.html"
       ]
     },
-    "this-builds-iconflow-s-checked-in-reviewed-f.5af6309c": {
-      "text": "This builds IconFlow’s checked-in reviewed family into a disposable work directory. It proves your environment—not that a distinctive new identity can be designed in five minutes.",
+    "this-builds-iconflow-s-packaged-reviewed-fam.a5fe71f1": {
+      "text": "This builds IconFlow’s packaged reviewed family into a disposable work directory. It proves your environment—not that a distinctive new identity can be designed in five minutes.",
       "kind": "text",
       "where": "section#install div.section-shell div.guide-heading",
       "pages": [
         "getting-started/index.html"
       ]
     },
-    "0-01-0-1-clone-1-2-get-the-current-source-2.afce68cb": {
-      "text": "<0>01</0><1>Clone</1><2>Get the current source.</2>",
+    "0-01-0-1-install-1-2-get-the-current-pypi-re.b7936c1d": {
+      "text": "<0>01</0><1>Install</1><2>Get the current PyPI release.</2>",
       "kind": "text",
       "where": "section#install div.section-shell div.proof-steps",
       "pages": [
         "getting-started/index.html"
       ]
     },
-    "0-02-0-1-set-up-1-2-install-python-deps-chro.d82afadd": {
-      "text": "<0>02</0><1>Set up</1><2>Install Python deps, Chromium, and the agent skill.</2>",
+    "0-02-0-1-set-up-1-2-install-chromium-once-2.b0b8e231": {
+      "text": "<0>02</0><1>Set up</1><2>Install Chromium once.</2>",
       "kind": "text",
       "where": "section#install div.section-shell div.proof-steps",
       "pages": [
         "getting-started/index.html"
       ]
     },
-    "0-03-0-1-ship-proof-1-2-revalidate-the-recei.a328b919": {
-      "text": "<0>03</0><1>Ship proof</1><2>Revalidate the receipt and build 23 assets.</2>",
+    "0-03-0-1-run-proof-1-2-revalidate-the-receip.228996fb": {
+      "text": "<0>03</0><1>Run proof</1><2>Revalidate the receipt and build 23 assets.</2>",
       "kind": "text",
       "where": "section#install div.section-shell div.proof-steps",
       "pages": [
@@ -2855,16 +2855,16 @@
         "getting-started/index.html"
       ]
     },
-    "doctor.1f016007": {
-      "text": "doctor",
+    "demo.89e495e7": {
+      "text": "demo",
       "kind": "text",
       "where": "div.proof-result div p",
       "pages": [
         "getting-started/index.html"
       ]
     },
-    "reports-the-renderer-ready-0-verifies-the-ch.360ec315": {
-      "text": "reports the renderer ready. <0/> verifies the checked-in source and review contract, reruns QA, and writes web, PWA, Tauri desktop, Electron, and tray assets under <1/>.",
+    "verifies-the-packaged-source-and-review-cont.79926683": {
+      "text": "verifies the packaged source and review contract, reruns QA, and writes web, PWA, Tauri desktop, Electron, and tray assets under <0/>.",
       "kind": "text",
       "where": "div.section-shell div.proof-result div",
       "pages": [

@@ -74,7 +74,7 @@
   <main id="main">
     <section class="guide-hero section-shell">
       <div class="guide-hero-copy reveal">
-        <p class="eyebrow"><span class="status-dot"></span> Getting Started · ソースからインストール</p>
+        <p class="eyebrow"><span class="status-dot"></span> Getting Started · PyPI からインストール</p>
         <h1>エージェントに<br>ブリーフを渡す。<br><em>プルーフを残す。</em></h1>
         <p>IconFlow は製品の意図を編集可能な SVG に変え、アセットをリリースする前に、ネイティブピクセル、プラットフォームごとのクロップ、ソースに紐づいたレビューに耐えるデザインへ仕上げます。</p>
         <div class="hero-actions">
@@ -83,7 +83,7 @@
         </div>
         <ul class="guide-requirements" aria-label="要件">
           <li>Python 3.10+</li>
-          <li>Git</li>
+          <li>pip / uv / pipx</li>
           <li>初回のみネットワーク設定</li>
         </ul>
       </div>
@@ -153,48 +153,42 @@
         <div class="guide-heading reveal">
           <p class="section-kicker">5 分のエンジンプルーフ</p>
           <h2>デザインの前に<br><span>パイプラインを検証。</span></h2>
-          <p>これは、IconFlow リポジトリに含まれるレビュー済みアイコンファミリーを使い捨ての作業ディレクトリにビルドします。確認できるのは環境です。5 分で独自性のある新しいアイデンティティをデザインできるという意味ではありません。</p>
+          <p>これは、IconFlow パッケージに含まれるレビュー済みアイコンファミリーを使い捨ての作業ディレクトリにビルドします。確認できるのは環境です。5 分で独自性のある新しいアイデンティティをデザインできるという意味ではありません。</p>
         </div>
 
         <div class="proof-steps reveal">
-          <div><span>01</span><strong>クローン</strong><small>最新のソースを取得します。</small></div>
-          <div><span>02</span><strong>セットアップ</strong><small>Python の依存パッケージ、Chromium、エージェントスキルをインストールします。</small></div>
-          <div><span>03</span><strong>リリースのプルーフ</strong><small>receipt を再検証し、23 個のアセットをビルドします。</small></div>
+          <div><span>01</span><strong>インストール</strong><small>PyPI から現行リリースを取得します。</small></div>
+          <div><span>02</span><strong>セットアップ</strong><small>Chromium を一度だけインストールします。</small></div>
+          <div><span>03</span><strong>プルーフを実行</strong><small>receipt を再検証し、23 個のアセットをビルドします。</small></div>
         </div>
 
         <div class="platform-grid">
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>Windows · PowerShell</p></header>
-            <pre id="install-windows"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+            <pre id="install-windows"><code><!-- adoption:windows:start -->
 python -m venv .venv
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
-.\.venv\Scripts\python.exe -m iconflow doctor
-.\.venv\Scripts\python.exe -m iconflow ship `
-  --config brand\iconflow.toml `
-  --review brand\master-review.json `
-  --out work\quick-start\icon-out</code></pre>
+.\.venv\Scripts\python.exe -m pip install iconflow
+.\.venv\Scripts\python.exe -m iconflow demo --setup `
+  --out iconflow-demo
+<!-- adoption:windows:end --></code></pre>
             <button class="copy-button" type="button" data-copy-command data-label-copy="コピー" data-label-copied="コピーしました" data-label-selected="選択済み" data-copy-target="#install-windows">コピー</button>
           </article>
 
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>macOS / Linux · shell</p></header>
-            <pre id="install-posix"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+            <pre id="install-posix"><code><!-- adoption:posix:start -->
 python3 -m venv .venv
-sh ./scripts/setup.sh
-./.venv/bin/python -m iconflow doctor
-./.venv/bin/python -m iconflow ship \
-  --config brand/iconflow.toml \
-  --review brand/master-review.json \
-  --out work/quick-start/icon-out</code></pre>
+./.venv/bin/python -m pip install iconflow
+./.venv/bin/python -m iconflow demo --setup \
+  --out iconflow-demo
+<!-- adoption:posix:end --></code></pre>
             <button class="copy-button" type="button" data-copy-command data-label-copy="コピー" data-label-copied="コピーしました" data-label-selected="選択済み" data-copy-target="#install-posix">コピー</button>
           </article>
         </div>
 
         <div class="proof-result reveal">
           <div class="proof-result-mark"><img src="/assets/iconflow-mark.svg" width="92" height="92" alt="IconFlow マーク"></div>
-          <div><span class="proof-result-label">想定される結果</span><h3>単なるフォルダーではなく、ゲート。</h3><p><code>doctor</code>はレンダラーの準備完了を報告します。<code>ship</code> はリポジトリ内のソースとレビュー契約を検証し、QA を再実行して、Web、PWA、Tauri デスクトップ、Electron、トレイ用のアセットを <code>work/quick-start/icon-out/</code> 以下に書き出します。</p></div>
+          <div><span class="proof-result-label">想定される結果</span><h3>単なるフォルダーではなく、ゲート。</h3><p><code>demo</code>はパッケージに含まれるソースとレビュー契約を検証し、QA を再実行して、Web、PWA、Tauri デスクトップ、Electron、トレイ用のアセットを <code>iconflow-demo/build/</code> 以下に書き出します。</p></div>
           <ul><li><span></span>ソースハッシュが一致</li><li><span></span>自動警告 0 件</li><li><span></span>6 つのスコアが 4/5 以上</li></ul>
         </div>
       </div>

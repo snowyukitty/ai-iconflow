@@ -127,6 +127,22 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertLess(readme.index(demo), readme.index(proof))
         self.assertLess(readme.index(proof), readme.index(cases))
 
+    def test_first_proof_installs_the_release_before_sending_people_to_source(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        homepage = (SITE / "index.html").read_text(encoding="utf-8")
+        guide = (SITE / "getting-started" / "index.html").read_text(encoding="utf-8")
+
+        self.assertNotIn("not on pypi yet", re.sub(r"\s+", " ", readme.lower()))
+        for name, document in (("README", readme), ("homepage", homepage), ("guide", guide)):
+            with self.subTest(document=name):
+                self.assertIn("pip install iconflow", document)
+                self.assertIn("iconflow demo --setup", document)
+                self.assertIn("--out iconflow-demo", document)
+
+        install = guide.split('<section id="install"', 1)[1].split("</section>", 1)[0]
+        self.assertNotIn("git clone", install)
+        self.assertNotIn("brand/master-review.json", install)
+
     def parse(self, name: str) -> _SiteParser:
         parser = _SiteParser()
         parser.feed((SITE / name).read_text(encoding="utf-8"))
@@ -390,8 +406,11 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertIn('data-copy-target="#install-windows"', guide)
         self.assertIn('data-copy-target="#install-posix"', guide)
         self.assertIn('data-copy-target="#agent-prompt"', guide)
-        self.assertIn('scripts\\setup.ps1', guide)
-        self.assertIn('scripts/setup.sh', guide)
+        self.assertIn('pip install iconflow', guide)
+        self.assertIn('iconflow demo --setup', guide)
+        self.assertIn('--out iconflow-demo', guide)
+        self.assertNotIn('scripts\\setup.ps1', guide)
+        self.assertNotIn('scripts/setup.sh', guide)
         self.assertIn('AGENTS.md', guide)
         self.assertIn('iconflow review', guide)
         self.assertIn('iconflow ship', guide)
@@ -1056,7 +1075,9 @@ class InternationalisationContractTests(unittest.TestCase):
                 self.assertIn("Petal Haypile", home)
                 self.assertIn("<code>check</code>", archive)
                 self.assertIn("<code>ship</code>", archive)
-                self.assertIn("scripts/setup.sh", guide)
+                self.assertIn("pip install iconflow", guide)
+                self.assertIn("iconflow demo --setup", guide)
+                self.assertIn("--out iconflow-demo", guide)
                 self.assertIn("iconflow review", guide)
                 self.assertIn("master.svg", home)
                 self.assertIn("/assets/proof/icon-16.png", home)

@@ -597,7 +597,7 @@
         <div>
           <p class="section-kicker">运行 5 分钟校样</p>
           <h2>你的图标值得<br>诚实的最后一公里。</h2>
-          <p>可选择智能体辅助路径或直接操作 CLI，进而构建已签入的 IconFlow 品牌家族。5 分钟验证的是引擎本身，而非新标识；<code>setup</code> 仅下载一次 Chromium，此外没有任何数据会离开你的机器。</p>
+          <p>可选择智能体辅助路径或直接操作 CLI，进而构建软件包内的 IconFlow 品牌家族。5 分钟验证的是引擎本身，而非新标识；<code>setup</code> 仅下载一次 Chromium，此外没有任何数据会离开你的机器。</p>
           <div class="start-actions">
             <a class="button button-primary" href="/zh-hans/getting-started/">打开 Getting Started <span aria-hidden="true">→</span></a>
             <a class="button button-quiet" href="/reference/icon-sizes/">图标尺寸对照表</a>
@@ -606,13 +606,12 @@
         </div>
         <div class="install-terminal">
           <div class="terminal-bar"><span></span><span></span><span></span><p>PowerShell</p></div>
-          <pre><code data-install-command>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+          <pre><code data-install-command><!-- adoption:windows:start -->
 python -m venv .venv
-.venv\Scripts\python.exe -m pip install .
-.venv\Scripts\python.exe -m iconflow setup
-.venv\Scripts\python.exe -m iconflow doctor
-.venv\Scripts\python.exe -m iconflow ship --config brand\iconflow.toml --review brand\master-review.json</code></pre>
+.\.venv\Scripts\python.exe -m pip install iconflow
+.\.venv\Scripts\python.exe -m iconflow demo --setup `
+  --out iconflow-demo
+<!-- adoption:windows:end --></code></pre>
           <button class="copy-button" type="button" data-copy-command aria-live="polite" data-label-copy="复制" data-label-copied="已复制" data-label-selected="已选中">复制</button>
         </div>
       </div>

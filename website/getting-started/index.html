@@ -75,7 +75,7 @@
   <main id="main">
     <section class="guide-hero section-shell">
       <div class="guide-hero-copy reveal">
-        <p class="eyebrow"><span class="status-dot"></span> Getting started · source install</p>
+        <p class="eyebrow"><span class="status-dot"></span> Getting started · PyPI install</p>
         <h1>Give your agent<br>the brief.<br><em>Keep the proof.</em></h1>
         <p>IconFlow turns product intent into an editable SVG, then makes the design survive native pixels, platform crops, and a source-bound review before any asset ships.</p>
         <div class="hero-actions">
@@ -84,7 +84,7 @@
         </div>
         <ul class="guide-requirements" aria-label="Requirements">
           <li>Python 3.10+</li>
-          <li>Git</li>
+          <li>pip / uv / pipx</li>
           <li>One-time network setup</li>
         </ul>
       </div>
@@ -156,48 +156,42 @@
         <div class="guide-heading reveal">
           <p class="section-kicker">Five-minute engine proof</p>
           <h2>Prove the pipeline<br><span>before designing.</span></h2>
-          <p>This builds IconFlow’s checked-in reviewed family into a disposable work directory. It proves your environment—not that a distinctive new identity can be designed in five minutes.</p>
+          <p>This builds IconFlow’s packaged reviewed family into a disposable work directory. It proves your environment—not that a distinctive new identity can be designed in five minutes.</p>
         </div>
 
         <div class="proof-steps reveal">
-          <div><span>01</span><strong>Clone</strong><small>Get the current source.</small></div>
-          <div><span>02</span><strong>Set up</strong><small>Install Python deps, Chromium, and the agent skill.</small></div>
-          <div><span>03</span><strong>Ship proof</strong><small>Revalidate the receipt and build 23 assets.</small></div>
+          <div><span>01</span><strong>Install</strong><small>Get the current PyPI release.</small></div>
+          <div><span>02</span><strong>Set up</strong><small>Install Chromium once.</small></div>
+          <div><span>03</span><strong>Run proof</strong><small>Revalidate the receipt and build 23 assets.</small></div>
         </div>
 
         <div class="platform-grid">
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>Windows · PowerShell</p></header>
-            <pre id="install-windows"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+            <pre id="install-windows"><code><!-- adoption:windows:start -->
 python -m venv .venv
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
-.\.venv\Scripts\python.exe -m iconflow doctor
-.\.venv\Scripts\python.exe -m iconflow ship `
-  --config brand\iconflow.toml `
-  --review brand\master-review.json `
-  --out work\quick-start\icon-out</code></pre>
+.\.venv\Scripts\python.exe -m pip install iconflow
+.\.venv\Scripts\python.exe -m iconflow demo --setup `
+  --out iconflow-demo
+<!-- adoption:windows:end --></code></pre>
             <button class="copy-button" type="button" data-copy-command data-label-copy="Copy" data-label-copied="Copied" data-label-selected="Selected" data-copy-target="#install-windows">Copy</button>
           </article>
 
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>macOS / Linux · shell</p></header>
-            <pre id="install-posix"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+            <pre id="install-posix"><code><!-- adoption:posix:start -->
 python3 -m venv .venv
-sh ./scripts/setup.sh
-./.venv/bin/python -m iconflow doctor
-./.venv/bin/python -m iconflow ship \
-  --config brand/iconflow.toml \
-  --review brand/master-review.json \
-  --out work/quick-start/icon-out</code></pre>
+./.venv/bin/python -m pip install iconflow
+./.venv/bin/python -m iconflow demo --setup \
+  --out iconflow-demo
+<!-- adoption:posix:end --></code></pre>
             <button class="copy-button" type="button" data-copy-command data-label-copy="Copy" data-label-copied="Copied" data-label-selected="Selected" data-copy-target="#install-posix">Copy</button>
           </article>
         </div>
 
         <div class="proof-result reveal">
           <div class="proof-result-mark"><img src="/assets/iconflow-mark.svg" width="92" height="92" alt="IconFlow mark"></div>
-          <div><span class="proof-result-label">Expected result</span><h3>A gate, not just a folder.</h3><p><code>doctor</code> reports the renderer ready. <code>ship</code> verifies the checked-in source and review contract, reruns QA, and writes web, PWA, Tauri desktop, Electron, and tray assets under <code>work/quick-start/icon-out/</code>.</p></div>
+          <div><span class="proof-result-label">Expected result</span><h3>A gate, not just a folder.</h3><p><code>demo</code> verifies the packaged source and review contract, reruns QA, and writes web, PWA, Tauri desktop, Electron, and tray assets under <code>iconflow-demo/build/</code>.</p></div>
           <ul><li><span></span>source hash matches</li><li><span></span>0 automated warnings</li><li><span></span>six scores ≥ 4/5</li></ul>
         </div>
       </div>

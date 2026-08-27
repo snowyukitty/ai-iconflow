@@ -70,6 +70,14 @@ The current checkpoint has:
 - a self-contained three-frame review artifact for the required human cinema
   preview.
 
+The first artifact exposed a production-tool defect rather than a film defect:
+artifact mode emitted only a CSS fragment and omitted the document shell and
+UTF-8 declaration, so the Traditional Chinese review instructions rendered as
+mojibake in Chrome. Snowy HyperFrames now emits the complete UTF-8 document in
+both review modes, with a regression test. The rebuilt artifact was visually
+checked in the browser. That repairs the review handoff; it does not waive the
+human cinema or mute gate.
+
 This is deliberately **ready to preview**, not rendered or published. The
 human gate still owns pacing, readability, sound, pixel fidelity, and final
 permission to render.
@@ -90,10 +98,11 @@ second paid branch after the Flow Quality take passed the visual gate.
 
 The updated `web-flow` production contract was applied before any new paid
 action. The available signed-in Flow surface exposed a 50-credit daily pool,
-not the separately authorized 200-credit production envelope. A one-output
-Fast proof would fit the live arithmetic (20 credits with a 20-credit protected
-reserve), but the complete 15-second animatic still lacks the required human
-mute/cinema acceptance. Those are two independent fail-closed blockers.
+but did not expose a per-attempt quote before project creation. No project was
+created merely to reveal a price, so the current unit cost remains unverified.
+The complete 15-second animatic also still lacks the required human mute/cinema
+acceptance. Cost evidence and creative acceptance are independent fail-closed
+gates.
 
 No new generation was submitted, no credit was spent, and no feasibility take
 is being relabeled as a campaign asset. The accepted Quality inspection-bench

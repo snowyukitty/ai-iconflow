@@ -597,7 +597,7 @@
         <div>
           <p class="section-kicker">Ejecuta la prueba de cinco minutos</p>
           <h2>Tu icono merece<br>un último tramo honesto.</h2>
-          <p>Elige la ruta asistida por agente o usa directamente la CLI; después, genera la familia de marca de IconFlow incluida en el repositorio. Cinco minutos prueban el motor, no una identidad nueva; <code>setup</code> descarga Chromium una vez y nada más sale de tu máquina.</p>
+          <p>Elige la ruta asistida por agente o usa directamente la CLI; después, genera la familia de marca de IconFlow incluida en el paquete. Cinco minutos prueban el motor, no una identidad nueva; <code>setup</code> descarga Chromium una vez y nada más sale de tu máquina.</p>
           <div class="start-actions">
             <a class="button button-primary" href="/es/getting-started/">Abre Getting Started <span aria-hidden="true">→</span></a>
             <a class="button button-quiet" href="/reference/icon-sizes/">Referencia de tamaños de icono</a>
@@ -606,13 +606,12 @@
         </div>
         <div class="install-terminal">
           <div class="terminal-bar"><span></span><span></span><span></span><p>PowerShell</p></div>
-          <pre><code data-install-command>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+          <pre><code data-install-command><!-- adoption:windows:start -->
 python -m venv .venv
-.venv\Scripts\python.exe -m pip install .
-.venv\Scripts\python.exe -m iconflow setup
-.venv\Scripts\python.exe -m iconflow doctor
-.venv\Scripts\python.exe -m iconflow ship --config brand\iconflow.toml --review brand\master-review.json</code></pre>
+.\.venv\Scripts\python.exe -m pip install iconflow
+.\.venv\Scripts\python.exe -m iconflow demo --setup `
+  --out iconflow-demo
+<!-- adoption:windows:end --></code></pre>
           <button class="copy-button" type="button" data-copy-command aria-live="polite" data-label-copy="Copiar" data-label-copied="Copiado" data-label-selected="Seleccionado">Copiar</button>
         </div>
       </div>

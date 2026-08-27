@@ -597,7 +597,7 @@
         <div>
           <p class="section-kicker">5 分のプルーフを実行</p>
           <h2>あなたのアイコンには<br>誠実な最終工程を。</h2>
-          <p>エージェント支援の手順を選ぶか、CLI を直接操作して、チェックイン済みの IconFlow ブランド用アイコンファミリーをビルドしてください。5 分で確かめられるのはエンジンであり、新しいアイデンティティではありません。<code>setup</code> は Chromium を一度だけダウンロードし、それ以外は何もマシンの外へ出ません。</p>
+          <p>エージェント支援の手順を選ぶか、CLI を直接操作して、パッケージに含まれる IconFlow ブランド用アイコンファミリーをビルドしてください。5 分で確かめられるのはエンジンであり、新しいアイデンティティではありません。<code>setup</code> は Chromium を一度だけダウンロードし、それ以外は何もマシンの外へ出ません。</p>
           <div class="start-actions">
             <a class="button button-primary" href="/ja/getting-started/">Getting Started を開く <span aria-hidden="true">→</span></a>
             <a class="button button-quiet" href="/reference/icon-sizes/">アイコンサイズ一覧</a>
@@ -606,13 +606,12 @@
         </div>
         <div class="install-terminal">
           <div class="terminal-bar"><span></span><span></span><span></span><p>PowerShell</p></div>
-          <pre><code data-install-command>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+          <pre><code data-install-command><!-- adoption:windows:start -->
 python -m venv .venv
-.venv\Scripts\python.exe -m pip install .
-.venv\Scripts\python.exe -m iconflow setup
-.venv\Scripts\python.exe -m iconflow doctor
-.venv\Scripts\python.exe -m iconflow ship --config brand\iconflow.toml --review brand\master-review.json</code></pre>
+.\.venv\Scripts\python.exe -m pip install iconflow
+.\.venv\Scripts\python.exe -m iconflow demo --setup `
+  --out iconflow-demo
+<!-- adoption:windows:end --></code></pre>
           <button class="copy-button" type="button" data-copy-command aria-live="polite" data-label-copy="コピー" data-label-copied="コピーしました" data-label-selected="選択済み">コピー</button>
         </div>
       </div>

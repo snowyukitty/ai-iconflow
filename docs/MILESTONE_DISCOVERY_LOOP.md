@@ -52,6 +52,31 @@ different from a general icon-size lookup. It ships as one coherent vertical:
 - Website, state, and full repository tests pass before publication.
 - The deployed route is compared with the checkout by `scripts/state.py`.
 
+## Second complete vertical: a truthful first proof
+
+The problem route can earn attention, but the next click still failed the
+adoption contract. On 2026-08-27 a fresh virtual environment installed the
+public `iconflow==0.5.0` wheel and completed `iconflow demo --setup`: `doctor`,
+`check`, `review`, and `ship` all passed, 23 files were written, all six review
+scores were at least 4/5, and there were no automated warnings. The release
+worked; its presentation did not. The website still led new users through a
+source checkout and manual `brand/` receipt path, while the live PyPI long
+description still said that IconFlow was not published there.
+
+The repaired vertical is deliberately short:
+
+- install the current wheel;
+- run `iconflow demo --setup --out iconflow-demo`; and
+- see the packaged, source-bound receipt survive the same ship gate a real
+  project uses.
+
+`scripts/build_adoption.py` now owns those commands across README, homepage,
+and Getting Started. `scripts/state.py` verifies that binding offline and asks
+the live PyPI API whether the published description still denies the release.
+The latter remains a visible failure until a future evidence-led package
+release publishes the corrected README; this milestone does not bump a version
+merely to repair marketing copy.
+
 ## Deliberate non-goals
 
 No thin route per platform, competitor-comparison pages, invented testimonials,
@@ -60,7 +85,7 @@ local-first promise, or package-version bump merely to announce a web page.
 
 ## Next decision
 
-`/reference/16px/` is the next hypothesis, not an automatic task. Promote it
+`/reference/16px/` remains a hypothesis, not an automatic task. Promote it
 only when Search Console impressions, external issues, or repeated user
 language confirm the need. The reference generator, social renderer, site
 contract tests, and self-audit now form the reusable system for that next

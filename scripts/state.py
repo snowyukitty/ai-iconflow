@@ -189,10 +189,15 @@ def check_generators() -> list[Check]:
             if code == 0 else "run python scripts/build_tray_reference.py"
         )
 
+    def adoption():
+        module = load_script("build_adoption")
+        return module.verify()
+
     run("generated.i18n", "Five-language site is current", i18n)
     run("generated.archive", "Living archive is current", archive)
     run("generated.reference", "Icon-size reference is current", reference)
     run("generated.tray_reference", "Tray-icon reference is current", tray_reference)
+    run("generated.adoption", "First-proof commands are current", adoption)
     for check in checks:
         check.section = "Generated artifacts"
     return checks
@@ -293,6 +298,25 @@ def check_deployment() -> list[Check]:
 # Section 3 — the distribution
 
 
+PYPI_STALE_MARKERS = (
+    "not published on PyPI",
+    "not on PyPI yet",
+    "do not use `pip install iconflow`",
+)
+
+
+def pypi_description_problems(description: str) -> list[str]:
+    """Return adoption claims that make a published package deny itself."""
+    lowered = description.lower()
+    problems = [f"contains stale pre-release claim: {marker!r}"
+                for marker in PYPI_STALE_MARKERS if marker.lower() in lowered]
+    if "pip install iconflow" not in description:
+        problems.append("missing the released install command")
+    if "iconflow demo" not in description:
+        problems.append("missing the source-bound first-proof command")
+    return problems
+
+
 def check_distribution() -> list[Check]:
     import iconflow
 
@@ -304,6 +328,8 @@ def check_distribution() -> list[Check]:
     except (urllib.error.URLError, OSError, ValueError, json.JSONDecodeError) as exc:
         checks.append(Check("dist.pypi", "PyPI carries this version", UNKNOWN,
                             f"PyPI unreachable: {exc}"))
+        checks.append(Check("dist.description", "PyPI first-proof copy is truthful", UNKNOWN,
+                            "not checked, because the project page could not be listed"))
         checks.append(Check("dist.attestations", "Release attestations resolve", UNKNOWN,
                             "not checked, because the release could not be listed"))
         for check in checks:
@@ -319,6 +345,19 @@ def check_distribution() -> list[Check]:
         f"checkout is {version}; PyPI latest is {latest} "
         + ("(published)" if here else "— this version has never been uploaded"),
         evidence={"checkout": version, "pypi_latest": latest, "released": published},
+    ))
+
+    description_problems = pypi_description_problems(
+        data.get("info", {}).get("description") or ""
+    )
+    checks.append(Check(
+        "dist.description", "PyPI first-proof copy is truthful",
+        FAIL if description_problems else PASS,
+        (f"published {latest} long description " + "; ".join(description_problems)
+         + " — corrected checkout needs a future release"
+         if description_problems
+         else "install and demo commands present; no stale pre-release warning"),
+        evidence={"pypi_latest": latest, "problems": description_problems},
     ))
 
     # An unsigned artifact and a signed one are indistinguishable from the JSON

@@ -74,7 +74,7 @@
   <main id="main">
     <section class="guide-hero section-shell">
       <div class="guide-hero-copy reveal">
-        <p class="eyebrow"><span class="status-dot"></span> 開始使用 · 原始碼安裝</p>
+        <p class="eyebrow"><span class="status-dot"></span> 開始使用 · 從 PyPI 安裝</p>
         <h1>把設計說明<br>交給代理程式。<br><em>留下校樣。</em></h1>
         <p>IconFlow 把產品意圖變成可編輯 SVG，再讓設計撐過原生像素、平台裁切，以及綁定原始檔的審查，之後才交付任何素材。</p>
         <div class="hero-actions">
@@ -83,7 +83,7 @@
         </div>
         <ul class="guide-requirements" aria-label="系統需求">
           <li>Python 3.10+</li>
-          <li>Git</li>
+          <li>pip / uv / pipx</li>
           <li>一次性網路設定</li>
         </ul>
       </div>
@@ -153,48 +153,42 @@
         <div class="guide-heading reveal">
           <p class="section-kicker">五分鐘引擎校樣</p>
           <h2>驗證管線<br><span>再開始設計。</span></h2>
-          <p>這會把 IconFlow 已簽入、已審查的圖示家族建到可拋棄的工作目錄。它證明的是你的環境——不是五分鐘內就能設計出獨特的新識別。</p>
+          <p>這會把 IconFlow 套件內已審查的圖示家族建到可拋棄的工作目錄。它證明的是你的環境——不是五分鐘內就能設計出獨特的新識別。</p>
         </div>
 
         <div class="proof-steps reveal">
-          <div><span>01</span><strong>Clone</strong><small>取得目前原始碼。</small></div>
-          <div><span>02</span><strong>設定</strong><small>安裝 Python 依賴套件、Chromium 與代理程式 skill。</small></div>
-          <div><span>03</span><strong>交付校樣</strong><small>重新驗證 receipt 並建置 23 個素材。</small></div>
+          <div><span>01</span><strong>安裝</strong><small>取得目前的 PyPI 版本。</small></div>
+          <div><span>02</span><strong>設定</strong><small>一次性安裝 Chromium。</small></div>
+          <div><span>03</span><strong>執行校樣</strong><small>重新驗證 receipt 並建置 23 個素材。</small></div>
         </div>
 
         <div class="platform-grid">
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>Windows · PowerShell</p></header>
-            <pre id="install-windows"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+            <pre id="install-windows"><code><!-- adoption:windows:start -->
 python -m venv .venv
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
-.\.venv\Scripts\python.exe -m iconflow doctor
-.\.venv\Scripts\python.exe -m iconflow ship `
-  --config brand\iconflow.toml `
-  --review brand\master-review.json `
-  --out work\quick-start\icon-out</code></pre>
+.\.venv\Scripts\python.exe -m pip install iconflow
+.\.venv\Scripts\python.exe -m iconflow demo --setup `
+  --out iconflow-demo
+<!-- adoption:windows:end --></code></pre>
             <button class="copy-button" type="button" data-copy-command data-label-copy="複製" data-label-copied="已複製" data-label-selected="已選取" data-copy-target="#install-windows">複製</button>
           </article>
 
           <article class="command-card reveal">
             <header><div><span></span><span></span><span></span></div><p>macOS / Linux · shell</p></header>
-            <pre id="install-posix"><code>git clone https://github.com/snowyukitty/ai-iconflow.git
-cd ai-iconflow
+            <pre id="install-posix"><code><!-- adoption:posix:start -->
 python3 -m venv .venv
-sh ./scripts/setup.sh
-./.venv/bin/python -m iconflow doctor
-./.venv/bin/python -m iconflow ship \
-  --config brand/iconflow.toml \
-  --review brand/master-review.json \
-  --out work/quick-start/icon-out</code></pre>
+./.venv/bin/python -m pip install iconflow
+./.venv/bin/python -m iconflow demo --setup \
+  --out iconflow-demo
+<!-- adoption:posix:end --></code></pre>
             <button class="copy-button" type="button" data-copy-command data-label-copy="複製" data-label-copied="已複製" data-label-selected="已選取" data-copy-target="#install-posix">複製</button>
           </article>
         </div>
 
         <div class="proof-result reveal">
           <div class="proof-result-mark"><img src="/assets/iconflow-mark.svg" width="92" height="92" alt="IconFlow 標誌"></div>
-          <div><span class="proof-result-label">預期結果</span><h3>關卡，不只是資料夾。</h3><p><code>doctor</code>回報渲染器已就緒。<code>ship</code> 會驗證已簽入的原始檔與審查契約、重新執行 QA，並將 Web、PWA、Tauri 桌面、Electron 與系統匣資產寫入 <code>work/quick-start/icon-out/</code>。</p></div>
+          <div><span class="proof-result-label">預期結果</span><h3>關卡，不只是資料夾。</h3><p><code>demo</code>會驗證套件內的原始檔與審查契約、重新執行 QA，並將 Web、PWA、Tauri 桌面、Electron 與系統匣資產寫入 <code>iconflow-demo/build/</code>。</p></div>
           <ul><li><span></span>原始檔雜湊相符</li><li><span></span>0 則自動警告</li><li><span></span>六項分數 ≥ 4/5</li></ul>
         </div>
       </div>

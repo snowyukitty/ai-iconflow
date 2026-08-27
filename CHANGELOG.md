@@ -8,6 +8,11 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- A source-bound public adoption contract. `scripts/build_adoption.py` keeps
+  the README, homepage, and Getting Started install-and-demo commands identical,
+  while `scripts/state.py` now audits both that offline binding and the live
+  PyPI long description for stale pre-release warnings.
+
 - Six evidence-led campaign stills for route SEO and social sharing: four
   1200×630 cards plus 1080×1080 and 1080×1920 cuts. A network-isolated
   Playwright renderer builds them from exact project assets, writes a visual
@@ -77,6 +82,13 @@ first published release remains under `Unreleased`.
   shipped.
 
 ### Changed
+
+- The shortest public proof now begins with the current PyPI wheel and
+  `iconflow demo --setup --out iconflow-demo`, rather than requiring a source
+  checkout and a repository-specific receipt path. A clean 0.5.0 installation
+  completed `doctor` → `check` → `review` → `ship`, produced all 23 expected
+  files, and passed every review gate; the website now demonstrates what the
+  released package already does.
 
 - Reframed the GitHub README as a visual storefront: the reviewed workflow
   campaign image now leads the page, the real stale-receipt animation serves as
