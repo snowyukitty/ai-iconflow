@@ -85,6 +85,7 @@ PAGES = (
 # and keep their English URL when a translated page links to them.
 ENGLISH_ONLY = (
     ("/reference/icon-sizes/", "monthly", "0.9"),
+    ("/reference/tray-icons/", "monthly", "0.9"),
     ("/gallery/", "weekly", "0.9"),
     ("/gallery/social-signals/", "monthly", "0.8"),
     ("/gallery/emoji-matrix/", "monthly", "0.8"),

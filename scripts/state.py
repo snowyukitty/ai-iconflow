@@ -181,9 +181,18 @@ def check_generators() -> list[Check]:
         return current, ("icon-size tables match iconflow/build.py"
                          if current else "run python scripts/build_reference.py")
 
+    def tray_reference():
+        module = load_script("build_tray_reference")
+        code = module.verify()
+        return code == 0, (
+            "tray guide and five evidence PNGs match assemble.to_template"
+            if code == 0 else "run python scripts/build_tray_reference.py"
+        )
+
     run("generated.i18n", "Five-language site is current", i18n)
     run("generated.archive", "Living archive is current", archive)
     run("generated.reference", "Icon-size reference is current", reference)
+    run("generated.tray_reference", "Tray-icon reference is current", tray_reference)
     for check in checks:
         check.section = "Generated artifacts"
     return checks
@@ -198,6 +207,7 @@ CONTRACT_FILES = (
     ("/llms.txt", "llms.txt"),
     ("/sitemap.xml", "sitemap.xml"),
     ("/reference/icon-sizes/", "reference/icon-sizes/index.html"),
+    ("/reference/tray-icons/", "reference/tray-icons/index.html"),
 )
 
 # A body can differ from the checkout without the deploy being stale: a CDN

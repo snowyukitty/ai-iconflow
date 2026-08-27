@@ -37,9 +37,14 @@ class SelfAuditTests(unittest.TestCase):
         checks = self.state.collect(offline=True)
         by_key = {check.key: check for check in checks}
 
-        # The three generated site artifacts are checkable with no network at
+        # The generated site artifacts are checkable with no network at
         # all, and they are the ones a contributor breaks by hand-editing.
-        for key in ("generated.i18n", "generated.archive", "generated.reference"):
+        for key in (
+            "generated.i18n",
+            "generated.archive",
+            "generated.reference",
+            "generated.tray_reference",
+        ):
             with self.subTest(key=key):
                 self.assertIn(key, by_key)
                 self.assertEqual(self.state.PASS, by_key[key].state,

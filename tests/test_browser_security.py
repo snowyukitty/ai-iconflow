@@ -3,9 +3,19 @@
 import os
 import threading
 import unittest
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from functools import partial
+from http.server import (
+    BaseHTTPRequestHandler,
+    SimpleHTTPRequestHandler,
+    ThreadingHTTPServer,
+)
+from pathlib import Path
 
 from iconflow.rasterize import Rasterizer
+from playwright.sync_api import sync_playwright
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 @unittest.skipUnless(
@@ -58,6 +68,49 @@ class BrowserSecurityIntegrationTests(unittest.TestCase):
             first = renderer.render(svg, 32)
             second = renderer.render(svg, 32)
         self.assertEqual(first, second)
+
+
+@unittest.skipUnless(
+    os.environ.get("ICONFLOW_BROWSER_TESTS") == "1",
+    "set ICONFLOW_BROWSER_TESTS=1 after installing Chromium",
+)
+class WebsiteLayoutIntegrationTests(unittest.TestCase):
+    def test_tray_reference_never_overflows_the_viewport(self):
+        """A wide command or output table must scroll itself, not the page."""
+
+        class QuietHandler(SimpleHTTPRequestHandler):
+            def log_message(self, _format, *_args):
+                return
+
+        server = ThreadingHTTPServer(
+            ("127.0.0.1", 0),
+            partial(QuietHandler, directory=str(ROOT / "website")),
+        )
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        url = f"http://127.0.0.1:{server.server_address[1]}/reference/tray-icons/"
+        try:
+            with sync_playwright() as playwright:
+                browser = playwright.chromium.launch()
+                try:
+                    for width in (320, 390, 768, 1440):
+                        with self.subTest(width=width):
+                            page = browser.new_page(
+                                viewport={"width": width, "height": 900}
+                            )
+                            page.goto(url, wait_until="networkidle")
+                            metrics = page.evaluate(
+                                "({client: document.documentElement.clientWidth, "
+                                "scroll: document.documentElement.scrollWidth})"
+                            )
+                            self.assertEqual(metrics["client"], metrics["scroll"])
+                            page.close()
+                finally:
+                    browser.close()
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=5)
 
 
 if __name__ == "__main__":

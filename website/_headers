@@ -30,6 +30,9 @@
 /reference/icon-sizes/index.html
   Cache-Control: public, max-age=0, must-revalidate
 
+/reference/tray-icons/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
 /
   Cache-Control: public, max-age=0, must-revalidate
 
@@ -46,6 +49,9 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 /reference/icon-sizes/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/reference/tray-icons/
   Cache-Control: public, max-age=0, must-revalidate
 
 /gallery/social-signals/

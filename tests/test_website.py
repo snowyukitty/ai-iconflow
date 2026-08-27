@@ -53,6 +53,7 @@ HTML_PAGES = (
     "gallery/emoji-matrix/index.html",
     "gallery/emoji-matrix/all/index.html",
     "reference/icon-sizes/index.html",
+    "reference/tray-icons/index.html",
 ) + TRANSLATED_PAGES
 
 MATRIX_STYLE_ORDER = (
@@ -172,10 +173,17 @@ class WebsiteContractTests(unittest.TestCase):
             "assets/marketing/proof-at-16-1200x630.png",
             "assets/marketing/workflow-1200x630.png",
             "assets/marketing/many-worlds-1200x630.png",
+            "assets/marketing/tray-template-1200x630.png",
             "assets/marketing/proof-at-16-1080x1080.png",
             "assets/marketing/proof-at-16-1080x1920.png",
             "reference/icon-sizes/index.html",
+            "reference/tray-icons/index.html",
             "reference/reference.css",
+            "assets/reference/tray-icons/full-card.png",
+            "assets/reference/tray-icons/full-card-alpha-template.png",
+            "assets/reference/tray-icons/full-card-auto-template.png",
+            "assets/reference/tray-icons/tray-color.png",
+            "assets/reference/tray-icons/tray-auto-template.png",
         ):
             with self.subTest(name=name):
                 self.assertTrue((SITE / name).is_file())
@@ -185,6 +193,7 @@ class WebsiteContractTests(unittest.TestCase):
             "proof-at-16-1200x630.png": (1200, 630),
             "workflow-1200x630.png": (1200, 630),
             "many-worlds-1200x630.png": (1200, 630),
+            "tray-template-1200x630.png": (1200, 630),
             "proof-at-16-1080x1080.png": (1080, 1080),
             "proof-at-16-1080x1920.png": (1080, 1920),
         }
@@ -243,6 +252,10 @@ class WebsiteContractTests(unittest.TestCase):
             ),
             "gallery/index.html": ("/gallery/", "many-worlds-1200x630.png"),
             "archive/index.html": ("/archive/", "many-worlds-1200x630.png"),
+            "reference/tray-icons/index.html": (
+                "/reference/tray-icons/",
+                "tray-template-1200x630.png",
+            ),
         }
         for page, (route, image_name) in expected.items():
             document = (SITE / page).read_text(encoding="utf-8")
@@ -816,6 +829,94 @@ class WebsiteContractTests(unittest.TestCase):
                 self.assertIn('href="/reference/icon-sizes/"',
                               (SITE / page).read_text(encoding="utf-8"))
 
+    def test_tray_reference_is_generated_from_the_template_code(self) -> None:
+        """The black-square guide must reproduce the failure it explains."""
+        reference = load_script(
+            "build_tray_reference",
+            ROOT / "scripts" / "build_tray_reference.py",
+        )
+        files = reference.artifacts()
+        published = (SITE / "reference" / "tray-icons" / "index.html").read_text(
+            encoding="utf-8"
+        )
+        self.assertEqual(
+            reference.render(files),
+            published,
+            "run python scripts/build_tray_reference.py",
+        )
+        self.assertEqual(0, reference.verify())
+
+        self.assertEqual(
+            {
+                "full-card.png",
+                "full-card-alpha-template.png",
+                "full-card-auto-template.png",
+                "tray-color.png",
+                "tray-auto-template.png",
+            },
+            set(files),
+        )
+        for name, expected in files.items():
+            with self.subTest(asset=name):
+                path = SITE / "assets" / "reference" / "tray-icons" / name
+                self.assertEqual(expected, path.read_bytes())
+                self.assertEqual((32, 32), png_size(path))
+
+        body = re.sub(
+            r'<script type="application/ld\+json">.*?</script>',
+            "",
+            published,
+            flags=re.S,
+        )
+        self.assertNotIn(
+            "@",
+            body,
+            "a literal @ outside JSON-LD can corrupt a retina filename at the CDN",
+        )
+        for fact in (
+            "full-card-alpha-template.png",
+            "full-card-auto-template.png",
+            "tray-auto-template.png",
+            "trayTemplate&#64;2x.png",
+            "--tray-template-mode auto",
+            "iconflow.assemble.to_template",
+        ):
+            with self.subTest(fact=fact):
+                self.assertIn(fact, published)
+
+        for source in (
+            "developer.apple.com/documentation/appkit/nsimage/istemplate",
+            "developer.apple.com/documentation/swiftui/menubarextra",
+            "electronjs.org/docs/latest/api/tray/",
+            "electronjs.org/docs/latest/api/native-image",
+        ):
+            with self.subTest(source=source):
+                self.assertIn(source, published)
+
+        self.assertIn(
+            f"{CANONICAL_ORIGIN}/reference/tray-icons/",
+            (SITE / "sitemap.xml").read_text(encoding="utf-8"),
+        )
+        self.assertIn(
+            "\n/reference/tray-icons/\n"
+            "  Cache-Control: public, max-age=0, must-revalidate",
+            (SITE / "_headers").read_text(encoding="utf-8"),
+        )
+        self.assertIn(
+            "https://ai-iconflow.com/reference/tray-icons/",
+            (SITE / "llms.txt").read_text(encoding="utf-8"),
+        )
+        self.assertIn(
+            "https://ai-iconflow.com/reference/tray-icons/",
+            (ROOT / "README.md").read_text(encoding="utf-8"),
+        )
+        for page in ("reference/icon-sizes/index.html", "gallery/index.html"):
+            with self.subTest(inbound=page):
+                self.assertIn(
+                    'href="/reference/tray-icons/"',
+                    (SITE / page).read_text(encoding="utf-8"),
+                )
+
     def test_structured_data_answers_the_questions_search_engines_ask(self) -> None:
         """Every indexed page carries parseable, self-consistent JSON-LD."""
         blocks = re.compile(
@@ -843,6 +944,8 @@ class WebsiteContractTests(unittest.TestCase):
         # where it sits, and which questions it answers.
         self.assertLessEqual({"TechArticle", "FAQPage", "BreadcrumbList"},
                              seen["reference/icon-sizes/index.html"])
+        self.assertLessEqual({"TechArticle", "FAQPage", "BreadcrumbList"},
+                             seen["reference/tray-icons/index.html"])
         for page in ("gallery/index.html", "gallery/social-signals/index.html",
                      "gallery/emoji-matrix/index.html",
                      "gallery/emoji-matrix/all/index.html"):

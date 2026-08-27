@@ -86,6 +86,22 @@ A matching Grok Imagine Video 1.5 direction remains a local CineChorus dry-run,
 not a retained campaign asset: it did not provide evidence that justified a
 second paid branch after the Flow Quality take passed the visual gate.
 
+### Flow gate recheck — 2026-08-27
+
+The updated `web-flow` production contract was applied before any new paid
+action. The available signed-in Flow surface exposed a 50-credit daily pool,
+not the separately authorized 200-credit production envelope. A one-output
+Fast proof would fit the live arithmetic (20 credits with a 20-credit protected
+reserve), but the complete 15-second animatic still lacks the required human
+mute/cinema acceptance. Those are two independent fail-closed blockers.
+
+No new generation was submitted, no credit was spent, and no feasibility take
+is being relabeled as a campaign asset. The accepted Quality inspection-bench
+opening remains the only generative slot. The next paid phase opens only after
+the full animatic is human-accepted and the intended credit pool is visible in
+the live UI; it must be recorded as a separately authorized attempt rather than
+an automatic retry.
+
 ## Production contract
 
 - Master: 3840×2160, 24 fps, Rec. 709, 60.0 seconds.

@@ -8,11 +8,20 @@ first published release remains under `Unreleased`.
 
 ### Added
 
-- Five evidence-led campaign stills for route SEO and social sharing: three
+- Six evidence-led campaign stills for route SEO and social sharing: four
   1200×630 cards plus 1080×1080 and 1080×1920 cuts. A network-isolated
   Playwright renderer builds them from exact project assets, writes a visual
   review board and source-bound SHA-256 manifest, and keeps the documentation
   and website copies byte-identical.
+- A source-bound `/reference/tray-icons/` guide for the macOS menu-bar
+  black-square failure. Its failure, automatic recovery, and dedicated-source
+  outcomes are real `assemble.to_template` results, not redrawn diagrams; five
+  evidence PNGs, the exact output table, Apple/Electron primary sources, eight
+  FAQ answers, structured data, sitemap/headers/`llms.txt` discovery, and a
+  route-specific 1200×630 social card are all drift-checked.
+- The project self-audit now verifies the complete tray-reference page and all
+  five evidence PNGs offline, and compares the deployed route alongside the
+  existing icon-size reference.
 - Route-specific Open Graph and Twitter images for Getting Started, the
   methodology, Gallery, and Archive, including localized image alt across all
   five site languages.

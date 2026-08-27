@@ -548,6 +548,7 @@ def render() -> str:
       <p>This is the target that fails most often, and it fails silently: a template image carries no colour at all. macOS reads its alpha channel and paints the shape itself, so a full-card app icon with an opaque background arrives as a solid black rectangle.</p>
 {table("iconflow ship --targets tray", tray_rows())}
       <p class="ref-callout"><strong>Give the tray its own drawing.</strong> A menu bar mark needs real transparency around a sparse shape — usually a simplified version of the master, not the master itself. Pass it with <code>--tray-svg</code>. When you do not, IconFlow derives alpha from the mark's contrast, and if no semantic shape can be isolated it refuses the build rather than shipping a black square.</p>
+      <div class="ref-actions"><a class="button button-primary" href="/reference/tray-icons/">See the black-square failure and fix <span aria-hidden="true">&rarr;</span></a></div>
     </section>
 
     <section class="ref-section section-shell" id="sizes">
@@ -581,7 +582,7 @@ def render() -> str:
   <footer class="site-footer section-shell">
     <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div>
     <p>Generated from <code>iconflow/build.py</code>. If the tool changes, this page changes or CI fails.</p>
-    <nav aria-label="Footer navigation"><a href="/">Home</a><a href="/getting-started/">Guide</a><a href="/how-icons-are-made/">How it's made</a><a href="/gallery/">Gallery</a><a href="/archive/">Archive</a><a href="https://github.com/snowyukitty/ai-iconflow">Source</a></nav>
+    <nav aria-label="Footer navigation"><a href="/">Home</a><a href="/getting-started/">Guide</a><a href="/reference/tray-icons/">Tray icons</a><a href="/how-icons-are-made/">How it's made</a><a href="/gallery/">Gallery</a><a href="/archive/">Archive</a><a href="https://github.com/snowyukitty/ai-iconflow">Source</a></nav>
   </footer>
 </body>
 </html>

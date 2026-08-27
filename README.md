@@ -18,7 +18,8 @@ Favicon, PWA, Tauri, Electron, and tray — proven at 16px before it ships anywh
 [**See the live proof →**](https://ai-iconflow.com/) ·
 [Get started](https://ai-iconflow.com/getting-started/) ·
 [Browse 100 reviewed cases](https://ai-iconflow.com/gallery/) ·
-[See how the gate works](https://ai-iconflow.com/how-icons-are-made/)
+[See how the gate works](https://ai-iconflow.com/how-icons-are-made/) ·
+[Fix a black menu-bar icon](https://ai-iconflow.com/reference/tray-icons/)
 
 </div>
 
@@ -82,7 +83,8 @@ clean-room research provenance.
 
 Most icon pipelines begin after the important decision has already been made.
 They resize an image, but do not tell you whether the idea is generic, whether a
-counter closed at 16px, or whether a menu-bar template became a black square.
+counter closed at 16px, or whether a
+[menu-bar template became a black square](https://ai-iconflow.com/reference/tray-icons/).
 
 ![IconFlow native-size proof: editable SVG, exact 16px pixels, and a source-bound review gate](docs/assets/marketing/proof-at-16-1200x630.png)
 

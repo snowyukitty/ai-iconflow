@@ -66,6 +66,9 @@ def source_paths() -> tuple[Path, ...]:
         ROOT / "brand" / "build" / "icon-192.png",
         ROOT / "brand" / "build" / "icons" / "128x128.png",
         ROOT / "brand" / "build" / "tray" / "tray.png",
+        ROOT / "website" / "assets" / "reference" / "tray-icons" / "full-card.png",
+        ROOT / "website" / "assets" / "reference" / "tray-icons" / "full-card-alpha-template.png",
+        ROOT / "website" / "assets" / "reference" / "tray-icons" / "tray-auto-template.png",
     )
     worlds = tuple(
         ROOT / "website" / "assets" / "worlds" / f"{slug}-{size}.png"
@@ -339,6 +342,47 @@ def frame_html(name: str) -> str:
   <section class="world-grid">{cards}</section>
   <footer><span>Every large specimen is source-linked.</span><b>Every tiny chip is the exact native 16×16 PNG.</b></footer>
 </main>"""
+    if name == "tray-template-1200x630.png":
+        full_card = img(
+            ROOT / "website" / "assets" / "reference" / "tray-icons" / "full-card.png",
+            class_name="pixelated",
+        )
+        failed = img(
+            ROOT / "website" / "assets" / "reference" / "tray-icons" / "full-card-alpha-template.png",
+            class_name="pixelated",
+        )
+        tray = img(
+            ROOT / "website" / "assets" / "reference" / "tray-icons" / "tray-auto-template.png",
+            class_name="pixelated",
+        )
+        return f"""
+<main class="frame tray-wide">
+  <header>
+    <div class="eyebrow">IconFlow · macOS template reference</div>
+    <h1>Your tray icon is not<br><em>a tiny app icon.</em></h1>
+    <p>Alpha is geometry. Prove the silhouette before it reaches the menu bar.</p>
+  </header>
+  <section class="tray-flow" aria-label="App icon, failed alpha template, and dedicated tray source">
+    <article class="tray-step panel">
+      <span class="mono">01 · APP CARD</span>
+      <div class="tray-tile tray-tile-source">{full_card}</div>
+      <b>Colour source</b>
+    </article>
+    <div class="tray-arrow" aria-hidden="true"><i></i></div>
+    <article class="tray-step panel tray-step-bad">
+      <span class="mono">02 · ALPHA ONLY</span>
+      <div class="tray-tile tray-tile-light">{failed}</div>
+      <b>Card becomes shape</b>
+    </article>
+    <div class="tray-arrow" aria-hidden="true"><i></i></div>
+    <article class="tray-step panel tray-step-good">
+      <span class="mono">03 · TRAY.SVG</span>
+      <div class="tray-tile tray-tile-split"><span>{tray}</span><span>{tray}</span></div>
+      <b>One durable silhouette</b>
+    </article>
+  </section>
+  <footer><span class="pill"><span class="dot"></span>real IconFlow outputs · source-bound</span><b>16px · 32px retina · light + dark</b></footer>
+</main>"""
     if name == "proof-at-16-1080x1080.png":
         return f"""
 <main class="frame proof-square">
@@ -450,6 +494,34 @@ def frames() -> tuple[Frame, ...]:
       .worlds-wide footer { position: absolute; left: 54px; right: 54px; bottom: 21px; display: flex; justify-content: space-between; color: var(--paper-dim); font-size: 12px; }
       .worlds-wide footer b { color: var(--paper); }
     """
+    tray_css = """
+      .tray-wide { padding: 48px 56px 38px; }
+      .tray-wide header { max-width: 850px; }
+      .tray-wide h1 { margin-top: 12px; font-size: 48px; line-height: 1; letter-spacing: -.04em; }
+      .tray-wide h1 em { color: var(--coral); font-style: normal; }
+      .tray-wide header p { margin-top: 13px; color: var(--paper-dim); font-size: 18px; }
+      .tray-flow { position: absolute; left: 56px; right: 56px; top: 250px; display: grid; grid-template-columns: 1fr 50px 1fr 50px 1fr; align-items: center; }
+      .tray-step { height: 270px; padding: 18px; }
+      .tray-step > span { color: var(--coral); font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+      .tray-step > b { display: block; margin-top: 12px; font-size: 16px; }
+      .tray-step-bad { border-top-color: rgba(255,90,79,.8); }
+      .tray-step-good { border-top-color: rgba(95,208,138,.8); }
+      .tray-step-good > span { color: var(--green); }
+      .tray-tile { display: grid; width: 174px; height: 158px; margin: 17px auto 0; place-items: center; overflow: hidden; border-radius: 18px; }
+      .tray-tile > img, .tray-tile > span > img { width: 112px; height: 112px; }
+      .tray-tile-source { background: rgba(255,244,232,.06); }
+      .tray-tile-light { background: #f2f0ed; }
+      .tray-tile-split { grid-template-columns: 1fr 1fr; width: 206px; }
+      .tray-tile-split span { display: grid; width: 100%; height: 100%; place-items: center; background: #f2f0ed; }
+      .tray-tile-split span:last-child { background: #24252a; }
+      .tray-tile-split span:last-child img { filter: invert(1); }
+      .tray-tile-split > span > img { width: 84px; height: 84px; }
+      .tray-arrow { display: grid; place-items: center; }
+      .tray-arrow i { width: 34px; height: 4px; position: relative; border-radius: 4px; background: var(--paper); }
+      .tray-arrow i::after { content: ""; position: absolute; right: -1px; top: -4px; width: 9px; height: 9px; border-top: 4px solid var(--paper); border-right: 4px solid var(--paper); transform: rotate(45deg); }
+      .tray-wide footer { position: absolute; left: 56px; right: 56px; bottom: 22px; display: flex; justify-content: space-between; align-items: center; }
+      .tray-wide footer b { font-size: 13px; }
+    """
     square_css = """
       .proof-square { padding: 72px 68px 60px; }
       .proof-square h1 { margin-top: 18px; font-size: 84px; line-height: .96; letter-spacing: -.045em; }
@@ -501,6 +573,7 @@ def frames() -> tuple[Frame, ...]:
         Frame("proof-at-16-1200x630.png", 1200, 630, wide_proof_css),
         Frame("workflow-1200x630.png", 1200, 630, workflow_css),
         Frame("many-worlds-1200x630.png", 1200, 630, worlds_css),
+        Frame("tray-template-1200x630.png", 1200, 630, tray_css),
         Frame("proof-at-16-1080x1080.png", 1080, 1080, square_css),
         Frame("proof-at-16-1080x1920.png", 1080, 1920, story_css),
     )

@@ -23,7 +23,7 @@
     },
     "scripts/render_marketing_assets.py": {
       "mode": "utf8-lf",
-      "sha256": "12de3728fc2710f38aeb520d6f249be6b963bebb27c839c8e64175591495f16c"
+      "sha256": "0fc9ce8547d90a75cd0037688c4368069582c4eb5ccd74cb3ec4264c47de065b"
     },
     "website/assets/proof/icon-128.png": {
       "mode": "raw-bytes",
@@ -36,6 +36,18 @@
     "website/assets/proof/icon-32.png": {
       "mode": "raw-bytes",
       "sha256": "194593eef7ea406734574d4ff71a589b99030548b5bd93cbd5c946a1f20b91f8"
+    },
+    "website/assets/reference/tray-icons/full-card-alpha-template.png": {
+      "mode": "raw-bytes",
+      "sha256": "59ece6137f46f66c27f8028704eddf9c7bd7e55cfe8c006e8e0c99c4a327f6af"
+    },
+    "website/assets/reference/tray-icons/full-card.png": {
+      "mode": "raw-bytes",
+      "sha256": "5ae535a09e1de0094f6bc4a66accfbcf7fdcb1444b1426f32efde2f2e0a8dd20"
+    },
+    "website/assets/reference/tray-icons/tray-auto-template.png": {
+      "mode": "raw-bytes",
+      "sha256": "525f8e4f1c80cc8779b68f3d11bbf25b87c3f4102171b6f0ac96364aad36de46"
     },
     "website/assets/worlds/boss-helm-128.png": {
       "mode": "raw-bytes",
@@ -105,6 +117,11 @@
     "proof-at-16-1200x630.png": {
       "height": 630,
       "sha256": "c7ca49f1434d210eff3af9c27569cdcd8656596e14ae2554435d48787a071da0",
+      "width": 1200
+    },
+    "tray-template-1200x630.png": {
+      "height": 630,
+      "sha256": "b80d2bad6e0a57d3976117fe0a8d2b49c440c04834639864d12408f4d3335133",
       "width": 1200
     },
     "workflow-1200x630.png": {
