@@ -456,6 +456,17 @@ the near-square full-bleed cap scored distinctiveness 3 because its footprint
 read as a generic up-chevron button (L9); widening the base to 904 against a
 604 top face named a keycap and lifted it to 4 with no change to the glyph.
 
+*Additional evidence (same-mark before/after):*
+[casebook/2026-08-29-night-market-storefront-favicon.md](../casebook/2026-08-29-night-market-storefront-favicon.md)
+shipped one mark twice. On an opaque card it scored distinctiveness 4 and its
+silhouette strip was a featureless rounded square. Deleting the card and
+rebuilding the signature cut as real geometry that opens the bottom edge — plus a
+pole overhanging both sides as a second non-square feature — moved distinctiveness
+to 5 with every other axis unchanged. Deleting a card also removes whatever
+contrast the card was providing: a full-bleed light mark on transparent dissolves
+on a white tab bar, so budget a keyline (40 units held here) as part of the move,
+not as an afterthought.
+
 ## L30 — Punch the glyph through the object; do not lay it on top
 When an opaque object carries a glyph, cutting the glyph clean through it
 (`fill-rule="evenodd"`) rather than painting it on the surface costs nothing at

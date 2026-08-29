@@ -5,15 +5,15 @@ project: Private night-market storefront
 targets: web
 essence: open
 style_family: solid-mark-on-card
-signature_device: the shop curtain's split forks into the brand initial, so the letter is the opening rather than a glyph on a tile
+signature_device: full-bleed - the curtain IS the icon, and its split forks into the brand initial, cut through the silhouette itself
 device_family: negative-space-cut
 device_detail: 150-unit cut rises from the hem and forks at 60% height into two 150-unit arms, leaving 136 units of cloth above the tips
 concept_lens: identity-object
 cliche_avoided: shopping cart, shopping bag, price tag, striped storefront awning, coin glyph, receipt, gift box, bare monogram on a tile
 status: shipped
 scores_first: legibility=3 distinctiveness=2 balance=3 color=4 scalability=3 craft=3
-scores_final: legibility=4 distinctiveness=4 balance=4 color=5 scalability=4 craft=4
-iterations: 3
+scores_final: legibility=4 distinctiveness=5 balance=4 color=5 scalability=4 craft=4
+iterations: 5
 ---
 
 ## Summary
@@ -54,6 +54,36 @@ rejected under L4: clutter at 128px, mush below 48px.
 Recorded confound: thickness and length were changed in the same pass, so this
 case cannot say which of the two carried the fix, or whether a threshold exists.
 An isolating pass would vary one at a time.
+
+## Second pass — deleting the card moved distinctiveness 4 to 5
+
+The first pass shipped at distinctiveness 4 with an honest limitation recorded in
+its receipt: the mark sat on an opaque card, so the visual-silhouette strip
+blacked out with the card and **the silhouette gates could not see the object at
+all** (L8, L47). The owner's standing preference is for marks that are genuinely
+special, and 4 with a known blind spot is not that.
+
+The remedy was already written as L28 and L29: delete the tile so the object *is*
+the icon, then give it a measurable non-square feature. Applied literally:
+
+- the cloth became the whole mark, with no container behind it;
+- the Y-cut was rebuilt as **real geometry that opens the bottom edge**, rather
+  than a stroke painted over a card, so the notch appears in the silhouette;
+- the pole overhangs the cloth on both sides — a second non-square feature;
+- a **40-unit indigo keyline** replaces the card's job. It is load-bearing: a
+  full-bleed amber mark on transparent nearly vanishes on a white tab bar, which
+  is what the card had been hiding.
+
+The silhouette strip went from a featureless black rounded square to a nameable
+shape, and distinctiveness went 4 → 5 with every other axis unchanged. This is a
+clean before/after for L28 and L29 on the *same* mark, which is rarer than the
+usual cross-case evidence.
+
+Two candidates were rejected in this pass. A **wavy hem** read as fabric at 128px
+and became ragged noise below 32px (L4). A **6% larger** version of the winner
+tripped the maskable audit at 14% of detail outside the safe-zone circle, so the
+smaller warning-free geometry shipped — the rubric floor and the QA gates are not
+tradeable against frame usage.
 
 ## Lessons
 
