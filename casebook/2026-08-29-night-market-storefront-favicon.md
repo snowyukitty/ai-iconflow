@@ -51,21 +51,42 @@ light mark on transparent nearly vanished on a white tab bar.
 cloth hangs from. A variant adding a hanging loop between pole and cloth was
 rejected under L4: clutter at 128px, mush below 48px.
 
+Recorded confound: thickness and length were changed in the same pass, so this
+case cannot say which of the two carried the fix, or whether a threshold exists.
+An isolating pass would vary one at a time.
+
 ## Lessons
 
-- [ ] Run the name-the-thing test against **typographic glyphs**, not only
-      system icons. L9 covers magnifier / gear / house / bell; a mark can just as
-      easily collide with pi, T, H or a plus sign, and a glyph collision is worse
-      because the viewer reads it as *text* and stops looking for an object.
-- [ ] Put a **control candidate** in the bake-off — the same object without the
-      signature device. It is the only cheap way to learn whether the device or
-      the object is carrying distinctiveness. Here the plain-slit control scored
-      lower and named a different, generic noun, which promoted the fork from
-      "nice detail" to "the reason it works".
-- [ ] A hanging object needs its support to differ in **ratio**, not just in
-      shape. Bar-over-body reads as a table until the bar is long and thin enough
-      to read as a pole; the fix was aspect ratio and overhang, not a new
-      element.
-- [ ] A cut that must read as *split fabric* has to reach the hem. A closed
-      interior hole reads as a window or a hole punched in a sign; only a cut
-      that opens the bottom edge says the cloth parts for you to walk through.
+Reviewed on 2026-08-29 by two independent products (`codex:default`,
+`agy:default`) against the promotion criteria. Outcomes below are the synthesis.
+
+- [x] **Folded into L9.** Run the name-the-thing test against **typographic
+      glyphs**, not only system icons. A mark that collides with pi, T, H or a
+      plus sign is read as *text*, and the viewer stops looking for an object.
+      The two reviews split on placement — one proposed a standalone rule, the
+      other held it implied by L9 and L21 and proposed amending L9. Amending won:
+      both agreed on the substance, L9 already owns silhouette collisions, and
+      the evolution protocol prefers editing the one section that owns a topic
+      over scattering the same advice.
+- [x] **Promoted as L56.** Put a device-free **control candidate** — the same
+      object without the signature device — in the bake-off. Unanimous promote.
+      It is the only cheap way to learn whether the device or the base object is
+      carrying distinctiveness; here the plain-slit control read as a generic
+      arch, which is what promoted the fork from a detail to the reason the mark
+      works.
+- [ ] **Held for corroboration.** A hanging object needs its support to differ in
+      **ratio**, not just in shape: bar-over-body reads as a table until the bar
+      is long and thin enough to read as a pole. Both reviews said hold, and one
+      correctly noted that this pass changed thickness and length together, so
+      the case does not isolate a cause. Promote only after a second, independent
+      case with one variable varied at a time.
+- [ ] **Rejected.** "A cut that must read as split fabric has to reach the hem."
+      Both reviews rejected it: too narrow to recur across unrelated briefs, and
+      one noted it is a special case of an existing rule. The original write-up
+      also claimed a closed interior hole would read as a window — that variant
+      was never built, so the claim is removed rather than left in the corpus as
+      untested evidence.
+
+Correction to the review brief: it stated the rule list ran to L47. It runs to
+L55, so the new rule is L56. Both reviewers were given the real list; one caught
+the discrepancy.

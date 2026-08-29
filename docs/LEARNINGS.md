@@ -94,17 +94,31 @@ eye sees "filled tile", not "speech bubble".
 *Evidence:* [casebook/2026-07-03-streamscribe.md](../casebook/2026-07-03-streamscribe.md) — shrinking the bubble off the
 tile edges + enlarging the tail lifted distinctiveness 3→4 (and balance 4→5).
 
-## L9 — Kill silhouette collisions with universal system icons at bake-off
+## L9 — Kill silhouette collisions with system icons **and typographic glyphs** at bake-off
 Before falling in love with a concept, name what its *silhouette* already means
 on every OS: circle+tail = search/magnifier, gear = settings, house = home,
 bell = notifications, triangle = play. If your mark's outline matches one, no
 styling (color, gradient, an attached block) will rescue it — small sizes strip
 the styling and leave the borrowed meaning. Kill the concept, don't iterate it.
+
+Run the same test against **letters, numerals and common operators**, not only
+against system icons. A glyph collision is worse than an icon collision, because
+the viewer classifies the mark as *text* and stops looking for an object at all —
+and unlike an app icon, a glyph carries no product to be mistaken for, so there
+is nothing to correct the reading later.
 *Why:* users read icon silhouettes before color or detail; a collided silhouette
-answers "what is this?" with the *wrong app*.
+answers "what is this?" with the *wrong app*, and a collided glyph answers it
+with "a character".
 *Evidence:* [casebook/2026-07-03-mobile-tether-hub.md](../casebook/2026-07-03-mobile-tether-hub.md) — a data-gauge ring whose
 end became a cable+plug read as a magnifying glass at every rendered size; the
 letterform concept shipped instead.
+[casebook/2026-08-29-night-market-storefront-favicon.md](../casebook/2026-08-29-night-market-storefront-favicon.md)
+— a horizontal bar over two vertical panels read as **pi** at 128px; the hem cue
+meant to say "cloth" was 42 units and invisible below 64px. Replacing the
+full-height gap with a hem-connected slit removed the glyph reading. The
+glyph clause was added after two independent reviews split on whether it needed
+its own rule; it is folded here rather than duplicated, because this section owns
+silhouette collisions.
 
 ## L10 — For creator/mascot brands, choose the identity owner before the cute object
 If a creator has both a person/character identity and a separate mascot, do not
@@ -829,3 +843,23 @@ passed with a 40-unit warm-paper edge; the darker harbor-navy lighthouse in
 [casebook/2026-07-28-quota-lighthouse.md](../casebook/2026-07-28-quota-lighthouse.md)
 needed 56 units to restore a deliberate boundary. Folded into
 `DESIGN_PLAYBOOK.md` §5.
+
+## L56 — Bake off a device-free control, or you will credit the wrong thing
+When a concept's distinctiveness depends on a signature device, put the **same
+object without that device** into the bake-off as a control. Judge the two side
+by side and name what each one is. If the control reads as a generic noun and
+the device version reads as the intended one, the device is carrying the
+identity; if both read the same, the device is decoration and the pixel budget
+it costs is better spent elsewhere.
+*Why:* a bake-off between three different objects tells you which object wins.
+It cannot tell you *why* it won, so the designer credits whichever feature they
+are fondest of — usually the object, because the object is the idea they had
+first. A control turns "this looks better" into a stated cause, which is what
+the casebook needs to be worth reading later.
+*Evidence:* [casebook/2026-08-29-night-market-storefront-favicon.md](../casebook/2026-08-29-night-market-storefront-favicon.md)
+— a split cloth whose cut forked into the brand initial was tested against the
+identical cloth with a plain vertical slit. The control read as a generic arch
+or doorway, which is what promoted the fork from a pleasing detail to the reason
+the mark works. Without it the case would have recorded "the curtain won".
+Two independent reviews (`codex:default`, `agy:default`) agreed this rule was not
+implied by L21 or L23 and recommended promoting it.
