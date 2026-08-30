@@ -872,5 +872,9 @@ the casebook needs to be worth reading later.
 identical cloth with a plain vertical slit. The control read as a generic arch
 or doorway, which is what promoted the fork from a pleasing detail to the reason
 the mark works. Without it the case would have recorded "the curtain won".
+[A later traveling-market favicon](../casebook/2026-08-31-traveling-market-lantern-snail-favicon.md)
+independently corroborated the rule: a plain-shell snail stayed generic, while
+two broad caps and curved ribs made the same silhouette read as a lantern-shell
+hybrid at 16 px.
 Two independent reviews (`codex:default`, `agy:default`) agreed this rule was not
 implied by L21 or L23 and recommended promoting it.
