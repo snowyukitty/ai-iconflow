@@ -10,7 +10,7 @@ device_family: identity-hybrid
 device_detail: two 42-unit curved ribs plus broad caps turn a 508-unit shell into a chōchin
 concept_lens: character-object
 cliche_avoided: shopping cart, shopping bag, price tag, storefront awning, generic sparkle, bare monogram
-status: shipped
+status: archived
 scores_first: legibility=3 distinctiveness=2 balance=3 color=4 scalability=3 craft=3
 scores_final: legibility=4 distinctiveness=5 balance=4 color=5 scalability=4 craft=4
 iterations: 3
@@ -53,3 +53,13 @@ interactive-pass claim.
 - [x] **Corroborates L56.** Test a hybrid icon against the same base object
       without the hybrid device; if the control remains equally ownable, the
       added metaphor is decoration rather than identity.
+
+## User acceptance correction
+
+The owner rejected this mark after staging review. The exact-target checks and
+device-free control correctly proved that the lantern-shell hybrid was legible
+and formally distinctive, but they did not prove it carried the right emotional
+story. The snail centered slowness and whimsy; the product name instead needed
+the romantic nocturnal quality of よろしく + 店 and the ateji 夜露店. This case is
+archived as evidence that mechanical approval and brand acceptance answer
+different questions.
