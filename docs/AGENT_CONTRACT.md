@@ -28,7 +28,7 @@ a `0` into a `1`.
 
 ## `--json` envelope
 
-`doctor`, `check`, `review`, `ship`, and `demo` accept `--json`. In JSON mode
+`doctor`, `check`, `review`, `ship`, `ladder`, and `demo` accept `--json`. In JSON mode
 **stdout carries exactly one JSON object** and nothing else; human diagnostics
 go to stderr. The object always has these keys:
 
@@ -60,6 +60,33 @@ lower-cased and hyphenated: `svg-safety`, `viewbox`, `stroke-floor`,
 `coverage-16`, `contrast`, `maskable-detail`, `distinctiveness-text`,
 `tray-template-featureless` (advisory).
 
+A source that opts into the detail ladder (`docs/DETAIL_LADDER.md`) is also
+gated on the same-mark invariant, adding `ladder-annotation`,
+`ladder-empty-rung`, `ladder-footprint`, `ladder-silhouette`,
+`ladder-centroid`, `ladder-hue`, and `ladder-subtraction`. A flat source — no
+`data-lod` anywhere — never emits them and renders exactly as before.
+
+### `ladder --json`
+
+```
+iconflow ladder MASTER [--sheet PNG] [--size N] [--color-scheme ...]
+                       [--containment F] [--iou F] [--centroid-drift F]
+                       [--hue-drift DEG] [--json]
+```
+
+`outputs`: `{"source": "<abs path>", "source_sha256": "<hex>", "ladder": true|false,
+"rungs": ["glyph", "mark", "plate"], "compare_size": 256, "measures": [{"rung": "...",
+"coverage": 0.0, "visible": 0.0, "centroid": [x, y], "hue": 0.0}], "steps":
+[{"smaller": "glyph", "larger": "mark", "footprint_containment": 1.0,
+"footprint_iou": 1.0, "visible_iou": 1.0, "centroid_drift": 0.0, "hue_drift": 0.0}],
+"sheet": "<abs path or null>"}`.
+
+`measures` and `steps` are reported whether or not anything failed — a green
+run still carries its evidence. A flat source reports `ladder: false`, empty
+`rungs` and `steps`, one advisory `ladder-flat`, and exits `0`: having no
+ladder is a valid state, not a defect. Warning codes are the `ladder-*` set
+above.
+
 ### `doctor --json`
 
 `outputs`: `{"checks": [{"name": "python", "status": "PASS|WARN|FAIL", "detail": "...", "fix": "<copy-paste command or null>"}], "chromium": "PASS|FAIL|SKIPPED"}`.
@@ -69,6 +96,11 @@ Every FAIL carries a `fix` the user can paste (for Chromium: the exact
 ### `review --json`
 
 `outputs`: `{"sheet": "<abs path>", "html": "<abs path or null>", "receipt_template": "<abs path or null>", "source_sha256": "...", "contract_sha256": "...", "targets": ["web", ...]}`.
+A source that opted into the detail ladder also gets a `<sheet>-ladder.png`
+proof written beside `sheet`, and its path is printed. It is deliberately *not*
+a new `outputs` key: this envelope is frozen at `schema: 1` and the PR Proof
+action rejects any other value, so new structure goes on the new `ladder`
+command instead.
 `review` exits `1` only when automated QA warnings exist (the human score is
 not machine-judged); it never scores taste.
 

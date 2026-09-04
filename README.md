@@ -310,6 +310,54 @@ or stable foreground groups. IconFlow's template conversion can separate a
 contrasting mark from a card, but an explicit tray source is the strongest
 contract. [`brand/tray.svg`](brand/tray.svg) demonstrates the pattern.
 
+## Designing bigger: the detail ladder
+
+Every rule IconFlow distilled is a compression rule — survive 16px, own two
+pixels, one idea. That is why the marks are good, and it is also the ceiling:
+the drawing that wins a 16px bake-off is, on a 1024px store plate, an
+under-drawn 16px icon.
+
+The ladder removes the ceiling without forking the source. A group says which
+size regimes it belongs to, and nothing else changes:
+
+```svg
+<g data-lod="glyph mark plate"> the one idea, and the whole silhouette </g>
+<g data-lod="mark plate">       the second reading                    </g>
+<g data-lod="plate">            material: coursing, rim light, glow    </g>
+```
+
+| Rung | Sizes | Budget |
+|---|---|---|
+| `glyph` | ≤48px | one idea, and the entire outer contour |
+| `mark` | 49–256px | a second reading inside that contour |
+| `plate` | ≥257px | material, depth, surface |
+
+Every built size is then rendered from its own rung — structurally, by deleting
+what does not belong before the renderer sees it. The shipped `favicon.svg`
+carries a generated `@media` layer that does the same thing in a browser, keyed
+to the size the SVG is actually *drawn* at, so one vector file shows its plate
+in a 512px preview and its glyph in a 16px tab. The two paths are asserted to
+produce **identical PNG bytes** at every size, including both rung boundaries.
+
+Adding detail must never become redrawing the logo, so `check` gates it: the
+three rungs are rendered at one size and measured for outer footprint, visible
+shape, optical centre and dominant hue. The one rule the gate enforces is
+**the ladder grows inward** — every trait that defines the outer contour stays
+on the `glyph` rung.
+
+```bash
+python -m iconflow ladder master.svg --sheet work/my-app/ladder.png
+```
+
+The proof sheet shows every delivered size beside its rung, the three rungs
+compared with resolution removed, and a same-mark overlay where coral is
+geometry the smaller rung invented. A source with no `data-lod` is *flat* —
+a valid answer that behaves exactly as it did before, byte for byte.
+
+Read [`docs/DETAIL_LADDER.md`](docs/DETAIL_LADDER.md) and the worked example in
+[`examples/detail-ladder/`](examples/detail-ladder/), whose README records the
+chimney collar the overlay caught and why it was removed rather than tuned.
+
 ## Technique scaffolds, not stock logos
 
 `new` offers twenty execution families. Discover them from an installed wheel
@@ -376,6 +424,7 @@ docs/
   CONCEPTING.md             divergence, cliché filter, signature devices, bake-off
   REVIEW_CHECKLIST.md       six-axis shipping rubric
   SVG_TECHNIQUES.md         browser-tested SVG construction patterns
+  DETAIL_LADDER.md          one source, three size regimes, and the gate that binds them
   OUTPUT_TARGETS.md         exact platform asset contracts
   WORKFLOW.md               config → receipt → gated ship contract
   LEARNINGS.md              distilled rules from shipped cases

@@ -16,26 +16,11 @@ from pathlib import Path
 
 from PIL import Image, ImageChops, ImageFilter
 
-from . import assemble
+from . import assemble, ladder
+from .findings import Finding
 from .rasterize import Rasterizer, load_svg
 
-
-class Finding(str):
-    """A human-readable warning that also carries a stable machine code.
-
-    It *is* the message string, so every existing caller, receipt, and test
-    keeps working; ``--json`` consumers read ``.code`` instead of parsing prose.
-    """
-
-    code: str
-
-    def __new__(cls, code: str, message: str) -> "Finding":
-        finding = super().__new__(cls, message)
-        finding.code = code
-        return finding
-
-    def __reduce__(self):
-        return (Finding, (self.code, str(self)))
+__all__ = ["Finding", "check", "tray_template_warnings", "warning_code"]
 
 
 # Fallback classification for warnings that arrive as plain strings (for
@@ -427,9 +412,11 @@ def check(
         w = h = 1024.0
 
     # Very thin strokes vanish at 16px. Rule of thumb from the playbook:
-    # keep line marks at least about 2.3% of the viewBox width.
+    # keep line marks at least about 2.3% of the viewBox width. Scanned on the
+    # glyph rung, because a hairline that only exists at 512px cannot disappear
+    # at 16px — it was never there. A flat source reduces to itself.
     stroke_floor = w * 0.023
-    for stroke_match in _STROKE_WIDTH_RE.findall(text):
+    for stroke_match in _STROKE_WIDTH_RE.findall(ladder.reduce_svg(text, "glyph")):
         sw = next(value for value in stroke_match if value)
         if float(sw) and float(sw) < stroke_floor:
             warnings.append(Finding(
@@ -438,21 +425,36 @@ def check(
             ))
             break
 
+    # Every probe renders from the rung that size actually ships from, so a
+    # laddered source is checked as it will be seen: the 16px coverage test
+    # measures the glyph rung, the maskable audit measures the plate rung.
+    source = ladder.RungSource(text)
+    warnings.extend(ladder.annotation_findings(text))
+
+    laddered = ladder.has_ladder(text)
+
     def render_checks(r: Rasterizer):
-        im16 = Image.open(io.BytesIO(r.render(text, 16))).convert("RGBA")
-        im32 = Image.open(io.BytesIO(r.render(text, 32))).convert("RGBA")
+        im16 = Image.open(io.BytesIO(source.render(r, 16))).convert("RGBA")
+        im32 = Image.open(io.BytesIO(source.render(r, 32))).convert("RGBA")
         if maskable:
-            maskable_png = assemble.maskable_asset(r.render(text, 512), maskable_bg)
+            maskable_png = assemble.maskable_asset(source.render(r, 512), maskable_bg)
             im512 = Image.open(io.BytesIO(maskable_png)).convert("RGBA")
         else:
             im512 = None
-        return im16, im32, im512
+        # Three more renders, and only for a source that opted into the ladder:
+        # a flat icon has one rung and nothing to stay consistent with.
+        rungs = ladder.render_rungs(text, r) if laddered else {}
+        return im16, im32, im512, rungs
 
     if rasterizer is None:
         with Rasterizer() as owned_rasterizer:
-            im16, im32, im512 = render_checks(owned_rasterizer)
+            im16, im32, im512, rung_renders = render_checks(owned_rasterizer)
     else:
-        im16, im32, im512 = render_checks(rasterizer)
+        im16, im32, im512, rung_renders = render_checks(rasterizer)
+
+    if rung_renders:
+        identity, _steps = ladder.identity_findings(rung_renders)
+        warnings.extend(identity)
 
     cov = _alpha_coverage(im16)
     if cov < 0.06:

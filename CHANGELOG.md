@@ -8,6 +8,71 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- **The detail ladder — one source, three size regimes.** Until now every rule
+  IconFlow had was a compression rule: survive 16px, own two pixels, one idea.
+  That is why the marks are good, and it was also the ceiling — the drawing
+  that wins a 16px bake-off is, on a 1024px store plate, an under-drawn 16px
+  icon, and the only way to design bigger was to fork the source and hope the
+  two files stayed the same logo.
+
+  A group now says which size regimes it belongs to — `data-lod="glyph mark
+  plate"`, `"mark plate"`, `"plate"` — and every built size is rendered from
+  its own rung: `glyph` at ≤48px, `mark` at 49–256px, `plate` at ≥257px. The
+  reduction is structural, deleting what does not belong before the renderer
+  sees it, so it is deterministic and testable without a browser. An element
+  with no `data-lod` belongs to every rung, which is why all 197 recorded
+  masters render byte-for-byte as they always did.
+
+  The shipped `favicon.svg` cannot be pre-reduced — a browser draws that one
+  file at 16px in a tab and 512px in a preview — so `build` writes it with a
+  generated `@media` layer keyed to the size the SVG is actually *drawn* at.
+  Its only rule outside a media block keeps the `plate` rung, so a renderer
+  that ignores media queries falls back to the complete artwork rather than a
+  blank icon. `tests/test_ladder.py` renders both paths at 16, 48, 49, 256,
+  257 and 512px and asserts the PNG bytes are identical: a vector favicon that
+  quietly disagreed with the PNGs beside it would be worse than no feature.
+
+  Adding detail must never become redrawing the logo, so `check` gates it
+  automatically for any source that opted in. The invariant measures two
+  silhouettes, because an icon has two and a ladder can break either: the alpha
+  *footprint*, and the *visible shape* found by splitting the render at the
+  luminance boundary the drawing itself implies and keeping the minority side.
+  Gating on alpha alone would have passed anything at all on a full-bleed card,
+  which is most of the casebook. Seven stable codes — `ladder-annotation`,
+  `ladder-empty-rung`, `ladder-footprint`, `ladder-silhouette`,
+  `ladder-centroid`, `ladder-hue`, `ladder-subtraction` — enforce one rule:
+  **the ladder grows inward.** Every trait that defines the outer contour
+  belongs on the `glyph` rung; the rungs above it own only what happens inside.
+
+  `iconflow ladder master.svg --sheet ladder.png` writes the proof a person
+  reads: every delivered size beside its rung, the three rungs compared with
+  resolution removed, and a same-mark overlay where grey is the larger rung,
+  black is what survives, and every coral pixel is geometry the smaller rung
+  invented. It speaks the `docs/AGENT_CONTRACT.md` envelope with `--json` and
+  reports its measurements whether or not anything failed.
+
+  The 16px stroke floor now scans the `glyph` rung rather than the whole
+  document: a hairline that only exists at 512px cannot disappear at 16px,
+  because it was never there.
+
+  Reference: `docs/DETAIL_LADDER.md`. Worked example:
+  `examples/detail-ladder/`, a kiln whose README records the chimney collar the
+  same-mark overlay caught — a `mark`-rung element that cut the chimney off the
+  dome, changing how the outer contour read from 49px up — and why it was
+  removed rather than tuned.
+
+  `review` writes the same proof as `<sheet>-ladder.png` beside its contact
+  sheet whenever the source is laddered, so the mandatory review step cannot
+  miss it. It is deliberately *not* a new `review` output key: that envelope is
+  frozen at `schema: 1` and the PR Proof action rejects any other value, so the
+  new structure lives on the new `ladder` command instead and every existing
+  consumer keeps working unchanged.
+
+  Not in this milestone: the renderer is still square by construction, so
+  non-square large-format slots (social cards, store feature graphics, splash
+  screens, print plates) remain out of scope. Those need a composition model,
+  not a detail model, and mixing the two would blur both.
+
 - A source-bound public adoption contract. `scripts/build_adoption.py` keeps
   the README, homepage, and Getting Started install-and-demo commands identical,
   while `scripts/state.py` now audits both that offline binding and the live

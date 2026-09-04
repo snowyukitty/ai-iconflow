@@ -5,6 +5,7 @@
     python -m iconflow build  master.svg --out ./out --targets web,tauri,tray
     python -m iconflow review --config iconflow.toml --html review.html
     python -m iconflow check  master.svg
+    python -m iconflow ladder master.svg --sheet work/app/ladder.png
     python -m iconflow render master.svg --sizes 256,64 --out icon.png
     python -m iconflow new    gradient-glow --out master.svg
     python -m iconflow init   --essence flow --targets web,electron,tray
@@ -19,7 +20,8 @@
     python -m iconflow docs   DESIGN_PLAYBOOK
     python -m iconflow skill  install
 
-``doctor``, ``check``, ``review``, ``ship``, and ``demo`` accept ``--json`` and
+``doctor``, ``check``, ``review``, ``ship``, ``ladder``, and ``demo`` accept
+``--json`` and
 then follow docs/AGENT_CONTRACT.md: stdout carries exactly one envelope, human
 lines go to stderr, and the exit code is 0 (ok), 1 (blocked by an IconFlow
 gate), or 2 (usage, configuration, or runtime failure).
@@ -40,10 +42,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from . import agentkit
+from . import ladder as _LADDER
 from .styles import PRESETS, STYLE_CATALOG
 
 # Commands whose result is a machine-readable Report (docs/AGENT_CONTRACT.md).
-JSON_COMMANDS = frozenset({"doctor", "check", "review", "ship", "demo"})
+JSON_COMMANDS = frozenset({"doctor", "check", "review", "ship", "demo", "ladder"})
 DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
 JSON_HELP = "emit one docs/AGENT_CONTRACT.md envelope on stdout; human lines go to stderr"
 
@@ -447,9 +450,10 @@ def _cmd_review(a) -> Report:
     from .build import normalize_targets
     from .config import ConfigError, load_config, svg_sha256
     from .qa import check, tray_template_warnings, warning_code
+    from .rasterize import load_svg
     from .review import (
-        ReviewOptions, contact_sheet, interactive_review, receipt_seed,
-        receipt_template,
+        ReviewOptions, contact_sheet, interactive_review, ladder_sheet,
+        receipt_seed, receipt_template,
     )
 
     report = Report("review")
@@ -522,6 +526,19 @@ def _cmd_review(a) -> Report:
     )
     print(f"Review sheet -> {out}")
     print("Open it (or Read it as an image) and score against docs/REVIEW_CHECKLIST.md.")
+    # A laddered source is three drawings, and the contact sheet shows the one
+    # each size happens to land on. The ladder proof is where a person can see
+    # whether detail appears as the size grows without the identity moving, so
+    # it is written beside the sheet rather than behind a separate command.
+    ladder_out = None
+    if _LADDER.has_ladder(load_svg(master)):
+        ladder_out = ladder_sheet(
+            master,
+            Path(out).with_name(f"{Path(out).stem}-ladder{Path(out).suffix or '.png'}"),
+            color_scheme=color_scheme,
+        )
+        print(f"Detail-ladder proof -> {ladder_out}")
+        print("Read it too: detail must APPEAR as the size grows, never change identity.")
     html_out = None
     if a.html:
         html_out = interactive_review(master, a.html, options=options)
@@ -540,6 +557,9 @@ def _cmd_review(a) -> Report:
         print(f"Tray template advisory: {advisory}")
         report.advise(warning_code(advisory), advisory)
     seed = receipt_seed(master, options=options)
+    # `review`'s envelope is frozen at schema 1 and the PR Proof action rejects
+    # anything else, so the ladder proof is reported as a path on stderr and
+    # through `iconflow ladder --json`, not as a new key here.
     report.outputs = {
         "sheet": _abs(out),
         "html": _abs(html_out),
@@ -624,6 +644,85 @@ def _cmd_render(a) -> int:
             dest.write_bytes(r.render(svg, size, bg=a.bg))
             print(f"  {dest} ({size}px)")
     return 0
+
+
+def _cmd_ladder(a) -> Report:
+    from . import ladder as detail_ladder
+    from .config import svg_sha256
+    from .rasterize import load_svg
+    from .review import ladder_sheet
+
+    report = Report("ladder")
+    svg = load_svg(a.master)
+    annotated = detail_ladder.has_ladder(svg)
+    thresholds = {
+        "containment_floor": a.containment,
+        "iou_floor": a.iou,
+        "centroid_ceiling": a.centroid_drift,
+        "hue_ceiling": a.hue_drift,
+    }
+    audit = detail_ladder.ladder_report(
+        a.master, color_scheme=a.color_scheme, size=a.size, **thresholds
+    )
+
+    if not annotated:
+        print(
+            f"{Path(a.master).name} is flat — no data-lod anywhere, so every size "
+            "renders the same drawing."
+        )
+        print(
+            "  That is a valid icon and nothing is broken. It is also the ceiling: "
+            "the mark you tuned for 16px is the mark a 1024px store plate shows."
+        )
+        print("  To open the ladder, see: python -m iconflow docs DETAIL_LADDER")
+        report.advise(
+            "ladder-flat",
+            "source has no data-lod annotations; every size renders one drawing",
+        )
+    else:
+        named = ", ".join(audit["rungs"])
+        print(f"Ladder: {named}  (compared at {audit['compare_size']}px)")
+        for measure in audit["measures"]:
+            hue = "-" if measure["hue"] is None else f"{measure['hue']:.0f} deg"
+            print(
+                f"  {measure['rung']:<6} {detail_ladder.rung_sizes(measure['rung']):>10}"
+                f"   footprint {measure['coverage']:.1%}"
+                f"   visible {measure['visible']:.1%}   hue {hue}"
+            )
+        for step in audit["steps"]:
+            drift = step["centroid_drift"]
+            hue = step["hue_drift"]
+            print(
+                f"  {step['smaller']} -> {step['larger']}: "
+                f"shape {step['visible_iou']:.0%}, "
+                f"footprint {step['footprint_iou']:.0%}, "
+                f"centre moves {0.0 if drift is None else drift:.1%}, "
+                f"hue moves {0.0 if hue is None else hue:.0f} deg"
+            )
+
+    for finding in audit["findings"]:
+        print(f"  ! {finding['message']}")
+        report.warn(finding["code"], finding["message"])
+
+    sheet = None
+    if a.sheet:
+        sheet = ladder_sheet(
+            a.master, a.sheet, color_scheme=a.color_scheme, compare_size=a.size
+        )
+        print(f"Ladder proof sheet -> {sheet}")
+        print("Read it: detail should APPEAR as the size grows, never change identity.")
+
+    report.outputs = {
+        "source": _abs(a.master),
+        "source_sha256": svg_sha256(a.master),
+        "ladder": audit["ladder"],
+        "rungs": audit["rungs"],
+        "compare_size": audit["compare_size"],
+        "measures": audit["measures"],
+        "steps": audit["steps"],
+        "sheet": _abs(sheet) if sheet else None,
+    }
+    return report
 
 
 def _cmd_new(a) -> int:
@@ -1407,6 +1506,27 @@ def build_parser() -> argparse.ArgumentParser:
                    default="auto", help="extraction mode used by the tray audit")
     c.add_argument("--json", action="store_true", help=JSON_HELP)
     c.set_defaults(func=_cmd_check)
+
+    ld = sub.add_parser(
+        "ladder",
+        help="audit the detail ladder: does the big icon stay the same mark as the small one?",
+    )
+    ld.add_argument("master")
+    ld.add_argument("--sheet", help="also write the visual ladder proof sheet here")
+    ld.add_argument("--size", type=int, default=_LADDER.COMPARE_SIZE,
+                    help="pixel size every rung is rendered at before comparison")
+    ld.add_argument("--color-scheme", choices=["light", "dark", "no-preference"],
+                    default="light")
+    ld.add_argument("--containment", type=float, default=_LADDER.CONTAINMENT_FLOOR,
+                    help="minimum share of a rung that must sit inside the rung above it")
+    ld.add_argument("--iou", type=float, default=_LADDER.IOU_FLOOR,
+                    help="minimum silhouette overlap between adjacent rungs")
+    ld.add_argument("--centroid-drift", type=float, default=_LADDER.CENTROID_DRIFT_CEILING,
+                    help="maximum optical-centre movement between adjacent rungs")
+    ld.add_argument("--hue-drift", type=float, default=_LADDER.HUE_DRIFT_CEILING,
+                    help="maximum dominant-hue shift, in degrees, between adjacent rungs")
+    ld.add_argument("--json", action="store_true", help=JSON_HELP)
+    ld.set_defaults(func=_cmd_ladder)
 
     rn = sub.add_parser("render", help="rasterize a master SVG to exact pixel size(s)")
     rn.add_argument("master")

@@ -102,10 +102,23 @@ the project you are working on.
    menu bar, author a geometry-linked mark-only `tray.svg` and set it in
    `iconflow.toml`; do not let a card alpha collapse into a featureless square.
 
+5b. **Optional — open the detail ladder** if the icon will also be seen large
+   (a store listing, a splash, an about box, print). Read
+   `iconflow docs DETAIL_LADDER`, then annotate groups with
+   `data-lod="glyph mark plate"`, `"mark plate"`, `"plate"`. Every size is then
+   rendered from its own rung, and the shipped `favicon.svg` carries a `@media`
+   layer that does the same in a browser. **The ladder grows inward**: every
+   trait that defines the outer contour stays on the `glyph` rung; the rungs
+   above it own only what happens inside it. Audit it with
+   `iconflow ladder master.svg --sheet work/<slug>/ladder.png` and **read that
+   sheet** — detail must APPEAR as the size grows, never change identity. A
+   source with no `data-lod` is flat, which is a valid answer and costs nothing.
+
 6. **Check and review (mandatory).**
    - `iconflow check master.svg` → fix every warning. With a linked tray source
      add `--tray-svg tray.svg --tray-template-mode <mode>` to audit the macOS
-     template the build will emit.
+     template the build will emit. A laddered source is also gated here on the
+     same-mark invariant (`ladder-*` codes); a flat one never sees it.
    - `iconflow review --config iconflow.toml --out work/<slug>/review.png --html work/<slug>/review.html --receipt-template master-review.json`
      → **read that `review.png` and open that Review Lab**: actual-size pixels,
      silhouette strip, alpha footprint, adaptive crops, target transforms.

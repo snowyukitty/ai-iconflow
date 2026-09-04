@@ -8,7 +8,7 @@ import stat
 from pathlib import Path
 from typing import Iterable, Protocol
 
-from . import assemble, htmlhead
+from . import assemble, htmlhead, ladder
 from .rasterize import Rasterizer, load_svg
 
 # Targets the CLI understands. "all" expands to everything.
@@ -53,19 +53,32 @@ def normalize_targets(targets) -> list[str]:
 
 
 class RenderCache:
-    """Render each size once, on demand, reusing a single browser session."""
+    """Render each size once, on demand, reusing a single browser session.
+
+    Every size is rendered from its detail-ladder rung, so one annotated source
+    can carry material at 1024px and one idea at 16px. A source with no
+    ``data-lod`` reduces to itself, which is why this is invisible to every
+    master authored before the ladder existed.
+    """
 
     def __init__(self, svg_text: str, rasterizer: Rasterizer, *, optimize: bool = True):
         self.svg = svg_text
         self.r = rasterizer
         self.optimize = optimize
         self._cache: dict[int, bytes] = {}
+        self._rungs: dict[str, str] = {}
+
+    def rung_svg(self, rung: str) -> str:
+        """The source reduced to one rung, computed once per rung."""
+        if rung not in self._rungs:
+            self._rungs[rung] = ladder.reduce_svg(self.svg, rung)
+        return self._rungs[rung]
 
     def png(self, size: int) -> bytes:
         if isinstance(size, bool) or not isinstance(size, int) or size <= 0:
             raise ValueError("render size must be a positive integer")
         if size not in self._cache:
-            png = self.r.render(self.svg, size)
+            png = self.r.render(self.rung_svg(ladder.rung_for_size(size)), size)
             self._cache[size] = assemble.optimize_png(png) if self.optimize else png
         return self._cache[size]
 
@@ -200,11 +213,27 @@ def preview_assets(
     }
 
 
+def write_favicon_svg(svg_text: str, src_svg: Path, destination: Path) -> bool:
+    """Write the vector favicon, adding the ladder layer only when it is used.
+
+    A flat source is copied byte for byte, exactly as it always was: no icon
+    that predates the ladder gains a stylesheet it does not need. An annotated
+    source is written with :data:`ladder.LADDER_CSS`, which is what makes the
+    single vector favicon show its plate rung in a large preview and its glyph
+    rung in a 16px tab. Returns True when the layer was added.
+    """
+    if not ladder.has_ladder(svg_text):
+        shutil.copyfile(src_svg, destination)
+        return False
+    destination.write_text(ladder.with_media_layer(svg_text), encoding="utf-8")
+    return True
+
+
 def build_web(cache: RenderCache, src_svg: Path, outdir: Path, name: str,
               theme: str, bg: str, produced: list[str],
               options: htmlhead.WebMetaOptions | None = None) -> None:
     options = options or htmlhead.WebMetaOptions()
-    shutil.copyfile(src_svg, outdir / "favicon.svg")
+    write_favicon_svg(cache.svg, src_svg, outdir / "favicon.svg")
     produced.append("favicon.svg")
     assemble.write_ico(cache.many([16, 32, 48]), outdir / "favicon.ico")
     produced.append("favicon.ico")

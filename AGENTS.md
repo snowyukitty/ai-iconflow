@@ -53,11 +53,22 @@ toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
    idea, on the 1024 grid, inside the safe area. If a full-card app icon also
    needs a tray target, author a linked mark-only `tray.svg`; do not assume its
    card alpha is a meaningful menu-bar silhouette.
+4b. **Optional — open the detail ladder** when the icon will also be seen
+   large (store listing, splash, about box, print). `docs/DETAIL_LADDER.md`
+   has the grammar: annotate groups `data-lod="glyph mark plate"`,
+   `"mark plate"`, `"plate"`, and every output size is rendered from its own
+   rung while the shipped `favicon.svg` gains a `@media` layer that does the
+   same in a browser. **The ladder grows inward** — every trait that defines
+   the outer contour stays on the `glyph` rung. Audit with
+   `python -m iconflow ladder master.svg --sheet work/<slug>/ladder.png` and
+   read that sheet. A flat source (no `data-lod`) is a valid answer and behaves
+   exactly as before.
 5. **Check + review:**
    `python -m iconflow check master.svg` → fix every warning. With a linked
    tray source, add `--tray-svg tray.svg --tray-template-mode <mode>`: it audits
    the macOS template the build will emit and reports one that kept none of the
-   colour mark's features.
+   colour mark's features. A laddered source is additionally gated on the
+   same-mark invariant.
    `python -m iconflow review --config iconflow.toml --html review.html` →
    **Read `review.png` and open the Review Lab**. Inspect actual-size pixels,
    visual silhouette, alpha footprint, adaptive crops, and every selected

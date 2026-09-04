@@ -21,9 +21,9 @@ import io
 import json
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 
-from . import assemble
+from . import assemble, ladder
 from .build import electron_frames, preview_assets
 from .config import review_build_contract, review_contract_digest, svg_sha256
 from .rasterize import Rasterizer, load_svg
@@ -191,7 +191,8 @@ def contact_sheet(master_svg: str | Path, out: str | Path, *,
     fs = _font(14)
 
     with Rasterizer(color_scheme=color_scheme) as r:
-        renders = {s: r.render(svg, s) for s in sorted(set(_SIZES + [512]))}
+        source = ladder.RungSource(svg)
+        renders = {s: source.render(r, s) for s in sorted(set(_SIZES + [512]))}
 
     cols = len(_SIZES)
     grid_w = _PAD * 2 + cols * _CELL + (cols - 1) * _GAP
@@ -370,18 +371,21 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
     product_name = options.name or path.stem
     sizes = [16, 24, 32, 48, 64, 128, 180, 192, 256, 512, 1024]
 
+    source = ladder.RungSource(svg)
     renders: dict[str, dict[int, bytes]] = {}
     for scheme in ("light", "dark"):
         with Rasterizer(color_scheme=scheme) as r:
-            renders[scheme] = {s: r.render(svg, s) for s in sizes}
+            renders[scheme] = {s: source.render(r, s) for s in sizes}
 
     tray_renders = {scheme: {s: renders[scheme][s] for s in (16, 32)}
                     for scheme in ("light", "dark")}
     if options.tray_svg:
-        tray_text = load_svg(options.tray_svg)
+        tray_source = ladder.RungSource(load_svg(options.tray_svg))
         for scheme in ("light", "dark"):
             with Rasterizer(color_scheme=scheme) as r:
-                tray_renders[scheme] = {s: r.render(tray_text, s) for s in (16, 32)}
+                tray_renders[scheme] = {
+                    s: tray_source.render(r, s) for s in (16, 32)
+                }
 
     review_seed = receipt_seed(path, options=options)
     build_contract = review_seed["build"]
@@ -723,7 +727,8 @@ def compare_sheet(candidates: list[tuple[str, str | Path]], out: str | Path) -> 
     with Rasterizer() as r:
         for label, path in candidates:
             svg = load_svg(path)
-            rendered.append((label, {s: r.render(svg, s) for s in sizes}))
+            source = ladder.RungSource(svg)
+            rendered.append((label, {s: source.render(r, s) for s in sizes}))
 
     extra = 2  # visual silhouette + dark-bg cells
     cols = len(sizes) + extra
@@ -852,6 +857,145 @@ def style_gallery(sources: list[tuple[StyleSpec, str]], out: str | Path) -> Path
     out = Path(out)
     if out.is_symlink():
         raise ValueError(f"style gallery destination must not be a symlink: {out}")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    sheet.convert("RGB").save(out, format="PNG", optimize=True)
+    return out
+
+
+# --------------------------------------------------------------------------
+# Detail-ladder proof sheet
+# --------------------------------------------------------------------------
+
+#: Sizes shown on the ladder sheet: one per band plus the boundaries.
+LADDER_STRIP = (16, 32, 48, 64, 128, 256, 512)
+_LADDER_CELL = 200
+_GHOST = (206, 208, 214, 255)   # the larger rung, present but receding
+_CORE = (34, 36, 42, 255)       # the smaller rung, still inside it
+
+
+def ladder_overlay(smaller_png: bytes, larger_png: bytes) -> Image.Image:
+    """Paint the smaller rung inside the larger one, escapes in signal coral.
+
+    Containment is a number in the receipt and a picture here: grey is what the
+    large rung draws, near-black is what survives to the small one, and every
+    coral pixel is geometry the small rung has that the large one does not —
+    the exact shape of "you redrew it instead of reducing it".
+    """
+    large = _img(larger_png)
+    small = _img(smaller_png)
+    if large.size != small.size:
+        raise ValueError("ladder overlay needs both rungs at one size")
+    # The recognisable shape, not the alpha: on a full-bleed card every rung has
+    # the same alpha, and only this mask can show that the drawing changed. The
+    # policy comes from the larger rung so both masks are cut the same way.
+    policy = ladder.figure_policy(large)
+    large_mask = ladder.figure_mask(large, policy)
+    small_mask = ladder.figure_mask(small, policy)
+    escaped = ImageChops.subtract(small_mask, large_mask)
+
+    out = Image.new("RGBA", large.size, (255, 255, 255, 255))
+    out.paste(Image.new("RGBA", large.size, _GHOST), (0, 0), large_mask)
+    out.paste(Image.new("RGBA", large.size, _CORE), (0, 0), small_mask)
+    out.paste(Image.new("RGBA", large.size, _SIGNAL), (0, 0), escaped)
+    return out
+
+
+def ladder_sheet(master_svg: str | Path, out: str | Path, *,
+                 color_scheme: str = "light",
+                 compare_size: int = ladder.COMPARE_SIZE) -> Path:
+    """Render the proof a person actually reads before trusting a ladder.
+
+    Three bands: the sizes as they will be delivered, the three rungs at one
+    comparison size, and the containment overlay for each step of the ladder.
+    """
+    svg = load_svg(master_svg)
+    source = ladder.RungSource(svg)
+    title = _font(18)
+    small = _font(14)
+
+    with Rasterizer(color_scheme=color_scheme) as r:
+        delivered = {size: source.render(r, size) for size in LADDER_STRIP}
+        rungs = ladder.render_rungs(svg, r, size=compare_size)
+
+    steps = [
+        (a, b) for a, b in zip(ladder.RUNGS, ladder.RUNGS[1:])
+        if a in rungs and b in rungs
+    ]
+    cols = max(len(LADDER_STRIP), 3, len(steps))
+    width = _PAD * 2 + cols * _LADDER_CELL + (cols - 1) * _GAP
+    # Each band is its own heading, one row of cells, and two label lines.
+    band = 26 + _LADDER_CELL + 46
+    height = 46 + band * 3 + _PAD + 12
+
+    sheet = Image.new("RGBA", (width, height), _SHEET_BG)
+    draw = ImageDraw.Draw(sheet)
+    draw.rounded_rectangle([_PAD, 10, _PAD + 28, 38], radius=8, fill=_SIGNAL)
+    draw.rectangle([_PAD + 11, 17, _PAD + 23, 31], fill=_SHEET_BG)
+    state = "annotated" if ladder.has_ladder(svg) else "flat (no data-lod yet)"
+    draw.text((_PAD + 40, 8),
+              f"IconFlow detail ladder — {Path(master_svg).name} — {state}",
+              font=title, fill=_TXT)
+
+    def cell(image: Image.Image, x: int, y: int, label: str, note: str = "") -> None:
+        sheet.alpha_composite(image, (x, y))
+        draw.rectangle([x, y, x + _LADDER_CELL - 1, y + _LADDER_CELL - 1],
+                       outline=(70, 72, 80, 255))
+        draw.text((x + 4, y + _LADDER_CELL + 4), label, font=small, fill=_TXT)
+        if note:
+            draw.text((x + 4, y + _LADDER_CELL + 22), note, font=small, fill=_LABEL)
+
+    y = 46
+    draw.text((_PAD, y), "delivered — every size rendered from its own rung",
+              font=title, fill=_TXT)
+    y += 26
+    x = _PAD
+    for size in LADDER_STRIP:
+        card = Image.new("RGBA", (_LADDER_CELL, _LADDER_CELL), "#ffffff")
+        art = _img(delivered[size])
+        if size > _LADDER_CELL:
+            art = art.resize((_LADDER_CELL, _LADDER_CELL), Image.LANCZOS)
+        card.alpha_composite(art, ((_LADDER_CELL - art.width) // 2,
+                                   (_LADDER_CELL - art.height) // 2))
+        scaled = " (shown smaller)" if size > _LADDER_CELL else ""
+        cell(card, x, y, f"{size}px{scaled}", ladder.rung_for_size(size))
+        x += _LADDER_CELL + _GAP
+    y += band
+
+    draw.text((_PAD, y),
+              f"the three rungs, all at {compare_size}px — what each one actually draws",
+              font=title, fill=_TXT)
+    y += 26
+    x = _PAD
+    for rung in ladder.RUNGS:
+        card = Image.new("RGBA", (_LADDER_CELL, _LADDER_CELL), "#ffffff")
+        card.alpha_composite(
+            _img(rungs[rung]).resize((_LADDER_CELL, _LADDER_CELL), Image.LANCZOS)
+        )
+        cell(card, x, y, rung, ladder.rung_sizes(rung))
+        x += _LADDER_CELL + _GAP
+    y += band
+
+    draw.text((_PAD, y),
+              "same-mark overlay — grey is the larger rung, black what survives, "
+              "coral what the smaller rung invented",
+              font=title, fill=_TXT)
+    y += 26
+    x = _PAD
+    for smaller, larger in steps:
+        overlay = ladder_overlay(rungs[smaller], rungs[larger])
+        step = ladder.compare_rungs(
+            rungs[smaller], rungs[larger], smaller=smaller, larger=larger
+        )
+        cell(
+            overlay.resize((_LADDER_CELL, _LADDER_CELL), Image.LANCZOS),
+            x, y, f"{smaller} in {larger}",
+            f"shape {step['visible_iou']:.0%} · footprint {step['footprint_iou']:.0%}",
+        )
+        x += _LADDER_CELL + _GAP
+
+    out = Path(out)
+    if out.is_symlink():
+        raise ValueError(f"ladder sheet destination must not be a symlink: {out}")
     out.parent.mkdir(parents=True, exist_ok=True)
     sheet.convert("RGB").save(out, format="PNG", optimize=True)
     return out

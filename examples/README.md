@@ -43,6 +43,19 @@ outline that was the whole silhouette and knew it too late, a canopy that read
 as a mushroom, and two different ways to produce a featureless macOS tray
 template. Those became `docs/LEARNINGS.md` L46–L50.
 
+`detail-ladder/` is the fourth directory, and it demonstrates one mechanism
+rather than the whole loop: a kiln whose source says which detail belongs at
+16px, which at 64px, and which only at 512px. Read it as source — the groups
+are annotated and the comments record the collar that had to be removed —
+then audit it and read the sheet:
+
+```bash
+python -m iconflow ladder examples/detail-ladder/master.svg \
+  --sheet work/detail-ladder/ladder.png
+```
+
+Reference: [`docs/DETAIL_LADDER.md`](../docs/DETAIL_LADDER.md).
+
 ---
 
 ## 1. Brief → gated multi-target family
