@@ -8,6 +8,7 @@ pixels* at every size, and that a broken ladder is actually blocked.
 """
 from __future__ import annotations
 
+import os
 import unittest
 from pathlib import Path
 
@@ -178,15 +179,21 @@ class Invariant(unittest.TestCase):
         self.assertFalse(ladder.annotation_findings(FLAT_SVG))
 
 
+#: The default suite is browser-free; the Chromium jobs opt in with this.
+NEEDS_CHROMIUM = unittest.skipUnless(
+    os.environ.get("ICONFLOW_BROWSER_TESTS") == "1",
+    "set ICONFLOW_BROWSER_TESTS=1 after installing Chromium",
+)
+
+
+@NEEDS_CHROMIUM
 class RenderedLadder(unittest.TestCase):
     """Chromium is the ground truth for both mechanisms, so prove they agree."""
 
     @classmethod
     def setUpClass(cls):
-        try:
-            from iconflow.rasterize import Rasterizer
-        except ImportError:  # pragma: no cover
-            raise unittest.SkipTest("Playwright is not installed")
+        from iconflow.rasterize import Rasterizer
+
         cls.Rasterizer = Rasterizer
 
     def test_structural_reduction_and_the_css_layer_render_the_same_pixels(self):
@@ -230,6 +237,31 @@ class RenderedLadder(unittest.TestCase):
         self.assertEqual(report["findings"], [])
 
 
+class BuildIntegration(unittest.TestCase):
+    """What the build writes, provable without starting a browser."""
+
+    def test_the_built_favicon_carries_the_layer_only_when_the_source_uses_it(self):
+        import tempfile
+
+        from iconflow.build import write_favicon_svg
+        from iconflow.rasterize import load_svg
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            flat_src = root / "flat.svg"
+            flat_src.write_text(FLAT_SVG, encoding="utf-8")
+            flat_out = root / "flat-favicon.svg"
+            self.assertFalse(write_favicon_svg(load_svg(flat_src), flat_src, flat_out))
+            self.assertEqual(flat_out.read_bytes(), flat_src.read_bytes())
+
+            lad_src = root / "lad.svg"
+            lad_src.write_text(LADDERED, encoding="utf-8")
+            lad_out = root / "lad-favicon.svg"
+            self.assertTrue(write_favicon_svg(load_svg(lad_src), lad_src, lad_out))
+            self.assertTrue(ladder.has_media_layer(lad_out.read_text(encoding="utf-8")))
+
+
+@NEEDS_CHROMIUM
 class GateIntegration(unittest.TestCase):
     def test_check_runs_the_invariant_and_blocks_a_broken_ladder(self):
         import tempfile
@@ -307,26 +339,6 @@ class GateIntegration(unittest.TestCase):
                     )
             favicon = (out / "favicon.svg").read_text(encoding="utf-8")
             self.assertTrue(ladder.has_media_layer(favicon))
-
-    def test_the_built_favicon_carries_the_layer_only_when_the_source_uses_it(self):
-        import tempfile
-
-        from iconflow.build import write_favicon_svg
-        from iconflow.rasterize import load_svg
-
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            flat_src = root / "flat.svg"
-            flat_src.write_text(FLAT_SVG, encoding="utf-8")
-            flat_out = root / "flat-favicon.svg"
-            self.assertFalse(write_favicon_svg(load_svg(flat_src), flat_src, flat_out))
-            self.assertEqual(flat_out.read_bytes(), flat_src.read_bytes())
-
-            lad_src = root / "lad.svg"
-            lad_src.write_text(LADDERED, encoding="utf-8")
-            lad_out = root / "lad-favicon.svg"
-            self.assertTrue(write_favicon_svg(load_svg(lad_src), lad_src, lad_out))
-            self.assertTrue(ladder.has_media_layer(lad_out.read_text(encoding="utf-8")))
 
 
 if __name__ == "__main__":  # pragma: no cover
