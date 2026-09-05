@@ -427,13 +427,14 @@ def neighbourhood(candidate: Entry, *, index: Index | None,
                   nearest: int = NEAREST) -> Neighbourhood:
     """Rank every known mark against the candidate and sort them into findings.
 
-    The candidate is never its own neighbour: a bundled entry with the
-    candidate's source hash (a house mark being re-audited) is skipped, and a
-    declared file is skipped when it *is* the candidate's file — by path, not
-    by hash, because a byte-identical copy under another name in `avoid` is
-    exactly the collision the set exists to catch. A `family` entry is skipped
-    in every set it also appears in — that is what "excluded from the gate
-    entirely" means.
+    The candidate is never its own neighbour, and "its own" means the same
+    file under :func:`identity` — the resolved checkout or packaged path of a
+    bundled entry, the resolved path of a declared one — never a matching
+    hash. A byte-identical copy under another path is a neighbour at distance
+    zero, which is the finding, not noise; a copy in `avoid` is exactly the
+    collision the set exists to catch. A `family` entry is skipped in every
+    set it also appears in — that is what "excluded from the gate entirely"
+    means.
     """
     if not math.isfinite(radius) or radius <= 0:
         raise NeighbourError("the collision radius must be a positive finite number")
@@ -511,8 +512,11 @@ def bundled_source_path(entry: Entry) -> Path | None:
             packaged = agentkit.resource("collision", entry.source.rsplit("/", 1)[-1])
         except (RuntimeError, ValueError):
             return None
-        if getattr(packaged, "is_file", lambda: False)():
-            return Path(str(packaged))
+        # Only a resource that is a real file on disk has a path identity; a
+        # zipped Traversable does not, and must fall through to the id.
+        located = Path(str(packaged))
+        if located.is_file():
+            return located
     return None
 
 
@@ -526,5 +530,10 @@ def identity(entry: Entry) -> str:
     """
     if entry.origin == "bundled":
         located = bundled_source_path(entry)
-        return str(located.resolve()) if located is not None else f"@{entry.id}"
+        if located is None:
+            return f"@{entry.id}"
+        try:
+            return str(located.resolve())
+        except OSError:
+            return f"@{entry.id}"
     return _same_file_key(entry.source)

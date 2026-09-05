@@ -1072,6 +1072,9 @@ def neighbour_sheet(hood: neighbours.Neighbourhood, out: str | Path, *,
     rows = [("candidate", hood.candidate, None)]
     rows += [(hit.entry.set, hit.entry, hit) for hit in hood.nearest]
     rows += [("family", hit.entry, hit) for hit in hood.family]
+    # The render columns sit on the ground the scheme implies, so a white
+    # transparent mark audited for a dark UI is visible rather than erased.
+    ground = "#0b0d12" if color_scheme == "dark" else "#ffffff"
 
     title = _font(18)
     small = _font(14)
@@ -1104,7 +1107,10 @@ def neighbour_sheet(hood: neighbours.Neighbourhood, out: str | Path, *,
             outline = _NEAR if inside else (70, 72, 80, 255)
             for column, picture in enumerate((at16, at32, silhouette)):
                 x = x0 + column * (_NEIGHBOUR_CELL + _GAP)
-                card = Image.new("RGBA", (_NEIGHBOUR_CELL, _NEIGHBOUR_CELL), "#ffffff")
+                card = Image.new(
+                    "RGBA", (_NEIGHBOUR_CELL, _NEIGHBOUR_CELL),
+                    "#ffffff" if column == 2 else ground,
+                )
                 card.alpha_composite(picture)
                 sheet.alpha_composite(card, (x, y))
                 draw.rectangle(

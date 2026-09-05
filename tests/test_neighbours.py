@@ -353,9 +353,11 @@ class QueryTests(unittest.TestCase):
         self.assertEqual({e.title for e in resolved}, {"Bell"})
 
     def test_the_candidate_itself_is_never_its_own_neighbour(self):
+        # Wherever this process finds the bundled bell — the checkout, or the
+        # wheel the Chromium job installs — that file is the candidate here.
         me = neighbours.Entry(
             id="candidate", set="candidate", title="me",
-            source=str(COLLISION / "bell.svg"),
+            source=str(neighbours.bundled_source_path(self.bell)),
             source_sha256=self.bell.source_sha256, field=self.bell.field,
         )
         hood = neighbours.neighbourhood(me, index=self.index)
@@ -375,17 +377,32 @@ class QueryTests(unittest.TestCase):
         self.assertEqual(hood.familiar[0].distance, 0.0)
 
     def test_an_alias_beside_the_file_behind_it_is_one_declared_mark(self):
+        bundled = neighbours.bundled_source_path(self.bell)
+        self.assertIsNotNone(bundled)
         resolved = neighbours.resolve_set(
-            ["@collision/bell", str(COLLISION / "bell.svg")], set_name="portfolio",
+            ["@collision/bell", str(bundled)], set_name="portfolio",
             base=REPO, index=self.index, rasterizer=_FakeRasterizer(),
         )
         self.assertEqual([e.id for e in resolved], ["collision/bell"])
+
+    def test_a_checkout_copy_of_a_wheel_form_is_a_different_file(self):
+        """Identity is the file this process resolves, so a copy elsewhere stays distinct."""
+        with tempfile.TemporaryDirectory() as tmp:
+            copy = Path(tmp) / "bell.svg"
+            copy.write_bytes((COLLISION / "bell.svg").read_bytes())
+            resolved = neighbours.resolve_set(
+                ["@collision/bell", str(copy)], set_name="avoid",
+                base=REPO, index=self.index, rasterizer=_FakeRasterizer(),
+            )
+        self.assertEqual([e.id for e in resolved], ["collision/bell", "avoid/bell"])
+        self.assertNotEqual(neighbours.identity(resolved[0]), neighbours.identity(resolved[1]))
 
     def test_alias_identity_does_not_depend_on_the_working_directory(self):
         import os
 
         alias = neighbours.resolve_set(["@collision/bell"], set_name="avoid", base=REPO,
                                        index=self.index, rasterizer=None)[0]
+        expected = str(neighbours.bundled_source_path(self.bell).resolve())
         here = os.getcwd()
         with tempfile.TemporaryDirectory() as tmp:
             os.chdir(tmp)
@@ -394,7 +411,16 @@ class QueryTests(unittest.TestCase):
             finally:
                 os.chdir(here)
         self.assertEqual(elsewhere, neighbours.identity(alias))
-        self.assertEqual(elsewhere, str((COLLISION / "bell.svg").resolve()))
+        self.assertEqual(elsewhere, expected)
+        self.assertFalse(elsewhere.startswith("@"))
+
+    def test_a_bundled_entry_with_no_file_on_this_machine_falls_back_to_its_id(self):
+        ghost = neighbours.Entry(
+            id="house/gallery/not-here", set="house", title="ghost",
+            source="website/assets/gallery/not-here/master.svg",
+            source_sha256="e" * 64, field=self.bell.field, origin="bundled",
+        )
+        self.assertEqual(neighbours.identity(ghost), "@house/gallery/not-here")
 
     def test_three_portfolio_marks_inside_the_radius_are_a_rut(self):
         own = [_entry(f"portfolio/mark-{i}", self.bell.field, set_name="portfolio", sha=str(i) * 64)
@@ -708,6 +734,31 @@ class RenderedNeighbourhood(unittest.TestCase):
                 seen.clear()
                 main(["neighbours", "--config", str(toml), "--color-scheme", "light", "--json"])
                 self.assertEqual(seen, ["light"])
+
+    def test_a_dark_scheme_sheet_keeps_a_white_transparent_mark_visible(self):
+        import contextlib
+
+        from iconflow.cli import main
+
+        white = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">'
+                 '<path fill="#ffffff" d="M232 660 C232 420 320 260 512 260 C704 260 792 420 '
+                 '792 660 L792 700 L872 770 L872 810 L152 810 L152 770 L232 700 Z"/></svg>')
+        with tempfile.TemporaryDirectory() as tmp:
+            source = Path(tmp) / "white-bell.svg"
+            source.write_text(white, encoding="utf-8")
+            sheet = Path(tmp) / "sheet.png"
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                main(["neighbours", str(source), "--color-scheme", "dark",
+                      "--sheet", str(sheet), "--json"])
+            with Image.open(sheet) as image:
+                pixels = image.convert("RGB")
+                # The candidate's 16px cell: its ground is dark, and the mark
+                # inside it is light — both must be there to compare.
+                x0, y0 = 24 + 380, 46 + 26
+                cell = [pixels.getpixel((x0 + dx, y0 + dy))
+                        for dx in range(2, 126, 4) for dy in range(2, 126, 4)]
+        self.assertEqual(pixels.getpixel((x0 + 1, y0 + 1)), (11, 13, 18))
+        self.assertTrue(any(sum(p) > 600 for p in cell), "the white mark vanished")
 
     def test_a_family_member_is_drawn_but_never_gated(self):
         import contextlib

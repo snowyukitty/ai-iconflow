@@ -147,8 +147,10 @@ Three of the six recorded collisions sit outside it, and the table says so.
 Raising the radius cannot catch all three. The stepped stack and the lantern
 differ in topology, which the gate treats as a separator whatever the
 distance. The curtain matches pi's topology, so a radius of 0.32 *would*
-catch it — and would also call every shipped redesign in the second table a
-collision, since they sit at 0.319 and beyond. The misses are recorded here
+catch it — and would call the lumendeck redesign (0.319 from the bar chart,
+same topology) a collision in the same breath; the other redesigns stay
+clear on distance or topology. A radius that cannot tell a rejected draft
+from the mark that replaced it is not a radius. The misses are recorded here
 instead. If the instrument ever gains a structural component, this table is
 the test it has to pass.
 
