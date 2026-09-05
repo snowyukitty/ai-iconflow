@@ -1065,12 +1065,13 @@ def _contrasting_ground(picture: Image.Image) -> str:
     """White for a dark mark, the dark UI ground for a light one."""
     luma = picture.convert("RGB").convert("L")
     alpha = picture.getchannel("A")
-    total = 0
-    weight = 0
+    total = 0.0
+    weight = 0.0
+    # Alpha-weighted, so a translucent white mark counts as the white it is.
     for value, a in zip(_pixels(luma), _pixels(alpha)):
-        if a >= 128:
-            total += value
-            weight += 1
+        if a:
+            total += value * a
+            weight += a
     if weight and total / weight > 160:
         return _DARK_GROUND
     return "#ffffff"

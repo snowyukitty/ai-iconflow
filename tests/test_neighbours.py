@@ -742,16 +742,24 @@ class RenderedNeighbourhood(unittest.TestCase):
 
         from iconflow.cli import main
 
+        bell = ('M232 660 C232 420 320 260 512 260 C704 260 792 420 792 660 L792 700 '
+                'L872 770 L872 810 L152 810 L152 770 L232 700 Z')
+        # A translucent white candidate, and a declared black reference that is
+        # rendered live even from an installed wheel, where bundled references
+        # fall back to their index fields.
         white = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">'
-                 '<path fill="#ffffff" d="M232 660 C232 420 320 260 512 260 C704 260 792 420 '
-                 '792 660 L792 700 L872 770 L872 810 L152 810 L152 770 L232 700 Z"/></svg>')
+                 f'<path fill="#ffffff" opacity="0.4" d="{bell}"/></svg>')
+        black = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">'
+                 f'<path fill="#101010" d="{bell}"/></svg>')
         with tempfile.TemporaryDirectory() as tmp:
             source = Path(tmp) / "white-bell.svg"
             source.write_text(white, encoding="utf-8")
+            reference = Path(tmp) / "black-bell.svg"
+            reference.write_text(black, encoding="utf-8")
             sheet = Path(tmp) / "sheet.png"
             with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
                 main(["neighbours", str(source), "--color-scheme", "dark",
-                      "--sheet", str(sheet), "--json"])
+                      "--avoid", str(reference), "--sheet", str(sheet), "--json"])
             with Image.open(sheet) as image:
                 pixels = image.convert("RGB")
                 # The candidate's 16px cell: its ground is dark, and the mark
@@ -759,14 +767,14 @@ class RenderedNeighbourhood(unittest.TestCase):
                 x0, y0 = 24 + 380, 46 + 26
                 cell = [pixels.getpixel((x0 + dx, y0 + dy))
                         for dx in range(2, 126, 4) for dy in range(2, 126, 4)]
-                # The nearest neighbour is the black bundled bell: it sits on
-                # white, so the reference does not vanish either.
+                # The nearest neighbour is the declared black bell (distance 0,
+                # live-rendered): it sits on white, so it does not vanish either.
                 y1 = y0 + 128 + 52
                 below = [pixels.getpixel((x0 + dx, y1 + dy))
                          for dx in range(2, 126, 4) for dy in range(2, 126, 4)]
                 corner_below = pixels.getpixel((x0 + 1, y1 + 1))
         self.assertEqual(pixels.getpixel((x0 + 1, y0 + 1)), (11, 13, 18))
-        self.assertTrue(any(sum(p) > 600 for p in cell), "the white mark vanished")
+        self.assertTrue(any(sum(p) > 250 for p in cell), "the translucent white mark vanished")
         self.assertEqual(corner_below, (255, 255, 255))
         self.assertTrue(any(sum(p) < 150 for p in below), "the black reference vanished")
 
