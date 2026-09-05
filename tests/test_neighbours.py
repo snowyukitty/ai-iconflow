@@ -317,8 +317,10 @@ class QueryTests(unittest.TestCase):
         self.assertEqual([n.entry.id for n in hood.collisions], ["avoid/their-copy"])
 
     def test_a_bundled_form_promoted_by_file_path_is_gated_once(self):
+        located = neighbours.bundled_source_path(self.bell)
+        self.assertIsNotNone(located)
         by_path = neighbours.Entry(
-            id="avoid/bell", set="avoid", title="Bell", source=str(COLLISION / "bell.svg"),
+            id="avoid/bell", set="avoid", title="Bell", source=str(located),
             source_sha256=self.bell.source_sha256, field=self.bell.field,
         )
         hood = neighbours.neighbourhood(self._candidate(self.bell), index=self.index, avoid=[by_path])
@@ -757,8 +759,16 @@ class RenderedNeighbourhood(unittest.TestCase):
                 x0, y0 = 24 + 380, 46 + 26
                 cell = [pixels.getpixel((x0 + dx, y0 + dy))
                         for dx in range(2, 126, 4) for dy in range(2, 126, 4)]
+                # The nearest neighbour is the black bundled bell: it sits on
+                # white, so the reference does not vanish either.
+                y1 = y0 + 128 + 52
+                below = [pixels.getpixel((x0 + dx, y1 + dy))
+                         for dx in range(2, 126, 4) for dy in range(2, 126, 4)]
+                corner_below = pixels.getpixel((x0 + 1, y1 + 1))
         self.assertEqual(pixels.getpixel((x0 + 1, y0 + 1)), (11, 13, 18))
         self.assertTrue(any(sum(p) > 600 for p in cell), "the white mark vanished")
+        self.assertEqual(corner_below, (255, 255, 255))
+        self.assertTrue(any(sum(p) < 150 for p in below), "the black reference vanished")
 
     def test_a_family_member_is_drawn_but_never_gated(self):
         import contextlib

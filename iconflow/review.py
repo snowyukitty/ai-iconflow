@@ -1058,6 +1058,24 @@ def _neighbour_pictures(entry: neighbours.Entry, rasterizer: Rasterizer | None):
     return at16, at32, silhouette, "rendered"
 
 
+_DARK_GROUND = "#0b0d12"
+
+
+def _contrasting_ground(picture: Image.Image) -> str:
+    """White for a dark mark, the dark UI ground for a light one."""
+    luma = picture.convert("RGB").convert("L")
+    alpha = picture.getchannel("A")
+    total = 0
+    weight = 0
+    for value, a in zip(_pixels(luma), _pixels(alpha)):
+        if a >= 128:
+            total += value
+            weight += 1
+    if weight and total / weight > 160:
+        return _DARK_GROUND
+    return "#ffffff"
+
+
 def neighbour_sheet(hood: neighbours.Neighbourhood, out: str | Path, *,
                     color_scheme: str = "light",
                     rasterizer: Rasterizer | None = None) -> Path:
@@ -1072,9 +1090,6 @@ def neighbour_sheet(hood: neighbours.Neighbourhood, out: str | Path, *,
     rows = [("candidate", hood.candidate, None)]
     rows += [(hit.entry.set, hit.entry, hit) for hit in hood.nearest]
     rows += [("family", hit.entry, hit) for hit in hood.family]
-    # The render columns sit on the ground the scheme implies, so a white
-    # transparent mark audited for a dark UI is visible rather than erased.
-    ground = "#0b0d12" if color_scheme == "dark" else "#ffffff"
 
     title = _font(18)
     small = _font(14)
@@ -1105,6 +1120,11 @@ def neighbour_sheet(hood: neighbours.Neighbourhood, out: str | Path, *,
             at16, at32, silhouette, provenance = _neighbour_pictures(entry, active)
             inside = hit is not None and hit.within(hood.radius) and set_name != "family"
             outline = _NEAR if inside else (70, 72, 80, 255)
+            # Each mark sits on the ground that contrasts with *it*: a white
+            # transparent bell on the dark UI ground, a black one on white.
+            # The scheme decides how the mark is rendered; the mark decides
+            # what it is shown against, or a whole row could vanish.
+            ground = _contrasting_ground(at16)
             for column, picture in enumerate((at16, at32, silhouette)):
                 x = x0 + column * (_NEIGHBOUR_CELL + _GAP)
                 card = Image.new(
