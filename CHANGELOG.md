@@ -44,8 +44,8 @@ first published release remains under `Unreleased`.
   content-addressed `index.json` that carries fields only, never the artwork,
   and is drift-tested two ways: the browser-free matrix fails when a source no
   longer hashes to what the index recorded, the Chromium job when a rebuilt
-  field moves more than two anti-aliased pixels in any cell, 0.03 in
-  aggregate, or changes topology class.
+  field moves more than two anti-aliased pixels in any cell or 0.03 in
+  aggregate, or when more than 1% of entries change topology class.
 
   `iconflow.toml` gains `[neighbours]` with `avoid` (the only set that
   **gates**: `neighbour-collision`, and the message names the mark), `family`

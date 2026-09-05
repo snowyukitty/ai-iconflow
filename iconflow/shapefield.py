@@ -35,7 +35,7 @@ from collections import deque
 from dataclasses import dataclass
 import io
 
-from PIL import Image
+from PIL import Image, ImageFilter
 
 from . import ladder
 
@@ -54,6 +54,11 @@ CELL_STEPS = BLOCK * BLOCK
 #: that has already failed the two-pixel rule (docs/LEARNINGS.md L16). Tying
 #: the floor to the cell keeps topology at the grid's own resolution.
 MIN_REGION = BLOCK * BLOCK
+#: A hole must be at least this many 64px pixels wide to count. Two pixels at
+#: 16px is the floor a negative-space cut has to own (docs/LEARNINGS.md L15),
+#: which is eight here; a hole narrower than five is a hairline that one
+#: renderer's anti-aliasing closes and another's leaves open.
+MIN_HOLE_WIDTH = 5
 
 #: Compact one-character-per-cell alphabet for stored grids: ``'0'`` is an
 #: empty cell, ``'g'`` a full one, and each step between is one sub-pixel.
@@ -245,9 +250,16 @@ def field_from_mask(mask: Image.Image) -> ShapeField:
     # ground is 4-connected (a diagonal gap does not let a hole leak out).
     pieces = [r for r in _label_regions(figure, width, height, eight=True)
               if len(r) >= MIN_REGION]
-    ground = [not value for value in figure]
+    # Holes are counted on ground that survives an erosion of two pixels, so
+    # a slit narrower than MIN_HOLE_WIDTH — invisible at 16px, and flipped
+    # open or shut by a renderer's anti-aliasing — is not a hole.
+    ground_image = Image.new("L", (width, height))
+    ground_image.putdata([0 if value else 255 for value in figure])
+    deep = [value >= 128 for value in _pixels(
+        ground_image.filter(ImageFilter.MinFilter(MIN_HOLE_WIDTH))
+    )]
     holes = 0
-    for region in _label_regions(ground, width, height, eight=False):
+    for region in _label_regions(deep, width, height, eight=False):
         if len(region) < MIN_REGION:
             continue
         touches_border = any(

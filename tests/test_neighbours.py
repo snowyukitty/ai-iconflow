@@ -91,6 +91,16 @@ class ShapeFieldTests(unittest.TestCase):
         field = shapefield.field_from_mask(two)
         self.assertEqual((field.components, field.holes), (2, 0))
 
+    def test_a_hairline_slit_is_not_a_hole_but_a_two_pixel_counter_is(self):
+        # A 3px-wide enclosed slit: invisible at 16px and anti-aliasing-sensitive.
+        slit = _mask(lambda d: (d.rectangle([8, 8, 55, 55], fill=255),
+                                d.rectangle([20, 30, 43, 32], fill=0)))
+        self.assertEqual(shapefield.field_from_mask(slit).holes, 0)
+        # An 8px counter — two pixels at 16px — is a hole.
+        counter = _mask(lambda d: (d.rectangle([8, 8, 55, 55], fill=255),
+                                   d.rectangle([28, 24, 35, 39], fill=0)))
+        self.assertEqual(shapefield.field_from_mask(counter).holes, 1)
+
     def test_coverage_and_aspect_are_what_they_say(self):
         wide = _mask(lambda d: d.rectangle([0, 16, 63, 31], fill=255))
         field = shapefield.field_from_mask(wide)
@@ -165,10 +175,10 @@ class ShapeFieldTests(unittest.TestCase):
     def test_topology_is_reported_beside_the_distance_not_added_to_it(self):
         disc = shapefield.field_from_mask(_mask(lambda d: d.ellipse([8, 8, 55, 55], fill=255)))
         ring = shapefield.field_from_mask(_mask(
-            lambda d: (d.ellipse([8, 8, 55, 55], fill=255), d.ellipse([28, 28, 35, 35], fill=0))
+            lambda d: (d.ellipse([8, 8, 55, 55], fill=255), d.ellipse([26, 26, 37, 37], fill=0))
         ))
         sep = shapefield.separation(disc, ring)
-        self.assertLess(sep.distance, 0.05)
+        self.assertLess(sep.distance, 0.08)
         self.assertFalse(sep.same_topology)
         self.assertEqual(sep.holes, (0, 1))
 
@@ -436,7 +446,7 @@ class QueryTests(unittest.TestCase):
     def test_different_topology_keeps_a_close_pair_outside_the_radius(self):
         disc = shapefield.field_from_mask(_mask(lambda d: d.ellipse([8, 8, 55, 55], fill=255)))
         ring = shapefield.field_from_mask(_mask(
-            lambda d: (d.ellipse([8, 8, 55, 55], fill=255), d.ellipse([28, 28, 35, 35], fill=0))
+            lambda d: (d.ellipse([8, 8, 55, 55], fill=255), d.ellipse([26, 26, 37, 37], fill=0))
         ))
         candidate = _entry("candidate/disc", disc, set_name="candidate", sha="c" * 64)
         avoid = [_entry("avoid/ring", ring, set_name="avoid", sha="d" * 64)]
@@ -638,6 +648,10 @@ class RenderedNeighbourhood(unittest.TestCase):
             fresh = generator.build(rasterizer)
         self.assertEqual(generator.check_fields(self.index, fresh), [])
         self.assertEqual({e.id for e in fresh}, {e.id for e in self.index.entries})
+        # Flips are reported, not hidden; on the machine that built the index
+        # there should be none, and elsewhere a handful is the instrument.
+        flips = generator.topology_flips(self.index, fresh)
+        self.assertLessEqual(len(flips), max(1, int(len(fresh) * generator.TOPOLOGY_FLIP_SHARE)))
 
     def test_check_gates_the_example_first_draft_and_passes_its_master(self):
         import contextlib

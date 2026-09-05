@@ -35,6 +35,7 @@ if str(ROOT) not in sys.path:
 
 from iconflow import neighbours, shapefield  # noqa: E402
 from iconflow.config import svg_sha256  # noqa: E402
+from iconflow.qa import _LIVE_TEXT_RE  # noqa: E402
 from iconflow.rasterize import Rasterizer, load_svg  # noqa: E402
 
 INDEX = ROOT / "iconflow" / "resources" / "collision" / neighbours.INDEX_FILE
@@ -68,6 +69,12 @@ SOURCES: tuple[tuple[str, str, str], ...] = (
 #: form of it that can change a verdict.
 CELL_TOLERANCE = 2 / shapefield.CELL_STEPS + 1e-9
 FIELD_TOLERANCE = 0.03
+#: Topology classes are renderer-sensitive at the margin — a counter that is
+#: one cell wide on one platform's anti-aliasing and closed on another's —
+#: so a fresh build is allowed to flip this share of entries and still be the
+#: same index. A larger shift is systematic (a changed floor, a changed
+#: renderer) and means the index must be rebuilt.
+TOPOLOGY_FLIP_SHARE = 0.01
 
 
 def entry_id(set_name: str, prefix: str, path: Path) -> str:
@@ -86,6 +93,13 @@ def entry_id(set_name: str, prefix: str, path: Path) -> str:
 
 
 def sources() -> list[tuple[str, str, Path]]:
+    """Every indexable source, in a fixed order.
+
+    A source with a live ``<text>`` element is skipped: it renders through
+    whichever fonts the build machine has, so no two machines would agree on
+    its field — the same reason ``qa.py`` flags it. The base template is the
+    one such file in the corpus.
+    """
     found: list[tuple[str, str, Path]] = []
     seen: set[Path] = set()
     for set_name, prefix, pattern in SOURCES:
@@ -93,6 +107,8 @@ def sources() -> list[tuple[str, str, Path]]:
             if path in seen or not path.is_file():
                 continue
             seen.add(path)
+            if _LIVE_TEXT_RE.search(path.read_text(encoding="utf-8", errors="replace")):
+                continue
             found.append((set_name, prefix, path))
     return found
 
@@ -148,8 +164,31 @@ def check_sources(index: neighbours.Index) -> list[str]:
     return problems
 
 
+def topology_flips(index: neighbours.Index, fresh: list[neighbours.Entry]) -> list[str]:
+    """Entries whose topology class a fresh build disagrees with — notes, not failures."""
+    listed = {entry.id: entry for entry in index.entries}
+    flips: list[str] = []
+    for entry in fresh:
+        old = listed.get(entry.id)
+        if old is None:
+            continue
+        if shapefield.topology_bucket(old.field) != shapefield.topology_bucket(entry.field):
+            flips.append(
+                f"{entry.id}: topology class differs on this renderer "
+                f"({old.field.components}c/{old.field.holes}h -> "
+                f"{entry.field.components}c/{entry.field.holes}h)"
+            )
+    return flips
+
+
 def check_fields(index: neighbours.Index, fresh: list[neighbours.Entry]) -> list[str]:
-    """Rendered drift check: a fresh build reproduces every field within tolerance."""
+    """Rendered drift check: a fresh build reproduces every field within tolerance.
+
+    Per-cell and aggregate drift are hard bounds. Topology-class flips are
+    counted rather than failed one by one: at the margin they are a property
+    of the instrument on different anti-aliasing, and only a systematic share
+    of them says the index is stale.
+    """
     problems: list[str] = []
     listed = {entry.id: entry for entry in index.entries}
     for entry in fresh:
@@ -162,12 +201,13 @@ def check_fields(index: neighbours.Index, fresh: list[neighbours.Entry]) -> list
         drift = shapefield.grid_distance(old.field.grid, entry.field.grid)
         if drift > FIELD_TOLERANCE:
             problems.append(f"{entry.id}: the field drifted {drift:.3f} in aggregate")
-        if shapefield.topology_bucket(old.field) != shapefield.topology_bucket(entry.field):
-            problems.append(
-                f"{entry.id}: topology class changed "
-                f"({old.field.components}c/{old.field.holes}h -> "
-                f"{entry.field.components}c/{entry.field.holes}h)"
-            )
+    flips = topology_flips(index, fresh)
+    if fresh and len(flips) / len(fresh) > TOPOLOGY_FLIP_SHARE:
+        problems.append(
+            f"{len(flips)} of {len(fresh)} entries changed topology class "
+            f"(more than {TOPOLOGY_FLIP_SHARE:.0%}): the index is from a different "
+            "instrument, not a different renderer"
+        )
     return problems
 
 
@@ -184,7 +224,10 @@ def main(argv: list[str] | None = None) -> int:
         problems = check_sources(index)
         if not args.sources_only and not problems:
             with Rasterizer() as rasterizer:
-                problems += check_fields(index, build(rasterizer))
+                fresh = build(rasterizer)
+            for note in topology_flips(index, fresh):
+                print(f"  ~ {note}")
+            problems += check_fields(index, fresh)
         if problems:
             for problem in problems:
                 print(f"  ! {problem}")

@@ -80,8 +80,11 @@ outline — which is what a viewer sees at 16px.
 **Descriptor** = the grid plus four scalars, each explainable in one sentence:
 how many separate pieces the figure is in, how many holes are cut through it,
 what share of the canvas it covers, and its bounding-box width over height.
-Pieces and holes are counted on the 64px mask, and a region smaller than one
-grid cell (sixteen pixels) is not a piece: at 16px it is at most a smear.
+Pieces and holes are counted on the 64px mask. A region smaller than one
+grid cell (sixteen pixels) is not a piece: at 16px it is at most a smear. A
+hole narrower than five pixels is not a hole: L15 says a cut must own two
+pixels at 16px, and a hairline slit is exactly what one renderer's
+anti-aliasing closes and another's leaves open.
 
 **Distance** = normalised L1 over the grid — the share of all ink the two
 grids do not share; 0 is identical, 1 is disjoint — with topology reported
@@ -176,11 +179,17 @@ the artwork. It is drift-tested exactly the way the icon-size reference page
 is: the browser-free matrix fails when any source no longer hashes to what the
 index recorded or the committed bytes differ from what the generator would
 write; the Chromium job rebuilds every field and fails when a cell moves by
-more than two anti-aliased pixels, when a field drifts more than 0.03 in
-aggregate (a quarter of the radius), or when a topology class changes. The
-index in this repository was built on Windows; the Linux job is where that
-tolerance is actually tested. A generated table nobody can date is the thing
-this project exists not to ship.
+more than two anti-aliased pixels or a field drifts more than 0.03 in
+aggregate (a quarter of the radius). Topology classes are compared too, but
+counted rather than failed one by one: a counter one cell wide is open on one
+platform's anti-aliasing and shut on another's, so a handful of flips is the
+instrument, and only more than 1% of entries flipping says the index is from
+a different instrument. The first Linux run of that job found exactly this —
+one hole in 748 entries, and one source that rendered through fonts — which
+is why holes narrower than five pixels are no longer holes and sources with
+live `<text>` are not indexed. The index in this repository was built on
+Windows; the Linux job is where the tolerance is tested. A generated table
+nobody can date is the thing this project exists not to ship.
 
 **Pluggable, and the user's sets outrank IconFlow's.** `iconflow.toml` gains:
 
