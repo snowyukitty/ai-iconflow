@@ -837,10 +837,13 @@ def _cmd_neighbours(a) -> Report:
     family = list(config.neighbours_family if config else []) + from_cwd(a.family)
     portfolio = list(config.neighbours_portfolio if config else [])
     base = config.source.parent if config else Path.cwd()
+    # The scheme the build ships in, unless the flag says otherwise: the
+    # audit and the sheet must measure and show the same render.
+    color_scheme = a.color_scheme or (config.color_scheme if config else "light")
     try:
         hood = neighbourhood_audit(
             master, avoid=avoid, family=family, portfolio=portfolio, base=base,
-            radius=a.radius, nearest=a.nearest, color_scheme=a.color_scheme,
+            radius=a.radius, nearest=a.nearest, color_scheme=color_scheme,
         )
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"iconflow neighbours: {exc}", file=sys.stderr)
@@ -880,7 +883,7 @@ def _cmd_neighbours(a) -> Report:
 
     sheet = None
     if a.sheet:
-        sheet = neighbour_sheet(hood, a.sheet, color_scheme=a.color_scheme)
+        sheet = neighbour_sheet(hood, a.sheet, color_scheme=color_scheme)
         print(f"Neighbourhood proof sheet -> {sheet}")
         print("Read it: the candidate sits beside what it is nearest to, at real 16px.")
 
@@ -1714,7 +1717,8 @@ def build_parser() -> argparse.ArgumentParser:
     nb.add_argument("--nearest", type=int, default=_NEIGHBOURS.NEAREST,
                     help="how many nearest neighbours to report and draw")
     nb.add_argument("--color-scheme", choices=["light", "dark", "no-preference"],
-                    default="light")
+                    default=None,
+                    help="render scheme for the audit and sheet (default: the config's, else light)")
     nb.add_argument("--json", action="store_true", help=JSON_HELP)
     nb.set_defaults(func=_cmd_neighbours)
 

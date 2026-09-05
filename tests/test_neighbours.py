@@ -279,8 +279,16 @@ class QueryTests(unittest.TestCase):
         self.assertNotIn("collision/bell", [n.entry.id for n in hood.familiar])
 
     def test_a_declared_family_is_excluded_from_the_gate_entirely(self):
-        twin = _entry("avoid/twin", self.bell.field, set_name="avoid", sha="b" * 64)
-        family = [_entry("family/twin", self.bell.field, set_name="family", sha="b" * 64)]
+        """Exclusion is by file: the family file listed in avoid too is skipped everywhere."""
+        shared = str(REPO / "suite" / "twin" / "master.svg")
+        twin = neighbours.Entry(
+            id="avoid/twin", set="avoid", title="twin", source=shared,
+            source_sha256="b" * 64, field=self.bell.field,
+        )
+        family = [neighbours.Entry(
+            id="family/twin", set="family", title="twin", source=shared,
+            source_sha256="b" * 64, field=self.bell.field,
+        )]
         hood = neighbours.neighbourhood(
             self._candidate(self.bell), index=self.index, avoid=[twin], family=family,
         )
@@ -346,13 +354,47 @@ class QueryTests(unittest.TestCase):
 
     def test_the_candidate_itself_is_never_its_own_neighbour(self):
         me = neighbours.Entry(
-            id="candidate", set="candidate", title="me", source="x.svg",
+            id="candidate", set="candidate", title="me",
+            source=str(COLLISION / "bell.svg"),
             source_sha256=self.bell.source_sha256, field=self.bell.field,
         )
         hood = neighbours.neighbourhood(me, index=self.index)
         self.assertNotIn("collision/bell", [n.entry.id for n in hood.nearest])
         self.assertNotIn("collision/bell", [n.entry.id for n in hood.familiar])
         self.assertEqual(hood.findings()[0], [])
+
+    def test_a_byte_identical_copy_of_a_bundled_form_is_still_familiar(self):
+        """Self-exclusion is the same *file*; a copy elsewhere is a neighbour at zero."""
+        copy = neighbours.Entry(
+            id="candidate", set="candidate", title="copy",
+            source=str(REPO / "work" / "somewhere" / "bell-copy.svg"),
+            source_sha256=self.bell.source_sha256, field=self.bell.field,
+        )
+        hood = neighbours.neighbourhood(copy, index=self.index)
+        self.assertEqual(hood.familiar[0].entry.id, "collision/bell")
+        self.assertEqual(hood.familiar[0].distance, 0.0)
+
+    def test_an_alias_beside_the_file_behind_it_is_one_declared_mark(self):
+        resolved = neighbours.resolve_set(
+            ["@collision/bell", str(COLLISION / "bell.svg")], set_name="portfolio",
+            base=REPO, index=self.index, rasterizer=_FakeRasterizer(),
+        )
+        self.assertEqual([e.id for e in resolved], ["collision/bell"])
+
+    def test_alias_identity_does_not_depend_on_the_working_directory(self):
+        import os
+
+        alias = neighbours.resolve_set(["@collision/bell"], set_name="avoid", base=REPO,
+                                       index=self.index, rasterizer=None)[0]
+        here = os.getcwd()
+        with tempfile.TemporaryDirectory() as tmp:
+            os.chdir(tmp)
+            try:
+                elsewhere = neighbours.identity(alias)
+            finally:
+                os.chdir(here)
+        self.assertEqual(elsewhere, neighbours.identity(alias))
+        self.assertEqual(elsewhere, str((COLLISION / "bell.svg").resolve()))
 
     def test_three_portfolio_marks_inside_the_radius_are_a_rut(self):
         own = [_entry(f"portfolio/mark-{i}", self.bell.field, set_name="portfolio", sha=str(i) * 64)
@@ -555,8 +597,8 @@ class RenderedNeighbourhood(unittest.TestCase):
                     self._distance(fixture, form).distance, neighbours.COLLISION_RADIUS * 1.5,
                 )
 
-    def test_the_index_rebuilds_from_source_within_one_pixel_per_cell(self):
-        """Cross-platform reproducibility: the drift test scripts/… --check runs."""
+    def test_the_index_rebuilds_from_source_within_the_drift_bounds(self):
+        """Two pixels per cell, 0.03 in aggregate, same topology class — the --check bounds."""
         from iconflow.rasterize import Rasterizer
 
         sys.path.insert(0, str(REPO / "scripts"))
@@ -634,6 +676,38 @@ class RenderedNeighbourhood(unittest.TestCase):
             self.assertTrue(sheet.is_file())
             with Image.open(sheet) as image:
                 self.assertGreater(image.width, 600)
+
+    def test_neighbours_takes_the_config_color_scheme_unless_overridden(self):
+        """The audit renders in the scheme the build ships in."""
+        import contextlib
+        from unittest import mock
+
+        from iconflow.cli import main
+        from iconflow.rasterize import Rasterizer
+
+        seen: list[str] = []
+        real_init = Rasterizer.__init__
+
+        def spy(self, color_scheme="light"):
+            seen.append(color_scheme)
+            real_init(self, color_scheme=color_scheme)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            toml = Path(tmp) / "iconflow.toml"
+            toml.write_text(
+                'schema_version = 1\n[project]\nmaster = "'
+                + (EXAMPLE / "master.svg").as_posix()
+                + '"\n[build]\ncolor_scheme = "dark"\n[neighbours]\n',
+                encoding="utf-8",
+            )
+            with mock.patch.object(Rasterizer, "__init__", spy), \
+                    contextlib.redirect_stdout(io.StringIO()), \
+                    contextlib.redirect_stderr(io.StringIO()):
+                main(["neighbours", "--config", str(toml), "--json"])
+                self.assertEqual(seen, ["dark"])
+                seen.clear()
+                main(["neighbours", "--config", str(toml), "--color-scheme", "light", "--json"])
+                self.assertEqual(seen, ["light"])
 
     def test_a_family_member_is_drawn_but_never_gated(self):
         import contextlib

@@ -85,6 +85,10 @@ class Entry:
     #: Source text when the entry was rendered in this process (a declared
     #: file) or can be re-read from a checkout; lets the proof sheet draw it.
     svg: str | None = None
+    #: ``"bundled"`` for an index entry or an alias into one — whose `source`
+    #: is repository-relative and must never be resolved against the working
+    #: directory — and ``"file"`` for a declared file the caller rendered.
+    origin: str = "file"
 
     def as_dict(self) -> dict:
         return {
@@ -106,6 +110,7 @@ class Entry:
                 source=str(data["source"]),
                 source_sha256=str(data["source_sha256"]),
                 field=shapefield.ShapeField.from_dict(data["field"]),
+                origin="bundled",
             )
         except (KeyError, TypeError, ValueError, shapefield.ShapeFieldError) as exc:
             raise NeighbourError(f"malformed index entry: {exc}") from exc
@@ -288,17 +293,18 @@ def resolve_set(specs, *, set_name: str, base: Path, index: Index,
                         f"{spec!r} names nothing in the bundled {bundled} set"
                     )
             for entry in chosen:
-                if entry.id in seen_sources:
+                key = identity(entry)
+                if key in seen_sources:
                     continue
-                seen_sources.add(entry.id)
+                seen_sources.add(key)
                 entries.append(Entry(
                     id=unique(entry.id), set=set_name, title=entry.title,
                     source=entry.source, source_sha256=entry.source_sha256,
-                    field=entry.field,
+                    field=entry.field, origin="bundled",
                 ))
             continue
         for path in _expand_spec(spec, base):
-            key = str(path.resolve())
+            key = _same_file_key(str(path))
             if key in seen_sources:
                 continue
             seen_sources.add(key)
@@ -431,26 +437,23 @@ def neighbourhood(candidate: Entry, *, index: Index | None,
     """
     if not math.isfinite(radius) or radius <= 0:
         raise NeighbourError("the collision radius must be a positive finite number")
-    family_hashes = {e.source_sha256 for e in family}
-    family_ids = {e.id for e in family}
-    self_path = _same_file_key(candidate.source)
+    family_keys = {identity(e) for e in family} | {e.id for e in family}
+    self_key = identity(candidate)
     # A bundled entry the project also lists in `avoid` — by alias, or by the
     # path of the very same file — is gated there; reporting it as merely
     # familiar as well would advise the user to do what they have already done.
-    promoted_ids = {e.id for e in avoid}
-    promoted_hashes = {e.source_sha256 for e in avoid}
+    promoted = {identity(e) for e in avoid} | {e.id for e in avoid}
 
     def rank(entries, *, bundled: bool) -> list[Neighbour]:
         ranked = []
         for entry in entries:
-            if entry.source_sha256 in family_hashes or entry.id in family_ids:
+            key = identity(entry)
+            # The candidate is never its own neighbour, and "its own" means the
+            # same file: a byte-identical copy under another path is a
+            # neighbour at distance zero, which is the finding, not noise.
+            if key == self_key or key in family_keys or entry.id in family_keys:
                 continue
-            if bundled:
-                if entry.source_sha256 == candidate.source_sha256:
-                    continue
-                if entry.id in promoted_ids or entry.source_sha256 in promoted_hashes:
-                    continue
-            elif _same_file_key(entry.source) == self_path:
+            if bundled and (key in promoted or entry.id in promoted):
                 continue
             ranked.append(
                 Neighbour(entry, shapefield.separation(candidate.field, entry.field))
@@ -476,15 +479,52 @@ def neighbourhood(candidate: Entry, *, index: Index | None,
         family=[
             Neighbour(entry, shapefield.separation(candidate.field, entry.field))
             for entry in family
-            if _same_file_key(entry.source) != self_path
+            if identity(entry) != self_key
         ],
     )
 
 
 def _same_file_key(source: str) -> str:
-    """A path identity for declared files; index sources are repo-relative and
-    never equal a candidate path, which is what keeps the two rules apart."""
+    """One string per file on disk, so two spellings of a path compare equal."""
     try:
-        return str(Path(source).resolve())
+        return str(Path(source).expanduser().resolve())
     except OSError:
         return source
+
+
+def bundled_source_path(entry: Entry) -> Path | None:
+    """Where a bundled entry's source lives on *this* machine, if anywhere.
+
+    Index sources are repository-relative. In a checkout that is a real file;
+    from a wheel only the collision set travels, under the packaged resource
+    root. Resolving here — never against the working directory — is what
+    gives an alias a corpus identity that does not depend on where the
+    command was typed.
+    """
+    checkout = agentkit.checkout_root()
+    if checkout is not None:
+        path = checkout / entry.source
+        if path.is_file():
+            return path
+    if entry.set == "collision" or entry.source.startswith("iconflow/resources/collision/"):
+        try:
+            packaged = agentkit.resource("collision", entry.source.rsplit("/", 1)[-1])
+        except (RuntimeError, ValueError):
+            return None
+        if getattr(packaged, "is_file", lambda: False)():
+            return Path(str(packaged))
+    return None
+
+
+def identity(entry: Entry) -> str:
+    """The key two entries share when they are the same file.
+
+    A declared file is its resolved path. A bundled entry is the resolved path
+    of its source when this machine has it, else its bundled id — so an alias
+    beside the real file behind it is one mark, and a candidate is skipped
+    only when it *is* the indexed file, not when it merely has its bytes.
+    """
+    if entry.origin == "bundled":
+        located = bundled_source_path(entry)
+        return str(located.resolve()) if located is not None else f"@{entry.id}"
+    return _same_file_key(entry.source)

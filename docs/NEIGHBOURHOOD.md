@@ -144,12 +144,13 @@ Three of the six recorded collisions sit outside it, and the table says so.
 - **The stepped stack.** A solid staircase against three separate bars: 0.170
   with a different topology. Close, and correctly not called the same shape.
 
-Raising the radius would not catch any of them: the stepped stack and the
-lantern differ in topology, which the gate treats as a separator whatever the
-distance, and the curtain sits at 0.31. It *would* widen the band in which
-distinct generic forms of matching topology start calling each other the
-same shape. The misses are recorded here instead. If the instrument ever gains
-a structural component, this table is the test it has to pass.
+Raising the radius cannot catch all three. The stepped stack and the lantern
+differ in topology, which the gate treats as a separator whatever the
+distance. The curtain matches pi's topology, so a radius of 0.32 *would*
+catch it — and would also call every shipped redesign in the second table a
+collision, since they sit at 0.319 and beyond. The misses are recorded here
+instead. If the instrument ever gains a structural component, this table is
+the test it has to pass.
 
 ---
 
