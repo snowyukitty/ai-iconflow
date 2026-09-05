@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Pi</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" d="M128 224 L896 224 L896 344 L128 344 Z M272 344 L392 344 L392 820 L272 820 Z M632 344 L752 344 L752 820 L632 820 Z"/>
+</svg>

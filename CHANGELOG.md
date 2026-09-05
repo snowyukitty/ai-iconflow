@@ -8,6 +8,68 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- **The neighbourhood — distinguishability against a named set.**
+  Distinctiveness is a ship gate, the worst first-pass axis across 197
+  recorded cases, and judged entirely by a human eye, because `qa.py` reasoned
+  correctly that distinctiveness in the abstract is not mechanically separable
+  from a good mark. So the tool flagged a live `<text>` monogram and went
+  silent, and the casebook filled with what a person squinting at a bake
+  sheet let through: an interlace that was a hashtag, rising blocks that were
+  a bar chart, a bold H on a tile that was the letter H.
+
+  "Is this distinguishable at 16px from *these specific marks*?" is a question
+  with an answer. `iconflow/shapefield.py` is the instrument: the `glyph` rung
+  rendered at 64px, split into figure and ground (a card is fingerprinted by
+  the mark punched into it, a plain object by its outline), and area-averaged
+  onto a 16×16 occupancy grid with pieces, holes, coverage and aspect beside
+  it. Distance is normalised L1 over the grid; topology is reported beside it,
+  never added to it. Neither position nor scale is normalised, because every
+  master shares one 1024 grid and a mark that moves at 16px is a different
+  mark at 16px. The module has no opinion about direction: the family tier and
+  the frame tier will use it inverted.
+
+  The radius was **calibrated on ground truth**, not chosen: the casebook's
+  recorded collisions were reconstructed and measured — interlace/hashtag
+  0.065, rising blocks/bar chart 0.071, H-on-a-tile/letter H 0.104 — against
+  the redesigns that shipped (0.32 and beyond). The radius is 0.12, and
+  `docs/NEIGHBOURHOOD.md` tables the three recorded collisions it does *not*
+  catch and why it is not widened to catch them.
+
+  `iconflow/neighbours.py` owns the semantics. The corpus has two halves, and
+  the second was missing: thirty-nine deliberately plain generic forms — gear,
+  bell, folder, bar chart, `+ ✓ ← # π`, letterforms, and the readings the
+  casebook actually met — are now drawn in `iconflow/resources/collision/`
+  (CC0, nobody's icon set), beside IconFlow's own published marks. Both are
+  pre-indexed by `scripts/build_collision_index.py` into a checked-in,
+  content-addressed `index.json` that carries fields only, never the artwork,
+  and is drift-tested two ways: the browser-free matrix fails when a source no
+  longer hashes to what the index recorded, the Chromium job when a rebuilt
+  cell moves by more than one anti-aliased pixel.
+
+  `iconflow.toml` gains `[neighbours]` with `avoid` (the only set that
+  **gates**: `neighbour-collision`, and the message names the mark), `family`
+  (supposed to be close; excluded from every finding), and `portfolio` (three
+  inside the radius is `neighbour-house-rut`, the house-cliché signal measured
+  on pixels). A hit against the bundled halves is `neighbour-familiar` and
+  never blocks a build: the house corpus is a mirror, not a wall, and
+  `avoid = ["@collision"]` is the one line that makes L9 a gate. `check
+  --config`, `review --config` and `ship` run the audit whenever the table is
+  present; a project without it is unaffected byte for byte.
+
+  `iconflow neighbours master.svg --sheet neighbours.png` shows rather than
+  scores: the candidate beside its nearest neighbours at real 16px, at 32px,
+  and as the silhouettes the distance was measured on, distances labelled,
+  coral inside the radius. `--json` speaks the agent contract; `review` writes
+  the same sheet beside its contact sheet without a new output key, because
+  that envelope is frozen at schema 1.
+
+  Stated in the docs in the same breath as the feature: this is not a
+  trademark or clearance check and must never be read as one; it does not
+  measure distinctiveness, and the human ≥4/5 gate stays where it is; it does
+  not rank good icons. Worked example: `examples/neighbourhood/`, a first
+  draft that measured 0.07 from a bar chart and was redesigned rather than
+  re-thresholded, with the README recording why.
+
 - **The detail ladder — one source, three size regimes.** Until now every rule
   IconFlow had was a compression rule: survive 16px, own two pixels, one idea.
   That is why the marks are good, and it was also the ceiling — the drawing

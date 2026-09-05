@@ -25,6 +25,7 @@ RESOURCE_DIRS: dict[str, tuple[str, ...]] = {
     "docs": ("docs",),
     "demo": ("demo",),
     "skill": ("skills", "iconflow"),
+    "collision": ("iconflow", "resources", "collision"),
 }
 # Legacy top-level namespace packages, for source execution without an install.
 _NAMESPACE_FALLBACK = {
@@ -33,6 +34,7 @@ _NAMESPACE_FALLBACK = {
     "docs": "docs",
     "demo": "demo",
     "skill": "skills.iconflow",
+    "collision": "iconflow.resources.collision",
 }
 # Every file `iconflow skill install` deploys, relative to the skill resource.
 SKILL_FILES: tuple[str, ...] = ("SKILL.md", "LICENSE", "agents/openai.yaml")
@@ -176,8 +178,10 @@ LICENSE_TIERS: tuple[dict[str, str], ...] = (
              "file you create"},
     {"tier": "1", "paths": "iconflow/ scripts/ tests/", "license": "Apache-2.0",
      "what": "the engine and tooling"},
-    {"tier": "1b", "paths": "templates/ (presets)", "license": "CC0-1.0",
-     "what": "technique scaffolds and every file IconFlow writes into your project"},
+    {"tier": "1b", "paths": "templates/ (presets) iconflow/resources/collision/",
+     "license": "CC0-1.0",
+     "what": "technique scaffolds, the plain collision-set forms, and every file "
+             "IconFlow writes into your project"},
     {"tier": "2", "paths": "docs/ casebook/ skills/", "license": "CC-BY-SA-4.0",
      "what": "the written methodology"},
     {"tier": "3a", "paths": "brand/ demo/ docs/assets/", "license": "CC-BY-4.0",

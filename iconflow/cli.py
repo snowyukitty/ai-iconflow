@@ -6,6 +6,7 @@
     python -m iconflow review --config iconflow.toml --html review.html
     python -m iconflow check  master.svg
     python -m iconflow ladder master.svg --sheet work/app/ladder.png
+    python -m iconflow neighbours master.svg --config iconflow.toml --sheet work/app/neighbours.png
     python -m iconflow render master.svg --sizes 256,64 --out icon.png
     python -m iconflow new    gradient-glow --out master.svg
     python -m iconflow init   --essence flow --targets web,electron,tray
@@ -20,8 +21,8 @@
     python -m iconflow docs   DESIGN_PLAYBOOK
     python -m iconflow skill  install
 
-``doctor``, ``check``, ``review``, ``ship``, ``ladder``, and ``demo`` accept
-``--json`` and
+``doctor``, ``check``, ``review``, ``ship``, ``ladder``, ``neighbours``, and
+``demo`` accept ``--json`` and
 then follow docs/AGENT_CONTRACT.md: stdout carries exactly one envelope, human
 lines go to stderr, and the exit code is 0 (ok), 1 (blocked by an IconFlow
 gate), or 2 (usage, configuration, or runtime failure).
@@ -43,10 +44,13 @@ from pathlib import Path
 
 from . import agentkit
 from . import ladder as _LADDER
+from . import neighbours as _NEIGHBOURS
 from .styles import PRESETS, STYLE_CATALOG
 
 # Commands whose result is a machine-readable Report (docs/AGENT_CONTRACT.md).
-JSON_COMMANDS = frozenset({"doctor", "check", "review", "ship", "demo", "ladder"})
+JSON_COMMANDS = frozenset({
+    "doctor", "check", "review", "ship", "demo", "ladder", "neighbours",
+})
 DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
 JSON_HELP = "emit one docs/AGENT_CONTRACT.md envelope on stdout; human lines go to stderr"
 
@@ -318,6 +322,36 @@ def _ship_approval(a):
     return config, master, None, scores, config.review_contract_sha256
 
 
+def _neighbourhood_for(config, master, *, rasterizer=None):
+    """The neighbourhood audit a project opted into, or None.
+
+    Only a config that carries a ``[neighbours]`` table is consulted, so a
+    project that never wrote one renders nothing extra and sees no new
+    finding. Returns the audit; the caller decides which of its findings gate.
+    """
+    if config is None or not config.neighbours_declared:
+        return None
+    from .qa import neighbourhood_audit
+
+    return neighbourhood_audit(
+        master,
+        avoid=config.neighbours_avoid,
+        family=config.neighbours_family,
+        portfolio=config.neighbours_portfolio,
+        base=config.source.parent,
+        rasterizer=rasterizer,
+    )
+
+
+def _advise_neighbourhood(hood, report: Report) -> None:
+    """Print and record a neighbourhood's advisories; collisions are gated by the caller."""
+    if hood is None:
+        return
+    for advisory in hood.findings()[1]:
+        print(f"  ~ neighbourhood advisory: {advisory}")
+        report.advise(advisory.code, advisory)
+
+
 def _cmd_ship(a) -> Report:
     """Run the fail-closed quality gate, then delegate to the low-level build."""
 
@@ -346,10 +380,15 @@ def _cmd_ship(a) -> Report:
             maskable=bool({"web", "pwa"} & set(config.targets)),
             maskable_bg=config.background_color,
         )
+        hood = _neighbourhood_for(config, master)
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"iconflow ship: QA could not run: {exc}", file=sys.stderr)
         report.error("runtime", f"QA could not run: {exc}")
         return report
+    if hood is not None:
+        # A declared collision is a QA warning like any other and blocks the
+        # ship through the same door; the advisories only inform.
+        warnings = list(warnings) + hood.findings()[0]
     if warnings:
         print(f"SHIP BLOCKED — automated check found {len(warnings)} warning(s):", file=sys.stderr)
         report.warn(
@@ -453,7 +492,7 @@ def _cmd_review(a) -> Report:
     from .rasterize import load_svg
     from .review import (
         ReviewOptions, contact_sheet, interactive_review, ladder_sheet,
-        receipt_seed, receipt_template,
+        neighbour_sheet, receipt_seed, receipt_template,
     )
 
     report = Report("review")
@@ -492,6 +531,9 @@ def _cmd_review(a) -> Report:
             maskable=bool({"web", "pwa"} & set(targets)),
             maskable_bg=background,
         )
+        hood = _neighbourhood_for(config, master)
+        if hood is not None:
+            warnings = list(warnings) + hood.findings()[0]
         # Advisory only: a linked tray source is a different reduction of the
         # same mark, so it informs the designer without gating `ship`.
         tray_advisories = (
@@ -560,6 +602,16 @@ def _cmd_review(a) -> Report:
     # `review`'s envelope is frozen at schema 1 and the PR Proof action rejects
     # anything else, so the ladder proof is reported as a path on stderr and
     # through `iconflow ladder --json`, not as a new key here.
+    # The neighbourhood proof lands beside the contact sheet the same way the
+    # ladder proof does, and for the same reason: it is not a new `review`
+    # output key, because that envelope is frozen at schema 1.
+    if hood is not None:
+        neighbour_out = Path(out).with_name(
+            f"{Path(out).stem}-neighbours{Path(out).suffix or '.png'}"
+        )
+        neighbour_sheet(hood, neighbour_out, color_scheme=color_scheme)
+        print(f"Neighbourhood proof -> {neighbour_out}")
+        _advise_neighbourhood(hood, report)
     report.outputs = {
         "sheet": _abs(out),
         "html": _abs(html_out),
@@ -584,13 +636,29 @@ def _cmd_compare(a) -> int:
 
 
 def _cmd_check(a) -> Report:
-    from .config import svg_sha256
+    from .config import ConfigError, load_config, svg_sha256
     from .qa import check, tray_template_warnings, warning_code
 
     report = Report("check")
+    config = None
+    if a.config:
+        try:
+            config = load_config(a.config)
+        except ConfigError as exc:
+            print(f"iconflow check: {exc}", file=sys.stderr)
+            report.error("config", str(exc))
+            return report
     warnings = check(
         a.master, maskable=not a.no_maskable_audit, maskable_bg=a.bg,
     )
+    try:
+        hood = _neighbourhood_for(config, a.master)
+    except (OSError, RuntimeError, ValueError) as exc:
+        print(f"iconflow check: neighbourhood audit could not run: {exc}", file=sys.stderr)
+        report.error("runtime", f"neighbourhood audit could not run: {exc}")
+        return report
+    if hood is not None:
+        warnings = list(warnings) + hood.findings()[0]
     advisories: list[str] = []
     if a.tray_svg:
         try:
@@ -612,6 +680,7 @@ def _cmd_check(a) -> Report:
     for advisory in advisories:
         print(f"  ~ tray template advisory: {advisory}")
         report.advise(warning_code(advisory), advisory)
+    _advise_neighbourhood(hood, report)
     report.outputs = {
         "source": _abs(a.master),
         "source_sha256": svg_sha256(a.master),
@@ -720,6 +789,88 @@ def _cmd_ladder(a) -> Report:
         "compare_size": audit["compare_size"],
         "measures": audit["measures"],
         "steps": audit["steps"],
+        "sheet": _abs(sheet) if sheet else None,
+    }
+    return report
+
+
+def _cmd_neighbours(a) -> Report:
+    from .config import ConfigError, load_config, svg_sha256
+    from .qa import neighbourhood_audit
+    from .review import neighbour_sheet
+
+    report = Report("neighbours")
+    try:
+        config = load_config(a.config) if a.config else None
+        master = Path(a.master).expanduser() if a.master else (
+            config.master_path if config else None
+        )
+        if master is None:
+            raise ConfigError("provide MASTER or --config iconflow.toml")
+        if not master.is_file():
+            raise ConfigError(f"master SVG not found: {master}")
+        if a.radius <= 0:
+            raise ConfigError("--radius must be positive")
+    except ConfigError as exc:
+        print(f"iconflow neighbours: {exc}", file=sys.stderr)
+        report.error("config", str(exc))
+        return report
+
+    avoid = list(config.neighbours_avoid if config else []) + list(a.avoid or [])
+    family = list(config.neighbours_family if config else []) + list(a.family or [])
+    portfolio = list(config.neighbours_portfolio if config else [])
+    base = config.source.parent if config else Path.cwd()
+    try:
+        hood = neighbourhood_audit(
+            master, avoid=avoid, family=family, portfolio=portfolio, base=base,
+            radius=a.radius, nearest=a.nearest,
+        )
+    except (OSError, RuntimeError, ValueError) as exc:
+        print(f"iconflow neighbours: {exc}", file=sys.stderr)
+        report.error("runtime", str(exc))
+        return report
+
+    candidate = hood.candidate.field
+    print(
+        f"{Path(master).name} at 16px: {candidate.components} piece(s), "
+        f"{candidate.holes} hole(s), {candidate.coverage:.0%} of the canvas; "
+        f"radius {hood.radius:.2f}"
+    )
+    if not hood.nearest:
+        print("  nothing to compare against: no bundled index and no declared sets")
+    for hit in hood.nearest:
+        inside = hit.within(hood.radius)
+        mark = "!" if inside and hit.entry.set == "avoid" else ("~" if inside else " ")
+        topo = "same topology" if hit.separation.same_topology else "different topology"
+        print(
+            f"  {mark} {hit.distance:.3f}  {hit.entry.id:<40} {hit.entry.title[:36]}"
+            f"  ({topo})"
+        )
+    for hit in hood.family:
+        print(f"    {hit.distance:.3f}  {hit.entry.id:<40} family - never gated")
+    warnings, _advisories = hood.findings()
+    for warning in warnings:
+        print(f"  ! {warning}")
+        report.warn(warning.code, warning)
+    _advise_neighbourhood(hood, report)
+    if not warnings:
+        declared = "the avoid set" if avoid else "an avoid set (none declared)"
+        print(f"OK - no collision against {declared}. Read the sheet; the number is not the proof.")
+    print(
+        "  Not a clearance check: shape distance at 16px is not a legal opinion, "
+        "and the human distinctiveness gate (>=4/5) still applies."
+    )
+
+    sheet = None
+    if a.sheet:
+        sheet = neighbour_sheet(hood, a.sheet, color_scheme=a.color_scheme)
+        print(f"Neighbourhood proof sheet -> {sheet}")
+        print("Read it: the candidate sits beside what it is nearest to, at real 16px.")
+
+    report.outputs = {
+        "source": _abs(master),
+        "source_sha256": svg_sha256(master),
+        **hood.as_dict(),
         "sheet": _abs(sheet) if sheet else None,
     }
     return report
@@ -1504,6 +1655,8 @@ def build_parser() -> argparse.ArgumentParser:
                    help="also audit the macOS template derived from this tray source")
     c.add_argument("--tray-template-mode", choices=["auto", "alpha", "contrast"],
                    default="auto", help="extraction mode used by the tray audit")
+    c.add_argument("--config",
+                   help="iconflow.toml whose [neighbours] sets the mark is also audited against")
     c.add_argument("--json", action="store_true", help=JSON_HELP)
     c.set_defaults(func=_cmd_check)
 
@@ -1527,6 +1680,26 @@ def build_parser() -> argparse.ArgumentParser:
                     help="maximum dominant-hue shift, in degrees, between adjacent rungs")
     ld.add_argument("--json", action="store_true", help=JSON_HELP)
     ld.set_defaults(func=_cmd_ladder)
+
+    nb = sub.add_parser(
+        "neighbours",
+        help="which known marks is this the same shape as at 16px? (not a clearance check)",
+    )
+    nb.add_argument("master", nargs="?", help="candidate SVG (or take it from --config)")
+    nb.add_argument("--config", help="iconflow.toml with [neighbours] avoid/family/portfolio")
+    nb.add_argument("--avoid", action="append", metavar="SVG",
+                    help="an extra mark this one must not resemble (repeatable)")
+    nb.add_argument("--family", action="append", metavar="SVG",
+                    help="an extra mark that is supposed to be close (repeatable)")
+    nb.add_argument("--sheet", help="write the visual proof sheet here")
+    nb.add_argument("--radius", type=float, default=_NEIGHBOURS.COLLISION_RADIUS,
+                    help="distance at or below which two marks are one shape at 16px")
+    nb.add_argument("--nearest", type=int, default=_NEIGHBOURS.NEAREST,
+                    help="how many nearest neighbours to report and draw")
+    nb.add_argument("--color-scheme", choices=["light", "dark", "no-preference"],
+                    default="light")
+    nb.add_argument("--json", action="store_true", help=JSON_HELP)
+    nb.set_defaults(func=_cmd_neighbours)
 
     rn = sub.add_parser("render", help="rasterize a master SVG to exact pixel size(s)")
     rn.add_argument("master")

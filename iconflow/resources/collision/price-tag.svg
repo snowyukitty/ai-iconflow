@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Price tag</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" fill-rule="evenodd" d="M128 512 L400 208 L896 208 L896 816 L400 816 Z M400 512 A64 64 0 1 1 272 512 A64 64 0 1 1 400 512 Z"/>
+</svg>

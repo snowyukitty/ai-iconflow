@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Rounded square</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" d="M308 128 H716 A180 180 0 0 1 896 308 V716 A180 180 0 0 1 716 896 H308 A180 180 0 0 1 128 716 V308 A180 180 0 0 1 308 128 Z"/>
+</svg>

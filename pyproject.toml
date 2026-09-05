@@ -72,6 +72,7 @@ packages = [
   "iconflow.resources.docs",
   "iconflow.resources.demo",
   "iconflow.resources.skill",
+  "iconflow.resources.collision",
 ]
 include-package-data = false
 
@@ -95,6 +96,10 @@ include-package-data = false
 "iconflow.resources.docs" = ["*.md", "assets/*.svg", "assets/*.png", "LICENSE"]
 "iconflow.resources.demo" = ["master.svg", "tray.svg", "iconflow.toml", "master-review.json"]
 "iconflow.resources.skill" = ["SKILL.md", "LICENSE", "agents/*.yaml"]
+# The neighbourhood: the plain collision-set forms and the content-addressed
+# index of fields. The house half of the index is fields only — a 16x16 grid
+# and four scalars per mark — and none of the NC-ND artwork travels with it.
+"iconflow.resources.collision" = ["*.svg", "index.json", "LICENSE", "README.md"]
 
 # STATE.md is a report about *this repository* at the moment it was generated:
 # open owner gates, whether the deployed site is current, whether CI is green.

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Heart</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" d="M512 904 C300 730 96 590 96 388 A208 208 0 0 1 512 300 A208 208 0 0 1 928 388 C928 590 724 730 512 904 Z"/>
+</svg>

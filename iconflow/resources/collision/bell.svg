@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Bell</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" d="M232 660 C232 420 320 260 512 260 C704 260 792 420 792 660 L792 700 L872 770 L872 810 L152 810 L152 770 L232 700 Z M582 850 A70 70 0 1 1 442 850 A70 70 0 1 1 582 850 Z M562 236 A50 50 0 1 1 462 236 A50 50 0 1 1 562 236 Z"/>
+</svg>

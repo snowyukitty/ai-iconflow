@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Ribbed lantern (night-market draft 1)</title>
+<rect width="1024" height="1024" rx="228" fill="#2B2D5B"/>
+<rect x="432" y="136" width="160" height="64" rx="20" fill="#F2A93B"/>
+<path fill="#F2A93B" fill-rule="evenodd" d="M812 520 A300 340 0 1 1 212 520 A300 340 0 1 1 812 520 Z M212 396 H812 V446 H212 Z M212 520 H812 V570 H212 Z M212 644 H812 V694 H212 Z"/>
+<rect x="452" y="840" width="120" height="60" rx="16" fill="#F2A93B"/>
+</svg>

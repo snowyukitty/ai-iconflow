@@ -56,6 +56,20 @@ python -m iconflow ladder examples/detail-ladder/master.svg \
 
 Reference: [`docs/DETAIL_LADDER.md`](../docs/DETAIL_LADDER.md).
 
+`neighbourhood/` is the fifth, and like the ladder it demonstrates one
+mechanism: a first draft that is a bar chart at 16px whatever it meant to be,
+measured 0.07 from the collision set's bar chart, and the redesign that
+carries the same idea with a different silhouette. Its README records why the
+fix was a redesign and not a narrower radius.
+
+```bash
+python -m iconflow neighbours examples/neighbourhood/first-draft.svg \
+  --config examples/neighbourhood/iconflow.toml \
+  --sheet work/neighbourhood/first-draft.png
+```
+
+Reference: [`docs/NEIGHBOURHOOD.md`](../docs/NEIGHBOURHOOD.md).
+
 ---
 
 ## 1. Brief → gated multi-target family

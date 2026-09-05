@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Speech bubble</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" d="M232 160 H792 A120 120 0 0 1 912 280 V600 A120 120 0 0 1 792 720 H400 L240 900 L280 720 H232 A120 120 0 0 1 112 600 V280 A120 120 0 0 1 232 160 Z"/>
+</svg>

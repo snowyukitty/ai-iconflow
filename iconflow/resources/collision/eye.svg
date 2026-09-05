@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Eye</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" fill-rule="evenodd" d="M96 512 C300 200 724 200 928 512 C724 824 300 824 96 512 Z M672 512 A160 160 0 1 1 352 512 A160 160 0 1 1 672 512 Z M582 512 A70 70 0 1 1 442 512 A70 70 0 1 1 582 512 Z"/>
+</svg>

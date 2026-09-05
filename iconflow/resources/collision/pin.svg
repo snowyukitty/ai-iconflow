@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Map pin</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" fill-rule="evenodd" d="M512 960 C512 960 212 620 212 400 A300 300 0 1 1 812 400 C812 620 512 960 512 960 Z M622 400 A110 110 0 1 1 402 400 A110 110 0 1 1 622 400 Z"/>
+</svg>

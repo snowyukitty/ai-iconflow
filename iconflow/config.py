@@ -111,6 +111,14 @@ class IconFlowConfig:
     color_scheme: str = "light"
     optimize_png: bool = True
 
+    # [neighbours] — docs/NEIGHBOURHOOD.md. `declared` is True when the table
+    # exists at all, even empty: that is the opt-in that makes `check` consult
+    # the bundled corpus. A project that never wrote the table is untouched.
+    neighbours_declared: bool = False
+    neighbours_avoid: list[str] = field(default_factory=list)
+    neighbours_family: list[str] = field(default_factory=list)
+    neighbours_portfolio: list[str] = field(default_factory=list)
+
     review_status: str = "pending"
     review_source_sha256: str = ""
     review_contract_sha256: str = ""
@@ -229,6 +237,7 @@ def load_config(path: str | Path = CONFIG_FILENAME) -> IconFlowConfig:
     design = _table(data, "design")
     build = _table(data, "build")
     review = _table(data, "review")
+    neighbours = _table(data, "neighbours")
 
     scores_value = review.get("scores", {})
     if not isinstance(scores_value, Mapping):
@@ -311,6 +320,10 @@ def load_config(path: str | Path = CONFIG_FILENAME) -> IconFlowConfig:
         tray_template_mode=tray_template_mode,
         color_scheme=color_scheme,
         optimize_png=_boolean(build, "optimize_png", True),
+        neighbours_declared="neighbours" in data,
+        neighbours_avoid=_strings(neighbours, "avoid"),
+        neighbours_family=_strings(neighbours, "family"),
+        neighbours_portfolio=_strings(neighbours, "portfolio"),
         review_status=status,
         review_source_sha256=review_digest,
         review_contract_sha256=review_contract_digest,
@@ -627,6 +640,14 @@ tray_svg = {_toml_string(config.tray_svg)}
 tray_template_mode = {_toml_string(config.tray_template_mode)}
 color_scheme = {_toml_string(config.color_scheme)}
 optimize_png = {str(config.optimize_png).lower()}
+
+[neighbours]
+# Shape collision at 16px against named sets (docs/NEIGHBOURHOOD.md). Paths and
+# globs resolve from this file; "@collision" and "@house" name the bundled sets.
+# avoid gates `check`; family is never compared; portfolio counts toward a rut.
+avoid = {_toml_strings(config.neighbours_avoid)}
+family = {_toml_strings(config.neighbours_family)}
+portfolio = {_toml_strings(config.neighbours_portfolio)}
 
 [review]
 status = {_toml_string(config.review_status)}

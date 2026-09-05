@@ -1,0 +1,49 @@
+# IconFlow project brief and deterministic build contract.
+# Relative paths are resolved from this file.
+schema_version = 1
+
+[project]
+name = "Neighbourhood Example"
+master = "master.svg"
+output = "icons"
+casebook = "../../casebook"
+
+[brief]
+app_intent = "keep several monitors at one matched brightness"
+user_job = "set one level across different screens"
+essence = "matched"
+personality = ["calm", "precise"]
+
+[design]
+palette = ["graphite #1E2029", "warm paper #F4EFE6"]
+cliches = ["sun / sunburst", "lightbulb", "half-filled contrast circle", "a lone monitor rectangle", "a bar chart"]
+signature_device = "two panels of different orientation standing on one shared rail"
+device_family = "object-silhouette"
+device_detail = "a 460x300 landscape panel beside a 272x480 portrait panel, bottoms aligned on a full-width rail 128 units below them"
+concept_lens = "object-metaphor"
+
+[build]
+targets = ["web"]
+theme_color = "#1E2029"
+background_color = "#F4EFE6"
+electron_radius = 0
+tray_ts = false
+tray_svg = ""
+tray_template_mode = "auto"
+color_scheme = "light"
+optimize_png = true
+
+[neighbours]
+# Shape collision at 16px against named sets (docs/NEIGHBOURHOOD.md). Paths and
+# globs resolve from this file; "@collision" and "@house" name the bundled sets.
+# avoid gates `check`; family is never compared; portfolio counts toward a rut.
+avoid = ["@collision"]
+family = []
+portfolio = []
+
+[review]
+status = "pending"
+source_sha256 = ""
+contract_sha256 = ""
+scores = {}
+notes = "This directory demonstrates one mechanism and has not been through a bake-off; it carries no receipt and records no case."

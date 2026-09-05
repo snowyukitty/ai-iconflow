@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Monitor</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" d="M152 176 H872 A40 40 0 0 1 912 216 V656 A40 40 0 0 1 872 696 H152 A40 40 0 0 1 112 656 V216 A40 40 0 0 1 152 176 Z M452 696 L572 696 L572 796 L452 796 Z M312 796 L712 796 L712 856 L312 856 Z"/>
+</svg>

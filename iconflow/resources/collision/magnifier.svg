@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Magnifier</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" fill-rule="evenodd" d="M700 440 A260 260 0 1 1 180 440 A260 260 0 1 1 700 440 Z M580 440 A140 140 0 1 0 300 440 A140 140 0 1 0 580 440 Z M596 680 L680 596 L930 846 L846 930 Z"/>
+</svg>

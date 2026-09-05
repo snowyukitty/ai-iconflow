@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Padlock</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" fill-rule="evenodd" d="M312 460 V360 A200 200 0 0 1 712 360 V460 H612 V360 A100 100 0 0 0 412 360 V460 Z M232 460 H792 A40 40 0 0 1 832 500 V856 A40 40 0 0 1 792 896 H232 A40 40 0 0 1 192 856 V500 A40 40 0 0 1 232 460 Z M572 640 A60 60 0 1 0 452 640 A60 60 0 1 0 572 640 Z M482 660 L542 660 L542 780 L482 780 Z"/>
+</svg>

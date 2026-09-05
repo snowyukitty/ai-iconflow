@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Camera</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" fill-rule="evenodd" d="M160 304 H352 L400 224 H624 L672 304 H864 A48 48 0 0 1 912 352 V776 A48 48 0 0 1 864 824 H160 A48 48 0 0 1 112 776 V352 A48 48 0 0 1 160 304 Z M672 560 A160 160 0 1 1 352 560 A160 160 0 1 1 672 560 Z"/>
+</svg>

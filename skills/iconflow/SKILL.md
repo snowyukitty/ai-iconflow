@@ -95,6 +95,17 @@ the project you are working on.
    their centerlines by at least two output pixels (~128 viewBox units) or
    redesign the pair.
 
+4c. **Run the neighbourhood on every finalist** (mandatory for the winner):
+   `iconflow neighbours <finalist>.svg --config iconflow.toml --sheet work/<slug>/neighbours.png`
+   → **read that sheet**. It puts the candidate beside the known marks it is
+   nearest to at real 16px — a bundled collision set of generic forms (bar
+   chart, bell, `#`, letters) and IconFlow's own corpus — with distances. A
+   finalist inside the radius of a generic form is L9's silhouette-collision
+   kill made visible: redesign it, never widen the radius. Put the marks this
+   product must not resemble under `[neighbours] avoid` in `iconflow.toml`
+   (`"@collision"` promotes the generic forms); only that set gates, the
+   bundled corpus advises. Not a clearance check; `iconflow docs NEIGHBOURHOOD`.
+
 5. **Author `master.svg`** using `iconflow docs SVG_TECHNIQUES` (§10 signature
    devices, §11 linked target compositions). **One bold idea, drawn on the 1024
    viewBox grid, inside the safe area** — geometry that runs to the edge is the
@@ -115,9 +126,11 @@ the project you are working on.
    source with no `data-lod` is flat, which is a valid answer and costs nothing.
 
 6. **Check and review (mandatory).**
-   - `iconflow check master.svg` → fix every warning. With a linked tray source
-     add `--tray-svg tray.svg --tray-template-mode <mode>` to audit the macOS
-     template the build will emit. A laddered source is also gated here on the
+   - `iconflow check master.svg --config iconflow.toml` → fix every warning.
+     `--config` brings the `[neighbours]` sets in (`neighbour-collision` gates;
+     `neighbour-familiar` and `neighbour-house-rut` advise). With a linked tray
+     source add `--tray-svg tray.svg --tray-template-mode <mode>` to audit the
+     macOS template the build will emit. A laddered source is also gated here on the
      same-mark invariant (`ladder-*` codes); a flat one never sees it.
    - `iconflow review --config iconflow.toml --out work/<slug>/review.png --html work/<slug>/review.html --receipt-template master-review.json`
      → **read that `review.png` and open that Review Lab**: actual-size pixels,

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Woven 2x2 frame (cineloom draft)</title>
+<path fill="#E7B54A" d="M272 112 H422 V912 H272 Z M602 112 H752 V912 H602 Z"/>
+<path fill="#E7B54A" d="M112 272 H912 V422 H112 Z M112 602 H912 V752 H112 Z"/>
+<path fill="#ffffff" d="M578 272 H602 V422 H578 Z M752 272 H776 V422 H752 Z M272 578 H422 V602 H272 Z M272 752 H422 V776 H272 Z"/>
+</svg>

@@ -347,20 +347,15 @@ def _luma(image: Image.Image) -> Image.Image:
     return flat.convert("L")
 
 
-def figure_policy(image: Image.Image) -> FigurePolicy:
-    """Split an icon into figure and ground without knowing its palette.
+def otsu_threshold(histogram: list[int]) -> int:
+    """The luminance boundary a 256-bin histogram itself implies.
 
-    Otsu's threshold finds the luminance boundary the drawing itself implies,
-    and the *minority* side is the figure. That is what makes this work across
-    the whole casebook: on a transparent mark the ink is the minority, and on a
-    full-bleed card the card is the majority ground while the mark punched into
-    it is the minority — which is exactly the shape a person recognises, and
-    the one an alpha mask cannot see.
+    Shared by the ladder (one source, several rungs) and the shape field (many
+    sources), so both split figure from ground at the same kind of boundary.
     """
-    histogram = _luma(image).histogram()
     total = sum(histogram)
     if not total:
-        return FigurePolicy(128, True)
+        return 128
     sum_all = sum(index * count for index, count in enumerate(histogram))
     sum_below = 0.0
     weight_below = 0.0
@@ -380,6 +375,24 @@ def figure_policy(image: Image.Image) -> FigurePolicy:
         if variance > best_variance:
             best_variance = variance
             threshold = index
+    return threshold
+
+
+def figure_policy(image: Image.Image) -> FigurePolicy:
+    """Split an icon into figure and ground without knowing its palette.
+
+    Otsu's threshold finds the luminance boundary the drawing itself implies,
+    and the *minority* side is the figure. That is what makes this work across
+    the whole casebook: on a transparent mark the ink is the minority, and on a
+    full-bleed card the card is the majority ground while the mark punched into
+    it is the minority — which is exactly the shape a person recognises, and
+    the one an alpha mask cannot see.
+    """
+    histogram = _luma(image).histogram()
+    total = sum(histogram)
+    if not total:
+        return FigurePolicy(128, True)
+    threshold = otsu_threshold(histogram)
     dark = sum(histogram[: threshold + 1])
     return FigurePolicy(threshold, dark <= total - dark)
 

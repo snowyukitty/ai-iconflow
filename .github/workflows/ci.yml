@@ -139,6 +139,8 @@ jobs:
           iconflow doctor
           ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_browser_security.py" -v
           ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_ladder.py" -v
+          ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_neighbours.py" -v
+          python "$GITHUB_WORKSPACE/scripts/build_collision_index.py" --check
           python - <<'PY' > "$integration/presets.txt"
           from iconflow.styles import PRESETS
           print("\n".join(PRESETS))

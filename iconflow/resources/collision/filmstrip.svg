@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Filmstrip</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" fill-rule="evenodd" d="M112 232 L912 232 L912 792 L112 792 Z M152 270 L232 270 L232 340 L152 340 Z M312 270 L392 270 L392 340 L312 340 Z M472 270 L552 270 L552 340 L472 340 Z M632 270 L712 270 L712 340 L632 340 Z M792 270 L872 270 L872 340 L792 340 Z M152 684 L232 684 L232 754 L152 754 Z M312 684 L392 684 L392 754 L312 754 Z M472 684 L552 684 L552 754 L472 754 Z M632 684 L712 684 L712 754 L632 754 Z M792 684 L872 684 L872 754 L792 754 Z"/>
+</svg>

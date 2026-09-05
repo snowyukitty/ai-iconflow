@@ -75,7 +75,7 @@ prove itself. That one family is IconFlow's identity, not a starting point.
 |---|---|---|---|
 | **0** | **Your output** | anything you design or build with IconFlow | **Yours.** No conditions — see §1 |
 | **1** | The tool | `iconflow/`, `scripts/`, `tests/`, `.github/`, `website/**` (`.html`, `.css`, `.js`, `.json`), packaging files | `Apache-2.0` |
-| **1b** | Starting points | `templates/**` (including `templates/presets/`), files IconFlow writes into your project | `CC0-1.0` |
+| **1b** | Starting points | `templates/**` (including `templates/presets/`), `iconflow/resources/collision/` (the plain generic forms and their index), files IconFlow writes into your project | `CC0-1.0` |
 | **2** | The methodology | `docs/**/*.md`, `casebook/**`, `skills/**`, `AGENTS.md`, `CONTRIBUTING.md` | `CC-BY-SA-4.0` |
 | **3a** | Brand & packaged imagery | `brand/`, `demo/`, `docs/assets/` | `CC-BY-4.0` + [trademark](TRADEMARKS.md) |
 | **3b** | The published corpus | `showcase/`, `gallery/`, `examples/*/`, `website/assets/` | `CC-BY-NC-ND-4.0` |
@@ -99,8 +99,10 @@ redistributor of IconFlow, never on a user of its output.
 
 ### Tier 1b — starting points, `CC0-1.0`
 
-The twenty technique scaffolds and every file IconFlow generates into your
-project are dedicated to the public domain. This is deliberate and it is the
+The twenty technique scaffolds, the plain generic forms of the collision set
+(a gear, a bell, a folder — nobody's icon set, drawn only to be measured
+against), and every file IconFlow generates into your project are dedicated
+to the public domain. This is deliberate and it is the
 load-bearing part of §1: if the scaffolds were Apache-2.0, an icon you evolved
 from `iconflow new flat-geometric` would technically be a derivative work
 owing attribution and a license copy. CC0 removes that entirely. Take the

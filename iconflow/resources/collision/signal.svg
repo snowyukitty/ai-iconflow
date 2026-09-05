@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Signal arcs</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" d="M400 724 A90 90 0 1 1 220 724 A90 90 0 1 1 400 724 Z M250 480 A300 300 0 0 1 544 774 L664 774 A420 420 0 0 0 250 360 Z M250 240 A540 540 0 0 1 784 774 L904 774 A660 660 0 0 0 250 120 Z"/>
+</svg>

@@ -23,7 +23,7 @@ from pathlib import Path
 
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
-from . import assemble, ladder
+from . import agentkit, assemble, ladder, neighbours
 from .build import electron_frames, preview_assets
 from .config import review_build_contract, review_contract_digest, svg_sha256
 from .rasterize import Rasterizer, load_svg
@@ -996,6 +996,151 @@ def ladder_sheet(master_svg: str | Path, out: str | Path, *,
     out = Path(out)
     if out.is_symlink():
         raise ValueError(f"ladder sheet destination must not be a symlink: {out}")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    sheet.convert("RGB").save(out, format="PNG", optimize=True)
+    return out
+
+
+# --------------------------------------------------------------------------
+# The neighbourhood proof sheet
+# --------------------------------------------------------------------------
+
+_NEIGHBOUR_ZOOM = 8            # 16px drawn at 128px, nearest-neighbour
+_NEIGHBOUR_CELL = 16 * _NEIGHBOUR_ZOOM
+_NEIGHBOUR_ROW = _NEIGHBOUR_CELL + 52
+_NEAR = (255, 91, 61, 255)      # inside the radius: the collision coral
+_FAR = (86, 190, 140, 255)      # outside it
+
+
+def _live_svg(entry: neighbours.Entry) -> str | None:
+    """Source text for an entry, if it is at hand and still the indexed bytes.
+
+    A declared file carries its text already. A bundled entry can be re-read
+    from a checkout, but only when the file still hashes to what the index
+    recorded — the sheet must never draw a mark the index did not measure.
+    """
+    from .config import svg_sha256
+
+    if entry.svg is not None:
+        return entry.svg
+    checkout = agentkit.checkout_root()
+    if checkout is None:
+        return None
+    path = checkout / entry.source
+    try:
+        if path.is_file() and svg_sha256(path) == entry.source_sha256:
+            return load_svg(path)
+    except (OSError, ValueError):
+        return None
+    return None
+
+
+def _neighbour_pictures(entry: neighbours.Entry, rasterizer: Rasterizer | None):
+    """(16px zoomed, 32px zoomed, silhouette) for one entry.
+
+    Live renders when the source is available; otherwise the index field
+    itself — which *is* what 16px shows — stands in, labelled as such.
+    """
+    svg = _live_svg(entry) if rasterizer is not None else None
+    silhouette = entry.field.silhouette(_NEIGHBOUR_ZOOM).convert("RGBA")
+    if svg is None:
+        picture = entry.field.image(_NEIGHBOUR_ZOOM).convert("RGBA")
+        return picture, picture, silhouette, "from the index"
+    source = ladder.RungSource(svg)
+    at16 = _img(source.render(rasterizer, 16)).resize(
+        (_NEIGHBOUR_CELL, _NEIGHBOUR_CELL), Image.NEAREST,
+    )
+    at32 = _img(source.render(rasterizer, 32)).resize(
+        (_NEIGHBOUR_CELL, _NEIGHBOUR_CELL), Image.NEAREST,
+    )
+    return at16, at32, silhouette, "rendered"
+
+
+def neighbour_sheet(hood: neighbours.Neighbourhood, out: str | Path, *,
+                    color_scheme: str = "light",
+                    rasterizer: Rasterizer | None = None) -> Path:
+    """The picture that makes a distance mean something.
+
+    One row per mark — the candidate first, then its nearest neighbours in
+    order, then the declared family — and three columns: the real 16px render
+    zoomed so its pixels show, the 32px render the same way, and the figure
+    silhouette the distance was measured on. Every neighbour row carries its
+    distance and topology; a row inside the radius is outlined in coral.
+    """
+    rows = [("candidate", hood.candidate, None)]
+    rows += [(hit.entry.set, hit.entry, hit) for hit in hood.nearest]
+    rows += [("family", hit.entry, hit) for hit in hood.family]
+
+    title = _font(18)
+    small = _font(14)
+    label_w = 380
+    width = _PAD * 2 + label_w + 3 * _NEIGHBOUR_CELL + 2 * _GAP
+    height = 46 + 26 + len(rows) * _NEIGHBOUR_ROW + _PAD
+    sheet = Image.new("RGBA", (width, height), _SHEET_BG)
+    draw = ImageDraw.Draw(sheet)
+    draw.rounded_rectangle([_PAD, 10, _PAD + 28, 38], radius=8, fill=_SIGNAL)
+    draw.rectangle([_PAD + 11, 17, _PAD + 23, 31], fill=_SHEET_BG)
+    draw.text(
+        (_PAD + 40, 8),
+        f"IconFlow neighbourhood — {Path(hood.candidate.source).name} — "
+        f"radius {hood.radius:.2f} at 16px",
+        font=title, fill=_TXT,
+    )
+    y = 46
+    x0 = _PAD + label_w
+    for index, heading in enumerate(("16px, pixels shown", "32px, pixels shown", "figure silhouette")):
+        draw.text((x0 + index * (_NEIGHBOUR_CELL + _GAP), y), heading, font=small, fill=_LABEL)
+    y += 26
+
+    def render_rows(active: Rasterizer | None) -> None:
+        nonlocal y
+        for set_name, entry, hit in rows:
+            at16, at32, silhouette, provenance = _neighbour_pictures(entry, active)
+            inside = hit is not None and hit.within(hood.radius) and set_name != "family"
+            outline = _NEAR if inside else (70, 72, 80, 255)
+            for column, picture in enumerate((at16, at32, silhouette)):
+                x = x0 + column * (_NEIGHBOUR_CELL + _GAP)
+                card = Image.new("RGBA", (_NEIGHBOUR_CELL, _NEIGHBOUR_CELL), "#ffffff")
+                card.alpha_composite(picture)
+                sheet.alpha_composite(card, (x, y))
+                draw.rectangle(
+                    [x - 1, y - 1, x + _NEIGHBOUR_CELL, y + _NEIGHBOUR_CELL],
+                    outline=outline, width=2 if inside else 1,
+                )
+            name = entry.title if set_name == "candidate" else entry.id
+            draw.text((_PAD, y), name[:44], font=title, fill=_TXT)
+            if set_name == "candidate":
+                lines = [
+                    f"{entry.field.components} piece(s), {entry.field.holes} hole(s), "
+                    f"{entry.field.coverage:.0%} of canvas",
+                    "the mark under audit",
+                ]
+            else:
+                topo = "same topology" if hit.separation.same_topology else "different topology"
+                verdict = (
+                    "family — never gated" if set_name == "family"
+                    else "INSIDE the radius" if inside
+                    else "outside the radius"
+                )
+                lines = [
+                    f"{entry.title[:40]}",
+                    f"distance {hit.distance:.3f} · {topo}",
+                    f"{set_name} · {verdict} · {provenance}",
+                ]
+            for offset, line in enumerate(lines):
+                draw.text((_PAD, y + 26 + offset * 18), line, font=small,
+                          fill=_NEAR if (inside and offset == 2) else _LABEL)
+            y += _NEIGHBOUR_ROW
+
+    if rasterizer is None:
+        with Rasterizer(color_scheme=color_scheme) as owned:
+            render_rows(owned)
+    else:
+        render_rows(rasterizer)
+
+    out = Path(out)
+    if out.is_symlink():
+        raise ValueError(f"neighbourhood sheet destination must not be a symlink: {out}")
     out.parent.mkdir(parents=True, exist_ok=True)
     sheet.convert("RGB").save(out, format="PNG", optimize=True)
     return out

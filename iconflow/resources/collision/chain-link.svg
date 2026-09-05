@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Chain link</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" fill-rule="evenodd" d="M272 352 H472 A160 160 0 0 1 472 672 H272 A160 160 0 0 1 272 352 Z M292 452 H452 A60 60 0 0 1 452 572 H292 A60 60 0 0 1 292 452 Z"/>
+<path fill="#1B1B1F" fill-rule="evenodd" d="M552 352 H752 A160 160 0 0 1 752 672 H552 A160 160 0 0 1 552 352 Z M572 452 H732 A60 60 0 0 1 732 572 H572 A60 60 0 0 1 572 452 Z"/>
+</svg>

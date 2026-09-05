@@ -16,11 +16,13 @@ from pathlib import Path
 
 from PIL import Image, ImageChops, ImageFilter
 
-from . import assemble, ladder
+from . import assemble, ladder, neighbours, shapefield
 from .findings import Finding
 from .rasterize import Rasterizer, load_svg
 
-__all__ = ["Finding", "check", "tray_template_warnings", "warning_code"]
+__all__ = [
+    "Finding", "check", "neighbourhood_audit", "tray_template_warnings", "warning_code",
+]
 
 
 # Fallback classification for warnings that arrive as plain strings (for
@@ -35,6 +37,9 @@ _CODE_PATTERNS: tuple[tuple[str, str], ...] = (
     (r"^Final maskable asset audit", "maskable-detail"),
     (r"^The macOS tray template keeps none", "tray-template-featureless"),
     (r"tray template cannot be derived", "tray-template-underivable"),
+    (r"^At 16px this mark is the same shape as", "neighbour-collision"),
+    (r"^At 16px this mark (?:reads as|sits within)", "neighbour-familiar"),
+    (r"previous marks sit within the collision radius", "neighbour-house-rut"),
 )
 
 
@@ -499,3 +504,64 @@ def check(
             ))
 
     return warnings
+
+
+# --------------------------------------------------------------------------
+# The neighbourhood
+# --------------------------------------------------------------------------
+
+
+def neighbourhood_audit(
+    master_svg: str | Path, *,
+    avoid=(), family=(), portfolio=(),
+    base: Path | None = None,
+    radius: float = neighbours.COLLISION_RADIUS,
+    nearest: int = neighbours.NEAREST,
+    rasterizer: Rasterizer | None = None,
+) -> neighbours.Neighbourhood:
+    """Rank the candidate against the bundled corpus and the declared sets.
+
+    Deliberately NOT part of :func:`check`: it needs a project's declarations
+    to mean anything, and the bundled corpus must only ever *advise*. The CLI
+    runs it beside ``check`` whenever ``iconflow.toml`` carries a
+    ``[neighbours]`` table and merges ``neighbour-collision`` into the gate;
+    a project that never wrote the table renders nothing extra and sees no new
+    finding (docs/NEIGHBOURHOOD.md).
+
+    Only the candidate and the declared files are rendered — the corpus is
+    pre-indexed — so the audit costs a handful of renders, the way the ladder's
+    invariant costs three.
+    """
+    from .config import svg_sha256
+
+    path = Path(master_svg)
+    base = Path(base) if base is not None else path.resolve().parent
+    text = load_svg(path)
+    index = neighbours.load_index()
+
+    def audit(active: Rasterizer) -> neighbours.Neighbourhood:
+        candidate = neighbours.Entry(
+            id="candidate",
+            set="candidate",
+            title=neighbours.svg_title(text, path.stem),
+            source=str(path),
+            source_sha256=svg_sha256(path),
+            field=shapefield.field_from_svg(text, active),
+            svg=text,
+        )
+        declared = {
+            name: neighbours.resolve_set(
+                specs, set_name=name, base=base, index=index, rasterizer=active,
+            )
+            for name, specs in (
+                ("avoid", avoid), ("family", family), ("portfolio", portfolio),
+            )
+        }
+        return neighbours.neighbourhood(
+            candidate, index=index, radius=radius, nearest=nearest, **declared,
+        )
+
+    if rasterizer is None:
+        with Rasterizer() as owned:
+            return audit(owned)
+    return audit(rasterizer)

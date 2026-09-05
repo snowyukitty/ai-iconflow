@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Calendar</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" fill-rule="evenodd" d="M176 200 H848 A48 48 0 0 1 896 248 V848 A48 48 0 0 1 848 896 H176 A48 48 0 0 1 128 848 V248 A48 48 0 0 1 176 200 Z M288 120 L368 120 L368 320 L288 320 Z M656 120 L736 120 L736 320 L656 320 Z M256 440 L376 440 L376 540 L256 540 Z M452 440 L572 440 L572 540 L452 540 Z M648 440 L768 440 L768 540 L648 540 Z M256 600 L376 600 L376 700 L256 700 Z M452 600 L572 600 L572 700 L452 700 Z M648 600 L768 600 L768 700 L648 700 Z"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Sunburst</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" d="M712 512 A200 200 0 1 1 312 512 A200 200 0 1 1 712 512 Z M792 556 L932 556 L932 468 L792 468 Z M679 741 L778 840 L840 778 L741 679 Z M468 792 L468 932 L556 932 L556 792 Z M283 679 L184 778 L246 840 L345 741 Z M232 468 L92 468 L92 556 L232 556 Z M345 283 L246 184 L184 246 L283 345 Z M556 232 L556 92 L468 92 L468 232 Z M741 345 L840 246 L778 184 L679 283 Z"/>
+</svg>

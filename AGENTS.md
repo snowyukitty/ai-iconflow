@@ -45,6 +45,13 @@ toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
    at both 128px and 16px; change the viewpoint if the noun changes. With color
    removed, test vertical cuts above detached round accents as punctuation and
    offset their centerlines by at least two output pixels (~128 viewBox units).
+   Then run the silhouette-collision test L9 asks for, mechanically:
+   `python -m iconflow neighbours <finalist>.svg --config iconflow.toml --sheet work/<slug>/neighbours.png`
+   on every finalist and **read that sheet** — a finalist inside the radius of
+   a generic form (bar chart, bell, `#`, a letter) is L9's kill made visible.
+   Declare the marks this product must not resemble under `[neighbours] avoid`;
+   that set gates, the bundled corpus only advises (`docs/NEIGHBOURHOOD.md`).
+   It is not a clearance check and does not replace the ≥4/5 human gate.
    (Shortcut for simple jobs: inspect the current catalog with
    `python -m iconflow styles`, start with
    `python -m iconflow new <preset>`, and still apply a signature device.)
@@ -64,7 +71,8 @@ toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
    read that sheet. A flat source (no `data-lod`) is a valid answer and behaves
    exactly as before.
 5. **Check + review:**
-   `python -m iconflow check master.svg` → fix every warning. With a linked
+   `python -m iconflow check master.svg --config iconflow.toml` → fix every
+   warning; `--config` brings the `[neighbours]` sets in. With a linked
    tray source, add `--tray-svg tray.svg --tray-template-mode <mode>`: it audits
    the macOS template the build will emit and reports one that kept none of the
    colour mark's features. A laddered source is additionally gated on the

@@ -28,7 +28,7 @@ a `0` into a `1`.
 
 ## `--json` envelope
 
-`doctor`, `check`, `review`, `ship`, `ladder`, and `demo` accept `--json`. In JSON mode
+`doctor`, `check`, `review`, `ship`, `ladder`, `neighbours`, and `demo` accept `--json`. In JSON mode
 **stdout carries exactly one JSON object** and nothing else; human diagnostics
 go to stderr. The object always has these keys:
 
@@ -54,6 +54,10 @@ go to stderr. The object always has these keys:
 
 ### `check --json`
 
+```
+iconflow check MASTER [--config iconflow.toml] [--tray-svg ...] [--json]
+```
+
 `outputs`: `{"source": "<abs path>", "source_sha256": "<hex>", "tray_source": "<abs path or null>"}`.
 Warning codes follow the warning prefixes `iconflow/qa.py` already prints,
 lower-cased and hyphenated: `svg-safety`, `viewbox`, `stroke-floor`,
@@ -65,6 +69,16 @@ gated on the same-mark invariant, adding `ladder-annotation`,
 `ladder-empty-rung`, `ladder-footprint`, `ladder-silhouette`,
 `ladder-centroid`, `ladder-hue`, and `ladder-subtraction`. A flat source — no
 `data-lod` anywhere — never emits them and renders exactly as before.
+
+With `--config`, a project whose `iconflow.toml` carries a `[neighbours]`
+table (`docs/NEIGHBOURHOOD.md`) is also audited for shape collision at 16px:
+`neighbour-collision` (gating — a declared `avoid` mark is the same shape;
+the message names it), `neighbour-familiar` (advisory — the bundled collision
+set or house corpus), and `neighbour-house-rut` (advisory — three or more
+`portfolio` marks inside the radius). A config without the table, or no
+`--config` at all, emits none of them and the envelope is unchanged. `review
+--config` and `ship` run the same audit, and a collision blocks `ship` behind
+`qa-warnings` like any other check warning.
 
 ### `ladder --json`
 
@@ -86,6 +100,28 @@ run still carries its evidence. A flat source reports `ladder: false`, empty
 `rungs` and `steps`, one advisory `ladder-flat`, and exits `0`: having no
 ladder is a valid state, not a defect. Warning codes are the `ladder-*` set
 above.
+
+### `neighbours --json`
+
+```
+iconflow neighbours [MASTER] [--config iconflow.toml] [--avoid SVG]... [--family SVG]...
+                    [--sheet PNG] [--radius F] [--nearest N] [--color-scheme ...] [--json]
+```
+
+`outputs`: `{"source": "<abs path>", "source_sha256": "<hex>", "radius": 0.12,
+"field": {"components": 1, "holes": 0, "coverage": 0.31, "aspect": 1.2},
+"nearest": [{"id": "collision/bar-chart", "set": "collision|house|avoid|portfolio",
+"title": "...", "source": "...", "distance": 0.071, "same_topology": true,
+"components": [3, 3], "holes": [0, 0]}], "collisions": ["<id>", ...],
+"familiar": ["<id>", ...], "rut": ["<id>", ...], "family": [<same shape as nearest>],
+"sheet": "<abs path or null>"}`.
+
+`nearest` carries the closest `--nearest` marks plus every mark inside the
+radius, whether or not anything failed. Warning code: `neighbour-collision`
+(only against the declared or `--avoid` set). Advisory codes:
+`neighbour-familiar`, `neighbour-house-rut`. Exit `1` only for a collision;
+without any avoid set the command can only advise and exits `0`. It is not a
+clearance check and the human distinctiveness gate still applies.
 
 ### `doctor --json`
 
@@ -151,4 +187,6 @@ name. A named reviewer is provenance, not authority.
   error), exit-code matrix, stdout purity in JSON mode.
 - `tests/test_distribution.py`: the demo family is present on the wheel and
   `demo` works from an installed wheel without the source tree.
+- `tests/test_neighbours.py`: the `neighbours` envelope, the codes, the
+  index drift checks, and (under Chromium) the calibration table.
 - `.github/actions/proof`: consumes `check --json` and `review --json` only.

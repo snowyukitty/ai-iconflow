@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Two curtain panels on a rod (night-market draft 1)</title>
+<rect width="1024" height="1024" rx="228" fill="#2B2D5B"/>
+<rect x="112" y="200" width="800" height="84" rx="30" fill="#F2A93B"/>
+<path fill="#F2A93B" d="M176 284 H476 V800 Q326 842 176 800 Z"/>
+<path fill="#F2A93B" d="M548 284 H848 V800 Q698 842 548 800 Z"/>
+</svg>

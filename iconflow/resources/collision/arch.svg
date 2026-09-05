@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Arch or doorway</title>
+<desc>A deliberately plain rendition of a generic form, drawn for IconFlow's collision set so a candidate mark can be measured against it at 16px. It is nobody's icon set and claims nothing.</desc>
+<path fill="#1B1B1F" d="M128 896 V496 A384 384 0 0 1 896 496 V896 H736 V516 A224 224 0 0 0 288 516 V896 Z"/>
+</svg>

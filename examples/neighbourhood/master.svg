@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<title>Landscape and portrait panels on one rail</title>
+<!-- The redesign. The same two ideas - screens, matched - carried by an
+     orientation contrast instead of a height progression: a wide panel beside
+     a tall one, bottoms aligned, standing on one rail. The rail is what turns
+     two floating rectangles into one object; the contrast is what names that
+     object as monitors rather than as a chart. No threshold was touched. -->
+<rect width="1024" height="1024" rx="228" fill="#1E2029"/>
+<rect x="112" y="380" width="460" height="300" rx="28" fill="#F4EFE6"/>
+<rect x="640" y="200" width="272" height="480" rx="28" fill="#F4EFE6"/>
+<rect x="112" y="760" width="800" height="64" rx="20" fill="#F4EFE6"/>
+</svg>

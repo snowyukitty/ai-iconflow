@@ -358,6 +358,48 @@ Read [`docs/DETAIL_LADDER.md`](docs/DETAIL_LADDER.md) and the worked example in
 [`examples/detail-ladder/`](examples/detail-ladder/), whose README records the
 chimney collar the overlay caught and why it was removed rather than tuned.
 
+## Distinguishable, not merely distinctive: the neighbourhood
+
+Distinctiveness is a ship gate and the worst first-pass axis in the casebook,
+and it is judged entirely by a human eye — because "is this mark distinctive?"
+is not a question a tool can answer. "Is this mark distinguishable at 16px
+from *these specific other marks*?" is, and it is exactly the test L9 asks a
+person to run by squinting at a bake sheet: does the silhouette already mean
+search, settings, home, a bar chart, a letter?
+
+```bash
+python -m iconflow neighbours master.svg --config iconflow.toml \
+  --sheet work/my-app/neighbours.png
+```
+
+Every mark is reduced to a deterministic 16px **shape field** — a 16×16 grid
+of occupancy plus pieces, holes, coverage and aspect — and compared by
+normalised distance against a checked-in, content-addressed index of two
+corpora: a **collision set** of deliberately plain generic forms (gear, bell,
+folder, bar chart, `+ ✓ # π`, letterforms), and IconFlow's own published
+marks. The radius was calibrated on collisions the casebook had already
+recorded, not chosen by taste; the docs table also lists what it misses.
+
+A project declares its own sets in `iconflow.toml`:
+
+```toml
+[neighbours]
+avoid = ["../other-app/master.svg", "@collision"]   # the only set that gates
+family = ["../suite/*/master.svg"]                   # supposed to be close; never compared
+portfolio = ["../shipped/**/master.svg"]             # three inside the radius is a rut
+```
+
+`neighbour-collision` gates and names the mark it hit. The bundled corpus can
+only advise (`neighbour-familiar`): the house corpus is a mirror, not a wall.
+The sheet puts the candidate beside its nearest neighbours at real 16px, at
+32px, and as the silhouettes the distance was measured on. It is not a
+trademark or clearance check, it does not measure distinctiveness, and the
+human ≥4/5 gate stays exactly where it is.
+
+Read [`docs/NEIGHBOURHOOD.md`](docs/NEIGHBOURHOOD.md) and the worked example in
+[`examples/neighbourhood/`](examples/neighbourhood/), whose first draft measured
+0.07 from a bar chart and was redesigned rather than re-thresholded.
+
 ## Technique scaffolds, not stock logos
 
 `new` offers twenty execution families. Discover them from an installed wheel
