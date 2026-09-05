@@ -12,30 +12,38 @@ const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => (
   '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;',
 }[character]));
 
-const card = (item) => `
-  <article class="gallery-card" data-world="${escapeHtml(item.world)}">
-    <button class="gallery-open" type="button" data-open-case="${escapeHtml(item.id)}" aria-label="Open ${escapeHtml(item.title)} case">
-      <span class="gallery-number">${String(item.number).padStart(3, '0')}</span>
-      <span class="gallery-art"><img src="${escapeHtml(item.assets.svg)}" width="112" height="112" loading="lazy" alt="${escapeHtml(item.noun)}"></span>
-      <span class="gallery-native"><img src="${escapeHtml(item.assets.native)}" width="16" height="16" alt="">actual 16×16</span>
-      <span class="gallery-coordinate">${escapeHtml(item.world)} · ${escapeHtml(item.technique)}</span>
-      <strong>${escapeHtml(item.title)}</strong>
-      <span class="gallery-job">${escapeHtml(item.user_job)}</span>
-      <span class="gallery-device">Signature · ${escapeHtml(item.signature)}</span>
-    </button>
-  </article>`;
+const cards = [...grid.querySelectorAll('[data-case-id]')];
+const empty = document.querySelector('[data-gallery-empty]');
+const views = document.querySelector('[data-gallery-views]');
 
 const render = () => {
   const query = search.value.trim().toLocaleLowerCase();
-  const visible = cases.filter((item) => {
-    const matchesWorld = activeWorld === 'all' || item.world === activeWorld;
-    const haystack = `${item.title} ${item.world} ${item.technique} ${item.noun} ${item.user_job} ${item.signature}`.toLocaleLowerCase();
-    return matchesWorld && (!query || haystack.includes(query));
+  let count = 0;
+  cards.forEach((element) => {
+    const matchesWorld = activeWorld === 'all' || element.dataset.world === activeWorld;
+    const haystack = `${element.textContent} ${element.querySelector('.gallery-art img').alt}`.toLocaleLowerCase();
+    const matchesQuery = !query || haystack.includes(query);
+    element.hidden = !(matchesWorld && matchesQuery);
+    if (!element.hidden) count += 1;
   });
-  grid.innerHTML = visible.map(card).join('');
-  grid.setAttribute('aria-busy', 'false');
-  status.textContent = `Showing ${visible.length} of ${cases.length} proofed cases`;
+  empty.hidden = count !== 0;
+  status.textContent = `Showing ${count} of ${cases.length} proofed cases`;
 };
+
+views.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-view]');
+  if (!button) return;
+  const mode = button.dataset.view;
+  grid.dataset.view = mode;
+  cards.forEach((element) => {
+    const image = element.querySelector('.gallery-art img');
+    image.src = image.dataset[mode];
+    const size = mode === 'native' ? 16 : mode === 'silhouette' ? 128 : 112;
+    image.width = size;
+    image.height = size;
+  });
+  views.querySelectorAll('button').forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+});
 
 const renderFilters = () => {
   const worlds = [...new Set(cases.map((item) => item.world))].sort();
@@ -79,7 +87,10 @@ grid.addEventListener('click', (event) => {
   const button = event.target.closest('[data-open-case]');
   if (!button) return;
   const item = cases.find((candidate) => candidate.id === button.dataset.openCase);
-  if (item) openCase(item);
+  if (item && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
+    event.preventDefault();
+    openCase(item);
+  }
 });
 
 dialog.addEventListener('click', (event) => {
@@ -94,11 +105,13 @@ fetch('/assets/gallery/catalog.json')
   .then((catalog) => {
     if (catalog.case_count !== 100 || catalog.cases.length !== 100) throw new Error('catalog is not the 100-case edition');
     cases = catalog.cases;
+    document.querySelector('[data-gallery-controls]').hidden = false;
+    views.hidden = false;
     renderFilters();
     render();
   })
   .catch((error) => {
     grid.setAttribute('aria-busy', 'false');
-    status.textContent = 'Gallery catalog unavailable.';
-    grid.innerHTML = `<p class="gallery-error">${escapeHtml(error.message)}</p>`;
+    status.textContent = 'Showing 100 cases. Interactive previews are unavailable; case records remain readable.';
+    console.warn('Gallery enhancement unavailable:', error.message);
   });

@@ -559,6 +559,25 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertIn(".case-pixel-proof img { width: 16px; height: 16px", css)
         self.assertIn("/imagination/ /gallery/ 301", redirects)
 
+    def test_gallery_is_readable_without_javascript_and_matches_catalog(self) -> None:
+        module = load_script("build_gallery_page", ROOT / "scripts/build_gallery_page.py")
+        document = (SITE / "gallery/index.html").read_text(encoding="utf-8")
+        self.assertEqual(module.render(), document)
+        catalog = json.loads((ROOT / "gallery/catalog.json").read_text(encoding="utf-8"))
+        from html import escape
+        for item in catalog["cases"]:
+            self.assertIn(f'id="case-{item["id"]}"', document)
+            self.assertIn(f'href="{item["assets"]["case"]}"', document)
+            self.assertIn(escape(item["signature"], quote=True), document)
+        graph = json.loads(re.search(
+            r'<script type="application/ld\+json">(.*?)</script>', document, re.S,
+        ).group(1))["@graph"]
+        entries = graph[0]["mainEntity"]["itemListElement"]
+        self.assertEqual(len(entries), 100)
+        self.assertEqual([entry["name"] for entry in entries],
+                         [item["title"] for item in catalog["cases"]])
+        self.assertEqual(len(re.findall(r'class="gallery-card"', document)), 100)
+
     def test_gallery_svg_sources_have_canonical_whitespace(self) -> None:
         for root in (ROOT / "gallery" / "cases", SITE / "assets" / "gallery"):
             for path in root.glob("*/master.svg"):

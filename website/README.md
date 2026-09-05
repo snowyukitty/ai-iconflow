@@ -78,6 +78,19 @@ translated pages link to them at their English URL on purpose.
 Language selection is by link only — no `Accept-Language` redirect and no
 geo-targeted banner — so a shared URL always shows the same page.
 
+## Static gallery
+
+`scripts/templates/gallery.html` owns the gallery layout and copy.
+`scripts/build_gallery_page.py` renders it with the 100 admitted cases in
+`gallery/catalog.json`, including matching `ItemList` entries. Never hand-edit
+`website/gallery/index.html`. Run the page builder after changing the template
+or gallery catalog; `--verify-only` checks for drift without rendering icons.
+
+The initial HTML contains every case, its subject, signature, native proof,
+case-record link, and stable fragment permalink. JavaScript progressively adds
+search, world filters, proof dialogs, and color/silhouette/native-size views.
+If scripts or the catalog request fail, all cases remain readable.
+
 ## Living archive
 
 `/archive/`, the homepage marquee and finalist strip, and `assets/archive/` are

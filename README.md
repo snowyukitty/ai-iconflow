@@ -40,6 +40,18 @@ commercial use unrestricted. Run `iconflow license` for the whole answer.
 app intent → distinct concepts → SVG master → 16px proof → target family → casebook
 ```
 
+## Find your next icon design
+
+Start with the job your icon needs to do, then inspect the evidence:
+
+| Your goal | Start here |
+|---|---|
+| Find a distinctive app icon idea | [100 SVG icon design examples](https://ai-iconflow.com/gallery/) — compare color, silhouette, and actual 16px pixels. |
+| Explore a different visual style | [20 techniques across 400 practice specimens](https://ai-iconflow.com/gallery/emoji-matrix/all/) — compare the same meaning across construction methods. |
+| Generate favicon, ICO, ICNS, or PWA assets | [Icon sizes and output formats](https://ai-iconflow.com/reference/icon-sizes/) — exact target files and commands. |
+| Make a legible menu-bar or tray icon | [Tray icon design guide](https://ai-iconflow.com/reference/tray-icons/) — alpha, template modes, and real failure examples. |
+| Build your first reviewed icon family | [Getting started](https://ai-iconflow.com/getting-started/) — install, run the demo, and inspect its proof. |
+
 ### Watch the quality gate work
 
 ![One command ships 23 reviewed icon files; nudging one control point in the master SVG makes the same command refuse, because the review receipt no longer matches the source.](docs/assets/demo.gif)

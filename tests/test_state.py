@@ -45,6 +45,7 @@ class SelfAuditTests(unittest.TestCase):
             "generated.reference",
             "generated.tray_reference",
             "generated.adoption",
+            "generated.gallery_page",
         ):
             with self.subTest(key=key):
                 self.assertIn(key, by_key)

@@ -193,11 +193,18 @@ def check_generators() -> list[Check]:
         module = load_script("build_adoption")
         return module.verify()
 
+    def gallery_page():
+        module = load_script("build_gallery_page")
+        current = module.render() == (SITE / "gallery/index.html").read_text(encoding="utf-8")
+        return current, ("100 static cases match the admitted catalog" if current
+                         else "run python scripts/build_gallery_page.py")
+
     run("generated.i18n", "Five-language site is current", i18n)
     run("generated.archive", "Living archive is current", archive)
     run("generated.reference", "Icon-size reference is current", reference)
     run("generated.tray_reference", "Tray-icon reference is current", tray_reference)
     run("generated.adoption", "First-proof commands are current", adoption)
+    run("generated.gallery_page", "Static gallery is current", gallery_page)
     for check in checks:
         check.section = "Generated artifacts"
     return checks
