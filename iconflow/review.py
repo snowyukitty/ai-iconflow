@@ -1042,7 +1042,9 @@ def _neighbour_pictures(entry: neighbours.Entry, rasterizer: Rasterizer | None):
     itself — which *is* what 16px shows — stands in, labelled as such.
     """
     svg = _live_svg(entry) if rasterizer is not None else None
-    silhouette = entry.field.silhouette(_NEIGHBOUR_ZOOM).convert("RGBA")
+    # The third column is the field itself — every grey level is a cell the
+    # distance summed — not a re-thresholded outline of it.
+    silhouette = entry.field.image(_NEIGHBOUR_ZOOM).convert("RGBA")
     if svg is None:
         picture = entry.field.image(_NEIGHBOUR_ZOOM).convert("RGBA")
         return picture, picture, silhouette, "from the index"
@@ -1063,8 +1065,8 @@ def neighbour_sheet(hood: neighbours.Neighbourhood, out: str | Path, *,
 
     One row per mark — the candidate first, then its nearest neighbours in
     order, then the declared family — and three columns: the real 16px render
-    zoomed so its pixels show, the 32px render the same way, and the figure
-    silhouette the distance was measured on. Every neighbour row carries its
+    zoomed so its pixels show, the 32px render the same way, and the 16×16
+    occupancy field the distance was actually summed over. Every neighbour row carries its
     distance and topology; a row inside the radius is outlined in coral.
     """
     rows = [("candidate", hood.candidate, None)]
@@ -1088,7 +1090,9 @@ def neighbour_sheet(hood: neighbours.Neighbourhood, out: str | Path, *,
     )
     y = 46
     x0 = _PAD + label_w
-    for index, heading in enumerate(("16px, pixels shown", "32px, pixels shown", "figure silhouette")):
+    for index, heading in enumerate((
+        "16px, pixels shown", "32px, pixels shown", "16x16 occupancy field (measured)",
+    )):
         draw.text((x0 + index * (_NEIGHBOUR_CELL + _GAP), y), heading, font=small, fill=_LABEL)
     y += 26
 

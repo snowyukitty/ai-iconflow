@@ -80,6 +80,8 @@ outline — which is what a viewer sees at 16px.
 **Descriptor** = the grid plus four scalars, each explainable in one sentence:
 how many separate pieces the figure is in, how many holes are cut through it,
 what share of the canvas it covers, and its bounding-box width over height.
+Pieces and holes are counted on the 64px mask, and a region smaller than one
+grid cell (sixteen pixels) is not a piece: at 16px it is at most a smear.
 
 **Distance** = normalised L1 over the grid — the share of all ink the two
 grids do not share; 0 is identical, 1 is disjoint — with topology reported
@@ -118,9 +120,11 @@ heart / shield at 0.096 — and at 16px those *are* real ambiguities, which is
 the instrument telling the truth rather than a flaw in it.
 
 So the **collision radius is 0.12**: above the three recorded collisions and
-the genuine 16px ambiguities, well below every shipped redesign (the nearest
-sits at 0.170, and with a different topology). Two marks at or below 0.12 with
-the same topology are one shape at 16px.
+the genuine 16px ambiguities, and below every shipped redesign — the nearest
+of those sits at 0.319. The nearest recorded *miss*, the rejected stepped
+stack, sits at 0.170 with a different topology. Two marks at or below 0.12
+with the same topology are one shape at 16px; a pair with different topology
+is never a collision, whatever its distance.
 
 ### What the radius misses, and why it is not raised
 
@@ -140,11 +144,12 @@ Three of the six recorded collisions sit outside it, and the table says so.
 - **The stepped stack.** A solid staircase against three separate bars: 0.170
   with a different topology. Close, and correctly not called the same shape.
 
-Raising the radius to 0.18 would catch the third and start calling calendar /
-rounded square (0.109), disc / document (0.115) and folder / filmstrip (0.118)
-collisions for every user. The misses are recorded here instead. If the
-instrument ever gains a structural component, this table is the test it has
-to pass.
+Raising the radius would not catch any of them: the stepped stack and the
+lantern differ in topology, which the gate treats as a separator whatever the
+distance, and the curtain sits at 0.31. It *would* widen the band in which
+distinct generic forms of matching topology start calling each other the
+same shape. The misses are recorded here instead. If the instrument ever gains
+a structural component, this table is the test it has to pass.
 
 ---
 
@@ -168,8 +173,11 @@ the artwork. It is drift-tested exactly the way the icon-size reference page
 is: the browser-free matrix fails when any source no longer hashes to what the
 index recorded or the committed bytes differ from what the generator would
 write; the Chromium job rebuilds every field and fails when a cell moves by
-more than one anti-aliased pixel. A generated table nobody can date is the
-thing this project exists not to ship.
+more than two anti-aliased pixels, when a field drifts more than 0.03 in
+aggregate (a quarter of the radius), or when a topology class changes. The
+index in this repository was built on Windows; the Linux job is where that
+tolerance is actually tested. A generated table nobody can date is the thing
+this project exists not to ship.
 
 **Pluggable, and the user's sets outrank IconFlow's.** `iconflow.toml` gains:
 
@@ -180,10 +188,14 @@ family = ["../suite/*/master.svg"]
 portfolio = ["../shipped/**/master.svg"]
 ```
 
-Paths and globs resolve from the file. `@collision` and `@house` name the
-bundled sets in full; `@collision/bell` names one form. Only the candidate and
-the declared *files* are rendered — the corpus is pre-indexed — so the audit
-costs a handful of renders, the way the ladder's invariant costs three.
+Paths and globs resolve from the file; a glob that matches nothing is an
+error, because an `avoid` that silently resolved to nothing would be a gate
+that quietly stopped gating. `@collision` and `@house` name the bundled sets
+in full; `@collision/bell` names one form. A declared `master.svg` is named by
+its directory. Only the candidate and the declared *files* are rendered — the
+corpus is pre-indexed — so the audit costs a handful of renders, the way the
+ladder's invariant costs three, and they are rendered in the project's
+`color_scheme`, the same one the build ships.
 
 ## The gate, and how it is split
 
@@ -221,8 +233,8 @@ python -m iconflow neighbours master.svg --config iconflow.toml \
 
 One row per mark — the candidate first, then its nearest neighbours in order,
 then the declared family — and three columns: the real 16px render with its
-pixels shown, the 32px render the same way, and the figure silhouette the
-distance was measured on. Every neighbour carries its distance and topology; a
+pixels shown, the 32px render the same way, and the 16×16 occupancy field the
+distance was actually summed over. Every neighbour carries its distance and topology; a
 row inside the radius is outlined in coral. A bundled mark is rendered live
 when its source is in the checkout and still hashes to what the index
 recorded; from a wheel install its stored field stands in, labelled *from the

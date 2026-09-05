@@ -38,6 +38,7 @@ from __future__ import annotations
 
 import fnmatch
 import json
+import math
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -50,7 +51,8 @@ from .findings import Finding
 #: interlace/hashtag 0.065, rising blocks/bar chart 0.071, bold H on a tile /
 #: letter H 0.104 — and on the closest pair of *distinct* generic forms in the
 #: collision set, monitor/speech bubble at 0.080, which is a real ambiguity at
-#: 16px. Redesigned marks from the same cases sit at 0.22 and beyond. See
+#: 16px. The nearest recorded *miss* is a rejected draft at 0.170 with a
+#: different topology; the redesigns that shipped sit at 0.319 and beyond. See
 #: docs/NEIGHBOURHOOD.md for the full table, including what the radius misses.
 COLLISION_RADIUS = 0.12
 #: Portfolio marks within the radius before the rut advisory fires.
@@ -201,10 +203,13 @@ def entry_from_svg(path: Path, *, set_name: str, rasterizer,
     from .rasterize import load_svg
 
     text = load_svg(path)
+    # Every IconFlow project calls its source master.svg, so the directory is
+    # the name that tells one declared mark from another.
+    stem = path.parent.name if path.name.lower() == "master.svg" and path.parent.name else path.stem
     return Entry(
-        id=entry_id or f"{set_name}/{path.stem}",
+        id=entry_id or f"{set_name}/{stem}",
         set=set_name,
-        title=svg_title(text, path.stem),
+        title=svg_title(text, stem),
         source=str(path),
         source_sha256=svg_sha256(path),
         field=shapefield.field_from_svg(text, rasterizer),
@@ -212,18 +217,30 @@ def entry_from_svg(path: Path, *, set_name: str, rasterizer,
     )
 
 
+def _is_glob(part: str) -> bool:
+    return any(char in part for char in "*?[")
+
+
 def _expand_spec(spec: str, base: Path) -> list[Path]:
-    """One path or glob, resolved from `base`, to the SVG files it names."""
+    """One path or glob, resolved from `base`, to the SVG files it names.
+
+    A glob that matches nothing is an error, not an empty set: a declared
+    `avoid` that silently resolved to nothing would be a gate that quietly
+    stopped gating.
+    """
     candidate = Path(spec).expanduser()
     if not candidate.is_absolute():
         candidate = base / candidate
-    if any(char in spec for char in "*?["):
-        root = candidate.parent
-        # Walk up to the first non-glob directory so `**` and `*` both work.
-        while any(char in str(root.name) for char in "*?[") and root != root.parent:
-            root = root.parent
-        pattern = str(candidate.relative_to(root)) if candidate.is_relative_to(root) else spec
-        matches = sorted(p for p in root.glob(pattern) if p.is_file() and p.suffix.lower() == ".svg")
+    if _is_glob(spec):
+        parts = candidate.parts
+        first = next(i for i, part in enumerate(parts) if _is_glob(part))
+        root = Path(*parts[:first]) if first else Path(".")
+        pattern = "/".join(parts[first:])
+        matches = sorted(
+            p for p in root.glob(pattern) if p.is_file() and p.suffix.lower() == ".svg"
+        )
+        if not matches:
+            raise NeighbourError(f"declared glob matches no SVG: {spec} (from {base})")
         return matches
     if not candidate.is_file():
         raise NeighbourError(f"declared mark not found: {candidate}")
@@ -239,6 +256,21 @@ def resolve_set(specs, *, set_name: str, base: Path, index: Index,
     entry such as ``@collision/bell`` — which costs nothing.
     """
     entries: list[Entry] = []
+    # One mark, one entry: overlapping globs, a repeated path, or an alias
+    # beside the set it belongs to must not gate twice or count twice.
+    seen_sources: set[str] = set()
+    used_ids: set[str] = set()
+
+    def unique(entry_id: str) -> str:
+        if entry_id not in used_ids:
+            used_ids.add(entry_id)
+            return entry_id
+        suffix = 2
+        while f"{entry_id}~{suffix}" in used_ids:
+            suffix += 1
+        used_ids.add(f"{entry_id}~{suffix}")
+        return f"{entry_id}~{suffix}"
+
     for spec in specs:
         spec = str(spec).strip()
         if not spec:
@@ -256,14 +288,30 @@ def resolve_set(specs, *, set_name: str, base: Path, index: Index,
                         f"{spec!r} names nothing in the bundled {bundled} set"
                     )
             for entry in chosen:
+                if entry.id in seen_sources:
+                    continue
+                seen_sources.add(entry.id)
                 entries.append(Entry(
-                    id=entry.id, set=set_name, title=entry.title,
+                    id=unique(entry.id), set=set_name, title=entry.title,
                     source=entry.source, source_sha256=entry.source_sha256,
                     field=entry.field,
                 ))
             continue
         for path in _expand_spec(spec, base):
-            entries.append(entry_from_svg(path, set_name=set_name, rasterizer=rasterizer))
+            key = str(path.resolve())
+            if key in seen_sources:
+                continue
+            seen_sources.add(key)
+            entry = entry_from_svg(path, set_name=set_name, rasterizer=rasterizer)
+            if entry.id in used_ids:
+                entry = Entry(
+                    id=unique(entry.id), set=entry.set, title=entry.title,
+                    source=entry.source, source_sha256=entry.source_sha256,
+                    field=entry.field, svg=entry.svg,
+                )
+            else:
+                used_ids.add(entry.id)
+            entries.append(entry)
     return entries
 
 
@@ -373,34 +421,46 @@ def neighbourhood(candidate: Entry, *, index: Index | None,
                   nearest: int = NEAREST) -> Neighbourhood:
     """Rank every known mark against the candidate and sort them into findings.
 
-    An entry whose source hash equals the candidate's is the candidate itself
-    (a house mark being re-audited, a portfolio that includes this master) and
-    is skipped everywhere. A `family` entry is skipped in every set it also
-    appears in — that is what "excluded from the gate entirely" means.
+    The candidate is never its own neighbour: a bundled entry with the
+    candidate's source hash (a house mark being re-audited) is skipped, and a
+    declared file is skipped when it *is* the candidate's file — by path, not
+    by hash, because a byte-identical copy under another name in `avoid` is
+    exactly the collision the set exists to catch. A `family` entry is skipped
+    in every set it also appears in — that is what "excluded from the gate
+    entirely" means.
     """
-    if radius <= 0:
-        raise NeighbourError("the collision radius must be positive")
-    excluded = {candidate.source_sha256} | {e.source_sha256 for e in family}
-    excluded_ids = {e.id for e in family}
-    # A bundled entry the project also lists in `avoid` (via "@collision" or
-    # "@house/...") is gated there; reporting it as merely familiar as well
-    # would advise the user to do what they have already done.
-    promoted = {e.id for e in avoid}
+    if not math.isfinite(radius) or radius <= 0:
+        raise NeighbourError("the collision radius must be a positive finite number")
+    family_hashes = {e.source_sha256 for e in family}
+    family_ids = {e.id for e in family}
+    self_path = _same_file_key(candidate.source)
+    # A bundled entry the project also lists in `avoid` — by alias, or by the
+    # path of the very same file — is gated there; reporting it as merely
+    # familiar as well would advise the user to do what they have already done.
+    promoted_ids = {e.id for e in avoid}
+    promoted_hashes = {e.source_sha256 for e in avoid}
 
-    def rank(entries, *, skip_ids=frozenset()) -> list[Neighbour]:
-        ranked = [
-            Neighbour(entry, shapefield.separation(candidate.field, entry.field))
-            for entry in entries
-            if entry.source_sha256 not in excluded
-            and entry.id not in excluded_ids
-            and entry.id not in skip_ids
-        ]
+    def rank(entries, *, bundled: bool) -> list[Neighbour]:
+        ranked = []
+        for entry in entries:
+            if entry.source_sha256 in family_hashes or entry.id in family_ids:
+                continue
+            if bundled:
+                if entry.source_sha256 == candidate.source_sha256:
+                    continue
+                if entry.id in promoted_ids or entry.source_sha256 in promoted_hashes:
+                    continue
+            elif _same_file_key(entry.source) == self_path:
+                continue
+            ranked.append(
+                Neighbour(entry, shapefield.separation(candidate.field, entry.field))
+            )
         ranked.sort(key=lambda n: (n.distance, n.entry.id))
         return ranked
 
-    bundled = rank(index.entries, skip_ids=promoted) if index else []
-    avoided = rank(avoid)
-    owned = rank(portfolio)
+    bundled = rank(index.entries, bundled=True) if index else []
+    avoided = rank(avoid, bundled=False)
+    owned = rank(portfolio, bundled=False)
     everything = sorted(bundled + avoided + owned, key=lambda n: (n.distance, n.entry.id))
     shown = everything[:nearest]
     for hit in everything[nearest:]:
@@ -415,6 +475,16 @@ def neighbourhood(candidate: Entry, *, index: Index | None,
         rut=[n for n in owned if n.within(radius)],
         family=[
             Neighbour(entry, shapefield.separation(candidate.field, entry.field))
-            for entry in family if entry.source_sha256 != candidate.source_sha256
+            for entry in family
+            if _same_file_key(entry.source) != self_path
         ],
     )
+
+
+def _same_file_key(source: str) -> str:
+    """A path identity for declared files; index sources are repo-relative and
+    never equal a candidate path, which is what keeps the two rules apart."""
+    try:
+        return str(Path(source).resolve())
+    except OSError:
+        return source

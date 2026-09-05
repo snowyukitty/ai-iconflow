@@ -51,6 +51,13 @@ def _png(draw, size=shapefield.SAMPLE_SIZE) -> bytes:
     return buffer.getvalue()
 
 
+class _FakeRasterizer:
+    """Renders nothing: a flat 64px disc, so declared files resolve without Chromium."""
+
+    def render(self, svg_text: str, size: int, **_kwargs) -> bytes:
+        return _png(lambda d: d.ellipse([8, 8, 55, 55], fill=(20, 20, 20, 255)), size)
+
+
 def _entry(entry_id: str, field: shapefield.ShapeField, *, set_name="house",
            sha: str | None = None) -> neighbours.Entry:
     return neighbours.Entry(
@@ -118,6 +125,18 @@ class ShapeFieldTests(unittest.TestCase):
         self.assertLess(field.coverage, 0.2)
         self.assertEqual(field.cell(0, 0), 0.0)
         self.assertGreater(field.cell(8, 8), 0.9)
+
+    def test_a_transparent_hole_inside_the_mark_is_not_the_outer_boundary(self):
+        # Dark card, white square inside, transparent hole punched through the
+        # square: the white ring lines the hole, not the rim, so it is the figure.
+        card = _png(lambda d: (
+            d.rectangle([0, 0, 63, 63], fill=(30, 30, 40, 255)),
+            d.rectangle([16, 16, 47, 47], fill=(245, 245, 245, 255)),
+            d.rectangle([24, 24, 39, 39], fill=(0, 0, 0, 0)),
+        ))
+        field = shapefield.field_from_png(card)
+        self.assertEqual((field.components, field.holes), (1, 1))
+        self.assertAlmostEqual(field.coverage, (32 * 32 - 16 * 16) / 4096, places=3)
 
     def test_a_plain_ink_mark_is_its_own_footprint(self):
         disc = _png(lambda d: d.ellipse([8, 8, 55, 55], fill=(20, 20, 20, 255)))
@@ -272,6 +291,59 @@ class QueryTests(unittest.TestCase):
         self.assertEqual([n.entry.id for n in hood.family], ["family/twin"])
         self.assertNotIn("avoid/twin", [n.entry.id for n in hood.nearest])
 
+    def test_a_byte_identical_avoid_file_under_another_name_still_gates(self):
+        """Self-exclusion is by file, not by hash: a copy of the mark is a collision."""
+        me = neighbours.Entry(
+            id="candidate", set="candidate", title="me", source=str(REPO / "a" / "master.svg"),
+            source_sha256=self.bell.source_sha256, field=self.bell.field,
+        )
+        copy = neighbours.Entry(
+            id="avoid/their-copy", set="avoid", title="copy", source=str(REPO / "b" / "master.svg"),
+            source_sha256=self.bell.source_sha256, field=self.bell.field,
+        )
+        same_file = neighbours.Entry(
+            id="avoid/a", set="avoid", title="a", source=str(REPO / "a" / "master.svg"),
+            source_sha256=self.bell.source_sha256, field=self.bell.field,
+        )
+        hood = neighbours.neighbourhood(me, index=self.index, avoid=[copy, same_file])
+        self.assertEqual([n.entry.id for n in hood.collisions], ["avoid/their-copy"])
+
+    def test_a_bundled_form_promoted_by_file_path_is_gated_once(self):
+        by_path = neighbours.Entry(
+            id="avoid/bell", set="avoid", title="Bell", source=str(COLLISION / "bell.svg"),
+            source_sha256=self.bell.source_sha256, field=self.bell.field,
+        )
+        hood = neighbours.neighbourhood(self._candidate(self.bell), index=self.index, avoid=[by_path])
+        warnings, advisories = hood.findings()
+        self.assertEqual([w.code for w in warnings], ["neighbour-collision"])
+        self.assertNotIn("collision/bell", [n.entry.id for n in hood.familiar])
+
+    def test_the_same_portfolio_file_declared_three_times_is_not_a_rut(self):
+        index = self.index
+        with tempfile.TemporaryDirectory() as tmp:
+            src = Path(tmp) / "shipped" / "one"
+            src.mkdir(parents=True)
+            (src / "master.svg").write_bytes((COLLISION / "bell.svg").read_bytes())
+            resolved = neighbours.resolve_set(
+                [str(src / "master.svg"), "shipped/*/master.svg", "shipped/one/master.svg"],
+                set_name="portfolio", base=Path(tmp), index=index,
+                rasterizer=_FakeRasterizer(),
+            )
+        self.assertEqual(len(resolved), 1)
+        self.assertEqual(resolved[0].id, "portfolio/one")
+
+    def test_declared_master_svg_files_get_distinct_ids_from_their_directories(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            for name in ("suite-a", "suite-b"):
+                (Path(tmp) / name).mkdir()
+                (Path(tmp) / name / "master.svg").write_bytes((COLLISION / "bell.svg").read_bytes())
+            resolved = neighbours.resolve_set(
+                ["*/master.svg"], set_name="family", base=Path(tmp),
+                index=self.index, rasterizer=_FakeRasterizer(),
+            )
+        self.assertEqual([e.id for e in resolved], ["family/suite-a", "family/suite-b"])
+        self.assertEqual({e.title for e in resolved}, {"Bell"})
+
     def test_the_candidate_itself_is_never_its_own_neighbour(self):
         me = neighbours.Entry(
             id="candidate", set="candidate", title="me", source="x.svg",
@@ -304,9 +376,16 @@ class QueryTests(unittest.TestCase):
         self.assertEqual(hood.findings(), ([], []))
 
     def test_nearest_lists_every_hit_inside_the_radius_even_past_k(self):
-        hood = neighbours.neighbourhood(self._candidate(self.bell), index=self.index, nearest=1)
-        self.assertGreaterEqual(len(hood.nearest), 1)
-        self.assertEqual(hood.nearest[0].entry.id, "collision/bell")
+        twins = [_entry(f"avoid/twin-{i}", self.bell.field, set_name="avoid", sha=str(i) * 64)
+                 for i in range(3)]
+        hood = neighbours.neighbourhood(
+            self._candidate(self.bell), index=None, avoid=twins, nearest=1,
+        )
+        self.assertEqual(len(hood.nearest), 3)
+        self.assertTrue(all(n.within(hood.radius) for n in hood.nearest))
+        far = neighbours.neighbourhood(self._candidate(self.gear), index=self.index, nearest=1)
+        # Past k, only hits inside the radius may appear.
+        self.assertTrue(all(n.within(far.radius) for n in far.nearest[1:]))
 
     def test_the_envelope_shape_is_stable(self):
         hood = neighbours.neighbourhood(self._candidate(self.gear), index=self.index)
@@ -320,9 +399,12 @@ class QueryTests(unittest.TestCase):
             ["id", "set", "title", "source", "distance", "same_topology", "components", "holes"],
         )
 
-    def test_a_non_positive_radius_is_refused(self):
-        with self.assertRaises(neighbours.NeighbourError):
-            neighbours.neighbourhood(self._candidate(self.bell), index=self.index, radius=0)
+    def test_a_non_positive_or_non_finite_radius_is_refused(self):
+        for radius in (0, -1, float("nan"), float("inf")):
+            with self.subTest(radius=radius):
+                with self.assertRaises(neighbours.NeighbourError):
+                    neighbours.neighbourhood(self._candidate(self.bell), index=self.index,
+                                             radius=radius)
 
 
 class ConfigTests(unittest.TestCase):
@@ -336,23 +418,63 @@ class ConfigTests(unittest.TestCase):
         self.assertFalse(config.neighbours_declared)
         self.assertEqual(config.neighbours_avoid, [])
 
-    def test_an_empty_table_is_the_opt_in_and_init_writes_one(self):
+    def test_an_empty_table_is_the_opt_in_and_a_round_trip_preserves_it_either_way(self):
         from iconflow.config import IconFlowConfig, config_text, load_config
 
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "iconflow.toml"
             path.write_text('schema_version = 1\n[neighbours]\n', encoding="utf-8")
             self.assertTrue(load_config(path).neighbours_declared)
-            path.write_text(config_text(IconFlowConfig(source=path)), encoding="utf-8")
+            # A project that declared nothing stays undeclared after load -> write -> load.
+            plain = Path(tmp) / "plain.toml"
+            plain.write_text('schema_version = 1\n[project]\nname = "Old"\n', encoding="utf-8")
+            plain.write_text(config_text(load_config(plain)), encoding="utf-8")
+            self.assertFalse(load_config(plain).neighbours_declared)
+            self.assertNotIn("[neighbours]", plain.read_text(encoding="utf-8"))
+            # ...and a declared one keeps its table.
+            path.write_text(config_text(IconFlowConfig(source=path, neighbours_declared=True)),
+                            encoding="utf-8")
             fresh = load_config(path)
         self.assertTrue(fresh.neighbours_declared)
         self.assertEqual(fresh.neighbours_avoid, [])
+
+    def test_init_writes_the_table_so_a_new_project_gets_the_advisories(self):
+        import contextlib
+
+        from iconflow.cli import main
+        from iconflow.config import load_config
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "iconflow.toml"
+            with contextlib.redirect_stdout(io.StringIO()):
+                code = main(["init", "--out", str(path), "--name", "Fresh"])
+            self.assertEqual(code, 0)
+            config = load_config(path)
+        self.assertTrue(config.neighbours_declared)
+        self.assertEqual(config.neighbours_avoid, [])
 
     def test_the_example_declares_the_collision_set_as_its_avoid_set(self):
         from iconflow.config import load_config
 
         config = load_config(EXAMPLE / "iconflow.toml")
         self.assertEqual(config.neighbours_avoid, ["@collision"])
+
+    def test_a_glob_with_a_fixed_directory_after_the_wildcard_resolves(self):
+        index = neighbours.parse_index(INDEX.read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for name in ("alpha", "beta"):
+                (root / name / "assets").mkdir(parents=True)
+                (root / name / "assets" / "master.svg").write_text(
+                    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8"/>', encoding="utf-8",
+                )
+            found = neighbours._expand_spec("*/assets/master.svg", root)
+            self.assertEqual([p.parent.parent.name for p in found], ["alpha", "beta"])
+            with self.assertRaises(neighbours.NeighbourError):
+                neighbours._expand_spec("nothing/*.svg", root)
+            with self.assertRaises(neighbours.NeighbourError):
+                neighbours.resolve_set(["nothing/*.svg"], set_name="avoid", base=root,
+                                       index=index, rasterizer=None)
 
     def test_bundled_aliases_resolve_without_rendering(self):
         index = neighbours.parse_index(INDEX.read_text(encoding="utf-8"))
@@ -363,6 +485,10 @@ class ConfigTests(unittest.TestCase):
         one = neighbours.resolve_set(["@collision/bell"], set_name="family", base=REPO, index=index,
                                      rasterizer=None)
         self.assertEqual([e.id for e in one], ["collision/bell"])
+        # Overlapping aliases name one mark once.
+        twice = neighbours.resolve_set(["@collision", "@collision/bell"], set_name="avoid",
+                                       base=REPO, index=index, rasterizer=None)
+        self.assertEqual(len(twice), len(whole))
         with self.assertRaises(neighbours.NeighbourError):
             neighbours.resolve_set(["@collision/no-such-form"], set_name="avoid", base=REPO,
                                    index=index, rasterizer=None)
@@ -400,11 +526,29 @@ class RenderedNeighbourhood(unittest.TestCase):
                 self.assertLessEqual(sep.distance, neighbours.COLLISION_RADIUS)
                 self.assertTrue(sep.same_topology)
 
+    def test_the_recorded_misses_are_misses_and_the_docs_say_so(self):
+        """The three collisions the radius does not catch — pinned, not hidden."""
+        for fixture, form, why in (
+            ("stepped-stack", "bar-chart", "different topology"),
+            ("lantern-ribs", "bell", "different topology"),
+            ("curtain-two-panels", "pi", "mass"),
+        ):
+            with self.subTest(pair=(fixture, form)):
+                sep = self._distance(fixture, form)
+                self.assertFalse(
+                    sep.distance <= neighbours.COLLISION_RADIUS and sep.same_topology,
+                )
+                if why == "different topology":
+                    self.assertFalse(sep.same_topology)
+                else:
+                    self.assertGreater(sep.distance, neighbours.COLLISION_RADIUS)
+
     def test_the_redesigns_that_shipped_sit_outside_the_radius(self):
         for fixture, form in (
             ("pattern-card", "hashtag"),
             ("pattern-card", "filmstrip"),
             ("two-panels-rail", "bar-chart"),
+            ("curtain-forked", "pi"),
         ):
             with self.subTest(pair=(fixture, form)):
                 self.assertGreater(

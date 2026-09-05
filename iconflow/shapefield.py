@@ -49,9 +49,11 @@ SAMPLE_SIZE = 64
 BLOCK = SAMPLE_SIZE // GRID
 #: Occupancy values are k/CELL_STEPS for integer k.
 CELL_STEPS = BLOCK * BLOCK
-#: A figure or ground region smaller than this (in 64px pixels) is
-#: anti-aliasing debris, not a component or a hole.
-MIN_REGION = 4
+#: A figure or ground region smaller than one grid cell (in 64px pixels) is
+#: not a piece or a hole at 16px — it is anti-aliasing debris, or an accent
+#: that has already failed the two-pixel rule (docs/LEARNINGS.md L16). Tying
+#: the floor to the cell keeps topology at the grid's own resolution.
+MIN_REGION = BLOCK * BLOCK
 
 #: Compact one-character-per-cell alphabet for stored grids: ``'0'`` is an
 #: empty cell, ``'g'`` a full one, and each step between is one sub-pixel.
@@ -192,6 +194,33 @@ def _label_regions(
     return regions
 
 
+def _exterior_ground(solid: list[bool], width: int, height: int) -> list[bool]:
+    """Non-solid pixels connected (4-way) to the canvas border."""
+    outside = [False] * (width * height)
+    queue: deque[int] = deque()
+    for index in range(width * height):
+        x, y = index % width, index // width
+        on_border = x == 0 or y == 0 or x == width - 1 or y == height - 1
+        if on_border and not solid[index]:
+            outside[index] = True
+            queue.append(index)
+    while queue:
+        index = queue.popleft()
+        x, y = index % width, index // width
+        for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+            if 0 <= nx < width and 0 <= ny < height:
+                neighbour = ny * width + nx
+                if not solid[neighbour] and not outside[neighbour]:
+                    outside[neighbour] = True
+                    queue.append(neighbour)
+    return outside
+
+
+def topology_bucket(field: ShapeField) -> tuple[int, int]:
+    """The (pieces, holes) class the distance is reported beside: 1/2/3+ and 0/1/2+."""
+    return _bucket_components(field.components), _bucket_holes(field.holes)
+
+
 def field_from_mask(mask: Image.Image) -> ShapeField:
     """Reduce a binary figure mask (mode ``L``, 255 = figure) to a field."""
     if mask.size != (SAMPLE_SIZE, SAMPLE_SIZE):
@@ -313,11 +342,16 @@ def figure_of(image: Image.Image) -> Image.Image:
     dark = [on and luma[i] <= threshold for i, on in enumerate(solid)]
     light = [on and luma[i] > threshold for i, on in enumerate(solid)]
 
+    # The *outer* boundary: solid pixels touching ground that reaches the
+    # canvas edge. A transparent hole punched through the middle of a mark is
+    # not the outside, and a class lining that hole must not be counted as
+    # reaching the rim.
+    outside = _exterior_ground(solid, width, height)
     edge = [
         on and (
             x == 0 or y == 0 or x == width - 1 or y == height - 1
-            or not solid[i - 1] or not solid[i + 1]
-            or not solid[i - width] or not solid[i + width]
+            or outside[i - 1] or outside[i + 1]
+            or outside[i - width] or outside[i + width]
         )
         for i, on in enumerate(solid)
         for x, y in ((i % width, i // width),)

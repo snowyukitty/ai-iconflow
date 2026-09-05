@@ -392,7 +392,7 @@ portfolio = ["../shipped/**/master.svg"]             # three inside the radius i
 `neighbour-collision` gates and names the mark it hit. The bundled corpus can
 only advise (`neighbour-familiar`): the house corpus is a mirror, not a wall.
 The sheet puts the candidate beside its nearest neighbours at real 16px, at
-32px, and as the silhouettes the distance was measured on. It is not a
+32px, and as the occupancy fields the distance was summed over. It is not a
 trademark or clearance check, it does not measure distinctiveness, and the
 human ≥4/5 gate stays exactly where it is.
 

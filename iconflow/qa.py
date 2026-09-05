@@ -517,6 +517,7 @@ def neighbourhood_audit(
     base: Path | None = None,
     radius: float = neighbours.COLLISION_RADIUS,
     nearest: int = neighbours.NEAREST,
+    color_scheme: str = "light",
     rasterizer: Rasterizer | None = None,
 ) -> neighbours.Neighbourhood:
     """Rank the candidate against the bundled corpus and the declared sets.
@@ -562,6 +563,6 @@ def neighbourhood_audit(
         )
 
     if rasterizer is None:
-        with Rasterizer() as owned:
+        with Rasterizer(color_scheme=color_scheme) as owned:
             return audit(owned)
     return audit(rasterizer)

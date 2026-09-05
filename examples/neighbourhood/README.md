@@ -63,7 +63,7 @@ topology. Nothing about the radius moved.
   `avoid` rows gate; `collision` and `house` rows advise; `family` rows are
   drawn so you can see the family, and never gate.
 - **Three columns** — real 16px with pixels shown, real 32px the same way, and
-  the figure silhouette the distance was measured on. If the silhouettes look
+  the 16×16 occupancy field the distance was summed over. If the fields look
   alike, the distance is telling you something you can see.
 
 Full reference: `python -m iconflow docs NEIGHBOURHOOD`.

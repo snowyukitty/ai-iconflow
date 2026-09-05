@@ -641,15 +641,7 @@ tray_template_mode = {_toml_string(config.tray_template_mode)}
 color_scheme = {_toml_string(config.color_scheme)}
 optimize_png = {str(config.optimize_png).lower()}
 
-[neighbours]
-# Shape collision at 16px against named sets (docs/NEIGHBOURHOOD.md). Paths and
-# globs resolve from this file; "@collision" and "@house" name the bundled sets.
-# avoid gates `check`; family is never compared; portfolio counts toward a rut.
-avoid = {_toml_strings(config.neighbours_avoid)}
-family = {_toml_strings(config.neighbours_family)}
-portfolio = {_toml_strings(config.neighbours_portfolio)}
-
-[review]
+{_neighbours_text(config)}[review]
 status = {_toml_string(config.review_status)}
 source_sha256 = {_toml_string(config.review_source_sha256)}
 contract_sha256 = {_toml_string(config.review_contract_sha256)}
@@ -658,6 +650,25 @@ contract_sha256 = {_toml_string(config.review_contract_sha256)}
 # score >= 4 and rejects any changed source, target, or visual transform.
 scores = {{{score_items}}}
 notes = {_toml_string(config.review_notes)}
+'''
+
+
+def _neighbours_text(config: IconFlowConfig) -> str:
+    """The [neighbours] table, only for a project that declared one.
+
+    Serialising it unconditionally would flip an older project's opt-in on a
+    load → write round trip, and with it the extra renders and advisories.
+    """
+    if not config.neighbours_declared:
+        return ""
+    return f'''[neighbours]
+# Shape collision at 16px against named sets (docs/NEIGHBOURHOOD.md). Paths and
+# globs resolve from this file; "@collision" and "@house" name the bundled sets.
+# avoid gates `check`; family is never compared; portfolio counts toward a rut.
+avoid = {_toml_strings(config.neighbours_avoid)}
+family = {_toml_strings(config.neighbours_family)}
+portfolio = {_toml_strings(config.neighbours_portfolio)}
+
 '''
 
 

@@ -35,6 +35,7 @@ import hashlib
 import importlib.metadata
 import importlib.resources
 import json
+import math
 import os
 import re
 import subprocess
@@ -255,6 +256,9 @@ def _cmd_init(a) -> int:
             background_color=a.bg,
             tray_svg=a.tray_svg,
             tray_template_mode=a.tray_template_mode,
+            # A fresh project opts into the neighbourhood advisories; only an
+            # avoid entry it adds later can gate (docs/NEIGHBOURHOOD.md).
+            neighbours_declared=True,
         )
         path = write_config(config, force=a.force)
     except (ConfigError, ValueError) as exc:
@@ -339,6 +343,7 @@ def _neighbourhood_for(config, master, *, rasterizer=None):
         family=config.neighbours_family,
         portfolio=config.neighbours_portfolio,
         base=config.source.parent,
+        color_scheme=config.color_scheme,
         rasterizer=rasterizer,
     )
 
@@ -387,8 +392,10 @@ def _cmd_ship(a) -> Report:
         return report
     if hood is not None:
         # A declared collision is a QA warning like any other and blocks the
-        # ship through the same door; the advisories only inform.
+        # ship through the same door; the advisories only inform, and are
+        # reported here so a ship is not the one place they go unseen.
         warnings = list(warnings) + hood.findings()[0]
+        _advise_neighbourhood(hood, report)
     if warnings:
         print(f"SHIP BLOCKED — automated check found {len(warnings)} warning(s):", file=sys.stderr)
         report.warn(
@@ -809,21 +816,31 @@ def _cmd_neighbours(a) -> Report:
             raise ConfigError("provide MASTER or --config iconflow.toml")
         if not master.is_file():
             raise ConfigError(f"master SVG not found: {master}")
-        if a.radius <= 0:
-            raise ConfigError("--radius must be positive")
+        if not math.isfinite(a.radius) or a.radius <= 0:
+            raise ConfigError("--radius must be a positive finite number")
     except ConfigError as exc:
         print(f"iconflow neighbours: {exc}", file=sys.stderr)
         report.error("config", str(exc))
         return report
 
-    avoid = list(config.neighbours_avoid if config else []) + list(a.avoid or [])
-    family = list(config.neighbours_family if config else []) + list(a.family or [])
+    # A path typed on the command line is relative to where it was typed;
+    # a path in the config is relative to the config. Absolutise the first
+    # kind here so both can share one base.
+    def from_cwd(specs):
+        return [
+            spec if spec.startswith("@") or Path(spec).expanduser().is_absolute()
+            else str(Path.cwd() / spec)
+            for spec in (specs or [])
+        ]
+
+    avoid = list(config.neighbours_avoid if config else []) + from_cwd(a.avoid)
+    family = list(config.neighbours_family if config else []) + from_cwd(a.family)
     portfolio = list(config.neighbours_portfolio if config else [])
     base = config.source.parent if config else Path.cwd()
     try:
         hood = neighbourhood_audit(
             master, avoid=avoid, family=family, portfolio=portfolio, base=base,
-            radius=a.radius, nearest=a.nearest,
+            radius=a.radius, nearest=a.nearest, color_scheme=a.color_scheme,
         )
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"iconflow neighbours: {exc}", file=sys.stderr)

@@ -57,11 +57,17 @@ SOURCES: tuple[tuple[str, str, str], ...] = (
     ("house", "templates", "templates/master.svg"),
 )
 
-#: How far a rebuilt cell may sit from the committed one before the index is
-#: called stale. One anti-aliased pixel at 64px moves a cell by 1/16 = 0.0625,
-#: and a renderer on another platform is allowed exactly that; the collision
-#: radius (0.12 over the whole grid) is two orders of magnitude above it.
-CELL_TOLERANCE = 1 / shapefield.CELL_STEPS + 1e-9
+#: Two bounds decide whether a rebuilt field still *is* the committed one.
+#: Per cell: a renderer on another platform may move up to two anti-aliased
+#: pixels of a 4x4 block (2/16 = 0.125) before the cell is called different.
+#: In aggregate: the normalised distance between the two fields must stay
+#: below a quarter of the collision radius, because a per-cell bound alone
+#: does not bound the sum — a hairline shifted one pixel everywhere moves
+#: every cell a little and the whole grid a lot. Topology is compared in the
+#: buckets the gate uses (1/2/3+ pieces, 0/1/2+ holes), which is the only
+#: form of it that can change a verdict.
+CELL_TOLERANCE = 2 / shapefield.CELL_STEPS + 1e-9
+FIELD_TOLERANCE = 0.03
 
 
 def entry_id(set_name: str, prefix: str, path: Path) -> str:
@@ -153,9 +159,12 @@ def check_fields(index: neighbours.Index, fresh: list[neighbours.Entry]) -> list
         worst = max(abs(a - b) for a, b in zip(old.field.grid, entry.field.grid))
         if worst > CELL_TOLERANCE:
             problems.append(f"{entry.id}: a grid cell moved by {worst:.3f}")
-        if (old.field.components, old.field.holes) != (entry.field.components, entry.field.holes):
+        drift = shapefield.grid_distance(old.field.grid, entry.field.grid)
+        if drift > FIELD_TOLERANCE:
+            problems.append(f"{entry.id}: the field drifted {drift:.3f} in aggregate")
+        if shapefield.topology_bucket(old.field) != shapefield.topology_bucket(entry.field):
             problems.append(
-                f"{entry.id}: topology changed "
+                f"{entry.id}: topology class changed "
                 f"({old.field.components}c/{old.field.holes}h -> "
                 f"{entry.field.components}c/{entry.field.holes}h)"
             )
