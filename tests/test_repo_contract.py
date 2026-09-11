@@ -14,6 +14,7 @@ import io
 import json
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -366,3 +367,100 @@ class ProofDriverTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PluginVersionContractTests(unittest.TestCase):
+    """A skill change nobody would receive must not be publishable.
+
+    Claude Code compares plugin version strings to decide whether an installed
+    skill is current, so content that moves while the version stands still
+    reaches no machine that already installed it -- silently, and reported as
+    up to date. That happened here between 2026-08-21 and 2026-09-11.
+    """
+
+    GUARD = ROOT / "scripts" / "check_plugin_version.py"
+    CI_WORKFLOW = ROOT / ".github" / "workflows" / "ci.yml"
+
+    def test_the_guard_ships_and_ci_runs_it_with_enough_history(self):
+        self.assertTrue(self.GUARD.is_file(), "the plugin version guard is missing")
+        workflow = self.CI_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("scripts/check_plugin_version.py", workflow)
+        job = workflow.split("plugin-version:", 1)[1]
+        self.assertIn("fetch-depth: 0", job.split("jobs:")[0])
+        self.assertIn("persist-credentials: false", job.split("- name:")[0])
+        self.assertRegex(
+            job.split("- name:")[0],
+            r"actions/checkout@[0-9a-f]{40}",
+            "the checkout action must stay pinned to a commit",
+        )
+
+    def _run_guard(self, repository, base="HEAD~1"):
+        return subprocess.run(
+            [sys.executable, str(repository / "scripts" / "check_plugin_version.py"),
+             "--base", base, "--head", "HEAD"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+    @staticmethod
+    def _git(repository, *arguments):
+        subprocess.run(
+            ["git", *arguments], cwd=repository, check=True,
+            capture_output=True, text=True,
+        )
+
+    @contextlib.contextmanager
+    def _repository(self):
+        """A two-file skill tree under git, with the real guard copied in."""
+        with tempfile.TemporaryDirectory() as directory:
+            repository = Path(directory)
+            (repository / "scripts").mkdir()
+            shutil.copy2(self.GUARD, repository / "scripts" / "check_plugin_version.py")
+            manifest = repository / "skills" / ".claude-plugin" / "plugin.json"
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text(json.dumps({"name": "iconflow", "version": "0.1.0"}), encoding="utf-8")
+            skill = repository / "skills" / "iconflow" / "SKILL.md"
+            skill.parent.mkdir(parents=True)
+            skill.write_text("# One\n", encoding="utf-8")
+            self._git(repository, "init", "-q")
+            self._git(repository, "config", "user.email", "test@example.invalid")
+            self._git(repository, "config", "user.name", "test")
+            self._git(repository, "add", ".")
+            self._git(repository, "commit", "-qm", "base")
+            yield repository, manifest, skill
+
+    def test_content_without_a_version_bump_is_refused(self):
+        with self._repository() as (repository, _manifest, skill):
+            skill.write_text("# One, revised\n", encoding="utf-8")
+            self._git(repository, "commit", "-aqm", "change the skill")
+            result = self._run_guard(repository)
+            self.assertEqual(result.returncode, 1, result.stdout)
+            self.assertIn("plugin version stayed 0.1.0", result.stdout)
+
+    def test_content_with_a_version_bump_passes(self):
+        with self._repository() as (repository, manifest, skill):
+            skill.write_text("# One, revised\n", encoding="utf-8")
+            manifest.write_text(json.dumps({"name": "iconflow", "version": "0.2.0"}), encoding="utf-8")
+            self._git(repository, "commit", "-aqm", "change the skill and say so")
+            result = self._run_guard(repository)
+            self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_a_version_that_does_not_increase_is_refused(self):
+        with self._repository() as (repository, manifest, skill):
+            skill.write_text("# One, revised\n", encoding="utf-8")
+            manifest.write_text(json.dumps({"name": "iconflow", "version": "0.0.9"}), encoding="utf-8")
+            self._git(repository, "commit", "-aqm", "walk the version backwards")
+            result = self._run_guard(repository)
+            self.assertEqual(result.returncode, 1, result.stdout)
+            self.assertIn("backwards or sideways", result.stdout)
+
+    def test_a_manifest_only_change_needs_no_bump(self):
+        with self._repository() as (repository, manifest, _skill):
+            manifest.write_text(
+                json.dumps({"name": "iconflow", "version": "0.1.0", "keywords": ["icon"]}),
+                encoding="utf-8",
+            )
+            self._git(repository, "commit", "-aqm", "describe the plugin better")
+            result = self._run_guard(repository)
+            self.assertEqual(result.returncode, 0, result.stdout)

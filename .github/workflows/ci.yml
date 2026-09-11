@@ -53,6 +53,30 @@ jobs:
           iconflow case lint
           iconflow case stats
 
+  plugin-version:
+    name: Skill content moves the plugin version
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          # The check compares two commits, so one is not enough.
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.12"
+      - name: Refuse a skill change that no consumer would see
+        env:
+          BASE_REF: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          base="$BASE_REF"
+          if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
+            base="HEAD~1"
+          fi
+          git rev-parse --verify "$base^{commit}" >/dev/null 2>&1 || base="HEAD~1"
+          python scripts/check_plugin_version.py --base "$base" --head HEAD
+
   lint:
     # Runs in well under a minute and answers one question the matrix answers
     # slowly: does every file still parse on the oldest Python this project

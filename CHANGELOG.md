@@ -6,6 +6,24 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
+### Changed
+
+- **The plugin version is the skill tree's version, and CI now enforces it.**
+  Claude Code decides whether an installed skill is current by comparing the
+  version string in `skills/.claude-plugin/plugin.json`. It had read `0.5.0`
+  since 2026-08-21 while the skill itself gained the neighbourhood gate and the
+  size-regime ladder, so `claude plugin update` answered "already at the latest
+  version" on every machine that had installed it — truthfully, by its own
+  rule, and wrongly in effect. A host was found on 2026-09-11 running the
+  three-week-old copy with every check green.
+
+  The manifest moves to `0.6.0` to carry the content that already shipped, and
+  `scripts/check_plugin_version.py` refuses any future change under `skills/`
+  that leaves the version where it was or moves it backwards. It runs in CI on
+  every push and pull request. The plugin version tracks the skill tree, not
+  the Python package: a consumer polling the manifest and one pinning
+  `iconflow==x.y.z` are asking different questions.
+
 ### Added
 
 - **The neighbourhood — distinguishability against a named set.**
