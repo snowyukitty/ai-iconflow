@@ -299,6 +299,9 @@ class WebsiteContractTests(unittest.TestCase):
                 self.assertIn('<meta property="og:image:alt" content="', document)
 
     def test_html_local_references_and_fragments_resolve(self) -> None:
+        # Film media is not in git: a reference to it resolves against the
+        # committed manifest (test_film_is_self_hosted_... checks the files themselves).
+        film = set(json.loads((ROOT / "docs" / "promo" / "film-manifest.json").read_text(encoding="utf-8"))["media"])
         for page in HTML_PAGES:
             parser = self.parse(page)
             for _, reference in parser.references:
@@ -309,6 +312,9 @@ class WebsiteContractTests(unittest.TestCase):
                     self.assertIn(reference[1:], parser.ids, f"{page}: {reference}")
                     continue
                 target = parsed.path.lstrip("/")
+                if target.startswith("media/film/"):
+                    self.assertIn(target.removeprefix("media/film/"), film, f"{page}: {reference}")
+                    continue
                 if not target:
                     target = "index.html"
                 elif target.endswith("/"):
