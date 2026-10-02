@@ -8,6 +8,11 @@ first published release remains under `Unreleased`.
 
 ### Changed
 
+- **The README leads with what IconFlow is for.** It opens with the film and
+  the creative promise: an icon that says what your app does and is still
+  itself at 16px. The X-ray is a free second entry point.
+
+
 - **The plugin version is the skill tree's version, and CI now enforces it.**
   Claude Code decides whether an installed skill is current by comparing the
   version string in `skills/.claude-plugin/plugin.json`. It had read `0.5.0`
@@ -25,6 +30,43 @@ first published release remains under `Unreleased`.
   `iconflow==x.y.z` are asking different questions.
 
 ### Added
+
+- **The 16px X-ray: see what your icon becomes, in the browser.** `/xray/`
+  takes an SVG, PNG or ICO and renders it at its real 16px in a light tab, a
+  dark tab, and a macOS menu bar as a template image. It names the four
+  failures that reach users:
+  - a menu-bar black square;
+  - shapes that merge;
+  - a mark that fades on one tab theme;
+  - framing that wastes pixels.
+
+  It runs entirely client-side. The file becomes a `data:` URL, and the CSP
+  forbids anything else, so nothing is uploaded. It needs no install and no
+  account. Its result card is copyable, and the page's own social card was
+  made by the X-ray.
+- **A 45-second launch film, on the homepage.** Sixteen letter-on-a-square
+  tiles flip into real Gallery cases. Then come:
+  - the hero's real SVG and `iconflow compare` sheet;
+  - the 22 real files of one `iconflow build`, under their own names;
+  - five Gallery icons rising as their exact 16px rasters.
+
+  No generated pixels stand in for product output. The source is
+  reproducible in `docs/promo/xray-film/cut5/`: Blender scenes, timeline,
+  narration and captions in five languages.
+- **Film media is self-hosted and never enters git.**
+  `scripts/film_publish.py build` turns a master into content-addressed
+  deliverables (`website/media/film/`, gitignored):
+  - AV1 WebM with film-grain synthesis;
+  - an H.264 fallback from a grain-free render;
+  - posters, and WebVTT captions in five languages.
+
+  It records them in `docs/promo/film-manifest.json` and bundles them for a
+  `film-vN` GitHub Release, from which `fetch` restores a fresh checkout.
+  - `_routes.json` keeps `/media/*` out of Functions.
+  - `deploy-site.ps1` refuses missing media, requires `206` range responses on
+    `ai-iconflow.com`, and gains `-Preview`.
+  - `scripts/state.py` reports whether the live film matches the manifest.
+
 
 - **The neighbourhood — distinguishability against a named set.**
   Distinctiveness is a ship gate, the worst first-pass axis across 197
@@ -314,6 +356,15 @@ first published release remains under `Unreleased`.
 - The repository's GitHub topics went from 12 to the maximum 20, and the
   reference route is linked from the homepage, from every footer including the
   four translated language trees, and from the sitemap.
+
+### Fixed
+
+- **CI on main is green again.** Since 2026-09-11 a test demanded the plugin
+  version equal the package version, contradicting the rule that introduced
+  it. `scripts/check_plugin_version.py` also lacked its SPDX header.
+- **A media-only Release no longer runs CI or starts the PyPI publish.**
+  `film-*` tags are ignored by CI, and the publish job runs only for `v*`
+  releases.
 
 ## 0.5.0 - 2026-08-22
 

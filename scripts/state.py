@@ -296,9 +296,41 @@ def check_deployment() -> list[Check]:
                 key, title, FAIL,
                 f"deployed copy differs (repo {want[:12]}, live {got[:12]}) — redeploy",
                 evidence={"repo_sha256": want, "live_sha256": got}))
+    checks += check_film()
     for check in checks:
         check.section = "Deployed site"
     return checks
+
+
+def check_film() -> list[Check]:
+    """Is the homepage film live, seekable, and the cut the manifest names?
+
+    Video is not in git (scripts/film_publish.py), so nothing else here would
+    notice a deploy without its media. Two bytes per file answer it: a 206 with
+    the manifest's total size proves the right file is served and seekable.
+    """
+    manifest_path = ROOT / "docs" / "promo" / "film-manifest.json"
+    title = "Live film media matches the manifest"
+    if not manifest_path.is_file():
+        return [Check("deploy.film", title, UNKNOWN, "docs/promo/film-manifest.json is not in this checkout")]
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    problems, release = [], manifest["release"]
+    for name in (manifest["files"]["mp4"], manifest["files"]["webm"]):
+        request = urllib.request.Request(f"{ORIGIN}/media/film/{name}",
+                                         headers={"User-Agent": "iconflow-state/1", "Range": "bytes=0-1"})
+        try:
+            with urllib.request.urlopen(request, timeout=TIMEOUT) as response:
+                status, span = response.status, response.headers.get("Content-Range", "")
+        except urllib.error.HTTPError as exc:
+            problems.append(f"{name}: HTTP {exc.code}"); continue
+        except (urllib.error.URLError, OSError, ValueError) as exc:
+            return [Check("deploy.film", title, UNKNOWN, f"unreachable: {exc}")]
+        if status != 206 or span != f"bytes 0-1/{manifest['media'][name]['bytes']}":
+            problems.append(f"{name}: HTTP {status} {span or 'without Content-Range'}")
+    if problems:
+        return [Check("deploy.film", title, FAIL, "; ".join(problems) + " — run film_publish.py verify, then redeploy")]
+    return [Check("deploy.film", title, PASS, f"{release}: MP4 and AV1 WebM serve byte ranges at their manifest sizes",
+                  evidence={"release": release})]
 
 
 # ---------------------------------------------------------------------------
