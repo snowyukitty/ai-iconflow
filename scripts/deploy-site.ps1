@@ -107,7 +107,9 @@ $manifest = Get-Content (Join-Path $repoRoot 'docs/promo/film-manifest.json') -R
 $base = if ($Preview) { 'https://preview.iconflow.pages.dev' } else { $canonical }
 $failures += Test-Media -Url "$base/media/film/$($manifest.files.mp4)" -ExpectType 'video/mp4' -AllowWhole:$Preview
 $failures += Test-Media -Url "$base/media/film/$($manifest.files.webm)" -ExpectType 'video/webm' -AllowWhole:$Preview
-$failures += Test-Media -Url "$base/media/film/$($manifest.captions.en.file)" -ExpectType 'text/vtt' -AllowWhole:$Preview
+# A caption track is a 1 KB file read whole, and .vtt is outside the zone's default
+# cache, so the origin answers its Range request with 200: only the type matters.
+$failures += Test-Media -Url "$base/media/film/$($manifest.captions.en.file)" -ExpectType 'text/vtt' -AllowWhole
 
 if ($Preview) {
     $failures = $failures | Where-Object { $_ }
