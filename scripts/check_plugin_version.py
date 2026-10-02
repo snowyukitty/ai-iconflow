@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
 """Refuse a skill-content change that does not move the plugin version.
 
 Claude Code installs this repository's skill through its plugin machinery, and

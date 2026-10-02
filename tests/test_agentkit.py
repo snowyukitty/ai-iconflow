@@ -360,8 +360,12 @@ class PluginManifestTest(unittest.TestCase):
         carried = {path.name for path in plugin_root.rglob("*") if path.is_file()}
         self.assertNotIn("pyproject.toml", carried)
 
-    def test_plugin_version_tracks_the_package(self):
-        self.assertEqual(__version__, self.plugin["version"])
+    def test_plugin_carries_its_own_version_and_licence(self):
+        # The plugin version is the skill tree's version, free to diverge from the
+        # package's (scripts/check_plugin_version.py); it must still be a release
+        # version Claude Code can compare.
+        self.assertRegex(self.plugin["version"], r"^\d+\.\d+\.\d+$")
+        self.assertRegex(__version__, r"^\d+\.\d+\.\d+")
         self.assertEqual("CC-BY-SA-4.0", self.plugin["license"])
 
 
