@@ -7,9 +7,9 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-08-27 09:56 UTC.
+Observed 2026-10-02 23:36 UTC.
 
-`13 pass · 3 fail · 2 open gates · 0 unknown`
+`15 pass · 3 fail · 2 open gates · 0 unknown`
 
 An **open gate** is a decision waiting on a person, not a defect, and
 never fails this report. **Unknown** means a probe could not run: it is
@@ -25,6 +25,7 @@ is worse than no tick at all.
 | `PASS` | Icon-size reference is current | icon-size tables match iconflow/build.py |
 | `PASS` | Tray-icon reference is current | tray guide and five evidence PNGs match assemble.to_template |
 | `PASS` | First-proof commands are current | README and site first-proof commands share one install-and-demo contract |
+| `PASS` | Static gallery is current | 100 static cases match the admitted catalog |
 
 ## Deployed site
 
@@ -35,6 +36,7 @@ is worse than no tick at all.
 | `PASS` | Live site serves current /sitemap.xml | byte-identical to the checkout |
 | `FAIL` | Live /reference/icon-sizes/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Turn off automatic injection in the Cloudflare dashboard (Web Analytics), or accept a third-party script on a site that advertises local-first. |
 | `FAIL` | Live /reference/tray-icons/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Turn off automatic injection in the Cloudflare dashboard (Web Analytics), or accept a third-party script on a site that advertises local-first. |
+| `PASS` | Live film media matches the manifest | film-v5: MP4 and AV1 WebM serve byte ranges at their manifest sizes |
 
 ## Distribution
 
@@ -52,7 +54,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `OPEN` | Repository social preview is uploaded | still GitHub's generated card — Settings → General → Social preview, upload docs/assets/social-preview.png |
 | `OPEN` | Discussions decision | not enabled — gh repo edit snowyukitty/ai-iconflow --enable-discussions |
-| `PASS` | CI is green on main | latest main run: success (05a7d61) |
+| `PASS` | CI is green on main | latest main run: success (530a59e) |
 
 ## Waiting on a person
 
