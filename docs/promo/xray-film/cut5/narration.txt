@@ -1,0 +1,7 @@
+Most app icons are a letter on a square.
+A sleeping cat for a focus timer. A hooded hero for a story game.
+You draw the SVG, or your coding agent does, with IconFlow's playbook.
+Compare finalists side by side, at real size.
+Pass review, and one SVG ships as favicon, app icon, desktop and menu bar.
+Free, open source, on your machine. And the icon is yours.
+IconFlow. Still itself at sixteen pixels.

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>16px X-ray — see what your icon becomes at favicon and menu-bar size | IconFlow</title>
+  <meta name="description" content="Drop an SVG, PNG or ICO and see its real 16px pixels, its macOS menu-bar template, and which shapes merge — checked in your browser, nothing uploaded.">
+  <meta name="theme-color" content="#111216">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="What does your icon actually become at 16px?">
+  <meta property="og:description" content="Drop an icon. See the real 16px pixels, the menu-bar black-square test, and which shapes merge. Runs in your browser; nothing is uploaded.">
+  <meta property="og:url" content="https://ai-iconflow.com/xray/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/marketing/xray-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="IconFlow 16px X-ray result: a detailed dashboard icon magnified at 16px, a black square in the macOS menu bar, and two failed checks.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-iconflow.com/assets/marketing/xray-1200x630.png">
+  <link rel="canonical" href="https://ai-iconflow.com/xray/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css?v=20261001a">
+  <link rel="stylesheet" href="/xray/xray.css?v=20261001a">
+  <script src="/app.js?v=20261001a" defer></script>
+  <script src="/xray/xray.js?v=20261001a" defer></script>
+</head>
+<body class="xray-body">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Open navigation" data-label-close="Close navigation"><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="/xray/" aria-current="page">16px X-ray</a><a href="/reference/tray-icons/">Tray icons</a><a href="/reference/icon-sizes/">Icon sizes</a><a href="/gallery/">Gallery</a><a href="/getting-started/">Get started</a></nav>
+  </header>
+
+  <main id="main" data-xray>
+    <section class="xray-hero section-shell">
+      <div class="xray-hero-copy">
+        <p class="section-kicker">16px X-ray · runs in your browser</p>
+        <h1>What does your icon <em>actually</em> become at 16px?</h1>
+        <p class="xray-lede">Your icon looks fine at 512. The browser tab draws it at 16. The macOS menu bar throws its colour away and keeps only alpha. Drop it here and see those pixels before your users do.</p>
+      </div>
+
+      <label class="xray-drop" data-xray-drop>
+        <input class="sr-only" type="file" accept=".svg,image/svg+xml,image/png,image/x-icon,image/vnd.microsoft.icon,.ico,image/webp,image/jpeg" data-xray-input>
+        <span class="xray-drop-pixels" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <strong>Drop an icon here</strong>
+        <span>or click to choose · or paste SVG markup · SVG, PNG, ICO, WebP</span>
+        <span class="xray-private">Nothing is uploaded. Rendering and checks happen on this device.</span>
+      </label>
+
+      <div class="xray-samples">
+        <span>No icon handy? Try one:</span>
+        <button class="button button-quiet" type="button" data-xray-sample="/xray/samples/app-card.svg" data-label="App icon card">App icon card</button>
+        <button class="button button-quiet" type="button" data-xray-sample="/xray/samples/hairline.svg" data-label="Hairline dashboard">Hairline dashboard</button>
+        <button class="button button-quiet" type="button" data-xray-sample="/xray/samples/tray.svg" data-label="Dedicated tray mark">Dedicated tray mark</button>
+      </div>
+      <p class="xray-status" role="status" aria-live="polite" data-xray-status></p>
+    </section>
+
+    <section class="xray-results section-shell" data-xray-results hidden>
+      <h2 class="xray-headline" data-xray-headline>—</h2>
+
+      <div class="xray-grid">
+        <figure class="xray-panel">
+          <div class="xray-frame xray-frame-checker"><img data-xray-original alt="The icon you dropped, at large size" width="256" height="256"></div>
+          <figcaption>What you drew</figcaption>
+        </figure>
+        <figure class="xray-panel">
+          <div class="xray-frame"><canvas data-xray-zoom width="320" height="320" role="img" aria-label="Every pixel of the 16px rendering, magnified twenty times"></canvas></div>
+          <figcaption>What 16px keeps · 20× zoom</figcaption>
+        </figure>
+        <figure class="xray-panel">
+          <div class="xray-frame"><canvas data-xray-silhouette width="256" height="256" role="img" aria-label="The icon's alpha silhouette with colour removed"></canvas></div>
+          <figcaption>Silhouette · colour removed</figcaption>
+        </figure>
+      </div>
+
+      <div class="xray-contexts">
+        <div class="xray-context">
+          <p class="xray-context-label">Browser tab · actual size</p>
+          <div class="xray-tab xray-tab-light"><canvas data-native="16" width="16" height="16" aria-hidden="true"></canvas><span>Your app — Dashboard</span></div>
+          <div class="xray-tab xray-tab-dark"><canvas data-native="16" width="16" height="16" aria-hidden="true"></canvas><span>Your app — Dashboard</span></div>
+        </div>
+        <div class="xray-context">
+          <p class="xray-context-label">macOS menu bar · template image</p>
+          <div class="xray-menubar xray-menubar-light"><span>Wi-Fi</span><canvas data-native="32" data-mode="template-light" width="32" height="32" aria-hidden="true"></canvas><span>10:42</span></div>
+          <div class="xray-menubar xray-menubar-dark"><span>Wi-Fi</span><canvas data-native="32" data-mode="template-dark" width="32" height="32" aria-hidden="true"></canvas><span>10:42</span></div>
+        </div>
+        <div class="xray-context">
+          <p class="xray-context-label">Same contexts · 4× for your eyes</p>
+          <div class="xray-big">
+            <canvas class="xray-on-light" data-native="16" width="64" height="64" aria-hidden="true"></canvas>
+            <canvas class="xray-on-dark" data-native="16" width="64" height="64" aria-hidden="true"></canvas>
+            <canvas class="xray-on-light" data-native="16" data-mode="template-light" width="64" height="64" aria-hidden="true"></canvas>
+            <canvas class="xray-on-dark" data-native="16" data-mode="template-dark" width="64" height="64" aria-hidden="true"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <ul class="xray-verdicts" data-xray-verdicts></ul>
+
+      <div class="xray-share">
+        <button class="button button-primary" type="button" data-xray-card>Save result card (PNG)</button>
+        <button class="button button-quiet" type="button" data-xray-copy>Copy result as text</button>
+      </div>
+    </section>
+
+    <section class="xray-fix section-shell">
+      <div>
+        <p class="section-kicker">Found a problem?</p>
+        <h2>Fix it once.<br>Prove it every build.</h2>
+        <p>This page shows the symptom. The IconFlow CLI renders your SVG in a pinned Chromium, checks 16px legibility, tray alpha and maskable safe zones, and refuses to <code>ship</code> favicon, PWA, Tauri, Electron and tray files until the review still matches the source.</p>
+      </div>
+      <div class="xray-fix-code">
+<pre><code>pip install iconflow
+iconflow setup        # one-time pinned Chromium download
+iconflow check icon.svg --tray-svg tray.svg</code></pre>
+        <div class="xray-fix-actions"><a class="button button-primary" href="/getting-started/">Get started <span aria-hidden="true">→</span></a><a class="button button-quiet" href="https://github.com/snowyukitty/ai-iconflow">Source on GitHub</a></div>
+      </div>
+    </section>
+
+    <section class="xray-notes section-shell">
+      <h2>What this page can and cannot tell you</h2>
+      <ul>
+        <li><strong>Your browser does the resampling.</strong> Different browsers downscale slightly differently. The CLI pins one Chromium so the same SVG always produces the same pixels.</li>
+        <li><strong>The checks are heuristics.</strong> “Shapes merge” counts regions that are at least one 16px pixel in area at 128px and compares them with what survives at 16px. It catches closed counters and fused strokes; it cannot judge whether the idea is any good.</li>
+        <li><strong>The menu-bar preview is how macOS template images work</strong> — colour discarded, alpha kept, tinted for the theme. Windows and Linux trays keep colour, but still draw at 16.</li>
+        <li><strong>Nothing leaves your device.</strong> The file is decoded by an image element, which never runs scripts inside an SVG, and analysed on local canvases.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div>
+    <p>The 16px X-ray is part of IconFlow, an open-source icon workflow. Code Apache-2.0; icons you make are yours.</p>
+    <nav aria-label="Footer navigation"><a href="/">Home</a><a href="/getting-started/">Guide</a><a href="/reference/tray-icons/">Tray icons</a><a href="/reference/icon-sizes/">Icon sizes</a><a href="/gallery/">Gallery</a><a href="https://github.com/snowyukitty/ai-iconflow">Source</a></nav>
+  </footer>
+</body>
+</html>

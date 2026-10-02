@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Hairline dashboard — an X-ray failure sample</title>
+  <desc id="desc">A deliberately over-detailed analytics icon: thin strokes, small gaps and tiny dots that read at 512 pixels and merge at 16. Made for the IconFlow 16px X-ray; not a shipped design.</desc>
+  <rect x="64" y="64" width="896" height="896" rx="200" fill="#3d5afe"/>
+  <rect x="176" y="208" width="672" height="520" rx="40" fill="none" stroke="#e8ecff" stroke-width="14"/>
+  <g stroke="#e8ecff" stroke-width="6" opacity=".55">
+    <path d="M176 338H848M176 468H848M176 598H848"/>
+    <path d="M344 208V728M512 208V728M680 208V728"/>
+  </g>
+  <path d="M208 650L320 560L410 600L520 430L620 500L720 330L816 380" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#ffd54f">
+    <circle cx="320" cy="560" r="16"/><circle cx="520" cy="430" r="16"/><circle cx="720" cy="330" r="16"/>
+  </g>
+  <g fill="#e8ecff">
+    <rect x="176" y="776" width="150" height="20" rx="10"/>
+    <rect x="356" y="776" width="96" height="20" rx="10"/>
+    <rect x="482" y="776" width="210" height="20" rx="10"/>
+    <circle cx="804" cy="786" r="14"/><circle cx="848" cy="786" r="14"/>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Forest Familiar — horned trail owl</title>
+  <desc id="desc">A full-body horned owl is a closed relief field with unequal ear tufts, a split tail, and two broad edge-open wing gouges.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#E7C58E"/>
+  <path d="M282 284L390 168L420 288Q512 236 604 288L690 208L668 326Q778 408 740 548L684 754L590 710L512 852L434 710L336 760L282 548Q246 406 360 322Z" fill="#202126"/>
+  <path d="M278 468L464 410L404 552L278 604Z" fill="#E7C58E"/>
+  <path d="M746 478L566 422L624 566L744 616Z" fill="#E7C58E"/>
+  <path d="M360 340L492 320L458 442L330 462ZM664 346L532 320L566 442L694 468Z" fill="#B84C3E"/>
+  <path d="M404 366L462 356L446 414L388 424ZM620 370L562 356L578 414L636 428Z" fill="#202126"/>
+  <path d="M512 420L574 488L512 548L450 488Z" fill="#E7C58E"/>
+</svg>

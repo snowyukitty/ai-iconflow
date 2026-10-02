@@ -1,0 +1,93 @@
+{
+  "release": "film-v5",
+  "release_master": "iconflow-film-4k.mp4",
+  "release_master_mb": 496,
+  "release_assets": {
+    "iconflow-film-4k.mp4": "d36146b4a97ed4f6ec2596c1fc29504b24b072edcb842f0c8bcccf1d02d6ada4",
+    "iconflow-film-github-720p.mp4": "e8248ab74ee1c2184499ca93b0e8a2c4adf3c65d3190089498402cbb74520606",
+    "website-media-film.zip": "aba5cd4c873d50f1689c216dc6a7234140f7de3a126d005c4b76bcd36956dfcf"
+  },
+  "source": {
+    "graded_sha256": "d36146b4a97ed4f6ec2596c1fc29504b24b072edcb842f0c8bcccf1d02d6ada4",
+    "clean_sha256": "60885b0d2790bcac85b2269cfb97c84de3a4afee4cac397a7363f570f4e642dc",
+    "cut": "docs/promo/xray-film/cut5"
+  },
+  "files": {
+    "mp4": "film-af2ea73e.mp4",
+    "webm": "film-63266b5d.av1.webm",
+    "posters": {
+      "avif1280": "film-370d2483.1280.avif",
+      "jpg1280": "film-72f5d1e8.1280.jpg",
+      "avif1920": "film-5dee08fa.1920.avif",
+      "jpg1920": "film-9a4119a6.1920.jpg"
+    }
+  },
+  "captions": {
+    "en": {
+      "file": "film-3100fb89.en.vtt",
+      "label": "English"
+    },
+    "es": {
+      "file": "film-12adac66.es.vtt",
+      "label": "Español"
+    },
+    "ja": {
+      "file": "film-d4c0dc5f.ja.vtt",
+      "label": "日本語"
+    },
+    "zh-Hant": {
+      "file": "film-f377c07b.zh-Hant.vtt",
+      "label": "繁體中文"
+    },
+    "zh-Hans": {
+      "file": "film-bdb081d1.zh-Hans.vtt",
+      "label": "简体中文"
+    }
+  },
+  "media": {
+    "film-af2ea73e.mp4": {
+      "bytes": 14144212,
+      "sha256": "af2ea73e0872eeebb53db64e46a902e0bb6f8ea6856d8ea1d8cac7b40ab7ad9a"
+    },
+    "film-63266b5d.av1.webm": {
+      "bytes": 6872144,
+      "sha256": "63266b5d74be40d1a39a85b3eff63914a85a7bf1b3a092004d644af41c902ef4"
+    },
+    "film-370d2483.1280.avif": {
+      "bytes": 17388,
+      "sha256": "370d248357cf42e000797f285fe5a8ac3eec1ffded60004cf44db6672dbd8bec"
+    },
+    "film-72f5d1e8.1280.jpg": {
+      "bytes": 97476,
+      "sha256": "72f5d1e8723fbfbdbc7917e13a4c5e581598fe5945c204b3f71736427c5c06b7"
+    },
+    "film-5dee08fa.1920.avif": {
+      "bytes": 23896,
+      "sha256": "5dee08fa340cb16cd1186afc97b54ca9543a39c841bfc29bd7f79b6a39883940"
+    },
+    "film-9a4119a6.1920.jpg": {
+      "bytes": 159713,
+      "sha256": "9a4119a6eca3bd5c1b88b291cf2f60e9d6d38f188aa56dce913c065628259bfd"
+    },
+    "film-3100fb89.en.vtt": {
+      "bytes": 931,
+      "sha256": "3100fb89d4171258900ce39edbe2e6319e835b094665254b19b38569ea702b63"
+    },
+    "film-12adac66.es.vtt": {
+      "bytes": 1041,
+      "sha256": "12adac66cddd577f198091b9f06ec6b11c145a71b61e556e35bdfe5204020655"
+    },
+    "film-d4c0dc5f.ja.vtt": {
+      "bytes": 1206,
+      "sha256": "d4c0dc5f85fcb7a1df16f76e413fd5dfea84cc59b0fe1f6ee19f61d3d2e55c3f"
+    },
+    "film-f377c07b.zh-Hant.vtt": {
+      "bytes": 1035,
+      "sha256": "f377c07bb99baa4e755a4308638060d96c7f9e94b7dc9341281a1fe81acbf65c"
+    },
+    "film-bdb081d1.zh-Hans.vtt": {
+      "bytes": 1035,
+      "sha256": "bdb081d145d63865701af809c54755025a8e73d45b8ef0aff806233911601e78"
+    }
+  }
+}

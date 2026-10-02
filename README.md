@@ -2,12 +2,16 @@
 
 # IconFlow
 
-**One reviewed, platform-ready icon family from one editable SVG.**<br>
-Favicon, PWA, Tauri, Electron, and tray — proven at 16px before it ships anywhere.
+**An icon that says what your app does — and is still itself at 16px.**<br>
+You, or your coding agent, draw one SVG with IconFlow's playbook.<br>
+IconFlow compares the finalists at real size, holds the release until a review passes,<br>
+then ships favicon, PWA, desktop, and tray files from that one master.
 
-<a href="https://ai-iconflow.com/">
-  <img src="docs/assets/marketing/workflow-1200x630.png" width="1200" alt="IconFlow decision workflow: one semantic SVG is inspected at native 16px and shipped as exact favicon, PWA, desktop, and tray outputs">
+<a href="https://ai-iconflow.com/#film">
+  <img src="docs/assets/marketing/film-poster-1280.jpg" width="1200" alt="Watch the 45-second IconFlow film: sixteen real gallery icons on a sunlit desk">
 </a>
+
+**[▶ Watch the 45-second film](https://ai-iconflow.com/#film)** — every pixel in it is real IconFlow output.
 
 [![PyPI](https://img.shields.io/pypi/v/iconflow?logo=pypi&logoColor=white&label=PyPI)](https://pypi.org/project/iconflow/)
 [![Python](https://img.shields.io/pypi/pyversions/iconflow?logo=python&logoColor=white)](https://pypi.org/project/iconflow/)
@@ -15,23 +19,41 @@ Favicon, PWA, Tauri, Electron, and tray — proven at 16px before it ships anywh
 [![Licenses](https://img.shields.io/badge/licenses-Apache--2.0%20·%20CC0%20·%20CC--BY--SA-blue)](LICENSES.md)
 [![Your icons are yours](https://img.shields.io/badge/your%20icons-yours-brightgreen)](LICENSES.md#1-the-icons-you-make-with-iconflow-are-yours)
 
-[**See the live proof →**](https://ai-iconflow.com/) ·
 [Get started](https://ai-iconflow.com/getting-started/) ·
 [Browse 100 reviewed cases](https://ai-iconflow.com/gallery/) ·
 [See how the gate works](https://ai-iconflow.com/how-icons-are-made/) ·
-[Fix a black menu-bar icon](https://ai-iconflow.com/reference/tray-icons/)
+[Try the free 16px X-ray](https://ai-iconflow.com/xray/)
+
+<sub>The X-ray runs in your browser: drop an SVG, PNG, or ICO and see its real 16px pixels and its menu-bar template. No install, no account, nothing uploaded.</sub>
 
 </div>
 
+## What it catches before your users do
+
+| Failure | Where it bites | What IconFlow does |
+|---|---|---|
+| Detail merges into mush | Browser tabs, bookmarks, taskbars — all 16px | Renders the real 16px pixels and a colour-free silhouette so a generic or illegible shape cannot hide behind colour |
+| Menu-bar icon is a black square | macOS tray (Electron, Tauri) | Audits the alpha a template image keeps, and builds tray files from a separate transparent `tray.svg` |
+| Logo cropped by the launcher | Android / PWA maskable icons | Checks the maskable safe zone before the manifest ships |
+| An approval that outlived its icon | Every later build | `ship` refuses when the reviewed SVG has changed since the review |
+
+One editable SVG goes in; favicon, ICO, ICNS, PWA, Tauri, Electron, and tray files
+come out — only after the checks pass.
+
+<a href="https://ai-iconflow.com/how-icons-are-made/">
+  <img src="docs/assets/marketing/workflow-1200x630.png" width="1200" alt="IconFlow decision workflow: one semantic SVG is inspected at native 16px and shipped as exact favicon, PWA, desktop, and tray outputs">
+</a>
+
 ```bash
 pip install iconflow          # or: uv tool install iconflow
-iconflow setup                # fetches Chromium — the only network step
-iconflow demo --out demo      # doctor → check → review → ship, on a real receipt
+iconflow setup                # one-time pinned Chromium download — the only network step
+iconflow demo --out demo      # doctor → check → review → ship, on a real review
 ```
 
-**No image model. No API key. No upload.** You author the SVG, a pinned Chromium
-renders it exactly as a browser would, and `ship` fails closed unless automated
-QA is clean and all six human rubric scores are at least 4/5.
+**No image model. No API key. No upload.** You author the SVG (or your coding
+agent does), a pinned Chromium renders it exactly as a browser would, and `ship`
+fails closed unless automated QA is clean and a human has scored the review
+sheet at 4/5 or better on all six axes.
 
 **The icons you make with it are yours** — no attribution, no share-alike,
 commercial use unrestricted. Run `iconflow license` for the whole answer.
@@ -64,13 +86,8 @@ renderer make the demonstration reproducible.</sup>
 
 <img src="docs/assets/promo/one-source-every-surface.png" width="1000" alt="The exact IconFlow app icon entering a physical inspection frame, with the words One SVG enters and Editable source, Exact intent">
 
-The 15-second product story is now literal: one editable SVG enters, its real
-pixels are proven at 16px, and the reviewed source ships to favicon, PWA,
-desktop, and tray. Google Flow supplies only the physical inspection-bench
-motion; the icon, proof, labels, and outputs are exact deterministic layers.
-The hybrid cut passes the complete automated Snowy HyperFrames gate and is
-waiting for its required human cinema preview. See the
-[production contract and checkpoint](docs/PROMO_VIDEO.md).
+One editable SVG enters, its real pixels are proven at 16px, and the reviewed
+source ships to favicon, PWA, desktop, and tray.
 
 The site reads in five languages — English, [Español](https://ai-iconflow.com/es/), [日本語](https://ai-iconflow.com/ja/), [繁體中文](https://ai-iconflow.com/zh-hant/), [简体中文](https://ai-iconflow.com/zh-hans/). The toolkit and its documentation stay English.
 

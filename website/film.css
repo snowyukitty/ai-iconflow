@@ -1,0 +1,47 @@
+/* Homepage-only: the #film band, kept out of styles.css so other pages do not pay for it.
+   A dark matte around a warm frame. The cover is the poster and the play
+   affordance in one button; native controls take over once it plays. */
+.hero-film-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; color: rgba(255,244,232,.72); font-size: .88rem; font-weight: 650; text-decoration: none; }
+.hero-film-link:hover { color: var(--paper); }
+.hero-film-dot { width: 0; height: 0; border-block: 5px solid transparent; border-inline-start: 8px solid var(--coral); }
+.film-section { padding: 130px 0 40px; }
+.film-heading { margin-bottom: 44px; }
+.film-heading code, .film-meta code { font-size: .92em; }
+.film-frame { position: relative; margin: 0; padding: 10px; border: 1px solid var(--line); border-radius: calc(var(--radius) + 10px); background: linear-gradient(180deg, rgba(255,244,232,.05), rgba(255,244,232,.015)); box-shadow: 0 40px 120px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.4) inset; }
+.film-video, .film-cover { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: var(--radius); background: #2a241d; }
+.film-video { height: auto; }
+.film-cover { position: absolute; inset: 10px; width: calc(100% - 20px); height: auto; padding: 0; overflow: hidden; border: 0; cursor: pointer; isolation: isolate; }
+html:not(.js) .film-cover { display: none; }
+.film-cover picture, .film-cover img { width: 100%; height: 100%; object-fit: cover; }
+.film-cover img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1), filter .6s; }
+.film-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(25,26,32,0) 55%, rgba(25,26,32,.55)); pointer-events: none; }
+.film-cover:hover img, .film-cover:focus-visible img { transform: scale(1.015); filter: saturate(1.06); }
+.film-play { position: absolute; z-index: 1; left: 28px; bottom: 26px; display: inline-flex; align-items: center; gap: 14px; padding: 9px 20px 9px 9px; border: 1px solid rgba(255,244,232,.24); border-radius: 999px; color: var(--paper); background: rgba(25,26,32,.62); backdrop-filter: blur(14px); font-family: var(--mono); font-size: .8rem; font-weight: 700; letter-spacing: .06em; transition: background .3s, transform .3s; }
+.film-cover:hover .film-play, .film-cover:focus-visible .film-play { background: rgba(25,26,32,.8); transform: translateY(-2px); }
+.film-cover:focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
+.film-play-icon { position: relative; width: 40px; height: 40px; border-radius: 50%; background: var(--coral); box-shadow: 0 8px 24px rgba(255,90,79,.35); }
+.film-play-icon::after { content: ""; position: absolute; top: 50%; left: 54%; border-block: 8px solid transparent; border-inline-start: 13px solid var(--ink); transform: translate(-50%, -50%); }
+.film-frame.is-playing .film-cover { opacity: 0; visibility: hidden; transition: opacity .5s, visibility 0s .5s; }
+.film-end { position: absolute; z-index: 2; top: 30px; right: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+.film-end[hidden] { display: none; }
+.film-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 0; padding: 16px 8px 4px; color: rgba(255,244,232,.52); font-family: var(--mono); font-size: .74rem; letter-spacing: .03em; }
+.film-download { color: rgba(255,244,232,.72); text-decoration-color: rgba(255,244,232,.3); text-underline-offset: 3px; }
+.film-download:hover { color: var(--paper); }
+.film-size { margin-left: .6em; color: rgba(255,244,232,.46); }
+.film-transcript { max-width: 760px; margin: 22px 8px 0; color: rgba(255,244,232,.66); font-size: .92rem; }
+.film-transcript summary { width: fit-content; cursor: pointer; color: rgba(255,244,232,.6); font-family: var(--mono); font-size: .74rem; letter-spacing: .06em; text-transform: uppercase; }
+.film-transcript p { margin: 12px 0 0; }
+.film-video::cue { font-family: var(--sans); font-size: 1.05em; line-height: 1.35; color: #fff4e8; background: rgba(25,26,32,.72); }
+@media (max-width: 760px) {
+  .film-section { padding-top: 90px; }
+  .film-frame { padding: 6px; border-radius: calc(var(--radius) + 2px); }
+  .film-cover { inset: 6px; width: calc(100% - 12px); }
+  .film-video, .film-cover { border-radius: 20px; }
+  .film-play { left: 14px; bottom: 14px; }
+  .film-end { top: 14px; right: 14px; }
+  .film-play { gap: 10px; padding: 6px 14px 6px 6px; font-size: .72rem; }
+  .film-play-icon { width: 32px; height: 32px; }
+  .film-end .button { min-height: 42px; padding: 0 14px; }
+  .film-meta > span:first-child { flex-basis: 100%; padding-right: 0; }
+}
+.film-meta > span:first-child { margin-right: auto; padding-right: 24px; }

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IconFlow 16px X-ray — film, cut 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@500;600&family=JetBrains+Mono:wght@500&display=block" rel="stylesheet">
+<style>
+  /* Warm, quiet type over a photographed world. A serif for whole thoughts,
+     mono for dimensions. Ink is warm off-white on dark frames and warm
+     charcoal on paper frames; coral and sage carry verdicts only. */
+  :root { --paper-ink:#2a2620; --light-ink:#f6f1e8; --coral:#d9573c; --sage:#3f8f5f;
+          --serif:"Newsreader",Georgia,serif; --sans:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; background:#000; }
+  #stage { position:relative; width:1920px; height:1080px; overflow:hidden; background:#000; font-family:var(--sans); }
+  #bg { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+  .t { position:absolute; opacity:0; will-change:opacity,transform; }
+  .serif { font-family:var(--serif); font-weight:400; letter-spacing:-.01em; line-height:1.02; }
+  .mono { font-family:var(--mono); font-weight:500; font-size:24px; letter-spacing:.06em; }
+  .ink { color:var(--paper-ink); }
+  .light { color:var(--light-ink); text-shadow:0 1px 24px rgba(0,0,0,.35); }
+  #grain { position:absolute; inset:0; width:1920px; height:1080px; mix-blend-mode:overlay; opacity:.08; pointer-events:none; }
+  #fade { position:absolute; inset:0; background:#000; opacity:0; }
+  .tab { display:flex; align-items:center; gap:14px; height:46px; padding:0 18px; font-size:18px; font-weight:500; border-radius:12px 12px 0 0; }
+  .tab canvas { width:16px; height:16px; image-rendering:pixelated; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <img id="bg" alt="">
+
+  <div class="t mono ink" id="o-512" style="left:96px; bottom:84px;">512 px</div>
+  <div class="t mono ink" id="o-16" style="left:96px; bottom:84px;">16 px</div>
+  <div class="t" id="o-tab" style="right:96px; bottom:84px; width:380px; box-shadow:0 24px 60px rgba(60,40,10,.25); border-radius:12px; overflow:hidden;">
+    <div class="tab" style="background:#dee1e6; color:#202124;"><canvas id="tab1" width="16" height="16"></canvas><span>Dashboard</span></div>
+    <div class="tab" style="background:#35363a; color:#e8eaed; border-radius:0;"><canvas id="tab2" width="16" height="16"></canvas><span>Dashboard</span></div>
+  </div>
+  <div class="t mono ink" id="o-tablabel" style="right:96px; bottom:200px;">browser tab · actual size</div>
+  <div class="t mono ink" id="o-template" style="left:96px; bottom:84px;">macOS menu bar · template image · alpha only</div>
+
+  <div class="t ink" id="o-private" style="left:110px; top:250px;">
+    <div class="serif" style="font-size:96px; font-weight:500;">Nothing leaves<br>your browser.</div>
+    <div class="mono" style="margin-top:30px; opacity:.75;">no upload · no account · no install</div>
+  </div>
+
+  <div class="t mono ink" id="o-fix" style="left:96px; bottom:84px;">favicon · rebuilt for 16 px</div>
+  <div class="t" id="o-holds" style="left:96px; top:84px;">
+    <div class="serif" style="font-size:72px; color:var(--sage);">Survives 16 px.</div>
+  </div>
+
+  <div class="t ink" id="o-end" style="left:110px; top:300px; width:900px;">
+    <div class="serif" style="font-size:108px; font-weight:500;">See your icon<br>at 16 px —<br><span style="color:#8a5a3c">before your<br>users do.</span></div>
+  </div>
+  <div class="t" id="o-url" style="left:114px; bottom:110px;">
+    <div class="mono ink" style="font-size:42px; letter-spacing:.01em;">ai-iconflow.com/xray</div>
+    <div class="mono ink" style="margin-top:16px; font-size:22px; opacity:.7;">free · open source · runs in your browser</div>
+  </div>
+
+  <canvas id="grain" width="960" height="540"></canvas>
+  <div id="fade"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const ease = (x) => 1 - Math.pow(1 - x, 3);
+// An element is visible from a to b, rising in over `rise` and settling 12px.
+const show = (id, t, a, b, rise = 0.5) => {
+  const k = Math.min(ease(prog(t, a, a + rise)), 1 - prog(t, b - 0.35, b));
+  $(id).style.opacity = k; $(id).style.transform = `translateY(${(1 - ease(prog(t, a, a + rise))) * 12}px)`;
+};
+
+let TL, S, C, SRC = {};
+window.ready = (async () => {
+  TL = await (await fetch('timeline4.json')).json(); S = TL.scenes; C = TL.cues; window.DURATION = TL.duration;
+  SRC = window.__SRC || { cg: '/work/promo-xray/cg', res: '960', hand: '/work/promo-xray/plates-seq/hand' };
+  await document.fonts.ready;
+  const img = new Image(); img.src = 'tex/hairline-16.png'; await img.decode();
+  for (const id of ['tab1', 'tab2']) { const x = $(id).getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(img, 0, 0); }
+  return true;
+})();
+
+const grain = (frame) => {
+  const g = $('grain').getContext('2d'), d = g.createImageData(960, 540);
+  let s = (frame * 2654435761) >>> 0 || 1;
+  for (let i = 0; i < d.data.length; i += 4) { s ^= s << 13; s >>>= 0; s ^= s >> 17; s ^= s << 5; s >>>= 0; const v = 128 + ((s & 255) - 128) * 0.9; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+  g.putImageData(d, 0, 0);
+};
+
+let bgKey = '';
+window.render = async (t) => {
+  const frame = Math.round(t * TL.fps);
+  let src = null;
+  for (const [name, [a, b]] of Object.entries(S)) {
+    if (t >= a && t < b) {
+      const f = Math.floor((t - a) * TL.fps);
+      src = name === 'hand' ? `${SRC.hand}/${String(f + 1).padStart(4, '0')}.jpg` : `${SRC.cg}/${name}-${SRC.res}/${String(f).padStart(4, '0')}.png`;
+    }
+  }
+  if (src && src !== bgKey) { bgKey = src; $('bg').src = src; await $('bg').decode().catch(() => 0); }
+
+  show('o-512', t, S.macro[0] + 1.0, S.macro[1]);
+  show('o-16', t, C.scan_end + 0.1, S.scan[1]);
+  show('o-tab', t, S.topdown[0] + 0.5, S.topdown[1]);
+  show('o-tablabel', t, S.topdown[0] + 0.7, S.topdown[1]);
+  show('o-template', t, C.bar + 0.3, S.square[1]);
+  show('o-private', t, C.two + 1.9, S.laptop[1], 0.7);
+  show('o-fix', t, C.fix_end - 0.4, S.fix[1]);
+  show('o-holds', t, C.now, S.traybar[1], 0.4);
+  show('o-end', t, C.see - 0.15, window.DURATION + 1, 0.7);
+  show('o-url', t, C.see + 1.3, window.DURATION + 1, 0.6);
+  $('fade').style.opacity = prog(t, window.DURATION - 0.6, window.DURATION);
+  grain(frame);
+  return true;
+};
+</script>
+</body>
+</html>

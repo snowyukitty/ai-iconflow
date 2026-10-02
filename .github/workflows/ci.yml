@@ -2,6 +2,10 @@ name: CI
 
 on:
   push:
+    branches: ["**"]
+    # film-* tags only hold film media for a GitHub Release (scripts/film_publish.py);
+    # they carry no code to test.
+    tags-ignore: ["film-*"]
   pull_request:
 
 permissions:

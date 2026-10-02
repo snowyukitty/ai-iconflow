@@ -1,0 +1,188 @@
+{
+  "duration": 42.5,
+  "fps": 24,
+  "scenes": {
+    "hand": [
+      0.0,
+      3.0
+    ],
+    "macro": [
+      3.0,
+      7.5
+    ],
+    "scan": [
+      7.5,
+      12.5
+    ],
+    "topdown": [
+      12.5,
+      16.0
+    ],
+    "square": [
+      16.0,
+      22.5
+    ],
+    "laptop": [
+      22.5,
+      30.5
+    ],
+    "fix": [
+      30.5,
+      33.5
+    ],
+    "traybar": [
+      33.5,
+      36.5
+    ],
+    "endtile": [
+      36.5,
+      42.5
+    ]
+  },
+  "cues": {
+    "tap": 2.55,
+    "develop": 3.0,
+    "scan_end": 11.0,
+    "grid": 12.5,
+    "drained": 18.2,
+    "bar": 19.6,
+    "drop": 24.1,
+    "results": 25.25,
+    "fix_end": 32.7,
+    "tray": 33.5,
+    "end": 36.5,
+    "square": 21.5,
+    "two": 25.6,
+    "tab": 31.609,
+    "menubar": 33.35,
+    "now": 35.05,
+    "see": 38.323,
+    "brand": 37.15,
+    "ticks_scan": [
+      9.043,
+      9.181,
+      9.285,
+      9.371,
+      9.446,
+      9.511,
+      9.57,
+      9.625,
+      9.675,
+      9.73,
+      9.789,
+      9.854,
+      9.929,
+      10.015,
+      10.119,
+      10.257
+    ],
+    "ticks_fix": [
+      31.287,
+      31.386,
+      31.462,
+      31.524,
+      31.577,
+      31.625,
+      31.668,
+      31.707,
+      31.743,
+      31.782,
+      31.825,
+      31.873,
+      31.926,
+      31.988,
+      32.064,
+      32.163
+    ]
+  },
+  "voice": [
+    {
+      "line": "This is your icon.",
+      "src": [
+        0.0,
+        1.126
+      ],
+      "at": 1.45
+    },
+    {
+      "line": "Designed at five-twelve.",
+      "src": [
+        1.289,
+        2.601
+      ],
+      "at": 3.75
+    },
+    {
+      "line": "Shipped at sixteen.",
+      "src": [
+        2.705,
+        3.808
+      ],
+      "at": 10.547
+    },
+    {
+      "line": "In a browser tab, the chart is gone.",
+      "src": [
+        3.971,
+        5.84
+      ],
+      "at": 12.85
+    },
+    {
+      "line": "On the Mac menu bar, it's a square.",
+      "src": [
+        6.002,
+        7.848
+      ],
+      "at": 20.188
+    },
+    {
+      "line": "Drop it into the sixteen-pixel X-ray.",
+      "src": [
+        8.15,
+        10.275
+      ],
+      "at": 22.85
+    },
+    {
+      "line": "Two failures.",
+      "src": [
+        10.635,
+        11.436
+      ],
+      "at": 25.6
+    },
+    {
+      "line": "It runs in your browser. Nothing is uploaded.",
+      "src": [
+        11.575,
+        14.118
+      ],
+      "at": 26.95
+    },
+    {
+      "line": "Fewer shapes for the tab. A mark drawn for the menu bar.",
+      "src": [
+        14.374,
+        17.578
+      ],
+      "at": 30.75
+    },
+    {
+      "line": "Now it holds.",
+      "src": [
+        17.799,
+        18.565
+      ],
+      "at": 35.05
+    },
+    {
+      "line": "IconFlow. See your icon at sixteen pixels, before your users do.",
+      "src": [
+        18.727,
+        22.849
+      ],
+      "at": 37.15
+    }
+  ]
+}

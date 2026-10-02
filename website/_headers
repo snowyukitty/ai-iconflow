@@ -178,3 +178,15 @@
 /zh-hans/404.html
   Cache-Control: public, max-age=0, must-revalidate
 # i18n:end
+
+/xray/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Film deliverables are content-addressed (film-<sha8>.*), so they never change
+# in place; scripts/film_publish.py writes a new name for every new cut.
+/media/film/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+/media/film/*.vtt
+  Content-Type: text/vtt; charset=utf-8

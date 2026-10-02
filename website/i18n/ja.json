@@ -30,7 +30,6 @@
     "one-master-0-every-surface-1-2-proven-at-16p.6f3fa305": "1 つのマスター。<0/>あらゆるサーフェス。<1/><2>16px で検証済み。</2>",
     "iconflow-is-a-local-cli-and-agent-workflow-t.a50c0da4": "IconFlow は、編集可能な 1 つの SVG から、選択した Web、PWA、デスクトップ、トレイ用アセットを生成するローカル CLI とエージェントワークフローです。自動チェックが機械的なリスクを検出し、正確なソースに対する最新の 6 つの評価軸によるレビューが記録されるまで、リリースはブロックされます。",
     "start-with-iconflow-0-0.1486f805": "IconFlow をはじめる <0>→</0>",
-    "inspect-the-proof.8f520a82": "プルーフを見る",
     "iconflow-facts.a278575f": "IconFlow の概要",
     "techniques.d0975e67": "技法",
     "review-axes.c5804ac4": "評価軸",
@@ -713,6 +712,20 @@
     "this-bends-iconflow-s-own-mark-so-your-remix.9618649e": "これは IconFlow 自身の商標を変形するため、リミックスも同じ CC BY 4.0 に従います。改変も商用利用も自由で、IconFlow のクレジット表記が必要です。条件がまったくないマークが欲しい場合は、<0/> でパブリックドメインのひな形から始めてください。",
     "0-install-from-pypi-0-1-run-2-or-3-a-source.902e30ac": "<0>PyPI からインストール</0><1><2/> または <3/> を実行します。ソースからのインストールもコントリビューター向けに引き続き利用できます。</1>",
     "icon-size-reference.10be38d5": "アイコンサイズ一覧",
-    "icon-sizes.4ab024eb": "アイコンサイズ"
+    "icon-sizes.4ab024eb": "アイコンサイズ",
+    "16px-x-ray.322974ed": "16px X線",
+    "x-ray-your-icon-at-16px.29d4544a": "アイコンを 16px で X線検査",
+    "captions-in-five-languages-narration-in-engl.90660cfe": "字幕は5言語 · ナレーションは英語",
+    "most-app-icons-are-a-letter-on-a-square-a-sl.048dba5f": "アプリアイコンの多くは、四角に文字をひとつ置いただけ。集中タイマーには、眠る猫を。物語ゲームには、フードの主人公を。SVG を描くのはあなた。またはコーディングエージェントが、IconFlow のプレイブックに沿って。最終候補を並べて、実寸で比べる。レビューを通れば、ひとつの SVG が favicon、アプリアイコン、デスクトップ、メニューバーへ。無料、オープンソース、あなたのマシンで。そして、アイコンはあなたのもの。IconFlow。16 ピクセルでも、それはそれのまま。",
+    "play-0-45.9228a64a": "再生 · 0:45",
+    "play-the-45-second-iconflow-film.4e95b143": "IconFlow の45秒の映像を再生",
+    "rendered-from-the-real-gallery-masters-the-r.759ac74c": "ギャラリーの実際のマスター、<0/> の実際の出力、そして正確な 16px ラスターからレンダリング。製品の出力を、生成されたピクセルで代用していません。",
+    "sixteen-icons-0-1-every-pixel-is-real-output.b3675048": "16 のアイコン。<0/><1>すべてのピクセルが実際の出力。</1>",
+    "the-45-second-film.ccb31b8f": "45秒の映像",
+    "transcript.5bcd6022": "文字起こし",
+    "watch-again.0587c136": "もう一度見る",
+    "watch-the-45-second-film.67051b01": "45秒の映像を見る",
+    "your-browser-cannot-play-this-video.e9530a84": "お使いのブラウザではこの映像を再生できません。",
+    "download-the-4k-master.630a635d": "4K マスターをダウンロード"
   }
 }

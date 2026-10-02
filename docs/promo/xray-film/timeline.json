@@ -1,0 +1,166 @@
+{
+  "duration": 40.0,
+  "bpm": 100.0,
+  "phase": 0.077,
+  "scenes": {
+    "hook": [
+      0.0,
+      2.477
+    ],
+    "tile": [
+      2.477,
+      4.877
+    ],
+    "ladder": [
+      4.877,
+      7.877
+    ],
+    "tab": [
+      7.877,
+      11.477
+    ],
+    "metal": [
+      11.477,
+      12.677
+    ],
+    "menubar": [
+      12.677,
+      16.277
+    ],
+    "card": [
+      16.277,
+      17.477
+    ],
+    "xray": [
+      17.477,
+      24.677
+    ],
+    "fix": [
+      24.677,
+      31.877
+    ],
+    "rhyme": [
+      31.877,
+      33.077
+    ],
+    "end": [
+      33.077,
+      40.0
+    ]
+  },
+  "cues": {
+    "square": 14.289,
+    "tab": 25.836,
+    "menubar": 27.577,
+    "see": 34.7,
+    "light": 0.0,
+    "dark": 0.677,
+    "ring": 1.277,
+    "match": 4.277,
+    "grid": 7.877,
+    "tabstrip": 8.477,
+    "menu_square": 14.289,
+    "card_land": 17.207,
+    "drop": 18.077,
+    "reveal1": 18.677,
+    "reveal2": 19.277,
+    "reveal3": 19.877,
+    "fail": 20.477,
+    "verdicts": 21.077,
+    "private": 21.677,
+    "swap": 25.836,
+    "traymark": 27.577,
+    "holds": 30.077,
+    "logo": 33.077
+  },
+  "voice": [
+    {
+      "line": "This is your icon.",
+      "src": [
+        0.0,
+        1.126
+      ],
+      "at": 1.377
+    },
+    {
+      "line": "Designed at five-twelve.",
+      "src": [
+        1.289,
+        2.601
+      ],
+      "at": 2.827
+    },
+    {
+      "line": "Shipped at sixteen.",
+      "src": [
+        2.705,
+        3.808
+      ],
+      "at": 6.824
+    },
+    {
+      "line": "In a browser tab, the chart is gone.",
+      "src": [
+        3.971,
+        5.84
+      ],
+      "at": 8.677
+    },
+    {
+      "line": "On the Mac menu bar, it's a square.",
+      "src": [
+        6.002,
+        7.848
+      ],
+      "at": 12.977
+    },
+    {
+      "line": "Drop it into the sixteen-pixel X-ray.",
+      "src": [
+        8.15,
+        10.275
+      ],
+      "at": 16.527
+    },
+    {
+      "line": "Two failures.",
+      "src": [
+        10.635,
+        11.436
+      ],
+      "at": 20.477
+    },
+    {
+      "line": "It runs in your browser. Nothing is uploaded.",
+      "src": [
+        11.575,
+        14.118
+      ],
+      "at": 21.827
+    },
+    {
+      "line": "Fewer shapes for the tab. A mark drawn for the menu bar.",
+      "src": [
+        14.374,
+        17.578
+      ],
+      "at": 24.977
+    },
+    {
+      "line": "Now it holds.",
+      "src": [
+        17.799,
+        18.565
+      ],
+      "at": 30.077
+    },
+    {
+      "line": "IconFlow. See your icon at sixteen pixels, before your users do.",
+      "src": [
+        18.727,
+        22.849
+      ],
+      "at": 33.527
+    }
+  ]
+}

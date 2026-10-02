@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Quiet Hero — profile crest</title>
+  <desc id="desc">An original cel-shaded profile combines an asymmetric hair crest with a high collar notch.</desc>
+  <defs>
+    <clipPath id="hero"><path d="M236 790L292 620L360 566L332 450L390 302L484 210L556 288L684 260L648 374L770 350L704 482L746 556L656 604L708 790Z"/></clipPath>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#F4EADA"/>
+  <path d="M236 790L292 620L360 566L332 450L390 302L484 210L556 288L684 260L648 374L770 350L704 482L746 556L656 604L708 790Z" fill="#20232C" stroke="#20232C" stroke-width="112" stroke-linejoin="round"/>
+  <path d="M236 790L292 620L360 566L332 450L390 302L484 210L556 288L684 260L648 374L770 350L704 482L746 556L656 604L708 790Z" fill="#65C7C2" stroke="#65C7C2" stroke-width="48" stroke-linejoin="round"/>
+  <path d="M548 180H850V848H548Z" fill="#347E8C" clip-path="url(#hero)"/>
+  <path d="M406 520L548 476L646 520L574 614L456 596Z" fill="#F2B84B" stroke="#20232C" stroke-width="44" stroke-linejoin="round"/>
+  <path d="M516 516L570 500" stroke="#20232C" stroke-width="28" stroke-linecap="round"/>
+  <path d="M326 788L470 650L558 744L646 628L716 788" fill="#EF6A58" stroke="#20232C" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M478 652L558 744L646 628" fill="none" stroke="#F4EADA" stroke-width="44" stroke-linejoin="round"/>
+</svg>

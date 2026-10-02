@@ -1,0 +1,5 @@
+stills5/
+tex/
+*.png
+!assets/compare.png
+__pycache__/

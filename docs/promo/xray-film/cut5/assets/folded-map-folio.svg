@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="isometric">
+  <title>Folded Map Folio</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#191A20" d="m126 366 270-156 128 76 248-144 128 78v456L650 820l-130-76-248 144-146-86Z"/>
+    <path fill="#24B6A6" d="m190 386 206-118 72 42v372L272 796l-82-48Z"/>
+    <path fill="#72D7CC" d="m532 322 240-138 64 38v414L650 744l-118-68Z"/>
+    <path fill="#168C81" d="m468 310 64 38v328l-64 38Z"/>
+    <path fill="#FF5A4F" d="m272 638 196-114v142L272 780Z"/>
+  </g>
+</svg>

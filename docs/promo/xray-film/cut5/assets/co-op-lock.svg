@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Co-op Lock — shared keycaps</title>
+  <desc id="desc">Two unequal translucent keycaps dock around one shared opaque square counter.</desc>
+  <defs>
+    <linearGradient id="cyanPane" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#86EFE4" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#4FA7D8" stop-opacity=".58"/>
+    </linearGradient>
+    <linearGradient id="coralPane" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFC36E" stop-opacity=".84"/>
+      <stop offset="1" stop-color="#F35D7A" stop-opacity=".62"/>
+    </linearGradient>
+  </defs>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#151927"/>
+  <path d="M156 284Q156 220 220 220H568Q632 220 632 284V592Q632 656 568 656H220Q156 656 156 592Z" fill="url(#cyanPane)" stroke="#C9FFFA" stroke-width="28"/>
+  <path d="M392 408Q392 344 456 344H804Q868 344 868 408V716Q868 780 804 780H456Q392 780 392 716Z" fill="url(#coralPane)" stroke="#FFE0B8" stroke-width="28"/>
+  <path d="M236 316H552V566H472V482H316V566H236ZM472 482H788V708H708V562H552V708H472Z" fill="#F7FBFF"/>
+  <rect x="472" y="482" width="160" height="160" rx="30" fill="#151927" stroke="#F7FBFF" stroke-width="30"/>
+</svg>

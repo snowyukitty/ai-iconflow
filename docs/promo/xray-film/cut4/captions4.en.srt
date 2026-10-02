@@ -1,0 +1,43 @@
+1
+00:00:01,450 --> 00:00:02,826
+This is your icon.
+
+2
+00:00:03,750 --> 00:00:05,312
+Designed at five-twelve.
+
+3
+00:00:10,547 --> 00:00:11,900
+Shipped at sixteen.
+
+4
+00:00:12,850 --> 00:00:14,969
+In a browser tab, the chart is gone.
+
+5
+00:00:20,188 --> 00:00:22,284
+On the Mac menu bar, it's a square.
+
+6
+00:00:22,850 --> 00:00:25,225
+Drop it into the sixteen-pixel X-ray.
+
+7
+00:00:25,600 --> 00:00:26,651
+Two failures.
+
+8
+00:00:26,950 --> 00:00:29,743
+It runs in your browser. Nothing is uploaded.
+
+9
+00:00:30,750 --> 00:00:34,204
+Fewer shapes for the tab. A mark drawn for the menu bar.
+
+10
+00:00:35,050 --> 00:00:36,066
+Now it holds.
+
+11
+00:00:37,150 --> 00:00:41,522
+IconFlow. See your icon at sixteen pixels, before your users do.

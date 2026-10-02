@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IconFlow 16px X-ray — film, cut 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=block" rel="stylesheet">
+<style>
+  /* The two verdict headlines are set as type, word for word what the X-ray
+     printed for these files (see capture_ui.py), because the page's headline
+     element carries a full-width background that reads as a stray bar on film.
+     One family for words, one mono for dimensions. Off-white type; coral means
+     failure and mint means verified, nowhere else. 96px safe margin at 1080p. */
+  :root { --bg:#0b0c0f; --ink:#e8e6e3; --dim:rgba(232,230,227,.56); --coral:#ff5a4f; --mint:#6ce0a0;
+          --sans:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; background:#000; }
+  #stage { position:relative; width:1920px; height:1080px; overflow:hidden; background:var(--bg); color:var(--ink); font-family:var(--sans); }
+  .layer { position:absolute; inset:0; display:none; }
+  .abs { position:absolute; }
+  .px { image-rendering:pixelated; }
+  .label { font-family:var(--mono); font-weight:500; font-size:28px; letter-spacing:.04em; color:var(--dim); }
+  .display { font-weight:800; font-size:112px; letter-spacing:-.045em; line-height:.96; }
+  .num { font-family:var(--mono); font-weight:700; font-variant-numeric:tabular-nums; }
+  #plate { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; display:none; }
+  #grain { position:absolute; inset:0; width:1920px; height:1080px; pointer-events:none; mix-blend-mode:overlay; opacity:.09; }
+  #vignette { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse 75% 70% at 50% 50%, transparent 55%, rgba(0,0,0,.45) 100%); }
+
+  /* macOS-style menu bar, drawn large. No vendor marks. */
+  .bar { position:absolute; left:0; right:0; display:flex; align-items:center; gap:56px; padding:0 96px; font-weight:600; }
+  .bar .left { display:flex; gap:48px; flex:1; }
+  .bar .left b { font-weight:700; }
+  .bar canvas { flex:none; }
+  .bar.light { background:#e9e9ec; color:#111; }
+  .bar.dark { background:#1d1e22; color:#f2f2f2; }
+  .ring { position:absolute; border:6px solid var(--coral); border-radius:28px; }
+  .ring.ok { border-color:var(--mint); }
+
+  .box { position:absolute; left:528px; top:108px; width:864px; height:864px; }
+  .box canvas { width:864px; height:864px; }
+  .tab { position:absolute; display:flex; align-items:center; gap:14px; height:46px; padding:0 18px; border-radius:12px 12px 0 0; font-size:18px; font-weight:500; }
+  .tab canvas { width:16px; height:16px; image-rendering:pixelated; }
+
+  .ui { position:absolute; border-radius:24px; box-shadow:0 30px 90px rgba(0,0,0,.5); }
+  #end-mark { position:absolute; left:888px; top:236px; width:144px; height:144px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <img id="plate" alt="">
+
+  <!-- hook: the real template image, before anything is explained -->
+  <section class="layer" id="hook">
+    <div class="bar light" id="h-light" style="top:300px; height:180px; font-size:56px;">
+      <div class="left"><b>Dashboard</b><span>File</span><span>Edit</span><span>View</span></div>
+      <span>Wi-Fi</span><canvas id="h-tl" class="px" width="32" height="32" style="width:128px;height:128px"></canvas><span class="num" style="font-weight:600">10:42</span>
+    </div>
+    <div class="bar dark" id="h-dark" style="top:600px; height:180px; font-size:56px;">
+      <div class="left"><b>Dashboard</b><span>File</span><span>Edit</span><span>View</span></div>
+      <span>Wi-Fi</span><canvas id="h-td" class="px" width="32" height="32" style="width:128px;height:128px"></canvas><span class="num" style="font-weight:600">10:42</span>
+    </div>
+    <div class="ring" id="h-ring1"></div><div class="ring" id="h-ring2"></div>
+    <div class="label abs" id="h-label" style="left:96px; bottom:96px;">macOS menu bar · template image</div>
+  </section>
+
+  <!-- tile → flat 512 icon, then the ladder and the grid share one box -->
+  <section class="layer" id="iconbox">
+    <img id="ib-flat" class="abs" src="assets/hairline.svg" alt="">
+    <div class="box" id="ib-box"><canvas id="ib-canvas" class="px" width="864" height="864"></canvas></div>
+    <div class="abs num" id="ib-size" style="left:96px; top:470px; font-size:120px; letter-spacing:-.04em;"></div>
+    <div class="label abs" id="ib-sizelabel" style="left:100px; top:610px;">px</div>
+    <div class="label abs" id="ib-caption" style="left:96px; bottom:96px;"></div>
+    <div class="tab" id="ib-tab-light" style="left:1440px; top:900px; background:#dee1e6; color:#202124; width:384px;"><canvas id="ib-t1" width="16" height="16"></canvas><span>Dashboard</span></div>
+    <div class="tab" id="ib-tab-dark" style="left:1440px; top:946px; background:#35363a; color:#e8eaed; width:384px; border-radius:0;"><canvas id="ib-t2" width="16" height="16"></canvas><span>Dashboard</span></div>
+    <div class="label abs" id="ib-tablabel" style="left:1440px; top:856px; font-size:22px;">actual size</div>
+  </section>
+
+  <!-- the menu bar, big enough to see every pixel of the square -->
+  <section class="layer" id="menubar">
+    <div class="bar light" style="top:0; height:150px; font-size:46px;">
+      <div class="left"><b>Dashboard</b><span>File</span><span>Edit</span></div>
+      <span>Wi-Fi</span><canvas id="m-t1" class="px" width="32" height="32" style="width:96px;height:96px"></canvas><span class="num" style="font-weight:600">10:42</span>
+    </div>
+    <div class="abs" id="m-zoomwrap" style="left:1176px; top:250px; width:576px; height:576px; background:#e9e9ec; border-radius:20px;">
+      <canvas id="m-zoom" class="px" width="32" height="32" style="position:absolute; left:48px; top:48px; width:480px; height:480px"></canvas>
+    </div>
+    <div class="ring" id="m-ring" style="left:1162px; top:236px; width:604px; height:604px;"></div>
+    <div class="abs" id="m-copy" style="left:96px; top:440px; width:960px;">
+      <div class="label" style="margin-bottom:28px;">template image · 32 px</div>
+      <div class="display">No color<br>survives.</div>
+    </div>
+  </section>
+
+  <!-- the real X-ray, revealed one fact per beat -->
+  <section class="layer" id="xray">
+    <div class="label abs" id="x-url" style="left:96px; top:84px;">ai-iconflow.com/xray</div>
+    <img id="x-drop" class="ui" src="plates/drop.png" style="left:220px; top:300px; width:1480px;" alt="">
+    <img id="x-dropover" class="ui" src="plates/drop-over.png" style="left:220px; top:300px; width:1480px;" alt="">
+    <div id="x-file" class="abs" style="width:170px; padding:16px; border-radius:18px; background:#2b2d36; border:1px solid rgba(255,255,255,.16); box-shadow:0 26px 60px rgba(0,0,0,.55); text-align:center; font-family:var(--mono); font-size:18px;"><img src="assets/hairline.svg" style="width:136px;height:136px;display:block;margin:0 auto 8px" alt="">dashboard.svg</div>
+    <img id="x-p1" class="ui" src="plates/hairline-panel-1.png" style="left:150px; top:250px; width:500px;" alt="">
+    <img id="x-p2" class="ui" src="plates/hairline-panel-2.png" style="left:710px; top:250px; width:500px;" alt="">
+    <img id="x-p3" class="ui" src="plates/hairline-panel-3.png" style="left:1270px; top:250px; width:500px;" alt="">
+    <div id="x-head" class="abs" style="left:150px; top:138px; font-weight:800; font-size:84px; letter-spacing:-.04em; color:var(--coral);">2 failures at 16px</div>
+    <img id="x-v1" class="ui" src="plates/hairline-verdict-1.png" style="left:150px; top:830px; width:800px;" alt="">
+    <img id="x-v2" class="ui" src="plates/hairline-verdict-2.png" style="left:970px; top:830px; width:800px;" alt="">
+    <svg id="x-cursor" class="abs" viewBox="0 0 24 24" width="48" height="48"><path d="M3 2l7 19 2.6-7.4L20 11z" fill="#e8e6e3" stroke="#0b0c0f" stroke-width="1.4" stroke-linejoin="round"/></svg>
+  </section>
+
+  <section class="layer" id="private">
+    <div class="abs" style="left:96px; top:360px;">
+      <div class="display">Runs in your browser.<br><span style="color:var(--mint)">Nothing is uploaded.</span></div>
+      <div class="label" style="margin-top:44px;">no install · no account · no upload</div>
+    </div>
+  </section>
+
+  <!-- the fix: the same box, the same bars -->
+  <section class="layer" id="fixbars">
+    <div class="bar light" style="top:300px; height:180px; font-size:56px;">
+      <div class="left"><b>Dashboard</b><span>File</span><span>Edit</span><span>View</span></div>
+      <span>Wi-Fi</span><canvas id="f-tl" class="px" width="32" height="32" style="width:128px;height:128px"></canvas><span class="num" style="font-weight:600">10:42</span>
+    </div>
+    <div class="bar dark" style="top:600px; height:180px; font-size:56px;">
+      <div class="left"><b>Dashboard</b><span>File</span><span>Edit</span><span>View</span></div>
+      <span>Wi-Fi</span><canvas id="f-td" class="px" width="32" height="32" style="width:128px;height:128px"></canvas><span class="num" style="font-weight:600">10:42</span>
+    </div>
+    <div class="ring ok" id="f-ring1"></div><div class="ring ok" id="f-ring2"></div>
+    <div class="label abs" style="left:96px; bottom:96px;">tray.svg · a mark drawn for the bar</div>
+    <div id="f-head" class="abs" style="left:96px; top:110px; font-weight:800; font-size:96px; letter-spacing:-.04em; color:var(--mint);">Survives 16px</div>
+  </section>
+
+  <section class="layer" id="end">
+    <img id="end-mark" src="assets/iconflow-mark.svg" alt="">
+    <div class="abs" id="end-line" style="left:0; right:0; top:450px; text-align:center;">
+      <div class="display" style="font-size:104px;">See your icon at 16px<br><span style="color:var(--dim)">before your users do.</span></div>
+    </div>
+    <div class="abs num" id="end-url" style="left:0; right:0; top:760px; text-align:center; font-size:44px; font-weight:500; letter-spacing:.01em;">ai-iconflow.com/xray</div>
+    <div class="label abs" id="end-foot" style="left:0; right:0; top:840px; text-align:center; font-size:24px;">free · open source · runs in your browser</div>
+  </section>
+
+  <canvas id="grain" width="960" height="540"></canvas>
+  <div id="vignette"></div>
+  <div id="fade" class="abs" style="inset:0; background:#000; opacity:0;"></div>
+</div>
+
+<script>
+// Every frame is a pure function of t. timeline.py owns all timing: the music
+// grid, scene windows, cues, and where each narration line sits.
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const ease = (x) => 1 - Math.pow(1 - x, 3);
+const lerp = (a, b, k) => a + (b - a) * k;
+const show = (id, on) => { $(id).style.display = on ? 'block' : 'none'; };
+const FPS = 24;
+
+const load = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
+const rasterise = (img, size) => {
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const x = c.getContext('2d'); x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+  x.drawImage(img, 0, 0, size, size); return c;
+};
+const template = (src, rgb) => {
+  const n = src.width, o = document.createElement('canvas'); o.width = o.height = n;
+  const d = src.getContext('2d').getImageData(0, 0, n, n);
+  for (let i = 0; i < d.data.length; i += 4) { d.data[i] = rgb[0]; d.data[i + 1] = rgb[1]; d.data[i + 2] = rgb[2]; }
+  o.getContext('2d').putImageData(d, 0, 0); return o;
+};
+const blit = (canvas, src, grid = 0) => {
+  const x = canvas.getContext('2d'); x.imageSmoothingEnabled = false;
+  x.clearRect(0, 0, canvas.width, canvas.height); x.drawImage(src, 0, 0, canvas.width, canvas.height);
+  if (grid > 0) {
+    const cell = canvas.width / src.width; x.strokeStyle = `rgba(232,230,227,${0.16 * grid})`; x.lineWidth = 1.5;
+    for (let i = 1; i < src.width; i++) {
+      x.beginPath(); x.moveTo(i * cell, 0); x.lineTo(i * cell, canvas.height); x.stroke();
+      x.beginPath(); x.moveTo(0, i * cell); x.lineTo(canvas.width, i * cell); x.stroke();
+    }
+  }
+};
+const ringAround = (ring, el, pad, k) => {
+  const r = el.getBoundingClientRect(), s = $('stage').getBoundingClientRect();
+  const sc = lerp(1.25, 1, k);
+  const w = (r.width + pad * 2) * sc, h = (r.height + pad * 2) * sc;
+  ring.style.left = `${r.left - s.left + r.width / 2 - w / 2}px`; ring.style.top = `${r.top - s.top + r.height / 2 - h / 2}px`;
+  ring.style.width = `${w}px`; ring.style.height = `${h}px`; ring.style.opacity = k;
+};
+
+let TL, S, C, R = {};
+// Plate frame sequences (24 fps JPEG, 3840 wide) cut from the Flow takes.
+const PLATE_SPEC = { tile: 45, rhyme: 30, metal: 30, card: 30 };
+
+window.ready = (async () => {
+  TL = await (await fetch('timeline.json')).json(); S = TL.scenes; C = TL.cues; window.DURATION = TL.duration;
+  await document.fonts.ready;
+  const [hair, card, tray] = await Promise.all(['assets/hairline.svg', 'assets/fixed-card.svg', 'assets/fixed-tray.svg'].map(load));
+  for (const s of [512, 256, 128, 64, 32, 16]) R[`h${s}`] = rasterise(hair, s);
+  R.c16 = rasterise(card, 16); R.t32 = rasterise(tray, 32);
+  blit($('h-tl'), template(R.h32, [0, 0, 0])); blit($('h-td'), template(R.h32, [255, 255, 255]));
+  blit($('m-t1'), template(R.h32, [0, 0, 0])); blit($('m-zoom'), template(R.h32, [0, 0, 0]));
+  blit($('f-tl'), template(R.t32, [0, 0, 0])); blit($('f-td'), template(R.t32, [255, 255, 255]));
+  blit($('ib-t1'), R.h16); blit($('ib-t2'), R.h16);
+  await Promise.all(Array.from(document.images).map((i) => i.decode().catch(() => 0)));
+  return true;
+})();
+
+let plateKey = '';
+const setPlate = async (name, frame) => {
+  const el = $('plate');
+  if (!name) { el.style.display = 'none'; plateKey = ''; return; }
+  const n = Math.max(1, Math.min(PLATE_SPEC[name], frame + 1));
+  const src = `/work/promo-xray/plates-seq/${name}/${String(n).padStart(4, '0')}.jpg`;
+  el.style.display = 'block';
+  if (plateKey !== src) { plateKey = src; el.src = src; await el.decode(); }
+};
+
+// Deterministic film grain: a seeded noise field per frame.
+const grain = (frame) => {
+  const g = $('grain').getContext('2d'), d = g.createImageData(960, 540);
+  let s = (frame * 2654435761) >>> 0 || 1;
+  for (let i = 0; i < d.data.length; i += 4) {
+    s ^= s << 13; s >>>= 0; s ^= s >> 17; s ^= s << 5; s >>>= 0;
+    const v = 128 + ((s & 255) - 128) * 0.9;
+    d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255;
+  }
+  g.putImageData(d, 0, 0);
+};
+
+const inScene = (t, k) => t >= S[k][0] && t < S[k][1];
+
+window.render = async (t) => {
+  const frame = Math.round(t * FPS);
+  ['hook', 'iconbox', 'menubar', 'xray', 'private', 'fixbars', 'end'].forEach((id) => show(id, false));
+  let plate = null, pframe = 0;
+
+  if (inScene(t, 'hook')) {
+    show('hook', true);
+    const light = t < C.dark, both = t >= C.ring;
+    $('h-light').style.display = light || both ? 'flex' : 'none';
+    $('h-dark').style.display = !light || both ? 'flex' : 'none';
+    // Alone, each bar sits in the middle of the frame; stacked, they part.
+    $('h-light').style.top = both ? '300px' : '450px';
+    $('h-dark').style.top = both ? '600px' : '450px';
+    const k = both ? ease(prog(t, C.ring, C.ring + 0.125)) : 0;
+    ringAround($('h-ring1'), $('h-tl'), 22, k); ringAround($('h-ring2'), $('h-td'), 22, k);
+    $('h-label').style.opacity = both ? 1 : 0;
+  }
+
+  if (inScene(t, 'tile')) {
+    if (t < C.match) { plate = 'tile'; pframe = Math.floor((t - S.tile[0]) * FPS); }
+    else {
+      // Match cut: the flat icon appears where the tile was, then settles into the box.
+      show('iconbox', true);
+      const k = ease(prog(t, C.match, C.match + 0.35));
+      const size = lerp(980, 987, k), cx = lerp(962, 960, k), cy = lerp(500, 540, k);
+      const f = $('ib-flat'); f.style.display = 'block';
+      f.style.width = f.style.height = `${size}px`; f.style.left = `${cx - size / 2}px`; f.style.top = `${cy - size / 2}px`;
+      $('ib-box').style.display = 'none';
+      $('ib-size').textContent = '512'; $('ib-size').style.opacity = ease(prog(t, C.match + 0.1, C.match + 0.3));
+      $('ib-sizelabel').style.opacity = $('ib-size').style.opacity;
+      $('ib-caption').textContent = '';
+      ['ib-tab-light', 'ib-tab-dark', 'ib-tablabel'].forEach((i) => { $(i).style.display = 'none'; });
+    }
+  }
+
+  if (inScene(t, 'ladder') || inScene(t, 'tab')) {
+    show('iconbox', true);
+    $('ib-flat').style.display = 'none'; $('ib-box').style.display = 'block';
+    const step = Math.min(4, Math.floor((t - S.ladder[0]) / 0.6));
+    const size = [256, 128, 64, 32, 16][Math.max(0, step)];
+    const grid = t >= C.grid ? ease(prog(t, C.grid, C.grid + 0.3)) : 0;
+    blit($('ib-canvas'), R[`h${size}`], size === 16 ? grid : 0);
+    $('ib-size').textContent = String(size); $('ib-size').style.opacity = 1; $('ib-sizelabel').style.opacity = 1;
+    const tabs = t >= C.tabstrip;
+    ['ib-tab-light', 'ib-tab-dark'].forEach((i) => { $(i).style.display = tabs ? 'flex' : 'none'; });
+    $('ib-tablabel').style.display = tabs ? 'block' : 'none';
+    blit($('ib-t1'), R.h16); blit($('ib-t2'), R.h16);
+    $('ib-caption').textContent = tabs ? 'browser tab · 16 px' : '';
+  }
+
+  if (inScene(t, 'metal')) { plate = 'metal'; pframe = Math.floor((t - S.metal[0]) * FPS); }
+
+  if (inScene(t, 'menubar')) {
+    show('menubar', true);
+    const k = t >= C.square ? ease(prog(t, C.square, C.square + 0.125)) : 0;
+    $('m-ring').style.opacity = k; $('m-ring').style.transform = `scale(${lerp(1.12, 1, k)})`;
+    $('m-copy').style.opacity = ease(prog(t, S.menubar[0] + 0.3, S.menubar[0] + 0.6));
+  }
+
+  if (inScene(t, 'card')) { plate = 'card'; pframe = Math.floor((t - S.card[0]) * FPS); }
+
+  if (inScene(t, 'xray') && t < C.private) {
+    show('xray', true);
+    const dropped = t >= C.drop;
+    const results = t >= C.reveal1 - 0.05;
+    const over = t > C.drop - 0.35 && t < C.drop + 0.2;
+    $('x-drop').style.display = !results && !over ? 'block' : 'none';
+    $('x-dropover').style.display = !results && over ? 'block' : 'none';
+    // The file enters on the cut and lands on the drop beat.
+    const d = ease(prog(t, S.xray[0] + 0.05, C.drop));
+    const fx = lerp(1720, 880, d), fy = lerp(1000, 470, d);
+    const f = $('x-file'); f.style.display = !dropped ? 'block' : 'none';
+    f.style.left = `${fx}px`; f.style.top = `${fy}px`; f.style.transform = `rotate(${lerp(-6, 0, d)}deg)`;
+    const cur = $('x-cursor'); cur.style.display = !dropped ? 'block' : 'none';
+    cur.style.left = `${fx + 140}px`; cur.style.top = `${fy + 150}px`;
+    [['x-p1', C.reveal1], ['x-p2', C.reveal2], ['x-p3', C.reveal3]].forEach(([id, c]) => {
+      const k = ease(prog(t, c, c + 0.16)); $(id).style.display = t >= c ? 'block' : 'none';
+      $(id).style.opacity = k; $(id).style.transform = `translateY(${(1 - k) * 18}px)`;
+    });
+    const hk = ease(prog(t, C.fail, C.fail + 0.16));
+    $('x-head').style.display = t >= C.fail ? 'block' : 'none'; $('x-head').style.opacity = hk;
+    [['x-v1', C.verdicts], ['x-v2', C.verdicts + 0.15]].forEach(([id, c]) => {
+      const k = ease(prog(t, c, c + 0.2)); $(id).style.display = t >= c ? 'block' : 'none';
+      $(id).style.opacity = k; $(id).style.transform = `translateY(${(1 - k) * 24}px)`;
+    });
+  }
+  if (inScene(t, 'xray') && t >= C.private) show('private', true);
+
+  if (inScene(t, 'fix')) {
+    if (t < C.traymark) {
+      show('iconbox', true);
+      $('ib-flat').style.display = 'none'; $('ib-box').style.display = 'block';
+      const fixed = t >= C.swap;
+      blit($('ib-canvas'), fixed ? R.c16 : R.h16, 1);
+      $('ib-size').textContent = '16'; $('ib-size').style.opacity = 1; $('ib-sizelabel').style.opacity = 1;
+      ['ib-tab-light', 'ib-tab-dark'].forEach((i) => { $(i).style.display = 'flex'; });
+      $('ib-tablabel').style.display = 'block';
+      blit($('ib-t1'), fixed ? R.c16 : R.h16); blit($('ib-t2'), fixed ? R.c16 : R.h16);
+      $('ib-caption').textContent = fixed ? 'favicon · fewer, bolder shapes' : 'browser tab · 16 px';
+    } else {
+      show('fixbars', true);
+      const k = t >= C.holds ? ease(prog(t, C.holds, C.holds + 0.125)) : 0;
+      ringAround($('f-ring1'), $('f-tl'), 22, k); ringAround($('f-ring2'), $('f-td'), 22, k);
+      const hk = ease(prog(t, C.holds, C.holds + 0.16));
+      $('f-head').style.display = t >= C.holds ? 'block' : 'none'; $('f-head').style.opacity = hk;
+    }
+  }
+
+  if (inScene(t, 'rhyme')) { plate = 'rhyme'; pframe = Math.floor((t - S.rhyme[0]) * FPS); }
+
+  if (inScene(t, 'end')) {
+    show('end', true);
+    const lk = ease(prog(t, C.logo, C.logo + 0.3));
+    $('end-mark').style.opacity = lk; $('end-mark').style.transform = `scale(${lerp(0.9, 1, lk)})`;
+    $('end-line').style.opacity = ease(prog(t, C.see - 0.05, C.see + 0.25));
+    $('end-url').style.opacity = ease(prog(t, C.see + 0.6, C.see + 0.9));
+    $('end-foot').style.opacity = ease(prog(t, C.see + 0.9, C.see + 1.2));
+  }
+
+  $('fade').style.opacity = prog(t, window.DURATION - 0.7, window.DURATION - 0.05);
+  grain(frame);
+  await setPlate(plate, pframe);
+  return true;
+};
+</script>
+</body>
+</html>

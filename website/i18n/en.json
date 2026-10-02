@@ -2,7 +2,7 @@
   "language": "en",
   "generated_by": "scripts/build_i18n.py",
   "note": "English source strings. Keys are slug.hash(text); a copy edit makes a new key, which makes every translation fail closed.",
-  "count": 713,
+  "count": 726,
   "strings": {
     "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": {
       "text": "IconFlow — Local icon toolkit: one SVG to favicon, app, and tray assets, proven at 16px",
@@ -138,6 +138,14 @@
         "archive/index.html"
       ]
     },
+    "16px-x-ray.322974ed": {
+      "text": "16px X-ray",
+      "kind": "text",
+      "where": "body header.site-header nav#site-nav",
+      "pages": [
+        "index.html"
+      ]
+    },
     "get-started.90e40d50": {
       "text": "Get started",
       "kind": "text",
@@ -247,10 +255,18 @@
         "index.html"
       ]
     },
-    "inspect-the-proof.8f520a82": {
-      "text": "Inspect the proof",
+    "x-ray-your-icon-at-16px.29d4544a": {
+      "text": "X-ray your icon at 16px",
       "kind": "text",
       "where": "section#top div.hero-copy div.hero-actions",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "watch-the-45-second-film.67051b01": {
+      "text": "Watch the 45-second film",
+      "kind": "text",
+      "where": "main#main section#top div.hero-copy",
       "pages": [
         "index.html"
       ]
@@ -427,6 +443,94 @@
       "text": "Scrolling wall of archive marks; pause it with the button, hover, or keyboard focus",
       "kind": "attr:aria-label",
       "where": "body main#main section#archive-wall",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "the-45-second-film.ccb31b8f": {
+      "text": "The 45-second film",
+      "kind": "text",
+      "where": "main#main section#film div.section-heading",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "sixteen-icons-0-1-every-pixel-is-real-output.b3675048": {
+      "text": "Sixteen icons.<0/><1>Every pixel is real output.</1>",
+      "kind": "text",
+      "where": "main#main section#film div.section-heading",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "rendered-from-the-real-gallery-masters-the-r.759ac74c": {
+      "text": "Rendered from the real gallery masters, the real <0/> output and their exact 16px rasters. No generated pixels stand in for product output.",
+      "kind": "text",
+      "where": "main#main section#film div.section-heading",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "your-browser-cannot-play-this-video.e9530a84": {
+      "text": "Your browser cannot play this video.",
+      "kind": "text",
+      "where": "main#main section#film figure.film-frame",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "play-the-45-second-iconflow-film.4e95b143": {
+      "text": "Play the 45-second IconFlow film",
+      "kind": "attr:aria-label",
+      "where": "main#main section#film figure.film-frame",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "play-0-45.9228a64a": {
+      "text": "Play · 0:45",
+      "kind": "text",
+      "where": "main#main section#film figure.film-frame",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "watch-again.0587c136": {
+      "text": "Watch again",
+      "kind": "text",
+      "where": "section#film figure.film-frame div.film-end",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "captions-in-five-languages-narration-in-engl.90660cfe": {
+      "text": "Captions in five languages · narration in English",
+      "kind": "text",
+      "where": "section#film figure.film-frame figcaption.film-meta",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "download-the-4k-master.630a635d": {
+      "text": "Download the 4K master",
+      "kind": "text",
+      "where": "section#film figure.film-frame figcaption.film-meta",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "transcript.5bcd6022": {
+      "text": "Transcript",
+      "kind": "text",
+      "where": "main#main section#film details.film-transcript",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "most-app-icons-are-a-letter-on-a-square-a-sl.048dba5f": {
+      "text": "Most app icons are a letter on a square. A sleeping cat for a focus timer. A hooded hero for a story game. You draw the SVG, or your coding agent does, with IconFlow's playbook. Compare finalists side by side, at real size. Pass review, and one SVG ships as favicon, app icon, desktop and menu bar. Free, open source, on your machine. And the icon is yours. IconFlow. Still itself at sixteen pixels.",
+      "kind": "text",
+      "where": "main#main section#film details.film-transcript",
       "pages": [
         "index.html"
       ]

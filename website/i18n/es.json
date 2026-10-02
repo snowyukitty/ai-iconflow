@@ -30,7 +30,6 @@
     "one-master-0-every-surface-1-2-proven-at-16p.6f3fa305": "Un maestro.<0/>Todas las superficies.<1/><2>Probado a 16px.</2>",
     "iconflow-is-a-local-cli-and-agent-workflow-t.a50c0da4": "IconFlow es una CLI local y un flujo de trabajo para agentes que convierte un SVG editable en los recursos web, PWA, de escritorio y de bandeja del sistema que elijas. Las comprobaciones automáticas detectan riesgos mecánicos; la publicación sigue bloqueada hasta que se registra una revisión vigente de seis ejes ligada a la fuente exacta.",
     "start-with-iconflow-0-0.1486f805": "Empieza con IconFlow <0>→</0>",
-    "inspect-the-proof.8f520a82": "Inspecciona la prueba",
     "iconflow-facts.a278575f": "Datos de IconFlow",
     "techniques.d0975e67": "técnicas",
     "review-axes.c5804ac4": "ejes de revisión",
@@ -713,6 +712,20 @@
     "this-bends-iconflow-s-own-mark-so-your-remix.9618649e": "Esto modifica la propia marca de IconFlow, así que tu remezcla mantiene su licencia: CC BY 4.0 — cámbiala, úsala comercialmente, atribuye a IconFlow. Para una marca sin ninguna condición, parte de una plantilla de dominio público con <0/>.",
     "0-install-from-pypi-0-1-run-2-or-3-a-source.902e30ac": "<0>Instala desde PyPI.</0><1>Ejecuta <2/> o <3/>. La instalación desde el código fuente sigue disponible para quienes contribuyen.</1>",
     "icon-size-reference.10be38d5": "Referencia de tamaños de icono",
-    "icon-sizes.4ab024eb": "Tamaños de icono"
+    "icon-sizes.4ab024eb": "Tamaños de icono",
+    "16px-x-ray.322974ed": "Rayos X a 16px",
+    "x-ray-your-icon-at-16px.29d4544a": "Pasa tu icono por rayos X a 16px",
+    "captions-in-five-languages-narration-in-engl.90660cfe": "Subtítulos en cinco idiomas · narración en inglés",
+    "most-app-icons-are-a-letter-on-a-square-a-sl.048dba5f": "Casi todos los iconos de apps son una letra en un cuadrado. Un gato dormido para un temporizador de concentración. Un héroe encapuchado para un juego narrativo. Tú dibujas el SVG, o lo hace tu agente de código, con el método de IconFlow. Compara los finalistas lado a lado, a tamaño real. Supera la revisión, y un solo SVG se publica como favicon, icono de app, escritorio y barra de menús. Gratis, de código abierto, en tu equipo. Y el icono es tuyo. IconFlow. Sigue siendo él mismo a 16 píxeles.",
+    "play-0-45.9228a64a": "Reproducir · 0:45",
+    "play-the-45-second-iconflow-film.4e95b143": "Reproducir el video de IconFlow de 45 segundos",
+    "rendered-from-the-real-gallery-masters-the-r.759ac74c": "Renderizado a partir de los maestros reales de la galería, la salida real de <0/> y sus rásteres exactos de 16px. Ningún píxel generado sustituye a la salida del producto.",
+    "sixteen-icons-0-1-every-pixel-is-real-output.b3675048": "Dieciséis iconos.<0/><1>Cada píxel es salida real.</1>",
+    "the-45-second-film.ccb31b8f": "El video de 45 segundos",
+    "transcript.5bcd6022": "Transcripción",
+    "watch-again.0587c136": "Ver de nuevo",
+    "watch-the-45-second-film.67051b01": "Ver el video de 45 segundos",
+    "your-browser-cannot-play-this-video.e9530a84": "Tu navegador no puede reproducir este video.",
+    "download-the-4k-master.630a635d": "Descargar el máster 4K"
   }
 }

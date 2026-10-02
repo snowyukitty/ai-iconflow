@@ -30,7 +30,6 @@
     "one-master-0-every-surface-1-2-proven-at-16p.6f3fa305": "一份主檔。<0/>每個版面。<1/><2>經 16px 驗證。</2>",
     "iconflow-is-a-local-cli-and-agent-workflow-t.a50c0da4": "IconFlow 是本機 CLI 與代理程式工作流程，能把一張可編輯的 SVG 轉成你選的網頁、PWA、桌面與系統匣素材。自動化檢查會攔截機械性風險；交付會維持封鎖，直到針對該精確原始檔記錄一筆當前的六軸審查。",
     "start-with-iconflow-0-0.1486f805": "開始使用 IconFlow <0>→</0>",
-    "inspect-the-proof.8f520a82": "檢視校樣",
     "iconflow-facts.a278575f": "IconFlow 數據",
     "techniques.d0975e67": "技法",
     "review-axes.c5804ac4": "評分軸",
@@ -713,6 +712,20 @@
     "this-bends-iconflow-s-own-mark-so-your-remix.9618649e": "這是在改動 IconFlow 自己的商標，因此你的混搭沿用相同授權：CC BY 4.0——可以修改、可以商業使用，但需標示 IconFlow。若想要完全沒有任何條件的標誌，請用 <0/> 從公共領域的範本開始。",
     "0-install-from-pypi-0-1-run-2-or-3-a-source.902e30ac": "<0>從 PyPI 安裝。</0><1>執行 <2/> 或 <3/>。原始碼安裝仍保留給貢獻者使用。</1>",
     "icon-size-reference.10be38d5": "圖示尺寸對照表",
-    "icon-sizes.4ab024eb": "圖示尺寸"
+    "icon-sizes.4ab024eb": "圖示尺寸",
+    "16px-x-ray.322974ed": "16px X 光",
+    "x-ray-your-icon-at-16px.29d4544a": "用 16px X 光檢查你的圖示",
+    "captions-in-five-languages-narration-in-engl.90660cfe": "字幕支援五種語言 · 旁白為英語",
+    "most-app-icons-are-a-letter-on-a-square-a-sl.048dba5f": "大多數 App 圖示，只是方塊上的一個字母。專注計時器，是一隻睡著的貓。故事遊戲，是一位戴兜帽的主角。SVG 由你來畫，或交給你的 AI 代理程式，照著 IconFlow 的方法。把決選作品並排，以實際尺寸比較。通過審查後，同一個 SVG 就交付成 favicon、App 圖示、桌面與選單列。免費、開源，在你自己的電腦上執行。而且圖示屬於你。IconFlow。縮到 16 像素，依然是它自己。",
+    "play-0-45.9228a64a": "播放 · 0:45",
+    "play-the-45-second-iconflow-film.4e95b143": "播放 45 秒的 IconFlow 影片",
+    "rendered-from-the-real-gallery-masters-the-r.759ac74c": "以 Gallery 的真實主檔、<0/> 的真實輸出，以及它們精確的 16px 點陣圖渲染而成。沒有任何生成的像素冒充產品輸出。",
+    "sixteen-icons-0-1-every-pixel-is-real-output.b3675048": "十六個圖示。<0/><1>每一個像素都是真實輸出。</1>",
+    "the-45-second-film.ccb31b8f": "45 秒影片",
+    "transcript.5bcd6022": "逐字稿",
+    "watch-again.0587c136": "再看一次",
+    "watch-the-45-second-film.67051b01": "觀看 45 秒影片",
+    "your-browser-cannot-play-this-video.e9530a84": "你的瀏覽器無法播放這段影片。",
+    "download-the-4k-master.630a635d": "下載 4K 母片"
   }
 }

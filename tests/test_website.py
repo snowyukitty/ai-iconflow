@@ -116,13 +116,17 @@ class _SiteParser(HTMLParser):
 class WebsiteContractTests(unittest.TestCase):
     def test_readme_surfaces_the_reviewed_campaign_story(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        film = "docs/assets/marketing/film-poster-1280.jpg"     # the README cannot play video; the poster links to it
         hero = "docs/assets/marketing/workflow-1200x630.png"
         proof = "docs/assets/marketing/proof-at-16-1200x630.png"
         cases = "docs/assets/marketing/many-worlds-1200x630.png"
         demo = "docs/assets/demo.gif"
 
-        for asset in (hero, proof, cases, demo):
+        for asset in (film, hero, proof, cases, demo):
             self.assertEqual(readme.count(asset), 1, asset)
+        self.assertTrue((ROOT / film).is_file())
+        self.assertIn('<a href="https://ai-iconflow.com/#film">', readme[:readme.index(film)])
+        self.assertLess(readme.index(film), readme.index(hero))
         self.assertLess(readme.index(hero), readme.index(demo))
         self.assertLess(readme.index(demo), readme.index(proof))
         self.assertLess(readme.index(proof), readme.index(cases))
@@ -866,6 +870,63 @@ class WebsiteContractTests(unittest.TestCase):
             with self.subTest(page=page):
                 self.assertIn('href="/reference/icon-sizes/"',
                               (SITE / page).read_text(encoding="utf-8"))
+
+    def test_xray_is_client_side_and_discoverable(self) -> None:
+        """The 16px X-ray promises that nothing leaves the visitor's device."""
+        page = (SITE / "xray" / "index.html").read_text(encoding="utf-8")
+        script = (SITE / "xray" / "xray.js").read_text(encoding="utf-8")
+        # No network sink for the dropped file: only same-origin samples are
+        # fetched, and the CSP forbids blob: images, so files become data: URLs.
+        self.assertNotIn("XMLHttpRequest", script)
+        self.assertNotIn("sendBeacon", script)
+        self.assertNotIn("createObjectURL", script)
+        self.assertEqual(re.findall(r"fetch\(([^)]*)\)", script), ["b.dataset.xraySample"])
+        self.assertIn("readAsDataURL", script)
+        self.assertNotRegex(page, r"<script(?![^>]*\bsrc=)")
+        for sample in re.findall(r'data-xray-sample="(/xray/samples/[^"]+)"', page):
+            with self.subTest(sample=sample):
+                self.assertTrue((SITE / sample.lstrip("/")).is_file())
+        self.assertIn(f"{CANONICAL_ORIGIN}/xray/",
+                      (SITE / "sitemap.xml").read_text(encoding="utf-8"))
+        self.assertIn("\n/xray/index.html\n"
+                      "  Cache-Control: public, max-age=0, must-revalidate",
+                      (SITE / "_headers").read_text(encoding="utf-8"))
+        self.assertIn('href="/xray/"', (SITE / "index.html").read_text(encoding="utf-8"))
+        self.assertIn("/xray/", (SITE / "llms.txt").read_text(encoding="utf-8"))
+
+    def test_film_is_self_hosted_content_addressed_and_out_of_functions(self) -> None:
+        """The film plays from our own origin, never enters git, and never wakes Functions."""
+        manifest = json.loads((ROOT / "docs" / "promo" / "film-manifest.json").read_text(encoding="utf-8"))
+        routes = json.loads((SITE / "_routes.json").read_text(encoding="utf-8"))
+        self.assertIn("/media/*", routes["exclude"])
+        self.assertIn("website/media/", (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines())
+        headers = (SITE / "_headers").read_text(encoding="utf-8")
+        self.assertIn("/media/film/*\n  Cache-Control: public, max-age=31536000, immutable", headers)
+        self.assertIn("/media/film/*.vtt\n  Content-Type: text/vtt; charset=utf-8", headers)
+        for name, record in manifest["media"].items():
+            with self.subTest(name=name):
+                self.assertRegex(name, r"^film-[0-9a-f]{8}\.")
+                self.assertLessEqual(record["bytes"], 24 * 1024 * 1024)   # Pages rejects files over 25 MiB
+        self.assertEqual(list(manifest["captions"]), ["en", "es", "ja", "zh-Hant", "zh-Hans"])
+        for page in ("index.html", "es/index.html", "ja/index.html", "zh-hant/index.html", "zh-hans/index.html"):
+            with self.subTest(page=page):
+                html = (SITE / page).read_text(encoding="utf-8")
+                film = html[html.index('id="film"'):html.index('class="problem-band"')]
+                sources = re.findall(r'<source src="/media/film/([^"]+)" type=', film)
+                self.assertEqual(sources, [manifest["files"]["webm"], manifest["files"]["mp4"]])   # AV1 first, H.264 always
+                self.assertIn('preload="none"', film)
+                self.assertIn("playsinline", film)
+                self.assertNotIn("autoplay", film)
+                self.assertNotRegex(film, r"<(iframe|script)\b")
+                self.assertEqual(film.count(" default>"), 1)
+                for lang, caption in manifest["captions"].items():
+                    self.assertIn(f'src="/media/film/{caption["file"]}" srclang="{lang}"', film)
+                self.assertIn(f'/releases/download/{manifest["release"]}/{manifest["release_master"]}', film)
+        media = SITE / "media" / "film"
+        if media.is_dir():                     # present in a deploying checkout, absent in CI
+            for name, record in manifest["media"].items():
+                with self.subTest(local=name):
+                    self.assertEqual(hashlib.sha256((media / name).read_bytes()).hexdigest(), record["sha256"])
 
     def test_tray_reference_is_generated_from_the_template_code(self) -> None:
         """The black-square guide must reproduce the failure it explains."""

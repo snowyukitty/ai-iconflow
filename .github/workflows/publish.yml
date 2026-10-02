@@ -34,6 +34,8 @@ env:
 jobs:
   verify:
     name: Verify and package
+    # Only a v* release publishes the package; film-* releases hold film media.
+    if: github.event_name != 'release' || startsWith(github.event.release.tag_name, 'v')
     timeout-minutes: 20
     runs-on: ubuntu-latest
     outputs:

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="146 138 724 724" role="img" aria-labelledby="title desc">
+  <title id="title">Quiet Hero — tray mark (derived from the master for a template image)</title>
+  <desc id="desc">The master's outer silhouette with the visor wedge and collar notch cut through, so an alpha-only template keeps the character's face and collar.</desc>
+  <defs>
+    <mask id="cuts">
+      <rect x="0" y="0" width="1024" height="1024" fill="#fff"/>
+      <path d="M406 520L548 476L646 520L574 614L456 596Z" fill="#000" stroke="#000" stroke-width="10" stroke-linejoin="round"/>
+      <path d="M478 652L558 744L646 628" fill="none" stroke="#000" stroke-width="56" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <path mask="url(#cuts)" d="M236 790L292 620L360 566L332 450L390 302L484 210L556 288L684 260L648 374L770 350L704 482L746 556L656 604L708 790Z" fill="#20232C" stroke="#20232C" stroke-width="112" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,232 @@
+{
+  "duration": 45.0,
+  "fps": 24,
+  "scenes": {
+    "flip": [
+      0.0,
+      10.5
+    ],
+    "laptop": [
+      10.5,
+      20.5
+    ],
+    "family": [
+      20.5,
+      27.0
+    ],
+    "pixels": [
+      27.0,
+      32.5
+    ],
+    "topdown": [
+      32.5,
+      35.5
+    ],
+    "traybar": [
+      35.5,
+      38.5
+    ],
+    "endtile": [
+      38.5,
+      45.0
+    ]
+  },
+  "cues": {
+    "cat": 4.33,
+    "hero": 6.3,
+    "compare": 16.3,
+    "favicon": 23.25,
+    "tray": 25.400000000000002,
+    "scan_end": 30.6,
+    "end": 38.5,
+    "hero_word": 6.304,
+    "menubar": 25.455,
+    "yours": 30.554,
+    "brand": 39.3,
+    "still": 40.299,
+    "flips": [
+      4.33,
+      6.3,
+      7.32,
+      7.46,
+      7.6,
+      7.74,
+      7.88,
+      8.02,
+      8.16,
+      8.3,
+      8.44,
+      8.58,
+      8.72,
+      8.86,
+      9.0,
+      9.14
+    ],
+    "rises": [
+      21.7,
+      22.2,
+      22.65,
+      23.0,
+      23.25,
+      25.4
+    ]
+  },
+  "voice": [
+    {
+      "line": "Most app icons are a letter on a square.",
+      "take": "voice-v5",
+      "src": [
+        0.0,
+        2.531
+      ],
+      "cut": 2.635,
+      "at": 0.9
+    },
+    {
+      "line": "A sleeping cat for a focus timer. A hooded hero for a story game.",
+      "take": "voice-v5-l2",
+      "src": [
+        0.0,
+        4.087
+      ],
+      "cut": 4.08,
+      "at": 3.75
+    },
+    {
+      "line": "You draw the SVG, or your coding agent does, with IconFlow's playbook.",
+      "take": "voice-v5",
+      "src": [
+        6.85,
+        11.331
+      ],
+      "cut": 11.365,
+      "at": 11.1
+    },
+    {
+      "line": "Compare finalists side by side, at real size.",
+      "take": "voice-v5",
+      "src": [
+        11.819,
+        14.768
+      ],
+      "cut": 15.055,
+      "at": 16.35
+    },
+    {
+      "line": "Pass review, and one SVG ships as favicon, app icon, desktop and menu bar.",
+      "take": "voice-v5",
+      "src": [
+        15.348,
+        20.596
+      ],
+      "cut": 20.835,
+      "at": 20.823
+    },
+    {
+      "line": "Free, open source, on your machine. And the icon is yours.",
+      "take": "voice-v5",
+      "src": [
+        20.909,
+        24.323
+      ],
+      "cut": 24.365,
+      "at": 27.5
+    },
+    {
+      "line": "IconFlow. Still itself at sixteen pixels.",
+      "take": "voice-v5",
+      "src": [
+        24.415,
+        27.353
+      ],
+      "cut": 27.35,
+      "at": 39.3
+    }
+  ],
+  "captions": [
+    {
+      "line": 0,
+      "seg": 0,
+      "start": 0.9,
+      "end": 3.735,
+      "text": "Most app icons are a letter on a square."
+    },
+    {
+      "line": 1,
+      "seg": 0,
+      "start": 3.75,
+      "end": 5.823,
+      "text": "A sleeping cat for a focus timer."
+    },
+    {
+      "line": 1,
+      "seg": 1,
+      "start": 5.863,
+      "end": 8.03,
+      "text": "A hooded hero for a story game."
+    },
+    {
+      "line": 2,
+      "seg": 0,
+      "start": 11.1,
+      "end": 13.8,
+      "text": "You draw the SVG, or your coding agent does,"
+    },
+    {
+      "line": 2,
+      "seg": 1,
+      "start": 13.84,
+      "end": 15.815,
+      "text": "with IconFlow's playbook."
+    },
+    {
+      "line": 3,
+      "seg": 0,
+      "start": 16.35,
+      "end": 19.786,
+      "text": "Compare finalists side by side, at real size."
+    },
+    {
+      "line": 4,
+      "seg": 0,
+      "start": 20.823,
+      "end": 23.059,
+      "text": "Pass review, and one SVG ships"
+    },
+    {
+      "line": 4,
+      "seg": 1,
+      "start": 23.099,
+      "end": 26.51,
+      "text": "as favicon, app icon, desktop and menu bar."
+    },
+    {
+      "line": 5,
+      "seg": 0,
+      "start": 27.5,
+      "end": 29.724,
+      "text": "Free, open source, on your machine."
+    },
+    {
+      "line": 5,
+      "seg": 1,
+      "start": 29.764,
+      "end": 31.156,
+      "text": "And the icon is yours."
+    },
+    {
+      "line": 6,
+      "seg": 0,
+      "start": 39.3,
+      "end": 40.259,
+      "text": "IconFlow."
+    },
+    {
+      "line": 6,
+      "seg": 1,
+      "start": 40.299,
+      "end": 42.435,
+      "text": "Still itself at sixteen pixels."
+    }
+  ]
+}

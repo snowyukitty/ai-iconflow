@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Catnap Focus — tail wedge</title>
+  <desc id="desc">A curled clay cat leaves a broad wedge between its tail and sleeping face.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="244" fill="#CFE6E1"/>
+  <ellipse cx="520" cy="754" rx="292" ry="92" fill="#55706F" opacity=".32"/>
+  <path d="M274 626C248 450 362 304 530 304C666 304 770 402 770 536C770 688 650 790 486 774C354 762 286 706 274 626Z"
+        transform="translate(22 30)" fill="#584968"/>
+  <path d="M274 626C248 450 362 304 530 304C666 304 770 402 770 536C770 688 650 790 486 774C354 762 286 706 274 626Z" fill="#F09577"/>
+  <path d="M344 596C350 468 438 388 552 392C626 394 682 430 710 488C658 462 604 468 562 508C518 550 494 610 420 634Z" fill="#D96862"/>
+  <path d="M578 364L622 232L688 362Z" fill="#F09577" stroke="#584968" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M658 354L714 246L752 382Z" fill="#F09577" stroke="#584968" stroke-width="48" stroke-linejoin="round"/>
+  <circle cx="664" cy="404" r="128" fill="#F09577" stroke="#584968" stroke-width="48"/>
+  <path d="M616 418Q642 440 668 418" fill="none" stroke="#584968" stroke-width="28" stroke-linecap="round"/>
+  <path d="M724 548C790 606 760 728 662 772C570 814 438 786 386 718" fill="none" stroke="#584968" stroke-width="148" stroke-linecap="round"/>
+  <path d="M724 548C770 592 744 658 700 682" fill="none" stroke="#FFC6A7" stroke-width="38" stroke-linecap="round"/>
+</svg>

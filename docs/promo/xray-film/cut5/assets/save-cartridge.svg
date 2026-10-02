@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-technique="stencil-cut">
+  <title>Save Relay Cartridge</title>
+
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#24B6A6" stroke="#191A20" stroke-width="52" fill-rule="evenodd" d="M246 170h532l78 126v514l-154 54H322l-154-54V296l78-126Zm108 154v148h92v170H318v130h388V642H578V472h92V324H354Z"/>
+    <path fill="#FF5A4F" d="M654 698h118v94H654Z"/>
+  </g>
+</svg>

@@ -1,0 +1,47 @@
+1
+00:00:00,900 --> 00:00:03,735
+Most app icons are a letter on a square.
+
+2
+00:00:03,750 --> 00:00:05,823
+A sleeping cat for a focus timer.
+
+3
+00:00:05,863 --> 00:00:08,030
+A hooded hero for a story game.
+
+4
+00:00:11,100 --> 00:00:13,800
+You draw the SVG, or your coding agent does,
+
+5
+00:00:13,840 --> 00:00:15,815
+with IconFlow's playbook.
+
+6
+00:00:16,350 --> 00:00:19,786
+Compare finalists side by side, at real size.
+
+7
+00:00:20,823 --> 00:00:23,059
+Pass review, and one SVG ships
+
+8
+00:00:23,099 --> 00:00:26,510
+as favicon, app icon, desktop and menu bar.
+
+9
+00:00:27,500 --> 00:00:29,724
+Free, open source, on your machine.
+
+10
+00:00:29,764 --> 00:00:31,156
+And the icon is yours.
+
+11
+00:00:39,300 --> 00:00:40,259
+IconFlow.
+
+12
+00:00:40,299 --> 00:00:42,435
+Still itself at sixteen pixels.

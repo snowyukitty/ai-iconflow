@@ -1,0 +1,95 @@
+{
+  "_comment": "Caption text per language, one entry per English cue in timeline5.json (same order). Terms follow website/i18n/GLOSSARY.md. 'music' is the opening sound cue.",
+  "languages": {
+    "en": {
+      "label": "English",
+      "music": "[soft piano]",
+      "cues": [
+        "Most app icons are a letter on a square.",
+        "A sleeping cat for a focus timer.",
+        "A hooded hero for a story game.",
+        "You draw the SVG, or your coding agent does,",
+        "with IconFlow's playbook.",
+        "Compare finalists side by side, at real size.",
+        "Pass review, and one SVG ships",
+        "as favicon, app icon, desktop and menu bar.",
+        "Free, open source, on your machine.",
+        "And the icon is yours.",
+        "IconFlow.",
+        "Still itself at sixteen pixels."
+      ]
+    },
+    "es": {
+      "label": "Español",
+      "music": "[piano suave]",
+      "cues": [
+        "Casi todos los iconos de apps son una letra en un cuadrado.",
+        "Un gato dormido para un temporizador de concentración.",
+        "Un héroe encapuchado para un juego narrativo.",
+        "Tú dibujas el SVG, o lo hace tu agente de código,",
+        "con el método de IconFlow.",
+        "Compara los finalistas lado a lado, a tamaño real.",
+        "Supera la revisión, y un solo SVG se publica",
+        "como favicon, icono de app, escritorio y barra de menús.",
+        "Gratis, de código abierto, en tu equipo.",
+        "Y el icono es tuyo.",
+        "IconFlow.",
+        "Sigue siendo él mismo a 16 píxeles."
+      ]
+    },
+    "ja": {
+      "label": "日本語",
+      "music": "［やわらかなピアノ］",
+      "cues": [
+        "アプリアイコンの多くは、四角に文字をひとつ置いただけ。",
+        "集中タイマーには、眠る猫を。",
+        "物語ゲームには、フードの主人公を。",
+        "SVG を描くのはあなた。またはコーディングエージェントが、",
+        "IconFlow のプレイブックに沿って。",
+        "最終候補を並べて、実寸で比べる。",
+        "レビューを通れば、ひとつの SVG が",
+        "favicon、アプリアイコン、デスクトップ、メニューバーへ。",
+        "無料、オープンソース、あなたのマシンで。",
+        "そして、アイコンはあなたのもの。",
+        "IconFlow。",
+        "16 ピクセルでも、それはそれのまま。"
+      ]
+    },
+    "zh-Hant": {
+      "label": "繁體中文",
+      "music": "［輕柔鋼琴］",
+      "cues": [
+        "大多數 App 圖示，只是方塊上的一個字母。",
+        "專注計時器，是一隻睡著的貓。",
+        "故事遊戲，是一位戴兜帽的主角。",
+        "SVG 由你來畫，或交給你的 AI 代理程式，",
+        "照著 IconFlow 的方法。",
+        "把決選作品並排，以實際尺寸比較。",
+        "通過審查後，同一個 SVG",
+        "就交付成 favicon、App 圖示、桌面與選單列。",
+        "免費、開源，在你自己的電腦上執行。",
+        "而且圖示屬於你。",
+        "IconFlow。",
+        "縮到 16 像素，依然是它自己。"
+      ]
+    },
+    "zh-Hans": {
+      "label": "简体中文",
+      "music": "［轻柔钢琴］",
+      "cues": [
+        "大多数 App 图标，只是方块上的一个字母。",
+        "专注计时器，是一只睡着的猫。",
+        "故事游戏，是一位戴兜帽的主角。",
+        "SVG 由你来画，或交给你的 AI 智能体，",
+        "按照 IconFlow 的方法。",
+        "把入围作品并排，以实际尺寸比较。",
+        "通过审查后，同一个 SVG",
+        "就交付为 favicon、App 图标、桌面与菜单栏。",
+        "免费、开源，在你自己的电脑上运行。",
+        "而且图标归你所有。",
+        "IconFlow。",
+        "缩到 16 像素，依然是它自己。"
+      ]
+    }
+  }
+}

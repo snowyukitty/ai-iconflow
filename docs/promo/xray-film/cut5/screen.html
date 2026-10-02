@@ -1,0 +1,72 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>cut5 laptop screen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet">
+<style>
+  /* A generic editor (no vendor marks) showing the real quiet-hero master, the real
+     `iconflow check` output, then the real `iconflow compare` sheet. */
+  html,body{margin:0;background:#1b1c21;}
+  #s{position:relative;width:1280px;height:800px;overflow:hidden;background:#e9e4da;font-family:Inter,sans-serif}
+  .menubar{height:26px;background:rgba(236,236,236,.92);display:flex;align-items:center;gap:18px;padding:0 14px;font-size:13px;font-weight:500;color:#111}
+  .menubar b{font-weight:600} .menubar .r{margin-left:auto;display:flex;gap:16px;align-items:center}
+  .win{position:absolute;border-radius:12px;overflow:hidden;box-shadow:0 30px 80px rgba(40,30,15,.35)}
+  .bar{height:34px;background:#24262c;display:flex;align-items:center;gap:8px;padding:0 12px;color:#9aa0a8;font-size:12.5px}
+  .dot{width:12px;height:12px;border-radius:50%} .tab{margin-left:16px;padding:6px 12px;background:#1b1c21;border-radius:6px 6px 0 0;color:#e8e6e3}
+  #ed{left:70px;top:58px;width:1140px;height:700px;background:#1b1c21}
+  .cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);height:calc(100% - 34px)}
+  .cols > div{min-width:0;overflow:hidden}
+  pre{margin:0;padding:18px 0 0 0;font:500 13.5px/1.62 "JetBrains Mono",monospace;color:#d8d6d0;white-space:pre;overflow:hidden;height:470px}
+  .ln{display:inline-block;width:42px;color:#5b616b;text-align:right;margin-right:16px}
+  .t{color:#7aa2f7}.a{color:#e0af68}.v{color:#9ece6a}.c{color:#6b7280}
+  .hl{background:rgba(122,162,247,.14)}
+  .prev{background:#232529;display:grid;place-items:center;border-left:1px solid #2e3137}
+  .prev img{width:330px;height:330px}
+  .term{position:absolute;left:0;right:0;bottom:0;height:150px;background:#141519;border-top:1px solid #2e3137;font:500 14px/1.7 "JetBrains Mono",monospace;color:#d8d6d0;padding:12px 18px}
+  .term .p{color:#7aa2f7} .ok{color:#9ece6a}
+  #viewer{left:90px;top:70px;width:1100px;height:640px;background:#1b1c21}
+  #viewer img{display:block;width:1100px;height:auto;margin-top:0}
+</style></head><body>
+<div id="s">
+  <div class="menubar"><b>Editor</b><span>File</span><span>Edit</span><span>View</span><span class="r"><span>Wi-Fi</span><span>10:42</span></span></div>
+  <div class="win" id="ed">
+    <div class="bar"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span><span class="tab">quiet-hero.svg</span><span style="margin-left:auto">story-game / icon</span></div>
+    <div class="cols">
+      <div style="position:relative"><pre id="code"></pre>
+        <div class="term"><div><span class="p">~/story-game/icon $</span> <span id="cmd"></span></div><div id="out"></div></div></div>
+      <div class="prev"><img src="assets/quiet-hero.svg" alt=""></div>
+    </div>
+  </div>
+  <div class="win" id="viewer">
+    <div class="bar"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span><span class="tab">bake.png</span><span style="margin-left:auto">iconflow compare</span></div>
+    <img src="assets/compare.png" alt="">
+  </div>
+</div>
+<script>
+const esc = (s) => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+// One pass over the raw line: tags, attribute names and quoted values.
+const color = (line) => line.replace(/(<\/?)([a-zA-Z]+)|([a-zA-Z:-]+)(=)("[^"]*")|([<>/])|([^<>"=\s]+|\s+|.)/g,
+  (m, open, tag, attr, eq, val, punct, rest) =>
+    tag ? `${esc(open)}<span class="t">${tag}</span>`
+    : attr ? `<span class="a">${attr}</span>=<span class="v">${esc(val)}</span>`
+    : punct ? esc(punct) : esc(rest || m));
+let LINES = [];
+window.ready = (async () => {
+  const src = await (await fetch('assets/quiet-hero.svg')).text();
+  LINES = src.trimEnd().split('\n');
+  await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => 0)));
+  return true;
+})();
+const CMD = 'iconflow check quiet-hero.svg', OUT = 'OK — no automated warnings. Still do the visual review.';
+window.render = (t) => {
+  const editor = t < 5.8;
+  document.getElementById('ed').style.display = editor ? 'block' : 'none';
+  document.getElementById('viewer').style.display = editor ? 'none' : 'block';
+  // Code: the real file, gently scrolling, with the hero's colour fill highlighted.
+  const first = Math.min(LINES.length - 12, Math.floor(Math.max(0, t - 0.6) * 1.1));
+  document.getElementById('code').innerHTML = LINES.slice(first, first + 17).map((l, i) =>
+    `<div class="${/fill="#65C7C2"/.test(l) ? 'hl' : ''}"><span class="ln">${first + i + 1}</span>${color(l)}</div>`).join('');
+  const typed = Math.max(0, Math.min(CMD.length, Math.floor((t - 2.2) * 18)));
+  document.getElementById('cmd').textContent = CMD.slice(0, typed) + (t > 2.2 && t < 3.9 && Math.floor(t * 2) % 2 ? '▌' : '');
+  document.getElementById('out').innerHTML = t > 3.9 ? `<span class="ok">${esc(OUT)}</span>` : '';
+  return true;
+};
+</script></body></html>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Keepsake Knot — passing loop</title>
+  <desc id="desc">A coral band passes through a teal folded loop with a displaced square counter.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="212" fill="#251D32"/>
+  <path d="M264 336H576C688 336 752 408 752 504C752 600 688 672 576 672H280"
+        fill="none" stroke="#FF6B5D" stroke-width="176" stroke-linecap="round"/>
+  <path d="M352 240V560C352 664 416 728 520 728H680"
+        fill="none" stroke="#251D32" stroke-width="304" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M352 240V560C352 664 416 728 520 728H680"
+        fill="none" stroke="#77D7CD" stroke-width="176" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M352 336H504" fill="none" stroke="#251D32" stroke-width="304"/>
+  <path d="M352 336H504" fill="none" stroke="#77D7CD" stroke-width="176"/>
+  <rect x="472" y="456" width="128" height="128" rx="24" fill="#251D32"/>
+</svg>

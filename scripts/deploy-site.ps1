@@ -15,7 +15,10 @@ error, which silently restores content on iconflow.pages.dev.
 #>
 [CmdletBinding()]
 param(
-    [switch]$SkipVerify
+    [switch]$SkipVerify,
+    # Deploy the content to a preview branch alias (https://preview.iconflow.pages.dev)
+    # instead of production, skip the redirect shell, and verify only the film media.
+    [switch]$Preview
 )
 
 $ErrorActionPreference = 'Stop'
@@ -29,8 +32,16 @@ $canonical = 'https://ai-iconflow.com'
 $contentDir = Join-Path $repoRoot 'website'
 $redirectDir = Join-Path $repoRoot 'website-redirect'
 
-Write-Host '==> Deploying site content to project "iconflow"' -ForegroundColor Cyan
-$contentLog = npx wrangler pages deploy . --cwd $contentDir --project-name iconflow --branch main --commit-dirty=true 2>&1
+# The film is not in git. Refuse to ship a page that references media this
+# checkout does not have (restore it with: python scripts/film_publish.py fetch).
+$python = Join-Path $repoRoot '.venv/Scripts/python.exe'
+if (-not (Test-Path $python)) { $python = 'python' }
+& $python (Join-Path $repoRoot 'scripts/film_publish.py') verify
+if ($LASTEXITCODE -ne 0) { throw 'Film media is missing or does not match docs/promo/film-manifest.json.' }
+
+$branch = if ($Preview) { 'preview' } else { 'main' }
+Write-Host "==> Deploying site content to project ""iconflow"" (branch $branch)" -ForegroundColor Cyan
+$contentLog = npx wrangler pages deploy . --cwd $contentDir --project-name iconflow --branch $branch --commit-dirty=true 2>&1
 $contentLog | Write-Host
 # Collapse to one string first: -notmatch against an array returns the
 # non-matching elements, not a boolean, so the guard would always fire.
@@ -38,8 +49,10 @@ if (($contentLog | Out-String) -notmatch 'Uploading Functions bundle') {
     throw 'Content deploy shipped no Functions bundle. iconflow.pages.dev would serve content instead of redirecting.'
 }
 
-Write-Host '==> Deploying redirect shell to project "ai-iconflow"' -ForegroundColor Cyan
-npx wrangler pages deploy $redirectDir --project-name ai-iconflow --branch main --commit-dirty=true 2>&1 | Write-Host
+if (-not $Preview) {
+    Write-Host '==> Deploying redirect shell to project "ai-iconflow"' -ForegroundColor Cyan
+    npx wrangler pages deploy $redirectDir --project-name ai-iconflow --branch main --commit-dirty=true 2>&1 | Write-Host
+}
 
 if ($SkipVerify) { return }
 
@@ -67,6 +80,40 @@ function Test-Host {
     Write-Host ("  {0} {1} -> {2} {3}" -f $mark, $Url, $status, $location)
     if (-not $ok) { return "$Url expected $Expect $ExpectLocation, got $status $location" }
     return $null
+}
+
+# Film media must answer byte ranges with 206 or seeking breaks, carry its real
+# MIME type, and stay out of Functions (_routes.json excludes /media/*).
+# Only the zone in front of ai-iconflow.com serves ranges: *.pages.dev answers a
+# Range request with 200 and the whole file (observed 2026-10-02), so a preview
+# accepts 200 and production requires 206.
+function Test-Media {
+    param([string]$Url, [string]$ExpectType, [switch]$AllowWhole)
+    $request = [System.Net.Http.HttpRequestMessage]::new([System.Net.Http.HttpMethod]::Get, $Url)
+    $request.Headers.Range = [System.Net.Http.Headers.RangeHeaderValue]::new(0, 1)
+    $response = $client.SendAsync($request).GetAwaiter().GetResult()
+    $status = [int]$response.StatusCode
+    $type = "$($response.Content.Headers.ContentType)"
+    $range = "$($response.Content.Headers.ContentRange)"
+    $ranged = $status -eq 206 -and $range -like 'bytes 0-1/*'
+    $ok = ($ranged -or ($AllowWhole -and $status -eq 200)) -and $type -like "$ExpectType*"
+    $mark = if ($ok) { 'ok  ' } else { 'FAIL' }
+    Write-Host ("  {0} {1} -> {2} {3} {4}" -f $mark, $Url, $status, $type, $range)
+    if (-not $ok) { return "$Url expected 206 $ExpectType with Content-Range, got $status $type '$range'" }
+    return $null
+}
+
+$manifest = Get-Content (Join-Path $repoRoot 'docs/promo/film-manifest.json') -Raw | ConvertFrom-Json
+$base = if ($Preview) { 'https://preview.iconflow.pages.dev' } else { $canonical }
+$failures += Test-Media -Url "$base/media/film/$($manifest.files.mp4)" -ExpectType 'video/mp4' -AllowWhole:$Preview
+$failures += Test-Media -Url "$base/media/film/$($manifest.files.webm)" -ExpectType 'video/webm' -AllowWhole:$Preview
+$failures += Test-Media -Url "$base/media/film/$($manifest.captions.en.file)" -ExpectType 'text/vtt' -AllowWhole:$Preview
+
+if ($Preview) {
+    $failures = $failures | Where-Object { $_ }
+    if ($failures) { $failures | ForEach-Object { Write-Error $_ }; throw 'Preview media verification failed.' }
+    Write-Host "Preview verified: $base/#film" -ForegroundColor Green
+    return
 }
 
 $failures += Test-Host -Url "$canonical/" -Expect 200

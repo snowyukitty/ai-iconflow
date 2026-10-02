@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IconFlow film, cut 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@500;600&family=JetBrains+Mono:wght@500&display=block" rel="stylesheet">
+<style>
+  /* Same type system as cut 4: a serif for whole thoughts, mono for facts.
+     The picture carries the story; type only names what is real. */
+  :root { --ink:#2a2620; --serif:"Newsreader",Georgia,serif; --sans:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; background:#000; }
+  #stage { position:relative; width:1920px; height:1080px; overflow:hidden; background:#000; font-family:var(--sans); color:var(--ink); }
+  #bg { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+  .t { position:absolute; opacity:0; will-change:opacity,transform; }
+  .serif { font-family:var(--serif); font-weight:400; letter-spacing:-.01em; line-height:1.02; }
+  .mono { font-family:var(--mono); font-weight:500; font-size:24px; letter-spacing:.06em; }
+  #grain { position:absolute; inset:0; width:1920px; height:1080px; mix-blend-mode:overlay; opacity:.08; pointer-events:none; }
+  #fade { position:absolute; inset:0; background:#000; opacity:0; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <img id="bg" alt="">
+
+  <div class="t mono" id="o-files" style="left:96px; top:84px;">one SVG → 22 files · web · PWA · Tauri · Electron · tray</div>
+  <div class="t mono" id="o-free" style="left:96px; top:84px;">free · open source · runs on your machine</div>
+  <div class="t mono" id="o-16" style="left:96px; top:84px;">16 × 16 px · five icons · each still itself</div>
+  <div class="t mono" id="o-tray" style="left:96px; bottom:84px;">menu bar · template image</div>
+
+  <div class="t" id="o-brand" style="left:112px; top:300px;">
+    <div style="display:flex; align-items:center; gap:30px;">
+      <img src="assets/iconflow-mark.svg" alt="" style="width:112px; height:112px;">
+      <div class="serif" style="font-size:132px; font-weight:500;">IconFlow</div>
+    </div>
+  </div>
+  <div class="t serif" id="o-still" style="left:116px; top:470px; font-size:64px; color:#8a5a3c;">Still itself at 16 px.</div>
+  <div class="t" id="o-url" style="left:116px; bottom:110px;">
+    <div class="mono" style="font-size:42px; letter-spacing:.01em;">ai-iconflow.com</div>
+    <div class="mono" style="margin-top:18px; font-size:22px; opacity:.72;">free 16 px X-ray in your browser → ai-iconflow.com/xray</div>
+  </div>
+
+  <canvas id="grain" width="960" height="540"></canvas>
+  <div id="fade"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const ease = (x) => 1 - Math.pow(1 - x, 3);
+const show = (id, t, a, b, rise = 0.5) => {
+  const k = Math.min(ease(prog(t, a, a + rise)), 1 - prog(t, b - 0.35, b));
+  $(id).style.opacity = k; $(id).style.transform = `translateY(${(1 - ease(prog(t, a, a + rise))) * 12}px)`;
+};
+
+let TL, S, C, SRC = {};
+window.ready = (async () => {
+  TL = await (await fetch('timeline5.json')).json(); S = TL.scenes; C = TL.cues; window.DURATION = TL.duration;
+  SRC = window.__SRC || { cg: '/work/promo-xray/cg5', res: '960' };
+  await document.fonts.ready;
+  await Promise.all([...document.images].filter(i => i.src).map(i => i.decode().catch(() => 0)));
+  return true;
+})();
+
+const grain = (frame) => {
+  const g = $('grain').getContext('2d'), d = g.createImageData(960, 540);
+  let s = (frame * 2654435761) >>> 0 || 1;
+  for (let i = 0; i < d.data.length; i += 4) { s ^= s << 13; s >>>= 0; s ^= s >> 17; s ^= s << 5; s >>>= 0; const v = 128 + ((s & 255) - 128) * 0.9; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+  g.putImageData(d, 0, 0);
+};
+
+let bgKey = '';
+window.render = async (t) => {
+  const frame = Math.round(t * TL.fps);
+  let src = null;
+  for (const [name, [a, b]] of Object.entries(S)) {
+    if (t >= a && t < b) src = `${SRC.cg}/${name}-${SRC.res}/${String(Math.floor((t - a) * TL.fps)).padStart(4, '0')}.png`;
+  }
+  if (src && src !== bgKey) { bgKey = src; $('bg').src = src; await $('bg').decode().catch(() => 0); }
+
+  show('o-files', t, S.family[0] + 0.6, S.family[1]);
+  show('o-free', t, S.pixels[0] + 0.5, C.scan_end + 0.6);
+  show('o-16', t, C.scan_end + 0.9, S.topdown[1]);
+  show('o-tray', t, S.traybar[0] + 0.4, S.traybar[1]);
+  show('o-brand', t, C.brand - 0.1, TL.duration + 1, 0.7);
+  show('o-still', t, C.still, TL.duration + 1, 0.6);
+  show('o-url', t, C.still + 1.4, TL.duration + 1, 0.6);
+  $('fade').style.opacity = prog(t, TL.duration - 0.6, TL.duration);
+  if (SRC.grain !== false) grain(frame); else $('grain').style.display = 'none';
+  return true;
+};
+</script>
+</body>
+</html>
