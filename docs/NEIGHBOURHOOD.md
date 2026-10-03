@@ -259,6 +259,26 @@ frozen at `schema: 1`. `neighbours --json` carries the structure instead
 (`docs/AGENT_CONTRACT.md`), with the same exit-code contract as every gated
 command: 0 clean, 1 a collision against `avoid`, 2 a usage or runtime failure.
 
+## In the browser: the Icon Forge
+
+The [Icon Forge](https://ai-iconflow.com/forge/) runs this instrument while a
+person builds. `website/forge/shapefield.js` is a port of `shapefield.py`
+with the same constants, the same figure policy and the same topology rules,
+and `website/forge/collision.js` is the collision half of the index, derived
+by `scripts/build_forge_collision.py` and never edited. Two things keep the
+port honest: `tests/test_website.py` compares every constant with the Python
+module, and `scripts/forge_parity.py` renders all thirty-nine generic forms
+and the Forge's worked examples through the port in Chromium and requires
+the fields to match the index within 0.03 with identical topology. When it
+was written they matched exactly.
+
+The Forge reports the radius exactly as the CLI does: a form within 0.12 with
+the same topology is the same shape at 16px. It adds one band the gate does
+not have. A form within 0.20 is called *close*, because the nearest draft a
+person rejected in the casebook — the stepped stack, 0.170 from the bar chart
+— sat there. That band is a coach speaking to someone mid-sketch; it never
+reaches `check`, and it moves nothing in this document's calibration.
+
 ## Working with it
 
 1. Run `neighbours` on every bake-off finalist, not just the winner, and read

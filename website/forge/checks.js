@@ -4,9 +4,18 @@
 // the live design. They are a coach, not the gate: the IconFlow CLI renders in
 // a pinned Chromium and still requires a human review before `ship`.
 import { toSvg, contrast } from './model.js';
+import { fieldFromImage, nearest, decodeGrid, COLLISION_RADIUS } from './shapefield.js';
+import collision from './collision.js';
 
-const TAB_LIGHT = '#dee1e6';
-const TAB_DARK = '#35363a';
+// The generic forms every OS already owns, as 16px fields (CC0, derived from
+// the CLI's index). A design inside the CLI's collision radius of one, with
+// the same topology, is that form at 16px.
+const GENERIC = collision.entries.map((e) => ({ ...e, field: { grid: decodeGrid(e.grid), components: e.components, holes: e.holes } }));
+// The Forge's own "close" band. The nearest draft a human rejected in the
+// casebook sat at 0.170 (docs/NEIGHBOURHOOD.md): outside the radius, and
+// still the wrong shape. A coach should say so; the CLI's gate does not.
+const NEAR = 0.2;
+
 
 export function loadSvg(svg) {
   return new Promise((resolve, reject) => {
@@ -31,6 +40,24 @@ export function rasterise(img, size, canvas = document.createElement('canvas')) 
 const pixels = (canvas) => canvas.getContext('2d', { willReadFrequently: true })
   .getImageData(0, 0, canvas.width, canvas.height).data;
 const lum = (r, g, b) => (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+
+// iconflow/qa.py _luma_spread: std-dev of luminance after compositing on bg.
+function lumaSpread(canvas, bg) {
+  const px = pixels(canvas);
+  const n = px.length / 4;
+  const lum = new Float64Array(n);
+  let mean = 0;
+  for (let i = 0; i < n; i += 1) {
+    const a = px[i * 4 + 3] / 255;
+    const [r, g, b] = [0, 1, 2].map((c) => px[i * 4 + c] * a + bg[c] * (1 - a));
+    lum[i] = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    mean += lum[i];
+  }
+  mean /= n;
+  let variance = 0;
+  for (let i = 0; i < n; i += 1) variance += (lum[i] - mean) ** 2;
+  return Math.sqrt(variance / n);
+}
 
 // Otsu threshold over the luminance of opaque pixels (as in the X-ray).
 function otsu(values) {
@@ -126,7 +153,9 @@ export async function runChecks(design, budget) {
   if (!visible.length) {
     return {
       score: 0,
-      total: 5,
+      total: 6,
+      neighbours: [],
+      field: null,
       verdicts: [{ key: 'empty', level: 'warn', title: 'The board is empty', text: 'Add a piece from the shelf to start.' }],
     };
   }
@@ -175,26 +204,39 @@ export async function runChecks(design, budget) {
     verdicts.push({ key: 'frame', level: 'pass', title: `Frame: mark spans ${Math.round(fp.span * 100)}%`, text: 'Big enough to use its pixels and clear of the cropped edge.' });
   }
 
-  // 4. Contrast: every piece has to stand off what it sits on.
-  if (design.card.shape === 'none') {
-    const worst = (bg) => Math.max(...visible.map((p) => contrast(p.color, bg)));
-    const light = worst(TAB_LIGHT);
-    const dark = worst(TAB_DARK);
-    if (Math.min(light, dark) < 1.6) {
-      verdicts.push({ key: 'contrast', level: 'warn', title: `Contrast: fades on ${light < dark ? 'light' : 'dark'} tabs`, text: 'With no card, the mark sits straight on the browser chrome. Add a card or a contrasting piece.' });
-    } else {
-      verdicts.push({ key: 'contrast', level: 'pass', title: 'Contrast: reads on light and dark tabs', text: 'Some piece stands off both light and dark browser chrome.' });
-    }
+  // 4. Contrast. First the CLI's own rule (iconflow/qa.py _luma_spread):
+  // composite the render on a background and ask whether anything is left
+  // but a flat blob. Then the Forge's: no piece may vanish into its card.
+  const cliContrast = [
+    ['white', c16, [255, 255, 255], 0.06, 16],
+    ['dark', c16, [11, 13, 18], 0.06, 16],
+    ['mid-gray', rasterise(full, 32), [128, 128, 128], 0.04, 32],
+  ].filter(([, canvas, bg, floor]) => lumaSpread(canvas, bg) < floor);
+  const faint = design.card.shape === 'none' ? [] : visible.filter((p) => contrast(p.color, design.card.color) < 1.6);
+  if (cliContrast.length) {
+    const [where, , , , size] = cliContrast[0];
+    verdicts.push({ key: 'contrast', level: 'warn', title: `Contrast: weak on ${where} at ${size}px`, text: `Composited on ${where}, the ${size}px render is nearly one flat tone — the same warning \`iconflow check\` gives. Add a card, an outline in a contrasting colour, or a darker or lighter piece.` });
+  } else if (faint.length) {
+    verdicts.push({ key: 'contrast', level: 'warn', title: `Contrast: ${faint.length} piece${faint.length > 1 ? 's' : ''} vanish into the card`, text: 'A piece close to the card colour disappears at small sizes. Change its colour or the card.' });
   } else {
-    const faint = visible.filter((p) => contrast(p.color, design.card.color) < 1.6);
-    if (faint.length) {
-      verdicts.push({ key: 'contrast', level: 'warn', title: `Contrast: ${faint.length} piece${faint.length > 1 ? 's' : ''} vanish into the card`, text: 'A piece close to the card colour disappears at small sizes. Change its colour or the card.' });
-    } else {
-      verdicts.push({ key: 'contrast', level: 'pass', title: 'Contrast: every piece stands off the card', text: 'Each visible piece differs clearly in luminance from the card.' });
-    }
+    verdicts.push({ key: 'contrast', level: 'pass', title: 'Contrast: reads on white, dark and grey', text: 'Every piece stands off its card, and the render keeps its contrast on light, dark and mid-grey backgrounds.' });
   }
 
-  // 5. Simplicity: the brief's piece budget.
+  // 5. Neighbourhood: is this already a form every system owns?
+  const field = fieldFromImage(full);
+  const neighbours = nearest(field, GENERIC, 3);
+  const top = neighbours[0];
+  const d = top ? top.distance.toFixed(2) : '';
+  const name = top ? `“${top.entry.title}”` : '';
+  if (top && top.within) {
+    verdicts.push({ key: 'neighbours', level: 'fail', title: `16px: reads as ${name}`, text: `At 16px this is the same shape as the generic form ${name} (distance ${d}, radius ${COLLISION_RADIUS}, same pieces and holes). Every system already owns that form. Change the silhouette, not the colour.` });
+  } else if (top && top.distance <= NEAR) {
+    verdicts.push({ key: 'neighbours', level: 'warn', title: `16px: close to ${name}`, text: `Distance ${d} from the generic form ${name}${top.sameTopology ? '' : ', with different pieces or holes'}. Outside the CLI’s radius, but close enough that a person may read it that way.` });
+  } else {
+    verdicts.push({ key: 'neighbours', level: 'pass', title: '16px: its own shape', text: `No generic form within ${NEAR}; the nearest is ${name} at ${d}. Not a clearance check — a person still judges distinctiveness.` });
+  }
+
+  // 6. Simplicity: the brief's piece budget.
   const used = design.pieces.length;
   if (used > budget) {
     verdicts.push({ key: 'budget', level: 'fail', title: `Budget: ${used} of ${budget} pieces`, text: 'Over the brief’s budget. Icons that survive 16px are usually fewer, bolder pieces.' });
@@ -202,5 +244,5 @@ export async function runChecks(design, budget) {
     verdicts.push({ key: 'budget', level: 'pass', title: `Budget: ${used} of ${budget} pieces`, text: 'Within the brief’s budget.' });
   }
 
-  return { verdicts, score: verdicts.filter((v) => v.level === 'pass').length, total: verdicts.length };
+  return { verdicts, field, neighbours, score: verdicts.filter((v) => v.level === 'pass').length, total: verdicts.length };
 }

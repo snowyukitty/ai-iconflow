@@ -21,6 +21,33 @@ first published release remains under `Unreleased`.
   The module boundary (`model`, `checks`, `scene`, `forge`) keeps the Forge
   liftable into its own site later.
 
+- **The Forge runs the neighbourhood.** `website/forge/shapefield.js` ports
+  `iconflow/shapefield.py` constant for constant, and a sixth live check
+  compares the design with the 39 generic forms of `@collision`: within the
+  CLI's 0.12 radius with the same topology it *reads as* that form; within
+  0.20 it is *close*, the band where the casebook's rejected stepped stack
+  sat. A panel draws your 16px field beside the three nearest. The web copy
+  of the forms is derived by `scripts/build_forge_collision.py --check`, the
+  constants are compared in `tests/test_website.py`, and
+  `scripts/forge_parity.py` (Chromium CI job) renders every form through the
+  port and requires the index's fields back; they match exactly.
+- **The Forge's contrast check is the CLI's.** It now runs `qa.py`'s own
+  luminance-spread rule (16px on white and on dark, 32px on mid-grey), so a
+  design that is ready in the Forge does not meet a contrast warning in
+  `iconflow check`. `scripts/forge_parity.py` holds every worked example to a
+  warning-free `iconflow check`.
+- **Finalists A/B/C.** Keep up to three ideas and compare them at 16 and 32px
+  on light and dark tabs; two finalists that are one shape at 16px are called
+  one idea in two colours.
+- **Worked examples instead of a magnifier.** The first-visit design was a
+  generic magnifier, 0.150 from `@collision/magnifier`. It is now *Nap*, a
+  cat asleep in a crescent, with *Tide*, *Relay* and *Dial* one menu away;
+  each passes all six checks.
+- **A cut is a hole in 3D.** Cut pieces render as a depth-only prism, so the
+  card shows through from any angle instead of a dark puck sitting on top;
+  Stamp view drops shadows so it matches the SVG exactly. Portrait phones get
+  a wider lens instead of a cropped board.
+
 ### Changed
 
 - **The README leads with what IconFlow is for.** It opens with the film and

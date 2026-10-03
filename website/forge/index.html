@@ -14,7 +14,7 @@
   <meta property="og:image" content="https://ai-iconflow.com/assets/marketing/forge-1200x630.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Icon Forge: a magnifier icon built from 3D pieces on a workbench, beside its SVG master and its real 16px pixels.">
+  <meta property="og:image:alt" content="Icon Forge: a sleeping cat curled into a crescent, built from 3D pieces on a workbench, beside its SVG master and its real 16px pixels.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://ai-iconflow.com/assets/marketing/forge-1200x630.png">
   <link rel="canonical" href="https://ai-iconflow.com/forge/">
@@ -23,10 +23,10 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/styles.css?v=20261001a">
-  <link rel="stylesheet" href="/forge/forge.css?v=20261003a">
+  <link rel="stylesheet" href="/forge/forge.css?v=20261003c">
   <link rel="modulepreload" href="/forge/vendor/three-0.169.0/three.module.min.js">
   <script src="/app.js?v=20261001a" defer></script>
-  <script type="module" src="/forge/forge.js?v=20261003a"></script>
+  <script type="module" src="/forge/forge.js?v=20261003c"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Icon Forge","url":"https://ai-iconflow.com/forge/","applicationCategory":"DesignApplication","operatingSystem":"Any (modern browser with WebGL)","browserRequirements":"Requires WebGL and JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"A 3D workbench that builds an app icon from simple pieces and exports one editable SVG master, with live 16px, tray and contrast checks in the browser.","isPartOf":{"@type":"WebSite","name":"IconFlow","url":"https://ai-iconflow.com/"}}</script>
 </head>
 <body class="forge-body">
@@ -110,6 +110,17 @@
           </div>
         </section>
 
+        <section class="forge-card">
+          <h2>Neighbourhood at 16px</h2>
+          <div class="forge-neighbours" data-forge-neighbours data-label-you="Yours" data-label-distance="{d} away">
+            <figure><canvas class="field" data-field-of="you" width="16" height="16" role="img" aria-label="Your design's 16px shape field"></canvas><figcaption>Yours</figcaption></figure>
+            <figure><canvas class="field" data-field-of="0" width="16" height="16" aria-hidden="true"></canvas><figcaption data-near-caption="0">—</figcaption></figure>
+            <figure><canvas class="field" data-field-of="1" width="16" height="16" aria-hidden="true"></canvas><figcaption data-near-caption="1">—</figcaption></figure>
+            <figure><canvas class="field" data-field-of="2" width="16" height="16" aria-hidden="true"></canvas><figcaption data-near-caption="2">—</figcaption></figure>
+          </div>
+          <p class="forge-hint">The same 16px shape field <code>iconflow neighbours</code> computes, against the generic forms every system already owns. Two marks are one shape at 16px when they are 0.12 or closer with the same pieces and holes.</p>
+        </section>
+
         <section class="forge-card" data-forge-inspector>
           <h2>Selected piece</h2>
           <p class="forge-empty" data-forge-none>Click a piece on the board, or pick one in the layer list.</p>
@@ -143,6 +154,21 @@
           <div class="forge-swatches" role="group" aria-label="Card colour" data-forge-card-swatches></div>
         </section>
 
+        <section class="forge-card" data-forge-finalists data-label-same="{a} and {b} are one shape at 16px ({d}). Keep ideas that differ in silhouette, not colour." data-label-distinct="Every pair of finalists is a different shape at 16px." data-label-few="Keep at least two finalists to compare them.">
+          <h2>Finalists</h2>
+          <p class="forge-hint">Diverge before you polish: keep up to three different ideas, then compare them at the sizes that decide.</p>
+          <ol class="forge-slots">
+            <li data-slot="0"><span class="forge-slot-name">A</span><canvas class="forge-slot-thumb" width="64" height="64" aria-hidden="true"></canvas><span class="forge-slot-actions"><button type="button" class="forge-chip" data-slot-action="keep">Keep</button><button type="button" class="forge-chip" data-slot-action="open">Open</button></span></li>
+            <li data-slot="1"><span class="forge-slot-name">B</span><canvas class="forge-slot-thumb" width="64" height="64" aria-hidden="true"></canvas><span class="forge-slot-actions"><button type="button" class="forge-chip" data-slot-action="keep">Keep</button><button type="button" class="forge-chip" data-slot-action="open">Open</button></span></li>
+            <li data-slot="2"><span class="forge-slot-name">C</span><canvas class="forge-slot-thumb" width="64" height="64" aria-hidden="true"></canvas><span class="forge-slot-actions"><button type="button" class="forge-chip" data-slot-action="keep">Keep</button><button type="button" class="forge-chip" data-slot-action="open">Open</button></span></li>
+          </ol>
+          <div class="forge-bake" data-forge-bake aria-label="Finalists at real size" role="group">
+            <div class="forge-bake-row forge-bake-light" data-bake="light"></div>
+            <div class="forge-bake-row forge-bake-dark" data-bake="dark"></div>
+          </div>
+          <p class="forge-bake-verdict" data-forge-bake-verdict></p>
+        </section>
+
         <section class="forge-card">
           <h2>Take it with you</h2>
           <div class="forge-row">
@@ -152,7 +178,15 @@
           </div>
           <div class="forge-row">
             <label class="forge-chip forge-file">Open a Forge SVG<input class="sr-only" type="file" accept=".svg,image/svg+xml" data-forge-import></label>
-            <button type="button" class="forge-chip" data-action="example">Load example</button>
+            <label class="forge-select forge-examples"><span class="sr-only">Load an example</span>
+              <select data-forge-example>
+                <option value="">Load an example…</option>
+                <option value="nap">Nap — a focus timer</option>
+                <option value="tide">Tide — a weather app</option>
+                <option value="relay">Relay — a team chat</option>
+                <option value="dial">Dial — a menu-bar utility</option>
+              </select>
+            </label>
             <button type="button" class="forge-chip" data-action="clear">Clear board</button>
           </div>
           <p class="forge-status" role="status" aria-live="polite" data-forge-status data-label-imported="Design opened." data-label-notforge="That SVG was not made in Icon Forge, so there is no design inside it to open." data-label-copyfail="Copy was blocked by the browser."></p>
@@ -182,6 +216,8 @@ iconflow review --html review.html</code></pre>
         <li><strong>Layers are draw order.</strong> A higher piece covers a lower one. A <em>cut</em> piece punches through every piece below it but never through the card, which is how a mark gets the inner holes a menu-bar silhouette needs.</li>
         <li><strong>Nothing leaves your device.</strong> The design is kept in this browser and, when you share it, inside the link’s <code>#</code> fragment, which browsers never send to a server. An opened SVG is read locally; only the design data embedded by the Forge is used.</li>
         <li><strong>Few, bold pieces win.</strong> Each brief has a piece budget because detail is the first thing 16px throws away. The red lattice in Stamp view is the 16×16 pixel grid.</li>
+        <li><strong>The neighbourhood is the CLI’s.</strong> The Forge computes the same 16px shape field as <code>iconflow neighbours</code>, constant for constant, and compares it with the same generic forms: gear, bell, magnifier, bar chart, <code># π</code> and the rest. A browser test renders every one of them through both and requires them to agree. A clean neighbourhood is not a clearance check, and it is not a score.</li>
+        <li><strong>Diverge, then compare.</strong> Keep up to three finalists and see them side by side at 16 and 32 pixels on light and dark tabs, the way <code>iconflow compare</code> lays out a bake-off. If two of them are the same shape at 16px, the Forge says so: that is one idea in two colours.</li>
       </ul>
     </section>
   </main>

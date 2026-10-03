@@ -128,6 +128,42 @@
 
 .forge-panel button:focus-visible, .forge-shelf button:focus-visible, .forge-viewbar button:focus-visible, .forge-select select:focus-visible { outline: 2px solid var(--coral-hot); outline-offset: 2px; }
 
+.forge-hint { margin: 10px 0 0; color: var(--muted); font-size: .76rem; }
+.forge-hint code { font-family: var(--mono); font-size: .9em; color: var(--paper); }
+
+/* Neighbourhood: 16px shape fields, one cell per pixel. */
+.forge-neighbours { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.forge-neighbours figure { margin: 0; text-align: center; }
+.forge-neighbours figcaption { margin-top: 4px; color: var(--muted); font-size: .66rem; line-height: 1.25; }
+.field { display: block; width: 100%; max-width: 64px; aspect-ratio: 1; margin: 0 auto; border: 2px solid transparent; border-radius: 8px; image-rendering: pixelated; }
+.forge-neighbours figure:first-child .field { border-color: var(--paper); }
+.forge-neighbours figure.is-near .field { border-color: #ffb547; }
+.forge-neighbours figure.is-hit .field { border-color: var(--coral); }
+.forge-neighbours figure.is-hit figcaption { color: var(--coral-hot); }
+
+/* Finalists and their bake-off. */
+.forge-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
+.forge-slots li { min-width: 0; display: grid; justify-items: center; gap: 6px; padding: 8px 6px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,244,232,.03); }
+.forge-slots li.is-empty .forge-slot-thumb { background: repeating-linear-gradient(45deg, transparent 0 6px, rgba(255,244,232,.05) 6px 12px); border-radius: 10px; }
+.forge-slot-name { font-family: var(--mono); font-size: .7rem; font-weight: 750; color: var(--muted); }
+.forge-slot-thumb { width: 64px; height: 64px; }
+.forge-slot-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
+.forge-slot-actions .forge-chip { min-height: 28px; padding: 0 8px; font-size: .72rem; }
+.forge-chip:disabled { opacity: .35; cursor: default; }
+.forge-bake { display: grid; gap: 4px; margin-top: 10px; }
+.forge-bake-row { display: flex; flex-wrap: wrap; gap: 14px; min-height: 0; padding: 8px 10px; border-radius: 9px; }
+.forge-bake-row:empty { display: none; }
+.forge-bake-light { color: #202124; background: #dee1e6; }
+.forge-bake-dark { color: #e8eaed; background: #35363a; }
+.forge-bake-cell { display: inline-flex; align-items: center; gap: 6px; }
+.forge-bake-cell b { font-family: var(--mono); font-size: .66rem; }
+.forge-bake-cell canvas:first-of-type { width: 16px; height: 16px; }
+.forge-bake-cell canvas:last-of-type { width: 32px; height: 32px; }
+.forge-bake-verdict { min-height: 1.2em; margin: 8px 0 0; color: var(--muted); font-size: .78rem; }
+.forge-bake-verdict.is-pass { color: var(--mint); }
+.forge-bake-verdict.is-warn { color: #ffb547; }
+.forge-examples select { min-height: 32px; font-size: .78rem; }
+
 /* ---------- below the bench ---------- */
 .forge-next { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 80px; padding: 44px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink-2); }
 .forge-next h2 { margin: 0; font-size: clamp(1.9rem, 3.4vw, 2.8rem); letter-spacing: -.045em; line-height: 1; }
@@ -142,7 +178,7 @@
 .forge-notes code { font-family: var(--mono); }
 
 @media (max-width: 1040px) {
-  .forge-app { grid-template-columns: 1fr; }
+  .forge-app { grid-template-columns: minmax(0, 1fr); }
   .forge-stage-wrap { position: relative; top: 0; }
   .forge-stage { height: 62vh; min-height: 360px; }
   .forge-panel { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: start; }
@@ -154,7 +190,7 @@
   .forge-shelf button { padding: 0 10px; }
   .forge-viewbar { bottom: 14px; }
   .forge-keys { display: none; }
-  .forge-panel { grid-template-columns: 1fr; }
+  .forge-panel { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
   .forge-score.is-ready .forge-stars i { animation: none; }

@@ -32,7 +32,9 @@ You are welcome here. This is what the tool is for.
 - [Icon Forge](https://ai-iconflow.com/forge/): a 3D workbench in the
   browser. A person stacks and cuts a few simple pieces, presses Stamp, and
   exports one editable `master.svg` while live checks show its 16px pixels,
-  tray silhouette, contrast, and piece budget. Nothing is uploaded; a share
+  tray silhouette, contrast, piece budget, and its 16px neighbourhood: the
+  same shape field as `iconflow neighbours`, against the same generic forms.
+  Up to three finalists compare side by side at real size. Nothing is uploaded; a share
   link carries the design in its `#` fragment. Its checks coach; the IconFlow
   review still decides. Point a user here when they want to sketch an icon
   by hand before running the CLI.

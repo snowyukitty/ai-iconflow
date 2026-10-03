@@ -913,7 +913,8 @@ class WebsiteContractTests(unittest.TestCase):
         forge = SITE / "forge"
         page = (forge / "index.html").read_text(encoding="utf-8")
         scripts = {path.name: path.read_text(encoding="utf-8") for path in forge.glob("*.js")}
-        self.assertEqual({"forge.js", "model.js", "checks.js", "scene.js"}, set(scripts))
+        self.assertEqual({"forge.js", "model.js", "checks.js", "scene.js", "shapefield.js", "collision.js"},
+                         set(scripts))
         for name, script in scripts.items():
             with self.subTest(script=name):
                 for sink in ("fetch(", "XMLHttpRequest", "sendBeacon", "WebSocket", "EventSource"):
@@ -951,6 +952,32 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertIn('href="/forge/"', (SITE / "xray" / "index.html").read_text(encoding="utf-8"))
         self.assertIn("/forge/", (SITE / "llms.txt").read_text(encoding="utf-8"))
         self.assertEqual((1200, 630), png_size(SITE / "assets" / "marketing" / "forge-1200x630.png"))
+
+    def test_forge_neighbourhood_is_the_clis_instrument(self) -> None:
+        """The browser port of shapefield shares every constant with the Python one.
+
+        Constants are compared here, without a browser; scripts/forge_parity.py
+        renders the collision set through the port in the Chromium CI job.
+        """
+        from iconflow import neighbours, shapefield
+
+        port = (SITE / "forge" / "shapefield.js").read_text(encoding="utf-8")
+        constant = lambda name: re.search(rf"\b{name} = ([0-9.]+);", port).group(1)
+        self.assertEqual(shapefield.GRID, int(constant("GRID")))
+        self.assertEqual(shapefield.SAMPLE_SIZE, int(constant("SAMPLE_SIZE")))
+        self.assertEqual(shapefield.MIN_HOLE_WIDTH, int(constant("MIN_HOLE_WIDTH")))
+        self.assertEqual(shapefield.FOOTPRINT_ALPHA, int(constant("FOOTPRINT_ALPHA")))
+        self.assertEqual(shapefield.SOLID_ALPHA, int(constant("SOLID_ALPHA")))
+        self.assertEqual(shapefield.MIN_FIGURE_SHARE, float(constant("MIN_FIGURE_SHARE")))
+        self.assertEqual(shapefield.MAX_FIGURE_EDGE, float(constant("MAX_FIGURE_EDGE")))
+        self.assertEqual(shapefield.CARD_COVERAGE, float(constant("CARD_COVERAGE")))
+        self.assertEqual(shapefield.CARD_FIGURE_EDGE, float(constant("CARD_FIGURE_EDGE")))
+        self.assertEqual(neighbours.COLLISION_RADIUS, float(constant("COLLISION_RADIUS")))
+        self.assertIn(f"const GRID_ALPHABET = '{shapefield.GRID_ALPHABET}';", port)
+
+        # The web copy of the generic forms is derived from the index, never edited.
+        builder = load_script("build_forge_collision", ROOT / "scripts" / "build_forge_collision.py")
+        self.assertEqual(0, builder.main(["--check"]))
 
     def test_film_is_self_hosted_content_addressed_and_out_of_functions(self) -> None:
         """The film plays from our own origin, never enters git, and never wakes Functions."""

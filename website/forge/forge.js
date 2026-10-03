@@ -5,9 +5,10 @@
 // localStorage, and in a share link's #fragment; nothing is sent anywhere.
 import {
   GRID, SNAP, PALETTE, ROUND, DEFAULT_SIZE,
-  example, blank, sanitize, nextId, ordered, toSvg, fromSvgText, encode, decode, contrast,
+  example, seed, blank, sanitize, nextId, ordered, toSvg, fromSvgText, encode, decode, contrast,
 } from './model.js';
 import { runChecks, loadSvg, rasterise } from './checks.js';
+import { fieldFromImage, separation, COLLISION_RADIUS } from './shapefield.js';
 
 const root = document.querySelector('[data-forge]');
 const q = (sel) => root.querySelector(sel);
@@ -18,6 +19,7 @@ const HISTORY = 80;
 let design = example();
 let selectedId = null;
 let briefBudget = 8;
+let finalists = [null, null, null];
 const past = [];
 const future = [];
 
@@ -26,18 +28,27 @@ function restore() {
   const hash = /^#d=([\w-]+)$/.exec(window.location.hash);
   if (hash) {
     const shared = decode(hash[1]);
-    if (shared) return { design: shared };
+    if (shared) return { design: shared, finalists: savedFinalists() };
   }
   try {
     const saved = JSON.parse(window.localStorage.getItem(STORE) || 'null');
     const d = saved && sanitize(saved.design);
-    if (d) return { design: d, brief: saved.brief };
+    if (d) return { design: d, brief: saved.brief, finalists: savedFinalists(saved) };
   } catch { /* private mode or blocked storage: start fresh */ }
-  return {};
+  return { finalists: savedFinalists() };
+}
+function savedFinalists(saved) {
+  try {
+    const source = saved || JSON.parse(window.localStorage.getItem(STORE) || 'null');
+    const list = Array.isArray(source?.finalists) ? source.finalists : [];
+    return [0, 1, 2].map((i) => (list[i] ? sanitize(list[i]) : null));
+  } catch {
+    return [null, null, null];
+  }
 }
 function persist() {
   try {
-    window.localStorage.setItem(STORE, JSON.stringify({ design, brief: q('[data-forge-brief]').value }));
+    window.localStorage.setItem(STORE, JSON.stringify({ design, brief: q('[data-forge-brief]').value, finalists }));
   } catch { /* not fatal */ }
 }
 
@@ -114,7 +125,35 @@ function preview() {
   }, 140);
 }
 
-function showChecks({ verdicts, score, total }) {
+// ---------- the neighbourhood: 16px shape fields, drawn cell by cell ----------
+const INK = [25, 26, 32];
+const PAPER = [255, 244, 232];
+const EMPTY = new Array(256).fill(0);
+function drawField(canvas, grid) {
+  const ctx = canvas.getContext('2d');
+  const img = ctx.createImageData(16, 16);
+  grid.forEach((v, i) => {
+    for (let c = 0; c < 3; c += 1) img.data[i * 4 + c] = Math.round(PAPER[c] + (INK[c] - PAPER[c]) * v);
+    img.data[i * 4 + 3] = 255;
+  });
+  ctx.putImageData(img, 0, 0);
+}
+function drawNeighbours({ field, neighbours }) {
+  const host = q('[data-forge-neighbours]');
+  drawField(host.querySelector('[data-field-of="you"]'), field ? field.grid : EMPTY);
+  for (let i = 0; i < 3; i += 1) {
+    const hit = neighbours[i];
+    const canvas = host.querySelector(`[data-field-of="${i}"]`);
+    drawField(canvas, hit ? hit.entry.field.grid : EMPTY);
+    host.querySelector(`[data-near-caption="${i}"]`).textContent = hit ? `${hit.entry.title} · ${hit.distance.toFixed(2)}` : '—';
+    const figure = canvas.closest('figure');
+    figure.classList.toggle('is-hit', !!(hit && hit.within));
+    figure.classList.toggle('is-near', !!(hit && !hit.within && hit.distance <= 0.2));
+  }
+}
+
+function showChecks(result) {
+  const { verdicts, score, total } = result;
   const list = q('[data-forge-checks]');
   list.replaceChildren(...verdicts.map((v) => {
     const li = document.createElement('li');
@@ -132,6 +171,7 @@ function showChecks({ verdicts, score, total }) {
     ? label.dataset.labelReady
     : (label.dataset.labelScore || '{score} of {total}').replace('{score}', score).replace('{total}', total);
   q('[data-forge-score]').classList.toggle('is-ready', ready);
+  drawNeighbours(result);
   const stars = q('[data-forge-stars]');
   stars.replaceChildren(...Array.from({ length: total }, (_, i) => {
     const s = document.createElement('i');
@@ -233,7 +273,6 @@ function act(name) {
     case 'undo': travel(past, future); return;
     case 'redo': travel(future, past); return;
     case 'reset-view': bench?.resetView(); return;
-    case 'example': change(() => { design = example(); selectedId = null; }); return;
     case 'clear': change(() => { design = { ...blank(), card: { ...design.card } }; selectedId = null; }); return;
     case 'export': download(); return;
     case 'copy-svg': copy(toSvg(design, { metadata: true }), q('[data-action="copy-svg"]')); return;
@@ -274,6 +313,76 @@ function copy(text, button) {
     setTimeout(() => { button.textContent = original; }, 1600);
   }).catch(() => say('labelCopyfail'));
 }
+
+// ---------- finalists: diverge, then compare at the sizes that decide ----------
+const finalHost = q('[data-forge-finalists]');
+const LETTERS = 'ABC';
+let finalTicket = 0;
+async function renderFinalists() {
+  const ticket = ++finalTicket;
+  const images = await Promise.all(finalists.map((f) => (f ? loadSvg(toSvg(f)).catch(() => null) : null)));
+  if (ticket !== finalTicket) return;
+  finalHost.querySelectorAll('[data-slot]').forEach((li, i) => {
+    const thumb = li.querySelector('canvas');
+    thumb.getContext('2d').clearRect(0, 0, thumb.width, thumb.height);
+    if (images[i]) rasterise(images[i], 64, thumb);
+    li.classList.toggle('is-empty', !finalists[i]);
+    li.querySelector('[data-slot-action="open"]').disabled = !finalists[i];
+  });
+  for (const theme of ['light', 'dark']) {
+    const row = finalHost.querySelector(`[data-bake="${theme}"]`);
+    row.replaceChildren(...images.flatMap((img, i) => {
+      if (!img) return [];
+      const cell = document.createElement('span');
+      cell.className = 'forge-bake-cell';
+      const label = document.createElement('b');
+      label.textContent = LETTERS[i];
+      const c16 = document.createElement('canvas');
+      const c32 = document.createElement('canvas');
+      rasterise(img, 16, c16);
+      rasterise(img, 32, c32);
+      cell.append(label, c16, c32);
+      return [cell];
+    }));
+  }
+  // Two finalists that are one shape at 16px are one idea in two colours.
+  const filled = images.map((img, i) => (img ? { i, field: fieldFromImage(img) } : null)).filter(Boolean);
+  const verdict = finalHost.querySelector('[data-forge-bake-verdict]');
+  verdict.className = 'forge-bake-verdict';
+  if (filled.length < 2) { verdict.textContent = finalHost.dataset.labelFew; return; }
+  let clash = null;
+  for (let a = 0; a < filled.length; a += 1) {
+    for (let b = a + 1; b < filled.length; b += 1) {
+      const sep = separation(filled[a].field, filled[b].field);
+      if (sep.distance <= COLLISION_RADIUS && sep.sameTopology && (!clash || sep.distance < clash.distance)) {
+        clash = { a: LETTERS[filled[a].i], b: LETTERS[filled[b].i], distance: sep.distance };
+      }
+    }
+  }
+  verdict.classList.add(clash ? 'is-warn' : 'is-pass');
+  verdict.textContent = clash
+    ? finalHost.dataset.labelSame.replace('{a}', clash.a).replace('{b}', clash.b).replace('{d}', clash.distance.toFixed(2))
+    : finalHost.dataset.labelDistinct;
+}
+finalHost.querySelectorAll('[data-slot]').forEach((li) => {
+  const i = +li.dataset.slot;
+  li.querySelector('[data-slot-action="keep"]').addEventListener('click', () => {
+    finalists[i] = JSON.parse(JSON.stringify(design));
+    persist();
+    renderFinalists();
+  });
+  li.querySelector('[data-slot-action="open"]').addEventListener('click', () => {
+    if (!finalists[i]) return;
+    change(() => { design = sanitize(finalists[i]); selectedId = null; });
+  });
+});
+
+const examples = q('[data-forge-example]');
+examples.addEventListener('change', () => {
+  const chosen = seed(examples.value);
+  examples.value = '';
+  if (chosen) change(() => { design = chosen; selectedId = null; });
+});
 
 // ---------- wiring ----------
 qa('[data-add]').forEach((b) => b.addEventListener('click', () => addPiece(b.dataset.add)));
@@ -363,6 +472,8 @@ window.addEventListener('keydown', (ev) => {
 // ---------- start ----------
 const restored = restore();
 if (restored.design) design = restored.design;
+if (restored.finalists) finalists = restored.finalists;
 if (restored.brief && brief.querySelector(`option[value="${CSS.escape(restored.brief)}"]`)) brief.value = restored.brief;
 applyBrief();
+renderFinalists();
 startWorkbench();

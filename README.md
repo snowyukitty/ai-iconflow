@@ -69,6 +69,7 @@ Start with the job your icon needs to do, then inspect the evidence:
 | Your goal | Start here |
 |---|---|
 | Find a distinctive app icon idea | [100 SVG icon design examples](https://ai-iconflow.com/gallery/) — compare color, silhouette, and actual 16px pixels. |
+| Sketch an idea by hand, no install | [Icon Forge](https://ai-iconflow.com/forge/) — build it from 3D pieces, stamp it to an SVG master, and watch its 16px pixels and generic-form neighbours while you build. |
 | Explore a different visual style | [20 techniques across 400 practice specimens](https://ai-iconflow.com/gallery/emoji-matrix/all/) — compare the same meaning across construction methods. |
 | Generate favicon, ICO, ICNS, or PWA assets | [Icon sizes and output formats](https://ai-iconflow.com/reference/icon-sizes/) — exact target files and commands. |
 | Make a legible menu-bar or tray icon | [Tray icon design guide](https://ai-iconflow.com/reference/tray-icons/) — alpha, template modes, and real failure examples. |

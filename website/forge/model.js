@@ -19,15 +19,57 @@ export const DEFAULT_SIZE = {
 const MAX_PIECES = 24;
 const HEX = /^#[0-9a-f]{6}$/;
 
-export function example() {
-  return {
+// Worked examples. Each one passes every Forge check, including the
+// neighbourhood: none is a generic form at 16px. They are there to show what
+// "few, bold pieces with one idea" looks like, not to be shipped as-is.
+const P = (type, x, y, w, h, rot, color, layer, cut = false) => ({ type, x, y, w, h, rot, color, layer, cut });
+export const SEEDS = {
+  // A cat asleep, curled into a crescent: a focus timer without a clock.
+  nap: {
     card: { shape: 'squircle', color: '#2e3a55' },
     pieces: [
-      { id: 1, type: 'ring', x: 448, y: 448, w: 512, h: 512, rot: 0, color: '#ffb547', layer: 0, cut: false },
-      { id: 2, type: 'bar', x: 704, y: 704, w: 320, h: 128, rot: 45, color: '#ffb547', layer: 0, cut: false },
-      { id: 3, type: 'circle', x: 400, y: 400, w: 112, h: 112, rot: 0, color: '#fff4e8', layer: 1, cut: false },
+      P('circle', 512, 576, 640, 640, 0, '#ffb547', 0),
+      P('circle', 704, 496, 448, 448, 0, '#000000', 1, true),
+      P('wedge', 304, 336, 176, 192, 340, '#ffb547', 2),
+      P('wedge', 448, 288, 176, 192, 15, '#ffb547', 2),
+      P('circle', 768, 272, 112, 112, 0, '#fff4e8', 3),
     ],
-  };
+  },
+  // Sun, sky and horizon: one condition, read in one glance.
+  tide: {
+    card: { shape: 'squircle', color: '#4d8dff' },
+    pieces: [
+      P('arc', 512, 640, 768, 768, 0, '#ffb547', 0),
+      P('circle', 512, 640, 272, 272, 0, '#ffb547', 0),
+      P('bar', 512, 688, 832, 128, 0, '#fff4e8', 1),
+    ],
+  },
+  // Two halves passing a message across: conversation without a bubble.
+  relay: {
+    card: { shape: 'squircle', color: '#191a20' },
+    pieces: [
+      P('arc', 432, 448, 544, 544, 270, '#ff5a4f', 0),
+      P('arc', 592, 592, 544, 544, 90, '#6ce0a0', 0),
+      P('circle', 512, 512, 144, 144, 0, '#fff4e8', 1),
+    ],
+  },
+  // A gauge with no card: a menu-bar mark whose silhouette is the whole idea.
+  dial: {
+    card: { shape: 'none', color: '#2e3a55' },
+    pieces: [
+      P('arc', 512, 640, 832, 832, 0, '#6ce0a0', 0),
+      P('bar', 624, 528, 432, 112, 315, '#6ce0a0', 0),
+      P('circle', 512, 640, 224, 224, 0, '#6ce0a0', 0),
+    ],
+  },
+};
+
+export function seed(name) {
+  return SEEDS[name] ? sanitize(SEEDS[name]) : null;
+}
+
+export function example() {
+  return seed('nap');
 }
 
 export function blank() {

@@ -156,29 +156,42 @@ export function createWorkbench(host, events) {
     cardMesh.rotation.x = -Math.PI / 2;
     cardMesh.position.set(C, 0, C);
     cardMesh.receiveShadow = true;
+    cardMesh.renderOrder = ORDER_CARD;
     scene.add(cardMesh);
   }
 
+  // A cut is not drawn; it is a depth-only prism standing on the card, up to
+  // the cut's own layer. Drawn after the card and before the pieces, it makes
+  // every piece below it fail the depth test inside its outline, so the card
+  // (or the bare bench) shows through a real hole from any angle, and Stamp
+  // view matches the SVG mask exactly. Pieces above the cut stand over it.
+  const ORDER_CARD = 0;
+  const ORDER_CUT = 1;
+  const ORDER_PIECE = 2;
+  const CUT_UNIT = 100;   // the prism is built CUT_UNIT tall and scaled to fit
+
   function materialFor(p) {
     if (!p.cut) return new THREE.MeshStandardMaterial({ color: p.color, roughness: 0.42, metalness: 0.04 });
-    // A cut shows what is behind the mark: the card, or the bare bench.
-    const behind = design.card.shape === 'none' ? '#191a20' : design.card.color;
-    return new THREE.MeshStandardMaterial({ color: behind, roughness: 0.75 });
+    return new THREE.MeshBasicMaterial({ colorWrite: false });
   }
 
   function buildPiece(p, old) {
-    const geo = extrude(shapeOf(p), PIECE_D, p.cut ? 0 : 5);
+    const geo = extrude(shapeOf(p), p.cut ? CUT_UNIT : PIECE_D, p.cut ? 0 : 5);
     const mesh = new THREE.Mesh(geo, materialFor(p));
     mesh.rotation.x = -Math.PI / 2;
     mesh.castShadow = !p.cut;
-    mesh.receiveShadow = true;
+    mesh.receiveShadow = !p.cut;
+    mesh.renderOrder = p.cut ? ORDER_CUT : ORDER_PIECE;
     mesh.userData.id = p.id;
     const group = old ? old.group : new THREE.Group();
     if (old) { group.remove(old.mesh); old.mesh.geometry.dispose(); old.mesh.material.dispose(); if (old.edge) { group.remove(old.edge); old.edge.geometry.dispose(); } }
     group.add(mesh);
     let edge = null;
     if (p.cut) {
-      edge = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 30), new THREE.LineBasicMaterial({ color: '#ff766d' }));
+      // Only the rim of the hole is drawn, where it meets the card.
+      const rim = new THREE.BufferGeometry().setFromPoints(shapeOf(p).getPoints(48).map((v) => new THREE.Vector3(v.x / S, v.y / S, 0)));
+      edge = new THREE.LineLoop(rim, new THREE.LineBasicMaterial({ color: '#ff766d', transparent: true, opacity: 0.7 }));
+      edge.renderOrder = ORDER_PIECE + 1;
       edge.rotation.x = -Math.PI / 2;
       group.add(edge);
     }
@@ -216,6 +229,11 @@ export function createWorkbench(host, events) {
       // Pieces on the same layer still need a sliver of separation, or their
       // coplanar tops z-fight; insertion order decides who is on top.
       entry.baseY = (cardTop() + p.layer * LAYER_H) / S + index * 0.0015 + 0.002;
+      if (p.cut) {
+        // Stand on the card and reach just over the pieces this cut goes through.
+        entry.baseY = cardTop() / S + 0.001;
+        entry.mesh.scale.z = Math.max(0.01, (p.layer * LAYER_H - 4) / CUT_UNIT);
+      }
       entry.mesh.material.emissive?.set(p.id === selectedId ? '#3a1410' : '#000000');
     });
     for (const [id, entry] of pieces) {
@@ -304,6 +322,7 @@ export function createWorkbench(host, events) {
       tween = { from: persp.position.clone(), to: new THREE.Vector3(C, 24, C + 0.001), fromT: orbit.target.clone(), t: 0, then: 'stamp' };
     } else {
       camera = persp;
+      sun.castShadow = true;
       flat.enabled = false;
       persp.position.set(C, 24, C + 0.001);
       tween = { from: persp.position.clone(), to: ORBIT_HOME.clone(), fromT: orbit.target.clone(), t: 0, then: 'orbit' };
@@ -321,8 +340,11 @@ export function createWorkbench(host, events) {
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     persp.aspect = w / h;
-    // A portrait phone needs a wider lens, or the board's sides fall off-screen.
-    persp.fov = Math.min(68, 38 / Math.min(1, (w / h) * 1.3));
+    // Hold the horizontal view a 16:10 stage gets at 38°, so a portrait phone
+    // widens the lens instead of cropping the board's sides.
+    const halfH = Math.atan(Math.tan(THREE.MathUtils.degToRad(19)) * 1.6);
+    const vfov = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(halfH) / (w / h)));
+    persp.fov = THREE.MathUtils.clamp(vfov, 38, 64);
     persp.updateProjectionMatrix();
     const half = (GRID / S) * 0.62;
     const a = w / h;
@@ -344,7 +366,8 @@ export function createWorkbench(host, events) {
       orbit.target.lerpVectors(tween.fromT, new THREE.Vector3(C, 0, C), e);
       persp.lookAt(orbit.target);
       if (tween.t === 1) {
-        if (tween.then === 'stamp') { camera = ortho; flat.enabled = true; } else { orbit.enabled = true; }
+        // Stamp is the SVG: flat, with no shadows for hidden pieces to cast into holes.
+        if (tween.then === 'stamp') { camera = ortho; flat.enabled = true; sun.castShadow = false; } else { orbit.enabled = true; }
         tween = null;
       }
     } else if (view === 'orbit') {
@@ -357,7 +380,7 @@ export function createWorkbench(host, events) {
       if (entry.drop < 1) entry.drop = Math.min(1, entry.drop + dt * 2.6);
       const d = entry.drop;
       const bounce = d < 1 ? (1 - d) ** 2 * 3.2 - Math.sin(d * Math.PI) * 0.08 : 0;
-      const lift = entry.mesh.userData.id === selectedId && view === 'orbit' ? 0.06 : 0;
+      const lift = entry.mesh.userData.id === selectedId && view === 'orbit' && entry.mesh.renderOrder !== ORDER_CUT ? 0.06 : 0;
       entry.group.position.y = entry.baseY + Math.max(-0.02, bounce) + lift;
     }
     pixelGrid.material.opacity += ((view === 'stamp' && !tween ? 0.35 : 0) - pixelGrid.material.opacity) * 0.15;
