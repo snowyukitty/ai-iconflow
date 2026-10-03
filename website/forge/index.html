@@ -23,10 +23,10 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/styles.css?v=20261001a">
-  <link rel="stylesheet" href="/forge/forge.css?v=20261003c">
+  <link rel="stylesheet" href="/forge/forge.css?v=20261003d">
   <link rel="modulepreload" href="/forge/vendor/three-0.169.0/three.module.min.js">
   <script src="/app.js?v=20261001a" defer></script>
-  <script type="module" src="/forge/forge.js?v=20261003c"></script>
+  <script type="module" src="/forge/forge.js?v=20261003d"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Icon Forge","url":"https://ai-iconflow.com/forge/","applicationCategory":"DesignApplication","operatingSystem":"Any (modern browser with WebGL)","browserRequirements":"Requires WebGL and JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"A 3D workbench that builds an app icon from simple pieces and exports one editable SVG master, with live 16px, tray and contrast checks in the browser.","isPartOf":{"@type":"WebSite","name":"IconFlow","url":"https://ai-iconflow.com/"}}</script>
 </head>
 <body class="forge-body">
@@ -171,8 +171,13 @@
 
         <section class="forge-card">
           <h2>Take it with you</h2>
+          <label class="forge-name"><span>Project name</span><input type="text" maxlength="40" placeholder="my-icon" autocomplete="off" spellcheck="false" data-forge-name></label>
           <div class="forge-row">
-            <button type="button" class="button button-primary forge-wide" data-action="export">Download master.svg</button>
+            <button type="button" class="button button-primary forge-wide" data-action="kit">Download project kit (.zip)</button>
+          </div>
+          <p class="forge-hint">A folder the CLI runs as-is: <code>iconflow.toml</code> filled from the brief and gating the same generic forms, <code>master.svg</code>, your finalists, and a README with the commands for check, compare, review and ship.</p>
+          <div class="forge-row">
+            <button type="button" class="button button-quiet" data-action="export">master.svg</button>
             <button type="button" class="button button-quiet" data-action="copy-svg" data-label-done="SVG copied">Copy SVG</button>
             <button type="button" class="button button-quiet" data-action="share" data-label-done="Link copied">Copy share link</button>
           </div>
@@ -217,6 +222,7 @@ iconflow review --html review.html</code></pre>
         <li><strong>Nothing leaves your device.</strong> The design is kept in this browser and, when you share it, inside the link’s <code>#</code> fragment, which browsers never send to a server. An opened SVG is read locally; only the design data embedded by the Forge is used.</li>
         <li><strong>Few, bold pieces win.</strong> Each brief has a piece budget because detail is the first thing 16px throws away. The red lattice in Stamp view is the 16×16 pixel grid.</li>
         <li><strong>The neighbourhood is the CLI’s.</strong> The Forge computes the same 16px shape field as <code>iconflow neighbours</code>, constant for constant, and compares it with the same generic forms: gear, bell, magnifier, bar chart, <code># π</code> and the rest. A browser test renders every one of them through both and requires them to agree. A clean neighbourhood is not a clearance check, and it is not a score.</li>
+        <li><strong>The kit is the hand-off.</strong> <em>Download project kit</em> writes a folder the CLI runs as-is: an <code>iconflow.toml</code> with the brief’s intent and <code>@collision</code> in its avoid set, so <code>iconflow check</code> gates the same generic forms the Forge showed you; the master; the finalists ready for <code>iconflow compare</code>; and a README of the next commands. It is built in your browser.</li>
         <li><strong>Diverge, then compare.</strong> Keep up to three finalists and see them side by side at 16 and 32 pixels on light and dark tabs, the way <code>iconflow compare</code> lays out a bake-off. If two of them are the same shape at 16px, the Forge says so: that is one idea in two colours.</li>
       </ul>
     </section>

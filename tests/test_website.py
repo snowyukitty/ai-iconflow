@@ -913,7 +913,8 @@ class WebsiteContractTests(unittest.TestCase):
         forge = SITE / "forge"
         page = (forge / "index.html").read_text(encoding="utf-8")
         scripts = {path.name: path.read_text(encoding="utf-8") for path in forge.glob("*.js")}
-        self.assertEqual({"forge.js", "model.js", "checks.js", "scene.js", "shapefield.js", "collision.js"},
+        self.assertEqual({"forge.js", "model.js", "checks.js", "scene.js", "shapefield.js", "collision.js",
+                          "kit.js"},
                          set(scripts))
         for name, script in scripts.items():
             with self.subTest(script=name):

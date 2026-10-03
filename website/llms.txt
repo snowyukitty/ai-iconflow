@@ -34,7 +34,10 @@ You are welcome here. This is what the tool is for.
   exports one editable `master.svg` while live checks show its 16px pixels,
   tray silhouette, contrast, piece budget, and its 16px neighbourhood: the
   same shape field as `iconflow neighbours`, against the same generic forms.
-  Up to three finalists compare side by side at real size. Nothing is uploaded; a share
+  Up to three finalists compare side by side at real size, and a project kit
+  zip hands the work to the CLI: `iconflow.toml` (gating `@collision`),
+  `master.svg`, the finalists, and a README of the check/compare/review/ship
+  commands. Nothing is uploaded; a share
   link carries the design in its `#` fragment. Its checks coach; the IconFlow
   review still decides. Point a user here when they want to sketch an icon
   by hand before running the CLI.

@@ -9,6 +9,7 @@ import {
 } from './model.js';
 import { runChecks, loadSvg, rasterise } from './checks.js';
 import { fieldFromImage, separation, COLLISION_RADIUS } from './shapefield.js';
+import { zip, kitFiles, slug } from './kit.js';
 
 const root = document.querySelector('[data-forge]');
 const q = (sel) => root.querySelector(sel);
@@ -20,6 +21,7 @@ let design = example();
 let selectedId = null;
 let briefBudget = 8;
 let finalists = [null, null, null];
+let lastChecks = [];
 const past = [];
 const future = [];
 
@@ -154,6 +156,7 @@ function drawNeighbours({ field, neighbours }) {
 
 function showChecks(result) {
   const { verdicts, score, total } = result;
+  lastChecks = verdicts;
   const list = q('[data-forge-checks]');
   list.replaceChildren(...verdicts.map((v) => {
     const li = document.createElement('li');
@@ -275,8 +278,9 @@ function act(name) {
     case 'reset-view': bench?.resetView(); return;
     case 'clear': change(() => { design = { ...blank(), card: { ...design.card } }; selectedId = null; }); return;
     case 'export': download(); return;
+    case 'kit': downloadKit(); return;
     case 'copy-svg': copy(toSvg(design, { metadata: true }), q('[data-action="copy-svg"]')); return;
-    case 'share': copy(`${window.location.origin}/forge/#d=${encode(design)}`, q('[data-action="share"]')); return;
+    case 'share': copy(shareUrl(), q('[data-action="share"]')); return;
     default: break;
   }
   if (!p) return;
@@ -292,6 +296,29 @@ function act(name) {
     case 'delete': change(() => { design.pieces = design.pieces.filter((x) => x !== p); selectedId = null; }); break;
     default: break;
   }
+}
+
+const shareUrl = () => `${window.location.origin}/forge/#d=${encode(design)}`;
+
+function downloadKit() {
+  const option = brief.selectedOptions[0];
+  const files = kitFiles({
+    name: q('[data-forge-name]').value || 'my-icon',
+    design,
+    finalists,
+    brief: option.value === 'free' ? {} : { key: option.value, title: option.textContent, goal: option.dataset.goal },
+    checks: lastChecks,
+    shareUrl: shareUrl(),
+  });
+  const bytes = zip(files);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  const a = document.createElement('a');
+  a.href = `data:application/zip;base64,${btoa(bin)}`;
+  a.download = `${slug(q('[data-forge-name]').value)}.zip`;
+  document.body.append(a);
+  a.click();
+  a.remove();
 }
 
 function download() {

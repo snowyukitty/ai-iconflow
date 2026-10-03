@@ -171,6 +171,7 @@ jobs:
           python "$GITHUB_WORKSPACE/scripts/build_collision_index.py" --check
           # The Forge's browser port of shapefield must answer what the CLI answers.
           python "$GITHUB_WORKSPACE/scripts/forge_parity.py"
+          ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_forge_browser.py" -v
           python - <<'PY' > "$integration/presets.txt"
           from iconflow.styles import PRESETS
           print("\n".join(PRESETS))

@@ -163,6 +163,9 @@
 .forge-bake-verdict.is-pass { color: var(--mint); }
 .forge-bake-verdict.is-warn { color: #ffb547; }
 .forge-examples select { min-height: 32px; font-size: .78rem; }
+.forge-name { display: grid; gap: 4px; color: var(--muted); font-size: .76rem; }
+.forge-name input { min-height: 38px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; color: var(--paper); background: var(--ink-3); font: inherit; font-family: var(--mono); font-size: .85rem; }
+.forge-name input:focus-visible { outline: 2px solid var(--coral-hot); outline-offset: 2px; }
 
 /* ---------- below the bench ---------- */
 .forge-next { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 80px; padding: 44px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink-2); }

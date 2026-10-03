@@ -36,6 +36,17 @@ first published release remains under `Unreleased`.
   design that is ready in the Forge does not meet a contrast warning in
   `iconflow check`. `scripts/forge_parity.py` holds every worked example to a
   warning-free `iconflow check`.
+- **A project kit hands the sketch to the CLI.** *Download project kit* zips
+  a folder that runs as-is: `iconflow.toml` with the brief's intent, the
+  palette and `avoid = ["@collision"]` (so `check` gates what the Forge
+  showed), `master.svg`, `finalists/*.svg` for `iconflow compare`, and a
+  README of the next commands. The zip is written in the browser by a small
+  STORE writer in `website/forge/kit.js`.
+- **The Forge has browser tests.** `tests/test_forge_browser.py` drives the
+  page in Chromium under the production CSP parsed from `_headers`: first
+  visit, undo/redo, share and export round trips, the kit (unzipped and its
+  toml parsed), finalists, a phone viewport, and the no-WebGL fallback. It
+  runs in the Chromium CI job.
 - **Finalists A/B/C.** Keep up to three ideas and compare them at 16 and 32px
   on light and dark tabs; two finalists that are one shape at 16px are called
   one idea in two colours.
