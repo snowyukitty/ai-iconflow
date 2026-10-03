@@ -66,7 +66,8 @@ def main(argv: list[str] | None = None) -> int:
         if current.replace("\r\n", "\n") != text:
             print(f"{OUT.relative_to(ROOT)} is stale; run scripts/build_forge_collision.py")
             return 1
-        print(f"forge collision verify: OK - {text.count('\"id\"')} generic forms")
+        forms = text.count('"id"')
+        print(f"forge collision verify: OK - {forms} generic forms")
         return 0
     OUT.write_text(text, encoding="utf-8", newline="\n")
     print(f"wrote {OUT.relative_to(ROOT)}")

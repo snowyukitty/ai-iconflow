@@ -24,7 +24,6 @@ import threading
 import unittest
 import zipfile
 from pathlib import Path
-from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "website"
