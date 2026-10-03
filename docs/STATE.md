@@ -7,9 +7,9 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-10-02 23:36 UTC.
+Observed 2026-10-03 18:28 UTC.
 
-`15 pass · 3 fail · 2 open gates · 0 unknown`
+`14 pass · 5 fail · 2 open gates · 0 unknown`
 
 An **open gate** is a decision waiting on a person, not a defect, and
 never fails this report. **Unknown** means a probe could not run: it is
@@ -26,14 +26,15 @@ is worse than no tick at all.
 | `PASS` | Tray-icon reference is current | tray guide and five evidence PNGs match assemble.to_template |
 | `PASS` | First-proof commands are current | README and site first-proof commands share one install-and-demo contract |
 | `PASS` | Static gallery is current | 100 static cases match the admitted catalog |
+| `PASS` | Icon Forge collision set is current | 39 generic forms match iconflow/resources/collision/index.json |
 
 ## Deployed site
 
 | | Check | Detail |
 |---|---|---|
 | `PASS` | Live site serves current /robots.txt | byte-identical to the checkout |
-| `PASS` | Live site serves current /llms.txt | byte-identical to the checkout |
-| `PASS` | Live site serves current /sitemap.xml | byte-identical to the checkout |
+| `FAIL` | Live site serves current /llms.txt | deployed copy differs (repo 9fe0c9cb84ee, live 6f1da9f6e53b) — redeploy |
+| `FAIL` | Live site serves current /sitemap.xml | deployed copy differs (repo 2b953a9073ff, live 9c19d76b0c56) — redeploy |
 | `FAIL` | Live /reference/icon-sizes/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Turn off automatic injection in the Cloudflare dashboard (Web Analytics), or accept a third-party script on a site that advertises local-first. |
 | `FAIL` | Live /reference/tray-icons/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Turn off automatic injection in the Cloudflare dashboard (Web Analytics), or accept a third-party script on a site that advertises local-first. |
 | `PASS` | Live film media matches the manifest | film-v5: MP4 and AV1 WebM serve byte ranges at their manifest sizes |
@@ -54,7 +55,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `OPEN` | Repository social preview is uploaded | still GitHub's generated card — Settings → General → Social preview, upload docs/assets/social-preview.png |
 | `OPEN` | Discussions decision | not enabled — gh repo edit snowyukitty/ai-iconflow --enable-discussions |
-| `PASS` | CI is green on main | latest main run: success (530a59e) |
+| `PASS` | CI is green on main | latest main run: success (e746771) |
 
 ## Waiting on a person
 

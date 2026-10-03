@@ -151,6 +151,38 @@ Why it is built this way:
   - The film ends on its last frame with "Watch again" and "Start", never a
     loop.
 
+## Icon Forge
+
+`/forge/` is a 3D workbench: a visitor stacks and cuts six piece types,
+presses Stamp, and exports one SVG master. It is English-only, like the
+X-ray, and self-contained so it can move to its own site later.
+
+| File | Role |
+|---|---|
+| `forge/model.js` | the piece list (the single source of truth), SVG output, share-link codec, worked examples |
+| `forge/scene.js` | the three.js projection of the model; a cut is a depth-only prism, so it renders as a hole |
+| `forge/checks.js` | the six live checks: 16px merge, tray silhouette, framing, `qa.py`'s contrast rule, neighbourhood, piece budget |
+| `forge/shapefield.js` | a port of `iconflow/shapefield.py`, constant for constant |
+| `forge/collision.js` | **generated** by `scripts/build_forge_collision.py` from the CLI's index; never edit |
+| `forge/kit.js` | the project-kit zip: `iconflow.toml`, master, finalists, README (and `tray.svg` for the menu-bar brief) |
+| `forge/vendor/three-0.169.0/` | three.js r169, byte-identical to npm except one import line (`THIRD_PARTY_NOTICES.md`) |
+
+The site CSP allows same-origin scripts only, so there is no CDN, no import
+map and no `fetch`: the collision set is an ES module, and downloads are
+`data:` URLs. Three checks keep the Forge honest:
+
+```powershell
+.venv\Scripts\python.exe scripts\build_forge_collision.py --check   # web copy matches the index
+.venv\Scripts\python.exe scripts\forge_parity.py                    # browser port == CLI, examples pass iconflow check
+$env:ICONFLOW_BROWSER_TESTS = "1"; .venv\Scripts\python.exe tests\test_forge_browser.py -v
+```
+
+The last two need Chromium and run in CI's Chromium job; the browser test
+serves the page under the CSP parsed from `_headers`. Bump the `?v=` on
+`forge.js`/`forge.css` in `forge/index.html` when either changes, and
+regenerate the social card with `python docs/promo/forge/og_card.py` when the
+first-visit design or the panel layout changes.
+
 ## Regenerated images
 
 `_headers` lets the edge cache every `*.png` for seven days, so a regenerated
