@@ -6,6 +6,21 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
+### Added
+
+- **Icon Forge, a 3D workbench at `/forge/`.** Stack, turn and cut six simple
+  pieces on a three.js board, press Stamp, and the camera looks straight down
+  at exactly the SVG master. One piece list drives both the 3D view and the
+  SVG, so what is built is what exports. Live checks borrowed from the X-ray
+  (16px merge, tray silhouette, framing, contrast, a brief's piece budget)
+  coach while you build; the exported `master.svg` still goes through the
+  IconFlow review. Undo/redo, briefs, a layer list that works without WebGL,
+  local autosave, and share links that carry the design in the `#` fragment.
+  Nothing is uploaded. three.js r169 is vendored under its version (MIT; see
+  `THIRD_PARTY_NOTICES.md`) because the CSP allows only same-origin scripts.
+  The module boundary (`model`, `checks`, `scene`, `forge`) keeps the Forge
+  liftable into its own site later.
+
 ### Changed
 
 - **The README leads with what IconFlow is for.** It opens with the film and

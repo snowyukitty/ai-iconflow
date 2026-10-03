@@ -3,3 +3,5 @@
 website/index.html text eol=lf
 website/getting-started/index.html text eol=lf
 website/_headers text eol=lf
+# Vendored third-party code is kept byte-for-byte; tests pin its hash.
+website/forge/vendor/** -text

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Icon Forge — build an app icon from 3D blocks, stamp it to SVG | IconFlow</title>
+  <meta name="description" content="A 3D workbench for app icons: stack and cut simple pieces, press stamp, and get an editable SVG master with live 16px, tray and contrast checks. Runs in your browser; nothing is uploaded.">
+  <meta name="theme-color" content="#111216">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Icon Forge: build an icon in 3D, ship it as one SVG">
+  <meta property="og:description" content="Stack and cut pieces on a 3D workbench, stamp it flat, and watch the real 16px pixels as you build. Exports an SVG master for the IconFlow review.">
+  <meta property="og:url" content="https://ai-iconflow.com/forge/">
+  <meta property="og:image" content="https://ai-iconflow.com/assets/marketing/forge-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Icon Forge: a magnifier icon built from 3D pieces on a workbench, beside its SVG master and its real 16px pixels.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-iconflow.com/assets/marketing/forge-1200x630.png">
+  <link rel="canonical" href="https://ai-iconflow.com/forge/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css?v=20261001a">
+  <link rel="stylesheet" href="/forge/forge.css?v=20261003a">
+  <link rel="modulepreload" href="/forge/vendor/three-0.169.0/three.module.min.js">
+  <script src="/app.js?v=20261001a" defer></script>
+  <script type="module" src="/forge/forge.js?v=20261003a"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Icon Forge","url":"https://ai-iconflow.com/forge/","applicationCategory":"DesignApplication","operatingSystem":"Any (modern browser with WebGL)","browserRequirements":"Requires WebGL and JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"A 3D workbench that builds an app icon from simple pieces and exports one editable SVG master, with live 16px, tray and contrast checks in the browser.","isPartOf":{"@type":"WebSite","name":"IconFlow","url":"https://ai-iconflow.com/"}}</script>
+</head>
+<body class="forge-body">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Open navigation" data-label-close="Close navigation"><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="/forge/" aria-current="page">Icon Forge</a><a href="/xray/">16px X-ray</a><a href="/reference/icon-sizes/">Icon sizes</a><a href="/gallery/">Gallery</a><a href="/getting-started/">Get started</a></nav>
+  </header>
+
+  <main id="main" data-forge>
+    <section class="forge-intro section-shell">
+      <p class="section-kicker">Icon Forge · a 3D workbench · runs in your browser</p>
+      <h1>Build it in blocks. <em>Stamp it flat.</em></h1>
+      <p class="forge-lede">Stack a few bold pieces on the board, cut holes through them, then press <strong>Stamp</strong>: the camera looks straight down and what you see is the SVG. The real 16px pixels update while you build, so you find out what survives before you fall in love with a detail.</p>
+    </section>
+
+    <section class="forge-app section-shell" aria-label="Icon Forge workbench">
+      <div class="forge-stage-wrap">
+        <div class="forge-stage" data-forge-stage>
+          <p class="forge-nogl" data-forge-nogl hidden>This browser cannot draw the 3D workbench (WebGL is off or unavailable). Everything still works from the panel: add pieces, select them in the layer list, and edit them there.</p>
+        </div>
+
+        <div class="forge-shelf" role="toolbar" aria-label="Add a piece">
+          <button type="button" data-add="circle" title="Circle"><span class="shape shape-circle" aria-hidden="true"></span><span>Circle</span></button>
+          <button type="button" data-add="block" title="Block"><span class="shape shape-block" aria-hidden="true"></span><span>Block</span></button>
+          <button type="button" data-add="wedge" title="Wedge"><span class="shape shape-wedge" aria-hidden="true"></span><span>Wedge</span></button>
+          <button type="button" data-add="ring" title="Ring"><span class="shape shape-ring" aria-hidden="true"></span><span>Ring</span></button>
+          <button type="button" data-add="arc" title="Arc"><span class="shape shape-arc" aria-hidden="true"></span><span>Arc</span></button>
+          <button type="button" data-add="bar" title="Bar"><span class="shape shape-bar" aria-hidden="true"></span><span>Bar</span></button>
+        </div>
+
+        <div class="forge-viewbar">
+          <div class="forge-segmented" role="group" aria-label="Camera">
+            <button type="button" data-view="orbit" aria-pressed="true">Orbit</button>
+            <button type="button" data-view="stamp" aria-pressed="false">Stamp</button>
+          </div>
+          <button type="button" class="forge-icon-button" data-action="reset-view" title="Re-centre the camera"><span aria-hidden="true">⌖</span><span class="sr-only">Re-centre the camera</span></button>
+          <button type="button" class="forge-icon-button" data-action="undo" title="Undo (Ctrl+Z)"><span aria-hidden="true">↶</span><span class="sr-only">Undo</span></button>
+          <button type="button" class="forge-icon-button" data-action="redo" title="Redo (Ctrl+Shift+Z)"><span aria-hidden="true">↷</span><span class="sr-only">Redo</span></button>
+        </div>
+
+        <p class="forge-keys">Drag a piece to move it (Shift: no snap) · drag the board to orbit · <kbd>Q</kbd>/<kbd>E</kbd> turn · <kbd>+</kbd>/<kbd>−</kbd> size · <kbd>[</kbd>/<kbd>]</kbd> layer · <kbd>D</kbd> duplicate · <kbd>X</kbd> cut · arrows nudge · <kbd>Del</kbd> remove</p>
+      </div>
+
+      <aside class="forge-panel">
+        <section class="forge-card">
+          <div class="forge-card-head">
+            <h2>Brief</h2>
+            <label class="forge-select"><span class="sr-only">Choose a brief</span>
+              <select data-forge-brief>
+                <option value="free" data-budget="8" data-goal="No brief: build anything. Keep it to eight pieces or fewer.">Free build</option>
+                <option value="search" data-budget="4" data-goal="A search app. Make “find” obvious at 16px without a generic magnifier — or make the magnifier unmistakably yours.">Search</option>
+                <option value="focus" data-budget="5" data-goal="A focus timer. Time and attention, not a stopwatch clip-art.">Focus timer</option>
+                <option value="weather" data-budget="5" data-goal="A weather app. One condition, read in a single glance.">Weather</option>
+                <option value="music" data-budget="5" data-goal="A music player. Sound or rhythm, without a stock music note.">Music</option>
+                <option value="chat" data-budget="4" data-goal="A team chat app. Conversation, but not the default speech bubble.">Chat</option>
+                <option value="tray" data-budget="4" data-goal="A menu-bar utility. Turn the card off: the mark alone has to read as a silhouette.">Tray utility</option>
+              </select>
+            </label>
+          </div>
+          <p class="forge-goal" data-forge-goal></p>
+          <div class="forge-score" data-forge-score aria-live="polite"><span class="forge-stars" data-forge-stars aria-hidden="true"></span><span data-forge-score-text data-label-score="{score} of {total} checks pass" data-label-ready="Ready for the real review"></span></div>
+          <ul class="forge-checks" data-forge-checks></ul>
+        </section>
+
+        <section class="forge-card">
+          <h2>Live master</h2>
+          <div class="forge-proof">
+            <div class="forge-master"><img data-forge-master src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" width="256" height="256" alt="The SVG master as it stands"></div>
+            <div class="forge-pixels">
+              <figure><canvas class="px" data-px="16" width="16" height="16" role="img" aria-label="The icon at 16 pixels, magnified"></canvas><figcaption>16px</figcaption></figure>
+              <figure><canvas class="px" data-px="32" width="32" height="32" role="img" aria-label="The icon at 32 pixels, magnified"></canvas><figcaption>32px</figcaption></figure>
+              <figure><canvas class="px px-sil" data-px="16" data-mode="silhouette" width="16" height="16" role="img" aria-label="The mark's silhouette at 16 pixels, colour removed"></canvas><figcaption>Tray 16px</figcaption></figure>
+            </div>
+          </div>
+          <div class="forge-tabs" aria-hidden="true">
+            <div class="forge-tab forge-tab-light"><canvas data-px="16" width="16" height="16"></canvas><span>Your app</span></div>
+            <div class="forge-tab forge-tab-dark"><canvas data-px="16" width="16" height="16"></canvas><span>Your app</span></div>
+          </div>
+        </section>
+
+        <section class="forge-card" data-forge-inspector>
+          <h2>Selected piece</h2>
+          <p class="forge-empty" data-forge-none>Click a piece on the board, or pick one in the layer list.</p>
+          <div class="forge-fields" data-forge-fields hidden>
+            <label class="forge-range"><span>Width</span><input type="range" min="32" max="1024" step="8" data-field="w"><output data-out="w"></output></label>
+            <label class="forge-range" data-only-flat><span>Height</span><input type="range" min="32" max="1024" step="8" data-field="h"><output data-out="h"></output></label>
+            <label class="forge-range"><span>Turn</span><input type="range" min="0" max="355" step="5" data-field="rot"><output data-out="rot"></output></label>
+            <div class="forge-swatches" role="group" aria-label="Piece colour" data-forge-swatches></div>
+            <div class="forge-row">
+              <button type="button" class="forge-chip" data-action="cut" aria-pressed="false" title="A cut piece punches through every piece below it">Cut through</button>
+              <button type="button" class="forge-chip" data-action="down" title="Move down a layer">Layer −</button>
+              <button type="button" class="forge-chip" data-action="up" title="Move up a layer">Layer +</button>
+              <button type="button" class="forge-chip" data-action="duplicate">Duplicate</button>
+              <button type="button" class="forge-chip forge-chip-danger" data-action="delete">Remove</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="forge-card">
+          <h2>Layers</h2>
+          <ol class="forge-layers" data-forge-layers data-label-layer="layer {n}" data-label-cut="cut"></ol>
+        </section>
+
+        <section class="forge-card">
+          <h2>Card</h2>
+          <div class="forge-segmented" role="group" aria-label="Card shape">
+            <button type="button" data-card="squircle" aria-pressed="true">Rounded</button>
+            <button type="button" data-card="circle" aria-pressed="false">Circle</button>
+            <button type="button" data-card="none" aria-pressed="false">No card</button>
+          </div>
+          <div class="forge-swatches" role="group" aria-label="Card colour" data-forge-card-swatches></div>
+        </section>
+
+        <section class="forge-card">
+          <h2>Take it with you</h2>
+          <div class="forge-row">
+            <button type="button" class="button button-primary forge-wide" data-action="export">Download master.svg</button>
+            <button type="button" class="button button-quiet" data-action="copy-svg" data-label-done="SVG copied">Copy SVG</button>
+            <button type="button" class="button button-quiet" data-action="share" data-label-done="Link copied">Copy share link</button>
+          </div>
+          <div class="forge-row">
+            <label class="forge-chip forge-file">Open a Forge SVG<input class="sr-only" type="file" accept=".svg,image/svg+xml" data-forge-import></label>
+            <button type="button" class="forge-chip" data-action="example">Load example</button>
+            <button type="button" class="forge-chip" data-action="clear">Clear board</button>
+          </div>
+          <p class="forge-status" role="status" aria-live="polite" data-forge-status data-label-imported="Design opened." data-label-notforge="That SVG was not made in Icon Forge, so there is no design inside it to open." data-label-copyfail="Copy was blocked by the browser."></p>
+        </section>
+      </aside>
+    </section>
+
+    <section class="forge-next section-shell">
+      <div>
+        <p class="section-kicker">Then make it real</p>
+        <h2>The Forge coaches.<br>The review decides.</h2>
+        <p>The checks here are quick heuristics on your browser’s own rendering. The exported <code>master.svg</code> is an ordinary, editable SVG: hand it to IconFlow, which renders it in a pinned Chromium, compares finalists, and refuses to <code>ship</code> favicon, PWA, desktop and tray files until a six-axis review of that exact file passes.</p>
+      </div>
+      <div class="forge-next-code">
+<pre><code>pip install iconflow
+iconflow setup
+iconflow check master.svg
+iconflow review --html review.html</code></pre>
+        <div class="forge-next-actions"><a class="button button-primary" href="/getting-started/">Get started <span aria-hidden="true">→</span></a><a class="button button-quiet" href="/xray/">X-ray another icon</a></div>
+      </div>
+    </section>
+
+    <section class="forge-notes section-shell">
+      <h2>How the Forge works</h2>
+      <ul>
+        <li><strong>One model, two views.</strong> The board and the SVG are drawn from the same list of pieces. Stamp view is an orthographic camera looking straight down, so it matches the master exactly; Orbit is only for building.</li>
+        <li><strong>Layers are draw order.</strong> A higher piece covers a lower one. A <em>cut</em> piece punches through every piece below it but never through the card, which is how a mark gets the inner holes a menu-bar silhouette needs.</li>
+        <li><strong>Nothing leaves your device.</strong> The design is kept in this browser and, when you share it, inside the link’s <code>#</code> fragment, which browsers never send to a server. An opened SVG is read locally; only the design data embedded by the Forge is used.</li>
+        <li><strong>Few, bold pieces win.</strong> Each brief has a piece budget because detail is the first thing 16px throws away. The red lattice in Stamp view is the 16×16 pixel grid.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="footer-brand"><img src="/assets/iconflow-mark.svg" width="40" height="40" alt=""><div><strong>IconFlow</strong><span>One master. Every surface.</span></div></div>
+    <p>Icon Forge is part of IconFlow, an open-source icon workflow. Code Apache-2.0; 3D by three.js (MIT); icons you make are yours.</p>
+    <nav aria-label="Footer navigation"><a href="/">Home</a><a href="/getting-started/">Guide</a><a href="/xray/">16px X-ray</a><a href="/reference/icon-sizes/">Icon sizes</a><a href="/gallery/">Gallery</a><a href="https://github.com/snowyukitty/ai-iconflow">Source</a></nav>
+  </footer>
+</body>
+</html>

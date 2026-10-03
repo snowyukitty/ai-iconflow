@@ -54,6 +54,7 @@ HTML_PAGES = (
     "gallery/emoji-matrix/all/index.html",
     "reference/icon-sizes/index.html",
     "reference/tray-icons/index.html",
+    "forge/index.html",
 ) + TRANSLATED_PAGES
 
 MATRIX_STYLE_ORDER = (
@@ -204,6 +205,13 @@ class WebsiteContractTests(unittest.TestCase):
             "assets/reference/tray-icons/full-card-auto-template.png",
             "assets/reference/tray-icons/tray-color.png",
             "assets/reference/tray-icons/tray-auto-template.png",
+            "forge/index.html",
+            "forge/forge.css",
+            "forge/forge.js",
+            "forge/model.js",
+            "forge/checks.js",
+            "forge/scene.js",
+            "assets/marketing/forge-1200x630.png",
         ):
             with self.subTest(name=name):
                 self.assertTrue((SITE / name).is_file())
@@ -899,6 +907,50 @@ class WebsiteContractTests(unittest.TestCase):
                       (SITE / "_headers").read_text(encoding="utf-8"))
         self.assertIn('href="/xray/"', (SITE / "index.html").read_text(encoding="utf-8"))
         self.assertIn("/xray/", (SITE / "llms.txt").read_text(encoding="utf-8"))
+
+    def test_forge_is_client_side_self_hosted_and_discoverable(self) -> None:
+        """Icon Forge promises that the design never leaves the visitor's device."""
+        forge = SITE / "forge"
+        page = (forge / "index.html").read_text(encoding="utf-8")
+        scripts = {path.name: path.read_text(encoding="utf-8") for path in forge.glob("*.js")}
+        self.assertEqual({"forge.js", "model.js", "checks.js", "scene.js"}, set(scripts))
+        for name, script in scripts.items():
+            with self.subTest(script=name):
+                for sink in ("fetch(", "XMLHttpRequest", "sendBeacon", "WebSocket", "EventSource"):
+                    self.assertNotIn(sink, script)
+                # Every module import stays on this origin: no CDN, no bare
+                # specifier (an import map would need an inline script).
+                for spec in re.findall(r"""(?:from|import\()\s*['"]([^'"]+)['"]""", script):
+                    self.assertTrue(spec.startswith("./"), f"{name} imports {spec}")
+        self.assertNotRegex(page, r"<script(?![^>]*\bsrc=)(?![^>]*application/ld\+json)")
+        self.assertNotIn("cdn.", page)
+        # Share links carry the design in the fragment, which is never sent.
+        self.assertIn("/forge/#d=", scripts["forge.js"])
+
+        # three.js is vendored under its exact version with its licence, the
+        # copy is byte-for-byte the published build, and the one patched
+        # line in OrbitControls is the import that points at it.
+        vendor = forge / "vendor" / "three-0.169.0"
+        self.assertIn("MIT License", (vendor / "LICENSE").read_text(encoding="utf-8"))
+        self.assertEqual(
+            "f7cee3c7533449a1505cc12cb5128b89e3d4fd3d7ea62b05f9f5464a217472ee",
+            hashlib.sha256((vendor / "three.module.min.js").read_bytes()).hexdigest(),
+        )
+        controls = (vendor / "OrbitControls.js").read_text(encoding="utf-8")
+        self.assertIn("} from './three.module.min.js';", controls)
+        self.assertNotIn("from 'three'", controls)
+        self.assertIn("three.js", (ROOT / "THIRD_PARTY_NOTICES.md").read_text(encoding="utf-8"))
+
+        headers = (SITE / "_headers").read_text(encoding="utf-8")
+        self.assertIn("\n/forge/index.html\n"
+                      "  Cache-Control: public, max-age=0, must-revalidate", headers)
+        self.assertIn("\n/forge/vendor/*\n"
+                      "  Cache-Control: public, max-age=31536000, immutable", headers)
+        self.assertIn(f"{CANONICAL_ORIGIN}/forge/", (SITE / "sitemap.xml").read_text(encoding="utf-8"))
+        self.assertIn('href="/forge/"', (SITE / "index.html").read_text(encoding="utf-8"))
+        self.assertIn('href="/forge/"', (SITE / "xray" / "index.html").read_text(encoding="utf-8"))
+        self.assertIn("/forge/", (SITE / "llms.txt").read_text(encoding="utf-8"))
+        self.assertEqual((1200, 630), png_size(SITE / "assets" / "marketing" / "forge-1200x630.png"))
 
     def test_film_is_self_hosted_content_addressed_and_out_of_functions(self) -> None:
         """The film plays from our own origin, never enters git, and never wakes Functions."""
