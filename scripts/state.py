@@ -228,6 +228,11 @@ CONTRACT_FILES = (
     ("/sitemap.xml", "sitemap.xml"),
     ("/reference/icon-sizes/", "reference/icon-sizes/index.html"),
     ("/reference/tray-icons/", "reference/tray-icons/index.html"),
+    # The Forge's scripts, not its page: the edge rewrites HTML (see
+    # EDGE_REWRITES) but serves JavaScript untouched, so these two answer
+    # "is the deployed Forge the checked-in one" without that noise.
+    ("/forge/forge.js", "forge/forge.js"),
+    ("/forge/model.js", "forge/model.js"),
 )
 
 # A body can differ from the checkout without the deploy being stale: a CDN

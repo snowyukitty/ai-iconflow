@@ -177,7 +177,12 @@ map and no `fetch`: the collision set is an ES module, and downloads are
 $env:ICONFLOW_BROWSER_TESTS = "1"; .venv\Scripts\python.exe tests\test_forge_browser.py -v
 ```
 
-The last two need Chromium and run in CI's Chromium job; the browser test
+After a deploy, `python scripts/forge_live_check.py [base-url]` drives the
+deployed page in Chromium against the edge's real headers (CSP, MIME types,
+the immutable vendor cache) and fails on any console error of the Forge's
+own; it defaults to production and takes the preview alias as an argument.
+
+The last two checks above need Chromium and run in CI's Chromium job; the browser test
 serves the page under the CSP parsed from `_headers`. Bump the `?v=` on
 `forge.js`/`forge.css` in `forge/index.html` when either changes, and
 regenerate the social card with `python docs/promo/forge/og_card.py` when the

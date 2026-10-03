@@ -8,6 +8,10 @@ first published release remains under `Unreleased`.
 
 ### Added
 
+- **Icon Forge is live at [ai-iconflow.com/forge/](https://ai-iconflow.com/forge/)**
+  (deployed 2026-10-04, preview first). `scripts/forge_live_check.py` drives
+  the deployed page against the edge's real headers, and `scripts/state.py`
+  compares the live Forge scripts with the checkout.
 - **Icon Forge, a 3D workbench at `/forge/`.** Stack, turn and cut six simple
   pieces on a three.js board, press Stamp, and the camera looks straight down
   at exactly the SVG master. One piece list drives both the 3D view and the
