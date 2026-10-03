@@ -94,13 +94,18 @@ class ForgeInTheBrowser(unittest.TestCase):
         page.evaluate("() => localStorage.clear()")
         page.goto(f"{self.base}/forge/")
         page.wait_for_function("() => document.querySelectorAll('[data-forge-checks] li').length >= 6")
-        # ...and for the workbench to settle one way or the other, so a fast
-        # test never closes the page while scene.js is still loading.
+        self.settle(page)
+        self.addCleanup(lambda: self.assertEqual([], problems))
+        return page
+
+    @staticmethod
+    def settle(page) -> None:
+        """Wait for the checks and the workbench to settle one way or the other,
+        so a fast test never closes or reloads a page while scene.js loads."""
+        page.wait_for_function("() => document.querySelectorAll('[data-forge-checks] li').length >= 6")
         page.wait_for_function(
             "() => document.querySelector('[data-forge-stage] canvas')"
             " || !document.querySelector('[data-forge-nogl]').hidden")
-        self.addCleanup(lambda: self.assertEqual([], problems))
-        return page
 
     def layers(self, page) -> int:
         return page.locator("[data-forge-layers] li").count()
@@ -225,7 +230,7 @@ class ForgeInTheBrowser(unittest.TestCase):
         page.wait_for_function("() => document.querySelector('[data-forge-bake-verdict]').classList.contains('is-warn')")
         self.assertIn("B and C are one shape at 16px", verdict.inner_text())
         page.reload()
-        page.wait_for_timeout(800)
+        self.settle(page)
         self.assertEqual(3, page.locator(".forge-slots li:not(.is-empty)").count())
 
     def test_a_phone_gets_the_whole_page_without_sideways_scroll(self) -> None:
