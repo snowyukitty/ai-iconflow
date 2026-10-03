@@ -42,6 +42,12 @@ first published release remains under `Unreleased`.
   showed), `master.svg`, `finalists/*.svg` for `iconflow compare`, and a
   README of the next commands. The zip is written in the browser by a small
   STORE writer in `website/forge/kit.js`.
+- **Mirror, a tray kit, and a front door.** *Mirror* (or `M`) adds a twin of
+  the selected piece across the vertical centre line. A kit made under the
+  menu-bar brief now carries a mark-only `tray.svg` and turns on the `tray`
+  target, so `iconflow build` emits real `trayTemplate.png` files from the
+  sketch rather than a card's black square. The homepage hero links to the
+  Forge, in all five languages.
 - **The Forge has browser tests.** `tests/test_forge_browser.py` drives the
   page in Chromium under the production CSP parsed from `_headers`: first
   visit, undo/redo, share and export round trips, the kit (unzipped and its

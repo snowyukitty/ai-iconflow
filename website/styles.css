@@ -65,6 +65,7 @@ button { color: inherit; }
 .button-quiet { background: rgba(255,244,232,.045); }
 .button-quiet:hover { border-color: rgba(255,244,232,.3); background: rgba(255,244,232,.08); }
 .button-pixel { width: 8px; height: 8px; border: 2px solid var(--paper); }
+.button-cube { width: 9px; height: 9px; border: 2px solid var(--paper); border-radius: 2px; box-shadow: 3px -3px 0 -1px var(--ink-2), 3px -3px 0 1px var(--paper); }
 .hero-stats { display: flex; gap: 34px; margin: 54px 0 0; }
 .hero-stats div { display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 7px; }
 .hero-stats dt { font-family: var(--mono); font-size: 1.28rem; font-weight: 750; }

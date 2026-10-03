@@ -293,6 +293,14 @@ function act(name) {
       design.pieces.push({ ...p, id, x: clamp(p.x + 48, 0, GRID), y: clamp(p.y + 48, 0, GRID) });
       selectedId = id;
     }); break;
+    case 'mirror': change(() => {
+      // A twin across the board's vertical centre line: the quickest way to a
+      // balanced mark. Every piece type is symmetric about its own vertical
+      // axis, so mirroring the position and negating the turn is exact.
+      const id = nextId(design);
+      design.pieces.push({ ...p, id, x: GRID - p.x, rot: (360 - p.rot) % 360 });
+      selectedId = id;
+    }); break;
     case 'delete': change(() => { design.pieces = design.pieces.filter((x) => x !== p); selectedId = null; }); break;
     default: break;
   }
@@ -485,6 +493,8 @@ window.addEventListener('keydown', (ev) => {
     act(k === ']' ? 'up' : 'down');
   } else if (k === 'd' || k === 'D') {
     act('duplicate');
+  } else if (k === 'm' || k === 'M') {
+    act('mirror');
   } else if (k === 'x' || k === 'X') {
     act('cut');
   } else if (k === 'Delete' || k === 'Backspace') {

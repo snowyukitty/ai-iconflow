@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="/forge/forge.css?v=20261003d">
   <link rel="modulepreload" href="/forge/vendor/three-0.169.0/three.module.min.js">
   <script src="/app.js?v=20261001a" defer></script>
-  <script type="module" src="/forge/forge.js?v=20261003d"></script>
+  <script type="module" src="/forge/forge.js?v=20261003e"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Icon Forge","url":"https://ai-iconflow.com/forge/","applicationCategory":"DesignApplication","operatingSystem":"Any (modern browser with WebGL)","browserRequirements":"Requires WebGL and JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"A 3D workbench that builds an app icon from simple pieces and exports one editable SVG master, with live 16px, tray and contrast checks in the browser.","isPartOf":{"@type":"WebSite","name":"IconFlow","url":"https://ai-iconflow.com/"}}</script>
 </head>
 <body class="forge-body">
@@ -70,7 +70,7 @@
           <button type="button" class="forge-icon-button" data-action="redo" title="Redo (Ctrl+Shift+Z)"><span aria-hidden="true">↷</span><span class="sr-only">Redo</span></button>
         </div>
 
-        <p class="forge-keys">Drag a piece to move it (Shift: no snap) · drag the board to orbit · <kbd>Q</kbd>/<kbd>E</kbd> turn · <kbd>+</kbd>/<kbd>−</kbd> size · <kbd>[</kbd>/<kbd>]</kbd> layer · <kbd>D</kbd> duplicate · <kbd>X</kbd> cut · arrows nudge · <kbd>Del</kbd> remove</p>
+        <p class="forge-keys">Drag a piece to move it (Shift: no snap) · drag the board to orbit · <kbd>Q</kbd>/<kbd>E</kbd> turn · <kbd>+</kbd>/<kbd>−</kbd> size · <kbd>[</kbd>/<kbd>]</kbd> layer · <kbd>D</kbd> duplicate · <kbd>M</kbd> mirror · <kbd>X</kbd> cut · arrows nudge · <kbd>Del</kbd> remove</p>
       </div>
 
       <aside class="forge-panel">
@@ -134,6 +134,7 @@
               <button type="button" class="forge-chip" data-action="down" title="Move down a layer">Layer −</button>
               <button type="button" class="forge-chip" data-action="up" title="Move up a layer">Layer +</button>
               <button type="button" class="forge-chip" data-action="duplicate">Duplicate</button>
+              <button type="button" class="forge-chip" data-action="mirror" title="Add a mirrored twin across the vertical centre line">Mirror</button>
               <button type="button" class="forge-chip forge-chip-danger" data-action="delete">Remove</button>
             </div>
           </div>

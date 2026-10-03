@@ -105,6 +105,10 @@ function palette(design) {
 export function kitFiles({ name, design, finalists = [], brief = {}, checks = [], shareUrl = '' }) {
   const project = slug(name);
   const noCard = design.card.shape === 'none';
+  // A menu-bar brief gets the tray target and its own transparent drawing:
+  // a card's alpha is a black square in a macOS menu bar, so the tray is
+  // built from the mark alone (docs/OUTPUT_TARGETS.md, AGENTS.md step 4).
+  const tray = brief.key === 'tray';
   const kept = finalists.map((f, i) => (f ? { letter: 'abc'[i], design: f } : null)).filter(Boolean);
   const lines = (list) => list.join('\n') + '\n';
 
@@ -136,12 +140,12 @@ export function kitFiles({ name, design, finalists = [], brief = {}, checks = []
     'concept_lens = ""',
     '',
     '[build]',
-    'targets = ["web"]',
+    `targets = ${tray ? '["web", "tray"]' : '["web"]'}`,
     `theme_color = ${toml(noCard ? '#0b0d12' : design.card.color)}`,
     'background_color = "#ffffff"',
     'electron_radius = 0',
     'tray_ts = false',
-    'tray_svg = ""',
+    `tray_svg = ${tray ? '"tray.svg"' : '""'}`,
     'tray_template_mode = "auto"',
     'color_scheme = "light"',
     'optimize_png = true',
@@ -180,7 +184,7 @@ export function kitFiles({ name, design, finalists = [], brief = {}, checks = []
     '```sh',
     'pip install iconflow   # or: uv tool install iconflow',
     'iconflow setup         # one-time pinned Chromium download',
-    'iconflow check master.svg --config iconflow.toml',
+    `iconflow check master.svg --config iconflow.toml${tray ? ' --tray-svg tray.svg --tray-template-mode auto' : ''}`,
     'iconflow neighbours master.svg --config iconflow.toml --sheet neighbours.png',
     '```',
     ...compare,
@@ -203,6 +207,7 @@ export function kitFiles({ name, design, finalists = [], brief = {}, checks = []
   return [
     { name: `${project}/iconflow.toml`, text: config },
     { name: `${project}/master.svg`, text: toSvg(design, { metadata: true }) },
+    ...(tray ? [{ name: `${project}/tray.svg`, text: toSvg(design, { mode: 'mark' }) }] : []),
     ...kept.map((k) => ({ name: `${project}/finalists/${k.letter}.svg`, text: toSvg(k.design, { metadata: true }) })),
     { name: `${project}/README.md`, text: readme },
   ];

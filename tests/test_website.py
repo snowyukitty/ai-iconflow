@@ -949,7 +949,9 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertIn("\n/forge/vendor/*\n"
                       "  Cache-Control: public, max-age=31536000, immutable", headers)
         self.assertIn(f"{CANONICAL_ORIGIN}/forge/", (SITE / "sitemap.xml").read_text(encoding="utf-8"))
-        self.assertIn('href="/forge/"', (SITE / "index.html").read_text(encoding="utf-8"))
+        home = (SITE / "index.html").read_text(encoding="utf-8")
+        self.assertIn('<a href="/forge/">Icon Forge</a>', home)                  # nav
+        self.assertIn('href="/forge/"><span class="button-cube"', home)          # hero
         self.assertIn('href="/forge/"', (SITE / "xray" / "index.html").read_text(encoding="utf-8"))
         self.assertIn("/forge/", (SITE / "llms.txt").read_text(encoding="utf-8"))
         self.assertEqual((1200, 630), png_size(SITE / "assets" / "marketing" / "forge-1200x630.png"))

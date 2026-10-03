@@ -94,6 +94,11 @@ class ForgeInTheBrowser(unittest.TestCase):
         page.evaluate("() => localStorage.clear()")
         page.goto(f"{self.base}/forge/")
         page.wait_for_function("() => document.querySelectorAll('[data-forge-checks] li').length >= 6")
+        # ...and for the workbench to settle one way or the other, so a fast
+        # test never closes the page while scene.js is still loading.
+        page.wait_for_function(
+            "() => document.querySelector('[data-forge-stage] canvas')"
+            " || !document.querySelector('[data-forge-nogl]').hidden")
         self.addCleanup(lambda: self.assertEqual([], problems))
         return page
 
@@ -180,6 +185,34 @@ class ForgeInTheBrowser(unittest.TestCase):
         readme = archive.read("calm-weather/README.md").decode("utf-8")
         self.assertIn("iconflow compare finalists/a.svg finalists/b.svg", readme)
         self.assertIn("iconflow check master.svg --config iconflow.toml", readme)
+
+    def test_a_menu_bar_brief_ships_its_own_tray_drawing(self) -> None:
+        page = self.open()
+        page.select_option("[data-forge-brief]", "tray")
+        page.select_option("[data-forge-example]", "dial")
+        with page.expect_download() as download:
+            page.click("[data-action=kit]")
+        archive = zipfile.ZipFile(io.BytesIO(Path(download.value.path()).read_bytes()))
+        self.assertIn("my-icon/tray.svg", archive.namelist())
+        config = archive.read("my-icon/iconflow.toml").decode("utf-8")
+        self.assertIn('targets = ["web", "tray"]', config)
+        self.assertIn('tray_svg = "tray.svg"', config)
+        self.assertIn("--tray-svg tray.svg", archive.read("my-icon/README.md").decode("utf-8"))
+        # The tray drawing is the mark alone: no card shape in it.
+        tray = archive.read("my-icon/tray.svg").decode("utf-8")
+        self.assertNotIn('rx="224"', tray)
+
+    def test_mirror_adds_a_twin_across_the_centre_line(self) -> None:
+        page = self.open()
+        page.click("[data-action=clear]")
+        page.click("[data-add=wedge]")
+        page.keyboard.press("e")                     # turn 15°
+        for _ in range(8):
+            page.keyboard.press("ArrowLeft")         # x 512 -> 384
+        page.keyboard.press("m")
+        svg = page.evaluate(MASTER_SVG)
+        self.assertIn('translate(384 512) rotate(15)', svg)
+        self.assertIn('translate(640 512) rotate(345)', svg)
 
     def test_finalists_call_out_one_idea_in_two_colours(self) -> None:
         page = self.open()

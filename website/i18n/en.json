@@ -2,7 +2,7 @@
   "language": "en",
   "generated_by": "scripts/build_i18n.py",
   "note": "English source strings. Keys are slug.hash(text); a copy edit makes a new key, which makes every translation fail closed.",
-  "count": 727,
+  "count": 728,
   "strings": {
     "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": {
       "text": "IconFlow — Local icon toolkit: one SVG to favicon, app, and tray assets, proven at 16px",
@@ -265,6 +265,14 @@
     },
     "x-ray-your-icon-at-16px.29d4544a": {
       "text": "X-ray your icon at 16px",
+      "kind": "text",
+      "where": "section#top div.hero-copy div.hero-actions",
+      "pages": [
+        "index.html"
+      ]
+    },
+    "sketch-one-in-3d.2ddc4997": {
+      "text": "Sketch one in 3D",
       "kind": "text",
       "where": "section#top div.hero-copy div.hero-actions",
       "pages": [
