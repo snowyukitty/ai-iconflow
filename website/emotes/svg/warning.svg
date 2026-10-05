@@ -1,0 +1,11 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Warning" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Warning</title>
+  <g transform="translate(512 520) scale(0.9) translate(-512 -520)">
+  <path d="M512 110Q560 110 590 160L930 790Q960 860 880 880H144Q64 860 94 790L434 160Q464 110 512 110Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M512 380V620" fill="none" stroke="#191a20" stroke-width="100" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="512" cy="740" r="56" fill="#191a20"/>
+  </g>
+</svg>

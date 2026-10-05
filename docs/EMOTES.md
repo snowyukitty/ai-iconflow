@@ -5,8 +5,8 @@
      with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # IconFlow emotes — one family, judged at chat size
 
-Twenty-four chat reactions drawn as one family: sixteen faces and eight
-gestures and symbols, every one an editable SVG in [`emotes/`](../emotes/),
+Fifty-five chat reactions drawn as one family — 32 faces, 10 hands and 13
+symbols — every one an editable SVG in [`emotes/`](../emotes/),
 dedicated to the public domain (CC0 — see [`emotes/LICENSE`](../emotes/LICENSE)).
 
 This is not the [Emoji Matrix](EMOJI_MATRIX.md). The matrix redraws twenty
@@ -71,12 +71,42 @@ together ([`FAMILY.md`](FAMILY.md)). It finds the faces' shared carrier from
 their fields alone, compares the faces on what is *not* shared, and fails if
 two are one expression drawn twice. On the shipped set:
 
-- one carrier group of 16 faces; the 8 symbols stand alone;
-- no twins; the closest siblings are *cool / eye roll* at a residual of 0.50
-  and *grin / joy* at 0.52, against a floor of 0.33;
-- the first draft's *smile / wink* sat at 0.31 and was redrawn.
+- one carrier group: all 32 faces, plus the check mark, which sits on the
+  same card; the other hands and symbols stand alone;
+- no twins; the closest siblings are *eye roll / nerd* at a residual of 0.39
+  and *flushed / pleading* at 0.42, against a floor of 0.33;
+- along the way the first draft's *smile / wink* sat at 0.31 and the
+  second wave's *eye roll / flushed* at 0.33; both were redrawn.
 
 Every member also passes `iconflow check` with no warning.
+
+## Growing the set: 24 to 55
+
+The first 24 were the most-used reactions. The next 31 came from the same
+sources — the Unicode frequency table and the reactions chat platforms put
+first — plus the ones work chat runs on: ✅ ❌ ⚠️ ❓ 🐛 ☕ 🚀. Three things
+the second wave taught:
+
+- **The nearest pair gets nearer as a family grows.** At 24 members the
+  closest siblings sat at 0.50; at 55, at 0.39. Every new face is drawn from
+  the same few features — dots, arcs, white eyes, an open mouth — so the room
+  between them shrinks. A family has a budget, and the twin floor is how you
+  see what is left of it.
+- **Colour is not a difference.** The first *flushed* was the eye roll with
+  pink cheeks: white eyes, dark pupils, a flat mouth. The family check called
+  it a twin at 0.33, and its message said why — change what tells them apart,
+  not their colour. Blush is gone in a greyscale context and two pixels at
+  22 px. The shipped *flushed* raises its brows and wobbles its mouth.
+- **Hands need the most room.** Fingers are the thinnest thing in the set, so
+  every hand fills most of the canvas and is built from a few thick parts —
+  a palm and fingers at least 90 units wide — with its creases as the only
+  thin lines, where losing them at 22 px costs nothing. *Handshake* is
+  the weakest member at 22 px — every platform's is — and is kept because a
+  set without it is asked for it.
+
+The check mark and the cross are the app-icon card itself, in mint and coral:
+status reactions that read as tiny app icons, which is the set's idea taken
+literally.
 
 ## What the neighbourhood says about faces, and why it is not a gate here
 

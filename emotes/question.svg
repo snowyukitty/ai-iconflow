@@ -1,0 +1,9 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Question mark" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Question mark</title>
+  <path d="M330 360Q330 150 512 150Q694 150 694 340Q694 470 512 520V640" fill="none" stroke="#191a20" stroke-width="200" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M330 360Q330 150 512 150Q694 150 694 340Q694 470 512 520V640" fill="none" stroke="#ff4f5e" stroke-width="104" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="512" cy="840" r="92" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+</svg>

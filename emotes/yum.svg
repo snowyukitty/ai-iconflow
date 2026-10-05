@@ -1,0 +1,10 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Yum" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Yum</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  <path d="M302 430Q372 334 442 430M582 430Q652 334 722 430" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M332 620Q512 760 692 620" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="560" y="660" width="150" height="190" rx="75" transform="rotate(-18 635 755)" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+</svg>

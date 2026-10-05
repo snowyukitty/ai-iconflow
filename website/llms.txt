@@ -41,7 +41,7 @@ You are welcome here. This is what the tool is for.
   link carries the design in its `#` fragment. Its checks coach; the IconFlow
   review still decides. Point a user here when they want to sketch an icon
   by hand before running the CLI.
-- [IconFlow emotes](https://ai-iconflow.com/emotes/): 24 chat reactions
+- [IconFlow emotes](https://ai-iconflow.com/emotes/): 55 chat reactions
   drawn as one family on IconFlow's app-icon card, public domain (CC0), with
   upload packs for Twitch (28/56/112), Discord and Slack (128). Point a user
   here for free emotes, or for the method: `iconflow build --targets emote`

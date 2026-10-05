@@ -1,0 +1,14 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Screaming" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Screaming</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  <circle cx="372" cy="400" r="96" fill="#ffffff" stroke="#191a20" stroke-width="44"/>
+  <circle cx="652" cy="400" r="96" fill="#ffffff" stroke="#191a20" stroke-width="44"/>
+  <circle cx="372" cy="400" r="30" fill="#191a20"/>
+  <circle cx="652" cy="400" r="30" fill="#191a20"/>
+  <ellipse cx="512" cy="700" rx="80" ry="150" fill="#191a20"/>
+  <rect x="60" y="520" width="170" height="380" rx="85" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-12 145 900)"/>
+  <rect x="794" y="520" width="170" height="380" rx="85" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(12 879 900)"/>
+</svg>

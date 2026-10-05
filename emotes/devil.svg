@@ -1,0 +1,13 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Smiling devil" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Smiling devil</title>
+  <path d="M180 330Q120 160 230 60Q250 230 360 250Z" fill="#a46bff" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M844 330Q904 160 794 60Q774 230 664 250Z" fill="#a46bff" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#a46bff" stroke="#191a20" stroke-width="52"/>
+  <path d="M292 360L442 420M732 360L582 420" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="372" cy="470" rx="56" ry="56" fill="#191a20"/>
+  <ellipse cx="652" cy="470" rx="56" ry="56" fill="#191a20"/>
+  <path d="M332 600H692Q680 770 512 770Q344 770 332 600Z" fill="#191a20"/>
+</svg>

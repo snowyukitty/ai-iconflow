@@ -1001,7 +1001,7 @@ class WebsiteContractTests(unittest.TestCase):
         self.assertEqual(0, packs.check())
         catalog = json.loads((SITE / "emotes" / "catalog.json").read_text(encoding="utf-8"))
         slugs = [e["slug"] for e in catalog["emotes"]]
-        self.assertEqual(24, len(slugs))
+        self.assertGreaterEqual(len(slugs), 50)
         # What the page shows is the 128px upload, at exactly that size.
         for slug in slugs:
             with self.subTest(slug=slug), Image.open(SITE / "emotes" / "png" / f"{slug}-128.png") as image:

@@ -1,0 +1,8 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Cross mark" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Cross mark</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ff4f5e" stroke="#191a20" stroke-width="52"/>
+  <path d="M330 340L694 704M694 340L330 704" fill="none" stroke="#ffffff" stroke-width="120" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

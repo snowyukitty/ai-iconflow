@@ -8,8 +8,9 @@ first published release remains under `Unreleased`.
 
 ### Added
 
-- **IconFlow emotes: 24 chat reactions, one family, public domain.**
-  `emotes/` holds sixteen faces and eight gestures and symbols, drawn on the
+- **IconFlow emotes: 55 chat reactions, one family, public domain.**
+  `emotes/` holds 32 faces, 10 hands and 13 symbols (grown from a first set
+  of 24; `/emotes/` groups them by kind), drawn on the
   squircle IconFlow ships as its app-icon card — the set's signature device —
   with an ink outline that holds on light and dark chat and lines sized for
   22px. Every member passes `iconflow check`. CC0, so they can be uploaded

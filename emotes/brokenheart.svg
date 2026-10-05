@@ -1,0 +1,18 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Broken heart" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Broken heart</title>
+  <g transform="rotate(-8 400 540)">
+  <path d="M500 879L74 499A228 228 0 0 1 500 286A228 228 0 0 1 926 499Z" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round" clip-path="url(#lh)"/>
+  </g>
+  <clipPath id="lh">
+  <path d="M0 0H512L452 300L560 460L470 640L520 1024H0Z"/>
+  </clipPath>
+  <clipPath id="rh">
+  <path d="M1024 0H512L452 300L560 460L470 640L520 1024H1024Z"/>
+  </clipPath>
+  <g transform="translate(40 0) rotate(8 620 540)">
+  <path d="M500 879L74 499A228 228 0 0 1 500 286A228 228 0 0 1 926 499Z" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round" clip-path="url(#rh)"/>
+  </g>
+</svg>

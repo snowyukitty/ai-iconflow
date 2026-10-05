@@ -1,0 +1,11 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Melting" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Melting</title>
+  <ellipse cx="512" cy="900" rx="440" ry="64" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M96 600V404Q96 104 396 104H628Q928 104 928 404V620Q928 760 790 760H690V850Q690 896 645 896Q600 896 600 850V760H430V880Q430 926 385 926Q340 926 340 880V760H240Q96 760 96 600Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <ellipse cx="372" cy="430" rx="56" ry="64" fill="#191a20"/>
+  <ellipse cx="652" cy="430" rx="56" ry="64" fill="#191a20"/>
+  <path d="M352 600Q432 660 512 610T672 600" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

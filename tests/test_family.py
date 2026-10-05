@@ -115,9 +115,13 @@ class EmoteSet(unittest.TestCase):
         catalog = json.loads((EMOTES / "catalog.json").read_text(encoding="utf-8"))
         self.assertEqual("CC0-1.0", catalog["license"])
         slugs = [e["slug"] for e in catalog["emotes"]]
-        self.assertEqual(24, len(slugs))
+        self.assertGreaterEqual(len(slugs), 50)
+        self.assertEqual(len(slugs), len(set(slugs)))
         self.assertEqual(sorted(slugs), sorted(p.stem for p in EMOTES.glob("*.svg")))
-        self.assertEqual(16, sum(1 for e in catalog["emotes"] if e["kind"] == "face"))
+        self.assertEqual({"face", "hand", "symbol"}, {e["kind"] for e in catalog["emotes"]})
+        # Grouped on the page: every face, then every hand, then every symbol.
+        kinds = [e["kind"] for e in catalog["emotes"]]
+        self.assertEqual(kinds, sorted(kinds, key=["face", "hand", "symbol"].index))
         for item in catalog["emotes"]:
             with self.subTest(slug=item["slug"]):
                 self.assertTrue((ROOT / item["source"]).is_file())
@@ -134,11 +138,14 @@ class EmoteSet(unittest.TestCase):
                 self.assertNotIn("<image", text)      # nothing raster or external
 
     def test_faces_share_the_card_carrier_and_the_grammar_weights(self) -> None:
+        # The one face drawn without the card: its joke is the card itself
+        # melting, so it keeps the card's top corners and lets the rest run.
+        melted = {"melting"}
         catalog = json.loads((EMOTES / "catalog.json").read_text(encoding="utf-8"))
         for item in catalog["emotes"]:
             text = (ROOT / item["source"]).read_text(encoding="utf-8")
             with self.subTest(slug=item["slug"]):
-                if item["kind"] == "face":
+                if item["kind"] == "face" and item["slug"] not in melted:
                     self.assertIn('x="96" y="104" width="832" height="832" rx="300"', text)
                 self.assertRegex(text, r'stroke="#191a20" stroke-width="52"')
 
@@ -157,11 +164,13 @@ class EmoteFamilyRendered(unittest.TestCase):
     def tearDownClass(cls) -> None:
         cls.rasterizer.__exit__(None, None, None)
 
-    def test_the_faces_are_one_carrier_group_and_no_two_members_are_twins(self) -> None:
+    def test_the_faces_share_one_carrier_group_and_no_two_members_are_twins(self) -> None:
         catalog = json.loads((EMOTES / "catalog.json").read_text(encoding="utf-8"))
         faces = {e["slug"] for e in catalog["emotes"] if e["kind"] == "face"}
         largest = {Path(m.source).stem for m in self.result.groups[0]}
-        self.assertEqual(faces, largest)
+        # Every face is on the card. A symbol drawn on the same card (the
+        # check mark) may join them; that is the carrier being found, not noise.
+        self.assertLessEqual(faces, largest)
         self.assertEqual([], [(p.a.title, p.b.title) for p in self.result.twins])
 
     def test_every_member_passes_check(self) -> None:

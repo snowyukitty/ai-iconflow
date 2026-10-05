@@ -209,7 +209,8 @@ def check_generators() -> list[Check]:
     def emote_packs():
         module = load_script("build_emote_packs")
         code = module.check()
-        return code == 0, ("24 emotes: sources, page, catalog and three packs agree"
+        count = len(json.loads((ROOT / "emotes" / "catalog.json").read_text(encoding="utf-8"))["emotes"])
+        return code == 0, (f"{count} emotes: sources, page, catalog and three packs agree"
                            if code == 0 else "run python scripts/build_emote_packs.py")
 
     run("generated.i18n", "Five-language site is current", i18n)

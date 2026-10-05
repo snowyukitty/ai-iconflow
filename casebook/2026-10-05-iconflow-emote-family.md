@@ -1,7 +1,7 @@
 ---
 slug: iconflow-emote-family
 date: 2026-10-05
-project: IconFlow's own public-domain chat emote set (24 members)
+project: IconFlow's own public-domain chat emote set (55 members)
 targets: emote
 essence: react
 style_family: mascot
@@ -44,6 +44,17 @@ next pair at 0.51. The 22 px sheet agreed: the only difference was one closed
 eye. The wink was redrawn with a squeezed chevron eye *and* an open lopsided
 grin; the set then had no twins, closest pair cool/eye roll at 0.50.
 
+**Pass 3 — growing to 55.** At the owner's request the set grew by 31: 16
+faces, 6 hands and 9 symbols. By eye on the chat sheet, five failed first:
+the halo hid behind the head, the handshake was three small pills, the
+melting face read as a tombstone, the flexed arm as a snake, and the raised
+hands were clipped by the canvas. All were redrawn. The family check then
+found one twin: the first *flushed* was the eye roll with pink cheeks
+(0.332). Redrawn with raised brows and a wobbling mouth, it cleared the floor;
+the nearest pair of the 55 is eye roll / nerd at 0.39, down from 0.50 at 24
+members. Two members tripped the maskable safe-zone audit by a point or two
+and were pulled in.
+
 **Review status.** Every member passes `iconflow check` with no warning. The
 scores above are the agent's review on the chat sheets; the owner has not yet
 scored the set, so the case is `reviewed`, not `approved`.
@@ -54,3 +65,4 @@ scored the set, so the case is `reviewed`, not `approved`.
 - [x] In a family on a shared carrier, compare siblings on their residual from the carrier, never on raw distance: the carrier is most of the ink, so two different faces on one head are 0.02 apart.
 - [x] Never let one feature carry the whole difference between two siblings: a wink that is a smile with one eye closed differs by two pixels at 22px. Change at least two features, or the silhouette.
 - [ ] A probe on the hardest few members (the most confusable pair, the colour detail, the one non-face) decides a family's grammar faster than drawing all of it.
+- [ ] A family's nearest pair moves closer as it grows (0.50 at 24 members, 0.39 at 55): budget new members against the twin floor, and redraw the closest pair before adding the next member.

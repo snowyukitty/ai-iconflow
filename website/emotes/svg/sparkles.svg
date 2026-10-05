@@ -1,0 +1,9 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Sparkles" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Sparkles</title>
+  <path d="M420 250Q420 580 750 580Q420 580 420 910Q420 580 90 580Q420 580 420 250Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M760 100Q760 260 920 260Q760 260 760 420Q760 260 600 260Q760 260 760 100Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M780 660Q780 780 900 780Q780 780 780 900Q780 780 660 780Q780 780 780 660Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+</svg>

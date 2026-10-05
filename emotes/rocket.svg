@@ -1,0 +1,13 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Rocket" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Rocket</title>
+  <g transform="rotate(45 512 512)">
+  <path d="M380 760Q300 840 340 940L440 860Z" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M644 760Q724 840 684 940L584 860Z" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M512 60Q700 240 650 820H374Q324 240 512 60Z" fill="#f3efe4" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <circle cx="512" cy="400" r="88" fill="#4da3ff" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M420 840H604Q600 960 512 1000Q424 960 420 840Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  </g>
+</svg>

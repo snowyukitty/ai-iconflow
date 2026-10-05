@@ -1,0 +1,12 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Flexed biceps" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Flexed biceps</title>
+  <rect x="90" y="650" width="600" height="250" rx="125" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <rect x="460" y="300" width="250" height="600" rx="125" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <circle cx="360" cy="620" r="180" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <circle cx="590" cy="250" r="170" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M500 230H680M500 300H670" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M300 560Q340 500 410 500" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

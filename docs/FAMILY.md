@@ -65,7 +65,11 @@ The collision radius was placed by measuring recorded casebook collisions.
 reviewed set — the [IconFlow emotes](EMOTES.md) — where the first draft's
 smile and wink, which differ by one closed eye, sat at 0.31 and every other
 pair at 0.50 or more. A person reading the 22 px sheet agreed with the
-number. That is one set, so the floor is **provisional**: when a family is
+number. When the same set grew to 55, the floor caught a second pair at 0.332
+— an eye roll and a flushed face that differed mainly by pink cheeks, which
+is to say by colour — and the sheet agreed again; the nearest distinct pair
+then sat at 0.39. That is one family seen twice, not two families, so the
+floor is still **provisional**: when a family is
 recorded whose twins sit above it, or whose distinct members sit below it,
 this section is where the evidence goes and the floor moves.
 

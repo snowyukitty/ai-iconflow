@@ -140,25 +140,36 @@ def render_page(published: dict) -> str:
     def chat(theme: str, label: str) -> str:
         return f"""        <figure class="emo-chat emo-chat-{theme}">
           <figcaption>{label}</figcaption>
-          {line("mika", "we shipped the release", "tada", "fire")}
+          {line("mika", "we shipped the release", "rocket", "tada")}
           {line("jo", "the build was green on the first try?", "shock")}
-          {line("mika", "first try. no rebase.", "cool")}
-          {line("sam", "i have been staring at the diff for an hour", "sob", "joy")}
-          <p class="emo-reactions">{"".join(f'<span>{img(s, 22)}<i>{n}</i></span>' for s, n in (("thumbsup", 12), ("heart", 7), ("joy", 4), ("eyes", 2)))}</p>
+          {line("mika", "first try. no rebase.", "cool", "sparkles")}
+          {line("sam", "i have been staring at the diff for an hour", "melting")}
+          {line("jo", "standup is cancelled", "salute")}
+          <p class="emo-reactions">{"".join(f'<span>{img(s, 22)}<i>{n}</i></span>' for s, n in (("thumbsup", 12), ("check", 9), ("heart", 7), ("joy", 4), ("eyes", 2)))}</p>
         </figure>"""
 
-    tiles = "\n".join(
-        f"""        <li class="emo-tile">
+    def tile(e: dict) -> str:
+        return f"""        <li class="emo-tile">
           <div class="emo-big">{img(e['slug'], 112)}</div>
           <div class="emo-small" aria-hidden="true"><span class="emo-on-light">{img(e['slug'], 22)}{img(e['slug'], 28)}</span><span class="emo-on-dark">{img(e['slug'], 22)}{img(e['slug'], 28)}</span></div>
           <p class="emo-name">{escape(e['title'])} <code>:{e['slug']}:</code></p>
           <p class="emo-links"><a href="{e['svg']}" download>SVG</a><a href="{e['png']}" download>PNG 128</a></p>
         </li>"""
-        for e in emotes
+
+    kinds = (("face", "Faces"), ("hand", "Hands"), ("symbol", "Symbols"))
+    sections = "\n".join(
+        f"""      <h3 class="emo-kind" id="{kind}s">{label} <span>{sum(1 for e in emotes if e['kind'] == kind)}</span></h3>
+      <ul class="emo-grid">
+""" + "\n".join(tile(e) for e in emotes if e["kind"] == kind) + """
+      </ul>"""
+        for kind, label in kinds if any(e["kind"] == kind for e in emotes)
     )
     pairs = ", ".join(f"<em>{escape(by[c['a']]['title'].lower())} / {escape(by[c['b']]['title'].lower())}</em> at {c['residual']:.2f}"
                       for c in closest[:2])
-    faces = len(fam["groups"][0]) if fam["groups"] else 0
+    carried = fam["groups"][0] if fam["groups"] else []
+    faces = len(carried)
+    guests = [by[slug]["title"].lower() for slug in carried if by[slug]["kind"] != "face"]
+    joined = "every face" + (f", and the {' and the '.join(guests)} drawn on the same card" if guests else "")
     jsonld = json.dumps({
         "@context": "https://schema.org", "@type": "CollectionPage", "name": "IconFlow emotes",
         "url": "https://ai-iconflow.com/emotes/", "license": "https://creativecommons.org/publicdomain/zero/1.0/",
@@ -184,7 +195,7 @@ def render_page(published: dict) -> str:
   <meta property="og:image" content="https://ai-iconflow.com/assets/marketing/emotes-1200x630.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The IconFlow emote set: twenty-four chat reactions on rounded-square heads, shown in light and dark chat.">
+  <meta property="og:image:alt" content="The IconFlow emote set: {len(emotes)} chat reactions on rounded-square heads, shown in light and dark chat.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://ai-iconflow.com/assets/marketing/emotes-1200x630.png">
   <link rel="canonical" href="https://ai-iconflow.com/emotes/">
@@ -228,16 +239,14 @@ def render_page(published: dict) -> str:
     <section class="emo-set section-shell" aria-labelledby="emo-set-title">
       <h2 id="emo-set-title">The set</h2>
       <p class="emo-note">Shown as platforms show them: each image is the 128-pixel upload, scaled down by your browser. The small pair under each one is 22 and 28 pixels on light and dark chat.</p>
-      <ul class="emo-grid">
-{tiles}
-      </ul>
+{sections}
     </section>
 
     <section class="emo-family section-shell">
       <div>
         <p class="section-kicker">Proven as a family</p>
         <h2>One family. No twins.</h2>
-        <p>A set has to pass two tests that pull in opposite directions: its members must look related, and no two may be the same reaction at chat size. <code>iconflow family</code> measures both. It finds the {faces} faces' shared card from their 16-pixel fields alone, sets it aside, and compares what is left. The closest siblings are {pairs}, against a floor of 0.33.</p>
+        <p>A set has to pass two tests that pull in opposite directions: its members must look related, and no two may be the same reaction at chat size. <code>iconflow family</code> measures both. It finds the card {faces} members share from their 16-pixel fields alone — {joined} — sets it aside, and compares what is left. The closest siblings are {pairs}, against a floor of 0.33.</p>
         <p>The first draft's wink was the smile with one eye closed. It came back at 0.31 — a twin — and at 22 pixels it was: one eye is two pixels. The wink you see squeezes its eye shut <em>and</em> opens its grin.</p>
         <p><a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/FAMILY.md">How the family check works</a> · <a href="https://github.com/snowyukitty/ai-iconflow/blob/main/docs/EMOTES.md">The emote grammar</a></p>
       </div>

@@ -1,0 +1,23 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Raised hands" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Raised hands</title>
+  <g transform="translate(10 190) scale(0.6) rotate(-12 550 650)">
+  <rect x="388" y="150" width="96" height="380" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-8 436 530)"/>
+  <rect x="484" y="110" width="96" height="400" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-2 532 510)"/>
+  <rect x="580" y="130" width="96" height="380" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(4 628 510)"/>
+  <rect x="668" y="200" width="90" height="330" rx="45" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(10 713 530)"/>
+  <rect x="250" y="470" width="110" height="300" rx="55" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-48 305 770)"/>
+  <rect x="350" y="430" width="400" height="460" rx="170" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  </g>
+  <g transform="translate(1014 190) scale(-0.6 0.6) rotate(-12 550 650)">
+  <rect x="388" y="150" width="96" height="380" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-8 436 530)"/>
+  <rect x="484" y="110" width="96" height="400" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-2 532 510)"/>
+  <rect x="580" y="130" width="96" height="380" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(4 628 510)"/>
+  <rect x="668" y="200" width="90" height="330" rx="45" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(10 713 530)"/>
+  <rect x="250" y="470" width="110" height="300" rx="55" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-48 305 770)"/>
+  <rect x="350" y="430" width="400" height="460" rx="170" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  </g>
+  <path d="M512 90V200M400 130L440 220M624 130L584 220" fill="none" stroke="#191a20" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

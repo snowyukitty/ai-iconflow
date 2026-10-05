@@ -1,0 +1,12 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "OK hand" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>OK hand</title>
+  <rect x="520" y="120" width="96" height="400" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(4 568 520)"/>
+  <rect x="616" y="150" width="96" height="380" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(12 664 530)"/>
+  <rect x="700" y="220" width="90" height="330" rx="45" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(20 745 550)"/>
+  <rect x="300" y="430" width="440" height="460" rx="170" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <circle cx="360" cy="380" r="150" fill="none" stroke="#191a20" stroke-width="196"/>
+  <circle cx="360" cy="380" r="150" fill="none" stroke="#ffc94d" stroke-width="92"/>
+</svg>

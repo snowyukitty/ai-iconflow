@@ -1,0 +1,11 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Hugging" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Hugging</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  <path d="M302 430Q372 334 442 430M582 430Q652 334 722 430" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M352 560H672Q660 760 512 760Q364 760 352 560Z" fill="#191a20"/>
+  <rect x="170" y="610" width="150" height="280" rx="75" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-50 245 890)"/>
+  <rect x="704" y="610" width="150" height="280" rx="75" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(50 779 890)"/>
+</svg>

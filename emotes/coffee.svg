@@ -1,0 +1,11 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Hot beverage" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Hot beverage</title>
+  <path d="M420 120Q370 190 420 260T420 400M600 120Q550 190 600 260T600 400" fill="none" stroke="#191a20" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="790" cy="640" r="110" fill="none" stroke="#191a20" stroke-width="150"/>
+  <circle cx="790" cy="640" r="110" fill="none" stroke="#f3efe4" stroke-width="50"/>
+  <path d="M180 460H840V700Q840 900 640 900H380Q180 900 180 700Z" fill="#f3efe4" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <rect x="180" y="540" width="660" height="110" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+</svg>

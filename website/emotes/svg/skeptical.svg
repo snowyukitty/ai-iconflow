@@ -1,0 +1,12 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Raised eyebrow" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Raised eyebrow</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  <path d="M282 300Q372 200 452 290" fill="none" stroke="#191a20" stroke-width="72" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M582 380H732" fill="none" stroke="#191a20" stroke-width="72" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="372" cy="430" rx="56" ry="74" fill="#191a20"/>
+  <ellipse cx="652" cy="460" rx="52" ry="52" fill="#191a20"/>
+  <path d="M412 710L632 680" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

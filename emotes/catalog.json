@@ -122,32 +122,186 @@
    "source": "emotes/sleepy.svg"
   },
   {
+   "slug": "pleading",
+   "title": "Pleading",
+   "meaning": "U+1F97A",
+   "kind": "face",
+   "source": "emotes/pleading.svg"
+  },
+  {
+   "slug": "flushed",
+   "title": "Flushed",
+   "meaning": "U+1F633",
+   "kind": "face",
+   "source": "emotes/flushed.svg"
+  },
+  {
+   "slug": "grimace",
+   "title": "Grimacing",
+   "meaning": "U+1F62C",
+   "kind": "face",
+   "source": "emotes/grimace.svg"
+  },
+  {
+   "slug": "skeptical",
+   "title": "Raised eyebrow",
+   "meaning": "U+1F928",
+   "kind": "face",
+   "source": "emotes/skeptical.svg"
+  },
+  {
+   "slug": "expressionless",
+   "title": "Expressionless",
+   "meaning": "U+1F611",
+   "kind": "face",
+   "source": "emotes/expressionless.svg"
+  },
+  {
+   "slug": "hug",
+   "title": "Hugging",
+   "meaning": "U+1F917",
+   "kind": "face",
+   "source": "emotes/hug.svg"
+  },
+  {
+   "slug": "shush",
+   "title": "Shushing",
+   "meaning": "U+1F92B",
+   "kind": "face",
+   "source": "emotes/shush.svg"
+  },
+  {
+   "slug": "salute",
+   "title": "Saluting",
+   "meaning": "U+1FAE1",
+   "kind": "face",
+   "source": "emotes/salute.svg"
+  },
+  {
+   "slug": "devil",
+   "title": "Smiling devil",
+   "meaning": "U+1F608",
+   "kind": "face",
+   "source": "emotes/devil.svg"
+  },
+  {
+   "slug": "sick",
+   "title": "Nauseated",
+   "meaning": "U+1F922",
+   "kind": "face",
+   "source": "emotes/sick.svg"
+  },
+  {
+   "slug": "scream",
+   "title": "Screaming",
+   "meaning": "U+1F631",
+   "kind": "face",
+   "source": "emotes/scream.svg"
+  },
+  {
+   "slug": "yum",
+   "title": "Yum",
+   "meaning": "U+1F60B",
+   "kind": "face",
+   "source": "emotes/yum.svg"
+  },
+  {
+   "slug": "upsidedown",
+   "title": "Upside-down",
+   "meaning": "U+1F643",
+   "kind": "face",
+   "source": "emotes/upsidedown.svg"
+  },
+  {
+   "slug": "halo",
+   "title": "Halo",
+   "meaning": "U+1F607",
+   "kind": "face",
+   "source": "emotes/halo.svg"
+  },
+  {
+   "slug": "nerd",
+   "title": "Nerd",
+   "meaning": "U+1F913",
+   "kind": "face",
+   "source": "emotes/nerd.svg"
+  },
+  {
+   "slug": "melting",
+   "title": "Melting",
+   "meaning": "U+1FAE0",
+   "kind": "face",
+   "source": "emotes/melting.svg"
+  },
+  {
    "slug": "thumbsup",
    "title": "Thumbs up",
    "meaning": "U+1F44D",
-   "kind": "symbol",
+   "kind": "hand",
    "source": "emotes/thumbsup.svg"
   },
   {
    "slug": "thumbsdown",
    "title": "Thumbs down",
    "meaning": "U+1F44E",
-   "kind": "symbol",
+   "kind": "hand",
    "source": "emotes/thumbsdown.svg"
   },
   {
    "slug": "clap",
    "title": "Clap",
    "meaning": "U+1F44F",
-   "kind": "symbol",
+   "kind": "hand",
    "source": "emotes/clap.svg"
   },
   {
    "slug": "pray",
    "title": "Folded hands",
    "meaning": "U+1F64F",
-   "kind": "symbol",
+   "kind": "hand",
    "source": "emotes/pray.svg"
+  },
+  {
+   "slug": "wave",
+   "title": "Waving hand",
+   "meaning": "U+1F44B",
+   "kind": "hand",
+   "source": "emotes/wave.svg"
+  },
+  {
+   "slug": "ok",
+   "title": "OK hand",
+   "meaning": "U+1F44C",
+   "kind": "hand",
+   "source": "emotes/ok.svg"
+  },
+  {
+   "slug": "muscle",
+   "title": "Flexed biceps",
+   "meaning": "U+1F4AA",
+   "kind": "hand",
+   "source": "emotes/muscle.svg"
+  },
+  {
+   "slug": "raisedhands",
+   "title": "Raised hands",
+   "meaning": "U+1F64C",
+   "kind": "hand",
+   "source": "emotes/raisedhands.svg"
+  },
+  {
+   "slug": "victory",
+   "title": "Victory hand",
+   "meaning": "U+270C",
+   "kind": "hand",
+   "source": "emotes/victory.svg"
+  },
+  {
+   "slug": "handshake",
+   "title": "Handshake",
+   "meaning": "U+1F91D",
+   "kind": "hand",
+   "source": "emotes/handshake.svg"
   },
   {
    "slug": "fire",
@@ -176,6 +330,69 @@
    "meaning": "U+1F389",
    "kind": "symbol",
    "source": "emotes/tada.svg"
+  },
+  {
+   "slug": "sparkles",
+   "title": "Sparkles",
+   "meaning": "U+2728",
+   "kind": "symbol",
+   "source": "emotes/sparkles.svg"
+  },
+  {
+   "slug": "rocket",
+   "title": "Rocket",
+   "meaning": "U+1F680",
+   "kind": "symbol",
+   "source": "emotes/rocket.svg"
+  },
+  {
+   "slug": "check",
+   "title": "Check mark",
+   "meaning": "U+2705",
+   "kind": "symbol",
+   "source": "emotes/check.svg"
+  },
+  {
+   "slug": "cross",
+   "title": "Cross mark",
+   "meaning": "U+274C",
+   "kind": "symbol",
+   "source": "emotes/cross.svg"
+  },
+  {
+   "slug": "question",
+   "title": "Question mark",
+   "meaning": "U+2753",
+   "kind": "symbol",
+   "source": "emotes/question.svg"
+  },
+  {
+   "slug": "warning",
+   "title": "Warning",
+   "meaning": "U+26A0",
+   "kind": "symbol",
+   "source": "emotes/warning.svg"
+  },
+  {
+   "slug": "coffee",
+   "title": "Hot beverage",
+   "meaning": "U+2615",
+   "kind": "symbol",
+   "source": "emotes/coffee.svg"
+  },
+  {
+   "slug": "bug",
+   "title": "Bug",
+   "meaning": "U+1F41B",
+   "kind": "symbol",
+   "source": "emotes/bug.svg"
+  },
+  {
+   "slug": "brokenheart",
+   "title": "Broken heart",
+   "meaning": "U+1F494",
+   "kind": "symbol",
+   "source": "emotes/brokenheart.svg"
   }
  ]
 }

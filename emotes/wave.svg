@@ -1,0 +1,15 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Waving hand" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Waving hand</title>
+  <g transform="rotate(-18 512 600)">
+  <rect x="348" y="150" width="96" height="380" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-8 396 530)"/>
+  <rect x="444" y="110" width="96" height="400" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-2 492 510)"/>
+  <rect x="540" y="130" width="96" height="380" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(4 588 510)"/>
+  <rect x="628" y="200" width="90" height="330" rx="45" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(10 673 530)"/>
+  <rect x="210" y="470" width="110" height="300" rx="55" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-48 265 770)"/>
+  <rect x="310" y="430" width="400" height="460" rx="170" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  </g>
+  <path d="M840 150Q910 240 880 330M900 70Q1000 200 960 360" fill="none" stroke="#191a20" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

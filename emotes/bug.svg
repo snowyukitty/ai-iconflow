@@ -1,0 +1,15 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Bug" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Bug</title>
+  <path d="M300 470L150 410M290 620L130 640M320 770L190 870M724 470L874 410M734 620L894 640M704 770L834 870" fill="none" stroke="#191a20" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="512" cy="620" rx="290" ry="330" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <circle cx="512" cy="250" r="130" fill="#191a20"/>
+  <path d="M512 300V940" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="400" cy="560" r="56" fill="#191a20"/>
+  <circle cx="624" cy="560" r="56" fill="#191a20"/>
+  <circle cx="420" cy="760" r="46" fill="#191a20"/>
+  <circle cx="604" cy="760" r="46" fill="#191a20"/>
+  <path d="M450 150L390 60M574 150L634 60" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
