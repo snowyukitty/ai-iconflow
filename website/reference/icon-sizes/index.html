@@ -154,7 +154,7 @@
   <header class="site-header" data-header>
     <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Open navigation" data-label-close="Close navigation"><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
-    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#web">Favicon</a><a href="#pwa">PWA</a><a href="#tauri">Tauri</a><a href="#electron">Electron</a><a href="#tray">Tray</a><a href="/getting-started/">Get started</a></nav>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#web">Favicon</a><a href="#pwa">PWA</a><a href="#tauri">Tauri</a><a href="#electron">Electron</a><a href="#tray">Tray</a><a href="#emote">Emotes</a><a href="/getting-started/">Get started</a></nav>
   </header>
 
   <main id="main">
@@ -167,7 +167,7 @@
         <p class="section-kicker">Reference · generated from the build code</p>
         <h1>Every icon file<br>your platform<br><em>actually needs.</em></h1>
         <p class="ref-lede">Favicon, PWA manifest, Tauri, Electron and the macOS menu bar — one table per target, with the exact filenames and frame sizes. Nothing here is transcribed by hand: the page is generated from <code>iconflow/build.py</code>, so it says what the tool ships and fails the build when the two disagree.</p>
-        <p class="ref-meta">IconFlow 0.5.0 · targets: <code>web, pwa, tauri, electron, tray</code></p>
+        <p class="ref-meta">IconFlow 0.5.0 · targets: <code>web, pwa, tauri, electron, tray, emote</code></p>
       </div>
       <aside class="ref-hero-card" aria-label="Produce every file below">
         <p>Produce every file on this page from one SVG:</p>
@@ -316,6 +316,24 @@ iconflow ship --config iconflow.toml \
     </div>
       <p class="ref-callout"><strong>Give the tray its own drawing.</strong> A menu bar mark needs real transparency around a sparse shape — usually a simplified version of the master, not the master itself. Pass it with <code>--tray-svg</code>. When you do not, IconFlow derives alpha from the mark's contrast, and if no semantic shape can be isolated it refuses the build rather than shipping a black square.</p>
       <div class="ref-actions"><a class="button button-primary" href="/reference/tray-icons/">See the black-square failure and fix <span aria-hidden="true">&rarr;</span></a></div>
+    </section>
+
+    <section class="ref-section section-shell" id="emote">
+      <h2>Chat emotes</h2>
+      <p>An emote is judged smaller than its upload and on two backgrounds at once: Twitch draws it at 28 pixels, Discord and Slack at roughly 22 to 32, on white and on dark chat alike. Each size below is rendered natively from the SVG, not scaled down from the largest, and a file over its platform's upload limit fails the build instead of the upload form. <code>all</code> builds the app-icon targets; ask for <code>emote</code> by name.</p>
+    <div class="ref-table-wrap">
+     <table class="ref-table">
+      <caption>iconflow build master.svg --targets emote</caption>
+      <thead><tr><th scope="col">File</th><th scope="col">Size</th><th scope="col">Why it exists</th></tr></thead>
+      <tbody>
+      <tr><th scope="row"><code>emote/28.png</code></th><td>28 × 28 px</td><td>Twitch, as shown in chat. Uploaded with 56 and 112; at most 25 KB.</td></tr>
+      <tr><th scope="row"><code>emote/56.png</code></th><td>56 × 56 px</td><td>Twitch, 2× density. At most 25 KB.</td></tr>
+      <tr><th scope="row"><code>emote/112.png</code></th><td>112 × 112 px</td><td>Twitch, 4× density and the size Twitch reviews. At most 25 KB.</td></tr>
+      <tr><th scope="row"><code>emote/128.png</code></th><td>128 × 128 px</td><td>Discord and Slack custom emoji. At most 128 KB (Slack&#x27;s limit; Discord allows 256 KB).</td></tr>
+      </tbody>
+     </table>
+    </div>
+      <div class="ref-actions"><a class="button button-primary" href="/emotes/">See IconFlow's own emote set <span aria-hidden="true">&rarr;</span></a></div>
     </section>
 
     <section class="ref-section section-shell" id="sizes">

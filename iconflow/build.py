@@ -11,8 +11,20 @@ from typing import Iterable, Protocol
 from . import assemble, htmlhead, ladder
 from .rasterize import Rasterizer, load_svg
 
-# Targets the CLI understands. "all" expands to everything.
-TARGETS = ("web", "pwa", "tauri", "electron", "tray")
+# Targets the CLI understands. "all" expands to the app-icon targets: an
+# emote pack is a different deliverable from an app's icon set, so it is only
+# ever built when it is asked for by name.
+TARGETS = ("web", "pwa", "tauri", "electron", "tray", "emote")
+APP_TARGETS = ("web", "pwa", "tauri", "electron", "tray")
+
+# Emotes are uploaded at these sizes: Twitch takes 28, 56 and 112 together;
+# Discord and Slack take one 128 (docs/EMOTES.md). Each is rendered natively.
+EMOTE_SIZES = (28, 56, 112, 128)
+# The strictest platform limit that applies to each file, in bytes: Twitch
+# rejects a static emote over 25 KB per size; Slack caps a custom emoji at
+# 128 KB (Discord allows 256 KB). A file over its budget fails the build
+# rather than failing later in a platform's upload form.
+EMOTE_BUDGETS = {28: 25_000, 56: 25_000, 112: 25_000, 128: 128_000}
 
 # Match Tauri CLI's observable ICO directory order. The order starts with the
 # conventional Windows 32px frame, then includes every natively rendered size.
@@ -43,7 +55,7 @@ def normalize_targets(targets) -> list[str]:
         unknown = sorted(set(requested) - {"all"})
         if unknown:
             raise ValueError(f"'all' cannot be combined with other targets: {', '.join(unknown)}")
-        return list(TARGETS)
+        return list(APP_TARGETS)
     unknown = sorted(set(requested) - set(TARGETS))
     if unknown:
         raise ValueError(
@@ -179,8 +191,11 @@ def preview_assets(
     target = str(target).strip().lower()
     if target == "pwa":
         target = "web"
-    if target not in {"web", "tauri", "electron", "tray"}:
-        raise ValueError("preview target must be web, pwa, tauri, electron, or tray")
+    if target not in {"web", "tauri", "electron", "tray", "emote"}:
+        raise ValueError("preview target must be web, pwa, tauri, electron, tray, or emote")
+
+    if target == "emote":
+        return {f"emote/{size}.png": cache.png(size) for size in EMOTE_SIZES}
 
     if target == "web":
         assemble.opaque_color(bg_color, "background color")
@@ -310,6 +325,18 @@ def build_tray(cache: RenderCache, outdir: Path, ts_module: bool,
         produced.append("tray/trayIcon.ts")
 
 
+def build_emote(cache: RenderCache, outdir: Path, produced: list[str]) -> None:
+    assets = preview_assets(cache, "emote")
+    for size in EMOTE_SIZES:
+        data = assets[f"emote/{size}.png"]
+        if len(data) > EMOTE_BUDGETS[size]:
+            raise ValueError(
+                f"emote/{size}.png is {len(data):,} bytes, over the {EMOTE_BUDGETS[size]:,}-byte "
+                "upload limit for that size; simplify the drawing (fewer gradients and textures)"
+            )
+    _write_assets(outdir, assets, produced)
+
+
 def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
           name: str = "App", theme_color: str = "#0b0d12",
           bg_color: str = "#ffffff", electron_radius: float = 0.0,
@@ -364,4 +391,6 @@ def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
                 tray_cache=tray_cache,
                 template_mode=tray_template_mode,
             )
+        if "emote" in targets:
+            build_emote(cache, outdir, produced)
     return produced

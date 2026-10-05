@@ -28,6 +28,7 @@ TIERS = {
     "templates": "CC0-1.0",
     # Made to be uploaded to chat platforms, which have no room for credit.
     "emotes": "CC0-1.0",
+    "website/emotes": "CC0-1.0",
     "docs": "CC-BY-SA-4.0",
     "casebook": "CC-BY-SA-4.0",
     "skills": "CC-BY-SA-4.0",

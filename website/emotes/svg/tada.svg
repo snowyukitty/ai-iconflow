@@ -1,0 +1,12 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Party popper" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Party popper</title>
+  <path d="M96 936L330 340L690 700Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M250 540L470 760M180 720L330 870" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M440 300Q470 170 380 80M730 590Q870 560 940 650" fill="none" stroke="#ff4f5e" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="590" y="110" width="150" height="150" rx="34" transform="rotate(20 665 185)" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <circle cx="860" cy="380" r="84" fill="#4da3ff" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <rect x="560" y="380" width="170" height="96" rx="40" transform="rotate(-30 645 428)" fill="#3ecf8e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+</svg>

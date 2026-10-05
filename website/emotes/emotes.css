@@ -1,0 +1,70 @@
+/* SPDX-License-Identifier: Apache-2.0
+   SPDX-FileCopyrightText: 2026 snowyukitty · https://ai-iconflow.com
+   IconFlow emotes: colours and rhythm come from styles.css tokens; the chat
+   panes use the real grounds emotes are judged on (Slack white, Discord dark). */
+
+.emo-body { padding-bottom: 40px; }
+.emo-body img { display: inline-block; }
+
+.emo-hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(28px, 5vw, 64px); align-items: center; padding-top: 132px; padding-bottom: 40px; }
+.emo-hero h1 { margin: 0; font-size: clamp(2.5rem, 5.4vw, 4.4rem); font-weight: 800; letter-spacing: -.055em; line-height: .95; }
+.emo-hero h1 em { color: var(--coral); font-style: normal; }
+.emo-lede { max-width: 640px; margin: 24px 0 0; color: rgba(255,244,232,.78); font-size: clamp(1rem, 1.5vw, 1.15rem); }
+.emo-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.emo-actions .button { flex-direction: column; align-items: flex-start; gap: 2px; padding: 10px 18px; }
+.emo-size { font-family: var(--mono); font-size: .68rem; font-weight: 600; opacity: .75; }
+.emo-licence { margin: 14px 0 0; color: var(--mint); font-family: var(--mono); font-size: .76rem; }
+
+.emo-chats { display: grid; gap: 12px; }
+.emo-chat { margin: 0; padding: 14px 16px; border-radius: 16px; font-size: .92rem; line-height: 1.5; }
+.emo-chat figcaption { margin-bottom: 6px; font-family: var(--mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; opacity: .6; }
+.emo-chat-light { color: #1d1c1d; background: #ffffff; }
+.emo-chat-dark { color: #dbdee1; background: #313338; }
+.emo-msg { margin: 2px 0; }
+.emo-msg b { margin-right: 4px; }
+.emo-chat-light .emo-msg b { color: #1264a3; }
+.emo-chat-dark .emo-msg b { color: #f2f3f5; }
+.emo-msg img { vertical-align: -5px; }
+.emo-reactions { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+.emo-reactions span { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 9px; font-size: .8rem; font-weight: 700; }
+.emo-chat-light .emo-reactions span { background: #f0f4f9; border: 1px solid #c9dcf0; }
+.emo-chat-dark .emo-reactions span { background: #2b2d31; border: 1px solid #3f4147; }
+.emo-reactions i { font-style: normal; }
+
+.emo-set { margin-top: 56px; }
+.emo-set h2, .emo-family h2, .emo-make h2 { margin: 0; font-size: clamp(1.8rem, 3.2vw, 2.6rem); letter-spacing: -.045em; line-height: 1; }
+.emo-note { max-width: 760px; color: var(--muted); }
+.emo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 12px; margin: 22px 0 0; padding: 0; list-style: none; }
+.emo-tile { display: grid; justify-items: center; gap: 8px; padding: 16px 10px 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--ink-2); }
+.emo-big { display: grid; place-items: center; width: 132px; height: 132px; border-radius: 14px; background: repeating-conic-gradient(#2b2d36 0 25%, #24262e 0 50%) 0 0 / 16px 16px; }
+.emo-small { display: flex; gap: 6px; }
+.emo-small span { display: inline-flex; align-items: center; gap: 4px; padding: 4px 6px; border-radius: 7px; }
+.emo-on-light { background: #ffffff; }
+.emo-on-dark { background: #313338; }
+.emo-name { margin: 0; font-size: .86rem; font-weight: 700; text-align: center; }
+.emo-name code { display: block; color: var(--muted); font-family: var(--mono); font-size: .7rem; font-weight: 500; }
+.emo-links { display: flex; gap: 12px; margin: 0; font-family: var(--mono); font-size: .7rem; }
+.emo-links a { color: rgba(255,244,232,.7); }
+.emo-links a:hover, .emo-links a:focus-visible { color: var(--paper); }
+
+.emo-family { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 80px; }
+.emo-family p { color: rgba(255,244,232,.78); }
+.emo-family code, .emo-make code { font-family: var(--mono); font-size: .9em; }
+.emo-family a { color: var(--paper); }
+.emo-sheet { margin: 0; }
+.emo-sheet img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); }
+.emo-sheet figcaption { margin-top: 8px; color: var(--muted); font-size: .8rem; }
+
+.emo-make { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 80px; padding: 40px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink-2); }
+.emo-make p { color: rgba(255,244,232,.76); }
+.emo-make pre { margin: 0; padding: 20px; overflow-x: auto; border-radius: 16px; background: var(--ink); font-family: var(--mono); font-size: .86rem; line-height: 1.7; }
+
+@media (max-width: 960px) {
+  .emo-hero, .emo-family, .emo-make { grid-template-columns: minmax(0, 1fr); }
+  .emo-make { padding: 26px; }
+}
+@media (max-width: 420px) {
+  .emo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .emo-big { width: 112px; height: 112px; }
+  .emo-small img:nth-child(2) { display: none; }
+}

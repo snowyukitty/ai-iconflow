@@ -1,0 +1,8 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Heart" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Heart</title>
+  <path d="M512 879L86 499A228 228 0 0 1 512 286A228 228 0 0 1 938 499Z" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M300 400Q306 330 372 306" fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

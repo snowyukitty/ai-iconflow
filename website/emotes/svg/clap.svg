@@ -1,0 +1,9 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Clap" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Clap</title>
+  <rect x="250" y="250" width="330" height="560" rx="150" transform="rotate(-22 415 530)" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <rect x="420" y="300" width="330" height="560" rx="150" transform="rotate(14 585 580)" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M700 140L760 60M820 220L920 180M180 170L120 90" fill="none" stroke="#191a20" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

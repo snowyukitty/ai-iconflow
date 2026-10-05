@@ -88,6 +88,7 @@ ENGLISH_ONLY = (
     ("/reference/tray-icons/", "monthly", "0.9"),
     ("/xray/", "monthly", "0.9"),
     ("/forge/", "monthly", "0.8"),
+    ("/emotes/", "monthly", "0.8"),
     ("/gallery/", "weekly", "0.9"),
     ("/gallery/social-signals/", "monthly", "0.8"),
     ("/gallery/emoji-matrix/", "monthly", "0.8"),

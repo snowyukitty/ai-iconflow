@@ -64,7 +64,32 @@ class BuildTests(unittest.TestCase):
             build_module.normalize_targets(["tray", "web"]),
             ["web", "tray"],
         )
-        self.assertEqual(build_module.normalize_targets(["all"]), list(build_module.TARGETS))
+        # "all" is the app-icon set; an emote pack is only built when named.
+        self.assertEqual(build_module.normalize_targets(["all"]), list(build_module.APP_TARGETS))
+        self.assertNotIn("emote", build_module.normalize_targets(["all"]))
+        self.assertEqual(build_module.normalize_targets(["emote", "web"]), ["web", "emote"])
+
+    def test_emote_target_renders_each_platform_size_natively(self):
+        calls = []
+
+        class Cache:
+            def png(self, size):
+                calls.append(size)
+                return png(size)
+
+        assets = build_module.preview_assets(Cache(), "emote")
+        self.assertEqual(sorted(calls), [28, 56, 112, 128])
+        self.assertEqual(set(assets), {"emote/28.png", "emote/56.png", "emote/112.png", "emote/128.png"})
+
+    def test_emote_over_its_upload_limit_fails_the_build(self):
+        class Heavy:
+            def png(self, size):
+                return b"\x89PNG" + b"0" * (build_module.EMOTE_BUDGETS[size] + 1)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError, "upload limit"):
+                build_module.build_emote(Heavy(), Path(tmp), [])
+            self.assertFalse((Path(tmp) / "emote").exists())
 
     def test_windows_tiles_emit_expected_png_sizes(self):
         calls = []

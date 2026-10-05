@@ -188,6 +188,18 @@
 /forge/
   Cache-Control: public, max-age=0, must-revalidate
 
+/emotes/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/emotes/
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Emote packs keep their names across rebuilds, so they revalidate rather than
+# sit in a week-long image cache after the set changes.
+/emotes/*.zip
+  Cache-Control: public, max-age=0, must-revalidate
+  Content-Type: application/zip
+
 # Vendored three.js lives under its exact version, so a file there never
 # changes in place; an upgrade is a new directory.
 /forge/vendor/*

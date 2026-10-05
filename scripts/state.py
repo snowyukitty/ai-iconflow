@@ -206,6 +206,12 @@ def check_generators() -> list[Check]:
         return current, ("39 generic forms match iconflow/resources/collision/index.json" if current
                          else "run python scripts/build_forge_collision.py")
 
+    def emote_packs():
+        module = load_script("build_emote_packs")
+        code = module.check()
+        return code == 0, ("24 emotes: sources, page, catalog and three packs agree"
+                           if code == 0 else "run python scripts/build_emote_packs.py")
+
     run("generated.i18n", "Five-language site is current", i18n)
     run("generated.archive", "Living archive is current", archive)
     run("generated.reference", "Icon-size reference is current", reference)
@@ -213,6 +219,7 @@ def check_generators() -> list[Check]:
     run("generated.adoption", "First-proof commands are current", adoption)
     run("generated.gallery_page", "Static gallery is current", gallery_page)
     run("generated.forge_collision", "Icon Forge collision set is current", forge_collision)
+    run("generated.emote_packs", "Emote packs are current", emote_packs)
     for check in checks:
         check.section = "Generated artifacts"
     return checks

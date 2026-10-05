@@ -1,0 +1,11 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Angry" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Angry</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ff8a5c" stroke="#191a20" stroke-width="52"/>
+  <path d="M282 330L452 410M742 330L572 410" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="372" cy="470" rx="56" ry="62" fill="#191a20"/>
+  <ellipse cx="652" cy="470" rx="56" ry="62" fill="#191a20"/>
+  <path d="M352 760Q512 640 672 760" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

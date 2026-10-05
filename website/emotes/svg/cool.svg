@@ -1,0 +1,9 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Sunglasses" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Sunglasses</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  <path d="M226 360H798V420Q798 540 690 540H600Q540 540 530 470H494Q484 540 424 540H334Q226 540 226 420Z" fill="#191a20"/>
+  <path d="M372 680Q512 760 672 650" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

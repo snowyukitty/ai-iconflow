@@ -878,3 +878,23 @@ two broad caps and curved ribs made the same silhouette read as a lantern-shell
 hybrid at 16 px.
 Two independent reviews (`codex:default`, `agy:default`) agreed this rule was not
 implied by L21 or L23 and recommended promoting it.
+
+## L57 — In a family, siblings must differ in what their shared carrier does not explain
+When marks share a carrier — a plate behind a suite of app icons, a head
+behind a set of faces — judge whether two members are the same mark on their
+**residual from the carrier**, not on how alike they are overall, and never
+let a single small feature carry the whole difference. Change at least two
+features, or the silhouette.
+*Why:* the carrier is most of the ink, so overall similarity says nothing:
+two genuinely different faces on one head are 0.02 apart at 16px. What a
+reader uses to tell siblings apart is only the part that is not shared, and a
+feature that is the *only* difference — one closed eye — is two pixels at chat
+size.
+*Evidence:* [casebook/2026-10-05-iconflow-emote-family.md](../casebook/2026-10-05-iconflow-emote-family.md)
+— the first-draft wink was the smile with one eye closed; on the residual from
+the faces' shared card it sat at 0.31 against every other pair at 0.50 or
+more, and the 22px sheet showed the same thing. Redrawn with a squeezed eye
+*and* an open grin, it cleared the floor.
+*Mechanized:* `iconflow family` computes the carrier from the members' own
+fields and gates residual twins (`docs/FAMILY.md`). Its floor is provisional
+until a second family is recorded.

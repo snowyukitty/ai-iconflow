@@ -151,6 +151,10 @@ NOTES: dict[str, str] = {
     "tray/trayTemplate.png": "macOS template: pure black plus alpha. The system recolours it.",
     "tray/trayTemplate@2x.png": "Retina template pair. Required, not optional.",
     "tray/trayIcon.ts": "Optional inline data-URL module (--tray-ts).",
+    "emote/28.png": "Twitch, as shown in chat. Uploaded with 56 and 112; at most 25 KB.",
+    "emote/56.png": "Twitch, 2× density. At most 25 KB.",
+    "emote/112.png": "Twitch, 4× density and the size Twitch reviews. At most 25 KB.",
+    "emote/128.png": "Discord and Slack custom emoji. At most 128 KB (Slack's limit; Discord allows 256 KB).",
 }
 
 
@@ -224,6 +228,10 @@ def electron_rows() -> list[Row]:
     rows.append(Row("build/icon.ico", _frames(build.ICO_FRAME_ORDER), _note("build/icon.ico")))
     rows.append(Row("build/icon.icns", _frames(build.ICNS_FRAME_SIZES), _note("build/icon.icns")))
     return rows
+
+
+def emote_rows() -> list[Row]:
+    return _png_rows("emote")
 
 
 def tray_rows() -> list[Row]:
@@ -485,7 +493,7 @@ def render() -> str:
   <header class="site-header" data-header>
     <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Open navigation" data-label-close="Close navigation"><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
-    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#web">Favicon</a><a href="#pwa">PWA</a><a href="#tauri">Tauri</a><a href="#electron">Electron</a><a href="#tray">Tray</a><a href="/getting-started/">Get started</a></nav>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#web">Favicon</a><a href="#pwa">PWA</a><a href="#tauri">Tauri</a><a href="#electron">Electron</a><a href="#tray">Tray</a><a href="#emote">Emotes</a><a href="/getting-started/">Get started</a></nav>
   </header>
 
   <main id="main">
@@ -549,6 +557,13 @@ def render() -> str:
 {table("iconflow ship --targets tray", tray_rows())}
       <p class="ref-callout"><strong>Give the tray its own drawing.</strong> A menu bar mark needs real transparency around a sparse shape — usually a simplified version of the master, not the master itself. Pass it with <code>--tray-svg</code>. When you do not, IconFlow derives alpha from the mark's contrast, and if no semantic shape can be isolated it refuses the build rather than shipping a black square.</p>
       <div class="ref-actions"><a class="button button-primary" href="/reference/tray-icons/">See the black-square failure and fix <span aria-hidden="true">&rarr;</span></a></div>
+    </section>
+
+    <section class="ref-section section-shell" id="emote">
+      <h2>Chat emotes</h2>
+      <p>An emote is judged smaller than its upload and on two backgrounds at once: Twitch draws it at 28 pixels, Discord and Slack at roughly 22 to 32, on white and on dark chat alike. Each size below is rendered natively from the SVG, not scaled down from the largest, and a file over its platform's upload limit fails the build instead of the upload form. <code>all</code> builds the app-icon targets; ask for <code>emote</code> by name.</p>
+{table("iconflow build master.svg --targets emote", emote_rows())}
+      <div class="ref-actions"><a class="button button-primary" href="/emotes/">See IconFlow's own emote set <span aria-hidden="true">&rarr;</span></a></div>
     </section>
 
     <section class="ref-section section-shell" id="sizes">

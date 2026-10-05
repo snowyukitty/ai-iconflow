@@ -6,8 +6,9 @@
 # Output Targets — what each project type needs
 
 The build engine produces the right file set per target. Pick targets with
-`--targets web,tauri,tray` (comma list) or `--targets all`. Unknown target names
-fail fast with a clear error. `iconflow review --config iconflow.toml` previews
+`--targets web,tauri,tray` (comma list) or `--targets all`. `all` means every
+app-icon target; `emote` is a different deliverable and is only built when it
+is named. Unknown target names fail fast with a clear error. `iconflow review --config iconflow.toml` previews
 the same target transforms; it does not approximate them with the raw master.
 
 ---
@@ -210,6 +211,31 @@ advisory and does not gate `ship`.
 If the tray icon **recolors by state** (e.g. active/paused/error), render it from
 ONE shared mark function used by both the built static icons *and* the live
 recolor path, so the two never drift.
+
+---
+
+## `emote` — chat emotes for Twitch, Discord and Slack
+
+| File | px | Where |
+|---|---|---|
+| `emote/28.png` | 28 | Twitch, as drawn in chat |
+| `emote/56.png` | 56 | Twitch, 2× |
+| `emote/112.png` | 112 | Twitch, 4× (Twitch uploads all three together) |
+| `emote/128.png` | 128 | Discord and Slack custom emoji |
+
+Each size is rendered natively from the SVG, transparent, never scaled down
+from the largest. A file over its platform's upload limit — 25 KB for each
+Twitch size, 128 KB for the 128 (Slack's cap; Discord allows 256 KB) — fails
+the build with the size it reached, rather than failing in the upload form.
+
+Emotes are judged at 22–28 px on light *and* dark chat, not at 16 px on one
+background: review them that way ([`EMOTES.md`](EMOTES.md)). For a set, run
+`iconflow family "emotes/*.svg"` ([`FAMILY.md`](FAMILY.md)) so no two members
+are the same reaction at chat size.
+
+```bash
+iconflow build my-emote.svg --targets emote --out out
+```
 
 ---
 

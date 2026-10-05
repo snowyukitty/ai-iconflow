@@ -1,0 +1,8 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Fire" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Fire</title>
+  <path d="M512 70Q600 260 720 320Q690 220 740 170Q880 360 860 560Q840 900 512 930Q184 900 164 600Q154 420 300 300Q300 420 360 470Q340 240 512 70Z" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M512 470Q560 600 640 640Q680 860 512 870Q344 860 384 680Q440 640 512 470Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+</svg>

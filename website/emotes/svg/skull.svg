@@ -1,0 +1,11 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Skull" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Skull</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#f3efe4" stroke="#191a20" stroke-width="52"/>
+  <rect x="262" y="350" width="210" height="210" rx="90" fill="#191a20"/>
+  <rect x="552" y="350" width="210" height="210" rx="90" fill="#191a20"/>
+  <path d="M512 600L466 680H558Z" fill="#191a20" stroke="#191a20" stroke-width="24" stroke-linejoin="round"/>
+  <path d="M352 776H672M432 736V820M512 736V820M592 736V820" fill="none" stroke="#191a20" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

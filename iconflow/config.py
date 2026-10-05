@@ -26,7 +26,9 @@ else:  # pragma: no cover - exercised by the Python 3.10 CI job
 
 SCHEMA_VERSION = 1
 CONFIG_FILENAME = "iconflow.toml"
-TARGETS = ("web", "pwa", "tauri", "electron", "tray")
+TARGETS = ("web", "pwa", "tauri", "electron", "tray", "emote")
+# What "all" means: the app-icon targets. An emote pack is asked for by name.
+APP_TARGETS = ("web", "pwa", "tauri", "electron", "tray")
 REVIEW_STATUSES = ("pending", "reviewed", "approved", "shipped", "archived")
 
 
@@ -199,7 +201,7 @@ def _normalize_targets(values: list[str]) -> list[str]:
     if "all" in normalized:
         if len(set(normalized)) != 1:
             raise ConfigError("build.targets 'all' cannot be combined with other targets")
-        return list(TARGETS)
+        return list(APP_TARGETS)
     unknown = sorted(set(normalized) - set(TARGETS))
     if unknown:
         raise ConfigError(

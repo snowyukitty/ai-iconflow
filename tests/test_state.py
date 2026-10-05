@@ -47,6 +47,7 @@ class SelfAuditTests(unittest.TestCase):
             "generated.adoption",
             "generated.gallery_page",
             "generated.forge_collision",
+            "generated.emote_packs",
         ):
             with self.subTest(key=key):
                 self.assertIn(key, by_key)
