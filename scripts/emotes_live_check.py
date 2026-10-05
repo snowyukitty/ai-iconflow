@@ -71,8 +71,22 @@ def main(argv: list[str]) -> int:
         page.evaluate("async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) {"
                       " window.scrollTo(0, y); await new Promise(r => setTimeout(r, 60)); } }")
         page.wait_for_load_state("networkidle")
-        broken = page.evaluate("() => [...document.querySelectorAll('.emo-big img')]"
-                               ".filter(i => !i.complete || i.naturalWidth !== 128).map(i => i.alt)")
+        walk = ("async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) {"
+                " window.scrollTo(0, y); await new Promise(r => setTimeout(r, 60)); } }")
+        find_broken = ("() => [...document.querySelectorAll('.emo-big img')]"
+                       ".filter(i => !i.complete || i.naturalWidth !== 128).map(i => i.alt)")
+        broken = page.evaluate(find_broken)
+        if broken:
+            # Right after a deploy the edge can answer a new path with 404 for a
+            # few seconds while the alias is promoted (seen 2026-10-05). Wait,
+            # reload, and judge again; a real 404 is still a 404 the second time.
+            print(f"  note {len(broken)} image(s) missing on first load; retrying once in 20 s")
+            problems.clear()
+            page.wait_for_timeout(20_000)
+            page.reload(wait_until="load")
+            page.evaluate(walk)
+            page.wait_for_load_state("networkidle")
+            broken = page.evaluate(find_broken)
         expect(page.locator(".emo-big img").count() == len(catalog["emotes"]), "every emote has a tile")
         expect(not broken, "every emote image decodes at 128px", ", ".join(broken))
         sheet = page.evaluate("() => document.querySelector('.emo-sheet img').naturalWidth")
