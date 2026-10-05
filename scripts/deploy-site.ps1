@@ -91,7 +91,10 @@ function Test-Media {
     param([string]$Url, [string]$ExpectType, [switch]$AllowWhole)
     $request = [System.Net.Http.HttpRequestMessage]::new([System.Net.Http.HttpMethod]::Get, $Url)
     $request.Headers.Range = [System.Net.Http.Headers.RangeHeaderValue]::new(0, 1)
-    $response = $client.SendAsync($request).GetAwaiter().GetResult()
+    # Only the headers are inspected. Waiting for the body would download the
+    # whole 14 MB film wherever Range is ignored (*.pages.dev), and on a slow
+    # link that alone outlasted the 30 s timeout (2026-10-05).
+    $response = $client.SendAsync($request, [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead).GetAwaiter().GetResult()
     $status = [int]$response.StatusCode
     $type = "$($response.Content.Headers.ContentType)"
     $range = "$($response.Content.Headers.ContentRange)"
