@@ -3,10 +3,16 @@
      upload it, change it, sell it. No attribution, no conditions. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <title>Folded hands</title>
-  <path d="M512 150Q440 150 420 250L330 650Q318 730 392 744H512Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
-  <path d="M512 150Q584 150 604 250L694 650Q706 730 632 744H512Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
-  <path d="M512 190V720" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="250" y="720" width="250" height="190" rx="60" transform="rotate(8 375 815)" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
-  <rect x="524" y="720" width="250" height="190" rx="60" transform="rotate(-8 649 815)" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
-  <path d="M300 170L232 100M724 170L792 100M512 64V24" fill="none" stroke="#191a20" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M512 70Q400 80 384 230L290 640Q276 770 400 790H512Z" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <path d="M512 70Q624 80 640 230L734 640Q748 770 624 790H512Z" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="220" y="760" width="292" height="180" rx="60" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="512" y="760" width="292" height="180" rx="60" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <path d="M512 70Q400 80 384 230L290 640Q276 770 400 790H512Z" fill="#ffc94d"/>
+  <path d="M512 70Q624 80 640 230L734 640Q748 770 624 790H512Z" fill="#ffc94d"/>
+  <rect x="220" y="760" width="292" height="180" rx="60" fill="#ff4f5e"/>
+  <rect x="512" y="760" width="292" height="180" rx="60" fill="#ff4f5e"/>
+  <path d="M512 110V770" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M260 790H764" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M456 150L404 420M420 260L370 500M568 150L620 420M604 260L654 500" fill="none" stroke="#191a20" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M300 120L240 50M724 120L784 50" fill="none" stroke="#191a20" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

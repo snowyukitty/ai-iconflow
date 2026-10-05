@@ -51,7 +51,8 @@ keeps the set clear of every platform's own faces.
 | Feature line | 84 units (≈1.8 px at 22 px), round caps | the thinnest stroke that survives a 128 → 22 px downscale |
 | Eyes | ellipses 112×148, or a stroke of the feature weight | two dots that are still two dots at 22 px |
 | Palette | skin `#ffc94d`, ink, tear `#4da3ff`, coral `#ff4f5e`, mint `#3ecf8e`, bone `#f3efe4`, anger `#ff8a5c` | flat fills only; no gradient survives 22 px |
-| Symbols | no head; same outline, line and palette | 👍 🔥 ❤️ belong to the family by grammar, not by a face |
+| Hands | one silhouette, one outline: every part drawn first as ink with a 104-unit stroke, then again in skin with none, so only the outer 52 units of ink survive; finger separations drawn inside as creases | a hand is built the way a face is — one outlined shape with its features inside |
+| Symbols | no head; same outline, line and palette | 🔥 ❤️ ✨ belong to the family by grammar, not by a face |
 
 Two habits, learned while drawing the set:
 
@@ -97,12 +98,20 @@ the second wave taught:
   it a twin at 0.33, and its message said why — change what tells them apart,
   not their colour. Blush is gone in a greyscale context and two pixels at
   22 px. The shipped *flushed* raises its brows and wobbles its mouth.
-- **Hands need the most room.** Fingers are the thinnest thing in the set, so
-  every hand fills most of the canvas and is built from a few thick parts —
-  a palm and fingers at least 90 units wide — with its creases as the only
-  thin lines, where losing them at 22 px costs nothing. *Handshake* is
-  the weakest member at 22 px — every platform's is — and is kept because a
-  set without it is asked for it.
+- **Hands are built the way faces are.** The first hands were assembled
+  from parts that were each outlined — a palm, four fingers, a thumb, each
+  with its own 52-unit rim. At chat size that is what they became: outline.
+  Measured at 28 px against the faces, they carried half the mass (0.34 of
+  the canvas against 0.65) and half again as much ink (0.51 of their drawn
+  pixels against 0.34), and four of them broke into three or four pieces.
+  The owner saw it before the numbers did: the hands did not hold up beside
+  the faces. A face is one outlined shape with its features drawn inside; the
+  redrawn hands are too. Every part is drawn once as solid ink with a stroke
+  twice the rim, then again in skin with none, so the only ink left is the
+  outer rim, and the separations a reader needs — between fingers, at a cuff
+  — are drawn inside as creases. Fingers are at least 120 units wide. After:
+  mass 0.50, ink 0.37, no thin parts. *Handshake* is still the hardest
+  member at 22 px, as it is in every platform's set.
 
 The check mark and the cross are the app-icon card itself, in mint and coral:
 status reactions that read as tiny app icons, which is the set's idea taken

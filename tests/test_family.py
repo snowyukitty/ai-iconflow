@@ -137,6 +137,19 @@ class EmoteSet(unittest.TestCase):
                 self.assertNotIn("<text", text)       # no font-dependent glyphs
                 self.assertNotIn("<image", text)      # nothing raster or external
 
+    def test_hands_are_one_silhouette_with_one_outline(self) -> None:
+        # docs/EMOTES.md, L58: a hand is drawn like a face, one outlined shape
+        # with its features inside. The union construction leaves a 104-unit
+        # ink underlay; a hand assembled from separately rimmed parts has none.
+        catalog = json.loads((EMOTES / "catalog.json").read_text(encoding="utf-8"))
+        hands = [e for e in catalog["emotes"] if e["kind"] == "hand"]
+        self.assertGreaterEqual(len(hands), 10)
+        for item in hands:
+            text = (ROOT / item["source"]).read_text(encoding="utf-8")
+            with self.subTest(slug=item["slug"]):
+                self.assertIn('stroke="#191a20" stroke-width="104"', text)
+                self.assertNotIn('fill="#ffc94d" stroke="#191a20" stroke-width="52"', text)
+
     def test_faces_share_the_card_carrier_and_the_grammar_weights(self) -> None:
         # The one face drawn without the card: its joke is the card itself
         # melting, so it keeps the card's top corners and lets the rest run.
@@ -147,7 +160,10 @@ class EmoteSet(unittest.TestCase):
             with self.subTest(slug=item["slug"]):
                 if item["kind"] == "face" and item["slug"] not in melted:
                     self.assertIn('x="96" y="104" width="832" height="832" rx="300"', text)
-                self.assertRegex(text, r'stroke="#191a20" stroke-width="52"')
+                # A hand's 52 visible units come from its 104-unit underlay,
+                # which the test above holds it to.
+                if item["kind"] != "hand":
+                    self.assertRegex(text, r'stroke="#191a20" stroke-width="52"')
 
 
 @NEEDS_CHROMIUM

@@ -898,3 +898,23 @@ more, and the 22px sheet showed the same thing. Redrawn with a squeezed eye
 *Mechanized:* `iconflow family` computes the carrier from the members' own
 fields and gates residual twins (`docs/FAMILY.md`). Its floor is provisional
 until a second family is recorded.
+
+## L58 — A mark built from parts is one silhouette with one outline
+When a mark is assembled from several parts — fingers on a palm, petals on a
+stem, panels on a frame — outline the **union** once and draw the joins
+inside as creases. Do not give every part its own rim.
+*Why:* each rim is a band of ink, and at small sizes ink is what survives.
+A hand of six separately outlined parts arrives at 22 px as six outlines: a
+dark scribble with half the mass of a sibling drawn as one shape, however
+good each part looked at 512.
+*Evidence:* [casebook/2026-10-05-iconflow-emote-family.md](../casebook/2026-10-05-iconflow-emote-family.md)
+— measured at 28 px, the separately rimmed hands carried 0.34 of the canvas
+against the faces' 0.65, and 0.51 of their drawn pixels were ink against the
+faces' 0.34; four broke into three or four pieces. The owner flagged them by
+eye first. Redrawn as one silhouette per hand: mass 0.50, ink 0.37, no thin
+parts.
+*Technique:* draw every part once as solid ink with a stroke twice the rim,
+then again in its fill with no stroke; only the outer rim survives
+(`docs/EMOTES.md`).
+*Mechanized:* `tests/test_family.py` holds every emote hand to the union
+construction.

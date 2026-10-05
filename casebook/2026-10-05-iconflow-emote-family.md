@@ -55,6 +55,18 @@ the nearest pair of the 55 is eye roll / nerd at 0.39, down from 0.50 at 24
 members. Two members tripped the maskable safe-zone audit by a point or two
 and were pulled in.
 
+**Pass 4 — the hands, after owner feedback.** The owner judged the hands
+weaker than the faces. Measured at 28 px they were: half the faces' mass
+(0.34 against 0.65), half again the ink share (0.51 against 0.34), and four
+broke into three or four pieces, because every finger carried its own rim.
+All ten were rebuilt with the faces' construction — one silhouette, one
+outer rim, creases inside — and fingers at least 120 units wide: mass 0.50,
+ink 0.37, no thin parts, every hand clean under `check`, no twins. The OK
+hand now even joins the faces' carrier group. Two first attempts failed by
+eye and were redrawn: folded hands with thumbs read as a metronome, and a
+union of two clapping palms read as an apple until the front palm kept its
+own outline.
+
 **Review status.** Every member passes `iconflow check` with no warning. The
 scores above are the agent's review on the chat sheets; the owner has not yet
 scored the set, so the case is `reviewed`, not `approved`.
@@ -66,3 +78,4 @@ scored the set, so the case is `reviewed`, not `approved`.
 - [x] Never let one feature carry the whole difference between two siblings: a wink that is a smile with one eye closed differs by two pixels at 22px. Change at least two features, or the silhouette.
 - [ ] A probe on the hardest few members (the most confusable pair, the colour detail, the one non-face) decides a family's grammar faster than drawing all of it.
 - [ ] A family's nearest pair moves closer as it grows (0.50 at 24 members, 0.39 at 55): budget new members against the twin floor, and redraw the closest pair before adding the next member.
+- [x] A mark built from parts is one silhouette with one outline: outline the union once and draw the joins as creases. Separately rimmed fingers made the hands half as heavy and half again as inky as the faces at 28px.

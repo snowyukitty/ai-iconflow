@@ -3,13 +3,20 @@
      upload it, change it, sell it. No attribution, no conditions. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <title>Waving hand</title>
-  <g transform="rotate(-18 512 600)">
-  <rect x="348" y="150" width="96" height="380" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-8 396 530)"/>
-  <rect x="444" y="110" width="96" height="400" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-2 492 510)"/>
-  <rect x="540" y="130" width="96" height="380" rx="48" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(4 588 510)"/>
-  <rect x="628" y="200" width="90" height="330" rx="45" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(10 673 530)"/>
-  <rect x="210" y="470" width="110" height="300" rx="55" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-48 265 770)"/>
-  <rect x="310" y="430" width="400" height="460" rx="170" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  <g transform="translate(110 30) rotate(-16 540 520)">
+  <rect x="300" y="120" width="134" height="470" rx="67" transform="rotate(-6 367 590)" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="422" y="90" width="134" height="490" rx="67" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="544" y="120" width="134" height="460" rx="67" transform="rotate(6 611 580)" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="650" y="200" width="124" height="380" rx="62" transform="rotate(13 712 580)" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="220" y="430" width="140" height="330" rx="70" transform="rotate(-40 290 760)" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="270" y="410" width="480" height="500" rx="190" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="300" y="120" width="134" height="470" rx="67" transform="rotate(-6 367 590)" fill="#ffc94d"/>
+  <rect x="422" y="90" width="134" height="490" rx="67" fill="#ffc94d"/>
+  <rect x="544" y="120" width="134" height="460" rx="67" transform="rotate(6 611 580)" fill="#ffc94d"/>
+  <rect x="650" y="200" width="124" height="380" rx="62" transform="rotate(13 712 580)" fill="#ffc94d"/>
+  <rect x="220" y="430" width="140" height="330" rx="70" transform="rotate(-40 290 760)" fill="#ffc94d"/>
+  <rect x="270" y="410" width="480" height="500" rx="190" fill="#ffc94d"/>
+  <path d="M428 410V260M550 410V250M666 430L686 310" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
-  <path d="M840 150Q910 240 880 330M900 70Q1000 200 960 360" fill="none" stroke="#191a20" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M150 360Q80 260 120 150" fill="none" stroke="#191a20" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

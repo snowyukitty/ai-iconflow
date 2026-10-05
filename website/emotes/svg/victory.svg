@@ -3,9 +3,14 @@
      upload it, change it, sell it. No attribution, no conditions. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <title>Victory hand</title>
-  <rect x="380" y="100" width="110" height="470" rx="55" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-12 435 570)"/>
-  <rect x="540" y="100" width="110" height="470" rx="55" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(12 595 570)"/>
-  <rect x="300" y="470" width="440" height="430" rx="160" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
-  <path d="M560 600H700M560 700H700" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="220" y="560" width="120" height="260" rx="60" fill="#ffc94d" stroke="#191a20" stroke-width="52" transform="rotate(-60 280 820)"/>
+  <rect x="360" y="70" width="140" height="520" rx="70" transform="rotate(-14 430 590)" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="540" y="70" width="140" height="520" rx="70" transform="rotate(14 610 590)" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="270" y="470" width="500" height="450" rx="180" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="240" y="520" width="140" height="300" rx="70" transform="rotate(-45 310 820)" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="360" y="70" width="140" height="520" rx="70" transform="rotate(-14 430 590)" fill="#ffc94d"/>
+  <rect x="540" y="70" width="140" height="520" rx="70" transform="rotate(14 610 590)" fill="#ffc94d"/>
+  <rect x="270" y="470" width="500" height="450" rx="180" fill="#ffc94d"/>
+  <rect x="240" y="520" width="140" height="300" rx="70" transform="rotate(-45 310 820)" fill="#ffc94d"/>
+  <path d="M560 610H740M560 720H740M560 830H720" fill="none" stroke="#191a20" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M520 460L512 590" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

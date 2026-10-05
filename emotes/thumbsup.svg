@@ -3,7 +3,10 @@
      upload it, change it, sell it. No attribution, no conditions. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <title>Thumbs up</title>
-  <rect x="268" y="120" width="200" height="460" rx="100" transform="rotate(-10 368 560)" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
-  <rect x="258" y="460" width="560" height="420" rx="140" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
-  <path d="M600 568H776M600 670H776M600 772H760" fill="none" stroke="#191a20" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="250" y="110" width="220" height="470" rx="110" transform="rotate(-8 360 580)" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="236" y="430" width="560" height="460" rx="170" fill="#191a20" stroke="#191a20" stroke-width="104" stroke-linejoin="round"/>
+  <rect x="250" y="110" width="220" height="470" rx="110" transform="rotate(-8 360 580)" fill="#ffc94d"/>
+  <rect x="236" y="430" width="560" height="460" rx="170" fill="#ffc94d"/>
+  <path d="M560 570H770M560 680H770M560 790H750" fill="none" stroke="#191a20" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M300 500Q380 470 470 470" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
