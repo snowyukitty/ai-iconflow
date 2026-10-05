@@ -188,6 +188,26 @@ serves the page under the CSP parsed from `_headers`. Bump the `?v=` on
 regenerate the social card with `python docs/promo/forge/og_card.py` when the
 first-visit design or the panel layout changes.
 
+## Emotes
+
+`/emotes/` and everything under `website/emotes/` — the page, the catalog,
+the 128px PNGs, the SVG copies, the family proof sheet and the three packs —
+is generated from `emotes/` by one script, through the same `emote` build
+target the CLI ships:
+
+```powershell
+.venv\Scripts\python.exe scripts\build_emote_packs.py           # render (needs Chromium)
+.venv\Scripts\python.exe scripts\build_emote_packs.py --check   # verify, no browser
+.venv\Scripts\python.exe scripts\emotes_live_check.py [base-url] # after a deploy
+```
+
+Never edit `website/emotes/` by hand: change an SVG in `emotes/` (and
+`emotes/catalog.json` for a new member), run `iconflow family "emotes/*.svg"`,
+then rebuild. The zips are deterministic, so an unchanged set rebuilds to the
+same bytes. The live check downloads every pack and compares it with the
+checkout byte for byte. Regenerate the social card with
+`python docs/promo/emotes/og_card.py` when the hero changes.
+
 ## Regenerated images
 
 `_headers` lets the edge cache every `*.png` for seven days, so a regenerated

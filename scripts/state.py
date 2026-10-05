@@ -240,6 +240,9 @@ CONTRACT_FILES = (
     # "is the deployed Forge the checked-in one" without that noise.
     ("/forge/forge.js", "forge/forge.js"),
     ("/forge/model.js", "forge/model.js"),
+    # The emote catalog names every member, its pack sizes and the family
+    # result, so a stale emote deploy shows up here; the edge leaves JSON alone.
+    ("/emotes/catalog.json", "emotes/catalog.json"),
 )
 
 # A body can differ from the checkout without the deploy being stale: a CDN
