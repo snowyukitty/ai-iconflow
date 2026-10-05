@@ -52,6 +52,15 @@ toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
    Declare the marks this product must not resemble under `[neighbours] avoid`;
    that set gates, the bundled corpus only advises (`docs/NEIGHBOURHOOD.md`).
    It is not a clearance check and does not replace the ≥4/5 human gate.
+   **For a set of marks** — a suite of app icons, a toolbar, an emote pack —
+   also run `python -m iconflow family "<set>/*.svg" --sheet work/<slug>/family.png`
+   and read the sheet: members that share a carrier are compared on what the
+   carrier does not explain, and two that are one mark at 16px are
+   `family-twins` (`docs/FAMILY.md`). Emotes are built with
+   `--targets emote` and judged at 22–28px on light and dark
+   (`docs/EMOTES.md`). Both are newer than the PyPI release 0.5.0: use a
+   source checkout, or `pip install "git+https://github.com/snowyukitty/ai-iconflow"`,
+   until the next release.
    (Shortcut for simple jobs: inspect the current catalog with
    `python -m iconflow styles`, start with
    `python -m iconflow new <preset>`, and still apply a signature device.)

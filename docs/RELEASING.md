@@ -8,6 +8,26 @@
 This is the maintainer checklist for producing a release. It prepares and
 verifies artifacts; no step should be interpreted as permission to publish.
 
+## 0. What the next release has to carry
+
+PyPI holds 0.5.0. Commands added since then work only from a source
+checkout or `pip install "git+https://github.com/snowyukitty/ai-iconflow"`: `neighbours`, `ladder`, `family`, and
+the `emote` build target. When the next release is cut:
+
+- [ ] Bump `version` in `pyproject.toml` past 0.5.0 and move the
+      `Unreleased` CHANGELOG entries under it.
+- [ ] Remove the "until the next release, install from GitHub" notes from
+      `README.md`, `AGENTS.md`, `website/llms.txt`,
+      `scripts/build_emote_packs.py` and `scripts/build_reference.py`, then
+      rebuild the emote page and the reference page.
+- [ ] Add `iconflow family` and `--targets emote` to
+      `skills/iconflow/SKILL.md` (kept out until a release has them, so no
+      agent installed from PyPI is sent to a command it does not have) and
+      move `skills/.claude-plugin/plugin.json`'s version
+      (`scripts/check_plugin_version.py` enforces it).
+- [ ] After publishing, `python scripts/state.py --write`: the "PyPI
+      first-proof copy is truthful" check should turn green.
+
 ## 1. Clear owner-controlled gates
 
 - Confirm that `LICENSE`, `NOTICE`, `TRADEMARKS.md`, and
