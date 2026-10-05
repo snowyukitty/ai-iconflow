@@ -1,0 +1,13 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Mind blown" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Mind blown</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  <path d="M170 360L214 150L320 250L344 40L470 214L560 20L626 220L744 70L760 250L880 170L860 360Z" fill="#ff8a5c" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <circle cx="372" cy="520" r="96" fill="#ffffff" stroke="#191a20" stroke-width="44"/>
+  <circle cx="652" cy="520" r="96" fill="#ffffff" stroke="#191a20" stroke-width="44"/>
+  <circle cx="372" cy="520" r="38" fill="#191a20"/>
+  <circle cx="652" cy="520" r="38" fill="#191a20"/>
+  <ellipse cx="512" cy="770" rx="76" ry="84" fill="#191a20"/>
+</svg>

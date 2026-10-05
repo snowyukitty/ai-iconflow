@@ -1,0 +1,12 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Folded hands" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Folded hands</title>
+  <path d="M512 150Q440 150 420 250L330 650Q318 730 392 744H512Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M512 150Q584 150 604 250L694 650Q706 730 632 744H512Z" fill="#ffc94d" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M512 190V720" fill="none" stroke="#191a20" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="250" y="720" width="250" height="190" rx="60" transform="rotate(8 375 815)" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <rect x="524" y="720" width="250" height="190" rx="60" transform="rotate(-8 649 815)" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M300 170L232 100M724 170L792 100M512 64V24" fill="none" stroke="#191a20" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

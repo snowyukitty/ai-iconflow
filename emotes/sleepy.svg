@@ -1,0 +1,10 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Sleeping" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Sleeping</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  <path d="M312 460H432M592 460H712" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="512" cy="700" rx="60" ry="66" fill="#191a20"/>
+  <path d="M720 70H880L720 230H880" fill="none" stroke="#191a20" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

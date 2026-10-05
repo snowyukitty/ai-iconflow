@@ -168,6 +168,7 @@ jobs:
           ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_browser_security.py" -v
           ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_ladder.py" -v
           ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_neighbours.py" -v
+          ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_family.py" -v
           python "$GITHUB_WORKSPACE/scripts/build_collision_index.py" --check
           # The Forge's browser port of shapefield must answer what the CLI answers.
           python "$GITHUB_WORKSPACE/scripts/forge_parity.py"

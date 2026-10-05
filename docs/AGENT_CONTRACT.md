@@ -123,6 +123,27 @@ radius, whether or not anything failed. Warning code: `neighbour-collision`
 without any avoid set the command can only advise and exits `0`. It is not a
 clearance check and the human distinctiveness gate still applies.
 
+### `family --json`
+
+```
+iconflow family SVG... [--sheet PNG] [--json]
+```
+
+`outputs`: `{"coherence": 0.2, "twin_floor": 0.3333, "members": [{"id": "family/joy",
+"title": "...", "source": "...", "source_sha256": "<hex>", "field": {"components": 1,
+"holes": 0, "coverage": 0.31, "aspect": 1.0}}], "groups": [["family/joy", ...]],
+"nearest": [{"a": "<id>", "b": "<id>", "group": 0, "residual": 0.503,
+"raw": {"distance": 0.087, "same_topology": false, "components": [1, 3], "holes": [1, 1]},
+"twin": false}], "twins": [["<id>", "<id>"]], "sources": {"<stem>": "<hex>"},
+"sheet": "<abs path or null>"}`.
+
+Members are paths or quoted globs (at least two). `groups` are the carrier
+groups found from the fields; `nearest` carries the closest sibling pairs —
+every twin, then the next closest — whether or not anything failed. `residual`
+is null for a pair whose group has only two members, which is judged on its
+raw distance instead (`docs/FAMILY.md`). Warning code: `family-twins`. Exit
+`1` only for twins.
+
 ### `doctor --json`
 
 `outputs`: `{"checks": [{"name": "python", "status": "PASS|WARN|FAIL", "detail": "...", "fix": "<copy-paste command or null>"}], "chromium": "PASS|FAIL|SKIPPED"}`.

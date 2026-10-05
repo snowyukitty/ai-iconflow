@@ -75,7 +75,7 @@ prove itself. That one family is IconFlow's identity, not a starting point.
 |---|---|---|---|
 | **0** | **Your output** | anything you design or build with IconFlow | **Yours.** No conditions — see §1 |
 | **1** | The tool | `iconflow/`, `scripts/`, `tests/`, `.github/`, `website/**` (`.html`, `.css`, `.js`, `.json`) except the vendored three.js in `website/forge/vendor/` (MIT, see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)), packaging files | `Apache-2.0` |
-| **1b** | Starting points | `templates/**` (including `templates/presets/`), `iconflow/resources/collision/` (the plain generic forms and their index), files IconFlow writes into your project | `CC0-1.0` |
+| **1b** | Starting points | `templates/**` (including `templates/presets/`), `iconflow/resources/collision/` (the plain generic forms and their index), `emotes/` (the emote set, made to be uploaded anywhere), files IconFlow writes into your project | `CC0-1.0` |
 | **2** | The methodology | `docs/**/*.md`, `casebook/**`, `skills/**`, `AGENTS.md`, `CONTRIBUTING.md` | `CC-BY-SA-4.0` |
 | **3a** | Brand & packaged imagery | `brand/`, `demo/`, `docs/assets/` | `CC-BY-4.0` + [trademark](TRADEMARKS.md) |
 | **3b** | The published corpus | `showcase/`, `gallery/`, `examples/*/`, `website/assets/` | `CC-BY-NC-ND-4.0` |

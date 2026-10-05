@@ -1,0 +1,181 @@
+{
+ "schema": 1,
+ "name": "IconFlow emotes",
+ "license": "CC0-1.0",
+ "grammar": "docs/EMOTES.md",
+ "judged_at": [
+  22,
+  28,
+  48
+ ],
+ "emotes": [
+  {
+   "slug": "joy",
+   "title": "Tears of joy",
+   "meaning": "U+1F602",
+   "kind": "face",
+   "source": "emotes/joy.svg"
+  },
+  {
+   "slug": "sob",
+   "title": "Sobbing",
+   "meaning": "U+1F62D",
+   "kind": "face",
+   "source": "emotes/sob.svg"
+  },
+  {
+   "slug": "love",
+   "title": "Heart eyes",
+   "meaning": "U+1F60D",
+   "kind": "face",
+   "source": "emotes/love.svg"
+  },
+  {
+   "slug": "grin",
+   "title": "Grin",
+   "meaning": "U+1F601",
+   "kind": "face",
+   "source": "emotes/grin.svg"
+  },
+  {
+   "slug": "smile",
+   "title": "Smile",
+   "meaning": "U+1F642",
+   "kind": "face",
+   "source": "emotes/smile.svg"
+  },
+  {
+   "slug": "wink",
+   "title": "Wink",
+   "meaning": "U+1F609",
+   "kind": "face",
+   "source": "emotes/wink.svg"
+  },
+  {
+   "slug": "think",
+   "title": "Thinking",
+   "meaning": "U+1F914",
+   "kind": "face",
+   "source": "emotes/think.svg"
+  },
+  {
+   "slug": "cool",
+   "title": "Sunglasses",
+   "meaning": "U+1F60E",
+   "kind": "face",
+   "source": "emotes/cool.svg"
+  },
+  {
+   "slug": "eyeroll",
+   "title": "Eye roll",
+   "meaning": "U+1F644",
+   "kind": "face",
+   "source": "emotes/eyeroll.svg"
+  },
+  {
+   "slug": "shock",
+   "title": "Shocked",
+   "meaning": "U+1F62E",
+   "kind": "face",
+   "source": "emotes/shock.svg"
+  },
+  {
+   "slug": "angry",
+   "title": "Angry",
+   "meaning": "U+1F620",
+   "kind": "face",
+   "source": "emotes/angry.svg"
+  },
+  {
+   "slug": "sweat",
+   "title": "Sweat smile",
+   "meaning": "U+1F605",
+   "kind": "face",
+   "source": "emotes/sweat.svg"
+  },
+  {
+   "slug": "skull",
+   "title": "Skull",
+   "meaning": "U+1F480",
+   "kind": "face",
+   "source": "emotes/skull.svg"
+  },
+  {
+   "slug": "party",
+   "title": "Party",
+   "meaning": "U+1F973",
+   "kind": "face",
+   "source": "emotes/party.svg"
+  },
+  {
+   "slug": "mindblown",
+   "title": "Mind blown",
+   "meaning": "U+1F92F",
+   "kind": "face",
+   "source": "emotes/mindblown.svg"
+  },
+  {
+   "slug": "sleepy",
+   "title": "Sleeping",
+   "meaning": "U+1F634",
+   "kind": "face",
+   "source": "emotes/sleepy.svg"
+  },
+  {
+   "slug": "thumbsup",
+   "title": "Thumbs up",
+   "meaning": "U+1F44D",
+   "kind": "symbol",
+   "source": "emotes/thumbsup.svg"
+  },
+  {
+   "slug": "thumbsdown",
+   "title": "Thumbs down",
+   "meaning": "U+1F44E",
+   "kind": "symbol",
+   "source": "emotes/thumbsdown.svg"
+  },
+  {
+   "slug": "clap",
+   "title": "Clap",
+   "meaning": "U+1F44F",
+   "kind": "symbol",
+   "source": "emotes/clap.svg"
+  },
+  {
+   "slug": "pray",
+   "title": "Folded hands",
+   "meaning": "U+1F64F",
+   "kind": "symbol",
+   "source": "emotes/pray.svg"
+  },
+  {
+   "slug": "fire",
+   "title": "Fire",
+   "meaning": "U+1F525",
+   "kind": "symbol",
+   "source": "emotes/fire.svg"
+  },
+  {
+   "slug": "heart",
+   "title": "Heart",
+   "meaning": "U+2764",
+   "kind": "symbol",
+   "source": "emotes/heart.svg"
+  },
+  {
+   "slug": "eyes",
+   "title": "Eyes",
+   "meaning": "U+1F440",
+   "kind": "symbol",
+   "source": "emotes/eyes.svg"
+  },
+  {
+   "slug": "tada",
+   "title": "Party popper",
+   "meaning": "U+1F389",
+   "kind": "symbol",
+   "source": "emotes/tada.svg"
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Wink" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Wink</title>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  <ellipse cx="372" cy="430" rx="60" ry="80" fill="#191a20"/>
+  <path d="M596 360L716 430L596 500" fill="none" stroke="#191a20" stroke-width="88" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M360 600Q512 640 700 560Q690 790 520 800Q380 800 360 600Z" fill="#191a20"/>
+</svg>

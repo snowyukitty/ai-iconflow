@@ -1,0 +1,12 @@
+<!-- SPDX-License-Identifier: CC0-1.0
+     IconFlow emote "Party" (ai-iconflow.com/emotes/). Public domain:
+     upload it, change it, sell it. No attribution, no conditions. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Party</title>
+  <path d="M150 360L240 40L430 250Z" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <rect x="96" y="104" width="832" height="832" rx="300" fill="#ffc94d" stroke="#191a20" stroke-width="52"/>
+  <path d="M150 360L240 40L430 250Z" fill="#ff4f5e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+  <path d="M302 450Q372 354 442 450M582 450Q652 354 722 450" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M372 690Q440 740 520 700" fill="none" stroke="#191a20" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M520 650L860 560L880 760L540 740Z" fill="#3ecf8e" stroke="#191a20" stroke-width="52" stroke-linejoin="round"/>
+</svg>

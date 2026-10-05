@@ -21,7 +21,7 @@
     python -m iconflow docs   DESIGN_PLAYBOOK
     python -m iconflow skill  install
 
-``doctor``, ``check``, ``review``, ``ship``, ``ladder``, ``neighbours``, and
+``doctor``, ``check``, ``review``, ``ship``, ``ladder``, ``neighbours``, ``family``, and
 ``demo`` accept ``--json`` and
 then follow docs/AGENT_CONTRACT.md: stdout carries exactly one envelope, human
 lines go to stderr, and the exit code is 0 (ok), 1 (blocked by an IconFlow
@@ -50,7 +50,7 @@ from .styles import PRESETS, STYLE_CATALOG
 
 # Commands whose result is a machine-readable Report (docs/AGENT_CONTRACT.md).
 JSON_COMMANDS = frozenset({
-    "doctor", "check", "review", "ship", "demo", "ladder", "neighbours",
+    "doctor", "check", "review", "ship", "demo", "ladder", "neighbours", "family",
 })
 DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
 JSON_HELP = "emit one docs/AGENT_CONTRACT.md envelope on stdout; human lines go to stderr"
@@ -896,6 +896,55 @@ def _cmd_neighbours(a) -> Report:
     return report
 
 
+def _cmd_family(a) -> Report:
+    from . import family as _FAMILY
+    from .config import svg_sha256
+
+    report = Report("family")
+    try:
+        paths = _FAMILY.resolve_members(a.members, Path.cwd())
+        if len(paths) < 2:
+            raise _FAMILY.FamilyError("a family needs at least two member SVGs")
+        fam = _FAMILY.audit(paths)
+    except (_FAMILY.FamilyError, OSError, RuntimeError, ValueError) as exc:
+        print(f"iconflow family: {exc}", file=sys.stderr)
+        report.error("config" if isinstance(exc, _FAMILY.FamilyError) else "runtime", str(exc))
+        return report
+
+    print(
+        f"{len(fam.members)} members, {sum(1 for g in fam.groups if len(g) > 1)} carrier group(s); "
+        f"coherence {_FAMILY.COHERENCE:.2f}, twin floor {_FAMILY.TWIN_FLOOR:.2f}"
+    )
+    for index, group in enumerate(fam.groups):
+        if len(group) > 1:
+            print(f"  group {index + 1}: " + ", ".join(Path(m.source).stem for m in group))
+    if fam.loners:
+        print("  stand alone: " + ", ".join(Path(m.source).stem for m in fam.loners))
+    print("  closest siblings:")
+    for pair in fam.nearest():
+        measure = (f"residual {pair.residual:.3f}" if pair.residual is not None
+                   else f"raw {pair.raw.distance:.3f}")
+        print(f"  {'!' if pair.twin else ' '} {measure}  {Path(pair.a.source).stem} / {Path(pair.b.source).stem}")
+    for finding in fam.findings():
+        print(f"  ! {finding}")
+        report.warn(finding.code, finding)
+    if not fam.twins:
+        print("OK - no two members are one mark at 16px. Read the sheet; the number is not the proof.")
+    print("  Coherence is measured, not judged: a person still decides whether the set reads as one family.")
+
+    sheet = None
+    if a.sheet:
+        sheet = _FAMILY.family_sheet(fam, a.sheet)
+        print(f"Family proof sheet -> {sheet}")
+
+    report.outputs = {
+        **fam.as_dict(),
+        "sources": {Path(m.source).stem: svg_sha256(Path(m.source)) for m in fam.members},
+        "sheet": _abs(sheet) if sheet else None,
+    }
+    return report
+
+
 def _cmd_new(a) -> int:
     try:
         src = _resource("presets", f"{a.preset}.svg")
@@ -1721,6 +1770,16 @@ def build_parser() -> argparse.ArgumentParser:
                     help="render scheme for the audit and sheet (default: the config's, else light)")
     nb.add_argument("--json", action="store_true", help=JSON_HELP)
     nb.set_defaults(func=_cmd_neighbours)
+
+    fm = sub.add_parser(
+        "family",
+        help="are these marks one family, and is every member still its own mark at 16px?",
+    )
+    fm.add_argument("members", nargs="+", metavar="SVG",
+                    help="member SVGs or globs (quoted globs work on every shell)")
+    fm.add_argument("--sheet", help="write the visual proof sheet here")
+    fm.add_argument("--json", action="store_true", help=JSON_HELP)
+    fm.set_defaults(func=_cmd_family)
 
     rn = sub.add_parser("render", help="rasterize a master SVG to exact pixel size(s)")
     rn.add_argument("master")
