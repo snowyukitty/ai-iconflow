@@ -7,9 +7,9 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-10-05 20:03 UTC.
+Observed 2026-10-06 07:22 UTC.
 
-`20 pass · 3 fail · 2 open gates · 0 unknown`
+`21 pass · 2 fail · 2 open gates · 0 unknown`
 
 An **open gate** is a decision waiting on a person, not a defect, and
 never fails this report. **Unknown** means a probe could not run: it is
@@ -47,8 +47,8 @@ is worse than no tick at all.
 
 | | Check | Detail |
 |---|---|---|
-| `PASS` | PyPI carries this version | checkout is 0.5.0; PyPI latest is 0.5.0 (published) |
-| `FAIL` | PyPI first-proof copy is truthful | published 0.5.0 long description contains stale pre-release claim: 'not published on PyPI'; contains stale pre-release claim: 'do not use `pip install iconflow`' — corrected checkout needs a future release |
+| `PASS` | PyPI carries this version | checkout is 0.6.0; PyPI latest is 0.6.0 (published) |
+| `PASS` | PyPI first-proof copy is truthful | install and demo commands present; no stale pre-release warning |
 | `PASS` | Release attestations resolve | signed provenance for 2 artifacts |
 
 ## Repository
@@ -59,7 +59,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `OPEN` | Repository social preview is uploaded | still GitHub's generated card — Settings → General → Social preview, upload docs/assets/social-preview.png |
 | `OPEN` | Discussions decision | not enabled — gh repo edit snowyukitty/ai-iconflow --enable-discussions |
-| `PASS` | CI is green on main | latest main run: success (b4e9bb5) |
+| `PASS` | CI is green on main | latest main run: success (34a0eb4) |
 
 ## Waiting on a person
 

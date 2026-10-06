@@ -57,6 +57,7 @@ condition.
 | 2026-08-26 | Five source-bound campaign stills, route-specific social cards, and schema-compatible 60/30/15-second HyperFrames handoffs landed with local visual, i18n, manifest, and test gates. No video render or site deployment was part of that checkpoint. |
 | 2026-08-26 | A private 15-second HyperFrames production instance reached `ready-to-preview`: 0 audit warnings, 0 strict browser findings, 21/21 WCAG AA text checks, and a self-contained human-review artifact. Its first abstract opening was later superseded by the clearer 2026-08-27 cut. |
 | 2026-08-27 | Replaced the unclear Coral Gate artwork with a literal one-source inspection story. One accepted Flow Quality plate now carries only physical atmosphere; exact IconFlow pixels and claims remain deterministic. The revised 15-second HyperFrames cut passes audit and strict browser QA; human preview and render remain pending. |
+| 2026-10-06 | `v0.6.0` tagged, released, and published to PyPI: `neighbours`, `ladder`, `family`, the `emote` target. The uploaded wheel's SHA-256 (`f2ea4f2e…`) matches the reviewed release-candidate artifact. TestPyPI was down (repeated 503s for over 20 minutes), so the rehearsal was skipped on the owner's explicit decision, and the agent approved the waiting `pypi` environment on the owner's instruction; 0.6.0 then installed from PyPI into a clean venv and passed `doctor`, `check`, `family` and `--targets emote`. `state.py`'s PyPI copy check turned green. |
 
 ### What the sequence taught
 
