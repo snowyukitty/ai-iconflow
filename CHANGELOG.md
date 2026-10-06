@@ -6,6 +6,10 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
+Nothing yet.
+
+## 0.6.0 - 2026-10-06
+
 ### Added
 
 - **IconFlow emotes: 55 chat reactions, one family, public domain.**

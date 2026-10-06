@@ -72,9 +72,9 @@ jobs:
         run: |
           git fetch --no-tags --depth=1 origin "$BASE_SHA"
           git diff --name-only "$BASE_SHA" HEAD > "$RUNNER_TEMP/changed-files.txt"
-      - uses: snowyukitty/ai-iconflow/.github/actions/proof@v0.5.0   # pin a tag or, better, a commit SHA
+      - uses: snowyukitty/ai-iconflow/.github/actions/proof@v0.6.0   # pin a tag or, better, a commit SHA
         with:
-          install: iconflow==0.5.0       # once the release is on PyPI; until then pin a git URL or a wheel path
+          install: iconflow==0.6.0
           changed-files: ${{ runner.temp }}/changed-files.txt
 ```
 
@@ -87,7 +87,7 @@ each run, or pass `configs:` to name them explicitly.
 
 | Input | Default | Meaning |
 |---|---|---|
-| `install` | `iconflow==0.5.0` | pip requirement spec; `.` inside this repo |
+| `install` | `iconflow==0.6.0` | pip requirement spec; `.` inside this repo |
 | `python-version` | `3.12` | handed to `actions/setup-python` |
 | `configs` | empty | newline/space-separated `iconflow.toml` paths; empty = discover (skips `.git`, `.venv`, `node_modules`, `work/`) |
 | `changed-files` | empty | path to a newline-separated changed-file list; restricts discovery to configs whose directory, master, or tray source changed |

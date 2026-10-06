@@ -40,7 +40,7 @@
         "isPartOf": {
           "@id": "https://ai-iconflow.com/#website"
         },
-        "dependencies": "IconFlow 0.5.0"
+        "dependencies": "IconFlow 0.6.0"
       },
       {
         "@type": "BreadcrumbList",
@@ -167,7 +167,7 @@
         <p class="section-kicker">Reference · generated from the build code</p>
         <h1>Every icon file<br>your platform<br><em>actually needs.</em></h1>
         <p class="ref-lede">Favicon, PWA manifest, Tauri, Electron and the macOS menu bar — one table per target, with the exact filenames and frame sizes. Nothing here is transcribed by hand: the page is generated from <code>iconflow/build.py</code>, so it says what the tool ships and fails the build when the two disagree.</p>
-        <p class="ref-meta">IconFlow 0.5.0 · targets: <code>web, pwa, tauri, electron, tray, emote</code></p>
+        <p class="ref-meta">IconFlow 0.6.0 · targets: <code>web, pwa, tauri, electron, tray, emote</code></p>
       </div>
       <aside class="ref-hero-card" aria-label="Produce every file below">
         <p>Produce every file on this page from one SVG:</p>
@@ -320,7 +320,7 @@ iconflow ship --config iconflow.toml \
 
     <section class="ref-section section-shell" id="emote">
       <h2>Chat emotes</h2>
-      <p>An emote is judged smaller than its upload and on two backgrounds at once: Twitch draws it at 28 pixels, Discord and Slack at roughly 22 to 32, on white and on dark chat alike. Each size below is rendered natively from the SVG, not scaled down from the largest, and a file over its platform's upload limit fails the build instead of the upload form. <code>all</code> builds the app-icon targets; ask for <code>emote</code> by name. The <code>emote</code> target is newer than the release on PyPI (0.5.0); until the next release, install from GitHub: <code>pip install "git+https://github.com/snowyukitty/ai-iconflow"</code>.</p>
+      <p>An emote is judged smaller than its upload and on two backgrounds at once: Twitch draws it at 28 pixels, Discord and Slack at roughly 22 to 32, on white and on dark chat alike. Each size below is rendered natively from the SVG, not scaled down from the largest, and a file over its platform's upload limit fails the build instead of the upload form. <code>all</code> builds the app-icon targets; ask for <code>emote</code> by name.</p>
     <div class="ref-table-wrap">
      <table class="ref-table">
       <caption>iconflow build master.svg --targets emote</caption>

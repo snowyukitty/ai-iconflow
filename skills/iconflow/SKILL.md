@@ -4,7 +4,7 @@ description: Design and generate high-quality app icons, website favicons, PWA i
 license: CC-BY-SA-4.0
 compatibility: Requires Python 3.10+, filesystem and shell access, and network access for one-time dependency and Playwright Chromium setup. Works with `iconflow` on PATH (uv tool / pipx / pip) or a source checkout's venv interpreter. Rendering and builds are local afterward. The icons you design with it are yours: no attribution, no share-alike, commercial use unrestricted.
 metadata:
-  version: "0.5.0"
+  version: "0.6.0"
 ---
 
 <!-- SPDX-License-Identifier: CC-BY-SA-4.0
@@ -105,6 +105,15 @@ the project you are working on.
    product must not resemble under `[neighbours] avoid` in `iconflow.toml`
    (`"@collision"` promotes the generic forms); only that set gates, the
    bundled corpus advises. Not a clearance check; `iconflow docs NEIGHBOURHOOD`.
+
+4d. **For a set of marks** — a suite of app icons, a toolbar, an emote pack —
+   also run `iconflow family "<set>/*.svg" --sheet work/<slug>/family.png` and
+   **read that sheet**. Members that share a carrier (a plate, a head) are
+   compared on what the carrier does not explain; two that are one mark at
+   16px are `family-twins` (exit 1). Change what tells them apart, never only
+   their colour. Emotes are built with `--targets emote` (Twitch 28/56/112,
+   Discord/Slack 128, upload limits enforced) and judged at 22–28px on light
+   and dark chat. `iconflow docs FAMILY`, `iconflow docs EMOTES`.
 
 5. **Author `master.svg`** using `iconflow docs SVG_TECHNIQUES` (§10 signature
    devices, §11 linked target compositions). **One bold idea, drawn on the 1024

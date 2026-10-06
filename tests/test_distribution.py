@@ -155,7 +155,10 @@ class DistributionVerificationTests(unittest.TestCase):
         self.assertTrue(skill.startswith("---\nname: iconflow\n"))
         self.assertIn("license: CC-BY-SA-4.0", skill)
         self.assertIn("compatibility:", skill)
-        self.assertIn('version: "0.5.0"', skill)
+        # The skill names the release it was written against.
+        from iconflow import __version__
+
+        self.assertIn(f'version: "{__version__}"', skill)
 
 
 if __name__ == "__main__":

@@ -8,25 +8,18 @@
 This is the maintainer checklist for producing a release. It prepares and
 verifies artifacts; no step should be interpreted as permission to publish.
 
-## 0. What the next release has to carry
+## 0. Between releases
 
-PyPI holds 0.5.0. Commands added since then work only from a source
-checkout or `pip install "git+https://github.com/snowyukitty/ai-iconflow"`: `neighbours`, `ladder`, `family`, and
-the `emote` build target. When the next release is cut:
+When a command or target lands on `main` after the last PyPI release, every
+page that tells a reader to run it says where it can be installed today
+(`pip install "git+https://github.com/snowyukitty/ai-iconflow"`), and the skill does not mention it at all — an agent
+installed from PyPI must never be sent to a command it does not have. The
+release that ships it removes those notes, adds the command to
+`skills/iconflow/SKILL.md`, moves `skills/.claude-plugin/plugin.json`'s
+version, and regenerates `docs/STATE.md` after publishing.
 
-- [ ] Bump `version` in `pyproject.toml` past 0.5.0 and move the
-      `Unreleased` CHANGELOG entries under it.
-- [ ] Remove the "until the next release, install from GitHub" notes from
-      `README.md`, `AGENTS.md`, `website/llms.txt`,
-      `scripts/build_emote_packs.py` and `scripts/build_reference.py`, then
-      rebuild the emote page and the reference page.
-- [ ] Add `iconflow family` and `--targets emote` to
-      `skills/iconflow/SKILL.md` (kept out until a release has them, so no
-      agent installed from PyPI is sent to a command it does not have) and
-      move `skills/.claude-plugin/plugin.json`'s version
-      (`scripts/check_plugin_version.py` enforces it).
-- [ ] After publishing, `python scripts/state.py --write`: the "PyPI
-      first-proof copy is truthful" check should turn green.
+0.6.0 (2026-10-06) did exactly that for `neighbours`, `ladder`, `family` and the
+`emote` target, which had reached `main` after 0.5.0.
 
 ## 1. Clear owner-controlled gates
 
@@ -205,7 +198,7 @@ Then, to release:
    checked-out commit**, so the files uploaded are not the ones in a local
    `dist/`. Their digests will differ from a local build — the reproducibility
    `cmp` inside the workflow is what proves the CI build is self-consistent.
-4. Create the signed or annotated `v0.5.0` tag.
+4. Create the signed or annotated `v<version>` tag.
 5. Create the GitHub Release with changelog notes and the candidate artifacts;
    publishing the Release triggers the workflow against the real index.
 6. Approve the waiting `pypi` environment.

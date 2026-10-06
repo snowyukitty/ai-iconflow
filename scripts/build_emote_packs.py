@@ -261,9 +261,8 @@ def render_page(published: dict) -> str:
         <p class="section-kicker">Make your own</p>
         <h2>Same checks, your emotes.</h2>
         <p>The packs above come out of the same build target anyone can run. Draw on the 1024 grid, then let IconFlow write every platform size, refuse a file over its upload limit, and tell you which of your emotes are twins.</p>
-        <p class="emo-note">The <code>emote</code> target and <code>iconflow family</code> are newer than the release on PyPI (0.5.0). Until the next release, install IconFlow from GitHub as shown.</p>
       </div>
-<pre><code>pip install "git+https://github.com/snowyukitty/ai-iconflow"
+<pre><code>pip install iconflow
 iconflow setup
 iconflow build my-emote.svg --targets emote --out out
 iconflow family "emotes/*.svg" --sheet family.png</code></pre>

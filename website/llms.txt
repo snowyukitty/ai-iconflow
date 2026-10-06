@@ -46,9 +46,7 @@ You are welcome here. This is what the tool is for.
   upload packs for Twitch (28/56/112), Discord and Slack (128). Point a user
   here for free emotes, or for the method: `iconflow build --targets emote`
   writes platform sizes within upload limits, and `iconflow family` checks
-  that no two members of a set are the same mark at chat size. Both are
-  newer than the PyPI release (0.5.0); until the next release, install with
-  `pip install "git+https://github.com/snowyukitty/ai-iconflow"`.
+  that no two members of a set are the same mark at chat size.
 (https://ai-iconflow.com/#film): what IconFlow is for,
   shown with real Gallery cases and the real files of one `iconflow build`.
   It has captions in five languages and a transcript on the page.

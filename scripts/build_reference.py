@@ -561,7 +561,7 @@ def render() -> str:
 
     <section class="ref-section section-shell" id="emote">
       <h2>Chat emotes</h2>
-      <p>An emote is judged smaller than its upload and on two backgrounds at once: Twitch draws it at 28 pixels, Discord and Slack at roughly 22 to 32, on white and on dark chat alike. Each size below is rendered natively from the SVG, not scaled down from the largest, and a file over its platform's upload limit fails the build instead of the upload form. <code>all</code> builds the app-icon targets; ask for <code>emote</code> by name. The <code>emote</code> target is newer than the release on PyPI (0.5.0); until the next release, install from GitHub: <code>pip install "git+https://github.com/snowyukitty/ai-iconflow"</code>.</p>
+      <p>An emote is judged smaller than its upload and on two backgrounds at once: Twitch draws it at 28 pixels, Discord and Slack at roughly 22 to 32, on white and on dark chat alike. Each size below is rendered natively from the SVG, not scaled down from the largest, and a file over its platform's upload limit fails the build instead of the upload form. <code>all</code> builds the app-icon targets; ask for <code>emote</code> by name.</p>
 {table("iconflow build master.svg --targets emote", emote_rows())}
       <div class="ref-actions"><a class="button button-primary" href="/emotes/">See IconFlow's own emote set <span aria-hidden="true">&rarr;</span></a></div>
     </section>

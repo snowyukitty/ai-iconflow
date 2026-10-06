@@ -72,7 +72,10 @@ class ProofWorkflowContractTests(unittest.TestCase):
         self.assertIn("using: composite", text)
         for name in ("install", "python-version", "configs", "changed-files", "artifact-name"):
             self.assertIsNotNone(re.search(rf"^  {re.escape(name)}:\n", text, flags=re.M), name)
-        self.assertIn("iconflow==0.5.0", text)
+        # A foreign repository gets the current release by default.
+        from iconflow import __version__
+
+        self.assertIn(f"iconflow=={__version__}", text)
         self.assertIn("actions/cache@", text)
         self.assertIn("actions/upload-artifact@", text)
         self.assertIn("proof.py", text)

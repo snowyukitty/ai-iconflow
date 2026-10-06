@@ -58,9 +58,7 @@ toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
    carrier does not explain, and two that are one mark at 16px are
    `family-twins` (`docs/FAMILY.md`). Emotes are built with
    `--targets emote` and judged at 22–28px on light and dark
-   (`docs/EMOTES.md`). Both are newer than the PyPI release 0.5.0: use a
-   source checkout, or `pip install "git+https://github.com/snowyukitty/ai-iconflow"`,
-   until the next release.
+   (`docs/EMOTES.md`). Both need IconFlow 0.6 or later.
    (Shortcut for simple jobs: inspect the current catalog with
    `python -m iconflow styles`, start with
    `python -m iconflow new <preset>`, and still apply a signature device.)

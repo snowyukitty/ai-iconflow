@@ -8,7 +8,7 @@ Chromium and assembles crisp, per-size .ico / .icns / .png sets for web, PWA,
 Tauri desktop, Electron, and tray use.
 """
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 from .rasterize import Rasterizer, load_svg
 from .build import build, RenderCache

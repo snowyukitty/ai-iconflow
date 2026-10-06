@@ -194,7 +194,7 @@ scores, notes, status) is the packet. v1 adds optional fields that `ship`
 records when present and never requires:
 
 ```json
-"toolchain": {"iconflow": "0.5.0", "chromium": "<version>", "pillow": "<version>"},
+"toolchain": {"iconflow": "0.6.0", "chromium": "<version>", "pillow": "<version>"},
 "artifacts": {"review_png_sha256": "...", "review_html_sha256": "..."},
 "reviewer": {"kind": "human|agent", "name": "free text", "declared_at": "ISO-8601"}
 ```
