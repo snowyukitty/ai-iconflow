@@ -9,6 +9,7 @@ opinion is recorded and compared but never substitutes for the gate.
 import contextlib
 import io
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -87,7 +88,10 @@ class HeadlessFlowTests(unittest.TestCase):
         self.assertFalse(findings["interactive_lab"])
         self.assertEqual({"contact_sheet", "targets"}, set(findings["evidence"]))
         self.assertEqual([axis["axis"] for axis in findings["axes"]], list(AXES))
-        self.assertEqual(envelope["outputs"]["findings"], str((self.evidence / "findings.json").resolve()))
+        # Envelope paths are absolute but unresolved (links are refused, not
+        # followed), so compare canonical forms: 8.3 names, /private on macOS.
+        self.assertEqual(os.path.realpath(envelope["outputs"]["findings"]),
+                         os.path.realpath(self.evidence / "findings.json"))
 
         code, envelope, err = self.score()
         self.assertEqual(code, 0, envelope)
