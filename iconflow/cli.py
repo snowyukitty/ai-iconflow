@@ -51,7 +51,7 @@ from .styles import PRESETS, STYLE_CATALOG
 # Commands whose result is a machine-readable Report (docs/AGENT_CONTRACT.md).
 JSON_COMMANDS = frozenset({
     "doctor", "check", "review", "ship", "demo", "ladder", "neighbours", "family",
-    "score", "budget",
+    "score", "budget", "brand",
 })
 DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
 JSON_HELP = "emit one docs/AGENT_CONTRACT.md envelope on stdout; human lines go to stderr"
@@ -882,6 +882,127 @@ def _cmd_compare(a) -> int:
                 for finding in measured.findings():
                     print(f"    ~ {finding}")
     return 0
+
+
+def _cmd_brand(a) -> Report:
+    """``brand build`` / ``brand sync`` / ``brand outline``."""
+    return {"build": _brand_build, "sync": _brand_sync, "outline": _brand_outline}[a.brand_cmd](a)
+
+
+def _brand_build(a) -> Report:
+    from .brand import BrandError, build_kit, spec_from_config
+    from .config import GATE_CODES, ConfigError
+
+    report = Report("brand")
+    if a.ship:
+        shipped = _cmd_ship(argparse.Namespace(
+            config=a.config, review=a.review, scores=a.scores, out=None, json=False,
+        ))
+        report.warnings.extend(shipped.warnings)
+        report.advisories.extend(shipped.advisories)
+        report.errors.extend(shipped.errors)
+        report.exit_code = shipped.exit_code
+        if shipped.exit_code:
+            print("iconflow brand: the gated ship did not pass; no brand kit was written.",
+                  file=sys.stderr)
+            return report
+    try:
+        config, master, receipt, scores, contract = _ship_approval(a)
+        spec = spec_from_config(config, output=a.out)
+    except ConfigError as exc:
+        print(f"iconflow brand: {exc}", file=sys.stderr)
+        if exc.code in GATE_CODES:
+            report.warn(exc.code, str(exc))
+        else:
+            report.error("config", str(exc))
+        return report
+    except (BrandError, ValueError) as exc:
+        print(f"iconflow brand: {exc}", file=sys.stderr)
+        report.error("config", str(exc))
+        return report
+    approval = {
+        "source_sha256": receipt.source_sha256 if receipt else config.review_source_sha256,
+        "contract_sha256": contract,
+        "receipt": receipt.source.name if receipt else None,
+        "scores": dict(scores),
+    }
+    try:
+        result = build_kit(spec, approval=approval, ship_output=config.output_path,
+                           color_scheme=config.color_scheme)
+    except (BrandError, ValueError) as exc:
+        print(f"iconflow brand: {exc}", file=sys.stderr)
+        report.error("config", str(exc))
+        return report
+    print(f"Brand kit -> {spec.output} ({len(result.files)} files)")
+    for entry in result.files:
+        print(f"  {entry['path']}")
+    print(f"Manifest -> {result.manifest}")
+    print(f"Review sheet -> {result.sheet}  (read it: every surface, before anything is published)")
+    for advisory in result.advisories:
+        print(f"  ~ brand advisory: {advisory}")
+        report.advise(advisory.code, advisory)
+    print("Next: iconflow brand sync --manifest "
+          f"{_shell_quote(str(result.manifest))} --project <consuming project>")
+    report.outputs = {
+        "out": _abs(spec.output), "manifest": _abs(result.manifest), "sheet": _abs(result.sheet),
+        "files": [_abs(spec.output / entry["path"]) for entry in result.files],
+        "mark_sha256": approval["source_sha256"],
+    }
+    return report
+
+
+def _brand_sync(a) -> Report:
+    from .brand import MANIFEST, sync_report
+
+    report = Report("brand")
+    manifests = []
+    for raw in a.manifest or [MANIFEST]:
+        path = Path(raw)
+        if path.is_dir():
+            path = path / MANIFEST
+        try:
+            manifests.append(json.loads(path.read_text(encoding="utf-8")))
+        except (OSError, ValueError) as exc:
+            print(f"iconflow brand sync: cannot read {path}: {exc}", file=sys.stderr)
+            report.error("config", f"cannot read {path}: {exc}")
+            return report
+    retired = sum(len(m.get("retired", [])) for m in manifests)
+    hits, current, scanned = sync_report(a.project, manifests)
+    print(f"Scanned {scanned} file(s) under {a.project}: {current} carry the current mark, "
+          f"{len(hits)} still carry one of {retired} retired mark(s).")
+    for hit in hits:
+        print(f"  ! {hit.path}  ({hit.where}: was {hit.asset}, mark {hit.mark_sha256[:12]})")
+        report.warn("brand-stale", f"{hit.path} still carries a retired mark ({hit.where}, "
+                                   f"was {hit.asset})")
+    if not retired:
+        report.advise("brand-no-history", "no retired mark is recorded yet, so nothing can be "
+                                          "stale; the manifest learns one when the mark changes")
+    report.outputs = {"project": _abs(a.project), "scanned": scanned, "current": current,
+                      "stale": [hit.as_dict() for hit in hits]}
+    return report
+
+
+def _brand_outline(a) -> Report:
+    from .brand import BrandError, outline_wordmark
+
+    report = Report("brand")
+    try:
+        svg, licence = outline_wordmark(
+            a.text, a.font, tracking=a.tracking, weight=a.weight, licence_ok=a.licence_ok,
+        )
+    except (BrandError, OSError, ValueError) as exc:
+        print(f"iconflow brand outline: {exc}", file=sys.stderr)
+        report.error("config", str(exc))
+        return report
+    out = Path(a.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(svg, encoding="utf-8")
+    print(f"Wordmark -> {out} (from {licence['family']} {licence['style']}; "
+          f"licence: {licence['licence'][:80] or 'see --licence-ok'})")
+    print("No shaping: advance widths plus the font's kern table. Check the spacing "
+          "before it becomes the brand.")
+    report.outputs = {"wordmark": _abs(out), "font": licence}
+    return report
 
 
 def _cmd_budget(a) -> Report:
@@ -2079,6 +2200,42 @@ def build_parser() -> argparse.ArgumentParser:
     cmp.add_argument("--no-budget", action="store_true",
                      help="skip the 16px budget measurement printed after the sheet")
     cmp.set_defaults(func=_cmd_compare)
+
+    br = sub.add_parser(
+        "brand",
+        help="brand kit from the approved mark: lockups, tiles, social cards, one manifest",
+    )
+    br_sub = br.add_subparsers(dest="brand_cmd", required=True)
+    bb = br_sub.add_parser("build", help="write the brand kit and brand-manifest.json")
+    bb.add_argument("--config", default="iconflow.toml", help="project configuration path")
+    bb_review = bb.add_mutually_exclusive_group()
+    bb_review.add_argument("--review", help="the mark's review receipt (as for ship)")
+    bb_review.add_argument("--scores", help="six-axis override for an approved config")
+    bb.add_argument("--out", help="output directory (default: [brand] output, else brand-kit)")
+    bb.add_argument("--ship", action="store_true",
+                    help="run the gated ship first, so icons and kit move together")
+    bb.add_argument("--json", action="store_true", help=JSON_HELP)
+    bb.set_defaults(func=_cmd_brand)
+    bs = br_sub.add_parser(
+        "sync", help="list every file in a project still carrying a retired mark",
+    )
+    bs.add_argument("--project", default=".", help="consuming project to scan")
+    bs.add_argument("--manifest", action="append", metavar="PATH",
+                    help="brand-manifest.json (or its directory); repeatable")
+    bs.add_argument("--json", action="store_true", help=JSON_HELP)
+    bs.set_defaults(func=_cmd_brand)
+    bo = br_sub.add_parser(
+        "outline", help="outline a wordmark from a local, licence-checked font (needs fontTools)",
+    )
+    bo.add_argument("--text", required=True)
+    bo.add_argument("--font", required=True, help="a local .ttf/.otf file")
+    bo.add_argument("--out", default="wordmark.svg")
+    bo.add_argument("--tracking", type=float, default=0.0, help="extra spacing, in em")
+    bo.add_argument("--weight", type=float, help="wght axis value for a variable font")
+    bo.add_argument("--licence-ok", default="",
+                    help="record why an unrecognised or restricted licence covers this use")
+    bo.add_argument("--json", action="store_true", help=JSON_HELP)
+    bo.set_defaults(func=_cmd_brand)
 
     bd = sub.add_parser(
         "budget",

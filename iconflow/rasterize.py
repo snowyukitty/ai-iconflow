@@ -28,8 +28,8 @@ _HTML = """<!doctype html><html><head><meta charset="utf-8">
 <style>
 *{{margin:0;padding:0;border:0}}
 html,body{{background:{bg}}}
-#wrap{{width:{s}px;height:{s}px;display:block;overflow:hidden}}
-#wrap>svg{{width:{s}px;height:{s}px;display:block}}
+#wrap{{width:{w}px;height:{h}px;display:block;overflow:hidden}}
+#wrap>svg{{width:{w}px;height:{h}px;display:block}}
 *,*::before,*::after{{animation:none!important;transition:none!important;
 caret-color:transparent!important}}
 </style></head><body><div id="wrap">{svg}</div></body></html>"""
@@ -165,15 +165,16 @@ def _background_css(bg: str) -> tuple[str, bool]:
     return f"rgba({r},{g},{b},{a / 255:.6f})", a == 0
 
 
-def _validated_png(data: bytes, size: int) -> bytes:
+def _validated_png(data: bytes, width: int, height: int | None = None) -> bytes:
     """Fail loudly if Chromium ever returns a malformed or wrong-sized image."""
     try:
         with Image.open(io.BytesIO(data)) as image:
             image.load()
-            if image.format != "PNG" or image.size != (size, size):
+            expected = (width, width if height is None else height)
+            if image.format != "PNG" or image.size != expected:
                 raise ValueError(
                     f"renderer returned {image.format or 'unknown'} {image.size}, "
-                    f"expected PNG {(size, size)}"
+                    f"expected PNG {expected}"
                 )
     except (OSError, ValueError) as exc:
         if isinstance(exc, ValueError):
@@ -262,18 +263,30 @@ class Rasterizer:
         and SVG/SMIL animation, making repeated renders deterministic while
         preserving ordinary inline SVG features such as gradients and filters.
         """
+        size = _positive_size(size)
+        return self._render(svg_text, size, size, bg)
+
+    def render_rect(self, svg_text: str, width: int, height: int,
+                    bg: str = "transparent") -> bytes:
+        """Render to a ``width`` x ``height`` PNG (lockups, social cards).
+
+        Same isolation as :meth:`render`; the SVG is stretched to the box, so
+        give it a viewBox with the same aspect ratio.
+        """
+        return self._render(svg_text, _positive_size(width), _positive_size(height), bg)
+
+    def _render(self, svg_text: str, width: int, height: int, bg: str) -> bytes:
         if self._page is None:
             raise RuntimeError("Rasterizer must be used as a context manager")
         svg_text = _validated_svg_text(svg_text)
-        size = _positive_size(size)
         bg_css, transparent = _background_css(bg)
 
         # Request interception on the reusable context is intentionally stricter
         # than CSP alone: SVG images, CSS imports, fonts, foreignObject frames,
         # and future Chromium resource types are rejected before the network.
-        self._page.set_viewport_size({"width": size, "height": size})
+        self._page.set_viewport_size({"width": width, "height": height})
         self._page.set_content(
-            _HTML.format(s=size, svg=svg_text, bg=bg_css),
+            _HTML.format(w=width, h=height, svg=svg_text, bg=bg_css),
             wait_until="domcontentloaded",
         )
         el = self._page.locator("#wrap")
@@ -284,4 +297,4 @@ class Rasterizer:
             animations="disabled",
             caret="hide",
         )
-        return _validated_png(data, size)
+        return _validated_png(data, width, height)

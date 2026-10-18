@@ -133,6 +133,10 @@ class IconFlowConfig:
     neighbours_family: list[str] = field(default_factory=list)
     neighbours_portfolio: list[str] = field(default_factory=list)
 
+    # [brand] — docs/BRAND_KIT.md. Kept as the table it was written as, and
+    # serialised only when a project declared it.
+    brand: dict[str, Any] = field(default_factory=dict)
+
     review_status: str = "pending"
     review_source_sha256: str = ""
     review_contract_sha256: str = ""
@@ -275,6 +279,13 @@ def load_config(path: str | Path = CONFIG_FILENAME) -> IconFlowConfig:
     build = _table(data, "build")
     review = _table(data, "review")
     neighbours = _table(data, "neighbours")
+    brand = dict(_table(data, "brand"))
+    for key, value in brand.items():
+        if key in {"wordmark_scale", "clear_space"}:
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 < value <= 1:
+                raise ConfigError(f"brand.{key} must be a number in (0, 1]")
+        elif not isinstance(value, str):
+            raise ConfigError(f"brand.{key} must be a string")
 
     scores_value = review.get("scores", {})
     if not isinstance(scores_value, Mapping):
@@ -371,6 +382,7 @@ def load_config(path: str | Path = CONFIG_FILENAME) -> IconFlowConfig:
         neighbours_avoid=_strings(neighbours, "avoid"),
         neighbours_family=_strings(neighbours, "family"),
         neighbours_portfolio=_strings(neighbours, "portfolio"),
+        brand=brand,
         review_status=status,
         review_source_sha256=review_digest,
         review_contract_sha256=review_contract_digest,
@@ -748,7 +760,7 @@ tray_template_mode = {_toml_string(config.tray_template_mode)}
 color_scheme = {_toml_string(config.color_scheme)}
 optimize_png = {str(config.optimize_png).lower()}
 {_composition_text(config)}
-{_neighbours_text(config)}[review]
+{_neighbours_text(config)}{_brand_text(config)}[review]
 status = {_toml_string(config.review_status)}
 source_sha256 = {_toml_string(config.review_source_sha256)}
 contract_sha256 = {_toml_string(config.review_contract_sha256)}
@@ -778,6 +790,17 @@ def _composition_text(config: IconFlowConfig) -> str:
                 "# maskable_svg = \"\"     # a linked source drawn for the adaptive crop\n"
                 "# monochrome_svg = \"\"   # mark-only source for Android's themed icon\n")
     return "\n".join(lines) + "\n"
+
+
+def _brand_text(config: IconFlowConfig) -> str:
+    """The [brand] table, only for a project that declared one."""
+    if not config.brand:
+        return ""
+    lines = ["[brand]", "# docs/BRAND_KIT.md: an outlined wordmark, colours, the kit's output."]
+    for key, value in config.brand.items():
+        rendered = _toml_string(value) if isinstance(value, str) else f"{value:g}"
+        lines.append(f"{key} = {rendered}")
+    return "\n".join(lines) + "\n\n"
 
 
 def _neighbours_text(config: IconFlowConfig) -> str:

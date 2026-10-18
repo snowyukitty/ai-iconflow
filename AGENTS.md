@@ -112,7 +112,12 @@ toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
    `ship` re-runs automated QA, verifies the receipt belongs to the current SVG,
    tray source, selected targets, colors, scheme, radius, and template mode, and
    requires all six axes ≥4. The low-level `build`
-   command remains for callers that own an equivalent quality gate. See
+   command remains for callers that own an equivalent quality gate.
+   For a **product mark** (not only an icon), `iconflow brand build --config
+   iconflow.toml --review master-review.json --ship` moves icons, lockups,
+   tiles and social cards together and records them in `brand-manifest.json`;
+   read its `brand-sheet.png`, then `iconflow brand sync --project <site>`
+   lists every file still carrying the old mark (`docs/BRAND_KIT.md`). See
    `docs/OUTPUT_TARGETS.md` for the exact target file sets.
 7. **Report** the brief essence, the cliché avoided, the signature device chosen,
    final rubric scores, and the produced file list.

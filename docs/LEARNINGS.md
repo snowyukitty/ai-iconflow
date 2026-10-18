@@ -719,6 +719,10 @@ identities, making both rollback and future design work ambiguous.
 promoted an owner-selected Round 3 mark across source, receipt, 23 deterministic
 outputs, website assets, and brand-status documentation while retaining Flow
 Gate as historical rationale. Folded into `BRAND_SYSTEM.md`.
+*Mechanized (0.7):* `iconflow brand build --ship` moves icons, lockups, tiles
+and social cards together from one approved mark and records them in one
+manifest; `iconflow brand sync` finds what a consuming project still carries
+of the retired mark (`docs/BRAND_KIT.md`).
 
 ## L46 — Swapping a carried object at the size of the one it replaces inherits its failure
 When a mark already carries something and the brief asks for a different

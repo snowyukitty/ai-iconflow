@@ -52,6 +52,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["build>=1.2,<2", "ruff>=0.14"]
+# `iconflow brand outline` only: outline a wordmark from a local font.
+brand = ["fonttools>=4.50"]
 
 [project.scripts]
 iconflow = "iconflow.cli:main"

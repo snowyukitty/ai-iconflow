@@ -64,6 +64,18 @@ first published release remains under `Unreleased`.
   No first-pass improvement is claimed yet; `case stats --since/--until`
   measures it as new cases arrive (`docs/LEGIBILITY_BUDGET.md`).
 
+- **`iconflow brand`: the rest of the mark-promotion transaction (L45).**
+  `brand build` refuses an unapproved mark (the receipt or approved config
+  `ship` honours) and, from `master.svg` plus an outlined wordmark, writes
+  horizontal and stacked lockups for dark and light grounds (SVG and PNG), app
+  tiles, a clear-space and minimum-size guide, Open Graph / GitHub / banner
+  cards and a review sheet, all recorded by SHA-256 in `brand-manifest.json`.
+  When the mark changes, the old hashes move to `retired`, and `brand sync
+  --project DIR` lists every file — including PNGs inlined as data URLs —
+  still carrying one (`brand-stale`, exit 1). `brand outline` turns a local
+  font into an outlined wordmark after checking its licence fields (optional
+  `iconflow[brand]` extra for fontTools). `Rasterizer.render_rect` renders
+  non-square documents. `docs/BRAND_KIT.md`.
 - **`iconflow init` detects the targets** from the consuming project
   (`src-tauri/`, a tray in the Tauri config or Electron main process,
   `android/`, Capacitor, a web manifest, a web framework) and prints the
