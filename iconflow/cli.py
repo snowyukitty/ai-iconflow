@@ -650,7 +650,8 @@ def _cmd_review(a) -> Report:
 
         evidence_dir = Path(os.path.abspath(Path(a.evidence).expanduser()))
         try:
-            link = link_in_path(evidence_dir)
+            # Checked on the path as given: abspath would collapse '..' first.
+            link = link_in_path(Path(a.evidence))
             if link is not None:
                 raise ValueError(f"evidence directory goes through a link or junction: {link}")
             _validate_output_tree(evidence_dir)
@@ -766,7 +767,9 @@ def _cmd_score(a) -> Report:
             raise ConfigError(f"master SVG not found: {master}")
         options = _config_review_options(config)
         seed = receipt_seed(master, options=options)
-        evidence_dir = Path(a.evidence).expanduser().resolve(strict=False)
+        # Not resolved: load_evidence refuses a link or '..' in the path, and
+        # resolving first would follow the link it is meant to see.
+        evidence_dir = Path(a.evidence).expanduser()
         findings = load_evidence(
             evidence_dir, source_sha256=seed["source_sha256"],
             contract_sha256=seed["contract_sha256"],
@@ -1032,7 +1035,14 @@ def _brand_sync(a) -> Report:
 def _brand_outline(a) -> Report:
     from .brand import BrandError, outline_wordmark
 
+    from .build import link_in_path
+
     report = Report("brand")
+    link = link_in_path(Path(a.out))
+    if link is not None:
+        print(f"iconflow brand outline: refusing to write through {link}", file=sys.stderr)
+        report.error("config", f"refusing to write through a link, junction or '..': {link}")
+        return report
     try:
         svg, licence = outline_wordmark(
             a.text, a.font, tracking=a.tracking, weight=a.weight, licence_ok=a.licence_ok,
@@ -1042,12 +1052,6 @@ def _brand_outline(a) -> Report:
         report.error("config", str(exc))
         return report
     out = Path(a.out)
-    from .build import link_in_path
-
-    link = link_in_path(out)
-    if link is not None:
-        report.error("config", f"refusing to write through a link or junction: {link}")
-        return report
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(svg, encoding="utf-8")
     print(f"Wordmark -> {out} (from {licence['family']} {licence['style']}; "

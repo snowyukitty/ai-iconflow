@@ -198,17 +198,23 @@ def _is_link_or_reparse_point(path: Path) -> bool:
 
 
 def link_in_path(path: Path) -> Path | None:
-    """The first component of ``path`` (or an ancestor) that is a link or junction.
+    """The first component of ``path`` that is a link, a junction, or ``..``.
 
-    Checked on the absolute, unresolved path, so a junction three levels up is
-    found before anything is written through it.
+    Walked component by component on the path exactly as given (made absolute
+    by joining, never normalised), because collapsing ``..`` first would check
+    a different path from the one the I/O then follows: ``safe/jump/../x``
+    resolves *through* ``jump``. A ``..`` is therefore refused outright.
     """
-    import os
-
-    current = Path(os.path.abspath(Path(path).expanduser()))
-    for candidate in (current, *current.parents):
-        if _is_link_or_reparse_point(candidate):
-            return candidate
+    given = Path(path).expanduser()
+    if not given.is_absolute():
+        given = Path.cwd() / given
+    current = Path(given.anchor)
+    for part in given.parts[1:]:
+        current = current / part
+        if part == "..":
+            return current
+        if _is_link_or_reparse_point(current):
+            return current
     return None
 
 

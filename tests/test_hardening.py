@@ -282,15 +282,19 @@ class SecondPassTests(DemoProject):
                '<s\u00b7:script xmlns:s\u00b7="http://www.w3.org/2000/svg">x</s\u00b7:script></svg>')
         self.assertEqual([w.code for w in qa._renderer_safety_warnings(svg)], ["svg-safety"])
 
-    def test_R06_outline_refuses_a_junction_higher_up(self):
+    def test_R06_outline_refuses_a_junction_higher_up_and_dotdot(self):
         outside = self.dir / "outside"
         outside.mkdir()
         self._link(outside, self.dir / "jump")
-        code, envelope, _ = run(["brand", "outline", "--text", "A", "--font", "missing.ttf",
-                                 "--out", str(self.dir / "jump" / "sub" / "w.svg")])
-        # Refused for the link before the font is even opened.
-        self.assertEqual(code, 2)
+        for target in (self.dir / "jump" / "sub" / "w.svg", Path(str(self.dir / "jump") + "/../w.svg")):
+            code, envelope, _ = run(["brand", "outline", "--text", "A", "--font", "missing.ttf",
+                                     "--out", str(target)])
+            self.assertEqual(code, 2)
+            # Refused for the path itself, before the (missing) font is opened.
+            self.assertIn("refusing to write through", envelope["errors"][0]["message"])
         self.assertEqual(list(outside.iterdir()), [])
+        self.assertIsNotNone(build.link_in_path(Path("a") / ".." / "b"))
+        self.assertIsNone(build.link_in_path(self.dir / "plain" / "w.svg"))
 
     def test_R07_N02_only_this_runs_ship_files_are_current_and_history_is_kept(self):
         out = self.dir / "icons"
@@ -307,7 +311,14 @@ class SecondPassTests(DemoProject):
             self.assertEqual([e["path"] for e in manifest["ship_outputs"]], ["favicon.ico"])
             brand.build_kit(spec, approval={})                       # same mark, no ship
             again = json.loads(first.manifest.read_text(encoding="utf-8"))
-        self.assertEqual([e["path"] for e in again["ship_outputs"]], ["favicon.ico"])
+            self.assertEqual([e["path"] for e in again["ship_outputs"]], ["favicon.ico"])
+            # N05: a later ship of fewer targets keeps the earlier proven files.
+            (out / "favicon.ico").write_bytes(b"ico-rebuilt")
+            (out / "site.webmanifest").write_bytes(b"{}")
+            brand.build_kit(spec, approval={}, ship_output=out, shipped=["site.webmanifest"])
+            merged = json.loads(first.manifest.read_text(encoding="utf-8"))
+        self.assertEqual(sorted(e["path"] for e in merged["ship_outputs"]),
+                         ["favicon.ico", "site.webmanifest"])
 
     def test_R09_an_evidence_sheet_that_is_a_link_is_refused(self):
         from iconflow import headless

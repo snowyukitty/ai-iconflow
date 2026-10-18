@@ -607,15 +607,23 @@ def build_kit(spec: BrandSpec, *, approval: dict, ship_output: Path | None = Non
     # mark — not the whole output tree, which may still hold files of earlier
     # marks and targets. Without a ship, the record of the same mark's earlier
     # ship is carried forward, so its icons are still retired when it changes.
+    same_mark = bool(previous) and previous.get("mark_sha256") == svg_sha256(spec.master)
+    known = list(previous.get("ship_outputs", [])) if same_mark else []
     if shipped is not None and ship_output is not None:
-        ship_files = [
+        known += [
             {"path": rel, "sha256": _sha256_bytes((ship_output / rel).read_bytes())}
             for rel in sorted(shipped) if (ship_output / rel).is_file()
         ]
-    elif previous and previous.get("mark_sha256") == svg_sha256(spec.master):
-        ship_files = list(previous.get("ship_outputs", []))
-    else:
-        ship_files = []
+    # Every proven output of this mark is kept — a later ship of fewer targets
+    # must not forget the files an earlier one wrote, or they would never be
+    # retired when the mark changes.
+    seen: set[tuple[str, str]] = set()
+    ship_files = []
+    for entry in known:
+        key = (entry["path"], entry["sha256"])
+        if key not in seen:
+            seen.add(key)
+            ship_files.append(entry)
     retired = list(previous.get("retired", [])) if previous else []
     if previous and previous.get("mark_sha256") and previous["mark_sha256"] != mark_sha:
         retired.insert(0, {
