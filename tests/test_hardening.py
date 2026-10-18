@@ -286,15 +286,20 @@ class SecondPassTests(DemoProject):
         outside = self.dir / "outside"
         outside.mkdir()
         self._link(outside, self.dir / "jump")
-        for target in (self.dir / "jump" / "sub" / "w.svg", Path(str(self.dir / "jump") + "/../w.svg")):
+        here = os.getcwd()
+        os.chdir(self.dir)                       # the project is the working directory
+        self.addCleanup(os.chdir, here)
+        for target in ("jump/sub/w.svg", "jump/../w.svg"):
             code, envelope, _ = run(["brand", "outline", "--text", "A", "--font", "missing.ttf",
-                                     "--out", str(target)])
+                                     "--out", target])
             self.assertEqual(code, 2)
             # Refused for the path itself, before the (missing) font is opened.
             self.assertIn("refusing to write through", envelope["errors"][0]["message"])
         self.assertEqual(list(outside.iterdir()), [])
         self.assertIsNotNone(build.link_in_path(Path("a") / ".." / "b"))
-        self.assertIsNone(build.link_in_path(self.dir / "plain" / "w.svg"))
+        self.assertIsNone(build.link_in_path(self.dir / "plain" / "w.svg", base=self.dir))
+        # A link above the project (the OS's own, like /var on macOS) is not ours to refuse.
+        self.assertIsNone(build.link_in_path(self.dir / "jump" / "w.svg", base=self.dir / "jump"))
 
     def test_R07_N02_only_this_runs_ship_files_are_current_and_history_is_kept(self):
         out = self.dir / "icons"

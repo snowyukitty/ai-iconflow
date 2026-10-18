@@ -197,22 +197,35 @@ def _is_link_or_reparse_point(path: Path) -> bool:
     return path.is_symlink() or bool(attributes & reparse_flag)
 
 
-def link_in_path(path: Path) -> Path | None:
-    """The first component of ``path`` that is a link, a junction, or ``..``.
+def link_in_path(path: Path, base: Path | None = None) -> Path | None:
+    """The first component that could redirect I/O on ``path``, or None.
 
-    Walked component by component on the path exactly as given (made absolute
-    by joining, never normalised), because collapsing ``..`` first would check
-    a different path from the one the I/O then follows: ``safe/jump/../x``
-    resolves *through* ``jump``. A ``..`` is therefore refused outright.
+    The threat is a link the *project* carries — a cloned repository whose
+    ``brand-kit`` or ``evidence`` is a symlink or junction to somewhere else —
+    not the operating system's own (``/var`` is ``/private/var`` on macOS, and
+    Windows known folders are often junctions). So:
+
+    * a ``..`` component is refused anywhere: collapsing it first would check
+      a different path from the one the I/O follows (``safe/jump/../x``);
+    * every component at or below ``base`` (default: the working directory)
+      is checked, walking the path as given, never normalised;
+    * outside ``base``, where the caller named the location explicitly, only
+      the target itself is checked.
     """
+    import os
+
     given = Path(path).expanduser()
-    if not given.is_absolute():
-        given = Path.cwd() / given
-    current = Path(given.anchor)
-    for part in given.parts[1:]:
+    if ".." in given.parts:
+        return given
+    anchor = Path(os.path.abspath(base if base is not None else Path.cwd()))
+    full = given if given.is_absolute() else anchor / given
+    try:
+        relative = full.relative_to(anchor)
+    except ValueError:
+        return full if _is_link_or_reparse_point(full) else None
+    current = anchor
+    for part in relative.parts:
         current = current / part
-        if part == "..":
-            return current
         if _is_link_or_reparse_point(current):
             return current
     return None
