@@ -7,7 +7,7 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-10-06 07:22 UTC.
+Observed 2026-10-18 14:32 UTC.
 
 `21 pass · 2 fail · 2 open gates · 0 unknown`
 
@@ -36,8 +36,8 @@ is worse than no tick at all.
 | `PASS` | Live site serves current /robots.txt | byte-identical to the checkout |
 | `PASS` | Live site serves current /llms.txt | byte-identical to the checkout |
 | `PASS` | Live site serves current /sitemap.xml | byte-identical to the checkout |
-| `FAIL` | Live /reference/icon-sizes/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Turn off automatic injection in the Cloudflare dashboard (Web Analytics), or accept a third-party script on a site that advertises local-first. |
-| `FAIL` | Live /reference/tray-icons/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Turn off automatic injection in the Cloudflare dashboard (Web Analytics), or accept a third-party script on a site that advertises local-first. |
+| `FAIL` | Live /reference/icon-sizes/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Owner action: Workers & Pages -> ai-iconflow -> Metrics -> Web Analytics -> disable, then redeploy (docs/OWNER_ACTIONS.md section 1 has the fallbacks). |
+| `FAIL` | Live /reference/tray-icons/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Owner action: Workers & Pages -> ai-iconflow -> Metrics -> Web Analytics -> disable, then redeploy (docs/OWNER_ACTIONS.md section 1 has the fallbacks). |
 | `PASS` | Live site serves current /forge/forge.js | byte-identical to the checkout |
 | `PASS` | Live site serves current /forge/model.js | byte-identical to the checkout |
 | `PASS` | Live site serves current /emotes/catalog.json | byte-identical to the checkout |
@@ -59,7 +59,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `OPEN` | Repository social preview is uploaded | still GitHub's generated card — Settings → General → Social preview, upload docs/assets/social-preview.png |
 | `OPEN` | Discussions decision | not enabled — gh repo edit snowyukitty/ai-iconflow --enable-discussions |
-| `PASS` | CI is green on main | latest main run: success (34a0eb4) |
+| `PASS` | CI is green on main | latest main run: success (16082d9) |
 
 ## Waiting on a person
 
