@@ -642,7 +642,17 @@ def _cmd_review(a) -> Report:
         report.error("config", str(exc))
         return report
 
-    evidence_dir = Path(a.evidence).expanduser().resolve(strict=False) if a.evidence else None
+    evidence_dir = None
+    if a.evidence:
+        from .build import _validate_output_tree
+
+        evidence_dir = Path(os.path.abspath(Path(a.evidence).expanduser()))
+        try:
+            _validate_output_tree(evidence_dir)
+        except ValueError as exc:
+            print(f"iconflow review: {exc}", file=sys.stderr)
+            report.error("config", str(exc))
+            return report
     sheet_path = evidence_dir / "contact-sheet.png" if evidence_dir else Path(a.out)
     out = contact_sheet(
         master, sheet_path, background_color=background, color_scheme=color_scheme,
@@ -920,6 +930,28 @@ def _brand_build(a) -> Report:
         print(f"iconflow brand: {exc}", file=sys.stderr)
         report.error("config", str(exc))
         return report
+    if not a.ship:
+        # The kit carries the mark as far as the icons do, so it passes the
+        # same automated gate ship applies, not only the human approval.
+        from .audit import resolve_inputs, run_audit
+        from .config import GATE_QA_WARNINGS
+        from .qa import warning_code
+
+        try:
+            audit = run_audit(resolve_inputs(config=config))
+        except (OSError, RuntimeError, ValueError) as exc:
+            print(f"iconflow brand: QA could not run: {exc}", file=sys.stderr)
+            report.error("runtime", f"QA could not run: {exc}")
+            return report
+        if audit.warnings:
+            print(f"BRAND BLOCKED — automated check found {len(audit.warnings)} warning(s):",
+                  file=sys.stderr)
+            report.warn(GATE_QA_WARNINGS,
+                        f"automated check found {len(audit.warnings)} warning(s)")
+            for warning in audit.warnings:
+                print(f"  ! {warning}", file=sys.stderr)
+                report.warn(warning_code(warning), warning)
+            return report
     approval = {
         "source_sha256": receipt.source_sha256 if receipt else config.review_source_sha256,
         "contract_sha256": contract,
@@ -927,7 +959,9 @@ def _brand_build(a) -> Report:
         "scores": dict(scores),
     }
     try:
-        result = build_kit(spec, approval=approval, ship_output=config.output_path,
+        # Only a ship in this same run proves the icon tree carries this mark.
+        result = build_kit(spec, approval=approval,
+                           ship_output=config.output_path if a.ship else None,
                            color_scheme=config.color_scheme)
     except (BrandError, ValueError) as exc:
         print(f"iconflow brand: {exc}", file=sys.stderr)
@@ -995,6 +1029,11 @@ def _brand_outline(a) -> Report:
         report.error("config", str(exc))
         return report
     out = Path(a.out)
+    from .build import _is_link_or_reparse_point
+
+    if _is_link_or_reparse_point(out) or _is_link_or_reparse_point(out.parent):
+        report.error("config", f"refusing to write through a link: {out}")
+        return report
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(svg, encoding="utf-8")
     print(f"Wordmark -> {out} (from {licence['family']} {licence['style']}; "
@@ -1024,7 +1063,7 @@ def _cmd_budget(a) -> Report:
         print(f"{name}: {measured.summary()}")
         findings = measured.findings()
         if not findings:
-            print("  within budget")
+            print("  no budget deficit detected (a measurement, not a legibility verdict)")
         for finding in findings:
             print(f"  ~ {finding}")
             report.advise(finding.code, f"{name}: {finding}")

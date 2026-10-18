@@ -65,11 +65,14 @@ _STROKE_WIDTH_RE = re.compile(
     r'(?:stroke-width\s*=\s*["\']([\d.]+)|stroke-width\s*:\s*([\d.]+))',
     re.I,
 )
+# An optional namespace prefix (``<s:script xmlns:s="...svg">``) is still the
+# element: the browser resolves the namespace, so the check must too.
 _ACTIVE_ELEMENT_RE = re.compile(
-    r"<(?:script|iframe|object|embed|audio|video|animate|animateMotion|animateTransform|set)\b",
+    r"<(?:[\w.-]+:)?(?:script|iframe|object|embed|audio|video|foreignObject|animate"
+    r"|animateMotion|animateTransform|set)\b",
     re.I,
 )
-_EVENT_HANDLER_RE = re.compile(r"\s+on[a-z]+\s*=", re.I)
+_EVENT_HANDLER_RE = re.compile(r"\s+(?:[\w.-]+:)?on[a-z]+\s*=", re.I)
 _EXTERNAL_ATTR_RE = re.compile(
     r"\b(?:href|src)\s*=\s*([\"'])(?!\s*(?:#|data:|blob:))[^\"']+\1",
     re.I,
@@ -400,6 +403,9 @@ def tray_template_warnings(
 MASKABLE_IDENTITY_IOU = ladder.IOU_FLOOR
 _IDENTITY_SIZE = 256
 _IDENTITY_GRID = 64
+#: Native artwork sizes the android target renders a linked source at: the
+#: xxxhdpi and mdpi layers at the full and the default scale.
+_ANDROID_IDENTITY_SIZES = (330, 264, 83, 66)
 
 
 def _normalised_figure(png: bytes) -> tuple[Image.Image | None, float]:
@@ -549,6 +555,21 @@ def check(
                     _resize_png(composed, _IDENTITY_SIZE),
                     source_label=maskable_label,
                 ))
+                # Android renders the linked source natively at much smaller
+                # sizes, where a ladder rung or a size query can draw another
+                # mark. Hold each of those renders to the same identity.
+                if not identity:
+                    for size in _ANDROID_IDENTITY_SIZES:
+                        master_small = assemble.flatten(source.render(r, size), maskable_bg)
+                        linked_small = assemble.flatten(linked_source.render(r, size), maskable_bg)
+                        found = maskable_identity_findings(
+                            _resize_png(master_small, _IDENTITY_SIZE),
+                            _resize_png(linked_small, _IDENTITY_SIZE),
+                            source_label=f"{maskable_label} at {size}px",
+                        )
+                        if found:
+                            identity.extend(found)
+                            break
         else:
             im512 = None
         # Three more renders, and only for a source that opted into the ladder:

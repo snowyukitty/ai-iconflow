@@ -88,6 +88,35 @@ first published release remains under `Unreleased`.
   `styles --json`. `case stats --since/--until` restricts the report to a
   date window.
 
+### Hardened by an independent review
+
+A sealed review of this branch by a different product (Codex, through Agent
+Task Delegation) returned REQUEST_CHANGES with fourteen defects; all are fixed
+and each has a regression in `tests/test_hardening.py`:
+
+- **A namespace prefix no longer hides active content** — in `check` as well
+  as the brand kit. `<s:script xmlns:s="http://www.w3.org/2000/svg">` and a
+  prefixed `on*` handler were invisible to the safety scan, so such a script
+  could have reached a shipped `favicon.svg`; this predates 0.7.
+- `brand build` runs the same automated audit as `ship`, not only the
+  approval check.
+- The maskable scale is canonicalised once, so the contract binds the value
+  every render uses; a `maskable_svg` that names the master is treated as a
+  link everywhere; a linked source is held to the master's identity at the
+  sizes Android renders it, not only at 512px.
+- Brand composition: parsed, namespace-aware validation; no `<style>` in a
+  wordmark; a styled master embedded as an image; root rendering attributes
+  kept; only real id references rewritten (a colour like `#fff` was being
+  corrupted next to an element with id `fff`).
+- No writer follows a symlink or junction (kit, evidence, outline), and no
+  scanner reads through one (`brand sync`, the manifest's tree hash).
+- Headless evidence must contain the contact sheet and the target sheet and
+  name only files inside its directory; malformed second-opinion scores are
+  refused at load instead of crashing after a ship.
+- `brand sync` no longer counts a stale icon tree as current or a restored
+  mark as stale; the budget's "fused parts" message says parts merged *or*
+  vanished, and a clean budget reads "no deficit detected", not a verdict.
+
 ### Evolution
 
 - **Distilled the 20 open lessons** (EVOLUTION §3). Six new rules — L59 the

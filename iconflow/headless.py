@@ -40,6 +40,8 @@ FINDINGS_FILE = "findings.json"
 FINDINGS_SCHEMA = 1
 SURFACE_KIND = "headless-evidence"
 MIN_RATIONALE = 12
+#: The sheets a headless receipt cannot be scored without.
+REQUIRED_EVIDENCE = frozenset({"contact_sheet", "targets"})
 #: An opinion this far from the primary score on any axis is called dissent.
 DISSENT_GAP = 2
 
@@ -254,6 +256,10 @@ def write_findings(directory: Path, *, seed: dict, audit, sheets: dict[str, Path
     def finding(item) -> dict:
         return {"code": warning_code(item), "message": str(item)}
 
+    missing = sorted(name for name in REQUIRED_EVIDENCE
+                     if sheets.get(name) is None or not Path(sheets[name]).is_file())
+    if missing:
+        raise HeadlessError("evidence was not rendered: " + ", ".join(missing))
     files = {
         name: {"path": path.name, "sha256": _sha256(path)}
         for name, path in sorted(sheets.items()) if path is not None and path.is_file()
@@ -306,6 +312,15 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
         raise HeadlessError(f"unreadable {path}: {exc}") from exc
     if not isinstance(findings, dict) or findings.get("schema") != FINDINGS_SCHEMA:
         raise HeadlessError(f"{path} is not a schema-{FINDINGS_SCHEMA} findings file")
+    evidence = findings.get("evidence")
+    if not isinstance(evidence, dict) or not REQUIRED_EVIDENCE <= set(evidence):
+        raise HeadlessError(
+            f"{path} does not name the required evidence ({', '.join(sorted(REQUIRED_EVIDENCE))}); "
+            "re-run `iconflow review --evidence`"
+        )
+    for key in ("warnings", "advisories"):
+        if not isinstance(findings.get(key), list):
+            raise HeadlessError(f"{path} has no {key} list; re-run `iconflow review --evidence`")
     if findings.get("source_sha256") != source_sha256:
         raise HeadlessError(
             "the evidence is stale: it was rendered from a different master SVG; "
@@ -317,7 +332,12 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
             "since it was rendered; re-run `iconflow review --evidence` before scoring"
         )
     for name, entry in (findings.get("evidence") or {}).items():
-        sheet = directory / entry["path"]
+        relative = str(entry.get("path", ""))
+        # Evidence lives in the evidence directory itself; a findings file that
+        # names anything else was not written by `review --evidence`.
+        if not relative or Path(relative).name != relative:
+            raise HeadlessError(f"evidence entry {name} names a path outside {directory}")
+        sheet = directory / relative
         if not sheet.is_file():
             raise HeadlessError(f"evidence sheet {sheet.name} ({name}) is missing")
         if _sha256(sheet) != entry["sha256"]:
@@ -362,9 +382,11 @@ def validate_rationale(rationale: dict[str, str], scores: dict[str, int]) -> Non
 def compare_opinion(primary: dict[str, int], opinion: dict[str, int]) -> list[str]:
     """Where an independent reviewer disagrees enough to say so."""
     notes = []
+    if not isinstance(opinion, dict):
+        return ["a second opinion has no scores object; it was ignored"]
     for axis in AXES:
         mine, theirs = primary.get(axis), opinion.get(axis)
-        if mine is None or theirs is None:
+        if isinstance(theirs, bool) or not isinstance(theirs, int) or not isinstance(mine, int):
             continue
         if theirs < 4 <= mine:
             notes.append(f"{axis}: second opinion {theirs} is below the floor (primary {mine})")

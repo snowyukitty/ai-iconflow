@@ -536,6 +536,15 @@ def load_review_receipt(
     opinions = value.get("second_opinions", [])
     if not isinstance(opinions, list) or any(not isinstance(item, Mapping) for item in opinions):
         raise ConfigError("review receipt second_opinions must be an array of objects")
+    for item in opinions:
+        opinion_scores = item.get("scores")
+        if not isinstance(opinion_scores, Mapping) or any(
+            not isinstance(axis, str) or isinstance(score, bool) or not isinstance(score, int)
+            for axis, score in opinion_scores.items()
+        ):
+            raise ConfigError(
+                "review receipt second_opinions[].scores must map axes to integers"
+            )
     packet["second_opinions"] = tuple(dict(item) for item in opinions)
     return ReviewReceipt(
         source=source,

@@ -78,6 +78,27 @@ what was decided, what was measured, and what is still the owner's call.
   Android card and a full brand kit were built from IconFlow's own mark and
   inspected as images; two presentation defects found that way were fixed.
 
+## Independent review (2026-10-19)
+
+`codex:default` (`gpt-6-astra`, effort xhigh) reviewed the ten core modules in
+a sealed, read-only ATD packet: verdict **REQUEST_CHANGES**, fourteen defects
+(seven high), one design note. Every defect was reproduced against the code,
+fixed, and pinned by a regression in `tests/test_hardening.py` named after its
+finding (R01–R14). The most serious one predates this branch: a namespace
+prefix hid a `<script>` from `check`'s safety scan. The review ran on file
+snapshots, not on the runtime; it executed nothing.
+
+Its design note (R16) is the right next milestone, and is recorded here rather
+than half-built: **one immutable render plan**. Today `check`, `review`,
+`score`, `ship` and `brand` share their *inputs*, but each still renders its
+own pixels; every composition defect the review found (scale rounding, the
+master-as-link alias, Android's native sizes) was a place where those renders
+could diverge. A plan — source snapshots, effective transforms, every native
+variant, and the hash of every output — computed once, audited, shown to the
+reviewer, and then published byte for byte after approval, would make
+"reviewed pixels are shipped pixels" a property of the design instead of a
+property each command must re-establish.
+
 ## Not measured
 
 - Whether the budget raises first-pass legibility. It shipped today;

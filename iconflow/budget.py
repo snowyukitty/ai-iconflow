@@ -138,9 +138,10 @@ class Budget:
         if self.parts_256 > 1 and self.parts_16 < self.parts_256:
             found.append(Finding(
                 "budget-fused-parts",
-                f"{self.parts_256} separate parts at 256px are {self.parts_16} at 16px. Budget "
-                f"every separating gap at {BUDGET_UNITS} units (L26), or make them one "
-                "silhouette on purpose (L58).",
+                f"{self.parts_256} separate parts at 256px, {self.parts_16} detected as separate "
+                "at 16px: parts merged or became too small to survive. Budget every "
+                f"separating gap and accent at {BUDGET_UNITS} units (L16, L26), or make "
+                "them one silhouette on purpose (L58).",
             ))
         if self.parts_16 > MAX_PARTS_16:
             found.append(Finding(
@@ -530,7 +531,7 @@ def budget_sheet(entries: list[tuple[str, bytes, bytes, Budget]], out) -> Path:
         draw.text((x, y + cell + 8), name, font=title, fill=(245, 241, 232))
         draw.text((x, y + cell + 34), budget.summary(), font=small, fill=(169, 171, 180))
         codes = sorted({f.code for f in budget.findings()})
-        draw.text((x, y + cell + 54), ", ".join(codes) or "within budget", font=small,
+        draw.text((x, y + cell + 54), ", ".join(codes) or "no budget deficit detected", font=small,
                   fill=(255, 91, 61) if codes else (95, 208, 138))
         x += cell + zoom + 3 * pad
     out = Path(out)

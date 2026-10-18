@@ -51,9 +51,19 @@ kept>"`. The note is written into the SVG. Layout is the font's advance widths
 plus its legacy `kern` table — there is no shaping — so check the spacing
 before the outline becomes the brand.
 
-**The mark must be approved.** `brand build` accepts exactly what `ship`
-accepts: a ready receipt bound to the current source and contract, or a
-source-bound approved `[review]`. A stale or below-floor mark gets no kit.
+**The mark must be approved and clean.** `brand build` accepts exactly what
+`ship` accepts: a ready receipt bound to the current source and contract, or
+a source-bound approved `[review]`, and it re-runs the same automated audit
+`ship` runs. A stale, below-floor or warned mark gets no kit.
+
+**What the composition guarantees.** Every source is parsed and refused if it
+carries active content, an event handler or an external reference — prefixed
+or not (`<s:script>` is a script). A wordmark may not carry a `<style>`; a
+master that does is embedded as an SVG image, so its selectors cannot repaint
+the wordmark and the wordmark's cannot repaint it (its `prefers-color-scheme`
+layer still works). An inlined source keeps its root's rendering attributes
+(`stroke-width`, `opacity`, `clip-path`, ...) and has only its real id
+references rewritten. The kit is never written through a symlink or junction.
 
 ## What it writes
 
@@ -80,8 +90,10 @@ with a dark-scheme layer shows it there.
 
 ## Propagation
 
-`brand-manifest.json` records the kit, the project's `ship` output directory,
-and the hashes of every source. When the mark changes, the previous mark's
+`brand-manifest.json` records the kit, the hashes of every source and — only
+when `--ship` built them in the same run — the icon outputs. An icon tree that
+was already on disk may still hold the previous mark, so it is never assumed
+current. When the mark changes, the previous mark's
 files move to `retired` on the next build. `brand sync` then walks a consuming
 project — skipping `.git`, `node_modules`, virtualenvs and build caches — and
 reports, as `brand-stale` (exit 1), every file that still carries a retired
@@ -93,7 +105,8 @@ mark:
   Markdown (a `trayIcon.ts` module, a hard-coded favicon).
 
 A file that is identical across marks (unchanged by the change) is never
-called stale. Matching is by bytes, so a retired mark that a project
+called stale, a mark that was retired and later restored is current again,
+and the scan never follows a symlink or junction out of the project. Matching is by bytes, so a retired mark that a project
 re-encoded or resized itself is not found — re-export it from the kit
 instead.
 

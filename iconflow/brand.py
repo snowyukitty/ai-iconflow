@@ -156,63 +156,128 @@ def _local(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
 
 
-def validate_wordmark(text: str, label: str) -> None:
-    """A wordmark is outlined artwork: no live text, nothing active or external."""
-    from .qa import _renderer_safety_warnings
+ACTIVE_ELEMENTS = {
+    "script", "foreignobject", "iframe", "object", "embed", "audio", "video",
+    "animate", "animatemotion", "animatetransform", "set", "handler", "listener",
+}
 
-    if re.search(r"<(?:text|tspan|textPath)[\s>]", text, re.I):
-        raise BrandError(
-            f"{label} uses live <text>: it would render with the build machine's fonts "
-            "and carries a font licence IconFlow cannot check. Outline it (in a type tool, "
-            "or with `iconflow brand outline --font <local font> --text ...`)."
-        )
+
+def validate_tree(text: str, label: str, *, wordmark: bool) -> ET.Element:
+    """Parse an SVG and refuse anything active, external, or unscoped.
+
+    The check runs on the parsed tree, so a namespace prefix
+    (``<s:script xmlns:s="http://www.w3.org/2000/svg">``) is seen for what it
+    is. A wordmark is also refused live text (non-deterministic, unseen font
+    licence) and ``<style>`` (selectors are global once nested next to the
+    master and would repaint it).
+    """
+    from .qa import _renderer_safety_warnings
+    from .rasterize import _validated_svg_text
+
     problems = _renderer_safety_warnings(text)
     if problems:
         raise BrandError(f"{label}: {problems[0]}")
+    try:
+        root = ET.fromstring(_validated_svg_text(text))
+    except ET.ParseError as exc:
+        raise BrandError(f"{label} is not well-formed SVG: {exc}") from exc
+    for element in root.iter():
+        name = _local(element.tag).lower()
+        if name in ACTIVE_ELEMENTS:
+            raise BrandError(f"{label} contains <{_local(element.tag)}>, which is active content")
+        for key, value in element.attrib.items():
+            attribute = _local(key).lower()
+            if attribute.startswith("on"):
+                raise BrandError(f"{label} has an event handler ({_local(key)})")
+            if attribute in {"href", "src"} and not value.strip().startswith(("#", "data:image/")):
+                raise BrandError(f"{label} references an external resource ({value[:60]})")
+        if wordmark and name in {"text", "tspan", "textpath"}:
+            raise BrandError(
+                f"{label} uses live <text>: it would render with the build machine's fonts "
+                "and carries a font licence IconFlow cannot check. Outline it (in a type tool, "
+                "or with `iconflow brand outline --font <local font> --text ...`)."
+            )
+        if wordmark and name == "style":
+            raise BrandError(
+                f"{label} has a <style> element; its selectors would also apply to the mark "
+                "it is placed beside. Use presentation attributes (fill=\"currentColor\")."
+            )
+    return root
 
 
-def _prefixed(text: str, prefix: str) -> ET.Element:
-    """Parse an SVG and prefix every id (and its references) to avoid collisions."""
-    from .rasterize import _validated_svg_text
+def validate_wordmark(text: str, label: str) -> None:
+    """A wordmark is outlined artwork: no live text, no CSS, nothing active or external."""
+    validate_tree(text, label, wordmark=True)
 
-    root = ET.fromstring(_validated_svg_text(text))
+
+def _prefixed(root: ET.Element, prefix: str) -> ET.Element:
+    """Prefix every id and the references to it, and nothing else.
+
+    Only fragment references are rewritten — ``url(#id)`` in an attribute and
+    an ``href`` of exactly ``#id`` — so a colour such as ``fill="#fff"`` is
+    never mistaken for a reference to an element called ``fff``. Sources that
+    carry a stylesheet are not inlined at all (see :func:`_nest`).
+    """
     ids = {el.get("id") for el in root.iter() if el.get("id")}
     if not ids:
         return root
+    url_ref = re.compile(r"url\(\s*(['\"]?)#([^)'\"\s]+)\1\s*\)")
 
-    def rewrite(value: str) -> str:
-        for old in sorted(ids, key=len, reverse=True):
-            value = re.sub(rf"url\(\s*#{re.escape(old)}\s*\)", f"url(#{prefix}{old})", value)
-            value = re.sub(rf"(?<![\w-])#{re.escape(old)}(?![\w-])", f"#{prefix}{old}", value)
-        return value
+    def rewrite_urls(value: str) -> str:
+        return url_ref.sub(
+            lambda m: f"url({m.group(1)}#{prefix}{m.group(2)}{m.group(1)})"
+            if m.group(2) in ids else m.group(0),
+            value,
+        )
 
     for el in root.iter():
         for key, value in list(el.attrib.items()):
             if key == "id":
                 el.set(key, prefix + value)
-            elif "#" in value:
-                el.set(key, rewrite(value))
-        if _local(el.tag) == "style" and el.text and "#" in el.text:
-            el.text = rewrite(el.text)
+            elif _local(key) == "href" and value.startswith("#") and value[1:] in ids:
+                el.set(key, f"#{prefix}{value[1:]}")
+            elif "url(" in value:
+                el.set(key, rewrite_urls(value))
     return root
 
 
+#: Root attributes that place an SVG; every other root attribute (stroke-width,
+#: opacity, filter, clip-path, fill-rule, ...) changes how it looks and is kept.
+_PLACEMENT_ATTRIBUTES = {"x", "y", "width", "height", "viewBox", "preserveAspectRatio",
+                         "version", "baseProfile", "id"}
+
+
 def _nest(text: str, *, x: float, y: float, width: float, height: float,
-          prefix: str, color: str | None = None) -> ET.Element:
-    """An SVG placed as a nested <svg> at the given box, its own viewBox kept."""
-    root = _prefixed(text, prefix)
-    vb = _viewbox(root, prefix.rstrip("-"))
+          prefix: str, color: str | None = None, label: str = "") -> ET.Element:
+    """Place an SVG at the given box, keeping its own viewBox and appearance.
+
+    A source with a ``<style>`` is embedded as an image (a data URI), so its
+    selectors cannot reach the other half of the lockup and the other half's
+    cannot reach it; a source without one is inlined, with its ids prefixed and
+    its root's rendering attributes preserved.
+    """
+    root = validate_tree(text, label or prefix.rstrip("-"), wordmark=False)
+    vb = _viewbox(root, label or prefix.rstrip("-"))
+    box = {"x": _num(x), "y": _num(y), "width": _num(width), "height": _num(height)}
+    if any(_local(el.tag) == "style" for el in root.iter()):
+        data = base64.b64encode(text.encode("utf-8")).decode("ascii")
+        image = ET.Element(f"{{{SVG_NS}}}image", {
+            **box, "preserveAspectRatio": "xMidYMid meet",
+            "href": f"data:image/svg+xml;base64,{data}",
+        })
+        return image
+    root = _prefixed(root, prefix)
     nested = ET.Element(f"{{{SVG_NS}}}svg", {
-        "x": _num(x), "y": _num(y), "width": _num(width), "height": _num(height),
+        **box,
         "viewBox": " ".join(_num(v) for v in vb),
-        "preserveAspectRatio": "xMidYMid meet",
+        "preserveAspectRatio": root.get("preserveAspectRatio", "xMidYMid meet"),
         "overflow": "visible",
     })
+    for key, value in root.attrib.items():
+        if _local(key) not in _PLACEMENT_ATTRIBUTES:
+            nested.set(key, value)
     if color:
         nested.set("color", color)
-    for key, value in root.attrib.items():
-        if _local(key) in {"fill", "stroke", "style", "class", "color"}:
-            nested.set(key, value)
     for child in list(root):
         nested.append(child)
     return nested
@@ -459,8 +524,11 @@ def build_kit(spec: BrandSpec, *, approval: dict, ship_output: Path | None = Non
     if spec.tagline is not None:
         tagline_text = load_svg(spec.tagline)
         validate_wordmark(tagline_text, "tagline")
+    from .build import _validate_output_tree
+
     result = KitResult()
     out = spec.output
+    _validate_output_tree(out)        # no symlink or junction, at or under it
     out.mkdir(parents=True, exist_ok=True)
 
     def write(rel: str, data: bytes, kind: str, **extra) -> None:
@@ -534,6 +602,9 @@ def build_kit(spec: BrandSpec, *, approval: dict, ship_output: Path | None = Non
     manifest_path = out / MANIFEST
     previous = _read_manifest(manifest_path)
     mark_sha = svg_sha256(spec.master)
+    # Only outputs written by a gated ship in this same run are known to carry
+    # this mark; an older tree on disk may still be the previous mark's, and
+    # recording it as current would hide it from `brand sync`.
     ship_files = _hash_tree(ship_output) if ship_output and ship_output.is_dir() else []
     retired = list(previous.get("retired", [])) if previous else []
     if previous and previous.get("mark_sha256") and previous["mark_sha256"] != mark_sha:
@@ -602,10 +673,28 @@ def _read_manifest(path: Path) -> dict | None:
     return value if isinstance(value, dict) and value.get("schema") == MANIFEST_SCHEMA else None
 
 
+def _walk(root: Path):
+    """Every regular file under ``root``, never following a link or junction."""
+    import os
+
+    from .build import _is_link_or_reparse_point
+
+    for directory, folders, files in os.walk(root, followlinks=False):
+        here = Path(directory)
+        folders[:] = sorted(
+            name for name in folders
+            if name not in SKIP_DIRS and not _is_link_or_reparse_point(here / name)
+        )
+        for name in sorted(files):
+            path = here / name
+            if not _is_link_or_reparse_point(path):
+                yield path
+
+
 def _hash_tree(root: Path) -> list[dict]:
     files = []
-    for path in sorted(root.rglob("*")):
-        if path.is_file() and path.stat().st_size <= MAX_SCAN_BYTES:
+    for path in _walk(root):
+        if path.stat().st_size <= MAX_SCAN_BYTES:
             files.append({"path": path.relative_to(root).as_posix(),
                           "sha256": _sha256_bytes(path.read_bytes())})
     return files
@@ -639,8 +728,11 @@ def sync_report(project: str | Path, manifests: list[dict]) -> tuple[list[SyncHi
 
     retired: dict[str, tuple[str, str]] = {}
     current: set[str] = set()
+    current_masters: set[str] = set()
     retired_masters: dict[str, str] = {}
     for manifest in manifests:
+        if manifest.get("mark_sha256"):
+            current_masters.add(manifest["mark_sha256"])
         for entry in manifest.get("files", []) + manifest.get("ship_outputs", []):
             current.add(entry["sha256"])
         for old in manifest.get("retired", []):
@@ -650,15 +742,13 @@ def sync_report(project: str | Path, manifests: list[dict]) -> tuple[list[SyncHi
     for digest in list(retired):
         if digest in current:
             del retired[digest]   # unchanged across marks (a manifest, a font): not stale
+    for digest in current_masters:
+        retired_masters.pop(digest, None)   # A -> B -> A: the restored mark is current
     hits: list[SyncHit] = []
     found_current = 0
     scanned = 0
     root = Path(project)
-    for path in sorted(root.rglob("*")):
-        if any(part in SKIP_DIRS for part in path.relative_to(root).parts[:-1]):
-            continue
-        if not path.is_file():
-            continue
+    for path in _walk(root):
         suffix = path.suffix.lower()
         if suffix not in SCAN_SUFFIXES and suffix not in TEXT_SUFFIXES:
             continue

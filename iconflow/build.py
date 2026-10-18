@@ -107,7 +107,10 @@ def validate_maskable_scale(scale) -> float:
             f"maskable_scale must be between {low} and {high} "
             f"(the share of the maskable canvas the artwork fills); got {scale:g}"
         )
-    return scale
+    # Canonical to four decimals here, once, so the value the contract binds
+    # is the value every render uses (a finer difference could change a
+    # native Android pixel size under an unchanged approval).
+    return round(scale, 4)
 
 
 def resolve_maskable_scale(scale: float | None, *, linked: bool) -> float:
@@ -644,8 +647,13 @@ def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
                 )
 
         def linked(path) -> RenderCache | None:
-            if path is None or Path(path).resolve() == master_svg.resolve():
+            # None means "no link". A link that names the master is still a
+            # link (QA, previews and the contract treat it as one), so it gets
+            # the master's own cache rather than silently becoming no link.
+            if path is None:
                 return None
+            if Path(path).resolve() == master_svg.resolve():
+                return cache
             return RenderCache(load_svg(Path(path)), r, optimize=optimize_png)
 
         maskable_cache = linked(maskable_svg) if ADAPTIVE_TARGETS & set(targets) else None

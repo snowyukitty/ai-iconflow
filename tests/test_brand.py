@@ -104,6 +104,12 @@ class KitTests(unittest.TestCase):
             encoding="utf-8",
         )
         self.config = config
+        # brand build passes the same automated gate as ship (R01); the gate's
+        # own behaviour is tested elsewhere, so substitute it here.
+        for target in ("iconflow.qa.check", "iconflow.qa.tray_template_warnings"):
+            patcher = mock.patch(target, return_value=[])
+            patcher.start()
+            self.addCleanup(patcher.stop)
 
     def build(self):
         with mock.patch("iconflow.rasterize.Rasterizer", FakeRasterizer):

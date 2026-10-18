@@ -146,6 +146,16 @@ class HeadlessFlowTests(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertIn("different master SVG", envelope["errors"][0]["message"])
 
+    def test_evidence_paths_outside_the_directory_are_refused(self):
+        self.render_evidence()
+        findings_path = self.evidence / "findings.json"
+        findings = json.loads(findings_path.read_text(encoding="utf-8"))
+        findings["evidence"]["targets"]["path"] = "../master.svg"
+        findings_path.write_text(json.dumps(findings), encoding="utf-8")
+        code, envelope, _ = self.score()
+        self.assertEqual(code, 2)
+        self.assertIn("outside", envelope["errors"][0]["message"])
+
     def test_second_opinion_is_recorded_and_never_gates(self):
         self.render_evidence()
         self.score(scores=PASSING.replace("legibility=4", "legibility=2"), name="agent-b",
