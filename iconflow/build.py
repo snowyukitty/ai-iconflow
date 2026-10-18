@@ -197,6 +197,31 @@ def _is_link_or_reparse_point(path: Path) -> bool:
     return path.is_symlink() or bool(attributes & reparse_flag)
 
 
+def link_in_path(path: Path) -> Path | None:
+    """The first component of ``path`` (or an ancestor) that is a link or junction.
+
+    Checked on the absolute, unresolved path, so a junction three levels up is
+    found before anything is written through it.
+    """
+    import os
+
+    current = Path(os.path.abspath(Path(path).expanduser()))
+    for candidate in (current, *current.parents):
+        if _is_link_or_reparse_point(candidate):
+            return candidate
+    return None
+
+
+def android_native_sizes(maskable_scale: float | None, *, linked: bool) -> tuple[int, ...]:
+    """Every pixel size the android target renders its artwork at."""
+    scale = resolve_maskable_scale(maskable_scale, linked=linked)
+    return tuple(sorted({
+        max(1, int(round(int(round(ANDROID_LAYER_DP * factor)) * scale
+                         * ANDROID_MASKABLE_DP / ANDROID_LAYER_DP)))
+        for _density, factor in ANDROID_DENSITIES
+    }, reverse=True))
+
+
 def _validate_output_tree(outdir: Path) -> None:
     """Refuse an output tree that could redirect generated writes elsewhere."""
 
@@ -330,7 +355,10 @@ def preview_assets(
 
 
 def _android_art(cache: PngCache, layer_px: int, scale: float) -> bytes:
-    """Render the artwork natively at the pixel size it occupies in a layer."""
+    """Render the artwork natively at the pixel size it occupies in a layer.
+
+    Must agree with :func:`android_native_sizes`, which QA audits.
+    """
     art_px = max(1, int(round(layer_px * scale * ANDROID_MASKABLE_DP / ANDROID_LAYER_DP)))
     return cache.png(art_px)
 

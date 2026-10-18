@@ -158,6 +158,7 @@ def run_audit(inputs: AuditInputs, *, rasterizer=None) -> AuditResult:
             maskable_bg=inputs.background_color,
             maskable_scale=inputs.maskable_scale,
             maskable_svg=inputs.maskable_svg if inputs.maskable_audited else None,
+            android="android" in inputs.targets,
             color_scheme=inputs.color_scheme,
             rasterizer=r,
             metrics=metrics,

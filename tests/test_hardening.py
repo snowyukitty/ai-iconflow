@@ -10,6 +10,7 @@ import contextlib
 import importlib
 import io
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -132,7 +133,7 @@ class CompositionContractTests(unittest.TestCase):
             master.write_text('<svg viewBox="0 0 1024 1024"></svg>', encoding="utf-8")
             linked.write_text('<svg id="linked" viewBox="0 0 1024 1024"></svg>', encoding="utf-8")
             with mock.patch("iconflow.qa.Rasterizer", Rasterizer):
-                codes = [w.code for w in qa.check(master, maskable_svg=linked)]
+                codes = [w.code for w in qa.check(master, maskable_svg=linked, android=True)]
         self.assertIn("maskable-drift", codes)
 
 
@@ -222,12 +223,6 @@ class PropagationTests(unittest.TestCase):
             hits, _current, _scanned = brand.sync_report(project, [manifest])
         self.assertEqual(hits, [])
 
-    def test_R07_an_icon_tree_on_disk_is_not_assumed_current(self):
-        source = Path(brand.__file__).read_text(encoding="utf-8")
-        self.assertIn("ship_output=config.output_path if a.ship else None",
-                      Path(importlib.import_module("iconflow.cli").__file__).read_text(encoding="utf-8"))
-        self.assertIn("Only outputs written by a gated ship in this same run", source)
-
 
 class EvidenceTests(unittest.TestCase):
     def test_R08_an_empty_evidence_bundle_cannot_be_scored(self):
@@ -241,6 +236,113 @@ class EvidenceTests(unittest.TestCase):
             }), encoding="utf-8")
             with self.assertRaisesRegex(headless.HeadlessError, "required evidence"):
                 headless.load_evidence(directory, source_sha256="a" * 64, contract_sha256="b" * 64)
+
+
+class SecondPassTests(DemoProject):
+    """Regressions for the verification review of the fixes (R04-R09, N01-N04)."""
+
+    def _link(self, target: Path, link: Path):
+        try:
+            link.symlink_to(target, target_is_directory=target.is_dir())
+        except (OSError, NotImplementedError):
+            self.skipTest("symlinks are unavailable here")
+
+    def test_R04_every_android_native_size_is_audited(self):
+        self.assertIn(165, build.android_native_sizes(None, linked=True))
+        self.assertEqual(build.android_native_sizes(None, linked=True), (330, 248, 165, 124, 82))
+        seen = []
+
+        class Rasterizer:
+            def __init__(self, **_):
+                pass
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                return None
+
+            def render(self, svg, size, bg="transparent"):
+                seen.append(size)
+                return png(size, "circle" if "linked" in svg and size == 165 else "square")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            master = Path(tmp) / "master.svg"
+            linked = Path(tmp) / "maskable.svg"
+            master.write_text('<svg viewBox="0 0 1024 1024"></svg>', encoding="utf-8")
+            linked.write_text('<svg id="linked" viewBox="0 0 1024 1024"></svg>', encoding="utf-8")
+            with mock.patch("iconflow.qa.Rasterizer", Rasterizer):
+                android = [w.code for w in qa.check(master, maskable_svg=linked, android=True)]
+                web_only = [w.code for w in qa.check(master, maskable_svg=linked)]
+        self.assertIn("maskable-drift", android)
+        self.assertNotIn("maskable-drift", web_only)      # N01: web never renders 165px
+
+    def test_R05_any_xml_prefix_is_seen_through(self):
+        svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1">'
+               '<s\u00b7:script xmlns:s\u00b7="http://www.w3.org/2000/svg">x</s\u00b7:script></svg>')
+        self.assertEqual([w.code for w in qa._renderer_safety_warnings(svg)], ["svg-safety"])
+
+    def test_R06_outline_refuses_a_junction_higher_up(self):
+        outside = self.dir / "outside"
+        outside.mkdir()
+        self._link(outside, self.dir / "jump")
+        code, envelope, _ = run(["brand", "outline", "--text", "A", "--font", "missing.ttf",
+                                 "--out", str(self.dir / "jump" / "sub" / "w.svg")])
+        # Refused for the link before the font is even opened.
+        self.assertEqual(code, 2)
+        self.assertEqual(list(outside.iterdir()), [])
+
+    def test_R07_N02_only_this_runs_ship_files_are_current_and_history_is_kept(self):
+        out = self.dir / "icons"
+        (out / "icons").mkdir(parents=True)
+        (out / "icons" / "32x32.png").write_bytes(png(32))          # an earlier target's residue
+        (out / "favicon.ico").write_bytes(b"ico-of-this-mark")
+        spec = brand.spec_from_config(load_config(self.config))
+        with mock.patch("iconflow.rasterize.Rasterizer") as fake:
+            fake.return_value.__enter__.return_value.render.side_effect = lambda s, n, bg="transparent": png(n)
+            fake.return_value.__enter__.return_value.render_rect.side_effect = (
+                lambda s, w, h, bg="transparent": png(max(w, h)))
+            first = brand.build_kit(spec, approval={}, ship_output=out, shipped=["favicon.ico"])
+            manifest = json.loads(first.manifest.read_text(encoding="utf-8"))
+            self.assertEqual([e["path"] for e in manifest["ship_outputs"]], ["favicon.ico"])
+            brand.build_kit(spec, approval={})                       # same mark, no ship
+            again = json.loads(first.manifest.read_text(encoding="utf-8"))
+        self.assertEqual([e["path"] for e in again["ship_outputs"]], ["favicon.ico"])
+
+    def test_R09_an_evidence_sheet_that_is_a_link_is_refused(self):
+        from iconflow import headless
+
+        evidence = self.dir / "evidence"
+        evidence.mkdir()
+        outside = self.dir / "outside.png"
+        outside.write_bytes(png(8))
+        (evidence / "contact-sheet.png").write_bytes(png(8))
+        self._link(outside, evidence / "targets.png")
+        (evidence / headless.FINDINGS_FILE).write_text(json.dumps({
+            "schema": 1, "source_sha256": "a" * 64, "contract_sha256": "b" * 64,
+            "warnings": [], "advisories": [],
+            "evidence": {
+                "contact_sheet": {"path": "contact-sheet.png",
+                                  "sha256": brand._sha256_bytes(png(8))},
+                "targets": {"path": "targets.png", "sha256": brand._sha256_bytes(png(8))},
+            },
+        }), encoding="utf-8")
+        with self.assertRaisesRegex(headless.HeadlessError, "link"):
+            headless.load_evidence(evidence, source_sha256="a" * 64, contract_sha256="b" * 64)
+
+    def test_N03_an_uppercase_url_reference_follows_its_renamed_id(self):
+        svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">'
+               '<linearGradient id="g"/><rect fill="URL(#g)"/></svg>')
+        nested = brand._nest(svg, x=0, y=0, width=10, height=10, prefix="mark-")
+        self.assertIn("#mark-g", [el.get("fill") for el in nested.iter() if el.get("fill")][0])
+
+    @unittest.skipUnless(hasattr(os, "mkfifo"), "POSIX FIFOs only")
+    def test_N04_the_scanner_never_opens_a_fifo(self):
+        project = self.dir / "fifo-site"
+        project.mkdir()
+        os.mkfifo(project / "logo.png")
+        hits, _current, scanned = brand.sync_report(project, [{"files": [], "retired": []}])
+        self.assertEqual((hits, scanned), ([], 0))
 
 
 if __name__ == "__main__":

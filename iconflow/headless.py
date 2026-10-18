@@ -299,8 +299,14 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
     Fails when the source or the contract moved since the evidence was
     rendered, or when any sheet it names is missing or was changed.
     """
+    from .build import _is_link_or_reparse_point, link_in_path
+
     directory = Path(directory)
     path = directory / FINDINGS_FILE
+    link = link_in_path(path)
+    if link is not None:
+        raise HeadlessError(f"evidence is read through a link or junction ({link}); "
+                            "point --evidence at the real directory")
     try:
         findings = json.loads(path.read_text(encoding="utf-8"))
     except FileNotFoundError as exc:
@@ -338,6 +344,8 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
         if not relative or Path(relative).name != relative:
             raise HeadlessError(f"evidence entry {name} names a path outside {directory}")
         sheet = directory / relative
+        if _is_link_or_reparse_point(sheet):
+            raise HeadlessError(f"evidence sheet {relative} is a link, not a rendered file")
         if not sheet.is_file():
             raise HeadlessError(f"evidence sheet {sheet.name} ({name}) is missing")
         if _sha256(sheet) != entry["sha256"]:

@@ -91,16 +91,48 @@ _CSS_IMPORT_RE = re.compile(
 _LIVE_TEXT_RE = re.compile(r"<text[\s>]|<tspan[\s>]", re.I)
 
 
+_ACTIVE_LOCAL_NAMES = {
+    "script", "foreignobject", "iframe", "object", "embed", "audio", "video",
+    "animate", "animatemotion", "animatetransform", "set", "handler", "listener",
+}
+
+
+def _parsed_active_content(svg_text: str) -> str | None:
+    """Active content found by namespace, not by spelling: "element", "handler", or None.
+
+    A prefix may use any XML name character (``s·:script``), so no pattern over
+    the raw text can be complete; the parsed tree names every element by its
+    local name. Text that does not parse is left to the renderer's own
+    validation and the patterns above.
+    """
+    import xml.etree.ElementTree as ET
+
+    if "<" not in svg_text:
+        return None
+    try:
+        root = ET.fromstring(re.sub(r"^\s*<\?xml[^>]*\?>", "", svg_text))
+    except ET.ParseError:
+        return None
+    for element in root.iter():
+        if not isinstance(element.tag, str):
+            continue
+        if element.tag.rsplit("}", 1)[-1].lower() in _ACTIVE_LOCAL_NAMES:
+            return "element"
+        if any(key.rsplit("}", 1)[-1].lower().startswith("on") for key in element.attrib):
+            return "handler"
+    return None
+
+
 def _renderer_safety_warnings(svg_text: str) -> list[Finding]:
     """Explain content that the deterministic renderer intentionally disables."""
     warnings: list[Finding] = []
-    if _ACTIVE_ELEMENT_RE.search(svg_text):
+    if _ACTIVE_ELEMENT_RE.search(svg_text) or _parsed_active_content(svg_text) == "element":
         warnings.append(Finding(
             "svg-safety",
             "SVG contains script, embedded active content, or animation; "
             "IconFlow disables it for safe deterministic rendering.",
         ))
-    elif _EVENT_HANDLER_RE.search(svg_text):
+    elif _EVENT_HANDLER_RE.search(svg_text) or _parsed_active_content(svg_text) == "handler":
         warnings.append(Finding(
             "svg-safety",
             "SVG contains event-handler JavaScript; IconFlow disables it for safe rendering.",
@@ -403,9 +435,7 @@ def tray_template_warnings(
 MASKABLE_IDENTITY_IOU = ladder.IOU_FLOOR
 _IDENTITY_SIZE = 256
 _IDENTITY_GRID = 64
-#: Native artwork sizes the android target renders a linked source at: the
-#: xxxhdpi and mdpi layers at the full and the default scale.
-_ANDROID_IDENTITY_SIZES = (330, 264, 83, 66)
+
 
 
 def _normalised_figure(png: bytes) -> tuple[Image.Image | None, float]:
@@ -471,6 +501,7 @@ def check(
     maskable_svg: str | Path | None = None,
     color_scheme: str = "light",
     metrics: dict | None = None,
+    android: bool = False,
 ) -> list[Finding]:
     """Run every automated check on the bytes the configured build will ship.
 
@@ -481,7 +512,9 @@ def check(
     every one of those from the project configuration so ``check``, ``review``
     and ``ship`` cannot disagree.
     """
-    from .build import _FrozenCache, maskable_png, resolve_maskable_scale
+    from .build import (
+        _FrozenCache, android_native_sizes, maskable_png, resolve_maskable_scale,
+    )
 
     warnings: list[Finding] = []
     text = load_svg(master_svg)
@@ -558,8 +591,9 @@ def check(
                 # Android renders the linked source natively at much smaller
                 # sizes, where a ladder rung or a size query can draw another
                 # mark. Hold each of those renders to the same identity.
-                if not identity:
-                    for size in _ANDROID_IDENTITY_SIZES:
+                if not identity and android:
+                    sizes = android_native_sizes(maskable_scale, linked=True)
+                    for size in sizes:
                         master_small = assemble.flatten(source.render(r, size), maskable_bg)
                         linked_small = assemble.flatten(linked_source.render(r, size), maskable_bg)
                         found = maskable_identity_findings(

@@ -646,8 +646,13 @@ def _cmd_review(a) -> Report:
     if a.evidence:
         from .build import _validate_output_tree
 
+        from .build import link_in_path
+
         evidence_dir = Path(os.path.abspath(Path(a.evidence).expanduser()))
         try:
+            link = link_in_path(evidence_dir)
+            if link is not None:
+                raise ValueError(f"evidence directory goes through a link or junction: {link}")
             _validate_output_tree(evidence_dir)
         except ValueError as exc:
             print(f"iconflow review: {exc}", file=sys.stderr)
@@ -960,8 +965,16 @@ def _brand_build(a) -> Report:
     }
     try:
         # Only a ship in this same run proves the icon tree carries this mark.
+        shipped_files = None
+        if a.ship:
+            root = config.output_path
+            shipped_files = [
+                Path(path).resolve().relative_to(root.resolve()).as_posix()
+                for path in shipped.outputs.get("files", [])
+            ]
         result = build_kit(spec, approval=approval,
                            ship_output=config.output_path if a.ship else None,
+                           shipped=shipped_files,
                            color_scheme=config.color_scheme)
     except (BrandError, ValueError) as exc:
         print(f"iconflow brand: {exc}", file=sys.stderr)
@@ -1029,10 +1042,11 @@ def _brand_outline(a) -> Report:
         report.error("config", str(exc))
         return report
     out = Path(a.out)
-    from .build import _is_link_or_reparse_point
+    from .build import link_in_path
 
-    if _is_link_or_reparse_point(out) or _is_link_or_reparse_point(out.parent):
-        report.error("config", f"refusing to write through a link: {out}")
+    link = link_in_path(out)
+    if link is not None:
+        report.error("config", f"refusing to write through a link or junction: {link}")
         return report
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(svg, encoding="utf-8")

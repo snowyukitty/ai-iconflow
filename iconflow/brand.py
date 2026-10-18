@@ -221,7 +221,7 @@ def _prefixed(root: ET.Element, prefix: str) -> ET.Element:
     ids = {el.get("id") for el in root.iter() if el.get("id")}
     if not ids:
         return root
-    url_ref = re.compile(r"url\(\s*(['\"]?)#([^)'\"\s]+)\1\s*\)")
+    url_ref = re.compile(r"url\(\s*(['\"]?)#([^)'\"\s]+)\1\s*\)", re.I)
 
     def rewrite_urls(value: str) -> str:
         return url_ref.sub(
@@ -236,7 +236,7 @@ def _prefixed(root: ET.Element, prefix: str) -> ET.Element:
                 el.set(key, prefix + value)
             elif _local(key) == "href" and value.startswith("#") and value[1:] in ids:
                 el.set(key, f"#{prefix}{value[1:]}")
-            elif "url(" in value:
+            elif "url(" in value.lower():
                 el.set(key, rewrite_urls(value))
     return root
 
@@ -512,6 +512,7 @@ class KitResult:
 
 
 def build_kit(spec: BrandSpec, *, approval: dict, ship_output: Path | None = None,
+              shipped: list[str] | None = None,
               color_scheme: str = "light") -> KitResult:
     """Write the brand kit and its manifest. ``approval`` binds the mark's review."""
     from .config import svg_sha256
@@ -602,10 +603,19 @@ def build_kit(spec: BrandSpec, *, approval: dict, ship_output: Path | None = Non
     manifest_path = out / MANIFEST
     previous = _read_manifest(manifest_path)
     mark_sha = svg_sha256(spec.master)
-    # Only outputs written by a gated ship in this same run are known to carry
-    # this mark; an older tree on disk may still be the previous mark's, and
-    # recording it as current would hide it from `brand sync`.
-    ship_files = _hash_tree(ship_output) if ship_output and ship_output.is_dir() else []
+    # Only the files a gated ship wrote in this same run are known to carry this
+    # mark — not the whole output tree, which may still hold files of earlier
+    # marks and targets. Without a ship, the record of the same mark's earlier
+    # ship is carried forward, so its icons are still retired when it changes.
+    if shipped is not None and ship_output is not None:
+        ship_files = [
+            {"path": rel, "sha256": _sha256_bytes((ship_output / rel).read_bytes())}
+            for rel in sorted(shipped) if (ship_output / rel).is_file()
+        ]
+    elif previous and previous.get("mark_sha256") == svg_sha256(spec.master):
+        ship_files = list(previous.get("ship_outputs", []))
+    else:
+        ship_files = []
     retired = list(previous.get("retired", [])) if previous else []
     if previous and previous.get("mark_sha256") and previous["mark_sha256"] != mark_sha:
         retired.insert(0, {
@@ -676,6 +686,7 @@ def _read_manifest(path: Path) -> dict | None:
 def _walk(root: Path):
     """Every regular file under ``root``, never following a link or junction."""
     import os
+    import stat as stat_module
 
     from .build import _is_link_or_reparse_point
 
@@ -687,7 +698,13 @@ def _walk(root: Path):
         )
         for name in sorted(files):
             path = here / name
-            if not _is_link_or_reparse_point(path):
+            try:
+                info = path.lstat()
+            except OSError:
+                continue
+            # Regular files only: never a link, junction, FIFO or device,
+            # any of which could escape the root or block a read forever.
+            if stat_module.S_ISREG(info.st_mode) and not _is_link_or_reparse_point(path):
                 yield path
 
 
@@ -747,7 +764,9 @@ def sync_report(project: str | Path, manifests: list[dict]) -> tuple[list[SyncHi
     hits: list[SyncHit] = []
     found_current = 0
     scanned = 0
-    root = Path(project)
+    # The project the caller named is resolved once, deliberately, and nothing
+    # under it is followed out of it (see _walk).
+    root = Path(project).resolve()
     for path in _walk(root):
         suffix = path.suffix.lower()
         if suffix not in SCAN_SUFFIXES and suffix not in TEXT_SUFFIXES:
