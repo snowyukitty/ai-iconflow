@@ -301,8 +301,17 @@ class SecondPassTests(DemoProject):
         if os.name == "nt":
             self.assertIsNotNone(build.link_in_path(Path("D:w.svg")))   # drive-relative
             self.assertIsNotNone(build.link_in_path(Path("D:")))
-        # A link above the project (the OS's own, like /var on macOS) is not ours to refuse.
-        self.assertIsNone(build.link_in_path(self.dir / "jump" / "w.svg", base=self.dir / "jump"))
+        # N07: the project reached through another spelling (here a link to
+        # it, as /var is to /private/var) still has its own links checked.
+        project = self.dir / "project"
+        (project / "real").mkdir(parents=True)
+        self._link(outside, project / "carried")
+        self._link(project, self.dir / "alias")
+        self.assertIsNotNone(build.link_in_path(self.dir / "alias" / "carried" / "w.svg", base=project))
+        self.assertIsNone(build.link_in_path(self.dir / "alias" / "real" / "w.svg", base=project))
+        # A link strictly above the project (the OS's own) is not ours to refuse.
+        self.assertIsNone(build.link_in_path(self.dir / "alias" / "real" / "w.svg",
+                                             base=self.dir / "alias" / "real"))
 
     def test_R07_N02_only_this_runs_ship_files_are_current_and_history_is_kept(self):
         out = self.dir / "icons"

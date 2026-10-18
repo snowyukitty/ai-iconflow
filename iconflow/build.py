@@ -209,8 +209,12 @@ def link_in_path(path: Path, base: Path | None = None) -> Path | None:
       a different path from the one the I/O follows (``safe/jump/../x``), and
       so is a Windows drive-relative path (``D:w.svg``), whose base is another
       drive's working directory;
-    * every component at or below ``base`` (default: the working directory)
-      is checked, walking the path as given, never normalised;
+    * every component below ``base`` (default: the working directory) is
+      checked, walking the path as given, never normalised — including when
+      the path reaches the project through another spelling of an ancestor
+      (``/var/...`` for ``/private/var/...``): the walk recognises the project
+      by its real path, then checks the suffix component by component;
+    * ``base`` itself is the caller's own working directory and is trusted;
     * outside ``base``, where the caller named the location explicitly, only
       the target itself is checked.
     """
@@ -227,9 +231,21 @@ def link_in_path(path: Path, base: Path | None = None) -> Path | None:
     full = given if given.is_absolute() else anchor / given
     try:
         relative = full.relative_to(anchor)
+        current = anchor
     except ValueError:
-        return full if _is_link_or_reparse_point(full) else None
-    current = anchor
+        # Not lexically inside: it may still reach the project through an
+        # alias of an ancestor. Find the prefix whose real path *is* the
+        # project, and walk the remainder from there.
+        real_anchor = os.path.realpath(anchor)
+        current = Path(full.anchor)
+        relative = None
+        for index, part in enumerate(full.parts[1:], start=1):
+            current = current / part
+            if current.exists() and os.path.realpath(current) == real_anchor:
+                relative = Path(*full.parts[index + 1:]) if index + 1 < len(full.parts) else Path()
+                break
+        if relative is None:
+            return full if _is_link_or_reparse_point(full) else None
     for part in relative.parts:
         current = current / part
         if _is_link_or_reparse_point(current):

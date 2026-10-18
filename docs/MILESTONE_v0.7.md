@@ -88,6 +88,20 @@ finding (R01–R14). The most serious one predates this branch: a namespace
 prefix hid a `<script>` from `check`'s safety scan. The review ran on file
 snapshots, not on the runtime; it executed nothing.
 
+The same reviewer then verified each fix commit in four further sealed passes,
+which converged: pass 2 found five fixes partial and four regressions the fixes
+introduced (N01–N04), pass 3 one partial and one regression (N05), pass 4 a
+Windows drive-relative bypass (N06), pass 5 an alias bypass (N07). All are
+fixed with regressions. One point was deliberately not taken: pass 5 asked
+that the working directory itself be refused when it is a link; it is the
+caller's own location, and refusing it would break anyone who `cd`s into a
+linked folder, so it is trusted and documented as such. CI separately caught
+two things no static pass could: tests that launched Chromium only because
+the machine had one, and macOS's `/var` → `/private/var`, which showed that
+"no link in any ancestor" is the wrong rule. The rule now is "no link the
+project carries": every component below the working directory, recognised
+through any spelling of its path, plus `..` and drive-relative paths refused.
+
 Its design note (R16) is the right next milestone, and is recorded here rather
 than half-built: **one immutable render plan**. Today `check`, `review`,
 `score`, `ship` and `brand` share their *inputs*, but each still renders its
