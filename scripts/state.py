@@ -255,8 +255,8 @@ EDGE_REWRITES = (
      "the edge injects a Cloudflare Web Analytics beacon. This site's CSP is "
      "script-src 'self', so every visitor's browser blocks it and logs a "
      "violation: the analytics collect nothing and the console is never clean. "
-     "Turn off automatic injection in the Cloudflare dashboard (Web Analytics), "
-     "or accept a third-party script on a site that advertises local-first."),
+     "Owner action: Workers & Pages -> ai-iconflow -> Metrics -> Web Analytics -> "
+     "disable, then redeploy (docs/OWNER_ACTIONS.md section 1 has the fallbacks)."),
     ("__cf_email__",
      "the edge rewrote something that looks like an email address into a "
      "mailto link. On the icon-size reference that corrupts real filenames "

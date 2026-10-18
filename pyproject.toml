@@ -109,7 +109,7 @@ include-package-data = false
 # asked, listed by `iconflow docs` beside the methodology — which is the exact
 # drift the report was written to end. It stays in the checkout.
 [tool.setuptools.exclude-package-data]
-"iconflow.resources.docs" = ["STATE.md"]
+"iconflow.resources.docs" = ["STATE.md", "OWNER_ACTIONS.md"]
 
 # Deliberately not a style crusade.
 #

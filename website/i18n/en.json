@@ -2,7 +2,7 @@
   "language": "en",
   "generated_by": "scripts/build_i18n.py",
   "note": "English source strings. Keys are slug.hash(text); a copy edit makes a new key, which makes every translation fail closed.",
-  "count": 729,
+  "count": 736,
   "strings": {
     "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": {
       "text": "IconFlow — Local icon toolkit: one SVG to favicon, app, and tray assets, proven at 16px",
@@ -3219,8 +3219,8 @@
         "getting-started/index.html"
       ]
     },
-    "record-intent-before-drawing-the-config-also.0577c918": {
-      "text": "Record intent before drawing. The config also fixes targets, colors, paths, and tray behavior.",
+    "record-intent-before-drawing-0-detects-the-t.d5983ef4": {
+      "text": "Record intent before drawing. <0/> detects the targets from your project and says why; the config also fixes colors, paths, and tray behavior.",
       "kind": "text",
       "where": "ol.workflow-list li.reveal div.workflow-copy",
       "pages": [
@@ -3251,8 +3251,8 @@
         "getting-started/index.html"
       ]
     },
-    "bake-two-or-three-finalists-together-read-th.b9fd3219": {
-      "text": "Bake two or three finalists together. Read the sheet at 128px, 16px, and in silhouette.",
+    "bake-two-or-three-finalists-together-read-th.b5e50708": {
+      "text": "Bake two or three finalists together. Read the sheet at 128px, 16px, and in silhouette. The 16px budget names every cut, gap, and accent too narrow to survive, before review does.",
       "kind": "text",
       "where": "ol.workflow-list li.reveal div.workflow-copy",
       "pages": [
@@ -3267,8 +3267,8 @@
         "getting-started/index.html"
       ]
     },
-    "fix-every-warning-then-inspect-native-pixels.d2942e20": {
-      "text": "Fix every warning. Then inspect native pixels, alpha, adaptive crops, desktop corners, and tray contexts.",
+    "fix-every-warning-with-0-1-runs-the-same-aud.74f4233e": {
+      "text": "Fix every warning; with <0/>, <1/> runs the same audit as <2/>. Then inspect native pixels, alpha, adaptive crops, desktop corners, and tray contexts. No browser? <3/> writes the same proof as sheets, and <4/> walks the six axes into the receipt.",
       "kind": "text",
       "where": "ol.workflow-list li.reveal div.workflow-copy",
       "pages": [
@@ -3285,6 +3285,30 @@
     },
     "export-the-review-lab-receipt-only-after-eve.1df88708": {
       "text": "Export the Review Lab receipt only after every axis reaches 4/5. Source or target changes make that receipt stale.",
+      "kind": "text",
+      "where": "ol.workflow-list li.reveal div.workflow-copy",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
+    "propagate.d75ffeb6": {
+      "text": "Propagate",
+      "kind": "text",
+      "where": "ol.workflow-list li.reveal div.workflow-copy",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
+    "move-the-whole-identity-at-once.cacd2f4f": {
+      "text": "Move the whole identity at once.",
+      "kind": "text",
+      "where": "ol.workflow-list li.reveal div.workflow-copy",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
+    "for-a-product-mark-the-brand-kit-writes-lock.b22c7f5f": {
+      "text": "For a product mark, the brand kit writes lockups, app tiles, and social cards from the approved mark, records every file in one manifest, and finds what a site still carries of the old mark.",
       "kind": "text",
       "where": "ol.workflow-list li.reveal div.workflow-copy",
       "pages": [
@@ -3459,6 +3483,38 @@
         "getting-started/index.html"
       ]
     },
+    "android.81297a2e": {
+      "text": "ANDROID",
+      "kind": "text",
+      "where": "section#outputs div.output-grid article.output-card",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
+    "launcher-icons.323f4db0": {
+      "text": "Launcher icons",
+      "kind": "text",
+      "where": "section#outputs div.output-grid article.output-card",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
+    "adaptive-foreground-and-background-the-andro.f57e4f7c": {
+      "text": "Adaptive foreground and background, the Android 13 themed layer, legacy square and round icons in five densities, and the adaptive XML.",
+      "kind": "text",
+      "where": "section#outputs div.output-grid article.output-card",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
+    "targets-android.d5647884": {
+      "text": "--targets android",
+      "kind": "text",
+      "where": "section#outputs div.output-grid article.output-card",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
     "example-generated-file-tree.d7e44208": {
       "text": "Example generated file tree",
       "kind": "attr:aria-label",
@@ -3523,8 +3579,8 @@
         "getting-started/index.html"
       ]
     },
-    "0-desktop-scope-0-1-tauri-output-currently-c.6b40b826": {
-      "text": "<0>Desktop scope.</0><1>Tauri output currently covers desktop assets, not Android or iOS launch and icon sets.</1>",
+    "0-mobile-scope-0-1-android-launcher-icons-ar.c8c50b2e": {
+      "text": "<0>Mobile scope.</0><1>Android launcher icons are a target. iOS app-icon sets are not yet: their dark and tinted variants need sources of their own.</1>",
       "kind": "text",
       "where": "section.limits-section div.section-shell ul",
       "pages": [

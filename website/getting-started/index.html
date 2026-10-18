@@ -257,10 +257,9 @@ Follow concept → compare → check → review → ship → case.</code></pre>
         <ol class="workflow-list">
           <li class="reveal">
             <div class="workflow-number">01</div>
-            <div class="workflow-copy"><span>Brief</span><h3>Write the product contract.</h3><p>Record intent before drawing. The config also fixes targets, colors, paths, and tray behavior.</p></div>
+            <div class="workflow-copy"><span>Brief</span><h3>Write the product contract.</h3><p>Record intent before drawing. <code>init</code> detects the targets from your project and says why; the config also fixes colors, paths, and tray behavior.</p></div>
             <pre><code>python -m iconflow init --out iconflow.toml \
-  --name "My App" --essence proof \
-  --targets web,tauri,electron,tray</code></pre>
+  --name "My App" --essence proof</code></pre>
           </li>
           <li class="reveal">
             <div class="workflow-number">02</div>
@@ -271,18 +270,22 @@ python -m iconflow new flat-geometric \
           </li>
           <li class="reveal">
             <div class="workflow-number">03</div>
-            <div class="workflow-copy"><span>Compare</span><h3>Choose shape before polish.</h3><p>Bake two or three finalists together. Read the sheet at 128px, 16px, and in silhouette.</p></div>
+            <div class="workflow-copy"><span>Compare</span><h3>Choose shape before polish.</h3><p>Bake two or three finalists together. Read the sheet at 128px, 16px, and in silhouette. The 16px budget names every cut, gap, and accent too narrow to survive, before review does.</p></div>
             <pre><code>python -m iconflow compare \
   work/my-app/a.svg work/my-app/b.svg \
-  work/my-app/c.svg --out work/my-app/bake.png</code></pre>
+  work/my-app/c.svg --out work/my-app/bake.png
+python -m iconflow budget work/my-app/a.svg \
+  work/my-app/b.svg --sheet work/my-app/budget.png</code></pre>
           </li>
           <li class="reveal">
             <div class="workflow-number">04</div>
-            <div class="workflow-copy"><span>Inspect</span><h3>Review real target transforms.</h3><p>Fix every warning. Then inspect native pixels, alpha, adaptive crops, desktop corners, and tray contexts.</p></div>
-            <pre><code>python -m iconflow check master.svg
+            <div class="workflow-copy"><span>Inspect</span><h3>Review real target transforms.</h3><p>Fix every warning; with <code>--config</code>, <code>check</code> runs the same audit as <code>ship</code>. Then inspect native pixels, alpha, adaptive crops, desktop corners, and tray contexts. No browser? <code>--evidence</code> writes the same proof as sheets, and <code>score</code> walks the six axes into the receipt.</p></div>
+            <pre><code>python -m iconflow check --config iconflow.toml
 python -m iconflow review --config iconflow.toml \
   --out work/my-app/review.png \
-  --html work/my-app/review.html</code></pre>
+  --html work/my-app/review.html
+python -m iconflow score --config iconflow.toml \
+  --evidence work/my-app/evidence ...</code></pre>
           </li>
           <li class="reveal">
             <div class="workflow-number">05</div>
@@ -293,6 +296,15 @@ python -m iconflow review --config iconflow.toml \
           </li>
           <li class="reveal">
             <div class="workflow-number">06</div>
+            <div class="workflow-copy"><span>Propagate</span><h3>Move the whole identity at once.</h3><p>For a product mark, the brand kit writes lockups, app tiles, and social cards from the approved mark, records every file in one manifest, and finds what a site still carries of the old mark.</p></div>
+            <pre><code>python -m iconflow brand build \
+  --config iconflow.toml \
+  --review master-review.json --ship
+python -m iconflow brand sync \
+  --manifest brand-kit --project ../my-site</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">07</div>
             <div class="workflow-copy"><span>Learn</span><h3>Return the lesson to the system.</h3><p>Record what failed first, what changed, and one reusable rule. An unrecorded icon teaches nothing.</p></div>
             <pre><code>python -m iconflow case new ...
 python -m iconflow case lint
@@ -313,6 +325,7 @@ python -m iconflow case stats</code></pre>
         <article class="output-card reveal"><span>TAURI</span><h3>Desktop bundle</h3><p>PNG sizes, ICO, ICNS, and the conventional <code>src-tauri/icons</code> layout for Tauri v2 desktop applications.</p><code>--targets tauri</code></article>
         <article class="output-card reveal"><span>ELECTRON</span><h3>Packager inputs</h3><p>Cross-platform PNG, ICO, and ICNS assets for Electron and electron-builder packaging workflows.</p><code>--targets electron</code></article>
         <article class="output-card reveal"><span>TRAY</span><h3>Menu-bar marks</h3><p>Color tray PNGs, macOS template assets, and a TypeScript helper. A dedicated mark-only <code>tray.svg</code> is strongly preferred.</p><code>--targets tray</code></article>
+        <article class="output-card reveal"><span>ANDROID</span><h3>Launcher icons</h3><p>Adaptive foreground and background, the Android 13 themed layer, legacy square and round icons in five densities, and the adaptive XML.</p><code>--targets android</code></article>
       </div>
       <div class="output-tree reveal" aria-label="Example generated file tree">
         <div><p class="section-kicker">Example build</p><h3>One source. Explicit branches.</h3><p>The editable <code>master.svg</code> remains the source of truth beside the project. Generated files can always be rebuilt.</p></div>
@@ -342,7 +355,7 @@ python -m iconflow case stats</code></pre>
         <ul>
           <li><strong>Install from PyPI.</strong><span>Run <code>pip install iconflow</code>, or <code>uv tool install iconflow</code>. A source checkout stays available for contributors.</span></li>
           <li><strong>One-time download.</strong><span>Setup needs network access for dependencies and Playwright Chromium; rendering and builds are local afterward.</span></li>
-          <li><strong>Desktop scope.</strong><span>Tauri output currently covers desktop assets, not Android or iOS launch and icon sets.</span></li>
+          <li><strong>Mobile scope.</strong><span>Android launcher icons are a target. iOS app-icon sets are not yet: their dark and tinted variants need sources of their own.</span></li>
           <li><strong>Toolchain-bound proof.</strong><span>Repeatability assumes the same normalized SVG, config, IconFlow, Chromium, and Pillow versions.</span></li>
         </ul>
       </div>

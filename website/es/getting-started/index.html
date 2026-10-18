@@ -254,10 +254,9 @@ Follow concept → compare → check → review → ship → case.</code></pre>
         <ol class="workflow-list">
           <li class="reveal">
             <div class="workflow-number">01</div>
-            <div class="workflow-copy"><span>Brief</span><h3>Escribe el contrato del producto.</h3><p>Registra la intención antes de dibujar. La configuración también fija destinos, colores, rutas y el comportamiento de la bandeja del sistema.</p></div>
+            <div class="workflow-copy"><span>Brief</span><h3>Escribe el contrato del producto.</h3><p>Registra la intención antes de dibujar. <code>init</code> detecta los destinos a partir de tu proyecto y explica por qué; la configuración también fija colores, rutas y el comportamiento de la bandeja del sistema.</p></div>
             <pre><code>python -m iconflow init --out iconflow.toml \
-  --name "My App" --essence proof \
-  --targets web,tauri,electron,tray</code></pre>
+  --name "My App" --essence proof</code></pre>
           </li>
           <li class="reveal">
             <div class="workflow-number">02</div>
@@ -268,18 +267,22 @@ python -m iconflow new flat-geometric \
           </li>
           <li class="reveal">
             <div class="workflow-number">03</div>
-            <div class="workflow-copy"><span>Compara</span><h3>Elige la forma antes de pulir.</h3><p>Renderiza juntos dos o tres finalistas. Evalúa la lámina a 128px, 16px y en silueta.</p></div>
+            <div class="workflow-copy"><span>Compara</span><h3>Elige la forma antes de pulir.</h3><p>Renderiza juntos dos o tres finalistas. Evalúa la lámina a 128px, 16px y en silueta. El presupuesto de 16px nombra cada corte, separación y acento demasiado estrecho para sobrevivir, antes de que lo haga la revisión.</p></div>
             <pre><code>python -m iconflow compare \
   work/my-app/a.svg work/my-app/b.svg \
-  work/my-app/c.svg --out work/my-app/bake.png</code></pre>
+  work/my-app/c.svg --out work/my-app/bake.png
+python -m iconflow budget work/my-app/a.svg \
+  work/my-app/b.svg --sheet work/my-app/budget.png</code></pre>
           </li>
           <li class="reveal">
             <div class="workflow-number">04</div>
-            <div class="workflow-copy"><span>Inspecciona</span><h3>Revisa transformaciones reales de cada destino.</h3><p>Corrige todas las advertencias. Después inspecciona los píxeles nativos, el alfa, los recortes adaptativos, las esquinas de escritorio y los contextos de bandeja del sistema.</p></div>
-            <pre><code>python -m iconflow check master.svg
+            <div class="workflow-copy"><span>Inspecciona</span><h3>Revisa transformaciones reales de cada destino.</h3><p>Corrige todas las advertencias; con <code>--config</code>, <code>check</code> ejecuta la misma auditoría que <code>ship</code>. Después inspecciona los píxeles nativos, el alfa, los recortes adaptativos, las esquinas de escritorio y los contextos de bandeja del sistema. ¿Sin navegador? <code>--evidence</code> escribe la misma prueba como láminas y <code>score</code> recorre los seis ejes de la rúbrica hasta el receipt.</p></div>
+            <pre><code>python -m iconflow check --config iconflow.toml
 python -m iconflow review --config iconflow.toml \
   --out work/my-app/review.png \
-  --html work/my-app/review.html</code></pre>
+  --html work/my-app/review.html
+python -m iconflow score --config iconflow.toml \
+  --evidence work/my-app/evidence ...</code></pre>
           </li>
           <li class="reveal">
             <div class="workflow-number">05</div>
@@ -290,6 +293,15 @@ python -m iconflow review --config iconflow.toml \
           </li>
           <li class="reveal">
             <div class="workflow-number">06</div>
+            <div class="workflow-copy"><span>Propaga</span><h3>Mueve toda la identidad a la vez.</h3><p>Para una marca de producto, el kit de marca escribe composiciones con el logotipo, mosaicos de app y tarjetas para redes sociales a partir de la marca aprobada, registra cada archivo en un único manifiesto y encuentra lo que un sitio aún conserva de la marca anterior.</p></div>
+            <pre><code>python -m iconflow brand build \
+  --config iconflow.toml \
+  --review master-review.json --ship
+python -m iconflow brand sync \
+  --manifest brand-kit --project ../my-site</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">07</div>
             <div class="workflow-copy"><span>Aprende</span><h3>Devuelve lo aprendido al sistema.</h3><p>Registra qué falló primero, qué cambió y una regla reutilizable. Un icono sin registro no enseña nada.</p></div>
             <pre><code>python -m iconflow case new ...
 python -m iconflow case lint
@@ -310,6 +322,7 @@ python -m iconflow case stats</code></pre>
         <article class="output-card reveal"><span>TAURI</span><h3>Paquete de escritorio</h3><p>Tamaños PNG, ICO, ICNS y la estructura convencional <code>src-tauri/icons</code> para aplicaciones de escritorio Tauri v2.</p><code>--targets tauri</code></article>
         <article class="output-card reveal"><span>ELECTRON</span><h3>Entradas para el empaquetador</h3><p>Activos PNG, ICO e ICNS multiplataforma para los flujos de empaquetado de Electron y electron-builder.</p><code>--targets electron</code></article>
         <article class="output-card reveal"><span>BANDEJA DEL SISTEMA</span><h3>Marcas para la barra de menús</h3><p>PNG en color para la bandeja del sistema, activos de plantilla de macOS y una utilidad de TypeScript. Se recomienda especialmente un <code>tray.svg</code> dedicado solo a la marca.</p><code>--targets tray</code></article>
+        <article class="output-card reveal"><span>ANDROID</span><h3>Iconos del lanzador</h3><p>Primer plano y fondo adaptativos, la capa temática de Android 13, iconos heredados cuadrados y redondos en cinco densidades y el XML adaptativo.</p><code>--targets android</code></article>
       </div>
       <div class="output-tree reveal" aria-label="Árbol de archivos generados de ejemplo">
         <div><p class="section-kicker">Compilación de ejemplo</p><h3>Una sola fuente. Ramas explícitas.</h3><p>El <code>master.svg</code> (archivo maestro) editable sigue siendo la fuente de verdad junto al proyecto. Los archivos generados siempre se pueden reconstruir.</p></div>
@@ -339,7 +352,7 @@ python -m iconflow case stats</code></pre>
         <ul>
           <li><strong>Instala desde PyPI.</strong><span>Ejecuta <code>pip install iconflow</code> o <code>uv tool install iconflow</code>. La instalación desde el código fuente sigue disponible para quienes contribuyen.</span></li>
           <li><strong>Descarga única.</strong><span>La configuración necesita acceso a la red para las dependencias y Playwright Chromium; después, el renderizado y las compilaciones son locales.</span></li>
-          <li><strong>Alcance de escritorio.</strong><span>La salida de Tauri cubre actualmente los activos de escritorio, no los conjuntos de inicio e iconos de Android o iOS.</span></li>
+          <li><strong>Alcance móvil.</strong><span>Los iconos del lanzador de Android son un destino. Los conjuntos de iconos de app de iOS todavía no: sus variantes oscura y tintada necesitan fuentes propias.</span></li>
           <li><strong>Prueba ligada a la cadena de herramientas.</strong><span>La repetibilidad presupone el mismo SVG normalizado, la misma configuración y las mismas versiones de IconFlow, Chromium y Pillow.</span></li>
         </ul>
       </div>

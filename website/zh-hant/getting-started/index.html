@@ -254,10 +254,9 @@ Follow concept → compare → check → review → ship → case.</code></pre>
         <ol class="workflow-list">
           <li class="reveal">
             <div class="workflow-number">01</div>
-            <div class="workflow-copy"><span>設計說明</span><h3>寫下產品契約。</h3><p>先記錄意圖再動手畫。設定也會鎖定目標、顏色、路徑與系統匣行為。</p></div>
+            <div class="workflow-copy"><span>設計說明</span><h3>寫下產品契約。</h3><p>先記錄意圖再動手畫。<code>init</code> 會從你的專案偵測目標並說明理由；設定也會鎖定顏色、路徑與系統匣行為。</p></div>
             <pre><code>python -m iconflow init --out iconflow.toml \
-  --name "My App" --essence proof \
-  --targets web,tauri,electron,tray</code></pre>
+  --name "My App" --essence proof</code></pre>
           </li>
           <li class="reveal">
             <div class="workflow-number">02</div>
@@ -268,18 +267,22 @@ python -m iconflow new flat-geometric \
           </li>
           <li class="reveal">
             <div class="workflow-number">03</div>
-            <div class="workflow-copy"><span>比較</span><h3>先選形，再修細節。</h3><p>把兩到三個決選稿一起烘焙。在 128px、16px 與剪影下讀對照表。</p></div>
+            <div class="workflow-copy"><span>比較</span><h3>先選形，再修細節。</h3><p>把兩到三個決選稿一起烘焙。在 128px、16px 與剪影下讀對照表。16px 預算會在審查之前，點名每個細到撐不過去的切口、間隙與點綴。</p></div>
             <pre><code>python -m iconflow compare \
   work/my-app/a.svg work/my-app/b.svg \
-  work/my-app/c.svg --out work/my-app/bake.png</code></pre>
+  work/my-app/c.svg --out work/my-app/bake.png
+python -m iconflow budget work/my-app/a.svg \
+  work/my-app/b.svg --sheet work/my-app/budget.png</code></pre>
           </li>
           <li class="reveal">
             <div class="workflow-number">04</div>
-            <div class="workflow-copy"><span>檢視</span><h3>審查真實的目標轉換。</h3><p>修掉每則警告。然後檢視原生像素、alpha、自適應裁切、桌面圓角與系統匣情境。</p></div>
-            <pre><code>python -m iconflow check master.svg
+            <div class="workflow-copy"><span>檢視</span><h3>審查真實的目標轉換。</h3><p>修掉每則警告；加上 <code>--config</code> 時，<code>check</code> 執行與 <code>ship</code> 相同的稽核。然後檢視原生像素、alpha、自適應裁切、桌面圓角與系統匣情境。沒有瀏覽器？<code>--evidence</code> 會把同一份校樣寫成圖表，<code>score</code> 逐一走過六個評分軸並寫入 receipt。</p></div>
+            <pre><code>python -m iconflow check --config iconflow.toml
 python -m iconflow review --config iconflow.toml \
   --out work/my-app/review.png \
-  --html work/my-app/review.html</code></pre>
+  --html work/my-app/review.html
+python -m iconflow score --config iconflow.toml \
+  --evidence work/my-app/evidence ...</code></pre>
           </li>
           <li class="reveal">
             <div class="workflow-number">05</div>
@@ -290,6 +293,15 @@ python -m iconflow review --config iconflow.toml \
           </li>
           <li class="reveal">
             <div class="workflow-number">06</div>
+            <div class="workflow-copy"><span>推廣</span><h3>一次移動整個識別。</h3><p>對產品標誌而言，品牌套件會從已核准的標誌寫出組合標、應用程式方塊圖與社群卡片，把每個檔案記錄在一份清單中，並找出網站上仍殘留的舊標誌。</p></div>
+            <pre><code>python -m iconflow brand build \
+  --config iconflow.toml \
+  --review master-review.json --ship
+python -m iconflow brand sync \
+  --manifest brand-kit --project ../my-site</code></pre>
+          </li>
+          <li class="reveal">
+            <div class="workflow-number">07</div>
             <div class="workflow-copy"><span>學習</span><h3>把這一課交回系統。</h3><p>記錄最先失敗的是什麼、改了什麼，以及一條可重用的規則。沒記下的圖示什麼也教不了。</p></div>
             <pre><code>python -m iconflow case new ...
 python -m iconflow case lint
@@ -310,6 +322,7 @@ python -m iconflow case stats</code></pre>
         <article class="output-card reveal"><span>TAURI</span><h3>桌面套件</h3><p>PNG 尺寸、ICO、ICNS，以及 Tauri v2 桌面應用程式慣用的 <code>src-tauri/icons</code> 配置。</p><code>--targets tauri</code></article>
         <article class="output-card reveal"><span>ELECTRON</span><h3>打包器輸入</h3><p>供 Electron 與 electron-builder 打包流程使用的跨平台 PNG、ICO 與 ICNS 素材。</p><code>--targets electron</code></article>
         <article class="output-card reveal"><span>TRAY</span><h3>選單列標誌</h3><p>彩色系統匣 PNG、macOS 範本素材，以及 TypeScript 輔助程式。強烈建議使用專用、僅含標誌的 <code>tray.svg</code>。</p><code>--targets tray</code></article>
+        <article class="output-card reveal"><span>ANDROID</span><h3>啟動器圖示</h3><p>自適應前景與背景、Android 13 主題圖示圖層、五種密度的舊版方形與圓形圖示，以及自適應 XML。</p><code>--targets android</code></article>
       </div>
       <div class="output-tree reveal" aria-label="產出檔案樹範例">
         <div><p class="section-kicker">建置範例</p><h3>一份原始檔。明示的分支。</h3><p>可編輯的 <code>master.svg</code>（主檔）仍是專案旁邊的真實來源。產出的檔案隨時都能重建。</p></div>
@@ -339,7 +352,7 @@ python -m iconflow case stats</code></pre>
         <ul>
           <li><strong>從 PyPI 安裝。</strong><span>執行 <code>pip install iconflow</code> 或 <code>uv tool install iconflow</code>。原始碼安裝仍保留給貢獻者使用。</span></li>
           <li><strong>一次性下載。</strong><span>設定需要網路以取得依賴與 Playwright Chromium；之後的渲染與建置都在本機。</span></li>
-          <li><strong>桌面範圍。</strong><span>Tauri 產出目前涵蓋桌面素材，不含 Android 或 iOS 的啟動畫面與圖示組。</span></li>
+          <li><strong>行動裝置範圍。</strong><span>Android 啟動器圖示已是目標。iOS 的 App 圖示組尚未支援：它的深色與著色變體需要各自的原始檔。</span></li>
           <li><strong>綁定工具鏈的校樣。</strong><span>可重現性假設使用相同的正規化 SVG、設定、IconFlow、Chromium 與 Pillow 版本。</span></li>
         </ul>
       </div>
