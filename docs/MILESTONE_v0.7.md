@@ -124,14 +124,14 @@ property each command must re-establish.
 
 ## Owner decisions
 
-1. **Release 0.7.0.** Prepared, not done: bump `pyproject.toml` and
-   `iconflow/__init__.py` to `0.7.0`, move `CHANGELOG.md` *Unreleased* under
-   `## 0.7.0 - <date>`, re-render `scripts/build_reference.py`, then follow
-   `docs/RELEASING.md` §2–6 (clean clone, candidate workflow, approval of the
-   `pypi` environment).
-2. **Merge `milestone-0.7` into `main`.** One push to `main` runs CI once.
-3. **Deploy the site** (`scripts/deploy-site.ps1`): Getting started and the
-   icon-size reference changed.
+1. ~~Release 0.7.0~~ — **done 2026-10-19** at the owner's instruction: release
+   commit `96b904d`, annotated tag `v0.7.0`, TestPyPI rehearsal green and
+   smoke-tested, GitHub Release with the candidate artifacts, `pypi`
+   environment approved, PyPI wheel SHA-256 `3a72591a…` equal to the reviewed
+   candidate (the sdist differs by archive timestamps, as expected).
+2. ~~Merge `milestone-0.7` into `main`~~ — done (fast-forward); CI green.
+3. ~~Deploy the site~~ — done: preview verified, then production; host
+   contract and Forge live checks pass.
 4. **The Cloudflare beacon** — disable it in the dashboard (preferred), take
    the `no-transform` fallback, or allow the script (`docs/OWNER_ACTIONS.md`).
 5. **Social preview upload and Discussions** — one step each
