@@ -691,6 +691,12 @@ class RenderedNeighbourhood(unittest.TestCase):
                     code = main(argv)
                 self.assertEqual(code, 0)
                 envelopes.append(json.loads(out.getvalue()))
+        # Since 0.7 `check --config` audits the config's own targets, and the
+        # envelope says so in outputs.audit; nothing else may differ.
+        audits = [envelope["outputs"].pop("audit") for envelope in envelopes]
+        self.assertEqual(audits[0]["targets"], ["web", "pwa"])
+        self.assertEqual(audits[1]["targets"], ["web"])
+        self.assertEqual({**audits[0], "targets": None}, {**audits[1], "targets": None})
         self.assertEqual(envelopes[0], envelopes[1])
         self.assertEqual(envelopes[0]["advisories"], [])
         self.assertEqual(envelopes[0]["warnings"], [])
