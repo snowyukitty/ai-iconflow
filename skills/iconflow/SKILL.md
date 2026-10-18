@@ -1,6 +1,6 @@
 ---
 name: iconflow
-description: Design and generate high-quality app icons, website favicons, PWA icons, and system-tray/menu-bar icons. Use whenever a project needs an icon/favicon/logo mark created or regenerated — the agent authors an SVG following a design playbook, renders it small to self-review, then builds every format (.ico/.icns/.png, manifest, tray). Triggers on requests like "make an icon", "design a favicon", "tray icon", "app icon for this Tauri/Electron app".
+description: Design and generate high-quality app icons, website favicons, PWA icons, Android adaptive/themed launcher icons, and system-tray/menu-bar icons, then propagate the approved mark into a brand kit (lockups, store tiles, Open Graph and social cards). Use whenever a project needs an icon/favicon/logo mark created or regenerated — the agent authors an SVG following a design playbook, renders it small to self-review, then builds every format (.ico/.icns/.png, manifest, Android res/, tray). Triggers on requests like "make an icon", "design a favicon", "tray icon", "app icon for this Tauri/Electron app", "Android launcher icon", "OG image / social card for our logo".
 license: CC-BY-SA-4.0
 compatibility: Requires Python 3.10+, filesystem and shell access, and network access for one-time dependency and Playwright Chromium setup. Works with `iconflow` on PATH (uv tool / pipx / pip) or a source checkout's venv interpreter. Rendering and builds are local afterward. The icons you design with it are yours: no attribution, no share-alike, commercial use unrestricted.
 metadata:
@@ -41,6 +41,11 @@ tool without asking.
 
 Then, first time only: `iconflow setup` (downloads Chromium — the only network
 step) and `iconflow doctor` (every FAIL prints a `fix` command to paste).
+
+**A command or flag below that the runner does not know means the installed
+toolkit predates it** (`score`, `budget`, `brand`, `review --evidence` and the
+`android` target arrived in 0.7). Upgrade it — `uv tool upgrade iconflow` or
+`pipx upgrade iconflow` — and say so; never improvise a substitute for a gate.
 
 **Reading the reference documents.** `iconflow docs <NAME>` prints one to
 stdout, which is fine for a quick check. The playbook and concepting documents
@@ -126,6 +131,13 @@ the project you are working on.
    geometry a maskable crop eats. If a full-card master also targets tray or
    menu bar, author a geometry-linked mark-only `tray.svg` and set it in
    `iconflow.toml`; do not let a card alpha collapse into a featureless square.
+   **Android** is never part of `all`; name it (`[build] targets = ["web",
+   "android"]`). Its adaptive layer is the maskable composition, so one fix
+   serves both: if corner detail dies in the circle crop, set `[build]`
+   `maskable_scale` lower (0.5–1.0,
+   default 0.8) or link a `maskable_svg` drawn for the crop. Android 13+ tints
+   a themed icon from alpha alone, so give it a mark-only `monochrome_svg`
+   (falls back to `tray_svg`). `iconflow docs OUTPUT_TARGETS` § android.
 
 5b. **Optional — open the detail ladder** if the icon will also be seen large
    (a store listing, a splash, an about box, print). Read
@@ -190,6 +202,17 @@ the project you are working on.
    / targets / colors / scheme / radius / template, and requires all six axes
    ≥4. (The low-level `build` command remains for callers that own an equivalent
    quality gate.) `iconflow docs OUTPUT_TARGETS` lists the exact file set.
+
+7b. **Optional — propagate the mark** when the product also needs lockups,
+   store tiles, or Open Graph / GitHub social cards. Give `[brand]` in
+   `iconflow.toml` an **outlined** wordmark (no live `<text>`; `iconflow brand
+   outline --text ... --font ...` outlines a permissively licensed font), then
+   `iconflow brand build --config iconflow.toml --review master-review.json`
+   (add `--ship` to build the icons in the same transaction) and **read
+   `brand-sheet.png`**. It accepts only what `ship` accepts. When replacing an
+   older mark, `iconflow brand sync --manifest brand-kit --project <site>`
+   lists every file still carrying the old one — fix those, do not delete
+   blindly. Publishing the cards is the user's step. `iconflow docs BRAND_KIT`.
 
 8. **Keep `master.svg` in the project** and **report**: the brief's one-word
    essence, the cliché you avoided, the signature device you chose, the final
@@ -257,7 +280,8 @@ thing in a form you can quote exactly.
 
 ## Machine-readable mode
 
-`doctor`, `check`, `review`, `ship`, and `demo` accept `--json`: stdout carries
+`doctor`, `check`, `review`, `score`, `ship`, `budget`, `ladder`, `neighbours`,
+`family`, `brand build|sync|outline`, and `demo` accept `--json`: stdout carries
 exactly one envelope, human lines go to stderr, and the exit code is 0 (clean),
 1 (blocked by an IconFlow gate), or 2 (usage or runtime failure). Use it when
 you are scripting or reporting rather than reading. Full contract:

@@ -32,13 +32,19 @@ job you inferred before you start drawing.
 4. Bake off with `iconflow compare ... --out work/<slug>/bake.png` and **read
    that PNG**. Apply the name-the-thing test at 128px and 16px.
 5. Author `master.svg` (`iconflow docs SVG_TECHNIQUES`); add a mark-only
-   `tray.svg` if this project ships a tray or menu-bar icon.
-6. `iconflow check master.svg` until clean, then
+   `tray.svg` if this project ships a tray or menu-bar icon, and name
+   `android` explicitly if it ships an Android app.
+6. `iconflow check --config iconflow.toml` until clean (it is the same audit
+   `ship` runs), then
    `iconflow review --config iconflow.toml --out work/<slug>/review.png --html work/<slug>/review.html`
    and **read that sheet**. Score the six axes against
    `iconflow docs REVIEW_CHECKLIST`; distinctiveness below 4/5 is a hard stop.
-   Iterate — usually two or three passes.
-7. `iconflow ship --config iconflow.toml --review master-review.json`.
+   Iterate — usually two or three passes. No browser for the Lab? Use
+   `review --evidence work/<slug>/evidence`, read every sheet, and write the
+   receipt with `iconflow score` (the skill's step 6 has the exact command).
+7. `iconflow ship --config iconflow.toml --review master-review.json`. If the
+   product also needs lockups or social cards, follow the skill's step 7b
+   (`iconflow brand build`).
 8. Record the case (`iconflow case new ...`, then `case lint`) so the next icon
    starts from this one's evidence.
 
