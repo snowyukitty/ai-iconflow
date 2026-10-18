@@ -580,7 +580,7 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
     if "android" in target_set:
         android = android_previews(svg, options)
         cells = "".join(
-            f'<figure><img class="preview" src="{_data_url(android[key])}" '
+            f'<figure><img src="{_data_url(android[key])}" '
             f'alt="Android {html.escape(label)}"><figcaption>{html.escape(label)}</figcaption></figure>'
             for key, label in (
                 ("circle", "circle launcher"), ("squircle", "squircle launcher"),
@@ -703,8 +703,8 @@ figcaption strong {{ color:#fff; font-family:ui-monospace,SFMono-Regular,Consola
 .start-context img {{ width:96px; height:96px; }} .start-context b {{ font-size:12px; font-weight:600; }}
 .menu-context {{ height:90px; display:flex; justify-content:flex-end; align-items:center; gap:10px; padding:16px; color:#24252a; background:#f5f2ec; border-radius:10px; font-size:11px; }}
 .menu-context img {{ width:18px; height:18px; }} .menu-context .template-image {{ width:22px; height:22px; }}
-.android-context {{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:12px; background:#f5f2ec; border-radius:10px; }}
-.android-context figure {{ margin:0; text-align:center; }} .android-context img {{ width:100%; max-width:96px; height:auto; }} .android-context figcaption {{ color:#24252a; font-size:11px; }}
+.android-context {{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:12px; background:radial-gradient(circle at 50% 10%,#7d8a96,#3a4049 75%); border-radius:10px; }}
+.android-context figure {{ margin:0; text-align:center; }} .android-context img {{ width:100%; max-width:96px; height:auto; }} .android-context figcaption {{ color:#eef0f2; font-size:11px; }}
 [data-ui-scheme="dark"] .browser-context,[data-ui-scheme="dark"] .menu-context {{ color:#f3f1eb; background:#17181c; }}
 [data-ui-scheme="dark"] .template-image {{ filter:invert(1); }}
 .review-layout {{ display:grid; grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr); gap:18px; }}
