@@ -55,4 +55,4 @@ interactive-pass claim.
 ## Lessons
 <!-- One reusable rule per bullet. `- [ ]` = not yet distilled into the docs;
      flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
-- [ ] A formal distinctiveness control cannot prove emotional brand fit: state the intended feeling in the brief and reject a mechanically strong concept when it owns the wrong story.
+- [x] **Merged into L56.** A formal distinctiveness control cannot prove emotional brand fit: state the intended feeling in the brief and reject a mechanically strong concept when it owns the wrong story.

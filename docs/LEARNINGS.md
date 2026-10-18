@@ -264,6 +264,12 @@ is still correct *mechanically*, but a bold H on a gradient tile is exactly the
 generic result the owner rejects — mechanical compliance is a floor, not
 distinctiveness. Treat media-hub as a cautionary contrast to fado, not a model.
 
+
+*Additional evidence (2026-10-18 distillation):* [a quiet agent tray](../casebook/2026-08-15-agent-watcher-tray.md)
+— a mailbox's raised flag read only once the **whole** flag, post included,
+was the accent colour: a thin post in the body's colour vanished at 16px and
+detached the flag. An accent's support is part of the accent's two pixels.
+
 ## L17 — Express small asymmetry through position before rotation
 When a proof gate, badge, or counter is only a few pixels wide at the final
 size, keep its critical edges on the raster rhythm and create character through
@@ -423,6 +429,14 @@ landscape rectangle beside a portrait one is unmistakably monitors and matches
 no system icon.
 *Evidence:* [casebook/2026-08-04-lumendeck.md](../casebook/2026-08-04-lumendeck.md) — the stepped three-panel
 concept was killed on the silhouette strip; the landscape+portrait pair shipped.
+
+
+*Generalized (2026-10-18):* the collision is with **any row of equal repeated
+elements**, not only rising bars. [A pattern-card mark](../casebook/2026-08-22-shot-coherence-pattern-card.md)
+put three equal holes in a row and got a filmstrip / SIM card; the same three
+holes **staggered onto a diagonal** read as a twill weave and stopped colliding,
+at no pixel cost. Break a repeat by stagger or by orientation contrast before
+styling it.
 
 ## L28 — Spend the whole tile: full-bleed the mark before you tune anything else
 A mark drawn *inside* a tile pays for the margin twice — once in the container
@@ -619,6 +633,14 @@ route disappears, color cannot reconstruct the intended social meaning.
 two unequal bands around one offset 128-unit counter after its first crossing
 read as a power glyph. Folded into `DESIGN_PLAYBOOK.md`'s woven contract.
 
+
+*Additional evidence (2026-10-18):* [a pattern-card mark](../casebook/2026-08-22-shot-coherence-pattern-card.md)
+— interlace is a collision factory. Two crossing band systems landed on a
+hashtag, a plus, a dagger or a chain link, and braids or twists that owned a
+fine silhouette at 128px closed every counter at 16px, because diagonal bands
+cannot hold the 128-unit budget (L17, L19). When a brief asks for a weave,
+budget **orthogonal** construction with real cuts from the first sketch.
+
 ## L41 — The material layer may enrich the noun, but it may not name it
 For a technique-led icon, remove the technique's decorative or optical layer
 before approval: glass transparency, carved texture, brush distress, chrome
@@ -771,6 +793,14 @@ single-pass halos turned 64-unit risers into dark bars and stripped most of the
 head's warm area on a white bar; the two-pass halo restored both.
 Folded into `SVG_TECHNIQUES.md` §11.
 
+
+*Alternative (2026-10-18):* a transparent favicon can skip the halo entirely by
+**splitting one hue into a deep and a lifted tint** (deep on one half, lifted on
+the other). Each half carries contrast against one of the two tab colours, so
+the mark holds on white and on near-black without a keyline.
+*Evidence:* [a colour-system specimen jar](../casebook/2026-10-18-color-system-specimen-jar.md).
+Held as a technique, not a rule: one case.
+
 ## L50 — A suspended mark needs air and two lines, or it is an umbrella
 A dome over a body is an umbrella, a mushroom or a table lamp before it is a
 parachute — L9 applied to the most common "carried from above" layout. Three
@@ -879,6 +909,19 @@ hybrid at 16 px.
 Two independent reviews (`codex:default`, `agy:default`) agreed this rule was not
 implied by L21 or L23 and recommended promoting it.
 
+
+*Extensions (2026-10-18):*
+- **Put the inherited mark in as a control too.** Retiring an existing mark by
+  assumption skips the one comparison that can prove the new one better.
+  [A colour-system favicon](../casebook/2026-10-18-color-system-specimen-jar.md)
+  bake-off included the old three-stroke mark; the silhouette strip showed a
+  bar chart at once.
+- **A control proves the device, not the feeling.** [A night shop's
+  favicon](../casebook/2026-08-31-romantic-night-dew-shop-favicon.md) passed every
+  formal distinctiveness control with a concept that told the wrong emotional
+  story. State the intended feeling in the brief and reject a mechanically
+  strong concept that owns the wrong one.
+
 ## L57 — In a family, siblings must differ in what their shared carrier does not explain
 When marks share a carrier — a plate behind a suite of app icons, a head
 behind a set of faces — judge whether two members are the same mark on their
@@ -918,3 +961,101 @@ then again in its fill with no stroke; only the outer rim survives
 (`docs/EMOTES.md`).
 *Mechanized:* `tests/test_family.py` holds every emote hand to the union
 construction.
+
+## L59 — The noun lives in its proportions and its defining profile
+Before a concept enters the bake-off, check the object's **real aspect ratio
+against 1:1** and name the one profile feature that makes it that object. An
+object compressed far from its natural proportions changes noun; one drawn
+with its generic outline instead of its defining feature becomes the generic
+neighbour.
+*Why:* at 16px the outline is all that survives, and the outline is mostly
+proportion. Styling cannot restore a noun the proportions gave away.
+*Evidence:* [a pattern-card mark](../casebook/2026-08-22-shot-coherence-pattern-card.md)
+— a weaving shuttle is about 5:1; every compression to fit a square renamed it
+(cap, hexagonal link, outlet, arrow, bucket, bowtie, smile, price tag).
+[A seafaring game](../casebook/2026-10-05-waywake-wake-sail.md) — a symmetric trapezoid
+hull with a curved top read as a bowl at 256px; a straight sheer rising to a
+raked, pointed bow restored the boat with no added detail.
+[A brick game](../casebook/2026-10-03-brick-rider-game-icon.md) — a narrow top bump read
+as a funnel (L44's chimney); flattening it to about 2.4:1 restored the toy stud.
+Folded into `CONCEPTING.md` §4.
+
+## L60 — Fuse the second element into a part of the noun; attaching it names a tool
+When the identity needs a second element — a trail, a character, a motion —
+make it **one part of the object that already exists** instead of attaching it
+beside or behind. An attached element turns the pair into a tool, a scene or
+a diagram; a fused one is still the noun.
+*Why:* two masses read as their most familiar combination before they read as
+your story (L1, L31), and the most familiar combination of a thing plus a
+trailing band is a brush, a rocket, a broom or a comet.
+*Evidence:* [a seafaring game](../casebook/2026-10-05-waywake-wake-sail.md) — every
+vessel-plus-wake layout named a tool; the sail that streams off the tile edge
+*as* the wake was the first to name a boat.
+[A brick game](../casebook/2026-10-03-brick-rider-game-icon.md) — a core character on
+or above a brick read as an avatar bust or an org chart; the core as the brick's
+second, oversized stud read as one object at 16px.
+Folded into `DESIGN_PLAYBOOK.md` §6.
+
+## L61 — A round body is a face until proven otherwise
+A disc with one notch, or a small round head with two dots, is read as an emoji
+or an avatar before anything else. Run the neighbourhood (`iconflow
+neighbours`) on every round-bodied finalist, keep facial dots at least **128
+units apart** (at 64–90 units two eyes fuse into a minus or no-entry sign),
+and prefer an **enclosed, off-axis counter** to an edge-open chip.
+*Why:* faces are the most practised gestalt there is; a round silhouette with
+any symmetric feature is matched to one first.
+*Evidence:* [a brick game](../casebook/2026-10-03-brick-rider-game-icon.md) — a round
+head centred on a block was the user/avatar bust, and 80-unit eyes became a
+minus sign at 16px. [A candidate-shell favicon](../casebook/2026-10-18-mesh-field-notes-candidate-shell.md)
+— an edge-open chip in an egg sat inside the collision radius of several emoji
+faces; an enclosed off-axis hole kept the idea collision-free.
+Folded into `CONCEPTING.md` §4. Measured by `iconflow budget` (separating gaps).
+
+## L62 — Snap load-bearing edges to the 64-unit grid after you pick the winner
+Once a finalist wins, move every edge that carries the idea — lids, cell walls,
+label edges, a colour split — onto multiples of **64 units**, the 16px pixel
+grid on a 1024 viewBox. The same geometry 32 units off the grid draws its edges
+as two-tone smears in the real 16px and 32px frames.
+*Why:* an edge between two pixels is rendered as both, half-strength; on the
+grid it is one crisp pixel. That half-pixel is the difference between a legible
+and a "blurry" first review.
+*Evidence:* [a colour-system specimen jar](../casebook/2026-10-18-color-system-specimen-jar.md)
+— a lid at 96–256 smeared in the ICO frame; snapped to 128–256 it was crisp and
+lifted legibility and scalability to 5. [A keyhole grid mark](../casebook/2026-10-18-keyhole-grid-mark.md)
+— 72-unit bars and 148-unit cells smeared at 32px; 64-unit bars and 160-unit
+cells on 64-unit multiples were crisp.
+Folded into `DESIGN_PLAYBOOK.md` §2.
+
+## L63 — Audit the adaptive crop on the real background, and give the crop its own composition
+A maskable or adaptive icon is the mark composed on the **configured
+background**, and its audit means nothing on any other one. A full-bleed square
+mark passes on white and fails on its own ink background, or the other way
+round. When it fails, do not round the mark's corners or shrink its cells to
+please a circle: lower `[build] maskable_scale` or link a `maskable_svg` — the
+crop gets its own composition, the brand mark keeps its geometry.
+*Why:* the crop is a platform transform, and a transform must not dictate the
+mark (L18). A square's corner sits at 1.41× its half-width, so a full-bleed
+square needs room the default 0.8 composition does not give.
+*Evidence:* [a keyhole grid mark](../casebook/2026-10-18-keyhole-grid-mark.md) — `check
+--config` passed the grid on white while `ship` failed it at 12% on the ink
+background; the owner's original full-bleed draft then failed at 0.8 and passed
+at `maskable_scale = 0.7` unchanged, where the shipped mark had rounded its
+outer corners to 140 units to fit.
+*Mechanized:* `iconflow/audit.py` gives `check`, `review` and `ship` one audit
+on the configured background (`tests/test_audit.py`); `maskable_scale` and
+`maskable_svg` reshape the PWA and Android crops together (`docs/OUTPUT_TARGETS.md`).
+
+## L64 — Grow a family against its tightest pair, and probe its hardest members first
+Before drawing a whole set, draw the **hardest few** — the most confusable pair,
+the member with the colour detail, the one that is not like the others — and
+let them decide the grammar. While the set grows, re-run `iconflow family`
+after each addition: the nearest pair moves closer as members are added, so
+budget every new member against the twin floor and redraw the closest pair
+before adding the next.
+*Why:* a grammar that works on the easy members fails on the hard ones, and a
+family's weakest pair is a property of the whole set, not of the newest member.
+*Evidence:* [the IconFlow emote family](../casebook/2026-10-05-iconflow-emote-family.md)
+— two directions were probed on the hardest four members (joy, sob, heart
+eyes, thumbs up) and the probe chose the card over a round sticker head; the
+nearest pair then fell from 0.50 at 24 members to 0.39 at 55.
+Folded into `FAMILY.md`.

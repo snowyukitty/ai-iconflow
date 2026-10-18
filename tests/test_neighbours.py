@@ -597,7 +597,7 @@ class RenderedNeighbourhood(unittest.TestCase):
     def test_the_metric_separates_three_collisions_the_casebook_recorded(self):
         """docs/NEIGHBOURHOOD.md's calibration table, asserted."""
         for fixture, form in (
-            ("interlace-frame", "hashtag"),      # cineloom: a 2x2 weave was a hashtag
+            ("interlace-frame", "hashtag"),      # shot-coherence: a 2x2 weave was a hashtag
             ("rising-blocks", "bar-chart"),      # lumendeck: rising panels were a bar chart
             ("monogram-h", "letter-h"),          # media-hub: a bold H on a tile is the letter H
         ):

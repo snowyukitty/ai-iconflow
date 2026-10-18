@@ -104,7 +104,7 @@ measuring them — not chosen and justified afterwards.
 
 | Casebook | Rejected draft → generic form | Distance | Topology | Inside 0.12? |
 |---|---|---|---:|---|
-| cineloom | 2×2 woven frame → hashtag | 0.065 | same | **yes** |
+| shot-coherence | 2×2 woven frame → hashtag | 0.065 | same | **yes** |
 | lumendeck | three rising panels → bar chart | 0.071 | same | **yes** |
 | media-hub | bold H on a tile → letter H | 0.104 | same | **yes** |
 | yonago | stepped stack → bar chart | 0.170 | different | no |
@@ -113,7 +113,7 @@ measuring them — not chosen and justified afterwards.
 
 | Casebook | Shipped redesign → the form it escaped | Distance | Topology |
 |---|---|---:|---|
-| cineloom | punched pattern card → hashtag / filmstrip | 0.443 / 0.396 | different / same |
+| shot-coherence | punched pattern card → hashtag / filmstrip | 0.443 / 0.396 | different / same |
 | lumendeck | landscape + portrait panel on a rail → bar chart | 0.319 | same |
 | night-market | forked single curtain → pi | 0.319 | different |
 

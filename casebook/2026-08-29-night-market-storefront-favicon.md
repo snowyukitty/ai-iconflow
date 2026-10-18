@@ -110,7 +110,7 @@ Reviewed on 2026-08-29 by two independent products (`codex:default`,
       correctly noted that this pass changed thickness and length together, so
       the case does not isolate a cause. Promote only after a second, independent
       case with one variable varied at a time.
-- [ ] **Rejected.** "A cut that must read as split fabric has to reach the hem."
+- [x] **Rejected.** "A cut that must read as split fabric has to reach the hem."
       Both reviews rejected it: too narrow to recur across unrelated briefs, and
       one noted it is a special case of an existing rule. The original write-up
       also claimed a closed interior hole would read as a window — that variant

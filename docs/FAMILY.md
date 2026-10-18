@@ -77,6 +77,16 @@ Coherence is measured, not judged. Being in one carrier group says the
 members share a shape; whether they read as one family — weight, palette,
 attitude — is still the human review.
 
+## Growing a family (L64)
+
+- **Probe the hardest few first.** Before drawing the set, draw the most
+  confusable pair, the member with the colour detail, and the one that is not
+  like the others. They decide the grammar; the easy members never do.
+- **Grow against the tightest pair.** The nearest pair moves closer as the set
+  grows (the emote family: 0.50 at 24 members, 0.39 at 55). Re-run `family`
+  after each addition, and redraw the closest pair before adding the next
+  member.
+
 ## Using it
 
 ```sh

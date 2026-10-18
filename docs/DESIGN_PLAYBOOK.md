@@ -89,6 +89,14 @@ cleanly to every target and matches Tauri/Electron masters.
 - **Optical, not mathematical, centering.** Triangles, arrows and asymmetric
   marks must be nudged so they *look* centered (a pure-math center looks
   top/left-heavy). Trust the contact sheet over the coordinates.
+- **Snap after you pick (L62).** Once a finalist wins, move every edge that
+  carries the idea — lids, cell walls, label edges, colour splits — onto
+  multiples of **64 units** (the 16px pixel grid on a 1024 viewBox). The same
+  edge 32 units off the grid renders as a two-tone smear in the real 16 and
+  32px frames.
+- **Measure the budget before the bake-off.** `iconflow budget <finalists>`
+  reports every cut under 128 units, every separating gap under 64, every
+  thin accent, and what survives at 16px (`docs/LEGIBILITY_BUDGET.md`).
 - **Position before rotation at favicon scale.** A small tilted gate, counter,
   or badge spends its scarce pixels on diagonal anti-aliasing. Express subtle
   asymmetry by offsetting raster-aligned geometry first; rotate only if the
@@ -304,6 +312,13 @@ can afford (subtle gradients, glow, inner shadows). Don't design a detailed
 - Edge-to-edge artwork with no safe area (gets clipped by mask/rounding).
 - Five colors fighting. Drop-shadows that imply a light source the rest ignores.
 - Reusing a stock glyph everyone uses (plain gear, plain rocket) → not distinctive.
+- **Attaching the second element instead of fusing it (L60).** A vessel plus a
+  trailing band is a brush or a rocket; a character on a block is an avatar
+  bust. Make the second element a part of the noun that already exists (the
+  sail *is* the wake; the core *is* the brick's stud).
+- **Deforming the mark to pass a crop (L63).** Rounding a brand mark's corners
+  or shrinking its cells to fit the maskable circle lets the platform design
+  the brand. Lower `maskable_scale` or link a `maskable_svg` instead.
 - **A bare initial letter (or generic shape) on a gradient tile** — the "S / H /
   A monogram + corner dot" default. It passes every mechanical `check` and still
   reads as generic, because the blacked-out silhouette names nothing. Fuse the

@@ -76,6 +76,6 @@ scored the set, so the case is `reviewed`, not `approved`.
      flip to `- [x]` after promoting it (see docs/EVOLUTION.md). -->
 - [x] In a family on a shared carrier, compare siblings on their residual from the carrier, never on raw distance: the carrier is most of the ink, so two different faces on one head are 0.02 apart.
 - [x] Never let one feature carry the whole difference between two siblings: a wink that is a smile with one eye closed differs by two pixels at 22px. Change at least two features, or the silhouette.
-- [ ] A probe on the hardest few members (the most confusable pair, the colour detail, the one non-face) decides a family's grammar faster than drawing all of it.
-- [ ] A family's nearest pair moves closer as it grows (0.50 at 24 members, 0.39 at 55): budget new members against the twin floor, and redraw the closest pair before adding the next member.
+- [x] **Promoted as L64.** A probe on the hardest few members (the most confusable pair, the colour detail, the one non-face) decides a family's grammar faster than drawing all of it.
+- [x] **Promoted as L64.** A family's nearest pair moves closer as it grows (0.50 at 24 members, 0.39 at 55): budget new members against the twin floor, and redraw the closest pair before adding the next member.
 - [x] A mark built from parts is one silhouette with one outline: outline the union once and draw the joins as creases. Separately rimmed fingers made the hands half as heavy and half again as inky as the faces at 28px.

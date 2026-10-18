@@ -64,6 +64,20 @@ first published release remains under `Unreleased`.
   No first-pass improvement is claimed yet; `case stats --since/--until`
   measures it as new cases arrive (`docs/LEGIBILITY_BUDGET.md`).
 
+### Evolution
+
+- **Distilled the 20 open lessons** (EVOLUTION §3). Six new rules — L59 the
+  noun lives in its proportions, L60 fuse the second element, L61 a round
+  body is a face, L62 snap load-bearing edges to the 64-unit grid, L63 audit
+  the crop on the real background and give it its own composition
+  (mechanized), L64 grow a family against its tightest pair — folded into
+  `CONCEPTING.md`, `DESIGN_PLAYBOOK.md` and `FAMILY.md`. Seven lessons
+  extended L16, L27 (generalized to any row of equal repeats), L40, L49 and
+  L56; two were rejected with reasons; one stays held for corroboration.
+- **Seven cases admitted to the public casebook**, two of them renamed and
+  relabelled because they carried private repository names; a new
+  `2026-10-18-keyhole-grid-mark` case records this milestone's evidence.
+
 ### Migration
 
 Nothing is required. A 0.6 `iconflow.toml` loads unchanged and its receipts

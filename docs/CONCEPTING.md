@@ -146,6 +146,18 @@ Four hard tests decide it:
 4. **Row test.** Imagine it in a row of 8 competitor favicons/dock icons. Does it
    stand out in under a second? If not, sharpen the idea or the signature device.
 
+Before any of them, two quick checks on every concept (L59, L61):
+
+- **Proportion check.** Compare the object's real aspect ratio with 1:1 and name
+  the one profile feature that makes it *that* object (a raked bow, not a
+  trapezoid; a flat wide stud, not a bump). An object far from square — a 5:1
+  shuttle — changes noun every time it is compressed to fit; drop it before the
+  bake-off.
+- **Face check.** A round body with one notch, or a small round head with two
+  dots, is an emoji or an avatar first. Keep facial dots 128 units apart, prefer
+  an enclosed off-axis counter to an edge-open chip, and run
+  `iconflow neighbours` on every round-bodied finalist.
+
 Also run a **punctuation collision test** with color removed. A near-vertical
 negative-space cut aligned above a detached round accent reads as `!` at 16px;
 offset the centerlines by at least two output pixels (about 128 units), change
@@ -157,6 +169,14 @@ Then run a real bake-off on your 2–3 finalists:
 python -m iconflow compare a.svg b.svg c.svg --out bake.png
 # Read bake.png: pick the most DISTINCTIVE that still reads at 16px & in shape.
 ```
+
+`compare` prints each finalist's **16px budget** under the sheet: cuts under
+128 units, separating gaps under 64, thin accents, how many cuts and parts
+survive at 16px, and how much of its card a tiled mark spends
+(`iconflow budget a.svg b.svg c.svg --sheet budget.png` rings them on a sheet;
+`docs/LEGIBILITY_BUDGET.md`). It advises, it never decides: a finalist with a
+budget finding can still win, but then the finding is a decision you made, not
+a surprise in review.
 
 Promote the winner to `master.svg`, then continue the normal
 review-and-refine loop (`docs/REVIEW_CHECKLIST.md`).
