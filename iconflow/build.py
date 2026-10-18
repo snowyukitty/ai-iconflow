@@ -206,7 +206,9 @@ def link_in_path(path: Path, base: Path | None = None) -> Path | None:
     Windows known folders are often junctions). So:
 
     * a ``..`` component is refused anywhere: collapsing it first would check
-      a different path from the one the I/O follows (``safe/jump/../x``);
+      a different path from the one the I/O follows (``safe/jump/../x``), and
+      so is a Windows drive-relative path (``D:w.svg``), whose base is another
+      drive's working directory;
     * every component at or below ``base`` (default: the working directory)
       is checked, walking the path as given, never normalised;
     * outside ``base``, where the caller named the location explicitly, only
@@ -216,6 +218,10 @@ def link_in_path(path: Path, base: Path | None = None) -> Path | None:
 
     given = Path(path).expanduser()
     if ".." in given.parts:
+        return given
+    if given.drive and not given.root:
+        # Windows drive-relative ("D:w.svg"): relative to that drive's own
+        # working directory, which nothing here can check. Refused.
         return given
     anchor = Path(os.path.abspath(base if base is not None else Path.cwd()))
     full = given if given.is_absolute() else anchor / given

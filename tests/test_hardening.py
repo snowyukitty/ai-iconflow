@@ -298,6 +298,9 @@ class SecondPassTests(DemoProject):
         self.assertEqual(list(outside.iterdir()), [])
         self.assertIsNotNone(build.link_in_path(Path("a") / ".." / "b"))
         self.assertIsNone(build.link_in_path(self.dir / "plain" / "w.svg", base=self.dir))
+        if os.name == "nt":
+            self.assertIsNotNone(build.link_in_path(Path("D:w.svg")))   # drive-relative
+            self.assertIsNotNone(build.link_in_path(Path("D:")))
         # A link above the project (the OS's own, like /var on macOS) is not ours to refuse.
         self.assertIsNone(build.link_in_path(self.dir / "jump" / "w.svg", base=self.dir / "jump"))
 
