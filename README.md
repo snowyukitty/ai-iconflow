@@ -208,6 +208,10 @@ python -m iconflow init \
   --targets web,tauri,electron,tray
 ```
 
+Leave `--targets` out and `init` (0.7+) detects them from the project —
+`src-tauri/`, a tray in the Tauri config or Electron main process, `android/`,
+Capacitor, a web manifest or framework — and prints the evidence for each.
+
 Then follow the design loop instead of jumping straight to export:
 
 ```bash
@@ -215,16 +219,32 @@ Then follow the design loop instead of jumping straight to export:
 python -m iconflow new flat-geometric --out work/my-app/a.svg
 
 # After diverging, compare 2–3 real finalists and LOOK at the sheet.
+# compare also prints each finalist's 16px budget (0.7+): cuts under 128 units,
+# gaps that fuse, thin accents, and what survives at 16px.
 python -m iconflow compare \
   work/my-app/a.svg work/my-app/b.svg work/my-app/c.svg \
   --out work/my-app/bake.png
 
-# Promote the winner to master.svg, then prove it.
-python -m iconflow check master.svg
-python -m iconflow check master.svg --tray-svg tray.svg   # + macOS template audit
+# Promote the winner to master.svg, then prove it. With --config, check runs
+# exactly the audit review and ship run (targets, background, scheme, sources).
+python -m iconflow check --config iconflow.toml
 python -m iconflow review --config iconflow.toml \
   --out work/my-app/review.png \
   --html work/my-app/review.html
+```
+
+No browser — a headless agent session, a managed browser that blocks the Lab?
+`review --evidence` writes the same evidence as sheets plus `findings.json`,
+and `score` walks the six axes into the receipt, refusing stale evidence and
+requiring a reason per axis (0.7+, [`docs/REVIEW_CHECKLIST.md`](docs/REVIEW_CHECKLIST.md)):
+
+```bash
+python -m iconflow review --config iconflow.toml --evidence work/my-app/evidence
+python -m iconflow score --config iconflow.toml --evidence work/my-app/evidence \
+  --scores "legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 craft=4" \
+  --rationale legibility="16px zoom: one shape, the cut stays open" ... \
+  --notes "weakest axis and the decisive change" --reviewer-name "<you>" \
+  --out master-review.json
 ```
 
 Read the 16px pixel zoom, visual silhouette, maskable crops, and target previews.
@@ -314,7 +334,8 @@ It brings the product brief and the thing being judged into one place:
 - pixel-zoom views that expose anti-aliasing and closed counters;
 - alpha footprint and visual silhouette strips;
 - adaptive circle, squircle, rounded, and safe-zone crops;
-- browser, PWA, Tauri, Electron, tray, and macOS template contexts;
+- browser, PWA, Tauri, Electron, tray, macOS template, and Android launcher
+  (circle, squircle, themed, legacy) contexts;
 - automated warnings beside the six-axis human rubric;
 - a JSON review receipt for a gated workflow.
 
@@ -331,6 +352,13 @@ Targets can be combined; shared sizes render once.
 | `tauri` | Tauri desktop `icons/` PNG ladder plus multi-size ICO and ICNS |
 | `electron` | `build/icon.png`, `.ico`, and `.icns`, with the same corner transform applied to native frames |
 | `tray` | Color 16/32px PNGs, macOS monochrome template pair, optional TypeScript data URL module |
+| `android` (0.7+) | Adaptive foreground and colour-resource background, Android 13 themed layer, legacy square and round icons in five densities, `mipmap-anydpi-v26` XML, Play Store icon |
+
+`all` means the first five; `android` and `emote` are asked for by name. One
+maskable composition serves the PWA and Android crops, and `check`, `review` and
+`ship` audit it on the configured background. A full-bleed mark that a circle
+would crop does not have to deform: set `maskable_scale` or link a
+`maskable_svg` in `iconflow.toml` (0.7+).
 
 Web builds also support relative/static-site paths, richer manifest metadata,
 Windows tiles, custom manifest keys, and additional head metadata. See
@@ -340,6 +368,16 @@ For products with a full-card app icon, provide a semantic mark-only tray SVG
 or stable foreground groups. IconFlow's template conversion can separate a
 contrasting mark from a card, but an explicit tray source is the strongest
 contract. [`brand/tray.svg`](brand/tray.svg) demonstrates the pattern.
+
+## Moving a whole identity: the brand kit
+
+A product's mark lives beyond its favicons. `iconflow brand build` (0.7+)
+refuses an unapproved mark and, from `master.svg` plus an outlined wordmark,
+writes lockups for dark and light grounds, app tiles, a clear-space and
+minimum-size guide, and Open Graph, GitHub and banner cards, recording every
+file in `brand-manifest.json`. When the mark changes, `iconflow brand sync
+--project ../my-site` lists every file still carrying the old one — including
+PNGs inlined as data URLs. See [`docs/BRAND_KIT.md`](docs/BRAND_KIT.md).
 
 ## Designing bigger: the detail ladder
 
@@ -624,8 +662,10 @@ called **`iconflow`** — one name, so `pip install iconflow` gives you an
 - Byte-for-byte determinism is scoped to the same normalized SVG, config, and
   Chromium/Pillow/IconFlow toolchain. Upgrade those components deliberately and
   review the resulting pixels.
-- Tauri output currently covers desktop assets, not Android or iOS launch/icon
-  sets. Tray template extraction is strongest with a dedicated mark-only SVG.
+- The `tauri` target covers desktop assets; Android launcher icons are the
+  `android` target (0.7+). iOS app-icon sets are not a target yet — their dark
+  and tinted variants need sources of their own. Tray template extraction is
+  strongest with a dedicated mark-only SVG.
 - IconFlow validates and rasterizes SVG; it is not a general-purpose sanitizer
   for republishing arbitrary source SVG on the web.
 - Wheel builds are reproducible when `SOURCE_DATE_EPOCH` is fixed. Current
