@@ -19,7 +19,11 @@ release that ships it removes those notes, adds the command to
 version, and regenerates `docs/STATE.md` after publishing.
 
 0.6.0 (2026-10-06) did exactly that for `neighbours`, `ladder`, `family` and the
-`emote` target, which had reached `main` after 0.5.0.
+`emote` target, which had reached `main` after 0.5.0. 0.7.0 (2026-10-19) never
+needed the notes: `score`, `budget`, `brand`, `review --evidence` and the
+`android` target were built on a branch and reached `main` in the release
+commit itself, and the skill tells an agent to upgrade when a command is
+missing.
 
 ## 1. Clear owner-controlled gates
 

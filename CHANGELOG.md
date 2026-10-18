@@ -6,6 +6,10 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
+Nothing yet.
+
+## 0.7.0 - 2026-10-19
+
 ### Fixed
 
 - **`check`, `review` and `ship` now give one answer.** All three resolve
@@ -87,7 +91,7 @@ first published release remains under `Unreleased`.
   prove each box; `examples/README.md` shows an agent choosing presets from
   `styles --json`. `case stats --since/--until` restricts the report to a
   date window.
-- **The skill teaches the whole 0.7 surface** (plugin 0.8.0): the Android
+- **The skill teaches the whole 0.7 surface** (plugin 0.8.1): the Android
   target and its maskable/monochrome sources (step 5), the brand kit as an
   optional step 7b, the headless `review --evidence` + `score` path in
   `/iconflow:icon`, which also now runs `check --config`, every command that

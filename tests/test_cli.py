@@ -28,7 +28,10 @@ class CliTests(unittest.TestCase):
         with contextlib.redirect_stdout(out), self.assertRaises(SystemExit) as raised:
             main(["--version"])
         self.assertEqual(raised.exception.code, 0)
-        self.assertEqual(out.getvalue().strip(), "IconFlow 0.6.0")
+        # The release is named once, in pyproject.toml; --version must agree.
+        pyproject = (Path(__file__).resolve().parent.parent / "pyproject.toml").read_text(encoding="utf-8")
+        release = next(line.split('"')[1] for line in pyproject.splitlines() if line.startswith("version = "))
+        self.assertEqual(out.getvalue().strip(), f"IconFlow {release}")
 
     def test_build_rejects_unknown_target_before_rendering(self):
         err = io.StringIO()
