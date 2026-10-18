@@ -215,6 +215,9 @@ def _cmd_build(a) -> int:
             optimize_png=not a.no_optimize,
             tray_svg=a.tray_svg,
             tray_template_mode=a.tray_template_mode,
+            maskable_scale=a.maskable_scale,
+            maskable_svg=a.maskable_svg,
+            monochrome_svg=a.monochrome_svg,
         )
     except ValueError as e:
         print(f"iconflow build: {e}", file=sys.stderr)
@@ -326,6 +329,51 @@ def _ship_approval(a):
     return config, master, None, scores, config.review_contract_sha256
 
 
+def _audit_line(inputs) -> str:
+    """One human line naming every input the audit used."""
+    described = inputs.describe()
+    parts = [
+        f"targets {','.join(described['targets'])}",
+        f"background {described['background_color']}",
+        f"{described['color_scheme']} scheme",
+    ]
+    if described["maskable_audit"]:
+        source = Path(described["maskable_source"]).name if described["maskable_source"] else "master"
+        parts.append(f"maskable {source} @ {described['maskable_scale']:g}")
+    else:
+        parts.append("no maskable audit")
+    if described["tray_source"]:
+        parts.append(f"tray {Path(described['tray_source']).name} ({described['tray_template_mode']})")
+    if described["neighbours"]:
+        parts.append("[neighbours] declared")
+    return "Audit inputs: " + "; ".join(parts)
+
+
+class AuditAdvisories:
+    """An audit result seen only for its advisories (``ship`` gates warnings itself)."""
+
+    def __init__(self, result):
+        self.warnings = []
+        self.advisories = result.advisories
+
+
+def _record_audit(result, report: "Report", *, label: str = "") -> None:
+    """Print and record a shared audit's findings the same way in every command."""
+    from .qa import warning_code
+
+    for warning in result.warnings:
+        report.warn(warning_code(warning), warning)
+    for advisory in result.advisories:
+        code = warning_code(advisory)
+        kind = (
+            "tray template " if code.startswith("tray-")
+            else "neighbourhood " if code.startswith("neighbour-")
+            else label
+        )
+        print(f"  ~ {kind}advisory: {advisory}")
+        report.advise(code, advisory)
+
+
 def _neighbourhood_for(config, master, *, rasterizer=None):
     """The neighbourhood audit a project opted into, or None.
 
@@ -360,9 +408,10 @@ def _advise_neighbourhood(hood, report: Report) -> None:
 def _cmd_ship(a) -> Report:
     """Run the fail-closed quality gate, then delegate to the low-level build."""
 
+    from .audit import resolve_inputs, run_audit
     from .build import build
     from .config import GATE_CODES, GATE_QA_WARNINGS, ConfigError, svg_sha256
-    from .qa import check, warning_code
+    from .qa import warning_code
 
     report = Report("ship")
     try:
@@ -380,22 +429,18 @@ def _cmd_ship(a) -> Report:
         return report
 
     try:
-        warnings = check(
-            master,
-            maskable=bool({"web", "pwa"} & set(config.targets)),
-            maskable_bg=config.background_color,
-        )
-        hood = _neighbourhood_for(config, master)
+        inputs = resolve_inputs(config=config)
+        print(_audit_line(inputs))
+        audit = run_audit(inputs)
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"iconflow ship: QA could not run: {exc}", file=sys.stderr)
         report.error("runtime", f"QA could not run: {exc}")
         return report
-    if hood is not None:
-        # A declared collision is a QA warning like any other and blocks the
-        # ship through the same door; the advisories only inform, and are
-        # reported here so a ship is not the one place they go unseen.
-        warnings = list(warnings) + hood.findings()[0]
-        _advise_neighbourhood(hood, report)
+    # A declared collision is a QA warning like any other and blocks the ship
+    # through the same door; advisories only inform, and are reported here so
+    # a ship is not the one place they go unseen.
+    warnings = audit.warnings
+    _record_audit(AuditAdvisories(audit), report)
     if warnings:
         print(f"SHIP BLOCKED — automated check found {len(warnings)} warning(s):", file=sys.stderr)
         report.warn(
@@ -425,6 +470,9 @@ def _cmd_ship(a) -> Report:
             optimize_png=config.optimize_png,
             tray_svg=config.tray_svg_path,
             tray_template_mode=config.tray_template_mode,
+            maskable_scale=config.maskable_scale,
+            maskable_svg=config.maskable_svg_path,
+            monochrome_svg=config.monochrome_svg_path,
         )
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"iconflow ship: build failed: {exc}", file=sys.stderr)
@@ -447,6 +495,7 @@ def _cmd_ship(a) -> Report:
         "toolchain": _toolchain(),
         "artifacts": receipt.artifacts if receipt else None,
         "reviewer": receipt.reviewer if receipt else None,
+        "audit": inputs.describe(),
     }
     return report
 
@@ -493,9 +542,8 @@ def _web_options(a):
 
 
 def _cmd_review(a) -> Report:
-    from .build import normalize_targets
+    from .audit import resolve_inputs, run_audit
     from .config import ConfigError, load_config, svg_sha256
-    from .qa import check, tray_template_warnings, warning_code
     from .rasterize import load_svg
     from .review import (
         ReviewOptions, contact_sheet, interactive_review, ladder_sheet,
@@ -505,48 +553,28 @@ def _cmd_review(a) -> Report:
     report = Report("review")
     try:
         config = load_config(a.config) if a.config else None
-        if a.master:
-            master = Path(a.master).expanduser().resolve(strict=False)
-        elif config:
-            master = config.master_path
-        else:
-            raise ConfigError("provide MASTER or --config iconflow.toml")
+        inputs = resolve_inputs(
+            config=config, master=a.master,
+            targets=_csv(a.targets) if a.targets else None,
+            background_color=a.bg, color_scheme=a.color_scheme,
+            tray_svg=a.tray_svg, tray_template_mode=a.tray_template_mode,
+        )
+        master = inputs.master
         if not master.is_file():
             raise ConfigError(f"master SVG not found: {master}")
-
-        targets = (
-            normalize_targets(_csv(a.targets)) if a.targets
-            else config.targets if config
-            else ["web", "pwa"]
-        )
-        background = a.bg or (config.background_color if config else "#ffffff")
-        color_scheme = a.color_scheme or (config.color_scheme if config else "light")
+        targets = list(inputs.targets)
+        background = inputs.background_color
+        color_scheme = inputs.color_scheme
         electron_radius = (
             a.electron_radius if a.electron_radius is not None
             else config.electron_radius if config else 0.0
         )
-        tray_svg = (
-            Path(a.tray_svg).expanduser().resolve(strict=False) if a.tray_svg
-            else config.tray_svg_path if config else None
-        )
-        tray_template_mode = (
-            a.tray_template_mode or
-            (config.tray_template_mode if config else "auto")
-        )
-        warnings = check(
-            master,
-            maskable=bool({"web", "pwa"} & set(targets)),
-            maskable_bg=background,
-        )
-        hood = _neighbourhood_for(config, master)
-        if hood is not None:
-            warnings = list(warnings) + hood.findings()[0]
-        # Advisory only: a linked tray source is a different reduction of the
-        # same mark, so it informs the designer without gating `ship`.
-        tray_advisories = (
-            tray_template_warnings(tray_svg, template_mode=tray_template_mode)
-            if tray_svg and "tray" in targets else []
-        )
+        tray_svg = inputs.tray_svg
+        tray_template_mode = inputs.tray_template_mode
+        print(_audit_line(inputs))
+        audit = run_audit(inputs)
+        warnings = audit.warnings
+        hood = audit.neighbourhood
         options = ReviewOptions(
             name=a.name or (config.name if config else master.stem),
             user_job=config.user_job if config else "",
@@ -561,6 +589,9 @@ def _cmd_review(a) -> Report:
             tray_svg=tray_svg,
             tray_template_mode=tray_template_mode,
             color_scheme=color_scheme,
+            maskable_scale=inputs.maskable_scale,
+            maskable_svg=inputs.maskable_svg,
+            monochrome_svg=config.monochrome_svg_path if config else None,
             warnings=tuple(warnings),
             scores=dict(config.review_scores) if config else {},
             notes=config.review_notes if config else "",
@@ -572,6 +603,7 @@ def _cmd_review(a) -> Report:
 
     out = contact_sheet(
         master, a.out, background_color=background, color_scheme=color_scheme,
+        maskable_scale=inputs.maskable_scale, maskable_svg=inputs.maskable_svg,
     )
     print(f"Review sheet -> {out}")
     print("Open it (or Read it as an image) and score against docs/REVIEW_CHECKLIST.md.")
@@ -601,10 +633,8 @@ def _cmd_review(a) -> Report:
     if warnings:
         print(f"Review includes {len(warnings)} automated warning(s); ship remains blocked.")
     for warning in warnings:
-        report.warn(warning_code(warning), warning)
-    for advisory in tray_advisories:
-        print(f"Tray template advisory: {advisory}")
-        report.advise(warning_code(advisory), advisory)
+        print(f"  ! {warning}")
+    _record_audit(audit, report)
     seed = receipt_seed(master, options=options)
     # `review`'s envelope is frozen at schema 1 and the PR Proof action rejects
     # anything else, so the ladder proof is reported as a path on stderr and
@@ -618,7 +648,6 @@ def _cmd_review(a) -> Report:
         )
         neighbour_sheet(hood, neighbour_out, color_scheme=color_scheme)
         print(f"Neighbourhood proof -> {neighbour_out}")
-        _advise_neighbourhood(hood, report)
     report.outputs = {
         "sheet": _abs(out),
         "html": _abs(html_out),
@@ -626,6 +655,7 @@ def _cmd_review(a) -> Report:
         "source_sha256": svg_sha256(master),
         "contract_sha256": seed["contract_sha256"],
         "targets": list(targets),
+        "audit": inputs.describe(),
     }
     return report
 
@@ -643,55 +673,47 @@ def _cmd_compare(a) -> int:
 
 
 def _cmd_check(a) -> Report:
+    from .audit import resolve_inputs, run_audit
     from .config import ConfigError, load_config, svg_sha256
-    from .qa import check, tray_template_warnings, warning_code
 
     report = Report("check")
     config = None
-    if a.config:
-        try:
-            config = load_config(a.config)
-        except ConfigError as exc:
-            print(f"iconflow check: {exc}", file=sys.stderr)
-            report.error("config", str(exc))
-            return report
-    warnings = check(
-        a.master, maskable=not a.no_maskable_audit, maskable_bg=a.bg,
-    )
     try:
-        hood = _neighbourhood_for(config, a.master)
-    except (OSError, RuntimeError, ValueError) as exc:
-        print(f"iconflow check: neighbourhood audit could not run: {exc}", file=sys.stderr)
-        report.error("runtime", f"neighbourhood audit could not run: {exc}")
+        if a.config:
+            config = load_config(a.config)
+        inputs = resolve_inputs(
+            config=config, master=a.master,
+            targets=_csv(a.targets) if a.targets else None,
+            background_color=a.bg, color_scheme=a.color_scheme,
+            tray_svg=a.tray_svg, tray_template_mode=a.tray_template_mode,
+            skip_maskable=a.no_maskable_audit,
+        )
+    except (ConfigError, ValueError) as exc:
+        print(f"iconflow check: {exc}", file=sys.stderr)
+        report.error("config", str(exc))
         return report
-    if hood is not None:
-        warnings = list(warnings) + hood.findings()[0]
-    advisories: list[str] = []
-    if a.tray_svg:
-        try:
-            advisories = tray_template_warnings(
-                a.tray_svg, template_mode=a.tray_template_mode,
-            )
-        except (OSError, RuntimeError, ValueError) as exc:
-            print(f"iconflow check: tray audit could not run: {exc}", file=sys.stderr)
-            report.error("runtime", f"tray audit could not run: {exc}")
-            return report
-    if warnings:
-        print(f"{len(warnings)} warning(s):")
-        for w in warnings:
-            print(f"  ! {w}")
-            report.warn(warning_code(w), w)
+    print(_audit_line(inputs))
+    try:
+        audit = run_audit(inputs)
+    except (FileNotFoundError, PermissionError):
+        raise  # _execute reports these with their own stable codes
+    except (OSError, RuntimeError, ValueError) as exc:
+        print(f"iconflow check: audit could not run: {exc}", file=sys.stderr)
+        report.error("runtime", f"audit could not run: {exc}")
+        return report
+    if audit.warnings:
+        print(f"{len(audit.warnings)} warning(s):")
+        for warning in audit.warnings:
+            print(f"  ! {warning}")
     else:
         print("OK — no automated warnings. Still do the visual review.")
     # Advisories inform the designer; they never turn a clean check into a block.
-    for advisory in advisories:
-        print(f"  ~ tray template advisory: {advisory}")
-        report.advise(warning_code(advisory), advisory)
-    _advise_neighbourhood(hood, report)
+    _record_audit(audit, report)
     report.outputs = {
-        "source": _abs(a.master),
-        "source_sha256": svg_sha256(a.master),
-        "tray_source": _abs(a.tray_svg) if a.tray_svg else None,
+        "source": _abs(inputs.master),
+        "source_sha256": svg_sha256(inputs.master),
+        "tray_source": _abs(inputs.tray_svg) if inputs.tray_svg else None,
+        "audit": inputs.describe(),
     }
     return report
 
@@ -1651,7 +1673,9 @@ def build_parser() -> argparse.ArgumentParser:
     b = sub.add_parser("build", help="build icon set(s) from a master SVG")
     b.add_argument("master")
     b.add_argument("--out", default="./icon-out")
-    b.add_argument("--targets", default="web", help="comma list: web,pwa,tauri,electron,tray,emote,all (all = the app-icon targets)")
+    b.add_argument("--targets", default="web",
+                   help="comma list: web,pwa,tauri,electron,tray,android,emote,all "
+                        "(all = web,pwa,tauri,electron,tray)")
     b.add_argument("--name", default="App")
     b.add_argument("--short-name", help="manifest short_name (defaults to --name)")
     b.add_argument("--description", help="manifest/head description")
@@ -1684,6 +1708,12 @@ def build_parser() -> argparse.ArgumentParser:
     b.add_argument("--tray-template-mode", default="auto",
                    choices=["auto", "alpha", "contrast"],
                    help="macOS template extraction mode")
+    b.add_argument("--maskable-scale", type=float,
+                   help="artwork share of the maskable/adaptive canvas, 0.5-1.0 "
+                        "(default 0.8; 1.0 with --maskable-svg)")
+    b.add_argument("--maskable-svg", help="linked source drawn for the maskable/adaptive crop")
+    b.add_argument("--monochrome-svg",
+                   help="mark-only source for Android's themed icon (default: --tray-svg)")
     b.add_argument("--color-scheme", default="light", choices=["light", "dark"])
     b.add_argument("--no-optimize", action="store_true",
                    help="skip lossless PNG re-packing")
@@ -1695,7 +1725,7 @@ def build_parser() -> argparse.ArgumentParser:
     r.add_argument("--out", default="review.png")
     r.add_argument("--html", help="also write a self-contained interactive HTML review")
     r.add_argument("--name", help="project name override")
-    r.add_argument("--targets", help="target override: web,pwa,tauri,electron,tray,emote,all")
+    r.add_argument("--targets", help="target override: web,pwa,tauri,electron,tray,android,emote,all")
     r.add_argument("--theme", help="theme color override")
     r.add_argument("--bg", help="maskable and flattened background color override")
     r.add_argument("--electron-radius", type=float, help="Electron corner radius override")
@@ -1714,18 +1744,26 @@ def build_parser() -> argparse.ArgumentParser:
     cmp.add_argument("--out", default="compare.png")
     cmp.set_defaults(func=_cmd_compare)
 
-    c = sub.add_parser("check", help="run automated QA warnings")
-    c.add_argument("master")
+    c = sub.add_parser(
+        "check",
+        help="run automated QA warnings (with --config: exactly the audit `ship` runs)",
+    )
+    c.add_argument("master", nargs="?", help="SVG source (optional with --config)")
     c.add_argument("--no-maskable-audit", action="store_true",
                    help="skip the maskable safe-zone detail audit")
-    c.add_argument("--bg", default="#ffffff",
-                   help="background used by the exact maskable asset audit")
+    c.add_argument("--bg",
+                   help="maskable background override (default: the config's, else #ffffff)")
+    c.add_argument("--targets",
+                   help="target override (default: the config's, else web,pwa)")
+    c.add_argument("--color-scheme", choices=["light", "dark"],
+                   help="render scheme override (default: the config's, else light)")
     c.add_argument("--tray-svg",
                    help="also audit the macOS template derived from this tray source")
     c.add_argument("--tray-template-mode", choices=["auto", "alpha", "contrast"],
-                   default="auto", help="extraction mode used by the tray audit")
+                   help="extraction mode used by the tray audit (default: the config's, else auto)")
     c.add_argument("--config",
-                   help="iconflow.toml whose [neighbours] sets the mark is also audited against")
+                   help="iconflow.toml: audit with its targets, background, scheme, linked "
+                        "sources and [neighbours], exactly as `review` and `ship` do")
     c.add_argument("--json", action="store_true", help=JSON_HELP)
     c.set_defaults(func=_cmd_check)
 

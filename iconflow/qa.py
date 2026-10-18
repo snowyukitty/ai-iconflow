@@ -10,6 +10,7 @@ carries the stable machine ``code`` published in ``docs/AGENT_CONTRACT.md``.
 from __future__ import annotations
 
 import io
+import math
 import re
 from collections import deque
 from pathlib import Path
@@ -21,7 +22,8 @@ from .findings import Finding
 from .rasterize import Rasterizer, load_svg
 
 __all__ = [
-    "Finding", "check", "neighbourhood_audit", "tray_template_warnings", "warning_code",
+    "Finding", "check", "maskable_identity_findings", "neighbourhood_audit",
+    "tray_template_warnings", "warning_code",
 ]
 
 
@@ -35,6 +37,7 @@ _CODE_PATTERNS: tuple[tuple[str, str], ...] = (
     (r"^At 16px the mark", "coverage-16"),
     (r"^Low contrast on", "contrast"),
     (r"^Final maskable asset audit", "maskable-detail"),
+    (r"^The linked maskable source is not the same mark", "maskable-drift"),
     (r"^The macOS tray template keeps none", "tray-template-featureless"),
     (r"tray template cannot be derived", "tray-template-underivable"),
     (r"^At 16px this mark is the same shape as", "neighbour-collision"),
@@ -391,16 +394,100 @@ def tray_template_warnings(
     return audit(rasterizer)
 
 
+#: A linked maskable source must be the master's mark: the share of the two
+#: normalised figures that overlap. The ladder's adjacent-rung floor, because
+#: it answers the same question — is this still the same drawing?
+MASKABLE_IDENTITY_IOU = ladder.IOU_FLOOR
+_IDENTITY_SIZE = 256
+_IDENTITY_GRID = 64
+
+
+def _normalised_figure(png: bytes) -> tuple[Image.Image | None, float]:
+    """The figure cropped to its own box and fitted to a square grid, plus aspect."""
+    image = Image.open(io.BytesIO(png)).convert("RGBA")
+    figure = ladder.figure_mask(image, ladder.figure_policy(image))
+    figure = ImageChops.multiply(figure, image.getchannel("A").point(lambda a: 255 if a >= 24 else 0))
+    box = figure.getbbox()
+    if not box:
+        return None, 0.0
+    left, top, right, bottom = box
+    width, height = right - left, bottom - top
+    side = max(width, height)
+    square = Image.new("L", (side, side), 0)
+    square.paste(figure.crop(box), ((side - width) // 2, (side - height) // 2))
+    fitted = square.resize((_IDENTITY_GRID, _IDENTITY_GRID), Image.Resampling.BOX)
+    return fitted.point(lambda v: 255 if v >= 128 else 0), width / height
+
+
+def _mask_iou(a: Image.Image, b: Image.Image) -> float:
+    both = sum(1 for x, y in zip(_pixels(a), _pixels(b)) if x and y)
+    either = sum(1 for x, y in zip(_pixels(a), _pixels(b)) if x or y)
+    return both / either if either else 1.0
+
+
+def maskable_identity_findings(
+    master_png: bytes, maskable_png: bytes, *, source_label: str,
+) -> list[Finding]:
+    """Is the linked maskable composition still the master's mark?
+
+    A linked ``maskable.svg`` exists so a brand mark never has to deform to
+    pass a crop; it must not become a different mark instead. Both figures
+    are cropped to their own bounds, so scale and padding are free, and then
+    compared by overlap and aspect.
+    """
+    master, master_aspect = _normalised_figure(master_png)
+    linked, linked_aspect = _normalised_figure(maskable_png)
+    if master is None or linked is None:
+        return [Finding(
+            "maskable-drift",
+            f"The linked maskable source is not the same mark as the master: "
+            f"{'the master' if master is None else source_label} has no visible figure "
+            f"at {_IDENTITY_SIZE}px. Draw the master's mark in the maskable source.",
+        )]
+    iou = _mask_iou(master, linked)
+    aspect_drift = abs(math.log(linked_aspect / master_aspect)) if master_aspect and linked_aspect else 0.0
+    if iou < MASKABLE_IDENTITY_IOU or aspect_drift > 0.15:
+        return [Finding(
+            "maskable-drift",
+            f"The linked maskable source is not the same mark as the master: "
+            f"{source_label} composed at {_IDENTITY_SIZE}px overlaps the master's figure by "
+            f"{iou:.2f} (floor {MASKABLE_IDENTITY_IOU:.2f}) with aspect "
+            f"{linked_aspect:.2f} against {master_aspect:.2f}. Reuse the master's paths "
+            "and change only scale, padding and background in the maskable source.",
+        )]
+    return []
+
+
 def check(
     master_svg: str | Path, *, maskable: bool = True,
     maskable_bg: str = "#ffffff", rasterizer: Rasterizer | None = None,
+    maskable_scale: float | None = None,
+    maskable_svg: str | Path | None = None,
+    color_scheme: str = "light",
 ) -> list[Finding]:
+    """Run every automated check on the bytes the configured build will ship.
+
+    ``maskable_bg``, ``maskable_scale`` and ``maskable_svg`` describe the one
+    maskable composition (``build.maskable_png``) that web, PWA and Android
+    all ship; ``color_scheme`` is the scheme the build renders in. Callers
+    normally reach this through :func:`iconflow.audit.run_audit`, which takes
+    every one of those from the project configuration so ``check``, ``review``
+    and ``ship`` cannot disagree.
+    """
+    from .build import _FrozenCache, maskable_png, resolve_maskable_scale
+
     warnings: list[Finding] = []
     text = load_svg(master_svg)
     warnings.extend(_renderer_safety_warnings(text))
     warnings.extend(_distinctiveness_warnings(text))
     if maskable:
-        assemble.opaque_color(maskable_bg, "maskable background color")
+        bg_rgba = assemble.opaque_color(maskable_bg, "maskable background color")
+        bg_label = "#{:02X}{:02X}{:02X}".format(*bg_rgba[:3])
+        linked_text = load_svg(maskable_svg) if maskable_svg is not None else None
+        effective_scale = resolve_maskable_scale(maskable_scale, linked=linked_text is not None)
+        maskable_label = (
+            f"maskable_svg {Path(maskable_svg).name}" if linked_text is not None else "the master"
+        )
 
     viewbox = _VIEWBOX_RE.search(text)
     if not re.search(r"\bviewBox\s*=", text, re.I):
@@ -438,12 +525,29 @@ def check(
 
     laddered = ladder.has_ladder(text)
 
+    identity: list[Finding] = []
+
     def render_checks(r: Rasterizer):
         im16 = Image.open(io.BytesIO(source.render(r, 16))).convert("RGBA")
         im32 = Image.open(io.BytesIO(source.render(r, 32))).convert("RGBA")
         if maskable:
-            maskable_png = assemble.maskable_asset(source.render(r, 512), maskable_bg)
-            im512 = Image.open(io.BytesIO(maskable_png)).convert("RGBA")
+            master512 = source.render(r, 512)
+            linked_cache = None
+            if linked_text is not None:
+                linked_source = ladder.RungSource(linked_text)
+                linked_cache = _FrozenCache({512: linked_source.render(r, 512)})
+            composed = maskable_png(
+                _FrozenCache({512: master512}), maskable_bg,
+                scale=maskable_scale, maskable_cache=linked_cache,
+            )
+            im512 = Image.open(io.BytesIO(composed)).convert("RGBA")
+            if linked_text is not None:
+                flat = assemble.flatten(master512, maskable_bg)
+                identity.extend(maskable_identity_findings(
+                    _resize_png(flat, _IDENTITY_SIZE),
+                    _resize_png(composed, _IDENTITY_SIZE),
+                    source_label=maskable_label,
+                ))
         else:
             im512 = None
         # Three more renders, and only for a source that opted into the ladder:
@@ -452,10 +556,13 @@ def check(
         return im16, im32, im512, rungs
 
     if rasterizer is None:
-        with Rasterizer() as owned_rasterizer:
+        with Rasterizer(color_scheme=color_scheme) as owned_rasterizer:
             im16, im32, im512, rung_renders = render_checks(owned_rasterizer)
     else:
         im16, im32, im512, rung_renders = render_checks(rasterizer)
+    warnings.extend(identity)
+    rung16 = f", {ladder.rung_for_size(16)} rung" if laddered else ""
+    rung32 = f", {ladder.rung_for_size(32)} rung" if laddered else ""
 
     if rung_renders:
         identity, _steps = ladder.identity_findings(rung_renders)
@@ -465,7 +572,9 @@ def check(
     if cov < 0.06:
         warnings.append(Finding(
             "coverage-16",
-            f"At 16px the mark fills only {cov*100:.0f}% of the canvas — too small/thin.",
+            f"At 16px the mark fills only {cov*100:.0f}% of the canvas "
+            f"(transparent, {color_scheme} scheme{rung16}) — too small/thin. "
+            "Fix: enlarge the mark toward the 1024 grid's edges (L28) or thicken its strokes.",
         ))
     # Edge-to-edge only matters when the artwork is a HARD square reaching the
     # corners — a maskable/adaptive (circle) crop will clip it. A rounded
@@ -474,36 +583,59 @@ def check(
     if cov > 0.97 and _corners_opaque(im16):
         warnings.append(Finding(
             "coverage-16",
-            "At 16px the mark is a hard square reaching the corners — "
-            "a maskable/adaptive (circle) crop will clip it. Round the "
-            "container corners or add safe-area padding.",
+            f"At 16px the mark is a hard square reaching the corners ({color_scheme} "
+            f"scheme{rung16}) — a maskable/adaptive (circle) crop will clip it. Fix: round "
+            "the container corners, or set build.maskable_scale / link a maskable_svg so "
+            "the crop has its own composition.",
         ))
 
-    if _luma_spread(im16, (255, 255, 255)) < 0.06:
-        warnings.append(Finding(
-            "contrast", "Low contrast on WHITE at 16px — mark may be invisible on light UI.",
-        ))
-    if _luma_spread(im16, (11, 13, 18)) < 0.06:
-        warnings.append(Finding(
-            "contrast", "Low contrast on DARK at 16px — mark may be invisible on dark UI/taskbar.",
-        ))
-
-    if _luma_spread(im32, (128, 128, 128)) < 0.04:
-        warnings.append(Finding(
-            "contrast", "Low contrast on MID-GRAY at 32px — weak on neutral backgrounds.",
-        ))
+    for ground, label, image, floor, fix in (
+        ((255, 255, 255), "WHITE (#FFFFFF) at 16px", im16, 0.06,
+         "mark may be invisible on light UI. Fix: darken one tone, or add a keyline "
+         "under the mark (L49)."),
+        ((11, 13, 18), "DARK (#0B0D12) at 16px", im16, 0.06,
+         "mark may be invisible on dark UI/taskbar. Fix: lift one tone, or add a light "
+         "keyline under the mark (L49)."),
+        ((128, 128, 128), "MID-GRAY (#808080) at 32px", im32, 0.04,
+         "weak on neutral backgrounds. Fix: split the mark into a deep and a light "
+         "tone so one half contrasts on any ground."),
+    ):
+        spread = _luma_spread(image, ground)
+        if spread < floor:
+            rung = rung32 if image is im32 else rung16
+            warnings.append(Finding(
+                "contrast",
+                f"Low contrast on {label} ({color_scheme} scheme{rung}): luminance "
+                f"spread {spread:.3f} < {floor:.2f} — {fix}",
+            ))
 
     if im512 is not None:
         outside_ratio = _detail_outside_safe_zone(im512)
         if outside_ratio > 0.08:
+            fix = (
+                "Fix without deforming the mark: lower build.maskable_scale "
+                f"(now {effective_scale:g}), or link a maskable_svg composed for the crop."
+                if linked_text is None else
+                f"Fix: pull the detail in {maskable_label} toward the centre or lower "
+                f"build.maskable_scale (now {effective_scale:g})."
+            )
             warnings.append(Finding(
                 "maskable-detail",
-                "Final maskable asset audit: visible detail sits outside the central 40% "
-                "safe-zone circle "
-                f"({outside_ratio*100:.0f}% of detected detail). Review the maskable preview.",
+                "Final maskable asset audit (512px, "
+                f"{maskable_label} at scale {effective_scale:g} on background {bg_label}, "
+                f"{color_scheme} scheme): visible detail sits outside the central 40% "
+                f"safe-zone circle ({outside_ratio*100:.0f}% of detected detail, limit 8%). "
+                f"Android's 66dp safe circle is the same circle. {fix}",
             ))
 
     return warnings
+
+
+def _resize_png(png: bytes, size: int) -> bytes:
+    image = Image.open(io.BytesIO(png)).convert("RGBA")
+    out = io.BytesIO()
+    image.resize((size, size), Image.Resampling.LANCZOS).save(out, "PNG")
+    return out.getvalue()
 
 
 # --------------------------------------------------------------------------

@@ -51,18 +51,43 @@ go to stderr. The object always has these keys:
 - `advisories`: non-gating findings with the same shape (`tray-template-featureless`).
 - `errors`: only for `status: "error"`; `{"code": "...", "message": "..."}`.
 - `outputs`: command-specific, documented below. Paths are absolute strings.
+  Within `schema: 1`, `outputs` may gain keys and never loses or retypes one;
+  a consumer must ignore keys it does not know.
+
+### One audit: `outputs.audit` (0.7)
+
+`check`, `review` and `ship` run one shared audit (`iconflow/audit.py`) and
+each reports the inputs it used as `outputs.audit`:
+
+```json
+"audit": {"targets": ["web", "tauri"], "background_color": "#11142A",
+          "color_scheme": "light", "maskable_audit": true, "maskable_scale": 0.8,
+          "maskable_source": null, "tray_source": null,
+          "tray_template_mode": "auto", "neighbours": true}
+```
+
+With the same SVG and `--config`, the three commands report the same `audit`
+object and the same warnings; `tests/test_audit.py` fails if they can differ.
+Before 0.7, `check --config` composed the maskable icon on white while `review`
+and `ship` used the configured background. Precedence is: explicit flag, then
+the config, then the defaults (`web,pwa`, `#ffffff`, light). `check` with
+`--config` no longer needs `MASTER`.
 
 ### `check --json`
 
 ```
-iconflow check MASTER [--config iconflow.toml] [--tray-svg ...] [--json]
+iconflow check [MASTER] [--config iconflow.toml] [--bg ...] [--targets ...]
+               [--color-scheme ...] [--tray-svg ...] [--json]
 ```
 
 `outputs`: `{"source": "<abs path>", "source_sha256": "<hex>", "tray_source": "<abs path or null>"}`.
 Warning codes follow the warning prefixes `iconflow/qa.py` already prints,
 lower-cased and hyphenated: `svg-safety`, `viewbox`, `stroke-floor`,
-`coverage-16`, `contrast`, `maskable-detail`, `distinctiveness-text`,
-`tray-template-featureless` (advisory).
+`coverage-16`, `contrast`, `maskable-detail`, `maskable-drift` (a linked
+`maskable_svg` that is not the master's mark), `distinctiveness-text`,
+`tray-template-featureless` (advisory). Every message names the input it was
+measured under (background colour, size, scheme, rung, scale) and ends with a
+concrete fix.
 
 A source that opts into the detail ladder (`docs/DETAIL_LADDER.md`) is also
 gated on the same-mark invariant, adding `ladder-annotation`,

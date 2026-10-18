@@ -26,8 +26,9 @@ else:  # pragma: no cover - exercised by the Python 3.10 CI job
 
 SCHEMA_VERSION = 1
 CONFIG_FILENAME = "iconflow.toml"
-TARGETS = ("web", "pwa", "tauri", "electron", "tray", "emote")
-# What "all" means: the app-icon targets. An emote pack is asked for by name.
+TARGETS = ("web", "pwa", "tauri", "electron", "tray", "android", "emote")
+# What "all" means: the 0.6 app-icon targets, frozen so an approved "all"
+# receipt stays valid. Android and an emote pack are asked for by name.
 APP_TARGETS = ("web", "pwa", "tauri", "electron", "tray")
 REVIEW_STATUSES = ("pending", "reviewed", "approved", "shipped", "archived")
 
@@ -112,6 +113,13 @@ class IconFlowConfig:
     tray_template_mode: str = "auto"
     color_scheme: str = "light"
     optimize_png: bool = True
+    # The maskable / adaptive composition (docs/OUTPUT_TARGETS.md). None means
+    # the default: 0.8 for the master, 1.0 for a linked maskable source.
+    maskable_scale: float | None = None
+    maskable_svg: str = ""
+    # Mark-only source for Android's themed (monochrome) layer; falls back to
+    # tray_svg, then to a reduction of the foreground.
+    monochrome_svg: str = ""
 
     # [neighbours] — docs/NEIGHBOURHOOD.md. `declared` is True when the table
     # exists at all, even empty: that is the opt-in that makes `check` consult
@@ -153,6 +161,29 @@ class IconFlowConfig:
     @property
     def tray_svg_path(self) -> Path | None:
         return self.resolve(self.tray_svg) if self.tray_svg else None
+
+    @property
+    def maskable_svg_path(self) -> Path | None:
+        return self.resolve(self.maskable_svg) if self.maskable_svg else None
+
+    @property
+    def monochrome_svg_path(self) -> Path | None:
+        return self.resolve(self.monochrome_svg) if self.monochrome_svg else None
+
+    def build_contract(self) -> dict[str, object]:
+        """The visual-transform contract an approval of this config binds to."""
+        return review_build_contract(**contract_inputs(
+            theme_color=self.theme_color,
+            background_color=self.background_color,
+            electron_radius=self.electron_radius,
+            tray_template_mode=self.tray_template_mode,
+            color_scheme=self.color_scheme,
+            targets=self.targets,
+            tray_svg=self.tray_svg_path,
+            maskable_scale=self.maskable_scale,
+            maskable_svg=self.maskable_svg_path,
+            monochrome_svg=self.monochrome_svg_path,
+        ))
 
 
 def _table(data: Mapping[str, Any], key: str) -> Mapping[str, Any]:
@@ -274,6 +305,13 @@ def load_config(path: str | Path = CONFIG_FILENAME) -> IconFlowConfig:
     tray_template_mode = _string(build, "tray_template_mode", "auto").lower()
     if tray_template_mode not in ("auto", "alpha", "contrast"):
         raise ConfigError("build.tray_template_mode must be 'auto', 'alpha', or 'contrast'")
+    maskable_scale = None
+    if "maskable_scale" in build:
+        from .build import validate_maskable_scale
+        try:
+            maskable_scale = validate_maskable_scale(_number(build, "maskable_scale", 0.8))
+        except ValueError as exc:
+            raise ConfigError(f"build.{exc}") from exc
     theme_color = _string(build, "theme_color", "#0b0d12")
     background_color = _string(build, "background_color", "#ffffff")
     from . import assemble
@@ -322,6 +360,9 @@ def load_config(path: str | Path = CONFIG_FILENAME) -> IconFlowConfig:
         tray_template_mode=tray_template_mode,
         color_scheme=color_scheme,
         optimize_png=_boolean(build, "optimize_png", True),
+        maskable_scale=maskable_scale,
+        maskable_svg=_string(build, "maskable_svg"),
+        monochrome_svg=_string(build, "monochrome_svg"),
         neighbours_declared="neighbours" in data,
         neighbours_avoid=_strings(neighbours, "avoid"),
         neighbours_family=_strings(neighbours, "family"),
@@ -413,20 +454,17 @@ def load_review_receipt(
     actual_build = value.get("build")
     if not isinstance(actual_build, Mapping):
         raise ConfigError("review receipt build must be an object")
-    expected_build = review_build_contract(
-        theme_color=config.theme_color,
-        background_color=config.background_color,
-        electron_radius=config.electron_radius,
-        tray_template_mode=config.tray_template_mode,
-        color_scheme=config.color_scheme,
-        tray_source_sha256=(
-            svg_sha256(config.tray_svg_path) if config.tray_svg_path else None
-        ),
-    )
+    expected_build = config.build_contract()
     if dict(actual_build) != expected_build:
+        changed = sorted(
+            key for key in set(actual_build) | set(expected_build)
+            if actual_build.get(key) != expected_build.get(key)
+        )
         raise ConfigError(
-            "review receipt build contract mismatch; regenerate after changing "
-            "colors, Electron radius, color scheme, or tray source/mode",
+            "review receipt build contract mismatch on "
+            + ", ".join(changed)
+            + "; regenerate the review after changing colors, Electron radius, color "
+            "scheme, tray source/mode, or the maskable/monochrome composition",
             code=GATE_STALE_CONTRACT,
         )
     expected_contract_digest = review_contract_digest(
@@ -512,12 +550,64 @@ def svg_sha256(path: str | Path) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def contract_inputs(
+    *, theme_color: str, background_color: str, electron_radius: float,
+    tray_template_mode: str, color_scheme: str, targets,
+    tray_svg: str | Path | None = None,
+    maskable_scale: float | None = None,
+    maskable_svg: str | Path | None = None,
+    monochrome_svg: str | Path | None = None,
+) -> dict[str, object]:
+    """Keyword arguments for :func:`review_build_contract` from paths and targets.
+
+    Linked sources are bound by hash only when a selected target consumes
+    them, so linking a source a build ignores cannot stale an approval.
+    """
+    from .build import ADAPTIVE_TARGETS
+
+    from .build import DEFAULT_MASKABLE_SCALE, resolve_maskable_scale
+
+    selected = set(targets)
+    adaptive = bool(ADAPTIVE_TARGETS & selected)
+    monochrome = monochrome_svg if monochrome_svg else None
+    linked = bool(maskable_svg) and adaptive
+    # Bind the *effective* composition, and only when it is not the one 0.6
+    # always shipped: an explicit 0.8 on the master changes no byte.
+    effective = resolve_maskable_scale(maskable_scale, linked=linked)
+    if not linked and effective == DEFAULT_MASKABLE_SCALE:
+        maskable_scale = None
+    else:
+        maskable_scale = effective
+    return {
+        "theme_color": theme_color,
+        "background_color": background_color,
+        "electron_radius": electron_radius,
+        "tray_template_mode": tray_template_mode,
+        "color_scheme": color_scheme,
+        "tray_source_sha256": svg_sha256(tray_svg) if tray_svg else None,
+        "maskable_scale": maskable_scale if adaptive else None,
+        "maskable_source_sha256": (
+            svg_sha256(maskable_svg) if maskable_svg and adaptive else None
+        ),
+        "monochrome_source_sha256": (
+            svg_sha256(monochrome) if monochrome and "android" in selected else None
+        ),
+    }
+
+
 def review_build_contract(
     *, theme_color: str, background_color: str, electron_radius: float,
     tray_template_mode: str, color_scheme: str,
     tray_source_sha256: str | None,
+    maskable_scale: float | None = None,
+    maskable_source_sha256: str | None = None,
+    monochrome_source_sha256: str | None = None,
 ) -> dict[str, object]:
-    """Return the canonical visual-transform contract stored in a receipt."""
+    """Return the canonical visual-transform contract stored in a receipt.
+
+    The 0.7 composition keys appear only when they differ from the default,
+    so every receipt approved before they existed still matches.
+    """
 
     from . import assemble
 
@@ -536,9 +626,14 @@ def review_build_contract(
         raise ConfigError("tray template mode must be 'auto', 'alpha', or 'contrast'")
     if color_scheme not in {"light", "dark"}:
         raise ConfigError("color scheme must be 'light' or 'dark'")
-    if tray_source_sha256 is not None and not _is_sha256(tray_source_sha256):
-        raise ConfigError("tray source hash must be a full SHA-256 hex digest")
-    return {
+    for label, digest in (
+        ("tray source", tray_source_sha256),
+        ("maskable source", maskable_source_sha256),
+        ("monochrome source", monochrome_source_sha256),
+    ):
+        if digest is not None and not _is_sha256(digest):
+            raise ConfigError(f"{label} hash must be a full SHA-256 hex digest")
+    contract: dict[str, object] = {
         "theme_color": canonical_color(theme_color, "theme color"),
         "background_color": canonical_color(background_color, "background color"),
         "electron_radius": radius,
@@ -546,6 +641,17 @@ def review_build_contract(
         "color_scheme": color_scheme,
         "tray_source_sha256": tray_source_sha256.lower() if tray_source_sha256 else None,
     }
+    if maskable_scale is not None:
+        from .build import validate_maskable_scale
+        try:
+            contract["maskable_scale"] = round(validate_maskable_scale(maskable_scale), 4)
+        except ValueError as exc:
+            raise ConfigError(str(exc)) from exc
+    if maskable_source_sha256:
+        contract["maskable_source_sha256"] = maskable_source_sha256.lower()
+    if monochrome_source_sha256:
+        contract["monochrome_source_sha256"] = monochrome_source_sha256.lower()
+    return contract
 
 
 def review_contract_digest(
@@ -575,16 +681,7 @@ def config_review_contract_digest(config: IconFlowConfig) -> str:
     """Return the approval hash required by the manual config fallback."""
 
     source_digest = svg_sha256(config.master_path)
-    build_contract = review_build_contract(
-        theme_color=config.theme_color,
-        background_color=config.background_color,
-        electron_radius=config.electron_radius,
-        tray_template_mode=config.tray_template_mode,
-        color_scheme=config.color_scheme,
-        tray_source_sha256=(
-            svg_sha256(config.tray_svg_path) if config.tray_svg_path else None
-        ),
-    )
+    build_contract = config.build_contract()
     return review_contract_digest(
         source_sha256=source_digest,
         project=config.name,
@@ -642,7 +739,7 @@ tray_svg = {_toml_string(config.tray_svg)}
 tray_template_mode = {_toml_string(config.tray_template_mode)}
 color_scheme = {_toml_string(config.color_scheme)}
 optimize_png = {str(config.optimize_png).lower()}
-
+{_composition_text(config)}
 {_neighbours_text(config)}[review]
 status = {_toml_string(config.review_status)}
 source_sha256 = {_toml_string(config.review_source_sha256)}
@@ -653,6 +750,26 @@ contract_sha256 = {_toml_string(config.review_contract_sha256)}
 scores = {{{score_items}}}
 notes = {_toml_string(config.review_notes)}
 '''
+
+
+def _composition_text(config: IconFlowConfig) -> str:
+    """The 0.7 composition keys, written only when a project uses them.
+
+    Unused, they are written as comments naming the defaults, so a project
+    can discover them; loading never requires them.
+    """
+    lines = []
+    if config.maskable_scale is not None:
+        lines.append(f"maskable_scale = {config.maskable_scale:g}")
+    if config.maskable_svg:
+        lines.append(f"maskable_svg = {_toml_string(config.maskable_svg)}")
+    if config.monochrome_svg:
+        lines.append(f"monochrome_svg = {_toml_string(config.monochrome_svg)}")
+    if not lines:
+        return ("# maskable_scale = 0.8   # artwork share of the maskable/adaptive canvas\n"
+                "# maskable_svg = \"\"     # a linked source drawn for the adaptive crop\n"
+                "# monochrome_svg = \"\"   # mark-only source for Android's themed icon\n")
+    return "\n".join(lines) + "\n"
 
 
 def _neighbours_text(config: IconFlowConfig) -> str:

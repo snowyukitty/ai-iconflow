@@ -6,9 +6,11 @@
 # Output Targets — what each project type needs
 
 The build engine produces the right file set per target. Pick targets with
-`--targets web,tauri,tray` (comma list) or `--targets all`. `all` means every
-app-icon target; `emote` is a different deliverable and is only built when it
-is named. Unknown target names fail fast with a clear error. `iconflow review --config iconflow.toml` previews
+`--targets web,tauri,tray` (comma list) or `--targets all`. `all` means the
+desktop and web app-icon targets (`web, pwa, tauri, electron, tray`), frozen at
+that set: a receipt records the expanded list, so growing `all` would turn
+every approved `all` project stale on upgrade. `android` and `emote` are only
+built when they are named. Unknown target names fail fast with a clear error. `iconflow review --config iconflow.toml` previews
 the same target transforms; it does not approximate them with the raw master.
 
 ---
@@ -24,9 +26,35 @@ Produces, in the out dir:
 | `apple-touch-icon.png` | 180 | iOS home screen (flattened onto bg — never transparent) |
 | `icon-192.png` | 192 | PWA manifest, home screen |
 | `icon-512.png` | 512 | PWA manifest, splash |
-| `icon-512-maskable.png` | 512 | Android adaptive (canonical 10% padding + solid bg; the exact bytes audited by `check`) |
+| `icon-512-maskable.png` | 512 | Android adaptive (the maskable composition below on a solid bg; the exact bytes audited by `check`) |
 | `site.webmanifest` | — | PWA manifest JSON |
 | `favicon-head.html` | — | the `<head>` tags to paste |
+
+### The maskable / adaptive composition
+
+One composition serves every adaptive crop IconFlow emits — the PWA's
+`icon-512-maskable.png` and every Android layer — and `check`, `review` and
+`ship` audit that one composition on the configured `background_color`
+(`iconflow/audit.py`). Three `[build]` keys shape it; all are optional and a
+0.6 config needs none of them:
+
+| Key | Default | Meaning |
+|---|---|---|
+| `maskable_scale` | `0.8` (master), `1.0` (linked source) | share of the maskable canvas the artwork fills, 0.5–1.0 |
+| `maskable_svg` | none | a linked source drawn for the crop, like `tray_svg` |
+| `monochrome_svg` | `tray_svg` if set | mark-only source for Android's themed icon |
+
+A square full-bleed mark does not have to round its corners or shrink its
+cells to survive a circle crop: lower `maskable_scale` (the keyhole grid that
+failed at 0.8 passed at 0.7 unchanged), or link a `maskable_svg`. A linked
+source is gated on being the same mark — its figure, cropped to its own
+bounds, must overlap the master's by at least the ladder's 0.62 IoU floor and
+keep its aspect within 15% (`maskable-drift`) — so it may change scale,
+padding and background, never the drawing.
+
+A key enters the review contract only when it changes a shipped byte: an
+explicit `maskable_scale = 0.8` on the master, or a linked source that no
+selected target consumes, leaves every existing receipt valid.
 
 Optional with `--windows-tiles`:
 
@@ -142,12 +170,11 @@ contract, and every PNG/ICO/ICNS frame is rendered natively from the SVG.
 See the [Tauri v2 app-icon contract](https://v2.tauri.app/develop/icons/) for
 the upstream desktop and platform-project requirements.
 
-This target is deliberately scoped to the **desktop bundle**. Tauri Android and
-iOS assets live inside generated platform projects and need platform-specific
-foreground/background/monochrome semantics plus opaque iOS variants. IconFlow
-does not pretend that a single full-card master is enough to author those
-families. Use the native platform asset tools until a future semantic
-`tauri-mobile` target is introduced.
+This target is deliberately scoped to the **desktop bundle**. For Tauri
+Android, add the `android` target below and copy `android/res/` into
+`src-tauri/gen/android/app/src/main/res/` — do not run `cargo tauri icon`
+over IconFlow's output directory, which would overwrite the desktop icons it
+just wrote. iOS is not a target yet (see *Not targets yet*).
 
 ---
 
@@ -214,6 +241,81 @@ recolor path, so the two never drift.
 
 ---
 
+## `android` — Android launcher icons (adaptive, themed, legacy)
+
+Produces `android/`, laid out as an Android resource tree:
+
+| File | Size | Purpose |
+|---|---|---|
+| `res/mipmap-anydpi-v26/ic_launcher.xml` | XML | adaptive icon: background, foreground, monochrome |
+| `res/mipmap-anydpi-v26/ic_launcher_round.xml` | XML | the same, for `android:roundIcon` |
+| `res/values/ic_launcher_background.xml` | XML | background layer as a colour resource (`background_color`) |
+| `res/mipmap-<d>/ic_launcher_foreground.png` | 108dp | adaptive foreground layer |
+| `res/mipmap-<d>/ic_launcher_monochrome.png` | 108dp | themed-icon layer, Android 13+ (alpha only) |
+| `res/mipmap-<d>/ic_launcher.png` | 48dp | legacy launcher icon, rounded-square keyline |
+| `res/mipmap-<d>/ic_launcher_round.png` | 48dp | legacy round launcher icon |
+| `play-store-512.png` | 512 | Google Play listing icon (full square; Play masks it) |
+
+`<d>` is each of `mdpi` (1×), `hdpi` (1.5×), `xhdpi` (2×), `xxhdpi` (3×) and
+`xxxhdpi` (4×): 108/162/216/324/432 px layers and 48/72/96/144/192 px legacy
+icons. The artwork is rendered natively at the pixel size it occupies in each
+density, never scaled down from one large render.
+
+**Geometry.** A launcher shows the central 72dp of a 108dp layer through its
+mask and guarantees only the central 66dp circle. IconFlow maps the maskable
+canvas onto the layer at 66/0.8 = 82.5dp, so the maskable safe circle (radius
+40%) lands exactly on Android's 66dp circle. With the default `maskable_scale`
+of 0.8 the artwork's canvas fills 66/108 of the layer. That is why one
+`maskable-detail` audit guards both the PWA and Android, and why
+`maskable_scale` / `maskable_svg` reshape both together.
+
+**Themed icon.** Android 13+ tints the monochrome layer and reads only its
+alpha. IconFlow takes it from `monochrome_svg`, else `tray_svg` — a mark-only
+source is exactly what a themed icon needs — and otherwise derives it the way
+the macOS template is derived (`tray_template_mode`). A full-card master with
+no mark-only source fails the build with that instruction instead of shipping
+a featureless disc.
+
+**Legacy icons** (before Android 8) show the same central 72dp of the
+composition a modern launcher shows, cut to a 44dp keyline in the 48dp canvas:
+a rounded square (`ic_launcher.png`) and a circle (`ic_launcher_round.png`).
+
+**Install.** Copy `android/res/` into `app/src/main/res/` (a Tauri project's
+lives at `src-tauri/gen/android/app/src/main/res/`) and point the manifest at
+`@mipmap/ic_launcher` and `@mipmap/ic_launcher_round`. The `<monochrome>`
+element needs `compileSdk` 33 or newer. Review the composition in the Review
+Lab's Android card (circle, squircle, themed and legacy previews of the exact
+bytes) before shipping.
+
+```bash
+iconflow build master.svg --targets android --bg "#11142A" --out out
+```
+
+---
+
+## Not targets yet — and why
+
+Reviewed for 0.7 and deliberately left out:
+
+- **iOS / iPadOS / macOS app-icon sets (`AppIcon.appiconset`).** Since Xcode
+  14 a single 1024 px opaque image is the whole contract, and iOS 18 adds dark
+  and tinted variants that need *semantic* sources (a transparent-background
+  dark variant, a greyscale tinted variant) rather than a transform of the
+  light icon. Emitting a `Contents.json` around one flattened 1024 would be
+  easy and would look like support while skipping the part that needs design
+  judgement. Until the variant sources exist, render the 1024 with
+  `iconflow render master.svg --sizes 1024 --bg <opaque>` and review it; the
+  `tauri` and `electron` targets already cover the macOS desktop `.icns`.
+- **Windows MSIX / Store tile assets.** Package manifests own both the exact
+  filenames and the scale-qualified sizes (L43), and they differ by manifest.
+  A generic set would be guessed filenames. Keep using `iconflow render` for
+  the sizes a manifest names, plus `--windows-tiles` for pinned-site tiles.
+
+Both are candidates for a target once a consuming project supplies the real
+manifest and the variant sources to golden-test against.
+
+---
+
 ## `emote` — chat emotes for Twitch, Discord and Slack
 
 | File | px | Where |
@@ -277,6 +379,10 @@ blurry/upscaled everywhere larger).
 ## Combine freely
 
 ```bash
+# a Tauri app with an Android build:
+python -m iconflow build master.svg --out ./dist --targets tauri,android \
+    --bg "#11142A" --tray-svg mark.svg
+
 # a Tauri app that also has a tray and a marketing site:
 python -m iconflow build master.svg --out ./dist --targets tauri,tray,web \
     --name "Proof Desk" --theme "#191a20" --bg "#fff4e8" \

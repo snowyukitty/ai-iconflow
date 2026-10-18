@@ -3,19 +3,56 @@
 """Orchestrate: one SVG master -> a full icon set for the chosen targets."""
 from __future__ import annotations
 
+import io
 import shutil
 import stat
 from pathlib import Path
 from typing import Iterable, Protocol
+
+from PIL import Image, ImageChops, ImageDraw
 
 from . import assemble, htmlhead, ladder
 from .rasterize import Rasterizer, load_svg
 
 # Targets the CLI understands. "all" expands to the app-icon targets: an
 # emote pack is a different deliverable from an app's icon set, so it is only
-# ever built when it is asked for by name.
-TARGETS = ("web", "pwa", "tauri", "electron", "tray", "emote")
+# ever built when it is asked for by name. "all" is frozen at the 0.6 set:
+# receipts store the expanded list, so growing it would turn every approved
+# "all" project stale on upgrade. Android is therefore asked for by name too.
+TARGETS = ("web", "pwa", "tauri", "electron", "tray", "android", "emote")
 APP_TARGETS = ("web", "pwa", "tauri", "electron", "tray")
+# Targets whose assets are composed for a platform's adaptive crop. One
+# composition serves all of them, so one maskable audit covers all of them.
+ADAPTIVE_TARGETS = frozenset({"web", "pwa", "android"})
+
+# The maskable composition: the artwork occupies this fraction of the
+# maskable canvas, centred, on the opaque background colour. 0.8 is the
+# historical 10% padding. A linked maskable source is drawn for the crop
+# already, so it defaults to the whole canvas.
+DEFAULT_MASKABLE_SCALE = 0.8
+DEFAULT_LINKED_MASKABLE_SCALE = 1.0
+MASKABLE_SCALE_RANGE = (0.5, 1.0)
+# W3C maskable safe zone: a centred circle of radius 40% of the icon.
+MASKABLE_SAFE_RADIUS = 0.40
+
+# Android adaptive icons (docs/OUTPUT_TARGETS.md). Layers are 108dp; the
+# launcher shows the central 72dp through its mask and guarantees the central
+# 66dp circle. The maskable canvas maps onto the layer so that its 40% safe
+# circle lands exactly on Android's 66dp circle: 66 / 0.8 = 82.5dp.
+ANDROID_LAYER_DP = 108
+ANDROID_VISIBLE_DP = 72
+ANDROID_SAFE_DP = 66
+ANDROID_MASKABLE_DP = ANDROID_SAFE_DP / (2 * MASKABLE_SAFE_RADIUS)
+ANDROID_LEGACY_DP = 48
+ANDROID_DENSITIES = (
+    ("mdpi", 1.0), ("hdpi", 1.5), ("xhdpi", 2.0), ("xxhdpi", 3.0), ("xxxhdpi", 4.0),
+)
+# Legacy (pre-Android 8) launcher icons: IconFlow's keylines inside the 48dp
+# canvas, a rounded square 44dp wide and a 44dp circle, each showing the same
+# central 72dp of the adaptive composition a modern launcher shows.
+ANDROID_LEGACY_SHAPE_DP = 44
+ANDROID_LEGACY_CORNER = 0.16
+ANDROID_PLAY_STORE_SIZE = 512
 
 # Emotes are uploaded at these sizes: Twitch takes 28, 56 and 112 together;
 # Discord and Slack take one 128 (docs/EMOTES.md). Each is rendered natively.
@@ -44,6 +81,53 @@ class PngCache(Protocol):
     """Minimal read-only cache contract shared by build and Review Lab."""
 
     def png(self, size: int) -> bytes: ...
+
+
+class _FrozenCache:
+    """A PngCache over renders that already exist (QA, Review Lab)."""
+
+    def __init__(self, renders: dict[int, bytes]):
+        self.renders = renders
+
+    def png(self, size: int) -> bytes:
+        try:
+            return self.renders[size]
+        except KeyError as exc:
+            raise ValueError(f"render cache has no {size}px frame") from exc
+
+
+def validate_maskable_scale(scale) -> float:
+    """Return a valid maskable artwork scale, or raise a ValueError that says why."""
+    low, high = MASKABLE_SCALE_RANGE
+    if isinstance(scale, bool) or not isinstance(scale, (int, float)):
+        raise ValueError("maskable_scale must be a number")
+    scale = float(scale)
+    if not low <= scale <= high:
+        raise ValueError(
+            f"maskable_scale must be between {low} and {high} "
+            f"(the share of the maskable canvas the artwork fills); got {scale:g}"
+        )
+    return scale
+
+
+def resolve_maskable_scale(scale: float | None, *, linked: bool) -> float:
+    """The effective scale: explicit, else the default for a master or a linked source."""
+    if scale is None:
+        return DEFAULT_LINKED_MASKABLE_SCALE if linked else DEFAULT_MASKABLE_SCALE
+    return validate_maskable_scale(scale)
+
+
+def maskable_png(cache: PngCache, bg_color: str, *, scale: float | None = None,
+                 maskable_cache: PngCache | None = None) -> bytes:
+    """The one maskable composition every path ships, previews, and audits.
+
+    ``maskable_cache`` is a linked source drawn for the crop (``maskable.svg``);
+    without one the master is composed. The default master composition is
+    byte-identical to IconFlow 0.6's fixed 10% padding.
+    """
+    source = maskable_cache or cache
+    effective = resolve_maskable_scale(scale, linked=maskable_cache is not None)
+    return assemble.maskable_asset(source.png(512), bg_color, padding=(1 - effective) / 2)
 
 
 def normalize_targets(targets) -> list[str]:
@@ -180,6 +264,9 @@ def preview_assets(
     tray_template_mode: str = "auto",
     windows_tiles: bool = False,
     tile_color: str | None = None,
+    maskable_scale: float | None = None,
+    maskable_cache: PngCache | None = None,
+    monochrome_cache: PngCache | None = None,
 ) -> dict[str, bytes]:
     """Return target-transformed PNG assets without touching the filesystem.
 
@@ -191,8 +278,17 @@ def preview_assets(
     target = str(target).strip().lower()
     if target == "pwa":
         target = "web"
-    if target not in {"web", "tauri", "electron", "tray", "emote"}:
-        raise ValueError("preview target must be web, pwa, tauri, electron, tray, or emote")
+    if target not in {"web", "tauri", "electron", "tray", "android", "emote"}:
+        raise ValueError(
+            "preview target must be web, pwa, tauri, electron, tray, android, or emote"
+        )
+
+    if target == "android":
+        return android_assets(
+            cache, bg_color, maskable_scale=maskable_scale,
+            maskable_cache=maskable_cache, monochrome_cache=monochrome_cache,
+            template_mode=tray_template_mode,
+        )
 
     if target == "emote":
         return {f"emote/{size}.png": cache.png(size) for size in EMOTE_SIZES}
@@ -203,7 +299,9 @@ def preview_assets(
             "apple-touch-icon.png": assemble.flatten(cache.png(180), bg_color),
             "icon-192.png": cache.png(192),
             "icon-512.png": cache.png(512),
-            "icon-512-maskable.png": assemble.maskable_asset(cache.png(512), bg_color),
+            "icon-512-maskable.png": maskable_png(
+                cache, bg_color, scale=maskable_scale, maskable_cache=maskable_cache,
+            ),
         }
         if windows_tiles:
             assets.update(_windows_tile_assets(cache, tile_color or bg_color))
@@ -228,6 +326,149 @@ def preview_assets(
     }
 
 
+def _android_art(cache: PngCache, layer_px: int, scale: float) -> bytes:
+    """Render the artwork natively at the pixel size it occupies in a layer."""
+    art_px = max(1, int(round(layer_px * scale * ANDROID_MASKABLE_DP / ANDROID_LAYER_DP)))
+    return cache.png(art_px)
+
+
+def _centred(png: bytes, canvas: int) -> Image.Image:
+    art = Image.open(io.BytesIO(png)).convert("RGBA")
+    layer = Image.new("RGBA", (canvas, canvas), (0, 0, 0, 0))
+    layer.alpha_composite(art, ((canvas - art.width) // 2, (canvas - art.height) // 2))
+    return layer
+
+
+def _png_bytes(image: Image.Image) -> bytes:
+    out = io.BytesIO()
+    image.save(out, "PNG", optimize=True)
+    return out.getvalue()
+
+
+def _visible_window(composed: Image.Image) -> Image.Image:
+    """The central 72dp of a 108dp layer: what a launcher mask can show."""
+    layer = composed.width
+    visible = int(round(layer * ANDROID_VISIBLE_DP / ANDROID_LAYER_DP))
+    offset = (layer - visible) // 2
+    return composed.crop((offset, offset, offset + visible, offset + visible))
+
+
+def _legacy_icon(composed: Image.Image, legacy_px: int, *, round_shape: bool) -> bytes:
+    """A pre-adaptive launcher icon: the visible 72dp, cut to IconFlow's keyline."""
+    shape_px = max(1, int(round(legacy_px * ANDROID_LEGACY_SHAPE_DP / ANDROID_LEGACY_DP)))
+    art = (
+        _visible_window(composed).convert("RGBa")
+        .resize((shape_px, shape_px), Image.Resampling.LANCZOS).convert("RGBA")
+    )
+    # Draw the keyline at 4x and reduce it, so the edge is antialiased.
+    big = shape_px * 4
+    mask = Image.new("L", (big, big), 0)
+    draw = ImageDraw.Draw(mask)
+    if round_shape:
+        draw.ellipse([0, 0, big - 1, big - 1], fill=255)
+    else:
+        draw.rounded_rectangle(
+            [0, 0, big - 1, big - 1], radius=int(round(big * ANDROID_LEGACY_CORNER)), fill=255,
+        )
+    mask = mask.resize((shape_px, shape_px), Image.Resampling.LANCZOS)
+    art.putalpha(ImageChops.multiply(art.getchannel("A"), mask))
+    canvas = Image.new("RGBA", (legacy_px, legacy_px), (0, 0, 0, 0))
+    canvas.alpha_composite(art, ((legacy_px - shape_px) // 2, (legacy_px - shape_px) // 2))
+    return _png_bytes(canvas)
+
+
+ANDROID_ADAPTIVE_XML = """<?xml version="1.0" encoding="utf-8"?>
+<!-- AUTO-GENERATED by IconFlow. Rebuild from the SVG source; do not edit. -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+    <monochrome android:drawable="@mipmap/ic_launcher_monochrome"/>
+</adaptive-icon>
+"""
+
+
+def android_background_xml(bg_color: str) -> str:
+    red, green, blue, _ = assemble.opaque_color(bg_color, "background color")
+    return (
+        '<?xml version="1.0" encoding="utf-8"?>\n'
+        "<!-- AUTO-GENERATED by IconFlow. Rebuild from the SVG source; do not edit. -->\n"
+        "<resources>\n"
+        f'    <color name="ic_launcher_background">#{red:02X}{green:02X}{blue:02X}</color>\n'
+        "</resources>\n"
+    )
+
+
+def android_layer_scale(maskable_scale: float | None, *, linked: bool) -> float:
+    """Share of the 108dp layer the artwork's canvas occupies."""
+    scale = resolve_maskable_scale(maskable_scale, linked=linked)
+    return scale * ANDROID_MASKABLE_DP / ANDROID_LAYER_DP
+
+
+def android_assets(
+    cache: PngCache, bg_color: str = "#ffffff", *,
+    maskable_scale: float | None = None,
+    maskable_cache: PngCache | None = None,
+    monochrome_cache: PngCache | None = None,
+    template_mode: str = "auto",
+) -> dict[str, bytes]:
+    """Every Android launcher resource, keyed by its path in the output tree.
+
+    The foreground layer is the maskable composition mapped onto Android's
+    108dp layer (its 40% safe circle lands on Android's 66dp circle), so the
+    one audit that guards ``icon-512-maskable.png`` guards these layers too.
+    Every density renders the artwork natively at the size it occupies. The
+    background is a colour resource, not a bitmap. The themed-icon layer
+    (Android 13+) is the alpha of a mark-only source when one is linked
+    (``monochrome_svg``, else ``tray_svg``); otherwise it is the same
+    reduction the macOS tray template uses, which fails closed rather than
+    ship a featureless disc.
+    """
+    bg = assemble.opaque_color(bg_color, "background color")
+    if template_mode not in {"auto", "alpha", "contrast"}:
+        raise ValueError("template mode must be 'auto', 'alpha', or 'contrast'")
+    source = maskable_cache or cache
+    scale = resolve_maskable_scale(maskable_scale, linked=maskable_cache is not None)
+    mono_source = monochrome_cache or source
+    assets: dict[str, bytes] = {}
+    composed = None
+    for density, factor in ANDROID_DENSITIES:
+        layer_px = int(round(ANDROID_LAYER_DP * factor))
+        foreground = _centred(_android_art(source, layer_px, scale), layer_px)
+        assets[f"res/mipmap-{density}/ic_launcher_foreground.png"] = _png_bytes(foreground)
+        try:
+            mono = assemble.to_template(_android_art(mono_source, layer_px, scale), template_mode)
+        except ValueError as exc:
+            raise ValueError(
+                "android: the themed-icon (monochrome) layer cannot be derived from this "
+                f"source ({exc}); link a mark-only source with build.monochrome_svg"
+            ) from exc
+        assets[f"res/mipmap-{density}/ic_launcher_monochrome.png"] = _png_bytes(
+            _centred(mono, layer_px)
+        )
+        composed = Image.new("RGBA", (layer_px, layer_px), bg)
+        composed.alpha_composite(foreground)
+        legacy_px = int(round(ANDROID_LEGACY_DP * factor))
+        assets[f"res/mipmap-{density}/ic_launcher.png"] = _legacy_icon(
+            composed, legacy_px, round_shape=False,
+        )
+        assets[f"res/mipmap-{density}/ic_launcher_round.png"] = _legacy_icon(
+            composed, legacy_px, round_shape=True,
+        )
+    # The store listing icon is a full opaque square: Google Play applies its
+    # own mask, so it carries the same 72dp a launcher shows, unmasked.
+    store = _visible_window(composed).resize(
+        (ANDROID_PLAY_STORE_SIZE, ANDROID_PLAY_STORE_SIZE), Image.Resampling.LANCZOS,
+    )
+    flat = Image.new("RGBA", store.size, bg)
+    flat.alpha_composite(store)
+    assets["play-store-512.png"] = _png_bytes(flat)
+    xml = ANDROID_ADAPTIVE_XML.encode("utf-8")
+    assets["res/mipmap-anydpi-v26/ic_launcher.xml"] = xml
+    assets["res/mipmap-anydpi-v26/ic_launcher_round.xml"] = xml
+    assets["res/values/ic_launcher_background.xml"] = android_background_xml(bg_color).encode("utf-8")
+    return {f"android/{name}": data for name, data in assets.items()}
+
+
 def write_favicon_svg(svg_text: str, src_svg: Path, destination: Path) -> bool:
     """Write the vector favicon, adding the ladder layer only when it is used.
 
@@ -246,7 +487,9 @@ def write_favicon_svg(svg_text: str, src_svg: Path, destination: Path) -> bool:
 
 def build_web(cache: RenderCache, src_svg: Path, outdir: Path, name: str,
               theme: str, bg: str, produced: list[str],
-              options: htmlhead.WebMetaOptions | None = None) -> None:
+              options: htmlhead.WebMetaOptions | None = None, *,
+              maskable_scale: float | None = None,
+              maskable_cache: PngCache | None = None) -> None:
     options = options or htmlhead.WebMetaOptions()
     write_favicon_svg(cache.svg, src_svg, outdir / "favicon.svg")
     produced.append("favicon.svg")
@@ -254,7 +497,10 @@ def build_web(cache: RenderCache, src_svg: Path, outdir: Path, name: str,
     produced.append("favicon.ico")
     _write_assets(
         outdir,
-        preview_assets(cache, "web", bg_color=bg),
+        preview_assets(
+            cache, "web", bg_color=bg, maskable_scale=maskable_scale,
+            maskable_cache=maskable_cache,
+        ),
         produced,
     )
     if options.windows_tiles:
@@ -337,13 +583,31 @@ def build_emote(cache: RenderCache, outdir: Path, produced: list[str]) -> None:
     _write_assets(outdir, assets, produced)
 
 
+def build_android(cache: RenderCache, outdir: Path, bg: str, produced: list[str], *,
+                  maskable_scale: float | None = None,
+                  maskable_cache: PngCache | None = None,
+                  monochrome_cache: PngCache | None = None,
+                  template_mode: str = "auto") -> None:
+    _write_assets(
+        outdir,
+        android_assets(
+            cache, bg, maskable_scale=maskable_scale, maskable_cache=maskable_cache,
+            monochrome_cache=monochrome_cache, template_mode=template_mode,
+        ),
+        produced,
+    )
+
+
 def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
           name: str = "App", theme_color: str = "#0b0d12",
           bg_color: str = "#ffffff", electron_radius: float = 0.0,
           tray_ts: bool = False, color_scheme: str = "light",
           web_options: htmlhead.WebMetaOptions | None = None,
           optimize_png: bool = True, tray_svg: str | Path | None = None,
-          tray_template_mode: str = "auto") -> list[str]:
+          tray_template_mode: str = "auto",
+          maskable_scale: float | None = None,
+          maskable_svg: str | Path | None = None,
+          monochrome_svg: str | Path | None = None) -> list[str]:
     """Build the requested targets from `master_svg` into `outdir`.
 
     Returns the list of file paths produced (relative to outdir).
@@ -358,6 +622,8 @@ def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
         raise ValueError("tray_template_mode must be 'auto', 'alpha', or 'contrast'")
     if web_options and web_options.tile_color:
         assemble.opaque_color(web_options.tile_color, "tile color")
+    if maskable_scale is not None:
+        maskable_scale = validate_maskable_scale(maskable_scale)
     master_svg = Path(master_svg)
     outdir = Path(outdir)
     _validate_output_tree(outdir)
@@ -376,8 +642,20 @@ def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
                 tray_cache = RenderCache(
                     load_svg(tray_path), r, optimize=optimize_png
                 )
+
+        def linked(path) -> RenderCache | None:
+            if path is None or Path(path).resolve() == master_svg.resolve():
+                return None
+            return RenderCache(load_svg(Path(path)), r, optimize=optimize_png)
+
+        maskable_cache = linked(maskable_svg) if ADAPTIVE_TARGETS & set(targets) else None
+        monochrome_cache = None
+        if "android" in targets:
+            monochrome_cache = linked(monochrome_svg if monochrome_svg is not None else tray_svg)
         if "web" in targets or "pwa" in targets:
-            build_web(cache, master_svg, outdir, name, theme_color, bg_color, produced, web_options)
+            build_web(cache, master_svg, outdir, name, theme_color, bg_color, produced,
+                      web_options, maskable_scale=maskable_scale,
+                      maskable_cache=maskable_cache)
         if "tauri" in targets:
             build_tauri(cache, outdir, produced)
         if "electron" in targets:
@@ -389,6 +667,12 @@ def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
                 tray_ts,
                 produced,
                 tray_cache=tray_cache,
+                template_mode=tray_template_mode,
+            )
+        if "android" in targets:
+            build_android(
+                cache, outdir, bg_color, produced, maskable_scale=maskable_scale,
+                maskable_cache=maskable_cache, monochrome_cache=monochrome_cache,
                 template_mode=tray_template_mode,
             )
         if "emote" in targets:

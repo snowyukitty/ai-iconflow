@@ -24,8 +24,10 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 from . import agentkit, assemble, ladder, neighbours
-from .build import electron_frames, preview_assets
-from .config import review_build_contract, review_contract_digest, svg_sha256
+from .build import electron_frames, maskable_png, preview_assets, resolve_maskable_scale
+from .config import (
+    contract_inputs, review_build_contract, review_contract_digest, svg_sha256,
+)
 from .rasterize import Rasterizer, load_svg
 from .styles import StyleSpec
 
@@ -63,6 +65,9 @@ class ReviewOptions:
     tray_svg: str | Path | None = None
     tray_template_mode: str = "auto"
     color_scheme: str = "light"
+    maskable_scale: float | None = None
+    maskable_svg: str | Path | None = None
+    monochrome_svg: str | Path | None = None
     warnings: tuple[str, ...] = ()
     scores: dict[str, int] = field(default_factory=dict)
     notes: str = ""
@@ -168,8 +173,53 @@ def _clip_to_mask(im: Image.Image, mask: Image.Image) -> Image.Image:
     return out
 
 
-def _maskable_asset(png512: bytes, bg: str = "#ffffff") -> Image.Image:
-    return _img(assemble.maskable_asset(png512, bg))
+def _maskable_asset(png512: bytes, bg: str = "#ffffff", *, scale: float | None = None,
+                    linked512: bytes | None = None) -> Image.Image:
+    linked = _FrozenRenderCache({512: linked512}) if linked512 is not None else None
+    return _img(maskable_png(
+        _FrozenRenderCache({512: png512}), bg, scale=scale, maskable_cache=linked,
+    ))
+
+
+def android_previews(svg_text: str, options: "ReviewOptions") -> dict[str, bytes]:
+    """The exact Android layers, composed the way a launcher shows them.
+
+    Built from :func:`iconflow.build.android_assets` — the bytes ``ship``
+    writes — then masked to a circle and a squircle and, for the themed icon,
+    tinted the way Android 13 tints a monochrome layer.
+    """
+    from .build import RenderCache, android_assets
+
+    def cache_for(path, r):
+        return RenderCache(load_svg(path), r, optimize=False) if path else None
+
+    with Rasterizer(color_scheme=options.color_scheme) as r:
+        assets = android_assets(
+            RenderCache(svg_text, r, optimize=False), options.background_color,
+            maskable_scale=options.maskable_scale,
+            maskable_cache=cache_for(options.maskable_svg, r),
+            monochrome_cache=cache_for(options.monochrome_svg or options.tray_svg, r),
+            template_mode=options.tray_template_mode,
+        )
+    foreground = _img(assets["android/res/mipmap-xxxhdpi/ic_launcher_foreground.png"])
+    mono = _img(assets["android/res/mipmap-xxxhdpi/ic_launcher_monochrome.png"])
+    size = foreground.width
+    visible = round(size * 72 / 108)
+    offset = (size - visible) // 2
+    composed = Image.new("RGBA", (size, size), assemble.opaque_color(options.background_color))
+    composed.alpha_composite(foreground)
+    window = composed.crop((offset, offset, offset + visible, offset + visible))
+    themed_bg = Image.new("RGBA", (size, size), (219, 230, 207, 255))
+    tint = Image.new("RGBA", (size, size), (44, 77, 30, 255))
+    themed_bg.paste(tint, (0, 0), mono.getchannel("A"))
+    themed = themed_bg.crop((offset, offset, offset + visible, offset + visible))
+    out = {
+        "circle": _png(_clip_to_mask(window, _adaptive_shape_mask(visible, "circle"))),
+        "squircle": _png(_clip_to_mask(window, _adaptive_shape_mask(visible, "squircle"))),
+        "themed": _png(_clip_to_mask(themed, _adaptive_shape_mask(visible, "circle"))),
+        "legacy": assets["android/res/mipmap-xxxhdpi/ic_launcher_round.png"],
+    }
+    return out
 
 
 def _draw_safe_zone(im: Image.Image) -> Image.Image:
@@ -185,14 +235,19 @@ def _draw_safe_zone(im: Image.Image) -> Image.Image:
 
 def contact_sheet(master_svg: str | Path, out: str | Path, *,
                   background_color: str = "#ffffff",
-                  color_scheme: str = "light") -> Path:
+                  color_scheme: str = "light",
+                  maskable_scale: float | None = None,
+                  maskable_svg: str | Path | None = None) -> Path:
     svg = load_svg(master_svg)
     f = _font(18)
     fs = _font(14)
 
+    linked512 = None
     with Rasterizer(color_scheme=color_scheme) as r:
         source = ladder.RungSource(svg)
         renders = {s: source.render(r, s) for s in sorted(set(_SIZES + [512]))}
+        if maskable_svg is not None:
+            linked512 = ladder.RungSource(load_svg(maskable_svg)).render(r, 512)
 
     cols = len(_SIZES)
     grid_w = _PAD * 2 + cols * _CELL + (cols - 1) * _GAP
@@ -264,11 +319,17 @@ def contact_sheet(master_svg: str | Path, out: str | Path, *,
     y += _CELL + 34
 
     # maskable previews — Android/adaptive crops and the minimum safe zone.
-    d.text((_PAD, y), "maskable preview — keep essential detail inside the 40% safe-zone circle",
+    effective = resolve_maskable_scale(maskable_scale, linked=linked512 is not None)
+    composed_from = Path(maskable_svg).name if maskable_svg is not None else "master"
+    d.text((_PAD, y),
+           "maskable / adaptive preview — keep essential detail inside the 40% safe circle "
+           f"({composed_from} @ {effective:g} on {background_color})",
            font=f, fill=_TXT)
     y += 26
     x = _PAD
-    maskable = _maskable_asset(renders[512], background_color)
+    maskable = _maskable_asset(
+        renders[512], background_color, scale=maskable_scale, linked512=linked512,
+    )
     previews = [
         ("safe zone", _draw_safe_zone(maskable)),
         ("circle crop", _clip_to_mask(maskable, _adaptive_shape_mask(512, "circle"))),
@@ -306,16 +367,20 @@ def receipt_seed(master_svg: str | Path, *,
     options = options or ReviewOptions(name=path.stem)
     product_name = options.name or path.stem
     # Hashes are line-ending independent (see ``svg_sha256``) so a receipt
-    # exported on one machine still matches ``ship`` on the next.
-    tray_source_hash = svg_sha256(options.tray_svg) if options.tray_svg else None
-    build_contract = review_build_contract(
+    # exported on one machine still matches ``ship`` on the next. The same
+    # helper builds the contract ``ship`` expects, so the two cannot drift.
+    build_contract = review_build_contract(**contract_inputs(
         theme_color=options.theme_color,
         background_color=options.background_color,
         electron_radius=options.electron_radius,
         tray_template_mode=options.tray_template_mode,
         color_scheme=options.color_scheme,
-        tray_source_sha256=tray_source_hash,
-    )
+        targets=options.targets,
+        tray_svg=options.tray_svg,
+        maskable_scale=options.maskable_scale,
+        maskable_svg=options.maskable_svg,
+        monochrome_svg=options.monochrome_svg,
+    ))
     source_hash = svg_sha256(path)
     contract_hash = review_contract_digest(
         source_sha256=source_hash,
@@ -377,6 +442,14 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
         with Rasterizer(color_scheme=scheme) as r:
             renders[scheme] = {s: source.render(r, s) for s in sizes}
 
+    linked_renders: dict[str, dict[int, bytes]] | None = None
+    if options.maskable_svg:
+        linked_source = ladder.RungSource(load_svg(options.maskable_svg))
+        linked_renders = {}
+        for scheme in ("light", "dark"):
+            with Rasterizer(color_scheme=scheme) as r:
+                linked_renders[scheme] = {s: linked_source.render(r, s) for s in sizes}
+
     tray_renders = {scheme: {s: renders[scheme][s] for s in (16, 32)}
                     for scheme in ("light", "dark")}
     if options.tray_svg:
@@ -395,9 +468,14 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
     tray_caches = {
         scheme: _FrozenRenderCache(tray_renders[scheme]) for scheme in ("light", "dark")
     }
+    linked_caches = {
+        scheme: _FrozenRenderCache(linked_renders[scheme]) if linked_renders else None
+        for scheme in ("light", "dark")
+    }
     web_assets = {
         scheme: preview_assets(
-            caches[scheme], "web", bg_color=options.background_color
+            caches[scheme], "web", bg_color=options.background_color,
+            maskable_scale=options.maskable_scale, maskable_cache=linked_caches[scheme],
         )
         for scheme in ("light", "dark")
     }
@@ -498,6 +576,21 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             f'{scheme_image(tray_assets["light"]["tray/tray@16.png"], tray_assets["dark"]["tray/tray@16.png"], "Color tray icon")}'
             f'{scheme_image(tray_assets["light"]["tray/trayTemplate@2x.png"], tray_assets["dark"]["tray/trayTemplate@2x.png"], "macOS template icon", "template-image")}'
             '<span>•••</span></div></article>'
+        )
+    if "android" in target_set:
+        android = android_previews(svg, options)
+        cells = "".join(
+            f'<figure><img class="preview" src="{_data_url(android[key])}" '
+            f'alt="Android {html.escape(label)}"><figcaption>{html.escape(label)}</figcaption></figure>'
+            for key, label in (
+                ("circle", "circle launcher"), ("squircle", "squircle launcher"),
+                ("themed", "themed (13+)"), ("legacy", "legacy round"),
+            )
+        )
+        target_cards.append(
+            '<article class="target-card"><div class="target-label"><span>ANDROID</span>'
+            '<small>adaptive + themed</small></div>'
+            f'<div class="android-context">{cells}</div></article>'
         )
     target_cards_html = "\n".join(target_cards) or (
         '<p class="empty">No targets selected. The source-size inspection remains available.</p>'
@@ -610,6 +703,8 @@ figcaption strong {{ color:#fff; font-family:ui-monospace,SFMono-Regular,Consola
 .start-context img {{ width:96px; height:96px; }} .start-context b {{ font-size:12px; font-weight:600; }}
 .menu-context {{ height:90px; display:flex; justify-content:flex-end; align-items:center; gap:10px; padding:16px; color:#24252a; background:#f5f2ec; border-radius:10px; font-size:11px; }}
 .menu-context img {{ width:18px; height:18px; }} .menu-context .template-image {{ width:22px; height:22px; }}
+.android-context {{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:12px; background:#f5f2ec; border-radius:10px; }}
+.android-context figure {{ margin:0; text-align:center; }} .android-context img {{ width:100%; max-width:96px; height:auto; }} .android-context figcaption {{ color:#24252a; font-size:11px; }}
 [data-ui-scheme="dark"] .browser-context,[data-ui-scheme="dark"] .menu-context {{ color:#f3f1eb; background:#17181c; }}
 [data-ui-scheme="dark"] .template-image {{ filter:invert(1); }}
 .review-layout {{ display:grid; grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr); gap:18px; }}

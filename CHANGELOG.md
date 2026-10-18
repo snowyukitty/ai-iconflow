@@ -6,7 +6,51 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
-Nothing yet.
+### Fixed
+
+- **`check`, `review` and `ship` now give one answer.** All three resolve
+  their inputs through `iconflow/audit.py` and run one shared audit. Before,
+  `check --config` composed the maskable icon on white while `review` and
+  `ship` used the configured `background_color`, so a full-bleed 3x3 grid on
+  an ink background passed `check` and failed `ship` (found 2026-10-18).
+  `check --config` now also takes the config's targets, colour scheme and
+  linked sources; `ship` now renders its audit in the configured colour scheme
+  instead of always light. `tests/test_audit.py` runs the three commands on
+  one SVG and config and fails if any two audit different inputs or reach
+  different findings. Every `--json` envelope reports the inputs as
+  `outputs.audit`.
+- **Every warning names its input and a fix.** Contrast warnings give the
+  background hex, size, scheme and measured spread; the maskable warning
+  names the composed source, scale and background and points at
+  `maskable_scale` / `maskable_svg`.
+
+### Added
+
+- **The maskable composition is configurable.** `[build] maskable_scale`
+  (0.5–1.0, default 0.8) and a linked `maskable_svg` let a square full-bleed
+  mark pass the adaptive crop without rounding its corners. A linked source is
+  gated on being the same mark (`maskable-drift`). The keys enter the review
+  contract only when they change a shipped byte, so every 0.6 receipt stays
+  valid.
+- **`android` target.** Adaptive foreground layer and colour-resource
+  background, Android 13 themed (monochrome) layer, legacy square and round
+  launcher icons in all five densities, the `mipmap-anydpi-v26` XML, and a
+  Play Store listing icon. The layer is mapped so the maskable safe circle
+  lands on Android's 66dp circle, so one audit guards both; the themed layer
+  comes from `monochrome_svg`, else `tray_svg`, and fails closed on a full
+  card. Golden tests in `tests/test_android.py`; documented in
+  `docs/OUTPUT_TARGETS.md` and on the icon-size reference. `all` is frozen at
+  the 0.6 set so approved `all` receipts stay valid; ask for `android` by
+  name. The Review Lab gains an Android card with circle, squircle, themed and
+  legacy previews of the exact bytes.
+- `docs/OUTPUT_TARGETS.md` records why iOS app-icon sets and MSIX tile assets
+  are not targets yet.
+
+### Migration
+
+Nothing is required. A 0.6 `iconflow.toml` loads unchanged and its receipts
+keep matching. Projects that relied on `check --config` auditing against white
+will now see the warning `ship` always gave them.
 
 ## 0.6.0 - 2026-10-06
 

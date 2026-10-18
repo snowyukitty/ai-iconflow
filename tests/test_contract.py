@@ -121,6 +121,18 @@ class EnvelopeShapeTests(unittest.TestCase):
             "source": _real(master),
             "source_sha256": expected_hash,
             "tray_source": None,
+            # 0.7: every audited command names the inputs it audited with.
+            "audit": {
+                "targets": ["web", "pwa"],
+                "background_color": "#ffffff",
+                "color_scheme": "light",
+                "maskable_audit": True,
+                "maskable_scale": 0.8,
+                "maskable_source": None,
+                "tray_source": None,
+                "tray_template_mode": "auto",
+                "neighbours": False,
+            },
         })
         self.assertIn("OK — no automated warnings", err)
 
@@ -389,6 +401,10 @@ class ReviewEnvelopeTests(DemoFamilyFixture):
         outputs = dict(envelope["outputs"])
         for key in ("sheet", "html", "receipt_template"):
             outputs[key] = _real(outputs[key])
+        audit = outputs.pop("audit")
+        self.assertEqual(audit["targets"], config.targets)
+        self.assertEqual(audit["background_color"], config.background_color)
+        self.assertEqual(audit["tray_source"], str(config.tray_svg_path))
         self.assertEqual(outputs, {
             "sheet": _real(sheet),
             "html": _real(html),

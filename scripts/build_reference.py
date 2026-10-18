@@ -21,7 +21,6 @@ Usage::
 from __future__ import annotations
 
 import argparse
-import inspect
 import json
 import re
 import sys
@@ -35,7 +34,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 import iconflow  # noqa: E402
-from iconflow import assemble, htmlhead  # noqa: E402
+from iconflow import htmlhead  # noqa: E402
 
 # `iconflow.build` the attribute is the build *function* re-exported by the
 # package; the module holding the target constants has to be imported by name.
@@ -114,7 +113,7 @@ class _Blanks(dict):
 
 _BLANK = _Blanks()
 
-MASKABLE_PADDING = inspect.signature(assemble.maskable_asset).parameters["padding"].default
+MASKABLE_PADDING = (1 - build.DEFAULT_MASKABLE_SCALE) / 2
 
 # What each produced file is *for*. Keys must match the filenames the build
 # code emits; :func:`rows_for` raises when one drifts, which is the point.
@@ -156,6 +155,39 @@ NOTES: dict[str, str] = {
     "emote/112.png": "Twitch, 4× density and the size Twitch reviews. At most 25 KB.",
     "emote/128.png": "Discord and Slack custom emoji. At most 128 KB (Slack's limit; Discord allows 256 KB).",
 }
+
+
+_DENSITY_NOTE = {
+    "mdpi": "1×", "hdpi": "1.5×", "xhdpi": "2×", "xxhdpi": "3×", "xxxhdpi": "4×",
+}
+for _density, _factor in build.ANDROID_DENSITIES:
+    _scale = _DENSITY_NOTE[_density]
+    NOTES.update({
+        f"android/res/mipmap-{_density}/ic_launcher_foreground.png": (
+            f"Adaptive foreground layer, {_scale}. The maskable composition on a 108dp layer."
+        ),
+        f"android/res/mipmap-{_density}/ic_launcher_monochrome.png": (
+            f"Themed-icon layer (Android 13+), {_scale}. Alpha only; the launcher tints it."
+        ),
+        f"android/res/mipmap-{_density}/ic_launcher.png": (
+            f"Legacy launcher icon (before Android 8), {_scale}. Rounded-square keyline."
+        ),
+        f"android/res/mipmap-{_density}/ic_launcher_round.png": (
+            f"Legacy round launcher icon, {_scale}."
+        ),
+    })
+NOTES.update({
+    "android/res/mipmap-anydpi-v26/ic_launcher.xml": (
+        "The adaptive icon: background colour, foreground and monochrome layers."
+    ),
+    "android/res/mipmap-anydpi-v26/ic_launcher_round.xml": "The same adaptive icon for roundIcon.",
+    "android/res/values/ic_launcher_background.xml": (
+        "The background layer as a colour resource, from background_color."
+    ),
+    "android/play-store-512.png": (
+        "Google Play listing icon: the launcher's visible 72dp, full square. Play applies its own mask."
+    ),
+})
 
 
 def _note(path: str) -> str:
@@ -234,6 +266,30 @@ def emote_rows() -> list[Row]:
     return _png_rows("emote")
 
 
+def android_rows() -> list[Row]:
+    """Every file ``--targets android`` writes, densities grouped."""
+    assets = build.preview_assets(_SpecCache(), "android")
+    rows = []
+    for path, data in assets.items():
+        if path.endswith(".xml"):
+            rows.append(Row(path, "XML", _note(path)))
+        else:
+            rows.append(Row(path, "%d × %d px" % _open_size(data), _note(path)))
+    order = {name: index for index, name in enumerate(
+        ["mipmap-anydpi-v26", "values"] + [f"mipmap-{d}" for d, _ in build.ANDROID_DENSITIES]
+    )}
+
+    def key(row: Row):
+        parts = row.path.split("/")
+        folder = parts[2] if len(parts) > 3 else "zz"
+        return (order.get(folder, 99), row.path)
+
+    return sorted(rows, key=key)
+
+
+ANDROID_SAFE_SHARE = build.android_layer_scale(None, linked=False)
+
+
 def tray_rows() -> list[Row]:
     rows = _png_rows("tray")
     rows.append(Row("tray/trayIcon.ts", "TypeScript", _note("tray/trayIcon.ts")))
@@ -263,6 +319,16 @@ FAQ = [
         f"{1 - 2 * MASKABLE_PADDING:.0%} of the canvas — and flattens the "
         "result onto the background colour, so no mask can remove a "
         "meaningful part of the mark or reveal transparency.",
+    ),
+    (
+        "What does an Android launcher icon need?",
+        "Since Android 8 a launcher icon is two 108dp layers — a background and a "
+        "foreground — that the launcher masks to its own shape, showing the "
+        "central 72dp and guaranteeing only the central 66dp circle. Android 13 "
+        "adds a monochrome layer for themed icons. Older launchers still read a "
+        "48dp bitmap in each of five densities. IconFlow writes all of it from "
+        "one SVG, with the background as a colour resource and the foreground "
+        "composed so its safe circle lands exactly on the 66dp circle.",
     ),
     (
         "Why is my macOS menu bar icon a black square?",
@@ -468,7 +534,7 @@ def render() -> str:
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Every icon file your platform actually needs">
-  <meta property="og:description" content="Favicon, PWA, Tauri, Electron and macOS tray sizes in one table — generated from the build code, so it cannot drift.">
+  <meta property="og:description" content="Favicon, PWA, Tauri, Electron, Android and macOS tray sizes in one table — generated from the build code, so it cannot drift.">
   <meta property="og:url" content="{ORIGIN}{ROUTE}">
   <meta property="og:image" content="{ORIGIN}/assets/social-preview.png?v=petal">
   <meta property="og:image:width" content="1280">
@@ -493,7 +559,7 @@ def render() -> str:
   <header class="site-header" data-header>
     <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Open navigation" data-label-close="Close navigation"><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
-    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#web">Favicon</a><a href="#pwa">PWA</a><a href="#tauri">Tauri</a><a href="#electron">Electron</a><a href="#tray">Tray</a><a href="#emote">Emotes</a><a href="/getting-started/">Get started</a></nav>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#web">Favicon</a><a href="#pwa">PWA</a><a href="#tauri">Tauri</a><a href="#electron">Electron</a><a href="#tray">Tray</a><a href="#android">Android</a><a href="#emote">Emotes</a><a href="/getting-started/">Get started</a></nav>
   </header>
 
   <main id="main">
@@ -505,7 +571,7 @@ def render() -> str:
       <div class="ref-hero-copy">
         <p class="section-kicker">Reference · generated from the build code</p>
         <h1>Every icon file<br>your platform<br><em>actually needs.</em></h1>
-        <p class="ref-lede">Favicon, PWA manifest, Tauri, Electron and the macOS menu bar — one table per target, with the exact filenames and frame sizes. Nothing here is transcribed by hand: the page is generated from <code>iconflow/build.py</code>, so it says what the tool ships and fails the build when the two disagree.</p>
+        <p class="ref-lede">Favicon, PWA manifest, Tauri, Electron, Android and the macOS menu bar — one table per target, with the exact filenames and frame sizes. Nothing here is transcribed by hand: the page is generated from <code>iconflow/build.py</code>, so it says what the tool ships and fails the build when the two disagree.</p>
         <p class="ref-meta">IconFlow {escape(iconflow.__version__)} · targets: <code>{escape(targets)}</code></p>
       </div>
       <aside class="ref-hero-card" aria-label="Produce every file below">
@@ -530,7 +596,7 @@ def render() -> str:
       <p>An adaptive platform crops your icon to a shape it chooses. A square drawing that reaches the canvas edge loses its corners; one with transparency shows the mask through. Both problems are solved before export, by insetting the artwork and flattening it onto the background colour.</p>
       <p>The generated <code>site.webmanifest</code> declares exactly three icons — the third carrying <code>"purpose": "maskable"</code>:</p>
       {code_block(manifest)}
-      <p class="ref-callout"><strong>Safe zone.</strong> The maskable asset insets the artwork {MASKABLE_PADDING:.0%} on every side, leaving it at {1 - 2 * MASKABLE_PADDING:.0%} of the canvas, then flattens it. Any platform mask — circle, squircle, rounded square — lands inside that margin.</p>
+      <p class="ref-callout"><strong>Safe zone.</strong> By default the maskable asset insets the artwork {MASKABLE_PADDING:.0%} on every side, leaving it at {1 - 2 * MASKABLE_PADDING:.0%} of the canvas, then flattens it. Any platform mask — circle, squircle, rounded square — lands inside that margin. A mark that needs more room sets <code>maskable_scale</code>, or links its own <code>maskable_svg</code>; <code>check</code>, <code>review</code> and <code>ship</code> all audit the same composition on the configured background.</p>
     </section>
 
     <section class="ref-section section-shell" id="windows">
@@ -557,6 +623,13 @@ def render() -> str:
 {table("iconflow ship --targets tray", tray_rows())}
       <p class="ref-callout"><strong>Give the tray its own drawing.</strong> A menu bar mark needs real transparency around a sparse shape — usually a simplified version of the master, not the master itself. Pass it with <code>--tray-svg</code>. When you do not, IconFlow derives alpha from the mark's contrast, and if no semantic shape can be isolated it refuses the build rather than shipping a black square.</p>
       <div class="ref-actions"><a class="button button-primary" href="/reference/tray-icons/">See the black-square failure and fix <span aria-hidden="true">&rarr;</span></a></div>
+    </section>
+
+    <section class="ref-section section-shell" id="android">
+      <h2>Android launcher icons</h2>
+      <p>An adaptive icon is two 108dp layers the launcher masks to a shape it chooses: a circle, a squircle, a teardrop. It shows the central 72dp and promises only the central 66dp circle. IconFlow maps the maskable composition onto the layer so the 40% safe circle of <code>icon-512-maskable.png</code> lands exactly on that 66dp circle — at the default scale the artwork's canvas fills {ANDROID_SAFE_SHARE:.1%} of the layer, which is 66/108 — so one audit guards both. Each density renders the artwork natively. Copy <code>android/res/</code> into <code>app/src/main/res/</code>; a Tauri project's is under <code>src-tauri/gen/android/app/src/main/res/</code>.</p>
+{table("iconflow ship --targets android", android_rows())}
+      <p class="ref-callout"><strong>Let the crop have its own composition.</strong> A square full-bleed mark does not have to round its corners to survive a circle: set <code>maskable_scale</code> in <code>iconflow.toml</code>, or link a <code>maskable_svg</code> drawn for the crop. The linked source is audited against the master, so it can change scale and padding but not become a different mark. The themed layer is the alpha of <code>monochrome_svg</code> (else <code>tray_svg</code>); without one, the build derives it the way the macOS template is derived, and fails rather than ship a featureless disc. <code>all</code> does not include <code>android</code>: ask for it by name.</p>
     </section>
 
     <section class="ref-section section-shell" id="emote">

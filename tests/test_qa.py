@@ -111,6 +111,9 @@ class QaTests(unittest.TestCase):
             return out.getvalue()
 
         class FakeRasterizer:
+            def __init__(self, **options):
+                self.options = options
+
             def __enter__(self):
                 return self
 
