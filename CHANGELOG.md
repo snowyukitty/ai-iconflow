@@ -45,6 +45,24 @@ first published release remains under `Unreleased`.
   legacy previews of the exact bytes.
 - `docs/OUTPUT_TARGETS.md` records why iOS app-icon sets and MSIX tile assets
   are not targets yet.
+- **Headless review.** `review --evidence DIR` writes the Review Lab's
+  evidence as deterministic sheets (the contact sheet, a target-context sheet
+  of the exact shipped bytes, the ladder and neighbourhood proofs) plus
+  `findings.json`. `iconflow score` walks the six axes over it, refuses stale
+  or edited evidence, requires a reason for every axis, and writes a receipt
+  that records `review_surface.interactive_lab: false`. The gate does not
+  move: `ship` re-checks the hashes and the 4/5 floor. A second opinion over
+  the same evidence (`--second-opinion`) is recorded and its dissent reported
+  as `second-opinion-dissent`; it never gates.
+- **The 16px legibility budget.** `iconflow budget <finalists> --sheet` (and
+  `compare`, under its sheet) measures what L15, L16, L20, L26, L28 and L31
+  ask for: cuts under 128 units, separating gaps under 64, thin accents, how
+  many cuts and parts survive at 16px, and how much of its card a tiled mark
+  spans. Advisory only. Calibrated on 2026-10-18: it flagged 6 of 7 documented
+  failing first drafts, and at least one finding on 43 of the 100 shipped
+  gallery finals (which, inspected, do lose what it says they lose).
+  No first-pass improvement is claimed yet; `case stats --since/--until`
+  measures it as new cases arrive (`docs/LEGIBILITY_BUDGET.md`).
 
 ### Migration
 

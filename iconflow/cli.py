@@ -51,7 +51,7 @@ from .styles import PRESETS, STYLE_CATALOG
 # Commands whose result is a machine-readable Report (docs/AGENT_CONTRACT.md).
 JSON_COMMANDS = frozenset({
     "doctor", "check", "review", "ship", "demo", "ladder", "neighbours", "family",
-    "score",
+    "score", "budget",
 })
 DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
 JSON_HELP = "emit one docs/AGENT_CONTRACT.md envelope on stdout; human lines go to stderr"
@@ -669,6 +669,13 @@ def _cmd_review(a) -> Report:
 
         targets_out = target_sheet(master, evidence_dir / "targets.png", options=options)
         print(f"Target contexts -> {targets_out}")
+        from .budget import budget_svg
+        from .rasterize import Rasterizer as _Rasterizer
+
+        with _Rasterizer(color_scheme=color_scheme) as _r:
+            audit.metrics["budget"] = budget_svg(
+                load_svg(master), _r, source=str(master),
+            ).as_dict()
         findings_out = write_findings(
             evidence_dir, seed=seed, audit=audit, toolchain=_toolchain(),
             sheets={
@@ -834,7 +841,51 @@ def _cmd_compare(a) -> int:
     out = compare_sheet(candidates, a.out)
     print(f"Bake-off sheet -> {out}")
     print("Read it: pick the most DISTINCTIVE candidate that still reads at 16px and in silhouette.")
+    if not a.no_budget:
+        from .budget import budget_svg
+        from .rasterize import Rasterizer, load_svg
+
+        print("16px budget (advisory; docs/LEGIBILITY_BUDGET.md):")
+        with Rasterizer() as r:
+            for name, path in candidates:
+                measured = budget_svg(load_svg(path), r, source=str(path))
+                print(f"  {name}: {measured.summary()}")
+                for finding in measured.findings():
+                    print(f"    ~ {finding}")
     return 0
+
+
+def _cmd_budget(a) -> Report:
+    """Measure the 16px pixel budget of candidates before the bake-off."""
+    from .budget import ANALYSIS_SIZE, budget_sheet, measure
+    from .rasterize import Rasterizer, load_svg
+
+    report = Report("budget")
+    entries = []
+    with Rasterizer(color_scheme=a.color_scheme) as r:
+        for raw in a.candidates:
+            path = Path(raw)
+            glyph = _LADDER.RungSource(load_svg(path)).rung("glyph")
+            png256, png16 = r.render(glyph, ANALYSIS_SIZE), r.render(glyph, 16)
+            measured = measure(png256, png16, source=str(path))
+            entries.append((path.stem, png256, png16, measured))
+    results = []
+    for name, _big, _small, measured in entries:
+        print(f"{name}: {measured.summary()}")
+        findings = measured.findings()
+        if not findings:
+            print("  within budget")
+        for finding in findings:
+            print(f"  ~ {finding}")
+            report.advise(finding.code, f"{name}: {finding}")
+        results.append({"name": name, **measured.as_dict(), "source": _abs(measured.source)})
+    sheet = None
+    if a.sheet:
+        sheet = budget_sheet(entries, a.sheet)
+        print(f"Budget sheet -> {sheet}")
+    print("Advisory: the budget measures; review still decides (it never gates).")
+    report.outputs = {"candidates": results, "sheet": _abs(sheet)}
+    return report
 
 
 def _cmd_check(a) -> Report:
@@ -1272,8 +1323,23 @@ def _cmd_case_new(a) -> int:
 
 
 def _cmd_case_stats(a) -> int:
-    from .casebook import format_stats, load_casebook, stats
-    for line in format_stats(stats(load_casebook(a.dir))):
+    from .casebook import format_stats, load_casebook, stats, validate_date
+    cases = load_casebook(a.dir)
+    if a.since or a.until:
+        try:
+            since = validate_date(a.since) if a.since else ""
+            until = validate_date(a.until) if a.until else ""
+        except ValueError as exc:
+            print(f"iconflow case stats: {exc}", file=sys.stderr)
+            return 2
+        # Cases without a date cannot be placed in a window, so they are left out.
+        cases = [
+            case for case in cases
+            if case.date and (not since or case.date >= since) and (not until or case.date <= until)
+        ]
+        window = f"{since or 'start'} .. {until or 'today'}"
+        print(f"window: {window} ({len(cases)} case(s) with a date in it)")
+    for line in format_stats(stats(cases)):
         print(line)
     return 0
 
@@ -1931,7 +1997,20 @@ def build_parser() -> argparse.ArgumentParser:
     cmp = sub.add_parser("compare", help="bake-off: compare candidate SVGs side by side")
     cmp.add_argument("candidates", nargs="+", help="two or more master SVG paths")
     cmp.add_argument("--out", default="compare.png")
+    cmp.add_argument("--no-budget", action="store_true",
+                     help="skip the 16px budget measurement printed after the sheet")
     cmp.set_defaults(func=_cmd_compare)
+
+    bd = sub.add_parser(
+        "budget",
+        help="measure each candidate's 16px pixel budget: narrow cuts, fusing gaps, "
+             "thin accents, what survives at 16px (advisory)",
+    )
+    bd.add_argument("candidates", nargs="+", metavar="SVG")
+    bd.add_argument("--sheet", help="write a sheet ringing each narrow feature")
+    bd.add_argument("--color-scheme", choices=["light", "dark"], default="light")
+    bd.add_argument("--json", action="store_true", help=JSON_HELP)
+    bd.set_defaults(func=_cmd_budget)
 
     c = sub.add_parser(
         "check",
@@ -2082,6 +2161,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     cs = ca_sub.add_parser("stats", help="aggregate the casebook: weakest axis, house cliches, undistilled lessons")
     cs.add_argument("--dir", default=default_dir)
+    cs.add_argument("--since", default="",
+                    help="only cases dated on or after YYYY-MM-DD (measure a change's effect)")
+    cs.add_argument("--until", default="", help="only cases dated on or before YYYY-MM-DD")
     cs.set_defaults(func=_cmd_case_stats)
 
     cl = ca_sub.add_parser("list", help="list recorded cases")

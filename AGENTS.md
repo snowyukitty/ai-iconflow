@@ -40,7 +40,9 @@ toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
    apply the cliché filter, add ONE signature device. Draft 2–3 finalist SVGs.
 3. **Bake-off** the finalists:
    `python -m iconflow compare a.svg b.svg c.svg --out bake.png` →
-   **Read `bake.png`**, run the silhouette + row tests, promote the most
+   **Read `bake.png`** and the 16px budget `compare` prints under it (narrow
+   cuts, fusing gaps, thin accents, what survives at 16px;
+   `docs/LEGIBILITY_BUDGET.md` — advisory, act on it before review), run the silhouette + row tests, promote the most
    distinctive-yet-legible winner to `master.svg`. Run the name-the-thing test
    at both 128px and 16px; change the viewpoint if the noun changes. With color
    removed, test vertical cuts above detached round accents as punctuation and

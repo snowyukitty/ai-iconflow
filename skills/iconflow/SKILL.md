@@ -93,7 +93,11 @@ the project you are working on.
    adding detail. Strip color and test detached accents as punctuation — a
    vertical cut centered over a round accent reads as `!` at 16px, so offset
    their centerlines by at least two output pixels (~128 viewBox units) or
-   redesign the pair.
+   redesign the pair. `compare` then prints each finalist's **16px budget**:
+   cuts under 128 units, gaps that fuse, thin accents, and how many cuts and
+   parts survive at 16px (`iconflow budget <finalists> --sheet
+   work/<slug>/budget.png` rings them; `iconflow docs LEGIBILITY_BUDGET`). It
+   advises and never gates; act on it now, while changing the concept is cheap.
 
 4c. **Run the neighbourhood on every finalist** (mandatory for the winner):
    `iconflow neighbours <finalist>.svg --config iconflow.toml --sheet work/<slug>/neighbours.png`
