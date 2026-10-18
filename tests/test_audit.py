@@ -198,6 +198,25 @@ class SharedAuditTests(ProjectFixture):
         self.assertEqual((bare.background_color, bare.targets), ("#ffffff", ("web", "pwa")))
 
 
+class LazyRendererTests(ProjectFixture):
+    def test_an_audit_that_renders_nothing_never_starts_chromium(self):
+        from iconflow.audit import run_audit
+
+        started = []
+
+        class Exploding:
+            def __init__(self, **_):
+                started.append(True)
+
+            def __enter__(self):
+                raise AssertionError("Chromium must not start")
+
+        with mock.patch("iconflow.qa.Rasterizer", Exploding), \
+             mock.patch("iconflow.qa.check", return_value=[]):
+            result = run_audit(resolve_inputs(config=load_config(self.config_path)))
+        self.assertEqual((result.warnings, started), ([], []))
+
+
 class MaskableScaleTests(ProjectFixture):
     extra_build = "maskable_scale = 0.6"
     background = "#FFFFFF"  # where the default 0.8 composition fails this grid

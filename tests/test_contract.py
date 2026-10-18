@@ -251,6 +251,11 @@ class DemoFamilyFixture(unittest.TestCase):
         self.config = self.dir / "iconflow.toml"
         self.receipt = self.dir / "master-review.json"
         self.master = self.dir / "master.svg"
+        # Since 0.7 ship runs the same audit as check and review, including the
+        # tray-template advisory for the demo family's linked tray source.
+        tray = mock.patch("iconflow.qa.tray_template_warnings", return_value=[])
+        tray.start()
+        self.addCleanup(tray.stop)
 
     def ship(self, *extra: str) -> tuple[int, dict, str]:
         return run_json([

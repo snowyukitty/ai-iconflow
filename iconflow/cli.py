@@ -699,9 +699,9 @@ def _cmd_review(a) -> Report:
         targets_out = target_sheet(master, evidence_dir / "targets.png", options=options)
         print(f"Target contexts -> {targets_out}")
         from .budget import budget_svg
-        from .rasterize import Rasterizer as _Rasterizer
+        from .rasterize import LazyRasterizer
 
-        with _Rasterizer(color_scheme=color_scheme) as _r:
+        with LazyRasterizer(color_scheme=color_scheme) as _r:
             audit.metrics["budget"] = budget_svg(
                 load_svg(master), _r, source=str(master),
             ).as_dict()

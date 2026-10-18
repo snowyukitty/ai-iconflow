@@ -32,6 +32,13 @@ def run(argv):
     return code, json.loads(out.getvalue()), err.getvalue()
 
 
+def headless_budget():
+    from iconflow.budget import Budget
+
+    return Budget(source="master.svg", ground="transparent", cuts_256=1, cuts_16=1,
+                  parts_256=1, parts_16=1)
+
+
 def write_png(path, *_args, **_kwargs):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -49,6 +56,13 @@ class HeadlessFlowTests(unittest.TestCase):
             (self.dir / name).write_bytes(_resource("demo", name).read_bytes())
         self.config = self.dir / "iconflow.toml"
         self.evidence = self.dir / "evidence"
+        for target, value in (
+            ("iconflow.qa.tray_template_warnings", []),
+            ("iconflow.budget.budget_svg", headless_budget()),
+        ):
+            patcher = mock.patch(target, return_value=value)
+            patcher.start()
+            self.addCleanup(patcher.stop)
 
     def render_evidence(self):
         with mock.patch("iconflow.qa.check", return_value=[]), \

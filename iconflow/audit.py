@@ -187,6 +187,9 @@ def run_audit(inputs: AuditInputs, *, rasterizer=None) -> AuditResult:
     if rasterizer is not None:
         return audit(rasterizer)
     # Resolved through qa so a caller (or test) that substitutes qa's
-    # renderer substitutes the whole audit's.
-    with qa.Rasterizer(color_scheme=inputs.color_scheme) as owned:
+    # renderer substitutes the whole audit's; lazy, so a check that renders
+    # nothing (or is substituted) never starts Chromium.
+    from .rasterize import LazyRasterizer
+
+    with LazyRasterizer(color_scheme=inputs.color_scheme, factory=qa.Rasterizer) as owned:
         return audit(owned)

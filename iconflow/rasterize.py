@@ -183,6 +183,41 @@ def _validated_png(data: bytes, width: int, height: int | None = None) -> bytes:
     return data
 
 
+class LazyRasterizer:
+    """A Rasterizer that starts Chromium only when something is rendered.
+
+    Used where one session is shared across several checks that may each be
+    skipped or substituted (the shared audit, the headless evidence): nothing
+    is launched until a render is actually asked for.
+    """
+
+    def __init__(self, color_scheme: str = "light", factory=None):
+        self.color_scheme = color_scheme
+        self._factory = factory
+        self._active = None
+
+    def _session(self):
+        if self._active is None:
+            factory = self._factory or Rasterizer
+            self._active = factory(color_scheme=self.color_scheme).__enter__()
+        return self._active
+
+    def render(self, svg_text: str, size: int, bg: str = "transparent") -> bytes:
+        return self._session().render(svg_text, size, bg=bg)
+
+    def render_rect(self, svg_text: str, width: int, height: int,
+                    bg: str = "transparent") -> bytes:
+        return self._session().render_rect(svg_text, width, height, bg=bg)
+
+    def __enter__(self) -> "LazyRasterizer":
+        return self
+
+    def __exit__(self, *exc) -> None:
+        if self._active is not None:
+            self._active.__exit__(*exc)
+            self._active = None
+
+
 class Rasterizer:
     """A reusable headless-Chromium session. Use as a context manager.
 
