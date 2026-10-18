@@ -55,6 +55,10 @@ JSON_COMMANDS = frozenset({
 })
 DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
 JSON_HELP = "emit one docs/AGENT_CONTRACT.md envelope on stdout; human lines go to stderr"
+EXIT_CODE_EPILOG = """exit codes (every command; docs/AGENT_CONTRACT.md):
+  0  completed, no gating failure (advisories allowed)
+  1  blocked by an IconFlow gate: check warnings, stale receipt, axis < 4, doctor FAIL
+  2  usage, configuration, or runtime failure: bad flag, missing file, Chromium error"""
 
 # `demo` is the only command that copies IconFlow's own identity into a
 # directory the user chose, so the directory has to say what it is holding.
@@ -233,12 +237,11 @@ def _cmd_build(a) -> int:
 
 
 def _cmd_init(a) -> int:
-    from .build import normalize_targets
     from .casebook import normalize_detail, normalize_taxonomy
     from .config import ConfigError, IconFlowConfig, write_config
 
     try:
-        targets = normalize_targets(_csv(a.targets))
+        targets = _init_targets(a)
         config = IconFlowConfig(
             source=Path(a.out),
             name=a.name or Path.cwd().name or "App",
@@ -271,6 +274,32 @@ def _cmd_init(a) -> int:
     print(f"Project workflow -> {path}")
     print("Next: fill the brief, diverge, then export a Review Lab receipt before `iconflow ship`.")
     return 0
+
+
+def _init_targets(a) -> list[str]:
+    """``--targets``, or the targets detected from the project, confirmed if interactive."""
+    from .build import normalize_targets
+    from .detect import detect_targets
+
+    if a.targets.strip().lower() != "auto":
+        return normalize_targets(_csv(a.targets))
+    detected = detect_targets(Path(a.out).expanduser().resolve(strict=False).parent)
+    if detected:
+        print("Detected targets from this project:")
+        for item in detected:
+            print(f"  {item.target:9s} {item.reason}")
+        proposal = [item.target for item in detected]
+    else:
+        print("No project files suggest a target; proposing web (a favicon set).")
+        proposal = ["web"]
+    if sys.stdin.isatty() and not a.yes:
+        try:
+            answer = input(f"Targets [{','.join(proposal)}]: ").strip()
+        except EOFError:
+            answer = ""
+        if answer:
+            return normalize_targets(_csv(answer))
+    return normalize_targets(proposal)
 
 
 def _ship_approval(a):
@@ -1551,11 +1580,15 @@ def _cmd_doctor(a) -> Report:
             record(True, "Chromium runtime")
             chromium = "PASS"
         except Exception as exc:  # Playwright exposes several runtime-specific exceptions
-            record(
-                False, "Chromium runtime", f"{exc} (run `iconflow setup`)",
-                fix=f"{python} -m iconflow setup",
-            )
+            fix = chromium_fix(python)
+            record(False, "Chromium runtime", f"{exc} (fix: {fix})", fix=fix)
             chromium = "FAIL"
+
+    hint = path_hint()
+    if hint:
+        print(f"WARN iconflow command — {hint['detail']}")
+        checks.append({"name": "iconflow command", "status": "WARN",
+                       "detail": hint["detail"], "fix": hint["fix"]})
 
     report.outputs = {"checks": checks, "chromium": chromium}
     failures = len(report.warnings)
@@ -1564,6 +1597,42 @@ def _cmd_doctor(a) -> Report:
         return report
     print("IconFlow is ready.")
     return report
+
+
+def chromium_fix(python: str, platform: str | None = None) -> str:
+    """The remediation that actually fixes a failed Chromium launch on this OS.
+
+    On Linux the usual cause is missing shared libraries, which ``iconflow
+    setup`` cannot install; Playwright's ``--with-deps`` can, with root.
+    """
+    platform = platform or sys.platform
+    if platform.startswith("linux"):
+        return (f"{python} -m playwright install --with-deps chromium "
+                "(--with-deps installs system libraries; it needs sudo on Debian/Ubuntu)")
+    return f"{python} -m iconflow setup"
+
+
+def path_hint(platform: str | None = None, which=None) -> dict | None:
+    """A WARN when the package imports but the ``iconflow`` command is not on PATH.
+
+    After ``pipx install`` or ``uv tool install`` the command often appears only
+    in a new shell after the tool's PATH step; users then report it as a bug.
+    """
+    import shutil
+
+    which = which or shutil.which
+    if which("iconflow"):
+        return None
+    platform = platform or sys.platform
+    fix = "pipx ensurepath   # or: uv tool update-shell — then open a new terminal"
+    if platform == "win32":
+        fix = ("pipx ensurepath   # or: uv tool update-shell — then open a new "
+               "PowerShell window; inside a venv, use python -m iconflow")
+    return {
+        "detail": "the package imports, but `iconflow` is not on PATH "
+                  "(python -m iconflow works meanwhile)",
+        "fix": fix,
+    }
 
 
 def _materialize_demo(out: Path, *, force: bool) -> dict[str, Path]:
@@ -1849,7 +1918,12 @@ def _cmd_license(a) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="iconflow", description="IconFlow design-proof and build engine")
+    p = argparse.ArgumentParser(
+        prog="iconflow",
+        description="IconFlow design-proof and build engine",
+        epilog=EXIT_CODE_EPILOG,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     from . import __version__
     p.add_argument("--version", action="version", version=f"IconFlow {__version__}")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -1874,7 +1948,12 @@ def build_parser() -> argparse.ArgumentParser:
     init.add_argument("--device-family", default="", help="normalized device family")
     init.add_argument("--device-detail", default="", help="specific execution of the device")
     init.add_argument("--concept-lens", default="", help="winning concept lens")
-    init.add_argument("--targets", default="web", help="comma list of build targets")
+    init.add_argument("--targets", default="auto",
+                      help="comma list of build targets, or 'auto' (default): detect them "
+                           "from the project (Tauri, Electron, Android, PWA, web) and ask "
+                           "when interactive")
+    init.add_argument("--yes", action="store_true",
+                      help="accept the detected targets without asking")
     init.add_argument("--theme", default="#0b0d12", help="theme color")
     init.add_argument("--bg", default="#ffffff", help="flattening/background color")
     init.add_argument("--tray-svg", default="", help="optional semantic foreground SVG for tray output")

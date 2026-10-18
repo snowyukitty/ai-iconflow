@@ -64,6 +64,18 @@ first published release remains under `Unreleased`.
   No first-pass improvement is claimed yet; `case stats --since/--until`
   measures it as new cases arrive (`docs/LEGIBILITY_BUDGET.md`).
 
+- **`iconflow init` detects the targets** from the consuming project
+  (`src-tauri/`, a tray in the Tauri config or Electron main process,
+  `android/`, Capacitor, a web manifest, a web framework) and prints the
+  evidence for each; interactive sessions confirm or edit. With no evidence
+  it still proposes `web`, as before. `--targets` skips detection.
+- **Developer experience seeds** (`docs/ISSUE_SEEDS.md`): `--help` ends with
+  the exit-code matrix; `doctor` gives Linux the `--with-deps` Chromium fix
+  and warns when `iconflow` is not on PATH; the case PR template says how to
+  prove each box; `examples/README.md` shows an agent choosing presets from
+  `styles --json`. `case stats --since/--until` restricts the report to a
+  date window.
+
 ### Evolution
 
 - **Distilled the 20 open lessons** (EVOLUTION §3). Six new rules — L59 the

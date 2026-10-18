@@ -62,7 +62,8 @@ the project you are working on.
    signal is diagnostic; it does not by itself authorize editing the toolkit.
 
 2. **Write the brief.** Read `iconflow docs DESIGN_PLAYBOOK`, then
-   `iconflow init --out iconflow.toml` in the project. Record: app intent, user
+   `iconflow init --out iconflow.toml` in the project (it detects the targets
+   from the project files and says why; check them). Record: app intent, user
    job, one-word essence, brand color (pull it from the project's existing CSS,
    theme, or manifest if there is one), personality, clichés to avoid, a
    signature-device hypothesis, and the exact output targets. *A visual decision

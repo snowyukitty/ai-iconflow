@@ -29,7 +29,9 @@ toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
    house-cliché warning before you start. Treat that signal as diagnostic; it
    does not itself authorize editing this shared toolkit.
 1. **Read** `docs/DESIGN_PLAYBOOK.md`. From the consuming project, create its
-   `iconflow.toml` with `python -m iconflow init --out iconflow.toml`, then
+   `iconflow.toml` with `python -m iconflow init --out iconflow.toml` (it
+   detects the targets from the project — Tauri, Electron, Android, PWA, web
+   — says why, and asks when interactive; check them), then
    record the app intent, user job, one-word
    essence, personality, existing brand palette, clichés, signature-device
    hypothesis, and exact output targets. A visual decision without a product

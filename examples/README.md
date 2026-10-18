@@ -134,6 +134,26 @@ python -m iconflow new line-mark --out work/my-app/c.svg
 python -m iconflow new mascot --out work/my-app/d.svg
 ```
 
+An agent can choose from the machine-readable catalog instead of the prose
+table. This picks every preset whose tray strategy is a mark-only source and
+starts one finalist from each (the snippet is executed by
+`tests/test_dx.py`):
+
+```python
+import json, subprocess, sys
+from pathlib import Path
+
+catalog = json.loads(subprocess.run(
+    [sys.executable, "-m", "iconflow", "styles", "--json"],
+    check=True, capture_output=True, text=True).stdout)
+picks = [s["slug"] for s in catalog if "mark-only" in s["tray_strategy"].lower()]
+for slug in picks[:3]:
+    out = Path("work/my-app") / f"{slug}.svg"
+    subprocess.run([sys.executable, "-m", "iconflow", "new", slug,
+                    "--out", str(out), "--force"], check=True)
+print(picks[:3])
+```
+
 Replace the IconFlow house rail in every candidate with the consuming app's
 user job and one signature device. Do not select a preset merely because its
 style looks attractive at 128px; compare the resulting app-specific concepts.

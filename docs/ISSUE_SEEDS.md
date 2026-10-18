@@ -10,6 +10,19 @@ names its acceptance test. Sizes: **S** = under an hour, **M** = an afternoon.
 None of them touches the >= 4/5 floor, the distinctiveness gate, or the
 stale-receipt rule (`docs/EVOLUTION.md`, "Never weaken a gate").
 
+## Status (2026-10-18, 0.7 milestone)
+
+| # | Seed | Status |
+|---|---|---|
+| 1 | exit-code matrix in `--help` | **shipped** — epilog, `tests/test_dx.py` |
+| 2 | per-OS Chromium remediation in `doctor` | **shipped** — `chromium_fix`, `tests/test_dx.py` |
+| 3 | install table on `/getting-started/` | **closed, stale** — the page has led with the PyPI install since 0.5 |
+| 4 | case PR template "how to prove" hints | **shipped** — an HTML comment under every box, `tests/test_dx.py` |
+| 5 | Proof action 16px cell in the summary | open — still valid, M |
+| 6 | preset tray-strategy cross-link audit | open — the catalog's one-line strategy and the doc's table column are written at different grain; aligning them is a doc rewrite, not a test |
+| 7 | `styles --json` consumer example | **shipped** — `examples/README.md` §2, executed by `tests/test_dx.py` |
+| 8 | PATH hint in `doctor` | **shipped** — a WARN on every OS when `iconflow` is not on PATH |
+
 ---
 
 ## 1. Document the exit-code matrix in `iconflow --help` (S)
