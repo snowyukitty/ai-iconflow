@@ -193,6 +193,23 @@ Blocked ships report `status: "blocked"` with `warnings` codes
 `receipt-stale-source`, `receipt-stale-contract`, `receipt-not-ready`,
 `score-below-floor`, `qa-warnings`.
 
+### `score --json` (0.7, headless review)
+
+```
+iconflow score --config iconflow.toml --evidence DIR --scores "..." --rationale AXIS=TEXT...
+               --notes "..." --reviewer-name NAME [--reviewer-kind agent|human]
+               [--second-opinion RECEIPT]... [--out master-review.json] [--json]
+```
+
+`outputs`: `{"receipt": "<abs path>", "status": "ready|blocked", "scores": {...},
+"source_sha256": "...", "contract_sha256": "...", "review_surface": {...},
+"second_opinions": 0}`. Exit `0` when the receipt is ready, `1` when an axis is
+below 4 (`score-below-floor`) or the evidence carries automated warnings (their
+own codes), `2` for stale or edited evidence, a missing reason, or a second
+opinion over different evidence or from the same reviewer. Advisory:
+`second-opinion-dissent`. `review --evidence DIR` adds `outputs.findings` (the
+path of `findings.json`, `null` without `--evidence`).
+
 ### `demo --json`
 
 `outputs`: `{"out": "<abs dir>", "steps": [{"name": "doctor|check|review|ship", "status": "ok|blocked|error", "exit_code": 0}], "files": [...], "receipt": "<abs path>"}`.
@@ -226,6 +243,19 @@ records when present and never requires:
 
 `ship` trusts content, staleness, and the ≥4/5 floor — never the reviewer's
 name. A named reviewer is provenance, not authority.
+
+0.7 adds, from `iconflow score`:
+
+```json
+"rationale": {"legibility": "...", "...": "..."},
+"review_surface": {"kind": "headless-evidence", "interactive_lab": false,
+                   "findings_sha256": "...", "note": "..."},
+"second_opinions": [{"reviewer": {...}, "scores": {...}, "notes": "...",
+                     "receipt_sha256": "...", "dissent": ["..."]}]
+```
+
+`ship` reports `review_surface` in its outputs and re-derives dissent from
+`second_opinions` as advisories. Neither changes a gate.
 
 ## Where it is tested
 

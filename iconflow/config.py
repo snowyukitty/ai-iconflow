@@ -75,6 +75,10 @@ class ReviewReceipt:
     toolchain: dict[str, Any] | None = None
     artifacts: dict[str, Any] | None = None
     reviewer: dict[str, Any] | None = None
+    # 0.7: how the review was done (headless evidence vs the Lab) and any
+    # independent second opinions. Recorded and reported, never a gate.
+    review_surface: dict[str, Any] | None = None
+    second_opinions: tuple[dict[str, Any], ...] = ()
 
 
 @dataclass
@@ -511,12 +515,16 @@ def load_review_receipt(
     notes = value.get("notes", "")
     if not isinstance(notes, str):
         raise ConfigError("review receipt notes must be a string")
-    packet: dict[str, dict[str, Any] | None] = {}
-    for key in ("toolchain", "artifacts", "reviewer"):
+    packet: dict[str, Any] = {}
+    for key in ("toolchain", "artifacts", "reviewer", "review_surface"):
         extra = value.get(key)
         if extra is not None and not isinstance(extra, Mapping):
             raise ConfigError(f"review receipt {key} must be an object when present")
         packet[key] = dict(extra) if extra is not None else None
+    opinions = value.get("second_opinions", [])
+    if not isinstance(opinions, list) or any(not isinstance(item, Mapping) for item in opinions):
+        raise ConfigError("review receipt second_opinions must be an array of objects")
+    packet["second_opinions"] = tuple(dict(item) for item in opinions)
     return ReviewReceipt(
         source=source,
         source_sha256=current,

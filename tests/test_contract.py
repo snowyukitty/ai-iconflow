@@ -401,6 +401,7 @@ class ReviewEnvelopeTests(DemoFamilyFixture):
         outputs = dict(envelope["outputs"])
         for key in ("sheet", "html", "receipt_template"):
             outputs[key] = _real(outputs[key])
+        self.assertIsNone(outputs.pop("findings"))  # only with --evidence
         audit = outputs.pop("audit")
         self.assertEqual(audit["targets"], config.targets)
         self.assertEqual(audit["background_color"], config.background_color)

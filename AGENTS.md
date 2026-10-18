@@ -78,8 +78,9 @@ toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
    read that sheet. A flat source (no `data-lod`) is a valid answer and behaves
    exactly as before.
 5. **Check + review:**
-   `python -m iconflow check master.svg --config iconflow.toml` → fix every
-   warning; `--config` brings the `[neighbours]` sets in. With a linked
+   `python -m iconflow check --config iconflow.toml` → fix every
+   warning. With `--config` it runs the same audit `review` and `ship` run
+   (targets, `background_color`, scheme, linked sources, `[neighbours]`). With a linked
    tray source, add `--tray-svg tray.svg --tray-template-mode <mode>`: it audits
    the macOS template the build will emit and reports one that kept none of the
    colour mark's features. A laddered source is additionally gated on the
@@ -90,9 +91,18 @@ toolkit docs and `work/<slug>/` drafts. See *Environment* for both modes.
    target transform. Score against `docs/REVIEW_CHECKLIST.md` and export the
    JSON receipt. Distinctiveness is a gate—do not ship below 4/5 on it. If any
    axis <4, make the one change that helps most and re-render. Usually 2–3 passes.
-   If managed browser policy blocks the Lab, inspect the static sheet and exact
-   target assets at real sizes, then use a complete source-hash-bound approved
-   fallback; record the blocked interactive check honestly and keep every gate.
+   **Without a browser** (a headless agent session, or a managed browser that
+   blocks the Lab) use the headless path: `review --config iconflow.toml
+   --evidence work/<slug>/evidence` writes every sheet plus `findings.json`;
+   read them all, then `iconflow score --config iconflow.toml --evidence
+   work/<slug>/evidence --scores "..." --rationale <axis>="..." ... --notes "..."
+   --reviewer-name "<you>" --out master-review.json`. It refuses stale or edited
+   evidence, needs a reason per axis, and records that the Lab was not used.
+   A second opinion from a different product is attached with
+   `--second-opinion`: recorded, never a substitute for the gate. If even that
+   is impossible, inspect the static sheet and exact target assets at real
+   sizes, then use a complete source-hash-bound approved fallback; record the
+   blocked interactive check honestly and keep every gate.
 6. **Ship** into the consuming project:
    `python -m iconflow ship --config iconflow.toml --review master-review.json`.
    `ship` re-runs automated QA, verifies the receipt belongs to the current SVG,

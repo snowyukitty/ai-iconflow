@@ -135,6 +135,9 @@ class AuditResult:
     warnings: list[Finding]
     advisories: list[Finding]
     neighbourhood: object | None = None
+    #: What the checks measured (coverage, contrast spreads, maskable share),
+    #: recorded in a headless review's findings file.
+    metrics: dict = field(default_factory=dict)
 
 
 def run_audit(inputs: AuditInputs, *, rasterizer=None) -> AuditResult:
@@ -148,6 +151,7 @@ def run_audit(inputs: AuditInputs, *, rasterizer=None) -> AuditResult:
     from .qa import check, neighbourhood_audit, tray_template_warnings
 
     def audit(r) -> AuditResult:
+        metrics: dict = {}
         warnings = list(check(
             inputs.master,
             maskable=inputs.maskable_audited,
@@ -156,6 +160,7 @@ def run_audit(inputs: AuditInputs, *, rasterizer=None) -> AuditResult:
             maskable_svg=inputs.maskable_svg if inputs.maskable_audited else None,
             color_scheme=inputs.color_scheme,
             rasterizer=r,
+            metrics=metrics,
         ))
         advisories: list[Finding] = []
         hood = None
@@ -177,7 +182,7 @@ def run_audit(inputs: AuditInputs, *, rasterizer=None) -> AuditResult:
             advisories.extend(tray_template_warnings(
                 inputs.tray_svg, template_mode=inputs.tray_template_mode, rasterizer=r,
             ))
-        return AuditResult(inputs, warnings, advisories, hood)
+        return AuditResult(inputs, warnings, advisories, hood, metrics)
 
     if rasterizer is not None:
         return audit(rasterizer)

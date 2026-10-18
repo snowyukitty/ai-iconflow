@@ -64,11 +64,47 @@ offenders, but it is a hint, not the judge — you still score the axis by eye.
 - Any axis <4 → name the weakest axis, apply the one change from the playbook
   §7 self-critique that raises it most, re-render. Repeat (usually 2–3 passes).
 
-If a managed browser blocks the local Review Lab, record that limitation
-honestly and follow `WORKFLOW.md`'s managed-browser fallback: inspect the static
-sheet and exact target assets at real sizes, then use a complete source-bound
-`[review]` approval. Do not treat an inaccessible Lab as a passed review or
-lower the ≥4/5 floor.
+## Without a browser: the headless path
+
+When the Lab cannot be opened — a headless agent session, a managed browser
+that blocks it — the evidence still can be:
+
+```bash
+iconflow review --config iconflow.toml --evidence work/<slug>/evidence
+iconflow score  --config iconflow.toml --evidence work/<slug>/evidence \
+  --scores "legibility=4 distinctiveness=4 balance=4 color=4 scalability=4 craft=4" \
+  --rationale legibility="16px zoom: one shape, cut open" \
+  ... one --rationale per axis ... \
+  --notes "weakest axis and the decisive change" --reviewer-name "<you>" \
+  --out master-review.json
+```
+
+`review --evidence` writes the contact sheet, `targets.png` (every selected
+target's exact bytes in context: favicon tabs, maskable crops, desktop frames,
+tray colour and template on light and dark bars, Android launchers and the
+themed icon), the ladder and neighbourhood proofs when they apply, and
+`findings.json` (inputs, warnings, advisories, measurements, the hash of every
+sheet, and which sheet answers which axis). `score` walks the six axes, refuses
+evidence whose source, contract or sheets changed, requires a reason of at
+least a sentence for every axis, and writes a receipt that says
+`review_surface.interactive_lab: false`. The gate is identical: `ship`
+re-checks the hashes and the ≥4/5 floor, and a headless receipt is never a
+lower bar — it is the same bar with the evidence named.
+
+**Second opinion (advisory).** Another reviewer — by the workspace rule, a
+different product from every author of the mark — scores the same evidence
+into its own receipt with `score --reviewer-name <them> --out opinion.json`,
+and the primary review attaches it with `--second-opinion opinion.json`. It is
+recorded in the receipt, an opinion below 4 or two points from the primary on
+any axis is reported as `second-opinion-dissent` by `score` and `ship`, and it
+never gates and never replaces the primary score. Treat dissent as a reason to
+look again, not as a vote.
+
+If even the headless path is unavailable, record that limitation honestly and
+follow `WORKFLOW.md`'s managed-browser fallback: inspect the static sheet and
+exact target assets at real sizes, then use a complete source-bound `[review]`
+approval. Do not treat an inaccessible Lab as a passed review or lower the
+≥4/5 floor.
 
 Record the final scores in your summary to the user so the quality is auditable.
 Then record the case (`iconflow case new` with both `--first` and `--final`

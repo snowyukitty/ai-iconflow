@@ -51,6 +51,7 @@ from .styles import PRESETS, STYLE_CATALOG
 # Commands whose result is a machine-readable Report (docs/AGENT_CONTRACT.md).
 JSON_COMMANDS = frozenset({
     "doctor", "check", "review", "ship", "demo", "ladder", "neighbours", "family",
+    "score",
 })
 DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
 JSON_HELP = "emit one docs/AGENT_CONTRACT.md envelope on stdout; human lines go to stderr"
@@ -484,6 +485,16 @@ def _cmd_ship(a) -> Report:
     print(f"Review scores: " + ", ".join(f"{axis}={scores[axis]}" for axis in scores))
     if receipt:
         print(f"Review receipt: {receipt.source}")
+        surface = receipt.review_surface or {}
+        if surface.get("interactive_lab") is False:
+            print("Review surface: headless evidence — the interactive Review Lab was not "
+                  "used (recorded in the receipt; record it in the case too).")
+        from .headless import compare_opinion
+
+        for opinion in receipt.second_opinions or []:
+            for note in compare_opinion(scores, opinion.get("scores", {})):
+                print(f"  ~ second-opinion advisory: {note}")
+                report.advise("second-opinion-dissent", note)
     print(f"Record the shipped case in: {config.casebook_path}")
     report.outputs = {
         "files": [_abs(output_path / path) for path in produced],
@@ -495,6 +506,7 @@ def _cmd_ship(a) -> Report:
         "toolchain": _toolchain(),
         "artifacts": receipt.artifacts if receipt else None,
         "reviewer": receipt.reviewer if receipt else None,
+        "review_surface": receipt.review_surface if receipt else None,
         "audit": inputs.describe(),
     }
     return report
@@ -601,8 +613,10 @@ def _cmd_review(a) -> Report:
         report.error("config", str(exc))
         return report
 
+    evidence_dir = Path(a.evidence).expanduser().resolve(strict=False) if a.evidence else None
+    sheet_path = evidence_dir / "contact-sheet.png" if evidence_dir else Path(a.out)
     out = contact_sheet(
-        master, a.out, background_color=background, color_scheme=color_scheme,
+        master, sheet_path, background_color=background, color_scheme=color_scheme,
         maskable_scale=inputs.maskable_scale, maskable_svg=inputs.maskable_svg,
     )
     print(f"Review sheet -> {out}")
@@ -642,12 +656,34 @@ def _cmd_review(a) -> Report:
     # The neighbourhood proof lands beside the contact sheet the same way the
     # ladder proof does, and for the same reason: it is not a new `review`
     # output key, because that envelope is frozen at schema 1.
+    neighbour_out = None
     if hood is not None:
         neighbour_out = Path(out).with_name(
             f"{Path(out).stem}-neighbours{Path(out).suffix or '.png'}"
         )
         neighbour_sheet(hood, neighbour_out, color_scheme=color_scheme)
         print(f"Neighbourhood proof -> {neighbour_out}")
+    findings_out = None
+    if evidence_dir is not None:
+        from .headless import axis_walk, target_sheet, write_findings
+
+        targets_out = target_sheet(master, evidence_dir / "targets.png", options=options)
+        print(f"Target contexts -> {targets_out}")
+        findings_out = write_findings(
+            evidence_dir, seed=seed, audit=audit, toolchain=_toolchain(),
+            sheets={
+                "contact_sheet": Path(out), "targets": targets_out,
+                "ladder": Path(ladder_out) if ladder_out else None,
+                "neighbours": neighbour_out,
+            },
+        )
+        print(f"Headless findings -> {findings_out}")
+        print("Read every sheet, then score each axis:")
+        import json as _json
+        for line in axis_walk(_json.loads(findings_out.read_text(encoding="utf-8")), evidence_dir):
+            print(f"  {line}")
+        print(f"Then: iconflow score --config <iconflow.toml> --evidence {evidence_dir} "
+              '--scores "legibility=4 ..." --rationale legibility="..." ... --out master-review.json')
     report.outputs = {
         "sheet": _abs(out),
         "html": _abs(html_out),
@@ -656,8 +692,137 @@ def _cmd_review(a) -> Report:
         "contract_sha256": seed["contract_sha256"],
         "targets": list(targets),
         "audit": inputs.describe(),
+        "findings": _abs(findings_out),
     }
     return report
+
+
+def _cmd_score(a) -> Report:
+    """Walk the six axes over headless evidence and write a bound receipt."""
+    from .casebook import AXES, parse_scores
+    from .config import ConfigError, load_config
+    from .headless import (
+        HeadlessError, axis_walk, build_receipt, load_evidence, load_opinion,
+        validate_rationale,
+    )
+    from .review import receipt_seed
+
+    report = Report("score")
+    try:
+        config = load_config(a.config)
+        master = config.master_path
+        if not master.is_file():
+            raise ConfigError(f"master SVG not found: {master}")
+        options = _config_review_options(config)
+        seed = receipt_seed(master, options=options)
+        evidence_dir = Path(a.evidence).expanduser().resolve(strict=False)
+        findings = load_evidence(
+            evidence_dir, source_sha256=seed["source_sha256"],
+            contract_sha256=seed["contract_sha256"],
+        )
+        print("Headless review — the interactive Review Lab is not used; the gate is unchanged.")
+        for line in axis_walk(findings, evidence_dir):
+            print(f"  {line}")
+        if findings.get("warnings"):
+            print(f"Evidence carries {len(findings['warnings'])} automated warning(s); "
+                  "the receipt will be blocked.")
+        if a.scores is not None:
+            scores = parse_scores(a.scores)
+            rationale = _parse_pairs(a.rationale, value_json=False)
+        elif sys.stdin.isatty():
+            scores, rationale = _prompt_axes()
+        else:
+            raise ConfigError(
+                "provide --scores and one --rationale per axis (stdin is not interactive)"
+            )
+        missing = [axis for axis in AXES if axis not in scores]
+        if missing:
+            raise ConfigError("score every axis; missing: " + ", ".join(missing))
+        validate_rationale({k: str(v) for k, v in rationale.items()}, scores)
+        if not a.notes.strip():
+            raise ConfigError("--notes is required: the weakest axis and the decisive change")
+        reviewer = {
+            "kind": a.reviewer_kind, "name": a.reviewer_name.strip(),
+            "declared_at": _now_iso(),
+        }
+        if not reviewer["name"]:
+            raise ConfigError("--reviewer-name is required (provenance, not authority)")
+        opinions = [
+            load_opinion(path, source_sha256=seed["source_sha256"],
+                         contract_sha256=seed["contract_sha256"], primary_reviewer=reviewer)
+            for path in a.second_opinion
+        ]
+    except (ConfigError, HeadlessError, ValueError) as exc:
+        print(f"iconflow score: {exc}", file=sys.stderr)
+        report.error("config", str(exc))
+        return report
+    seed["warnings"] = [item["message"] for item in findings.get("warnings", [])]
+    receipt = build_receipt(
+        seed=seed, scores=scores, notes=a.notes.strip(),
+        rationale={k: str(v) for k, v in rationale.items()},
+        reviewer=reviewer, findings=findings, toolchain=_toolchain(), opinions=opinions,
+    )
+    out = Path(a.out).expanduser()
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"Receipt -> {out} (status {receipt['status']})")
+    below = [f"{axis}={scores[axis]}" for axis in AXES if scores[axis] < 4]
+    if below:
+        report.warn("score-below-floor", "every axis must be >=4: " + ", ".join(below))
+    for item in findings.get("warnings", []):
+        report.warn(item["code"], item["message"])
+    for opinion in receipt.get("second_opinions", []):
+        for note in opinion["dissent"]:
+            print(f"  ~ second-opinion advisory: {note}")
+            report.advise("second-opinion-dissent", note)
+    report.outputs = {
+        "receipt": _abs(out),
+        "status": receipt["status"],
+        "scores": receipt["scores"],
+        "source_sha256": receipt["source_sha256"],
+        "contract_sha256": receipt["contract_sha256"],
+        "review_surface": receipt["review_surface"],
+        "second_opinions": len(opinions),
+    }
+    return report
+
+
+def _prompt_axes() -> tuple[dict[str, int], dict[str, str]]:
+    """Ask for each axis in turn (a terminal session without the Lab)."""
+    from .casebook import AXES
+
+    scores: dict[str, int] = {}
+    rationale: dict[str, str] = {}
+    for axis in AXES:
+        while True:
+            raw = input(f"{axis} score 1-5: ").strip()
+            if raw.isdigit() and 1 <= int(raw) <= 5:
+                scores[axis] = int(raw)
+                break
+        rationale[axis] = input(f"{axis} — why (what you saw, on which sheet): ").strip()
+    return scores, rationale
+
+
+def _now_iso() -> str:
+    from datetime import datetime, timezone
+
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+
+
+def _config_review_options(config):
+    """The ReviewOptions a config implies, with no command-line overrides."""
+    from .review import ReviewOptions
+
+    return ReviewOptions(
+        name=config.name, user_job=config.user_job, essence=config.essence,
+        personality=", ".join(config.personality),
+        signature_device=config.signature_device, cliches=tuple(config.cliches),
+        targets=tuple(config.targets), theme_color=config.theme_color,
+        background_color=config.background_color, electron_radius=config.electron_radius,
+        tray_svg=config.tray_svg_path, tray_template_mode=config.tray_template_mode,
+        color_scheme=config.color_scheme, maskable_scale=config.maskable_scale,
+        maskable_svg=config.maskable_svg_path, monochrome_svg=config.monochrome_svg_path,
+    )
 
 
 def _cmd_compare(a) -> int:
@@ -1736,8 +1901,32 @@ def build_parser() -> argparse.ArgumentParser:
                    help="static review sheet SVG color scheme")
     r.add_argument("--receipt-template", metavar="JSON",
                    help="also write an unscored receipt bound to this source and contract")
+    r.add_argument("--evidence", metavar="DIR",
+                   help="headless review: write every sheet plus findings.json into DIR "
+                        "for `iconflow score` (no browser needed)")
     r.add_argument("--json", action="store_true", help=JSON_HELP)
     r.set_defaults(func=_cmd_review)
+
+    sc_ = sub.add_parser(
+        "score",
+        help="headless review: walk the six axes over `review --evidence` and write the receipt",
+    )
+    sc_.add_argument("--config", default="iconflow.toml", help="project configuration path")
+    sc_.add_argument("--evidence", required=True, metavar="DIR",
+                     help="directory written by `iconflow review --evidence`")
+    sc_.add_argument("--scores", help="six-axis scores, e.g. 'legibility=4 distinctiveness=4 ...' "
+                                      "(omit in a terminal to be asked axis by axis)")
+    sc_.add_argument("--rationale", action="append", default=[], metavar="AXIS=TEXT",
+                     help="why that score, from which sheet; required for every axis, repeatable")
+    sc_.add_argument("--notes", default="", help="the weakest axis and the decisive change (required)")
+    sc_.add_argument("--reviewer-name", default="", help="who scored it (provenance, not authority)")
+    sc_.add_argument("--reviewer-kind", choices=["agent", "human"], default="agent")
+    sc_.add_argument("--second-opinion", action="append", default=[], metavar="RECEIPT",
+                     help="another reviewer's receipt over the same evidence; recorded and "
+                          "compared, never a substitute for the gate (repeatable)")
+    sc_.add_argument("--out", default="master-review.json", help="receipt path")
+    sc_.add_argument("--json", action="store_true", help=JSON_HELP)
+    sc_.set_defaults(func=_cmd_score)
 
     cmp = sub.add_parser("compare", help="bake-off: compare candidate SVGs side by side")
     cmp.add_argument("candidates", nargs="+", help="two or more master SVG paths")

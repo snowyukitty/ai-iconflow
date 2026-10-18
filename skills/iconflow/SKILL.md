@@ -135,8 +135,11 @@ the project you are working on.
    source with no `data-lod` is flat, which is a valid answer and costs nothing.
 
 6. **Check and review (mandatory).**
-   - `iconflow check master.svg --config iconflow.toml` → fix every warning.
-     `--config` brings the `[neighbours]` sets in (`neighbour-collision` gates;
+   - `iconflow check --config iconflow.toml` → fix every warning. With
+     `--config`, `check` runs exactly the audit `review` and `ship` run — the
+     configured targets, `background_color`, colour scheme and linked sources —
+     so a clean `check` means a clean `ship` audit. `--config` brings the
+     `[neighbours]` sets in (`neighbour-collision` gates;
      `neighbour-familiar` and `neighbour-house-rut` advise). With a linked tray
      source add `--tray-svg tray.svg --tray-template-mode <mode>` to audit the
      macOS template the build will emit. A laddered source is also gated here on the
@@ -150,7 +153,21 @@ the project you are working on.
      as `master-review.json`, because that is what step 7 ships.
      Distinctiveness is a gate — do not ship below 4/5. If any axis is under 4,
      make the single highest-impact change and re-render. Usually 2–3 passes.
-   - If a managed browser blocks the local Review Lab, do not bypass policy.
+   - **No browser (a headless agent session, a managed browser that blocks
+     the Lab)?** Use the headless path, which is the Lab's evidence without
+     the Lab and the same gate:
+     `iconflow review --config iconflow.toml --evidence work/<slug>/evidence`
+     writes the contact sheet, a target-context sheet of the exact shipped
+     bytes (maskable crops, tray templates on both bars, Android launchers),
+     the ladder and neighbourhood proofs, and `findings.json`. **Read every
+     sheet**, then
+     `iconflow score --config iconflow.toml --evidence work/<slug>/evidence --scores "legibility=4 ..." --rationale legibility="what you saw, on which sheet" ... --notes "..." --reviewer-name "<you>" --out master-review.json`.
+     `score` refuses stale or edited evidence, needs a reason for every axis,
+     and records `review_surface.interactive_lab = false` in the receipt. An
+     independent reviewer (a different product) may score the same evidence
+     into its own receipt; attach it with `--second-opinion`. It is recorded
+     and its dissent reported, and it never replaces the ≥4/5 gate.
+   - If you must work without even `score`, do not bypass policy.
      Inspect the static sheet plus the exact target assets at real sizes, then
      take **one** of these two routes and say which you took:
      (a) fill in the source-bound `master-review.json` written by

@@ -9,7 +9,7 @@
     {
       "name": "iconflow",
       "source": "./skills",
-      "description": "Design, review at 16px, and ship a distinctive icon family from one semantic SVG master — favicon, PWA, Tauri, Electron, and tray, behind a fail-closed quality gate.",
+      "description": "Design, review at 16px, and ship a distinctive icon family from one semantic SVG master — favicon, PWA, Tauri, Electron, Android, and tray, behind a fail-closed quality gate.",
       "category": "design",
       "tags": [
         "icon",
@@ -19,7 +19,8 @@
         "pwa",
         "electron",
         "tauri",
-        "tray"
+        "tray",
+        "android"
       ],
       "author": {
         "name": "snowyukitty"

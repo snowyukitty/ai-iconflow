@@ -464,6 +464,7 @@ def check(
     maskable_scale: float | None = None,
     maskable_svg: str | Path | None = None,
     color_scheme: str = "light",
+    metrics: dict | None = None,
 ) -> list[Finding]:
     """Run every automated check on the bytes the configured build will ship.
 
@@ -569,6 +570,7 @@ def check(
         warnings.extend(identity)
 
     cov = _alpha_coverage(im16)
+    measured: dict = {"coverage_16": round(cov, 4), "contrast": {}}
     if cov < 0.06:
         warnings.append(Finding(
             "coverage-16",
@@ -601,6 +603,9 @@ def check(
          "tone so one half contrasts on any ground."),
     ):
         spread = _luma_spread(image, ground)
+        measured["contrast"][label.split(" (")[0].lower().replace("-", "_")] = {
+            "spread": round(spread, 4), "floor": floor,
+        }
         if spread < floor:
             rung = rung32 if image is im32 else rung16
             warnings.append(Finding(
@@ -611,6 +616,11 @@ def check(
 
     if im512 is not None:
         outside_ratio = _detail_outside_safe_zone(im512)
+        measured["maskable"] = {
+            "outside_safe_circle": round(outside_ratio, 4), "limit": 0.08,
+            "scale": effective_scale, "background": bg_label,
+            "source": "maskable_svg" if linked_text is not None else "master",
+        }
         if outside_ratio > 0.08:
             fix = (
                 "Fix without deforming the mark: lower build.maskable_scale "
@@ -628,6 +638,8 @@ def check(
                 f"Android's 66dp safe circle is the same circle. {fix}",
             ))
 
+    if metrics is not None:
+        metrics.update(measured)
     return warnings
 
 
