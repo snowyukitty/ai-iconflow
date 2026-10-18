@@ -229,7 +229,12 @@ class EnvelopeShapeTests(unittest.TestCase):
         self.assertEqual(envelope["outputs"]["chromium"], "FAIL")
         chromium = [c for c in envelope["outputs"]["checks"] if c["name"] == "Chromium runtime"][0]
         self.assertEqual(chromium["status"], "FAIL")
-        self.assertTrue(chromium["fix"].endswith("-m iconflow setup"))
+        # 0.7: the fix is the one that works on this OS — Linux needs the
+        # system libraries `playwright install --with-deps` brings.
+        if sys.platform.startswith("linux"):
+            self.assertIn("-m playwright install --with-deps chromium", chromium["fix"])
+        else:
+            self.assertTrue(chromium["fix"].endswith("-m iconflow setup"))
         self.assertIn(Path(sys.executable).name, chromium["fix"])
 
     def test_usage_errors_exit_2(self):
