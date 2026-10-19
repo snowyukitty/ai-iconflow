@@ -35,7 +35,7 @@ then ships favicon, PWA, desktop, and tray files from that one master.
 | Detail merges into mush | Browser tabs, bookmarks, taskbars — all 16px | Renders the real 16px pixels and a colour-free silhouette so a generic or illegible shape cannot hide behind colour |
 | Menu-bar icon is a black square | macOS tray (Electron, Tauri) | Audits the alpha a template image keeps, and builds tray files from a separate transparent `tray.svg` |
 | Logo cropped by the launcher | Android / PWA maskable icons | Checks the maskable safe zone before the manifest ships |
-| Mark vanishes on the dark home screen | iOS 18+ dark and tinted icons | Derives them from the master's declared layers and refuses a mark the dark screen would swallow (0.10, on `main`) |
+| Mark vanishes on the dark home screen | iOS 18+ dark and tinted icons | Derives them from the master's declared layers and refuses a mark the dark screen would swallow (0.10+) |
 | An approval that outlived its icon | Every later build | `ship` refuses when the reviewed SVG has changed since the review |
 
 One editable SVG goes in; favicon, ICO, ICNS, PWA, Tauri, Electron, and tray files
@@ -355,7 +355,7 @@ Targets can be combined; shared sizes render once.
 | `electron` | `build/icon.png`, `.ico`, and `.icns`, with the same corner transform applied to native frames |
 | `tray` | Color 16/32px PNGs, macOS monochrome template pair, optional TypeScript data URL module |
 | `android` (0.7+) | Adaptive foreground and colour-resource background, Android 13 themed layer, legacy square and round icons in five densities, `mipmap-anydpi-v26` XML, Play Store icon |
-| `ios` (0.10, on `main` until it reaches PyPI: `pip install "git+https://github.com/snowyukitty/ai-iconflow"`) | Xcode `AppIcon.appiconset` with light, dark and tinted 1024 px icons derived from the master's `iconflow-background` layer (or a linked `ios_dark_svg`), an Icon Composer foreground layer, and install notes for Xcode, Expo, Capacitor and Flutter; compiled with Xcode's `actool` in CI |
+| `ios` (0.10+) | Xcode `AppIcon.appiconset` with light, dark and tinted 1024 px icons derived from the master's `iconflow-background` layer (or a linked `ios_dark_svg`), an Icon Composer foreground layer, and install notes for Xcode, Expo, Capacitor and Flutter; compiled with Xcode's `actool` in CI |
 
 `all` means the first five; `android`, `emote` and `ios` are asked for by name. One
 maskable composition serves the PWA and Android crops, and `check`, `review` and

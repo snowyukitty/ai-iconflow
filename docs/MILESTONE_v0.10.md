@@ -379,4 +379,6 @@ The usual run (`docs/RELEASING.md`), plus, because `ios` is not on PyPI yet:
 
 ## Owner decisions
 
-1. **Release 0.10.0** — when the owner says so.
+1. **Release 0.10.0** — ordered by the owner on 2026-10-20; released the same
+   way as 0.9.0, with the checklist above (`docs/LAUNCH_READINESS.md` records
+   the run).

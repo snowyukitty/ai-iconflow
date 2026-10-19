@@ -24,7 +24,10 @@ needed the notes: `score`, `budget`, `brand`, `review --evidence` and the
 `android` target were built on a branch and reached `main` in the release
 commit itself, and the skill tells an agent to upgrade when a command is
 missing. 0.8.0 (the same day) did the same for the render plan and
-`ship --plan`; 0.9.0 (the same day again) added no command.
+`ship --plan`; 0.9.0 (the same day again) added no command. 0.10.0 added the
+`ios` target on `main` first, with an install-from-the-repository note on the
+reference page and the README that its release commit removed; the skill
+learned it only in that commit.
 
 ## 1. Clear owner-controlled gates
 

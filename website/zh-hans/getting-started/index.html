@@ -323,6 +323,7 @@ python -m iconflow case stats</code></pre>
         <article class="output-card reveal"><span>ELECTRON</span><h3>打包工具输入源</h3><p>适用于 Electron 与 electron-builder 打包工作流的跨平台 PNG、ICO 及 ICNS 资产。</p><code>--targets electron</code></article>
         <article class="output-card reveal"><span>TRAY</span><h3>菜单栏标识</h3><p>彩色托盘 PNG、macOS 模板资产及 TypeScript 辅助代码。强烈建议提供专门的纯标识 <code>tray.svg</code>。</p><code>--targets tray</code></article>
         <article class="output-card reveal"><span>ANDROID</span><h3>启动器图标</h3><p>自适应前景与背景、Android 13 主题图标图层、五种密度的旧版方形与圆形图标，以及自适应 XML。</p><code>--targets android</code></article>
+        <article class="output-card reveal"><span>IOS</span><h3>App 图标组</h3><p>Xcode 用的浅色、深色与着色 1024px 图标，另附 Icon Composer 图层。</p><code>--targets ios</code></article>
       </div>
       <div class="output-tree reveal" aria-label="生成的示例文件树">
         <div><p class="section-kicker">构建示例</p><h3>单一源文件。清晰的分支产物。</h3><p>项目旁可编辑的 <code>master.svg</code> 始终是唯一的事实来源。所有生成的文件均可随时重新构建。</p></div>
@@ -352,7 +353,7 @@ python -m iconflow case stats</code></pre>
         <ul>
           <li><strong>从 PyPI 安装。</strong><span>运行 <code>pip install iconflow</code> 或 <code>uv tool install iconflow</code>。源码安装仍保留给贡献者使用。</span></li>
           <li><strong>仅需单次下载。</strong><span>安装配置阶段需要联网下载依赖项和 Playwright Chromium；之后的渲染与构建均完全在本地进行。</span></li>
-          <li><strong>移动端支持范围。</strong><span>Android 启动器图标已是目标平台。iOS 的 App 图标集尚未支持：其深色与着色变体需要各自独立的源文件。</span></li>
+          <li><strong>移动平台范围。</strong><span>Android 与 iOS 的 App 图标都是目标。</span></li>
           <li><strong>绑定工具链的校样。</strong><span>可复现性建立在相同的规范化 SVG、配置，以及相同版本的 IconFlow、Chromium 和 Pillow 基础之上。</span></li>
         </ul>
       </div>

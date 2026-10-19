@@ -326,6 +326,7 @@ python -m iconflow case stats</code></pre>
         <article class="output-card reveal"><span>ELECTRON</span><h3>Packager inputs</h3><p>Cross-platform PNG, ICO, and ICNS assets for Electron and electron-builder packaging workflows.</p><code>--targets electron</code></article>
         <article class="output-card reveal"><span>TRAY</span><h3>Menu-bar marks</h3><p>Color tray PNGs, macOS template assets, and a TypeScript helper. A dedicated mark-only <code>tray.svg</code> is strongly preferred.</p><code>--targets tray</code></article>
         <article class="output-card reveal"><span>ANDROID</span><h3>Launcher icons</h3><p>Adaptive foreground and background, the Android 13 themed layer, legacy square and round icons in five densities, and the adaptive XML.</p><code>--targets android</code></article>
+        <article class="output-card reveal"><span>IOS</span><h3>App icon set</h3><p>Light, dark and tinted 1024px Xcode icons, plus an Icon Composer layer.</p><code>--targets ios</code></article>
       </div>
       <div class="output-tree reveal" aria-label="Example generated file tree">
         <div><p class="section-kicker">Example build</p><h3>One source. Explicit branches.</h3><p>The editable <code>master.svg</code> remains the source of truth beside the project. Generated files can always be rebuilt.</p></div>
@@ -355,7 +356,7 @@ python -m iconflow case stats</code></pre>
         <ul>
           <li><strong>Install from PyPI.</strong><span>Run <code>pip install iconflow</code>, or <code>uv tool install iconflow</code>. A source checkout stays available for contributors.</span></li>
           <li><strong>One-time download.</strong><span>Setup needs network access for dependencies and Playwright Chromium; rendering and builds are local afterward.</span></li>
-          <li><strong>Mobile scope.</strong><span>Android launcher icons are a target. iOS app-icon sets are not yet: their dark and tinted variants need sources of their own.</span></li>
+          <li><strong>Mobile scope.</strong><span>Android and iOS app icons are targets.</span></li>
           <li><strong>Toolchain-bound proof.</strong><span>Repeatability assumes the same normalized SVG, config, IconFlow, Chromium, and Pillow versions.</span></li>
         </ul>
       </div>

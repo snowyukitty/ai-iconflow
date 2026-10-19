@@ -736,6 +736,10 @@
     "launcher-icons.323f4db0": "ランチャーアイコン",
     "adaptive-foreground-and-background-the-andro.f57e4f7c": "アダプティブアイコンの前景と背景、Android 13 のテーマアイコン用レイヤー、5 つの密度のレガシー角形・円形アイコン、アダプティブ XML。",
     "targets-android.d5647884": "--targets android",
-    "0-mobile-scope-0-1-android-launcher-icons-ar.c8c50b2e": "<0>モバイルの範囲。</0><1>Android のランチャーアイコンはターゲットです。iOS のアプリアイコンセットはまだ対象外です。ダークとティントのバリエーションには、それぞれ専用のソースが必要です。</1>"
+    "ios.d4ba3579": "IOS",
+    "app-icon-set.5a5af38b": "アプリアイコンセット",
+    "targets-ios.2bc46067": "--targets ios",
+    "light-dark-and-tinted-1024px-xcode-icons-plu.ffedb8a5": "Xcode 用のライト・ダーク・ティントの 1024px アイコンと、Icon Composer 用のレイヤー。",
+    "0-mobile-scope-0-1-android-and-ios-app-icons.9dd4d3c3": "<0>モバイルの範囲。</0><1>Android と iOS のアプリアイコンはターゲットです。</1>"
   }
 }

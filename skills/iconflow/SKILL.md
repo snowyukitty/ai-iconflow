@@ -1,10 +1,10 @@
 ---
 name: iconflow
-description: Design and generate high-quality app icons, website favicons, PWA icons, Android adaptive/themed launcher icons, and system-tray/menu-bar icons, then propagate the approved mark into a brand kit (lockups, store tiles, Open Graph and social cards). Use whenever a project needs an icon/favicon/logo mark created or regenerated — the agent authors an SVG following a design playbook, renders it small to self-review, then builds every format (.ico/.icns/.png, manifest, Android res/, tray). Triggers on requests like "make an icon", "design a favicon", "tray icon", "app icon for this Tauri/Electron app", "Android launcher icon", "OG image / social card for our logo".
+description: Design and generate high-quality app icons, website favicons, PWA icons, Android adaptive/themed launcher icons, iOS/iPadOS app icons (light, dark, tinted), and system-tray/menu-bar icons, then propagate the approved mark into a brand kit (lockups, store tiles, Open Graph and social cards). Use whenever a project needs an icon/favicon/logo mark created or regenerated — the agent authors an SVG following a design playbook, renders it small to self-review, then builds every format (.ico/.icns/.png, manifest, Android res/, tray). Triggers on requests like "make an icon", "design a favicon", "tray icon", "app icon for this Tauri/Electron app", "Android launcher icon", "iOS app icon / dark and tinted icon", "OG image / social card for our logo".
 license: CC-BY-SA-4.0
 compatibility: Requires Python 3.10+, filesystem and shell access, and network access for one-time dependency and Playwright Chromium setup. Works with `iconflow` on PATH (uv tool / pipx / pip) or a source checkout's venv interpreter. Rendering and builds are local afterward. The icons you design with it are yours: no attribution, no share-alike, commercial use unrestricted.
 metadata:
-  version: "0.9.0"
+  version: "0.10.0"
 ---
 
 <!-- SPDX-License-Identifier: CC-BY-SA-4.0
@@ -44,7 +44,7 @@ step) and `iconflow doctor` (every FAIL prints a `fix` command to paste).
 
 **A command or flag below that the runner does not know means the installed
 toolkit predates it** (`score`, `budget`, `brand`, `review --evidence` and the
-`android` target arrived in 0.7). Upgrade it — `uv tool upgrade iconflow` or
+`android` target arrived in 0.7; the `ios` target in 0.10). Upgrade it — `uv tool upgrade iconflow` or
 `pipx upgrade iconflow` — and say so; never improvise a substitute for a gate.
 
 **Reading the reference documents.** `iconflow docs <NAME>` prints one to
@@ -138,6 +138,17 @@ the project you are working on.
    default 0.8) or link a `maskable_svg` drawn for the crop. Android 13+ tints
    a themed icon from alpha alone, so give it a mark-only `monochrome_svg`
    (falls back to `tray_svg`). `iconflow docs OUTPUT_TARGETS` § android.
+   **iOS** (0.10) is never part of `all` either; name it (`"ios"`). Give the
+   card `id="iconflow-background"` — one empty shape, the first thing drawn,
+   a direct child of `<svg>`, painted by a plain `fill` — and IconFlow
+   stretches it to full bleed for the light icon and removes it for the dark
+   and tinted ones, after proving by rendering that the mark does not depend
+   on it. Without the declaration it ships the light icon alone and iOS
+   derives the rest. If the audit says the mark vanishes on the dark home
+   screen (`ios-dark-contrast`, `ios-tinted-faint`), link `ios_dark_svg` (the
+   mark drawn for a dark ground) or set `ios_variants = "system"`; never
+   lighten the master to pass. Keep stylesheets out of a master with a
+   declared card. `iconflow docs OUTPUT_TARGETS` § ios.
 
 5b. **Optional — open the detail ladder** if the icon will also be seen large
    (a store listing, a splash, an about box, print). Read

@@ -6,6 +6,10 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
+Nothing yet.
+
+## 0.10.0 - 2026-10-20
+
 Milestone 0.10 (`docs/MILESTONE_v0.10.md`): semantic layers, and the iOS app
 icon they make possible.
 
@@ -49,7 +53,10 @@ icon they make possible.
 - `scripts/verify_ios_catalog.py` and a CI job on `macos-latest` that compiles
   generated sets with `actool` and checks what `assetutil` recorded for every
   appearance (Xcode 26.6 at the time of writing).
-- The icon-size reference page gains an iOS section.
+- The icon-size reference page gains an iOS section; Getting started names
+  `ios` among the targets in all five languages.
+- The skill (plugin 0.10.0) teaches the `ios` target, the declared card,
+  `ios_dark_svg` and `ios_variants`.
 
 ### Changed
 

@@ -736,6 +736,10 @@
     "launcher-icons.323f4db0": "Iconos del lanzador",
     "adaptive-foreground-and-background-the-andro.f57e4f7c": "Primer plano y fondo adaptativos, la capa temática de Android 13, iconos heredados cuadrados y redondos en cinco densidades y el XML adaptativo.",
     "targets-android.d5647884": "--targets android",
-    "0-mobile-scope-0-1-android-launcher-icons-ar.c8c50b2e": "<0>Alcance móvil.</0><1>Los iconos del lanzador de Android son un destino. Los conjuntos de iconos de app de iOS todavía no: sus variantes oscura y tintada necesitan fuentes propias.</1>"
+    "ios.d4ba3579": "IOS",
+    "app-icon-set.5a5af38b": "Conjunto de iconos de app",
+    "targets-ios.2bc46067": "--targets ios",
+    "light-dark-and-tinted-1024px-xcode-icons-plu.ffedb8a5": "Iconos claro, oscuro y tintado de 1024 px para Xcode, más una capa para Icon Composer.",
+    "0-mobile-scope-0-1-android-and-ios-app-icons.9dd4d3c3": "<0>Alcance móvil.</0><1>Los iconos de app de Android e iOS son objetivos.</1>"
   }
 }

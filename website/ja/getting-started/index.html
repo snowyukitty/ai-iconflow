@@ -323,6 +323,7 @@ python -m iconflow case stats</code></pre>
         <article class="output-card reveal"><span>ELECTRON</span><h3>パッケージャー入力</h3><p>Electron と electron-builder のパッケージングワークフロー向け、クロスプラットフォームの PNG、ICO、ICNS アセット。</p><code>--targets electron</code></article>
         <article class="output-card reveal"><span>TRAY</span><h3>メニューバー用マーク</h3><p>カラートレイ PNG、macOS テンプレートアセット、TypeScript ヘルパー。マーク専用の <code>tray.svg</code> を強く推奨します。</p><code>--targets tray</code></article>
         <article class="output-card reveal"><span>ANDROID</span><h3>ランチャーアイコン</h3><p>アダプティブアイコンの前景と背景、Android 13 のテーマアイコン用レイヤー、5 つの密度のレガシー角形・円形アイコン、アダプティブ XML。</p><code>--targets android</code></article>
+        <article class="output-card reveal"><span>IOS</span><h3>アプリアイコンセット</h3><p>Xcode 用のライト・ダーク・ティントの 1024px アイコンと、Icon Composer 用のレイヤー。</p><code>--targets ios</code></article>
       </div>
       <div class="output-tree reveal" aria-label="生成ファイルツリーの例">
         <div><p class="section-kicker">ビルド例</p><h3>一つのソース。明示的な分岐。</h3><p>編集可能な <code>master.svg</code>（マスター SVG）は、プロジェクトとともに信頼できる唯一のソースとして残ります。生成ファイルはいつでも再ビルドできます。</p></div>
@@ -352,7 +353,7 @@ python -m iconflow case stats</code></pre>
         <ul>
           <li><strong>PyPI からインストール</strong><span><code>pip install iconflow</code> または <code>uv tool install iconflow</code> を実行します。ソースからのインストールもコントリビューター向けに引き続き利用できます。</span></li>
           <li><strong>初回のみダウンロード。</strong><span>セットアップ時は、依存パッケージと Playwright Chromium の取得にネットワーク接続が必要です。その後のレンダリングとビルドはローカルで行われます。</span></li>
-          <li><strong>モバイルの範囲。</strong><span>Android のランチャーアイコンはターゲットです。iOS のアプリアイコンセットはまだ対象外です。ダークとティントのバリエーションには、それぞれ専用のソースが必要です。</span></li>
+          <li><strong>モバイルの範囲。</strong><span>Android と iOS のアプリアイコンはターゲットです。</span></li>
           <li><strong>ツールチェーンに依存するプルーフ。</strong><span>再現性には、同じ正規化済み SVG、設定、IconFlow、Chromium、Pillow のバージョンを使うことが前提です。</span></li>
         </ul>
       </div>

@@ -323,6 +323,7 @@ python -m iconflow case stats</code></pre>
         <article class="output-card reveal"><span>ELECTRON</span><h3>Entradas para el empaquetador</h3><p>Activos PNG, ICO e ICNS multiplataforma para los flujos de empaquetado de Electron y electron-builder.</p><code>--targets electron</code></article>
         <article class="output-card reveal"><span>BANDEJA DEL SISTEMA</span><h3>Marcas para la barra de menús</h3><p>PNG en color para la bandeja del sistema, activos de plantilla de macOS y una utilidad de TypeScript. Se recomienda especialmente un <code>tray.svg</code> dedicado solo a la marca.</p><code>--targets tray</code></article>
         <article class="output-card reveal"><span>ANDROID</span><h3>Iconos del lanzador</h3><p>Primer plano y fondo adaptativos, la capa temática de Android 13, iconos heredados cuadrados y redondos en cinco densidades y el XML adaptativo.</p><code>--targets android</code></article>
+        <article class="output-card reveal"><span>IOS</span><h3>Conjunto de iconos de app</h3><p>Iconos claro, oscuro y tintado de 1024 px para Xcode, más una capa para Icon Composer.</p><code>--targets ios</code></article>
       </div>
       <div class="output-tree reveal" aria-label="Árbol de archivos generados de ejemplo">
         <div><p class="section-kicker">Compilación de ejemplo</p><h3>Una sola fuente. Ramas explícitas.</h3><p>El <code>master.svg</code> (archivo maestro) editable sigue siendo la fuente de verdad junto al proyecto. Los archivos generados siempre se pueden reconstruir.</p></div>
@@ -352,7 +353,7 @@ python -m iconflow case stats</code></pre>
         <ul>
           <li><strong>Instala desde PyPI.</strong><span>Ejecuta <code>pip install iconflow</code> o <code>uv tool install iconflow</code>. La instalación desde el código fuente sigue disponible para quienes contribuyen.</span></li>
           <li><strong>Descarga única.</strong><span>La configuración necesita acceso a la red para las dependencias y Playwright Chromium; después, el renderizado y las compilaciones son locales.</span></li>
-          <li><strong>Alcance móvil.</strong><span>Los iconos del lanzador de Android son un destino. Los conjuntos de iconos de app de iOS todavía no: sus variantes oscura y tintada necesitan fuentes propias.</span></li>
+          <li><strong>Alcance móvil.</strong><span>Los iconos de app de Android e iOS son objetivos.</span></li>
           <li><strong>Prueba ligada a la cadena de herramientas.</strong><span>La repetibilidad presupone el mismo SVG normalizado, la misma configuración y las mismas versiones de IconFlow, Chromium y Pillow.</span></li>
         </ul>
       </div>

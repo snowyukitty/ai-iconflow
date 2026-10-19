@@ -2,7 +2,7 @@
   "language": "en",
   "generated_by": "scripts/build_i18n.py",
   "note": "English source strings. Keys are slug.hash(text); a copy edit makes a new key, which makes every translation fail closed.",
-  "count": 736,
+  "count": 740,
   "strings": {
     "iconflow-local-icon-toolkit-one-svg-to-favic.19b4724d": {
       "text": "IconFlow — Local icon toolkit: one SVG to favicon, app, and tray assets, proven at 16px",
@@ -3515,6 +3515,38 @@
         "getting-started/index.html"
       ]
     },
+    "ios.d4ba3579": {
+      "text": "IOS",
+      "kind": "text",
+      "where": "section#outputs div.output-grid article.output-card",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
+    "app-icon-set.5a5af38b": {
+      "text": "App icon set",
+      "kind": "text",
+      "where": "section#outputs div.output-grid article.output-card",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
+    "light-dark-and-tinted-1024px-xcode-icons-plu.ffedb8a5": {
+      "text": "Light, dark and tinted 1024px Xcode icons, plus an Icon Composer layer.",
+      "kind": "text",
+      "where": "section#outputs div.output-grid article.output-card",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
+    "targets-ios.2bc46067": {
+      "text": "--targets ios",
+      "kind": "text",
+      "where": "section#outputs div.output-grid article.output-card",
+      "pages": [
+        "getting-started/index.html"
+      ]
+    },
     "example-generated-file-tree.d7e44208": {
       "text": "Example generated file tree",
       "kind": "attr:aria-label",
@@ -3579,8 +3611,8 @@
         "getting-started/index.html"
       ]
     },
-    "0-mobile-scope-0-1-android-launcher-icons-ar.c8c50b2e": {
-      "text": "<0>Mobile scope.</0><1>Android launcher icons are a target. iOS app-icon sets are not yet: their dark and tinted variants need sources of their own.</1>",
+    "0-mobile-scope-0-1-android-and-ios-app-icons.9dd4d3c3": {
+      "text": "<0>Mobile scope.</0><1>Android and iOS app icons are targets.</1>",
       "kind": "text",
       "where": "section.limits-section div.section-shell ul",
       "pages": [

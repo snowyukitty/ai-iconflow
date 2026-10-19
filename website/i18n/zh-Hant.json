@@ -736,6 +736,10 @@
     "launcher-icons.323f4db0": "啟動器圖示",
     "adaptive-foreground-and-background-the-andro.f57e4f7c": "自適應前景與背景、Android 13 主題圖示圖層、五種密度的舊版方形與圓形圖示，以及自適應 XML。",
     "targets-android.d5647884": "--targets android",
-    "0-mobile-scope-0-1-android-launcher-icons-ar.c8c50b2e": "<0>行動裝置範圍。</0><1>Android 啟動器圖示已是目標。iOS 的 App 圖示組尚未支援：它的深色與著色變體需要各自的原始檔。</1>"
+    "ios.d4ba3579": "IOS",
+    "app-icon-set.5a5af38b": "App 圖示組",
+    "targets-ios.2bc46067": "--targets ios",
+    "light-dark-and-tinted-1024px-xcode-icons-plu.ffedb8a5": "Xcode 用的淺色、深色與著色 1024px 圖示，另附 Icon Composer 圖層。",
+    "0-mobile-scope-0-1-android-and-ios-app-icons.9dd4d3c3": "<0>行動平台範圍。</0><1>Android 與 iOS 的 App 圖示都是目標。</1>"
   }
 }
