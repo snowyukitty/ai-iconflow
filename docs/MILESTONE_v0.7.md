@@ -22,7 +22,7 @@ what was decided, what was measured, and what is still the owner's call.
 | B. iOS / MSIX | **not added**, with the reason written down | `docs/OUTPUT_TARGETS.md` *Not targets yet* |
 | C. Brand kit | `brand build` / `sync` / `outline`, gated on the mark's approval | `iconflow/brand.py`, `docs/BRAND_KIT.md` |
 | D. Headless review | `review --evidence` + `score`; second opinions recorded, never gating | `iconflow/headless.py`, `docs/REVIEW_CHECKLIST.md` |
-| E. Distillation | 20 lessons: 6 new rules (L59–L64), 7 merged, 2 rejected, 1 held; DISTILL NOW cleared | `docs/LEARNINGS.md` |
+| E. Distillation | 20 lessons: 10 became 6 new rules (L59–L64 cite 11 case links; one case backs two rules), 7 merged, 2 rejected, 1 held; DISTILL NOW cleared. The units differ — rules are not lessons — which is why 6 + 7 + 2 + 1 does not add to 20 (counted 2026-10-19 from commit `b1a463e`). | `docs/LEARNINGS.md` |
 | E. Legibility budget | `iconflow budget`, in `compare` and in headless findings; advisory | `iconflow/budget.py`, `docs/LEGIBILITY_BUDGET.md` |
 | F. DX seeds | 5 shipped, 1 closed as stale, 2 left open with notes; `init` detects targets | `docs/ISSUE_SEEDS.md`, `iconflow/detect.py` |
 | G. Site | Getting started and the icon-size reference updated, five languages | `website/` |
@@ -147,5 +147,11 @@ property each command must re-establish.
    tool still names the case's old file name; it is now
    `casebook/2026-08-22-shot-coherence-pattern-card.md`. A cross-project edit,
    left to the owner.
-9. **The held lessons.** Two stay open for corroboration (a hanging object's
-   support ratio; a nested device capped by its grid).
+9. ~~The held lessons~~ — **decided 2026-10-19: both stay held.** One was
+   held by the distillation (a hanging object's support ratio, from the
+   night-market storefront case); the second came with the keyhole-grid case
+   the same commit added after the count (a nested device capped by its grid).
+   A rule promoted from one case is what the distillation exists to prevent.
+   `iconflow case stats` already lists both as *Held for corroboration*, with
+   what would promote each (a second, independent case), so no separate list
+   was added.

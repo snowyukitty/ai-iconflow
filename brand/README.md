@@ -41,6 +41,33 @@ projects:
 .venv\Scripts\python.exe -m iconflow ship --config brand\iconflow.toml --review brand\master-review.json
 ```
 
+## Wordmark and kit (2026-10-19)
+
+`wordmark.svg` is **IconFlow** in Inter Bold, outlined at −0.02em by
+`iconflow brand outline`; `tagline.svg` is the brand line in Inter Medium at
+0em. Both are paths only — no live text, no font on the machine that renders
+them — and each records its font and licence in a comment.
+
+| | |
+|---|---|
+| Font | Inter 4.1 (font version 4.001), [rsms/inter release v4.1](https://github.com/rsms/inter/releases/tag/v4.1) |
+| Licence | SIL Open Font License 1.1 (`LICENSE.txt` in the release) |
+| `Inter-4.1.zip` | SHA-256 `9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e` |
+| `extras/ttf/Inter-Bold.ttf` | SHA-256 `288316099b1e0a47a4716d159098005eef7c0066921f34e3200393dbdb01947f` |
+| `extras/ttf/Inter-Medium.ttf` | SHA-256 `97ad806f526e41546d46365bb3a393145f75b7b1568913db74549ad8b8dba872` |
+
+`iconflow brand build --config brand/iconflow.toml --review brand/master-review.json`
+writes the kit (lockups, tiles, Open Graph, GitHub and banner cards) to
+`work/brand-kit/`, which is not committed: it is rebuilt from these sources.
+Two builds give byte-identical PNGs. The GitHub repository's social preview is
+the kit's `social/github-social-1280x640.png`, committed as
+`docs/assets/github-social-preview.png`. The website's link-preview image is
+a separate, richer card (`scripts/render_social_preview.py`).
+
+`maskable.svg` (also 2026-10-19) is the master's own paths on a full-bleed
+graphite field, so the card fills Android and PWA launcher shapes instead of
+sitting inside a paper ring.
+
 ## Palette
 
 | Token | Value | Role |

@@ -157,20 +157,28 @@ preserved history and coherent commit, not from partially updating surfaces.
 ```text
 brand/master.svg          editable app/favicon source of truth
 brand/tray.svg            mark-only tray/menu-bar source
+brand/maskable.svg        the mark on a full-bleed field for launcher crops
+brand/wordmark.svg        outlined Inter Bold wordmark (brand/README.md: font provenance)
+brand/tagline.svg         outlined brand line for the social cards
 brand/iconflow.toml       portable product brief and build contract
 brand/master-review.json  source/target-bound approved decision receipt
 brand/build/              deterministic web/Tauri/Electron/tray outputs
 docs/assets/hero-flow.svg functional product overview
 docs/assets/concept-bake.png Petal Haypile beside four gated Round 3 finalists
 docs/assets/review-proof.png current Petal Haypile review sheet
-docs/assets/social-preview.svg editable GitHub social-preview source
-docs/assets/social-preview.png 1280×640 rendered social-preview candidate
+docs/assets/social-preview.svg editable website link-preview source
+docs/assets/social-preview.png 1280×640 website link-preview (og:image)
+docs/assets/github-social-preview.png the GitHub repository's social preview
 ```
 
-Regenerate the social preview with
-`python scripts/render_social_preview.py`, inspect the PNG, and upload it only
-after repository-settings approval. It composes the already approved mark; it
-does not replace or modify the app-icon source.
+There are two social images, each with one generator. The **GitHub
+repository preview** (`docs/assets/github-social-preview.png`, uploaded
+2026-10-19) is the brand kit's card: `iconflow brand build --config
+brand/iconflow.toml --review brand/master-review.json`, then copy
+`work/brand-kit/social/github-social-1280x640.png`; it is outlined throughout
+and byte-identical between builds. The **website's link preview** is the
+richer marketing card from `python scripts/render_social_preview.py`. Both
+compose the already approved mark; neither modifies the app-icon source.
 
 These brand assets are **not** Apache-2.0. `brand/` is `CC-BY-4.0` —
 attribution required, derivatives and commercial use allowed, because this

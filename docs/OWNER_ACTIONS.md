@@ -17,11 +17,14 @@ edge. The site's CSP is `script-src 'self'`, so every visitor's browser blocks
 it and logs a violation: the analytics collect nothing, and the two reference
 pages `state.py` compares byte for byte are served modified.
 
-**The one step (preferred).** Cloudflare dashboard → **Workers & Pages** →
-the `ai-iconflow` Pages project → **Metrics** → **Web Analytics** → disable.
-If the site was instead added under **Analytics & Logs → Web Analytics**,
-open it there and turn off automatic setup. Cloudflare adds or removes the
-snippet at deployment, so redeploy afterwards (`scripts/deploy-site.ps1`).
+**Done 2026-10-19.** The beacon was not the Pages project's setting (the
+content project is `iconflow`, and its Web Analytics was already off): it
+came from the account-level site **ai-iconflow.com** under **Analytics → Web
+analytics → Manage site → Real User Measurements**, set to *Enable, excluding
+visitor data in the EU*. It is now **Disable** (saved with **Update**, then
+re-read after a reload). Redeploy afterwards (`scripts/deploy-site.ps1`) so
+every page is served fresh. The API token this repository's deploys use has
+no Web Analytics scope; the change was made in the signed-in dashboard.
 
 **Proof.** `python scripts/state.py` shows `Live /reference/icon-sizes/ is
 served unmodified` and `Live /reference/tray-icons/ ...` as PASS.
@@ -41,29 +44,22 @@ product decision; nothing in the repository makes it.
 
 ## 2. Upload the repository social preview (OPEN)
 
-GitHub has no API for the social preview image. **The one step:** GitHub →
-`snowyukitty/ai-iconflow` → **Settings** → **General** → **Social preview** →
-**Edit** → **Upload an image** → `docs/assets/social-preview.png`
-(1280x640, already rendered by `scripts/render_social_preview.py`).
-
-Once a wordmark is chosen, `iconflow brand build` writes a deterministic
-`social/github-social-1280x640.png` from the approved mark and the outlined
-wordmark (`docs/BRAND_KIT.md`); the current preview renders its text with
-system fonts, so it differs slightly between machines.
+**Done 2026-10-19:** `docs/assets/github-social-preview.png`, the brand kit's
+deterministic card (mark, outlined Inter wordmark and tagline), uploaded under
+**Settings → General → Social preview → Edit → Upload an image**. GitHub has
+no API for this. The image GitHub serves was downloaded back and compared:
+identical pixels. To change it, rebuild the kit (`docs/BRAND_SYSTEM.md`) and
+upload again.
 
 **Proof.** `state.py`: `Repository social preview is uploaded` → PASS.
 
 ## 3. Decide on Discussions (OPEN)
 
-**The one step, if yes:**
-
-```powershell
-gh repo edit snowyukitty/ai-iconflow --enable-discussions
-```
-
-Suggested categories, matching the contribution lanes in `CONTRIBUTING.md`:
-*Show a case* (an icon made with IconFlow, with its sheet), *Q&A*, *Ideas*.
-If no, record the decision in `docs/LAUNCH_READINESS.md` so `state.py` stops
-asking; the gate is a question, not a defect.
+**Done 2026-10-19: enabled** (`gh repo edit ... --enable-discussions`). The
+default categories already carry the contribution lanes: *Show and tell* (an
+icon made with IconFlow, with its sheet), *Q&A*, *Ideas*. A welcome post in
+*Announcements* (discussion #1) routes each kind of post, sends bugs to
+Issues and security reports to private reporting, and asks people to check a
+review sheet for private names before posting it. The owner moderates.
 
 **Proof.** `state.py`: `Discussions decision` → PASS.

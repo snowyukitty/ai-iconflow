@@ -35,6 +35,15 @@ maskable_svg = "maskable.svg"
 color_scheme = "light"
 optimize_png = true
 
+[brand]
+# Inter Bold 4.001 (SIL OFL 1.1), outlined at -0.02em by `iconflow brand outline`;
+# the font's source and hash are in brand/README.md.
+wordmark = "wordmark.svg"
+tagline = "tagline.svg"   # Inter Medium 4.001, outlined at 0em
+dark = "#191A20"
+light = "#FFF4E8"
+output = "../work/brand-kit"
+
 [review]
 status = "approved"
 source_sha256 = "789de5f7ea1241c4e92939d968ad6cc7720af6549a058febac525b64cbae82d6"

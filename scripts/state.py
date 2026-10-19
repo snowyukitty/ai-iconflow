@@ -489,7 +489,7 @@ def check_repository() -> list[Check]:
                   PASS if social else GATE,
                   "custom Open Graph image set" if social
                   else "still GitHub's generated card — Settings → General → "
-                       "Social preview, upload docs/assets/social-preview.png"),
+                       "Social preview, upload docs/assets/github-social-preview.png"),
             Check("repo.discussions", "Discussions decision",
                   PASS if discussions else GATE,
                   "enabled" if discussions
