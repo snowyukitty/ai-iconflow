@@ -182,11 +182,12 @@ def resolve(svg_text: str) -> Layers:
         raise LayerError(f'id="{BACKGROUND_ID}" must be the first painted element: '
                          "nothing may be drawn beneath the background")
     extra = [_local(child.tag) for child in background
-             if _local(child.tag) not in {"title", "desc", "metadata"}]
+             if _local(child.tag) not in {"title", "desc", "metadata"} or len(child)]
     if extra:
         # Full bleed replaces the element and everything in it: a stylesheet or
         # an animation inside the card would vanish with it (AB02).
-        raise LayerError(f'id="{BACKGROUND_ID}" must be one empty shape; it holds <{extra[0]}>')
+        raise LayerError(f'id="{BACKGROUND_ID}" must be one empty shape (text-only title, '
+                         f'desc or metadata aside); it holds <{extra[0]}> with content')
     if name not in _SHAPES:
         raise LayerError(f'id="{BACKGROUND_ID}" must be one shape ('
                          + ", ".join(sorted(_SHAPES)) + f"), not <{name}>")
@@ -215,7 +216,9 @@ def resolve(svg_text: str) -> Layers:
         for attr, value in element.attrib.items():
             if element is background and attr == "id":
                 continue
-            if reference.search(unquote(value)):
+            # The URL parser drops tab, LF and CR anywhere before the
+            # fragment is percent-decoded (AC01).
+            if reference.search(unquote(re.sub(r"[\t\n\r]", "", value))):
                 raise LayerError(f"<{_local(element.tag)} {_local(attr)}> refers to the "
                                  "background; the mark must not depend on it")
     _check_stylesheets(root, name)
@@ -235,7 +238,12 @@ def _check_stylesheets(root: ET.Element, tag: str) -> None:
     its own id (R01, V02, W01-W03).
     """
     risky = {tag.lower(), "rect"}
-    for style in root.iter(f"{{{SVG_NS}}}style"):
+    for element in root.iter():
+        if _local(element.tag) == "link":
+            raise LayerError("a master with a declared background may not link a stylesheet")
+    # Every element named style, whatever its namespace: an XHTML <style> is a
+    # stylesheet too (AC03).
+    for style in (e for e in root.iter() if _local(e.tag) == "style"):
         for selector in _css_rules("".join(style.itertext())):
             problem = _selector_problem(selector, risky)
             if problem:
@@ -396,8 +404,9 @@ def _derive(svg_text: str, replace: bool) -> str:
     if replace:
         x, y, width, height = _view_box(root)
         root.insert(index, ET.Element(f"{{{SVG_NS}}}rect", {
-            "id": BACKGROUND_ID, "x": f"{x:g}", "y": f"{y:g}",
-            "width": f"{width:g}", "height": f"{height:g}", "fill": background.get("fill"),
+            # 17 significant digits round-trip any float; "g" keeps six (AC04).
+            "id": BACKGROUND_ID, "x": f"{x:.17g}", "y": f"{y:.17g}",
+            "width": f"{width:.17g}", "height": f"{height:.17g}", "fill": background.get("fill"),
             # Explicit, so a stroke inherited from an ancestor cannot reappear
             # on the full-bleed card (AA02).
             "stroke": "none",
@@ -506,6 +515,34 @@ def prove_layers(svg_text: str, light, dark) -> None:
                 "a stylesheet or a CSS function that reads the document can do this. Ship "
                 'the light icon alone (build.ios_variants = "system"), or remove '
                 'id="iconflow-background" and link build.ios_dark_svg')
+
+
+def prove_extension(svg_text: str, renderer) -> None:
+    """Prove, by rendering, that the full-bleed card is the card's own fill.
+
+    The light icon of every declared master is the master with its card
+    stretched to the canvas. Painting alone, in the scheme the build renders
+    in, on the 1024 px rung, the stretched card must cover the whole canvas
+    opaquely and — for a solid fill — be that colour everywhere, whatever a
+    stylesheet, a lost attribute or the geometry did (AC02-AC04). A gradient
+    fill is re-mapped onto the canvas by design, so only its coverage is
+    proven.
+    """
+    svg_text = ladder.reduce_svg(svg_text, ladder.rung_for_size(SIZE))
+    layers = resolve(svg_text)
+    card = _rgba(renderer.render(_painting_only(full_bleed(svg_text), card=True), SIZE))
+    lowest_alpha = card.getchannel("A").getextrema()[0]
+    if lowest_alpha < 255 - PROOF_DELTA:
+        raise LayerError("the full-bleed card does not cover the canvas (its lowest alpha is "
+                         f"{lowest_alpha}); the light icon would show background_color through it")
+    solid = counter_colour(layers.fill)
+    if solid is not None:
+        flat = Image.new("RGBA", card.size, (*solid, 255))
+        worst, changed = _worst_change(_encode(card), flat)
+        if changed:
+            raise LayerError(
+                f"the full-bleed card is not its fill {layers.fill}: {changed} pixels differ by "
+                f"up to {worst} levels -- something repaints the card once it is extended")
 
 
 def composer_svg(svg_text: str) -> str:

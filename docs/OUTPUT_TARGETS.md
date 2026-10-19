@@ -352,7 +352,9 @@ levels). A mark that depends on its card in any way — blending with
 it (`mix-blend-mode`), a CSS function that reads the document
 (`sibling-index()`), a motion path along it — fails the build. The fixes: ship
 the light icon alone (`ios_variants = "system"`, which never separates the
-mark), or remove the declaration and link `ios_dark_svg`. A declaration outside that subset fails the build
+mark), or remove the declaration and link `ios_dark_svg`. The full-bleed card
+of every declared master is proven too: painting alone it must cover the
+canvas, and a solid fill must be that colour everywhere. A declaration outside that subset fails the build
 with the rule it broke; it never falls back silently. Geometry is never
 guessed: an untagged master ships the **light icon alone** (flattened onto
 `background_color`) and iOS derives dark and tinted, with an advisory saying

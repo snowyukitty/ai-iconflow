@@ -620,6 +620,9 @@ def ios_files(r, ios_plan, master_text: str, dark_text: str | None,
     # a linked dark source (Z03, Z06).
     mark_ships = ios_plan.declared and "dark" in ios_plan.shipped
     needs_dark = "dark" in ios_plan.shipped
+    if ios_plan.declared:
+        # The light icon is the full-bleed card: proven in the build's scheme.
+        ios.prove_extension(master_text, r)
     with (ios.dark_renderer(r) if needs_dark else contextlib.nullcontext()) as dark_r:
         if mark_ships:
             # Only once rendering proves the mark stands alone (Y01-Y03, Z01-Z06),

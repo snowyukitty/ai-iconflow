@@ -220,6 +220,19 @@ class LayerTests(unittest.TestCase):
                 CARD.replace("/>", "><style>.s{stop-color:#204060}</style></rect>") + MARK),
             "AB02 an animation inside the card": svg(
                 CARD.replace("/>", '><set attributeName="fill" to="red"/></rect>') + MARK),
+            "AC01 a reference split by a newline": svg(
+                CARD + '<use href="#iconflow-&#10;background"/>' + MARK),
+            "AC01 a reference split by a tab and a CR": svg(
+                CARD + '<use href="#iconflow&#9;-back&#13;ground"/>' + MARK),
+            "AC02 a stylesheet inside the card's metadata": svg(
+                CARD.replace("/>", "><metadata><style>.s{stop-color:#204060}</style>"
+                             "</metadata></rect>") + MARK),
+            "AC03 an XHTML stylesheet": svg(
+                '<h:style xmlns:h="http://www.w3.org/1999/xhtml">rect{fill:#ff0000}</h:style>'
+                + CARD + MARK),
+            "AC03 a linked stylesheet": svg(
+                '<h:link xmlns:h="http://www.w3.org/1999/xhtml" rel="stylesheet" href="a.css"/>'
+                + CARD + MARK),
             "@media inside @media": svg(
                 '<style>@media all { @media all { .m{x:1} } }</style>' + CARD + MARK),
             "Y01 comment markers in an unquoted url": svg(
@@ -269,6 +282,18 @@ assert ios.resolve(svg('.m{{x:1}}' * 20000)).declared
                     '.m{fill:#fff;stroke:#000;}; .n{x:1}'):
             with self.subTest(css):
                 self.assertTrue(ios.resolve(svg(f'<style>{css}</style>' + CARD + MARK)).declared)
+
+    def test_AC02_text_only_descriptions_inside_the_card_remain_allowed(self):
+        described = svg(CARD.replace("/>", "><title>card</title><desc>the plate</desc>"
+                                     "<metadata>made with IconFlow</metadata></rect>") + MARK)
+        self.assertTrue(ios.resolve(described).declared)
+
+    def test_AC04_full_bleed_geometry_round_trips(self):
+        far = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="10000049 0 1024 1024">'
+               '<rect id="iconflow-background" x="10000049" y="0" width="1024" height="1024" '
+               'fill="#191A20"/><rect x="10000349" y="300" width="424" height="424" '
+               'fill="#FFF4E8"/></svg>')
+        self.assertIn('x="10000049"', ios.full_bleed(far))
 
     def test_R01_id_class_and_media_rules_remain_allowed(self):
         style = ('<style>/* rect{} */ .m{fill:#fff} #x{fill:red} g > .m, svg .m{x:1} '
@@ -1268,9 +1293,10 @@ class RealChromiumTests(unittest.TestCase):
                         + '<circle id="s" cx="512" cy="512" r="200" fill="#ffffff"/>')
         entangled = entangled.replace('viewBox="0 0 1024 1024">',
                                       'viewBox="0 0 1024 1024" mask="url(#m)">', 1)
-        self.assertIn("depends on the background", self.refused(entangled))
-        self.assertEqual(self.proven(entangled, ios_variants="system").produced,
-                         [ios.CONTENTS, ios.LIGHT, ios.README])
+        self.refused(entangled)
+        # Its "full bleed" is cut to the mark too, so even the light icon alone
+        # is refused rather than shipped with background_color around a circle.
+        self.assertIn("does not cover the canvas", self.refused(entangled, ios_variants="system"))
 
     def test_AB04_an_unclosed_comment_in_a_style_does_not_hide_the_override(self):
         white_card = CARD.replace("#191A20", "#FFFFFF")
@@ -1281,6 +1307,25 @@ class RealChromiumTests(unittest.TestCase):
         first = ios._rgba(files_of(self.proven(commented))[ios.DARK]).tobytes()
         second = ios._rgba(files_of(self.proven(plain))[ios.DARK]).tobytes()
         self.assertEqual(first, second)
+
+    def test_AC_the_full_bleed_card_is_proven_to_be_its_fill(self):
+        far = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="10000049 0 1024 1024">'
+               '<rect id="iconflow-background" x="10000049" y="0" width="1024" height="1024" '
+               'fill="#191A20"/><rect x="10000349" y="300" width="424" height="424" '
+               'fill="#FFF4E8"/></svg>')
+        for variants in ("auto", "system"):
+            with self.subTest(variants=variants):
+                light = ios._rgba(files_of(self.proven(far, ios_variants=variants))[ios.LIGHT])
+                self.assertEqual(light.getpixel((1000, 512))[:3], (25, 26, 32))
+        # Whatever repaints the extension -- here a rule the syntax checks are
+        # told to ignore -- the rendered proof refuses it before any file.
+        repainted = svg('<style>rect{fill:#ff0000}</style><circle id="iconflow-background" '
+                        'cx="512" cy="512" r="500" fill="#191A20"/>' + MARK)
+        with mock.patch.object(ios, "_check_stylesheets"):
+            for variants in ("auto", "system"):
+                with self.subTest(repainted=variants):
+                    self.assertIn("is not its fill",
+                                  self.refused(repainted, ios_variants=variants))
 
     def test_Z04_Z05_legitimate_paint_servers_are_proven(self):
         styled_stops = svg(

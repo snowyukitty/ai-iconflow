@@ -107,7 +107,8 @@ the regression that proves each is named after it in `tests/test_ios.py`.
 ### Dissent
 
 **AB03.** A master whose card is clipped by a mask built from its own mark's
-geometry is refused rather than separated (see "Verification passes" 7).
+geometry is refused rather than separated, in every mode (see "Verification
+passes" 7 and 8).
 
 **C-F15 (partly).** The consult asked for a full SVG safety contract before
 vector export (bounded parsing, DTD rejection, active-content sanitising).
@@ -271,6 +272,26 @@ which 48 declare a background) finds no declared master refused.
 
    On the previous code the AB01, AB02 and AB04 regressions fail; AB03's
    pins the refusal it already made.
+
+8. **Eighth verification**: **REQUEST_CHANGES**, 4 findings (AC01–AC04);
+   AB01, AB02, AB04 confirmed closed and the AB03 dissent accepted.
+
+| # | Finding | Resolution |
+|---|---|---|
+| AC01 | the URL parser drops tab, LF and CR before decoding a fragment, so `#iconflow-&#10;background` still names the card | those characters are removed before the reference check, as the parser does |
+| AC02 | `title`/`desc`/`metadata` inside the card could carry a stylesheet | they must hold text only |
+| AC03 | an XHTML `<h:style>` escaped the SVG-only stylesheet check | every element named `style`, in any namespace, is held to the stylesheet language; a linked stylesheet is refused |
+| AC04 | `f"{x:g}"` keeps six significant digits, so a far-off viewBox origin shifted the full-bleed card | 17 significant digits, which round-trip any float |
+
+   AC02–AC04 shared a gap the reviewer named: the full-bleed light icon was
+   never itself proven. It now is, for every declared master
+   (`ios.prove_extension`): painting alone, on the 1024 px rung and in the
+   build's scheme, the stretched card must cover the canvas opaquely and, for
+   a solid fill, be that colour everywhere — whatever repainted, shifted or
+   restyled it. A gradient is re-mapped by design, so only its coverage is
+   proven. This also refuses AB03's entangled master in light-only mode, where
+   its "full bleed" is cut to the mark. On the previous code every AC
+   regression fails; all 47 declared masters are proven on Windows and Linux.
 
 ## Verification
 
