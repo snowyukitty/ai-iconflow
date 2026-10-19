@@ -312,10 +312,23 @@ which 48 declare a background) finds no declared master refused.
     (`stroke="none"` on it, everything around it unchanged); the regression
     fails on the previous code.
 
+11. **Eleventh verification**: **APPROVE** (confidence 0.92) — AE01 closed,
+    its regression exercises the failure, no further concrete defect.
+
+Across the thirteen passes (a design consult, an implementation review,
+eleven verifications): 21 design findings, 13 implementation findings and
+40 verification findings, every one fixed with a regression or answered in
+writing — two dissents (C-F15 in part, AB03), both in the safe direction.
+What the passes taught is recorded where it lives: a partial CSS parser is an
+arms race, so stylesheets beside a declared card are held to a small language
+that cannot hide a rule, and the guarantee itself is made by rendering, with
+the Chromium that ships the pixels.
+
 ## Verification
 
-- Suite: 655 tests (`tests/test_ios.py` adds 70) on Python 3.14 and 3.10;
-  ruff clean; real-Chromium classes pass (`ICONFLOW_BROWSER_TESTS=1`).
+- Suite: 670 tests (`tests/test_ios.py` adds 85) on Python 3.14 and 3.10;
+  ruff clean; real-Chromium classes pass (`ICONFLOW_BROWSER_TESTS=1`), also
+  on Linux in CI.
 - Built bytes: 156 files across the five 0.9 configurations identical to a
   `v0.9.0` checkout, through `build()` and through the session `ship` uses.
 - Xcode: the `xcode-ios` CI job compiles a declared master, a tagged
@@ -326,8 +339,10 @@ which 48 declare a background) finds no declared master refused.
   at 360 px).
 - Presets: 14 tagged, render-identical to `v0.9.0` in both schemes at 16, 32,
   64 and 1024 px.
-- Layer proof: every declared master in the repository (47) proven; the
-  attacks from the reviews refused.
+- Layer proof: every declared master in the repository (47) proven, on
+  Windows and in a Linux Playwright container; every construction from the
+  reviews refused. A full iOS build with its proofs takes about two seconds;
+  the demo family's Lab and evidence reviews with `ios` about five.
 
 ## Limits
 
@@ -339,6 +354,12 @@ which 48 declare a background) finds no declared master refused.
   compiler is exercised in CI.
 - The Review Lab overflows horizontally at 360 px with or without iOS
   (pre-existing).
+- The layer proofs refuse rather than guess: an exotic master whose card and
+  mark are entangled (a card clipped by its own mark's shape, a mark that
+  blends with its card) ships the light icon only after its declaration is
+  removed, or with `ios_variants = "system"` when only the separation fails.
+- A gradient card is re-mapped onto the canvas at full bleed (its coverage is
+  proven, its field is not compared).
 
 ## Release checklist (0.10.0, on the owner's word)
 
