@@ -1177,7 +1177,7 @@ def load_plan(directory: str | Path) -> RenderPlan:
             or plan.provenance_digest != manifest.get("provenance_digest")):
         raise PlanError(f"{MANIFEST_NAME} digests do not match its files and settings")
     targets = (plan.parameters or {}).get("targets")
-    if isinstance(targets, list) and "ios" in targets:
+    if isinstance(targets, (list, tuple)) and "ios" in targets:
         # Every imported iOS set is validated on its bytes, whatever reads it
         # next: score, replay or a test (R02).
         audit_ios(plan)

@@ -28,6 +28,7 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import re
 from dataclasses import dataclass
 from typing import Mapping
 from datetime import datetime, timezone
@@ -503,7 +504,9 @@ _PATH_KEYS = ("maskable_source", "tray_source", "ios_dark_source")
 
 def _comparable(inputs: dict) -> dict:
     # Source paths are machine-local: compare which file, by name, not where.
-    return {key: (Path(value).name if key in _PATH_KEYS and value else value)
+    # Split on both separators: evidence recorded on Windows is scored on
+    # POSIX and back, where pathlib reads the other's syntax as one name (V05).
+    return {key: (re.split(r"[\\/]", value)[-1] if key in _PATH_KEYS and value else value)
             for key, value in inputs.items()}
 
 

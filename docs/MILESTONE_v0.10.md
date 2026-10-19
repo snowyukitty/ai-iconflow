@@ -118,8 +118,11 @@ scope, as `README.md` already says.
 ## Implementation review
 
 Same route, on the code: **REQUEST_CHANGES**, 13 findings (R01–R13),
-confidence 0.96. All taken; each regression is named after its finding and
-was run against the pre-fix code, where it fails (R13 excepted, below).
+confidence 0.96. All taken; each regression is named after its finding. Run
+against the pre-fix code, the behaviour regressions for R01–R10 and R12 fail;
+the R11 additions (the real square, the README promises, the 0.9 contract
+keys) pin behaviour that was already right, and R13's refusal predates 0.10
+(below). The first verification pass corrected an earlier, broader claim.
 
 | # | Finding | Resolution |
 |---|---|---|
@@ -137,9 +140,30 @@ was run against the pre-fix code, where it fails (R13 excepted, below).
 | R12 | an Expo `platforms` list excluding iOS was ignored | an explicit list decides |
 | R13 | `exists()` misses a dangling link at a known iOS path | already refused before this check: 0.8's output-tree validation rejects any link in the output folder (shown by mutation); `lexists` added, and the regression pins the refusal |
 
+## Verification passes
+
+1. **First verification**: **REQUEST_CHANGES**, 8 findings; R05, R09, R12
+   and R13 confirmed closed.
+
+| # | Finding | Resolution |
+|---|---|---|
+| V01 | `load_plan`'s iOS check never ran (`RenderPlan` freezes lists into tuples) and its test loaded `plan.json` instead of the directory | tuples accepted; the test loads the directory, with a valid control and a wrong-mode and a hostile import, each refused for the iOS reason |
+| V02 | with a circle card, `rect{…}` becomes live once full bleed makes it a rect; upper-case pseudo-classes and CSS escapes slipped through; `.iconflow-background-accent` was falsely refused | selectors are validated positively (type, `.class` and `#id` compounds with descendant or child combinators; anything else refused), bare `rect` is refused alongside the card's own type, and ids are matched as tokens |
+| V03 | `check_ios_plan` did not bind the master or the scheme | both compared, the master hashed the way a captured source is |
+| V04 | an unexpected Composer layer passed | every iOS text file must be present exactly when the master makes it |
+| V05 | a Windows path recorded in evidence did not compare on POSIX (also true of 0.9's maskable and tray sources) | basenames split on both separators |
+| V06 | a second IHDR could disagree with the decoder | one 13-byte IHDR first, chunks inside the file, IEND last, nothing after |
+| V07 | translucent regions escaped the merge advisory | merge candidates are the colours composited over black, alpha ≥ 128 |
+| V08 | the R07 replay regression never reached the new check; the mutation claim was too broad | a self-consistent downgraded plan with a receipt bound to it is refused as `plan-replay` (exit 1) before the audit; the claim above is now exact |
+
+Run against the code before these fixes, the V01, V02, V03, V04, V06 and V07
+regressions fail; V05's fails on POSIX only (Windows `pathlib` reads both
+separators); V08's replay test exercises the R07 fix and is the regression
+that finding asked for.
+
 ## Verification
 
-- Suite: 645 tests (`tests/test_ios.py` adds 60) on Python 3.14 and 3.10;
+- Suite: 651 tests (`tests/test_ios.py` adds 66) on Python 3.14 and 3.10;
   ruff clean; real-Chromium classes pass (`ICONFLOW_BROWSER_TESTS=1`).
 - Built bytes: 156 files across the five 0.9 configurations identical to a
   `v0.9.0` checkout, through `build()` and through the session `ship` uses.

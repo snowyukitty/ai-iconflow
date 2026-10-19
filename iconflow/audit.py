@@ -188,6 +188,17 @@ def check_ios_plan(plan, inputs: AuditInputs, master_text: str, dark_text: str |
     parameters = plan.parameters or {}
     if parameters.get("ios_variants") != inputs.ios_variants:
         raise PlanError("the plan was made with another ios_variants")
+    if parameters.get("color_scheme") != inputs.color_scheme:
+        raise PlanError("the plan was rendered in another colour scheme")
+    # Hashed the way a captured source is (validated, then newline-normalised),
+    # so a raw and a captured text of one master agree.
+    from .rasterize import svg_text_from_bytes
+
+    validated = svg_text_from_bytes(master_text.encode("utf-8"))
+    normalised_master = validated.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+    if (plan.inputs or {}).get("master", {}).get("sha256") != hashlib.sha256(
+            normalised_master).hexdigest():
+        raise PlanError("the plan was rendered from another master")
     try:
         same_ground = (assemble.opaque_color(str(parameters.get("background_color")))
                        == assemble.opaque_color(inputs.background_color))
@@ -200,12 +211,15 @@ def check_ios_plan(plan, inputs: AuditInputs, master_text: str, dark_text: str |
         if recorded is not None:
             raise PlanError("the plan was made from a linked iOS dark source the inputs do not name")
     else:
-        normalised = dark_text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+        normalised = svg_text_from_bytes(dark_text.encode("utf-8")).encode("utf-8")
         if not recorded or recorded.get("sha256") != hashlib.sha256(normalised).hexdigest():
             raise PlanError("the plan's iOS dark source is not the linked ios_dark_svg")
-    for path, data in ios.texts(expected, master_text).items():
-        if plan.get(path) != data:
-            raise PlanError(f"the plan's {path} is not the one this master produces")
+    texts = ios.texts(expected, master_text)
+    for path in (ios.CONTENTS, ios.COMPOSER_MARK, ios.README):
+        if plan.get(path) != texts.get(path):
+            state = "is missing" if plan.get(path) is None else (
+                "should not be there" if path not in texts else "is not the one this master produces")
+            raise PlanError(f"the plan's {path} {state}")
     return expected, frames
 
 

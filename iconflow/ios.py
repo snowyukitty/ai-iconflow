@@ -93,10 +93,13 @@ _SHAPES = {"rect", "circle", "ellipse", "path", "polygon"}
 #: one cannot be extended (or removed) as a plain fill without changing it.
 _REFUSED_ATTRS = ("transform", "filter", "mask", "clip-path", "opacity",
                   "fill-opacity", "style", "class", "data-lod", "display", "visibility")
-#: Selector syntax whose match can change when one element disappears or is
-#: replaced: siblings, position, negation, attributes, everything (R01).
-_STRUCTURAL_SELECTOR = re.compile(
-    r"[+~*\[]|:(?:nth-|first-|last-|only-|not\(|has\(|is\(|where\(|empty|root)")
+#: The only selectors a master with a declared background may use (R01, V02):
+#: compounds of an optional type and ``.class``/``#id`` qualifiers, joined by
+#: descendant or child combinators. Anything else — siblings, pseudo-classes in
+#: any case, attributes, ``*``, escapes — is refused rather than reasoned about.
+_COMPOUND = r"(?:[A-Za-z][\w-]*)?(?:[.#][A-Za-z_][\w-]*)*"
+_SELECTOR = re.compile(rf"^{_COMPOUND}(?:(?:\s*>\s*|\s+){_COMPOUND})*$")
+_PART = re.compile(r"([A-Za-z][\w-]*)?((?:[.#][A-Za-z_][\w-]*)*)")
 _CSS_COMMENT = re.compile(r"/\*.*?\*/", re.S)
 _URL_RE = re.compile(r"^url\(\s*#([^)\s]+)\s*\)$")
 _GRADIENTS = {"linearGradient", "radialGradient"}
@@ -220,12 +223,13 @@ def resolve(svg_text: str) -> Layers:
 def _check_stylesheets(root: ET.Element, tag: str) -> None:
     """Refuse a stylesheet that could paint the background or depend on it.
 
-    A rule may select by id or class (neither can reach the background, which
-    has neither but its own id); a rule that selects the background's element
-    type, or by sibling, position, attribute or ``*``, could repaint it or
-    change meaning once it is removed or replaced (R01).
+    Selectors are validated positively (``_SELECTOR``). Within that subset a
+    rule is refused when it names the background's id, or selects by bare
+    element type the background has now or will have once extended (a full
+    bleed is a ``rect``) — with a class or id qualifier it cannot reach the
+    background, which carries neither but its own id (R01, V02).
     """
-    type_selector = re.compile(rf"(?:^|[\s>]){re.escape(tag)}(?![\w-])", re.I)
+    risky = {tag.lower(), "rect"}
     for style in root.iter(f"{{{SVG_NS}}}style"):
         css = _CSS_COMMENT.sub("", "".join(style.itertext()))
         for header in re.findall(r"([^{}]+)\{", css):
@@ -234,12 +238,21 @@ def _check_stylesheets(root: ET.Element, tag: str) -> None:
                 continue
             for selector in header.split(","):
                 selector = selector.strip()
-                if (BACKGROUND_ID in selector or _STRUCTURAL_SELECTOR.search(selector)
-                        or type_selector.search(selector)):
+                problem = None
+                if not _SELECTOR.match(selector):
+                    problem = "uses selector syntax IconFlow cannot prove harmless"
+                else:
+                    for part in re.split(r"\s*>\s*|\s+", selector):
+                        element, qualifiers = _PART.fullmatch(part).groups()
+                        ids = re.findall(r"#([\w-]+)", qualifiers or "")
+                        if BACKGROUND_ID in ids:
+                            problem = "selects the background"
+                        elif element and element.lower() in risky and not qualifiers:
+                            problem = f"selects every <{element}>, the background among them"
+                if problem:
                     raise LayerError(
-                        f"the stylesheet rule '{selector}' could paint the background or "
-                        f"depend on it; with id=\"{BACKGROUND_ID}\" declared, select by "
-                        "id or class only")
+                        f"the stylesheet rule '{selector}' {problem}; with "
+                        f"id=\"{BACKGROUND_ID}\" declared, select the mark by class or id")
 
 
 def _derive(svg_text: str, replace: bool) -> str:
@@ -436,19 +449,32 @@ _ENCODING_NAME = {2: "8-bit RGB", 6: "8-bit RGBA", 0: "8-bit grayscale"}
 
 
 def _header(payload: bytes) -> tuple[int, int, set[bytes]]:
-    """(bit depth, colour type, chunk types) read from the PNG bytes themselves."""
-    if len(payload) < 33 or payload[12:16] != b"IHDR":
-        raise ValueError("no IHDR chunk")
-    chunks: set[bytes] = set()
+    """(bit depth, colour type, chunk types) read from the PNG bytes themselves.
+
+    The stream must be well formed: one 13-byte IHDR, first; every chunk
+    inside the file; IEND last. A second IHDR would let a decoder disagree
+    with this reader about the encoding (V06).
+    """
+    if len(payload) < 33 or payload[8:16] != b"\x00\x00\x00\rIHDR":
+        raise ValueError("the PNG does not start with one 13-byte IHDR chunk")
+    chunks: list[bytes] = []
     offset = 8
-    while offset + 8 <= len(payload):
+    while True:
+        if offset + 12 > len(payload):
+            raise ValueError("the PNG ends inside a chunk (no IEND)")
         length = int.from_bytes(payload[offset:offset + 4], "big")
         kind = payload[offset + 4:offset + 8]
-        chunks.add(kind)
+        offset += 12 + length
+        if offset > len(payload):
+            raise ValueError(f"the PNG's {kind!r} chunk runs past the end of the file")
+        chunks.append(kind)
         if kind == b"IEND":
             break
-        offset += 12 + length
-    return payload[24], payload[25], chunks
+    if chunks.count(b"IHDR") != 1:
+        raise ValueError("the PNG carries more than one IHDR chunk")
+    if offset != len(payload):
+        raise ValueError("the PNG has bytes after IEND")
+    return payload[24], payload[25], set(chunks)
 
 
 def _png(path: str, payload: bytes | None, appearance: str | None = None) -> Image.Image:
@@ -588,9 +614,18 @@ def _grey(rgb) -> int:
 
 
 def _merged(colours, opaque: int) -> list[list[str]]:
-    """Pairs of large, clearly different colours that become one grey."""
-    large = [(count, rgba[:3]) for count, rgba in colours
-             if rgba[3] >= 250 and opaque and count / opaque >= MERGE_SHARE]
+    """Pairs of large, clearly different colours that become one grey.
+
+    Each colour is taken as the tinted icon sees it: composited once over
+    black, across the whole mark (alpha >= 128), translucent regions included (V07).
+    """
+    seen: dict[tuple, int] = {}
+    for count, (r, g, b, a) in colours:
+        if a >= 128:
+            key = tuple(round(c * a / 255) for c in (r, g, b))
+            seen[key] = seen.get(key, 0) + count
+    large = [(count, rgb) for rgb, count in seen.items()
+             if opaque and count / opaque >= MERGE_SHARE]
     large.sort(reverse=True)
     pairs = []
     for i, (_, a) in enumerate(large[:8]):
