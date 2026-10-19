@@ -40,7 +40,8 @@ def fake_plan(*paths):
         return buffer.getvalue()
 
     return RenderPlan.create({path: payload(path) for path in paths or ("favicon.svg",)},
-                             inputs={}, parameters={}, toolchain={})
+                             inputs={"master": {"path": "master.svg", "sha256": "0" * 64, "bytes_sha256": "0" * 64}},
+                             parameters={}, toolchain={})
 
 
 class ConfigTests(unittest.TestCase):

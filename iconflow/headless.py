@@ -384,7 +384,7 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
                 f"evidence sheet {sheet.name} ({name}) changed after it was rendered; "
                 "re-run `iconflow review --evidence`"
             )
-    if findings.get("plan") is not None:
+    if "plan" in findings:
         _check_saved_plan(directory, findings)
     findings["_sha256"] = _sha256(path)
     return findings

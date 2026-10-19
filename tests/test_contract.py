@@ -92,7 +92,8 @@ def fake_plan(*paths):
         return buffer.getvalue()
 
     return RenderPlan.create({path: payload(path) for path in paths or ("favicon.svg",)},
-                             inputs={}, parameters={}, toolchain={})
+                             inputs={"master": {"path": "master.svg", "sha256": "0" * 64, "bytes_sha256": "0" * 64}},
+                             parameters={}, toolchain={})
 
 
 def run_json(argv: list[str]) -> tuple[int, dict, str]:
@@ -384,8 +385,11 @@ class ShipEnvelopeTests(DemoFamilyFixture):
         self.assertEqual(outputs["scores"]["distinctiveness"], 5)
         self.assertEqual(list(outputs["toolchain"]), ["iconflow", "chromium", "pillow"])
         self.assertTrue(outputs["toolchain"]["iconflow"])
-        self.assertIsNone(outputs["artifacts"])
-        self.assertIsNone(outputs["reviewer"])
+        # The bundled receipt is a headless re-review (2026-10-19): its packet
+        # fields are reported as recorded, never required.
+        recorded = json.loads(self.receipt.read_text(encoding="utf-8"))
+        self.assertEqual(outputs["artifacts"], recorded.get("artifacts"))
+        self.assertEqual(outputs["reviewer"], recorded.get("reviewer"))
         self.assertIn("SHIP PASSED", err)
 
     def test_receipt_packet_fields_are_recorded_not_required(self):

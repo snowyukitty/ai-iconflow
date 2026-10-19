@@ -52,7 +52,8 @@ def stub_plan():
     """A tiny real RenderPlan, so ship's plan seam can be stubbed without Chromium."""
     from iconflow.plan import RenderPlan
 
-    return RenderPlan.create({"favicon.svg": b"<svg/>"}, inputs={}, parameters={}, toolchain={})
+    return RenderPlan.create({"favicon.svg": b"<svg/>"}, inputs={"master": {"path": "master.svg", "sha256": "0" * 64, "bytes_sha256": "0" * 64}},
+                             parameters={}, toolchain={})
 
 
 class GridRasterizer:

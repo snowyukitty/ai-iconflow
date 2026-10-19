@@ -549,10 +549,11 @@ def load_review_receipt(
                 "review receipt second_opinions[].scores must map axes to integers"
             )
     packet["second_opinions"] = tuple(dict(item) for item in opinions)
-    if value.get("plan") is not None:
+    if "plan" in value:
         from .plan import PlanError, validate_binding
 
-        # Absent is legacy; present but malformed is never quietly unbound.
+        # Absent is legacy; present but malformed (null included) is never
+        # quietly unbound.
         try:
             packet["plan"] = validate_binding(value["plan"])
         except PlanError as exc:

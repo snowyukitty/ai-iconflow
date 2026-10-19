@@ -246,16 +246,23 @@ def contact_sheet(master_svg: str | Path, out: str | Path, *,
                   background_color: str = "#ffffff",
                   color_scheme: str = "light",
                   maskable_scale: float | None = None,
-                  maskable_svg: str | Path | None = None) -> Path:
+                  maskable_svg: str | Path | None = None,
+                  plan=None) -> Path:
+    """The static review sheet. With a render ``plan``, every size the build
+    ships is the plan's own frame (labelled "ships"), and the maskable proof is
+    the plan's ``icon-512-maskable.png``; other sizes are rendered for context.
+    """
     svg = load_svg(master_svg)
     f = _font(18)
     fs = _font(14)
 
     linked512 = None
+    shipped = plan.master_frames() if plan is not None else {}
+    wanted = sorted(set(_SIZES + [512]))
     with Rasterizer(color_scheme=color_scheme) as r:
         source = ladder.RungSource(svg)
-        renders = {s: source.render(r, s) for s in sorted(set(_SIZES + [512]))}
-        if maskable_svg is not None:
+        renders = {s: shipped[s] if s in shipped else source.render(r, s) for s in wanted}
+        if maskable_svg is not None and (plan is None or plan.get("icon-512-maskable.png") is None):
             linked512 = ladder.RungSource(load_svg(maskable_svg)).render(r, 512)
 
     cols = len(_SIZES)
@@ -283,7 +290,8 @@ def contact_sheet(master_svg: str | Path, out: str | Path, *,
             cell.alpha_composite(_img(renders[s]), ((_CELL - s) // 2, (_CELL - s) // 2))
             sheet.alpha_composite(cell, (x, y))
             d.rectangle([x, y, x + _CELL - 1, y + _CELL - 1], outline=(70, 72, 80, 255))
-            d.text((x + 4, y + _CELL + 4), f"{s}px", font=fs, fill=_LABEL)
+            d.text((x + 4, y + _CELL + 4), f"{s}px" + (" ships" if s in shipped else ""),
+                   font=fs, fill=_LABEL)
             x += _CELL + _GAP
         y += row_h
 
@@ -336,9 +344,10 @@ def contact_sheet(master_svg: str | Path, out: str | Path, *,
            font=f, fill=_TXT)
     y += 26
     x = _PAD
-    maskable = _maskable_asset(
+    planned_maskable = plan.get("icon-512-maskable.png") if plan is not None else None
+    maskable = (_img(planned_maskable) if planned_maskable is not None else _maskable_asset(
         renders[512], background_color, scale=maskable_scale, linked512=linked512,
-    )
+    ))
     previews = [
         ("safe zone", _draw_safe_zone(maskable)),
         ("circle crop", _clip_to_mask(maskable, _adaptive_shape_mask(512, "circle"))),
@@ -461,6 +470,11 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             with Rasterizer(color_scheme=scheme) as r:
                 linked_renders[scheme] = {s: linked_source.render(r, s) for s in sizes}
 
+    shipped_scheme = options.color_scheme if options.color_scheme in ("light", "dark") else "light"
+    if plan is not None:
+        renders[shipped_scheme].update(
+            {size: frame for size, frame in plan.master_frames().items() if size in sizes})
+
     tray_renders = {scheme: {s: renders[scheme][s] for s in (16, 32)}
                     for scheme in ("light", "dark")}
     if options.tray_svg:
@@ -492,18 +506,17 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
     }
     # In the scheme the build renders, show the plan's own bytes: the receipt
     # this Lab exports binds exactly what it displays.
-    shipped_scheme = options.color_scheme if options.color_scheme in ("light", "dark") else "light"
     if plan is not None:
         for key in web_assets[shipped_scheme]:
             if plan.get(key) is not None:
                 web_assets[shipped_scheme][key] = plan.get(key)
 
     silhouette_sizes = [32, 48, 64, 128, 256]
-    visual = {s: _data_url(_png(visual_silhouette(renders["light"][s])))
+    visual = {s: _data_url(_png(visual_silhouette(renders[shipped_scheme][s])))
               for s in silhouette_sizes}
-    alpha = {s: _data_url(_png(alpha_silhouette(renders["light"][s])))
+    alpha = {s: _data_url(_png(alpha_silhouette(renders[shipped_scheme][s])))
              for s in silhouette_sizes}
-    maskable = _img(web_assets["light"]["icon-512-maskable.png"])
+    maskable = _img(web_assets[shipped_scheme]["icon-512-maskable.png"])
     masks = {
         "Safe zone": _data_url(_png(_draw_safe_zone(maskable))),
         "Circle crop": _data_url(_png(_clip_to_mask(maskable, _adaptive_shape_mask(512, "circle")))),

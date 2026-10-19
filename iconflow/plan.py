@@ -37,6 +37,7 @@ import os
 import platform
 import re
 import shutil
+import struct
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
@@ -127,24 +128,35 @@ def _pixels_sha256(png: bytes) -> str:
     return _sha256(header + rgba.tobytes())
 
 
+_PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 _TEXT_SUFFIXES = frozenset({".svg", ".html", ".webmanifest", ".xml", ".ts", ".json"})
 
 
 def content_sha256(path: str, data: bytes) -> str:
-    """The content identity of one output (see the module docstring)."""
+    """The content identity of one output (see the module docstring).
+
+    A container contributes every entry in slot order — its directory fields
+    or chunk type, and the decoded pixels of its payload — so a repeated, an
+    extra, a reordered or a re-described frame is a different container.
+    """
     suffix = PurePosixPath(path).suffix.lower()
     if suffix == ".png":
         return _pixels_sha256(data)
     if suffix in {".ico", ".icns"}:
         try:
-            frames = assemble.ico_frames(data) if suffix == ".ico" else assemble.icns_frames(data)
-        except (ValueError, IndexError) as exc:  # struct errors surface as these
+            if suffix == ".ico":
+                entries = [(",".join(map(str, fields[:6])), payload)
+                           for fields, payload in assemble.ico_entries(data)]
+            else:
+                entries = [(ostype.hex(), payload) for ostype, payload in assemble.icns_entries(data)]
+        except (ValueError, IndexError, struct.error) as exc:
             raise PlanError(f"{path}: unreadable container ({exc})") from exc
-        if not frames:
-            raise PlanError(f"{path}: container has no frames")
-        # Slot order is part of the identity: ICO directory order is observable.
-        listing = "".join(f"{slot}:{size}:{_pixels_sha256(frames[size])}\n"
-                          for slot, size in enumerate(frames))
+        # A PNG payload by its pixels; anything else (a BMP frame, a TOC or
+        # unknown chunk) by its bytes, so it still counts.
+        listing = "".join(
+            f"{slot}:{described}:"
+            f"{_pixels_sha256(payload) if payload[:8] == _PNG_SIGNATURE else _sha256(payload)}\n"
+            for slot, (described, payload) in enumerate(entries))
         return _sha256(f"iconflow-{suffix[1:]}-v1\n{listing}".encode("ascii"))
     if suffix in _TEXT_SUFFIXES:
         return _sha256(data.replace(b"\r\n", b"\n"))
@@ -154,6 +166,20 @@ def content_sha256(path: str, data: bytes) -> str:
 def _listing_digest(kind: str, entries: Mapping[str, str]) -> str:
     listing = "".join(f"{path}\t{entries[path]}\n" for path in sorted(entries))
     return _sha256(f"iconflow-plan-{kind}-v1\n{listing}".encode("utf-8"))
+
+
+def provenance_digest(inputs: Mapping, parameters: Mapping) -> str:
+    """What produced the plan: each source role's hash and every effective setting.
+
+    Source *paths* are left out — they are machine-local — so the same
+    sources and settings give the same provenance on every machine.
+    """
+    canonical = {
+        "inputs": {role: _thaw(record).get("sha256") for role, record in inputs.items()},
+        "parameters": _thaw(parameters),
+    }
+    encoded = json.dumps(canonical, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return _sha256(b"iconflow-plan-provenance-v1\n" + encoded.encode("utf-8"))
 
 
 # ------------------------------------------------------------------- records
@@ -209,6 +235,12 @@ def _thaw(value):
     return value
 
 
+#: Plan files that hold the master's own renders, untransformed, and how to
+#: read sizes out of them (R01: approval surfaces show these, not new renders).
+_MASTER_FRAME_FILES = ("favicon.ico", "icons/icon.ico", "icons/icon.icns")
+_MASTER_PNG = re.compile(r"^(?:icon-(\d+)\.png|icons/(\d+)x\2\.png|emote/(\d+)\.png)$")
+
+
 @dataclass(frozen=True)
 class RenderPlan:
     """Every output of one build, immutable, with what produced it."""
@@ -244,6 +276,25 @@ class RenderPlan:
         except KeyError:
             return None
 
+    def master_frames(self) -> dict[int, bytes]:
+        """The master's own renders this plan ships, by pixel size.
+
+        Taken from the untransformed outputs (favicon and Tauri containers,
+        ``icon-N.png``, Tauri and emote PNGs), so a review surface that shows
+        "the icon at 32px" can show the exact frame that ships.
+        """
+        frames: dict[int, bytes] = {}
+        for record in self.files:
+            match = _MASTER_PNG.match(record.path)
+            if match:
+                size = int(next(group for group in match.groups() if group))
+                frames.setdefault(size, record.data)
+            elif record.path in _MASTER_FRAME_FILES:
+                read = assemble.ico_frames if record.path.endswith(".ico") else assemble.icns_frames
+                for size, payload in read(record.data).items():
+                    frames.setdefault(size, payload)
+        return frames
+
     @property
     def digest(self) -> str:
         return _listing_digest("content", {r.path: r.content_sha256 for r in self.files})
@@ -252,12 +303,17 @@ class RenderPlan:
     def artifact_digest(self) -> str:
         return _listing_digest("bytes", {r.path: f"{len(r.data)}:{r.sha256}" for r in self.files})
 
+    @property
+    def provenance_digest(self) -> str:
+        return provenance_digest(self.inputs, self.parameters)
+
     def binding(self) -> dict:
         """What a review receipt records about the pixels it approved."""
         return {
             "schema": PLAN_SCHEMA,
             "digest": self.digest,
             "artifact_digest": self.artifact_digest,
+            "provenance_digest": self.provenance_digest,
             "files": {r.path: {"content": r.content_sha256, "sha256": r.sha256} for r in self.files},
             "toolchain": _thaw(self.toolchain),
         }
@@ -267,6 +323,7 @@ class RenderPlan:
             "schema": PLAN_SCHEMA,
             "digest": self.digest,
             "artifact_digest": self.artifact_digest,
+            "provenance_digest": self.provenance_digest,
             "inputs": _thaw(self.inputs),
             "parameters": _thaw(self.parameters),
             "toolchain": _thaw(self.toolchain),
@@ -306,6 +363,21 @@ def plan_parameters(targets, *, name, theme_color, bg_color, electron_radius, tr
     }
 
 
+def consumed_roles(targets, *, tray_svg, maskable_svg, monochrome_svg) -> set[str]:
+    """The source roles a build with these targets reads (the master always)."""
+    from .build import ADAPTIVE_TARGETS
+
+    targets = set(targets)
+    roles = {"master"}
+    if tray_svg is not None and ("tray" in targets or ("android" in targets and monochrome_svg is None)):
+        roles.add("tray")
+    if maskable_svg is not None and ADAPTIVE_TARGETS & targets:
+        roles.add("maskable")
+    if monochrome_svg is not None and "android" in targets:
+        roles.add("monochrome")
+    return roles
+
+
 def compute_plan(master_svg: str | Path, targets=("web",), *,
                  name: str = "App", theme_color: str = "#0b0d12",
                  bg_color: str = "#ffffff", electron_radius: float = 0.0,
@@ -321,10 +393,10 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
 
     Takes exactly :func:`iconflow.build.build`'s arguments (less ``outdir``),
     validates them the same way, and returns a plan whose files are the bytes
-    ``build`` writes, in its order. Each source is read once; its snapshot is
-    rendered, hashed and (for an unannotated favicon) copied, so an edit made
-    mid-build cannot mix two versions of a file. Optional sources a selected
-    target does not consume are not read.
+    ``build`` writes, in its order. Each source *file* is read once, whatever
+    roles it plays; its snapshot is rendered, hashed and (for an unannotated
+    favicon) copied, so an edit made mid-build cannot mix two versions.
+    Optional sources a selected target does not consume are not read.
     """
     import importlib
 
@@ -344,41 +416,37 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
     if maskable_scale is not None:
         maskable_scale = b.validate_maskable_scale(maskable_scale)
     master_path = Path(master_svg)
-    master = snapshot(master_path, "master")
-    adaptive = bool(b.ADAPTIVE_TARGETS & set(targets))
-    sources: dict[str, Source] = {"master": master}
+    roles = consumed_roles(targets, tray_svg=tray_svg, maskable_svg=maskable_svg,
+                           monochrome_svg=monochrome_svg)
+    by_file: dict[str, Source] = {}
+    sources: dict[str, Source] = {}
 
-    def take(path, role) -> Source | None:
-        # A link that names the master is still a link (the default maskable
-        # scale depends on it), but it is the same snapshot.
-        if path is None:
-            return None
-        path = Path(path)
-        if path.resolve() == master_path.resolve():
-            source = Source(role=role, path=str(path), raw=master.raw, text=master.text)
-        else:
-            source = snapshot(path, role)
-        sources[role] = source
-        return source
+    def take(path, role) -> Source:
+        # One snapshot per file, shared by every role that names it (a link
+        # that names the master is still a link: the default maskable scale
+        # depends on it, but the bytes are the master's).
+        key = os.path.normcase(os.path.realpath(path))
+        if key not in by_file:
+            by_file[key] = snapshot(path, role)
+        sources[role] = by_file[key]
+        return by_file[key]
 
-    tray = take(tray_svg, "tray") if "tray" in targets or (
-        "android" in targets and monochrome_svg is None) else None
-    maskable = take(maskable_svg, "maskable") if adaptive else None
-    monochrome = take(monochrome_svg, "monochrome") if "android" in targets else None
+    master = take(master_path, "master")
+    tray = take(tray_svg, "tray") if "tray" in roles else None
+    maskable = take(maskable_svg, "maskable") if "maskable" in roles else None
+    monochrome = take(monochrome_svg, "monochrome") if "monochrome" in roles else None
 
     def render(r) -> dict[str, bytes]:
-        cache = b.RenderCache(master.text, r, optimize=optimize_png)
-        caches: dict[str, object] = {}
+        caches: dict[int, object] = {}
 
         def cache_for(source: Source | None):
             if source is None:
                 return None
-            if source.raw is master.raw:
-                return cache
-            if source.path not in caches:
-                caches[source.path] = b.RenderCache(source.text, r, optimize=optimize_png)
-            return caches[source.path]
+            if id(source) not in caches:
+                caches[id(source)] = b.RenderCache(source.text, r, optimize=optimize_png)
+            return caches[id(source)]
 
+        cache = cache_for(master)
         files: dict[str, bytes] = {}
         maskable_cache = cache_for(maskable)
         if "web" in targets or "pwa" in targets:
@@ -407,7 +475,7 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
     if rasterizer is not None:
         files = render(rasterizer)
     else:
-        # Through `iconflow.build` so substituting its renderer (as tests and
+        # Through ``iconflow.build`` so substituting its renderer (as tests and
         # callers have since 0.5) substitutes the plan's.
         with b.Rasterizer(color_scheme=color_scheme) as owned:
             files = render(owned)
@@ -428,9 +496,9 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
 
 # --------------------------------------------------------------- publication
 
-# Portable relative paths only: no drive, no ADS, no Windows-reserved names,
-# nothing a different filesystem would read as another path.
-_SEGMENT = re.compile(r"^[A-Za-z0-9_@+\-][A-Za-z0-9_@+.\-]*$")
+# Portable relative paths only: no drive, no ADS, no control characters, no
+# Windows-reserved names, nothing another filesystem would read as another path.
+_SEGMENT = re.compile(r"[A-Za-z0-9_@+\-][A-Za-z0-9_@+.\-]*")
 _RESERVED = frozenset({"con", "prn", "aux", "nul", *(f"com{i}" for i in range(10)),
                        *(f"lpt{i}" for i in range(10))})
 
@@ -439,12 +507,32 @@ def _relative(path: str) -> PurePosixPath:
     """A plan path, refused unless it is a plain, portable relative path."""
     if not isinstance(path, str) or not path or len(path) > 255:
         raise PlanError(f"plan file path must be a plain relative path: {path!r}")
-    pure = PurePosixPath(path)
     for part in path.split("/"):
-        if (not _SEGMENT.match(part) or part.endswith(".")
+        if (not _SEGMENT.fullmatch(part) or part.endswith(".")
                 or part.split(".")[0].lower() in _RESERVED):
             raise PlanError(f"plan file path must be a plain relative path: {path!r}")
-    return pure
+    return PurePosixPath(path)
+
+
+def _preflight(plan: RenderPlan, outdir: Path) -> None:
+    """Refuse, before touching anything, a destination a plan file cannot replace.
+
+    A planned *file* must land on a file or on nothing — never on a directory
+    (replacing one would delete what is in it) — and every directory above it
+    must be a directory or nothing.
+    """
+    from .build import _is_link_or_reparse_point
+
+    for record in plan.files:
+        relative = _relative(record.path)
+        current = outdir
+        for part in relative.parts[:-1]:
+            current = current / part
+            if _is_link_or_reparse_point(current) or (current.exists() and not current.is_dir()):
+                raise ValueError(f"cannot write {record.path}: {current} is not a directory")
+        destination = outdir / relative
+        if _is_link_or_reparse_point(destination) or (destination.exists() and not destination.is_file()):
+            raise ValueError(f"cannot write {record.path}: {destination} exists and is not a file")
 
 
 def write_plan(plan: RenderPlan, outdir: str | Path) -> list[str]:
@@ -452,11 +540,14 @@ def write_plan(plan: RenderPlan, outdir: str | Path) -> list[str]:
 
     Guarantees, and their limits (``docs/RENDER_PLAN.md``):
 
-    * nothing in ``outdir`` changes until every file is computed and staged,
-      so a failed render or a failed staging write leaves it as it was;
+    * every destination is checked first; a planned file never replaces a
+      directory, a link, or a file standing where a directory must be;
+    * nothing in ``outdir`` changes until every file is staged, so a failure
+      before the commit leaves it exactly as it was, and an output directory
+      that did not exist is removed again;
     * files are then moved into place one at a time; if a move fails, the
-      files already replaced are restored from the staged backups and the
-      error is raised;
+      files already replaced are restored. If a restore itself fails, the
+      backups are *kept* and the error names where they are;
     * this is not crash-atomic: a power loss mid-commit can leave a mixture,
       and an interrupted run can leave a ``.iconflow-staging-*`` directory;
     * files ``outdir`` already holds that the plan does not name are left
@@ -466,9 +557,17 @@ def write_plan(plan: RenderPlan, outdir: str | Path) -> list[str]:
 
     outdir = Path(outdir)
     _validate_output_tree(outdir)
+    _preflight(plan, outdir)
+    created: list[Path] = []
+    probe = outdir
+    while not probe.exists():
+        created.append(probe)
+        probe = probe.parent
     outdir.mkdir(parents=True, exist_ok=True)
-    staging = Path(tempfile.mkdtemp(prefix=".iconflow-staging-", dir=outdir))
+    staging: Path | None = None
+    keep_staging = False
     try:
+        staging = Path(tempfile.mkdtemp(prefix=".iconflow-staging-", dir=outdir))
         backups = staging / "backup"
         staged = staging / "new"
         for record in plan.files:
@@ -488,37 +587,97 @@ def write_plan(plan: RenderPlan, outdir: str | Path) -> list[str]:
                     os.replace(destination, backup)
                 committed.append((destination, backup))
                 os.replace(staged / relative, destination)
-        except BaseException:
+        except BaseException as exc:
+            unrecovered = []
             for destination, backup in reversed(committed):
                 try:
-                    if backup is not None and backup.exists():
+                    if backup is not None:
                         os.replace(backup, destination)
-                    elif backup is None and destination.exists():
+                    elif destination.exists():
                         destination.unlink()
                 except OSError:
-                    pass
+                    unrecovered.append(str(backup or destination))
+            if unrecovered:
+                keep_staging = True
+                raise OSError(
+                    f"writing the icon set failed ({exc}) and {len(unrecovered)} file(s) could "
+                    f"not be restored; the originals are kept in {backups}: "
+                    + ", ".join(unrecovered[:5])
+                ) from exc
             raise
-    finally:
+    except BaseException:
+        if staging is not None and not keep_staging:
+            shutil.rmtree(staging, ignore_errors=True)
+            staging = None
+        if not keep_staging:
+            for directory in created:  # innermost first; only if still empty
+                try:
+                    directory.rmdir()
+                except OSError:
+                    break
+        raise
+    if staging is not None:
         shutil.rmtree(staging, ignore_errors=True)
     return plan.produced
 
 
+def _is_export(directory: Path) -> bool:
+    """Whether ``directory`` holds exactly a previous plan export and nothing else."""
+    names = {entry.name for entry in directory.iterdir()}
+    if not names <= {MANIFEST_NAME, FILES_DIR}:
+        return False
+    if MANIFEST_NAME not in names:
+        return not names
+    try:
+        manifest = json.loads((directory / MANIFEST_NAME).read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, ValueError):
+        return False
+    return isinstance(manifest, dict) and manifest.get("schema") == PLAN_SCHEMA
+
+
 def export_plan(plan: RenderPlan, directory: str | Path) -> Path:
-    """Save a plan for ``ship --plan``: ``plan.json`` plus every file under ``files/``."""
-    from .build import _validate_output_tree
+    """Save a plan for ``ship --plan``: ``plan.json`` plus every file under ``files/``.
+
+    The new export is written beside the destination and swapped in only once
+    complete, so a failure keeps the previous export. A destination that holds
+    anything other than a previous export is refused, never cleared.
+    """
+    from .build import _is_link_or_reparse_point, _validate_output_tree, link_in_path
 
     directory = Path(directory)
+    link = link_in_path(directory)
+    if link is not None:
+        raise PlanError(f"the plan directory goes through a link or junction: {link}")
     _validate_output_tree(directory)
-    if directory.exists() and any(directory.iterdir()):
-        shutil.rmtree(directory)
-    payload = directory / FILES_DIR
-    for record in plan.files:
-        target = payload / _relative(record.path)
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(record.data)
-    manifest = directory / MANIFEST_NAME
-    manifest.write_text(json.dumps(plan.manifest(), indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    return manifest
+    if directory.exists() and any(directory.iterdir()) and not _is_export(directory):
+        raise PlanError(f"{directory} holds files that are not a saved plan; choose an empty directory")
+    directory.parent.mkdir(parents=True, exist_ok=True)
+    fresh = Path(tempfile.mkdtemp(prefix=".iconflow-plan-", dir=directory.parent))
+    try:
+        for record in plan.files:
+            target = fresh / FILES_DIR / _relative(record.path)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(record.data)
+        (fresh / MANIFEST_NAME).write_text(
+            json.dumps(plan.manifest(), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        retired = None
+        if directory.exists():
+            retired = directory.with_name(f".{directory.name}.retired-{os.getpid()}")
+            if _is_link_or_reparse_point(directory):
+                raise PlanError(f"{directory} became a link")
+            os.replace(directory, retired)
+        try:
+            os.replace(fresh, directory)
+        except OSError:
+            if retired is not None:
+                os.replace(retired, directory)
+            raise
+        if retired is not None:
+            shutil.rmtree(retired, ignore_errors=True)
+    finally:
+        if fresh.exists():
+            shutil.rmtree(fresh, ignore_errors=True)
+    return directory / MANIFEST_NAME
 
 
 def _no_duplicates(pairs):
@@ -532,13 +691,17 @@ def _is_hex64(value) -> bool:
     return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
 
 
+def _walk_error(error: OSError) -> None:
+    raise PlanError(f"the plan cannot be read: {error}")
+
+
 def load_plan(directory: str | Path) -> RenderPlan:
     """Import a saved plan as a hostile artifact.
 
-    Every identity is recomputed from the bytes actually read; the manifest's
-    own hashes are only compared against, never believed. The directory may
-    not contain or traverse a link, may hold no file the manifest does not
-    name, and is bounded in size.
+    The directory holds exactly ``plan.json`` and ``files/``; nothing in it is
+    a link; ``files/`` holds exactly the files the manifest names, within
+    bounds checked while walking. Every identity is recomputed from the bytes
+    actually read — the manifest's own hashes are only compared against.
     """
     from .build import _is_link_or_reparse_point, link_in_path
 
@@ -546,9 +709,19 @@ def load_plan(directory: str | Path) -> RenderPlan:
     link = link_in_path(directory)
     if link is not None or _is_link_or_reparse_point(directory):
         raise PlanError(f"the plan is read through a link or junction ({link or directory})")
+    if not directory.is_dir():
+        raise PlanError(f"no saved plan at {directory}")
+    root_names = {entry.name for entry in directory.iterdir()}
+    if root_names != {MANIFEST_NAME, FILES_DIR}:
+        raise PlanError(f"{directory} must hold exactly {MANIFEST_NAME} and {FILES_DIR}/; "
+                        f"found: {', '.join(sorted(root_names)) or 'nothing'}")
     manifest_path = directory / MANIFEST_NAME
-    if not manifest_path.is_file() or _is_link_or_reparse_point(manifest_path):
-        raise PlanError(f"no {MANIFEST_NAME} in {directory}")
+    payload_root = directory / FILES_DIR
+    for entry in (manifest_path, payload_root):
+        if _is_link_or_reparse_point(entry):
+            raise PlanError(f"the plan contains a link or junction: {entry}")
+    if not manifest_path.is_file() or not payload_root.is_dir():
+        raise PlanError(f"{directory} has no {MANIFEST_NAME} file and {FILES_DIR}/ directory")
     if manifest_path.stat().st_size > MAX_MANIFEST_BYTES:
         raise PlanError(f"{MANIFEST_NAME} is too large")
     try:
@@ -563,13 +736,22 @@ def load_plan(directory: str | Path) -> RenderPlan:
     for key in ("inputs", "parameters", "toolchain"):
         if not isinstance(manifest.get(key), dict):
             raise PlanError(f"{MANIFEST_NAME} has no {key} object")
+    inputs = manifest["inputs"]
+    if "master" not in inputs:
+        raise PlanError(f"{MANIFEST_NAME} names no master source")
+    for role, record in inputs.items():
+        if (role not in {"master", "tray", "maskable", "monochrome"} or not isinstance(record, dict)
+                or not isinstance(record.get("path"), str) or not _is_hex64(record.get("sha256"))
+                or not _is_hex64(record.get("bytes_sha256"))):
+            raise PlanError(f"{MANIFEST_NAME} has a malformed {role!r} source record")
 
-    payload_root = directory / FILES_DIR
-    if _is_link_or_reparse_point(payload_root) or not payload_root.is_dir():
-        raise PlanError(f"{directory} has no {FILES_DIR}/ directory")
     on_disk: set[str] = set()
-    for root, dirs, names in os.walk(payload_root, followlinks=False):
+    seen = 0
+    for root, dirs, names in os.walk(payload_root, followlinks=False, onerror=_walk_error):
         for name in [*dirs, *names]:
+            seen += 1
+            if seen > 4 * MAX_PLAN_FILES:
+                raise PlanError("the plan holds far more entries than any icon set")
             entry = Path(root) / name
             if _is_link_or_reparse_point(entry):
                 raise PlanError(f"the plan contains a link or junction: {entry}")
@@ -603,10 +785,11 @@ def load_plan(directory: str | Path) -> RenderPlan:
     extra = sorted(on_disk - set(files))
     if extra:
         raise PlanError("the plan holds files its manifest does not name: " + ", ".join(extra[:5]))
-    plan = RenderPlan.create(files, inputs=manifest["inputs"], parameters=manifest["parameters"],
+    plan = RenderPlan.create(files, inputs=inputs, parameters=manifest["parameters"],
                              toolchain=manifest["toolchain"])
-    if plan.digest != manifest.get("digest") or plan.artifact_digest != manifest.get("artifact_digest"):
-        raise PlanError(f"{MANIFEST_NAME} digests do not match its files")
+    if (plan.digest != manifest.get("digest") or plan.artifact_digest != manifest.get("artifact_digest")
+            or plan.provenance_digest != manifest.get("provenance_digest")):
+        raise PlanError(f"{MANIFEST_NAME} digests do not match its files and settings")
     return plan
 
 
@@ -646,7 +829,7 @@ def validate_binding(value) -> dict:
         raise PlanError("review receipt plan must be an object")
     if value.get("schema") != PLAN_SCHEMA:
         raise PlanError(f"review receipt plan schema must be {PLAN_SCHEMA}")
-    for key in ("digest", "artifact_digest"):
+    for key in ("digest", "artifact_digest", "provenance_digest"):
         if not _is_hex64(value.get(key)):
             raise PlanError(f"review receipt plan.{key} must be a SHA-256 hex digest")
     files = value.get("files")

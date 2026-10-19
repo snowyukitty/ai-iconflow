@@ -53,7 +53,7 @@ JSON_COMMANDS = frozenset({
     "doctor", "check", "review", "ship", "demo", "ladder", "neighbours", "family",
     "score", "budget", "brand",
 })
-DEMO_FILES = ("master.svg", "tray.svg", "iconflow.toml", "master-review.json")
+DEMO_FILES = ("master.svg", "tray.svg", "maskable.svg", "iconflow.toml", "master-review.json")
 JSON_HELP = "emit one docs/AGENT_CONTRACT.md envelope on stdout; human lines go to stderr"
 EXIT_CODE_EPILOG = """exit codes (every command; docs/AGENT_CONTRACT.md):
   0  completed, no gating failure (advisories allowed)
@@ -508,8 +508,14 @@ def _cmd_ship(a) -> Report:
         report.error("runtime", f"build failed: {exc}")
         return report
     check = compare(approved, plan)
+    mode = "replayed" if replay else "rendered"
+    # Reported whatever happens next, so a blocked ship still says what differed.
+    report.outputs = {"plan": {**check.describe(plan), "mode": mode}}
     if replay:
-        problems = _replay_problems(plan, approved, config, kwargs, plan_parameters)
+        try:
+            problems = _replay_problems(plan, approved, config, kwargs, plan_parameters)
+        except Exception as exc:  # noqa: BLE001 - a malformed plan is a refusal, not a crash
+            problems = [f"the saved plan cannot be checked: {exc}"]
         if problems:
             print("SHIP BLOCKED — the saved plan cannot be published as reviewed:", file=sys.stderr)
             for problem in problems:
@@ -524,7 +530,7 @@ def _cmd_ship(a) -> Report:
             for path in paths:
                 print(f"  ! {kind}: {path}", file=sys.stderr)
         report.warn(GATE_PLAN_DRIFT, "rendered output differs from the reviewed plan: "
-                    + ", ".join(check.drift[:8]) + (" ..." if len(check.drift) > 8 else ""))
+                    + ", ".join(check.drift))
         if dict(check.approved_toolchain or {}) != dict(plan.toolchain):
             print(f"  The toolchain changed since the review ({_toolchain_delta(check.approved_toolchain, plan.toolchain)}); "
                   "that explains the drift but does not approve it.", file=sys.stderr)
@@ -538,8 +544,8 @@ def _cmd_ship(a) -> Report:
         report.error("runtime", f"build failed: {exc}")
         return report
     if check.verified is None:
-        note = ("the receipt predates render plans (0.8), so the shipped pixels are not "
-                "compared with the reviewed ones; review again to bind them")
+        note = ("the approval carries no render plan (written before 0.8, or kept portable "
+                "on purpose), so the shipped pixels are not compared with reviewed ones")
         print(f"  ~ plan-unbound: {note}")
         report.advise("plan-unbound", note)
     else:
@@ -574,7 +580,7 @@ def _cmd_ship(a) -> Report:
         "reviewer": receipt.reviewer if receipt else None,
         "review_surface": receipt.review_surface if receipt else None,
         "audit": inputs.describe(),
-        "plan": {**check.describe(plan), "mode": "replayed" if replay else "rendered"},
+        "plan": {**check.describe(plan), "mode": mode},
     }
     return report
 
@@ -590,6 +596,8 @@ def _replay_problems(plan, approved, config, kwargs, plan_parameters) -> list[st
     """Why a saved plan may not be published as the reviewed output (empty: it may)."""
     from .config import svg_sha256
 
+    from .plan import consumed_roles
+
     problems = []
     if approved is None:
         problems.append("the review receipt carries no plan, so there are no reviewed bytes "
@@ -597,6 +605,15 @@ def _replay_problems(plan, approved, config, kwargs, plan_parameters) -> list[st
         return problems
     if plan.artifact_digest != approved["artifact_digest"]:
         problems.append("the saved plan's bytes are not the bytes the receipt approved")
+    if plan.provenance_digest != approved["provenance_digest"]:
+        problems.append("the saved plan's sources or settings are not the ones the receipt approved")
+    expected_roles = consumed_roles(
+        kwargs["targets"], tray_svg=config.tray_svg_path,
+        maskable_svg=config.maskable_svg_path, monochrome_svg=config.monochrome_svg_path,
+    )
+    if set(plan.inputs) != expected_roles:
+        problems.append("the saved plan was made from other sources than iconflow.toml names: "
+                        f"{', '.join(sorted(plan.inputs))} against {', '.join(sorted(expected_roles))}")
     expected = plan_parameters(
         kwargs["targets"], name=kwargs["name"], theme_color=kwargs["theme_color"],
         bg_color=kwargs["bg_color"], electron_radius=kwargs["electron_radius"],
@@ -614,9 +631,10 @@ def _replay_problems(plan, approved, config, kwargs, plan_parameters) -> list[st
         problems.append("the saved plan was rendered from a different master SVG")
     for role, path in (("tray", config.tray_svg_path), ("maskable", config.maskable_svg_path),
                        ("monochrome", config.monochrome_svg_path)):
-        recorded_source = plan.inputs.get(role)
-        if recorded_source is not None and (path is None or not Path(path).is_file()
-                                            or recorded_source.get("sha256") != svg_sha256(path)):
+        if role not in expected_roles:
+            continue
+        recorded_source = plan.inputs.get(role) or {}
+        if path is None or not Path(path).is_file() or recorded_source.get("sha256") != svg_sha256(path):
             problems.append(f"the saved plan's {role} source no longer matches iconflow.toml")
     return problems
 
@@ -753,7 +771,7 @@ def _cmd_review(a) -> Report:
     sheet_path = evidence_dir / "contact-sheet.png" if evidence_dir else Path(a.out)
     out = contact_sheet(
         master, sheet_path, background_color=background, color_scheme=color_scheme,
-        maskable_scale=inputs.maskable_scale, maskable_svg=inputs.maskable_svg,
+        maskable_scale=inputs.maskable_scale, maskable_svg=inputs.maskable_svg, plan=plan,
     )
     print(f"Review sheet -> {out}")
     print("Open it (or Read it as an image) and score against docs/REVIEW_CHECKLIST.md.")
@@ -876,7 +894,7 @@ def _cmd_score(a) -> Report:
             evidence_dir, source_sha256=seed["source_sha256"],
             contract_sha256=seed["contract_sha256"],
         )
-        if findings.get("plan") is not None:
+        if "plan" in findings:
             seed["plan"] = findings["plan"]
         else:
             print("  ~ this evidence predates render plans (0.8): the receipt will not be "

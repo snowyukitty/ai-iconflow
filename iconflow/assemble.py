@@ -110,19 +110,44 @@ def ico_bytes(png_by_size: dict[int, bytes], *, order: Iterable[int] | None = No
     return bytes(out_bytes)
 
 
-def ico_frames(data: bytes) -> dict[int, bytes]:
-    """The PNG frames inside an .ico IconFlow wrote, keyed by size."""
+def ico_entries(data: bytes) -> list[tuple[tuple[int, ...], bytes]]:
+    """Every directory entry of an .ico, in slot order: ``(fields, payload)``.
+
+    ``fields`` is the whole 16-byte entry less its offset (width, height,
+    colours, reserved, planes, bit depth, length), so a changed directory is a
+    changed container. Strict: one ICONDIR, at least one entry, every payload
+    inside the file, no two payloads overlapping, nothing after the last.
+    """
     if len(data) < 6:
         raise ValueError("not an ICO file")
     reserved, kind, count = struct.unpack_from("<HHH", data, 0)
-    if reserved != 0 or kind != 1:
+    if reserved != 0 or kind != 1 or count == 0:
         raise ValueError("not an ICO file")
-    frames: dict[int, bytes] = {}
+    if len(data) < 6 + 16 * count:
+        raise ValueError("truncated ICO directory")
+    entries = []
+    spans = []
     for index in range(count):
-        dim, _h, _c, _r, _p, _b, length, offset = struct.unpack_from("<BBBBHHII", data, 6 + 16 * index)
-        if offset + length > len(data):
-            raise ValueError("truncated ICO frame")
-        frames[dim or 256] = data[offset:offset + length]
+        fields = struct.unpack_from("<BBBBHHII", data, 6 + 16 * index)
+        length, offset = fields[6], fields[7]
+        if length == 0 or offset < 6 + 16 * count or offset + length > len(data):
+            raise ValueError("ICO frame lies outside the file")
+        spans.append((offset, offset + length))
+        entries.append((fields[:7], data[offset:offset + length]))
+    spans.sort()
+    if any(a[1] > b[0] for a, b in zip(spans, spans[1:])) or spans[-1][1] != len(data):
+        raise ValueError("ICO frames overlap or leave trailing bytes")
+    return entries
+
+
+def ico_frames(data: bytes) -> dict[int, bytes]:
+    """The PNG frames of an .ico keyed by size; refuses a size given twice."""
+    frames: dict[int, bytes] = {}
+    for fields, payload in ico_entries(data):
+        size = fields[0] or 256
+        if size in frames or (fields[1] or 256) != size:
+            raise ValueError("ICO has a repeated or non-square frame")
+        frames[size] = payload
     return frames
 
 
@@ -145,21 +170,41 @@ def write_icns(png_by_size: dict[int, bytes], out: Path) -> Path:
     return Path(out)
 
 
-def icns_frames(data: bytes) -> dict[int, bytes]:
-    """The PNG frames inside an .icns IconFlow wrote, keyed by size."""
-    if data[:4] != b"icns" or len(data) < 8:
+def icns_entries(data: bytes) -> list[tuple[bytes, bytes]]:
+    """Every chunk of an .icns, in order: ``(ostype, payload)``. Strict.
+
+    The declared length must be the file's length and the chunks must consume
+    it exactly; unknown chunk types are returned, not skipped.
+    """
+    if len(data) < 8 or data[:4] != b"icns":
         raise ValueError("not an ICNS file")
-    sizes = {ostype: size for size, ostype in _ICNS_TYPES.items()}
-    frames: dict[int, bytes] = {}
+    (declared,) = struct.unpack_from(">I", data, 4)
+    if declared != len(data):
+        raise ValueError("ICNS length does not match the file")
+    entries = []
     position = 8
-    while position + 8 <= len(data):
+    while position < len(data):
+        if position + 8 > len(data):
+            raise ValueError("truncated ICNS chunk")
         ostype = data[position:position + 4]
         (length,) = struct.unpack_from(">I", data, position + 4)
         if length < 8 or position + length > len(data):
             raise ValueError("truncated ICNS chunk")
-        if ostype in sizes:
-            frames[sizes[ostype]] = data[position + 8:position + length]
+        entries.append((ostype, data[position + 8:position + length]))
         position += length
+    if not entries:
+        raise ValueError("ICNS has no chunks")
+    return entries
+
+
+def icns_frames(data: bytes) -> dict[int, bytes]:
+    """The PNG frames of an .icns keyed by size; refuses unknown or repeated chunks."""
+    sizes = {ostype: size for size, ostype in _ICNS_TYPES.items()}
+    frames: dict[int, bytes] = {}
+    for ostype, payload in icns_entries(data):
+        if ostype not in sizes or sizes[ostype] in frames:
+            raise ValueError(f"ICNS chunk {ostype!r} is unknown or repeated")
+        frames[sizes[ostype]] = payload
     return frames
 
 

@@ -193,6 +193,39 @@ class PlanShipTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("other settings", " ".join(w["message"] for w in envelope["warnings"]))
 
+    def test_P05_a_plan_edited_to_match_new_settings_is_still_refused(self):
+        self.review_and_score()
+        text = self.config.read_text(encoding="utf-8")
+        self.config.write_text(text.replace("optimize_png = true", "optimize_png = false"), encoding="utf-8")
+        manifest_path = self.evidence / "plan" / "plan.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["parameters"]["optimize_png"] = False
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        code, envelope, _ = self.ship("--plan", str(self.evidence / "plan"))
+        self.assertEqual(code, 1)
+        self.assertEqual(envelope["warnings"][0]["code"], "plan-replay")
+
+    def test_P10_a_null_plan_is_not_an_unbound_receipt(self):
+        receipt = self.review_and_score()
+        receipt["plan"] = None
+        self.receipt.write_text(json.dumps(receipt), encoding="utf-8")
+        code, envelope, _ = self.ship()
+        self.assertEqual(code, 2)
+        self.assertEqual(envelope["errors"][0]["code"], "config")
+
+    def test_P11_a_blocked_ship_still_reports_what_differed(self):
+        self.review_and_score()
+        Renderer.color = (200, 30, 30, 255)
+        code, envelope, _ = self.ship()
+        self.assertEqual(code, 1)
+        plan = envelope["outputs"]["plan"]
+        self.assertEqual((plan["verified"], plan["bytes_verified"], plan["mode"]), (False, False, "rendered"))
+        # The whole list, not the first eight; a colour change leaves the
+        # alpha-only tray templates alone, and they are not reported.
+        self.assertGreater(len(plan["drift"]), 8)
+        self.assertIn("icon-512.png", plan["drift"])
+        self.assertNotIn("tray/trayTemplate.png", plan["drift"])
+
     def test_a_second_opinion_over_other_pixels_is_refused(self):
         receipt = self.review_and_score()
         other = dict(receipt, reviewer={"kind": "agent", "name": "agent-b"})
