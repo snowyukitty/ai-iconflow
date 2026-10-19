@@ -154,6 +154,12 @@ NOTES: dict[str, str] = {
     "emote/56.png": "Twitch, 2× density. At most 25 KB.",
     "emote/112.png": "Twitch, 4× density and the size Twitch reviews. At most 25 KB.",
     "emote/128.png": "Discord and Slack custom emoji. At most 128 KB (Slack's limit; Discord allows 256 KB).",
+    "ios/AppIcon.appiconset/Contents.json": "The asset-catalog entry: one 1024 image per appearance, written for the appearances this build ships.",
+    "ios/AppIcon.appiconset/icon-1024.png": "Light (Any). Opaque RGB, full bleed: iOS masks the square itself.",
+    "ios/AppIcon.appiconset/icon-1024-dark.png": "Dark. The mark on a transparent background, so the system's dark ground shows through.",
+    "ios/AppIcon.appiconset/icon-1024-tinted.png": "Tinted. Opaque grayscale; iOS colours it by luminance.",
+    "ios/icon-composer/mark.svg": "The transparent full-canvas foreground layer Icon Composer imports (Xcode 26+).",
+    "ios/README.md": "Install notes for Xcode, Expo, Capacitor, Flutter and Icon Composer, for exactly these files.",
 }
 
 
@@ -264,6 +270,15 @@ def electron_rows() -> list[Row]:
 
 def emote_rows() -> list[Row]:
     return _png_rows("emote")
+
+
+def ios_rows() -> list[Row]:
+    """Every file ``--targets ios`` can write, from ``iconflow.ios`` itself."""
+    from iconflow import ios
+
+    sizes = {ios.CONTENTS: "JSON", ios.COMPOSER_MARK: "vector", ios.README: "Markdown"}
+    return [Row(path, sizes.get(path, f"{ios.SIZE} × {ios.SIZE} px"), _note(path))
+            for path in ios.ALL_FILES]
 
 
 def android_rows() -> list[Row]:
@@ -559,7 +574,7 @@ def render() -> str:
   <header class="site-header" data-header>
     <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Open navigation" data-label-close="Close navigation"><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
-    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#web">Favicon</a><a href="#pwa">PWA</a><a href="#tauri">Tauri</a><a href="#electron">Electron</a><a href="#tray">Tray</a><a href="#android">Android</a><a href="#emote">Emotes</a><a href="/getting-started/">Get started</a></nav>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#web">Favicon</a><a href="#pwa">PWA</a><a href="#tauri">Tauri</a><a href="#electron">Electron</a><a href="#tray">Tray</a><a href="#android">Android</a><a href="#ios">iOS</a><a href="#emote">Emotes</a><a href="/getting-started/">Get started</a></nav>
   </header>
 
   <main id="main">
@@ -630,6 +645,13 @@ def render() -> str:
       <p>An adaptive icon is two 108dp layers the launcher masks to a shape it chooses: a circle, a squircle, a teardrop. It shows the central 72dp and promises only the central 66dp circle. IconFlow maps the maskable composition onto the layer so the 40% safe circle of <code>icon-512-maskable.png</code> lands exactly on that 66dp circle — at the default scale the artwork's canvas fills {ANDROID_SAFE_SHARE:.1%} of the layer, which is 66/108 — so one audit guards both. Each density renders the artwork natively. Copy <code>android/res/</code> into <code>app/src/main/res/</code>; a Tauri project's is under <code>src-tauri/gen/android/app/src/main/res/</code>.</p>
 {table("iconflow ship --targets android", android_rows())}
       <p class="ref-callout"><strong>Let the crop have its own composition.</strong> A square full-bleed mark does not have to round its corners to survive a circle: set <code>maskable_scale</code> in <code>iconflow.toml</code>, or link a <code>maskable_svg</code> drawn for the crop. The linked source is audited against the master, so it can change scale and padding but not become a different mark. The themed layer is the alpha of <code>monochrome_svg</code> (else <code>tray_svg</code>); without one, the build derives it the way the macOS template is derived, and fails rather than ship a featureless disc. <code>all</code> does not include <code>android</code>: ask for it by name.</p>
+    </section>
+
+    <section class="ref-section section-shell" id="ios">
+      <h2>iOS and iPadOS app icons</h2>
+      <p>Xcode builds every iOS size from one 1024 pixel image per appearance. iOS 18 and later add two appearances to the light icon: dark, which Apple asks for on a transparent background so the system's dark ground shows through, and tinted, a grayscale image the system colours. Both are optional; without them iOS derives its own. IconFlow derives them from the master's semantic layers — the card marked <code>id="iconflow-background"</code> is stretched to full bleed for the light icon and removed for the dark one — or from a linked <code>ios_dark_svg</code>, and otherwise leaves them to iOS rather than invent one. Xcode's asset compiler checks none of these encodings, so IconFlow does, and refuses a dark mark that disappears on the dark home screen.</p>
+{table("iconflow ship --targets ios", ios_rows())}
+      <p class="ref-callout"><strong>Ask for <code>ios</code> by name.</strong> <code>all</code> builds the app-icon targets of 0.6. A light-only build writes the light icon and its catalog entry, and the dark, tinted and Icon Composer files are absent. <code>mark.svg</code> is a starting point for Icon Composer, not a finished <code>.icon</code> document: glass and translucency are decided there.</p>
     </section>
 
     <section class="ref-section section-shell" id="emote">

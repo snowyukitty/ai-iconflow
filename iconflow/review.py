@@ -69,6 +69,8 @@ class ReviewOptions:
     maskable_scale: float | None = None
     maskable_svg: str | Path | None = None
     monochrome_svg: str | Path | None = None
+    ios_dark_svg: str | Path | None = None
+    ios_variants: str = "auto"
     warnings: tuple[str, ...] = ()
     scores: dict[str, int] = field(default_factory=dict)
     notes: str = ""
@@ -246,6 +248,41 @@ def _renderer(rasterizer, color_scheme: str):
         yield owned
 
 
+def _ios_card(svg: str, options: "ReviewOptions", plan, rasterizer) -> str:
+    """The iOS card: the plan's 1024 px appearance files as a home screen
+    shows them, at app (90 pt) and Spotlight-ish (45 pt) sizes. An
+    appearance left to iOS is named, not drawn (C-F16)."""
+    from . import ios
+    from .plan import audit_ios, ios_files
+
+    if plan is not None:
+        frames = audit_ios(plan)
+        shipped = tuple(frames)
+        files = {ios.APPEARANCE_FILES[a]: frame.png for a, frame in frames.items()}
+    else:
+        dark = (load_svg(options.ios_dark_svg)
+                if options.ios_dark_svg and options.ios_variants != "system" else None)
+        expected = ios.plan_for(svg, variants=options.ios_variants, linked=dark is not None)
+        with _renderer(rasterizer, options.color_scheme) as r:
+            files = ios_files(r, expected, svg, dark, options.background_color)
+        shipped = expected.shipped
+    large, small = ios.previews(files, shipped, 180), ios.previews(files, shipped, 90)
+    cells = []
+    for appearance in ios.APPEARANCES:
+        if appearance in large:
+            cells.append(
+                f'<figure><img src="{_data_url(_png(large[appearance]))}" width="90" '
+                f'alt="iOS {appearance} icon"><img src="{_data_url(_png(small[appearance]))}" '
+                f'width="45" alt="iOS {appearance} icon, small">'
+                f'<figcaption>{appearance}</figcaption></figure>')
+        else:
+            cells.append(f'<figure><div class="system">left to iOS</div>'
+                         f'<figcaption>{appearance} (system)</figcaption></figure>')
+    return ('<article class="target-card"><div class="target-label"><span>iOS</span>'
+            '<small>light, dark, tinted (ground and tint approximate)</small></div>'
+            f'<div class="ios-context">{"".join(cells)}</div></article>')
+
+
 def _plan_android(plan) -> dict[str, bytes] | None:
     if plan is None:
         return None
@@ -420,6 +457,8 @@ def receipt_seed(master_svg: str | Path, *,
         maskable_scale=options.maskable_scale,
         maskable_svg=options.maskable_svg,
         monochrome_svg=options.monochrome_svg,
+        ios_dark_svg=options.ios_dark_svg,
+        ios_variants=options.ios_variants,
     ))
     source_hash = svg_sha256(path)
     contract_hash = review_contract_digest(
@@ -686,6 +725,8 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             '<article class="target-card"><div class="target-label"><span>EMOTE</span>'
             f'<small>chat, native sizes</small></div><div class="emote-context">{rows}</div></article>'
         )
+    if "ios" in target_set:
+        target_cards.append(_ios_card(svg, options, plan, rasterizer))
     target_cards_html = "\n".join(target_cards) or (
         '<p class="empty">No targets selected. The source-size inspection remains available.</p>'
     )
@@ -816,6 +857,9 @@ textarea {{ width:100%; min-height:152px; resize:vertical; border:1px solid var(
 .emote-context {{ display:grid; gap:8px; }}
 .emote-row {{ display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end; padding:12px 14px; border-radius:10px; }}
 .emote-row.light {{ background:#ffffff; }} .emote-row.dark {{ background:#313338; }}
+.ios-context {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; padding:12px; background:linear-gradient(160deg,#6d7fa6,#2f3a55); border-radius:10px; }}
+.ios-context figure {{ margin:0; text-align:center; }} .ios-context img {{ display:block; margin:0 auto 6px; max-width:100%; height:auto; }}
+.ios-context figcaption {{ color:#eef0f2; font-size:11px; }} .ios-context .system {{ display:flex; align-items:center; justify-content:center; width:100%; max-width:90px; aspect-ratio:1; margin:0 auto 6px; border:1px dashed #c9cfdb; border-radius:22px; color:#eef0f2; font-size:11px; }}
 .emote-row figure {{ margin:0; display:flex; flex-direction:column; align-items:center; gap:4px; }}
 .emote-row img {{ flex:none; max-width:none; width:auto; height:auto; }}
 .emote-row figcaption {{ font-size:11px; color:#8a8f98; }}

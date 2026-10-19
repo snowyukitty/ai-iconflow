@@ -46,7 +46,7 @@ from typing import Mapping
 
 from PIL import Image
 
-from . import assemble, htmlhead
+from . import assemble, htmlhead, ios
 from .rasterize import svg_text_from_bytes
 
 #: Version of the manifest and of a receipt's ``plan`` binding.
@@ -335,13 +335,17 @@ class RenderPlan:
 
 def plan_parameters(targets, *, name, theme_color, bg_color, electron_radius, tray_ts,
                     color_scheme, web_options, optimize_png, tray_template_mode,
-                    maskable_scale, maskable_svg) -> dict:
-    """The effective output parameters a plan records (and ``ship --plan`` re-derives)."""
+                    maskable_scale, maskable_svg, ios_variants: str = "auto") -> dict:
+    """The effective output parameters a plan records (and ``ship --plan`` re-derives).
+
+    ``ios_variants`` is recorded only for a plan that builds ``ios``, so every
+    other plan keeps exactly the parameters it had in 0.9 (C-F01).
+    """
     from .build import ADAPTIVE_TARGETS, resolve_maskable_scale
 
     options = web_options or htmlhead.WebMetaOptions()
     adaptive = bool(ADAPTIVE_TARGETS & set(targets))
-    return {
+    parameters = {
         "targets": list(targets),
         "name": name,
         "theme_color": theme_color,
@@ -357,9 +361,17 @@ def plan_parameters(targets, *, name, theme_color, bg_color, electron_radius, tr
         ),
         "web_options": dataclasses.asdict(options),
     }
+    if "ios" in targets:
+        parameters["ios_variants"] = ios_variants
+    return parameters
 
 
-def consumed_roles(targets, *, tray_svg, maskable_svg, monochrome_svg) -> set[str]:
+#: Every source role a plan can record, in capture order.
+ROLES = ("master", "tray", "maskable", "monochrome", "ios_dark")
+
+
+def consumed_roles(targets, *, tray_svg, maskable_svg, monochrome_svg,
+                   ios_dark_svg=None, ios_variants: str = "auto") -> set[str]:
     """The source roles a build with these targets reads (the master always)."""
     from .build import ADAPTIVE_TARGETS
 
@@ -371,6 +383,8 @@ def consumed_roles(targets, *, tray_svg, maskable_svg, monochrome_svg) -> set[st
         roles.add("maskable")
     if monochrome_svg is not None and "android" in targets:
         roles.add("monochrome")
+    if ios_dark_svg is not None and "ios" in targets and ios_variants != "system":
+        roles.add("ios_dark")
     return roles
 
 
@@ -386,7 +400,8 @@ def _file_identity(path) -> object:
 
 
 def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_svg=None,
-                    monochrome_svg=None, consumed_only: bool = True) -> dict[str, Source]:
+                    monochrome_svg=None, ios_dark_svg=None, ios_variants: str = "auto",
+                    consumed_only: bool = True) -> dict[str, Source]:
     """Read every source a build with these targets consumes, once, by role.
 
     One read per *file*, shared by every role that names it — by file
@@ -407,16 +422,16 @@ def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_
     b = importlib.import_module(".build", __package__)
     targets = b.normalize_targets(targets)
     roles = consumed_roles(targets, tray_svg=tray_svg, maskable_svg=maskable_svg,
-                           monochrome_svg=monochrome_svg)
+                           monochrome_svg=monochrome_svg, ios_dark_svg=ios_dark_svg,
+                           ios_variants=ios_variants)
+    linked = (("tray", tray_svg), ("maskable", maskable_svg), ("monochrome", monochrome_svg),
+              ("ios_dark", ios_dark_svg))
     if not consumed_only:
         # An unconsumed link to a missing file was harmless in 0.8 and stays so.
-        roles |= {role for role, path in (("tray", tray_svg), ("maskable", maskable_svg),
-                                          ("monochrome", monochrome_svg))
-                  if path is not None and Path(path).is_file()}
+        roles |= {role for role, path in linked if path is not None and Path(path).is_file()}
     by_file: dict[object, Source] = {}
     sources: dict[str, Source] = {}
-    for role, path in (("master", master_svg), ("tray", tray_svg),
-                       ("maskable", maskable_svg), ("monochrome", monochrome_svg)):
+    for role, path in (("master", master_svg), *linked):
         if role not in roles:
             continue
         key = _file_identity(path)
@@ -429,10 +444,12 @@ def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_
 
 
 def consumed(sources: Mapping[str, Source], targets, *, tray_svg=None, maskable_svg=None,
-             monochrome_svg=None) -> dict[str, Source]:
+             monochrome_svg=None, ios_dark_svg=None,
+             ios_variants: str = "auto") -> dict[str, Source]:
     """The captured roles a build with these targets reads (what ``compute_plan`` takes)."""
     roles = consumed_roles(targets, tray_svg=tray_svg, maskable_svg=maskable_svg,
-                           monochrome_svg=monochrome_svg)
+                           monochrome_svg=monochrome_svg, ios_dark_svg=ios_dark_svg,
+                           ios_variants=ios_variants)
     return {role: source for role, source in sources.items() if role in roles}
 
 
@@ -468,6 +485,7 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
                  maskable_scale: float | None = None,
                  maskable_svg: str | Path | None = None,
                  monochrome_svg: str | Path | None = None,
+                 ios_dark_svg: str | Path | None = None, ios_variants: str = "auto",
                  rasterizer=None, sources: Mapping[str, Source] | None = None) -> RenderPlan:
     """Render every output of a build into memory. No publication writes.
 
@@ -495,11 +513,15 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
         assemble.opaque_color(web_options.tile_color, "tile color")
     if maskable_scale is not None:
         maskable_scale = b.validate_maskable_scale(maskable_scale)
+    if ios_variants not in ios.VARIANTS:
+        raise ValueError("ios_variants must be 'auto' or 'system'")
     roles = consumed_roles(targets, tray_svg=tray_svg, maskable_svg=maskable_svg,
-                           monochrome_svg=monochrome_svg)
+                           monochrome_svg=monochrome_svg, ios_dark_svg=ios_dark_svg,
+                           ios_variants=ios_variants)
     if sources is None:
         sources = capture_sources(master_svg, targets, tray_svg=tray_svg,
-                                  maskable_svg=maskable_svg, monochrome_svg=monochrome_svg)
+                                  maskable_svg=maskable_svg, monochrome_svg=monochrome_svg,
+                                  ios_dark_svg=ios_dark_svg, ios_variants=ios_variants)
     elif set(sources) != roles:
         raise PlanError("captured sources do not match the roles these targets consume: "
                          f"captured {sorted(sources)}, consumed {sorted(roles)}")
@@ -508,6 +530,11 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
     tray = sources.get("tray")
     maskable = sources.get("maskable")
     monochrome = sources.get("monochrome")
+    ios_dark = sources.get("ios_dark")
+    # Resolved before any render, so a declared layer IconFlow cannot honour
+    # fails the build up front (C-F05).
+    ios_plan = (ios.plan_for(master.text, variants=ios_variants, linked=ios_dark is not None)
+                if "ios" in targets else None)
 
     def render(r) -> dict[str, bytes]:
         caches: dict[int, object] = {}
@@ -544,6 +571,9 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
             ))
         if "emote" in targets:
             files.update(b.emote_files(cache))
+        if ios_plan is not None:
+            files.update(ios_files(r, ios_plan, master.text,
+                                   ios_dark.text if ios_dark is not None else None, bg_color))
         return files
 
     if rasterizer is not None:
@@ -562,10 +592,34 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
             electron_radius=electron_radius, tray_ts=tray_ts, color_scheme=color_scheme,
             web_options=web_options, optimize_png=optimize_png,
             tray_template_mode=tray_template_mode, maskable_scale=maskable_scale,
-            maskable_svg=maskable_svg,
+            maskable_svg=maskable_svg, ios_variants=ios_variants,
         ),
         toolchain=toolchain(),
     )
+
+
+def ios_files(r, ios_plan, master_text: str, dark_text: str | None,
+              bg_color: str) -> dict[str, bytes]:
+    """The iOS files, from caches of their own (C-F02).
+
+    Each derived text gets an independent :class:`~iconflow.build.RenderCache`
+    — a cache keyed by size must never answer for a different text — while
+    renders still go through the command's one session. The iOS encoders
+    write their own PNG modes, so the RGBA re-pack ``optimize_png`` does is
+    never applied to them.
+    """
+    import importlib
+
+    b = importlib.import_module(".build", __package__)
+    light_text = ios.full_bleed(master_text) if ios_plan.declared else master_text
+    light = b.RenderCache(light_text, r, optimize=False)
+    if "dark" not in ios_plan.shipped:
+        return ios.files(light, None, ios_plan, master_text=master_text, bg_color=bg_color)
+    if dark_text is None:
+        dark_text = ios.mark_only(master_text)
+    with ios.dark_renderer(r) as dark_r:
+        dark = b.RenderCache(dark_text, dark_r, optimize=False)
+        return ios.files(light, dark, ios_plan, master_text=master_text, bg_color=bg_color)
 
 
 # ------------------------------------------------------------ audit frames
@@ -655,6 +709,7 @@ REQUIRED_AUDIT_FILES = {
     "pwa": ("favicon.ico", "icon-192.png", "icon-512.png", MASKABLE_FILE),
     "tauri": (*AUDIT_PNGS.keys() - {"icon-192.png", "icon-512.png"},
               "icons/icon.ico", "icons/icon.icns"),
+    "ios": (ios.CONTENTS, ios.LIGHT),
 }
 FAVICON_SLOTS = (16, 32, 48)
 
@@ -695,10 +750,32 @@ def audit_evidence(plan: RenderPlan) -> tuple[dict[int, AuditFrame], AuditFrame 
             raise PlanError(f"{path} must carry exactly the "
                             + ", ".join(map(str, sorted(required))) + " px frames, not "
                             + ", ".join(map(str, sorted(slots))))
+    if "ios" in targets:
+        audit_ios(plan)
     return audit_frames(plan), audit_maskable(plan)
 
 
-def audit_origins(plan: RenderPlan, *, maskable: bool, linked: bool) -> dict[str, dict]:
+def audit_ios(plan: RenderPlan) -> dict[str, AuditFrame]:
+    """The plan's iOS appearance files by appearance, after validating the set.
+
+    The catalog, the files and Apple's encodings are checked on the plan's
+    bytes (:func:`iconflow.ios.validate_files`), because the plan's content
+    identity cannot tell an ``L`` image from an RGB one (C-F10).
+    """
+    files = {path: plan.get(path) for path in plan.produced
+             if path.startswith(ios.IOS_DIR + "/")}
+    shipped = ios.APPEARANCES if (ios.DARK in files or ios.TINTED in files) else ("light",)
+    try:
+        ios.validate_files(files, shipped)
+    except ValueError as exc:
+        raise PlanError(f"the plan's iOS app icon is not valid: {exc}") from exc
+    return {appearance: _audit_frame(ios.APPEARANCE_FILES[appearance], None, ios.SIZE,
+                                     files[ios.APPEARANCE_FILES[appearance]])
+            for appearance in shipped}
+
+
+def audit_origins(plan: RenderPlan, *, maskable: bool, linked: bool,
+                  ios_target: bool = False) -> dict[str, dict]:
     """Where every plan-aware probe must take its pixels from, for this plan.
 
     The single definition :func:`iconflow.qa.check` follows and evidence
@@ -723,6 +800,9 @@ def audit_origins(plan: RenderPlan, *, maskable: bool, linked: bool) -> dict[str
                                        "reason": "no selected target ships the maskable composition"}
         if linked or shipped_maskable is None:
             origins["master-512"] = master(512)
+    if ios_target:
+        for appearance, frame in audit_ios(plan).items():
+            origins[f"ios-{appearance}"] = dict(frame.origin)
     return origins
 
 
@@ -755,6 +835,15 @@ def _preflight(plan: RenderPlan, outdir: Path) -> None:
     """
     from .build import _is_link_or_reparse_point
 
+    planned = set(plan.produced)
+    if planned & set(ios.ALL_FILES):
+        stale = [path for path in ios.ALL_FILES
+                 if path not in planned and (outdir / _relative(path)).exists()]
+        if stale:
+            raise ValueError(
+                "the output already holds iOS files this build does not write ("
+                + ", ".join(stale) + "): an installer copying the folder would ship them "
+                "unreviewed. Remove them, or build into a fresh directory")
     for record in plan.files:
         relative = _relative(record.path)
         current = outdir
@@ -1002,7 +1091,7 @@ def load_plan(directory: str | Path) -> RenderPlan:
     if "master" not in inputs:
         raise PlanError(f"{MANIFEST_NAME} names no master source")
     for role, record in inputs.items():
-        if (role not in {"master", "tray", "maskable", "monochrome"} or not isinstance(record, dict)
+        if (role not in ROLES or not isinstance(record, dict)
                 or not isinstance(record.get("path"), str) or not _is_hex64(record.get("sha256"))
                 or not _is_hex64(record.get("bytes_sha256"))):
             raise PlanError(f"{MANIFEST_NAME} has a malformed {role!r} source record")

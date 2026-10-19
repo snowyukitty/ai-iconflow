@@ -48,6 +48,33 @@ def _text(path: Path, limit: int = 1_000_000) -> str:
         return ""
 
 
+def _ios_evidence(root: Path, package: dict) -> str | None:
+    """Why the project builds for iOS, or None (0.10, C-F20).
+
+    Only a project that targets iOS counts: an Xcode project whose build
+    settings name the iPhone SDK, the iOS scaffold Capacitor, Flutter or
+    Tauri generate, or an Expo config with an ``ios`` section. A macOS-only
+    Xcode project does not, and neither does an ``AppIcon.appiconset`` on its
+    own (IconFlow writes one).
+    """
+    for project in [*root.glob("*.xcodeproj"), *root.glob("ios/*.xcodeproj")][:20]:
+        if "SDKROOT = iphoneos" in _text(project / "project.pbxproj"):
+            return f"{project.relative_to(root).as_posix()} builds for iphoneos"
+    if (root / "ios" / "App" / "App.xcodeproj").is_dir():
+        return "ios/App/App.xcodeproj exists (Capacitor iOS)"
+    if (root / "pubspec.yaml").is_file() and (root / "ios" / "Runner.xcodeproj").is_dir():
+        return "ios/Runner.xcodeproj exists (Flutter iOS)"
+    if (root / "src-tauri" / "gen" / "apple").is_dir():
+        return "src-tauri/gen/apple exists (Tauri mobile)"
+    expo = _read_json(root / "app.json").get("expo")
+    if isinstance(expo, dict):
+        platforms = expo.get("platforms")
+        if isinstance(expo.get("ios"), dict) or (
+                isinstance(platforms, list) and "ios" in platforms):
+            return "app.json configures Expo for iOS"
+    return None
+
+
 WEB_FRAMEWORKS = (
     "vite", "next", "astro", "nuxt", "@sveltejs/kit", "svelte", "react", "vue",
     "@angular/core", "solid-js", "gatsby", "@remix-run/react", "eleventy", "@11ty/eleventy",
@@ -99,6 +126,9 @@ def detect_targets(root: str | Path = ".") -> list[Detected]:
         add("android", "a Capacitor config exists")
     if (root / "app" / "src" / "main" / "AndroidManifest.xml").is_file():
         add("android", "app/src/main/AndroidManifest.xml exists")
+    ios_reason = _ios_evidence(root, package)
+    if ios_reason:
+        add("ios", ios_reason)
 
     web_reason = None
     framework = next((name for name in WEB_FRAMEWORKS if name in dependencies), None)

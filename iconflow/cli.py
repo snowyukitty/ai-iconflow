@@ -220,6 +220,8 @@ def _cmd_build(a) -> int:
             maskable_scale=a.maskable_scale,
             maskable_svg=a.maskable_svg,
             monochrome_svg=a.monochrome_svg,
+            ios_dark_svg=a.ios_dark_svg,
+            ios_variants=a.ios_variants,
         )
     except ValueError as e:
         print(f"iconflow build: {e}", file=sys.stderr)
@@ -369,6 +371,7 @@ def _approved_sources(master_sha256: str, build) -> dict:
         "tray": build.get("tray_source_sha256"),
         "maskable": build.get("maskable_source_sha256"),
         "monochrome": build.get("monochrome_source_sha256"),
+        "ios_dark": build.get("ios_dark_source_sha256"),
     }
 
 
@@ -387,6 +390,10 @@ def _audit_line(inputs) -> str:
         parts.append("no maskable audit")
     if described["tray_source"]:
         parts.append(f"tray {Path(described['tray_source']).name} ({described['tray_template_mode']})")
+    if "ios_variants" in described:
+        dark = described["ios_dark_source"]
+        parts.append(f"ios {described['ios_variants']}"
+                     + (f" (dark {Path(dark).name})" if dark else ""))
     if described["neighbours"]:
         parts.append("[neighbours] declared")
     return "Audit inputs: " + "; ".join(parts)
@@ -460,7 +467,7 @@ def _cmd_ship(a) -> Report:
     """
 
     from .audit import resolve_inputs, run_audit
-    from .config import GATE_CODES, GATE_QA_WARNINGS, ConfigError
+    from .config import GATE_CODES, GATE_NOT_READY, GATE_QA_WARNINGS, ConfigError
     from .plan import (
         GATE_PLAN_DRIFT, GATE_PLAN_REPLAY, PlanError, audit_evidence, capture_sources, compare,
         compute_plan, consumed, frozen_view, load_plan, plan_parameters, write_plan,
@@ -494,6 +501,15 @@ def _cmd_ship(a) -> Report:
     report.outputs = {"audit": inputs.describe()}
 
     approved = receipt.plan if receipt else None
+    if "ios" in config.targets and approved is None:
+        # iOS ships appearances a person must have seen (0.10, C-F11): an
+        # approval without the plan it reviewed names no pixels at all.
+        note = ("an approval that ships ios must carry the render plan it reviewed; "
+                "review with the Review Lab or `review --evidence` and score it, "
+                "then ship that receipt")
+        print(f"iconflow ship: {note}", file=sys.stderr)
+        report.warn(GATE_NOT_READY, note)
+        return report
     kwargs = _plan_kwargs(_config_review_options(config), config)
     replay = bool(getattr(a, "plan", None))
     output_path = (
@@ -506,11 +522,14 @@ def _cmd_ship(a) -> Report:
         everything = capture_sources(
             master, kwargs["targets"], tray_svg=kwargs["tray_svg"],
             maskable_svg=kwargs["maskable_svg"], monochrome_svg=kwargs["monochrome_svg"],
+            ios_dark_svg=kwargs["ios_dark_svg"], ios_variants=kwargs["ios_variants"],
             consumed_only=False,
         )
         sources = consumed(everything, kwargs["targets"], tray_svg=kwargs["tray_svg"],
                            maskable_svg=kwargs["maskable_svg"],
-                           monochrome_svg=kwargs["monochrome_svg"])
+                           monochrome_svg=kwargs["monochrome_svg"],
+                           ios_dark_svg=kwargs["ios_dark_svg"],
+                           ios_variants=kwargs["ios_variants"])
     except (OSError, ValueError) as exc:
         print(f"iconflow ship: could not read the sources: {exc}", file=sys.stderr)
         report.error("runtime", f"could not read the sources: {exc}")
@@ -737,6 +756,7 @@ def _replay_problems(plan, approved, config, kwargs, plan_parameters, *,
     expected_roles = consumed_roles(
         kwargs["targets"], tray_svg=config.tray_svg_path,
         maskable_svg=config.maskable_svg_path, monochrome_svg=config.monochrome_svg_path,
+        ios_dark_svg=config.ios_dark_svg_path, ios_variants=config.ios_variants,
     )
     if set(plan.inputs) != expected_roles:
         problems.append("the saved plan was made from other sources than iconflow.toml names: "
@@ -747,6 +767,7 @@ def _replay_problems(plan, approved, config, kwargs, plan_parameters, *,
         tray_ts=kwargs["tray_ts"], color_scheme=kwargs["color_scheme"], web_options=None,
         optimize_png=kwargs["optimize_png"], tray_template_mode=kwargs["tray_template_mode"],
         maskable_scale=kwargs["maskable_scale"], maskable_svg=kwargs["maskable_svg"],
+        ios_variants=kwargs["ios_variants"],
     )
     recorded = json.loads(json.dumps(dict(_plain(plan.parameters))))
     if recorded != json.loads(json.dumps(expected)):
@@ -757,7 +778,8 @@ def _replay_problems(plan, approved, config, kwargs, plan_parameters, *,
     if master.get("sha256") != current("master", config.master_path):
         problems.append("the saved plan was rendered from a different master SVG")
     for role, path in (("tray", config.tray_svg_path), ("maskable", config.maskable_svg_path),
-                       ("monochrome", config.monochrome_svg_path)):
+                       ("monochrome", config.monochrome_svg_path),
+                       ("ios_dark", config.ios_dark_svg_path)):
         if role not in expected_roles:
             continue
         recorded_source = plan.inputs.get(role) or {}
@@ -865,6 +887,8 @@ def _cmd_review(a) -> Report:
             maskable_scale=inputs.maskable_scale,
             maskable_svg=inputs.maskable_svg,
             monochrome_svg=config.monochrome_svg_path if config else None,
+            ios_dark_svg=config.ios_dark_svg_path if config else None,
+            ios_variants=config.ios_variants if config else "auto",
             # Decided below, once the effective contract and the plan are known.
             scores={},
             notes="",
@@ -877,10 +901,12 @@ def _cmd_review(a) -> Report:
         # (V-R01); the plan gets only what it consumes.
         everything = capture_sources(
             master, targets, tray_svg=tray_svg, maskable_svg=inputs.maskable_svg,
-            monochrome_svg=options.monochrome_svg, consumed_only=False,
+            monochrome_svg=options.monochrome_svg, ios_dark_svg=options.ios_dark_svg,
+            ios_variants=options.ios_variants, consumed_only=False,
         )
         sources = consumed(everything, targets, tray_svg=tray_svg,
-                           maskable_svg=inputs.maskable_svg, monochrome_svg=options.monochrome_svg)
+                           maskable_svg=inputs.maskable_svg, monochrome_svg=options.monochrome_svg,
+                           ios_dark_svg=options.ios_dark_svg, ios_variants=options.ios_variants)
     except (ConfigError, ValueError) as exc:
         print(f"iconflow review: {exc}", file=sys.stderr)
         report.error("config", str(exc))
@@ -1204,6 +1230,7 @@ def _plan_kwargs(options, config=None) -> dict:
         tray_svg=options.tray_svg, tray_template_mode=options.tray_template_mode,
         maskable_scale=options.maskable_scale, maskable_svg=options.maskable_svg,
         monochrome_svg=options.monochrome_svg,
+        ios_dark_svg=options.ios_dark_svg, ios_variants=options.ios_variants,
     )
 
 
@@ -1215,7 +1242,9 @@ def _trusted_evidence(config, options, seed) -> dict:
     kwargs = _plan_kwargs(options, config)
     roles = consumed_roles(kwargs["targets"], tray_svg=kwargs["tray_svg"],
                            maskable_svg=kwargs["maskable_svg"],
-                           monochrome_svg=kwargs["monochrome_svg"])
+                           monochrome_svg=kwargs["monochrome_svg"],
+                           ios_dark_svg=kwargs["ios_dark_svg"],
+                           ios_variants=kwargs["ios_variants"])
     build = seed["build"]
     return {
         "audit": resolve_inputs(config=config).describe(),
@@ -1227,6 +1256,7 @@ def _trusted_evidence(config, options, seed) -> dict:
             tray_ts=kwargs["tray_ts"], color_scheme=kwargs["color_scheme"], web_options=None,
             optimize_png=kwargs["optimize_png"], tray_template_mode=kwargs["tray_template_mode"],
             maskable_scale=kwargs["maskable_scale"], maskable_svg=kwargs["maskable_svg"],
+            ios_variants=kwargs["ios_variants"],
         ),
     }
 
@@ -1278,6 +1308,7 @@ def _config_review_options(config):
         tray_svg=config.tray_svg_path, tray_template_mode=config.tray_template_mode,
         color_scheme=config.color_scheme, maskable_scale=config.maskable_scale,
         maskable_svg=config.maskable_svg_path, monochrome_svg=config.monochrome_svg_path,
+        ios_dark_svg=config.ios_dark_svg_path, ios_variants=config.ios_variants,
     )
 
 
@@ -2575,7 +2606,7 @@ def build_parser() -> argparse.ArgumentParser:
     b.add_argument("master")
     b.add_argument("--out", default="./icon-out")
     b.add_argument("--targets", default="web",
-                   help="comma list: web,pwa,tauri,electron,tray,android,emote,all "
+                   help="comma list: web,pwa,tauri,electron,tray,android,emote,ios,all "
                         "(all = web,pwa,tauri,electron,tray)")
     b.add_argument("--name", default="App")
     b.add_argument("--short-name", help="manifest short_name (defaults to --name)")
@@ -2615,6 +2646,11 @@ def build_parser() -> argparse.ArgumentParser:
     b.add_argument("--maskable-svg", help="linked source drawn for the maskable/adaptive crop")
     b.add_argument("--monochrome-svg",
                    help="mark-only source for Android's themed icon (default: --tray-svg)")
+    b.add_argument("--ios-dark-svg",
+                   help="linked source for the iOS dark icon (default: the master's mark, "
+                        'when it declares id="iconflow-background")')
+    b.add_argument("--ios-variants", default="auto", choices=["auto", "system"],
+                   help="derive the iOS dark and tinted icons (auto) or leave them to iOS")
     b.add_argument("--color-scheme", default="light", choices=["light", "dark"])
     b.add_argument("--no-optimize", action="store_true",
                    help="skip lossless PNG re-packing")
@@ -2626,7 +2662,8 @@ def build_parser() -> argparse.ArgumentParser:
     r.add_argument("--out", default="review.png")
     r.add_argument("--html", help="also write a self-contained interactive HTML review")
     r.add_argument("--name", help="project name override")
-    r.add_argument("--targets", help="target override: web,pwa,tauri,electron,tray,android,emote,all")
+    r.add_argument("--targets",
+                   help="target override: web,pwa,tauri,electron,tray,android,emote,ios,all")
     r.add_argument("--theme", help="theme color override")
     r.add_argument("--bg", help="maskable and flattened background color override")
     r.add_argument("--electron-radius", type=float, help="Electron corner radius override")

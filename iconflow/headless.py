@@ -246,6 +246,8 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None,
             for key, label in (("circle", "circle"), ("squircle", "squircle"),
                                ("themed", "themed"), ("legacy", "legacy round"))
         ]))
+    if "ios" in targets:
+        rows.append(_ios_row(svg, options, plan, rasterizer, crop_ground))
 
     heading, small_font = _font(18), _font(13)
     width = 40 + max(
@@ -278,6 +280,38 @@ def _png(image: Image.Image) -> bytes:
     buffer = io.BytesIO()
     image.save(buffer, "PNG")
     return buffer.getvalue()
+
+
+def _ios_row(svg: str, options, plan, rasterizer, ground):
+    """The iOS appearances: the plan's own 1024 px files, never recomputed
+    beside a plan (C-F13); an appearance left to iOS is labelled, not drawn."""
+    from . import ios
+    from .plan import audit_ios, ios_files
+    from .rasterize import load_svg
+    from .review import _renderer
+
+    if plan is not None:
+        frames = audit_ios(plan)
+        shipped = tuple(frames)
+        files = {ios.APPEARANCE_FILES[a]: frame.png for a, frame in frames.items()}
+    else:
+        dark = (load_svg(options.ios_dark_svg)
+                if options.ios_dark_svg and options.ios_variants != "system" else None)
+        expected = ios.plan_for(svg, variants=options.ios_variants, linked=dark is not None)
+        with _renderer(rasterizer, options.color_scheme) as r:
+            files = ios_files(r, expected, svg, dark, options.background_color)
+        shipped = expected.shipped
+    shown = ios.previews(files, shipped)
+    cells = []
+    for appearance in ios.APPEARANCES:
+        if appearance in shown:
+            cells.append((appearance, _on(_png(shown[appearance]), ground)))
+        else:
+            blank = Image.new("RGBA", (204, 204), ground)
+            ImageDraw.Draw(blank).text((40, 92), "left to iOS", font=_font(14), fill=_TEXT)
+            cells.append((f"{appearance} (system)", blank))
+    return ("ios — the 1024 px light, dark and tinted files on a squircle "
+            "(dark ground and tint approximate iOS)", cells)
 
 
 # --------------------------------------------------------------------------
@@ -547,7 +581,8 @@ def _check_provenance(findings: dict, saved, *, audit_inputs: dict | None = None
     maskable = inputs.get("maskable_audit") is True
     try:
         expected = audit_origins(saved, maskable=maskable,
-                                 linked=maskable and inputs.get("maskable_source") is not None)
+                                 linked=maskable and inputs.get("maskable_source") is not None,
+                                 ios_target="ios" in (inputs.get("targets") or ()))
     except PlanError as exc:
         raise HeadlessError(f"the saved render plan cannot back the audit: {exc}") from exc
     # Exactly the record an audit on this plan makes: no probe left out, no

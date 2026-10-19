@@ -26,7 +26,7 @@ else:  # pragma: no cover - exercised by the Python 3.10 CI job
 
 SCHEMA_VERSION = 1
 CONFIG_FILENAME = "iconflow.toml"
-TARGETS = ("web", "pwa", "tauri", "electron", "tray", "android", "emote")
+TARGETS = ("web", "pwa", "tauri", "electron", "tray", "android", "emote", "ios")
 # What "all" means: the 0.6 app-icon targets, frozen so an approved "all"
 # receipt stays valid. Android and an emote pack are asked for by name.
 APP_TARGETS = ("web", "pwa", "tauri", "electron", "tray")
@@ -132,6 +132,11 @@ class IconFlowConfig:
     # Mark-only source for Android's themed (monochrome) layer; falls back to
     # tray_svg, then to a reduction of the foreground.
     monochrome_svg: str = ""
+    # The iOS target (0.10): a linked source drawn for the dark home screen,
+    # and whether IconFlow derives the dark and tinted icons ("auto") or
+    # leaves both to iOS ("system").
+    ios_dark_svg: str = ""
+    ios_variants: str = "auto"
 
     # [neighbours] — docs/NEIGHBOURHOOD.md. `declared` is True when the table
     # exists at all, even empty: that is the opt-in that makes `check` consult
@@ -186,6 +191,10 @@ class IconFlowConfig:
     def monochrome_svg_path(self) -> Path | None:
         return self.resolve(self.monochrome_svg) if self.monochrome_svg else None
 
+    @property
+    def ios_dark_svg_path(self) -> Path | None:
+        return self.resolve(self.ios_dark_svg) if self.ios_dark_svg else None
+
     def build_contract(self) -> dict[str, object]:
         """The visual-transform contract an approval of this config binds to."""
         return review_build_contract(**contract_inputs(
@@ -199,6 +208,8 @@ class IconFlowConfig:
             maskable_scale=self.maskable_scale,
             maskable_svg=self.maskable_svg_path,
             monochrome_svg=self.monochrome_svg_path,
+            ios_dark_svg=self.ios_dark_svg_path,
+            ios_variants=self.ios_variants,
         ))
 
 
@@ -328,6 +339,9 @@ def load_config(path: str | Path = CONFIG_FILENAME) -> IconFlowConfig:
     tray_template_mode = _string(build, "tray_template_mode", "auto").lower()
     if tray_template_mode not in ("auto", "alpha", "contrast"):
         raise ConfigError("build.tray_template_mode must be 'auto', 'alpha', or 'contrast'")
+    ios_variants = _string(build, "ios_variants", "auto").lower()
+    if ios_variants not in ("auto", "system"):
+        raise ConfigError("build.ios_variants must be 'auto' or 'system'")
     maskable_scale = None
     if "maskable_scale" in build:
         from .build import validate_maskable_scale
@@ -386,6 +400,8 @@ def load_config(path: str | Path = CONFIG_FILENAME) -> IconFlowConfig:
         maskable_scale=maskable_scale,
         maskable_svg=_string(build, "maskable_svg"),
         monochrome_svg=_string(build, "monochrome_svg"),
+        ios_dark_svg=_string(build, "ios_dark_svg"),
+        ios_variants=ios_variants,
         neighbours_declared="neighbours" in data,
         neighbours_avoid=_strings(neighbours, "avoid"),
         neighbours_family=_strings(neighbours, "family"),
@@ -491,7 +507,8 @@ def load_review_receipt(
             "review receipt build contract mismatch on "
             + ", ".join(changed)
             + "; regenerate the review after changing colors, Electron radius, color "
-            "scheme, tray source/mode, or the maskable/monochrome composition",
+            "scheme, tray source/mode, the maskable/monochrome composition, or the iOS "
+            "variants and dark source",
             code=GATE_STALE_CONTRACT,
         )
     expected_contract_digest = review_contract_digest(
@@ -608,6 +625,8 @@ def contract_inputs(
     maskable_scale: float | None = None,
     maskable_svg: str | Path | None = None,
     monochrome_svg: str | Path | None = None,
+    ios_dark_svg: str | Path | None = None,
+    ios_variants: str = "auto",
 ) -> dict[str, object]:
     """Keyword arguments for :func:`review_build_contract` from paths and targets.
 
@@ -643,6 +662,13 @@ def contract_inputs(
         "monochrome_source_sha256": (
             svg_sha256(monochrome) if monochrome and "android" in selected else None
         ),
+        # iOS keys exist only for a build that selects ios, and only when they
+        # change bytes, so no approval without ios can go stale (C-F01).
+        "ios_variants": ios_variants if "ios" in selected and ios_variants != "auto" else None,
+        "ios_dark_source_sha256": (
+            svg_sha256(ios_dark_svg)
+            if ios_dark_svg and "ios" in selected and ios_variants != "system" else None
+        ),
     }
 
 
@@ -653,6 +679,8 @@ def review_build_contract(
     maskable_scale: float | None = None,
     maskable_source_sha256: str | None = None,
     monochrome_source_sha256: str | None = None,
+    ios_variants: str | None = None,
+    ios_dark_source_sha256: str | None = None,
 ) -> dict[str, object]:
     """Return the canonical visual-transform contract stored in a receipt.
 
@@ -681,6 +709,7 @@ def review_build_contract(
         ("tray source", tray_source_sha256),
         ("maskable source", maskable_source_sha256),
         ("monochrome source", monochrome_source_sha256),
+        ("iOS dark source", ios_dark_source_sha256),
     ):
         if digest is not None and not _is_sha256(digest):
             raise ConfigError(f"{label} hash must be a full SHA-256 hex digest")
@@ -702,6 +731,12 @@ def review_build_contract(
         contract["maskable_source_sha256"] = maskable_source_sha256.lower()
     if monochrome_source_sha256:
         contract["monochrome_source_sha256"] = monochrome_source_sha256.lower()
+    if ios_variants is not None:
+        if ios_variants not in ("auto", "system"):
+            raise ConfigError("iOS variants must be 'auto' or 'system'")
+        contract["ios_variants"] = ios_variants
+    if ios_dark_source_sha256:
+        contract["ios_dark_source_sha256"] = ios_dark_source_sha256.lower()
     return contract
 
 
@@ -820,6 +855,10 @@ def _composition_text(config: IconFlowConfig) -> str:
         lines.append(f"maskable_svg = {_toml_string(config.maskable_svg)}")
     if config.monochrome_svg:
         lines.append(f"monochrome_svg = {_toml_string(config.monochrome_svg)}")
+    if config.ios_dark_svg:
+        lines.append(f"ios_dark_svg = {_toml_string(config.ios_dark_svg)}")
+    if config.ios_variants != "auto":
+        lines.append(f"ios_variants = {_toml_string(config.ios_variants)}")
     if not lines:
         return ("# maskable_scale = 0.8   # artwork share of the maskable/adaptive canvas\n"
                 "# maskable_svg = \"\"     # a linked source drawn for the adaptive crop\n"

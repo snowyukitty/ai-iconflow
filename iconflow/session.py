@@ -24,6 +24,7 @@ than memory without limit.
 """
 from __future__ import annotations
 
+import contextlib
 import hashlib
 
 from .rasterize import _background_css, _positive_size
@@ -198,3 +199,32 @@ def scheme_rasterizer(rasterizer, color_scheme: str):
     if rasterizer is not None and getattr(rasterizer, "color_scheme", None) == color_scheme:
         return rasterizer
     return None
+
+
+@contextlib.contextmanager
+def scheme_sibling(rasterizer, color_scheme: str):
+    """A renderer for ``color_scheme`` beside ``rasterizer``, never a second driver.
+
+    A session rasterizer asks its session; an open :class:`Rasterizer` (or a
+    lazy one, started here) lends its browser to a new context in that
+    scheme, as the session does, because Playwright's sync API allows one
+    driver per thread. A substitute renderer has no schemes and is returned
+    as it is.
+    """
+    from .rasterize import LazyRasterizer
+
+    borrowed = scheme_rasterizer(rasterizer, color_scheme)
+    if borrowed is not None:
+        yield borrowed
+        return
+    host = rasterizer
+    if isinstance(host, LazyRasterizer):
+        host = host._session()
+    if getattr(type(host), "shares_browser", False):
+        if getattr(host, "color_scheme", None) == color_scheme:
+            yield host
+            return
+        with type(host)(color_scheme=color_scheme, share=host._share or host) as sibling:
+            yield sibling
+        return
+    yield rasterizer

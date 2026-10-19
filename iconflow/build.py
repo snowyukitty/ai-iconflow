@@ -19,7 +19,9 @@ from .rasterize import Rasterizer, load_svg  # noqa: F401  (load_svg: importable
 # ever built when it is asked for by name. "all" is frozen at the 0.6 set:
 # receipts store the expanded list, so growing it would turn every approved
 # "all" project stale on upgrade. Android is therefore asked for by name too.
-TARGETS = ("web", "pwa", "tauri", "electron", "tray", "android", "emote")
+# ``ios`` (0.10) is appended so every older target keeps its place in the
+# canonical order, and stays out of APP_TARGETS so ``all`` is unchanged.
+TARGETS = ("web", "pwa", "tauri", "electron", "tray", "android", "emote", "ios")
 APP_TARGETS = ("web", "pwa", "tauri", "electron", "tray")
 # Targets whose assets are composed for a platform's adaptive crop. One
 # composition serves all of them, so one maskable audit covers all of them.
@@ -702,7 +704,8 @@ def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
           tray_template_mode: str = "auto",
           maskable_scale: float | None = None,
           maskable_svg: str | Path | None = None,
-          monochrome_svg: str | Path | None = None) -> list[str]:
+          monochrome_svg: str | Path | None = None,
+          ios_dark_svg: str | Path | None = None, ios_variants: str = "auto") -> list[str]:
     """Build the requested targets from `master_svg` into `outdir`.
 
     Returns the list of file paths produced (relative to outdir). Every file
@@ -720,5 +723,6 @@ def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
         web_options=web_options, optimize_png=optimize_png, tray_svg=tray_svg,
         tray_template_mode=tray_template_mode, maskable_scale=maskable_scale,
         maskable_svg=maskable_svg, monochrome_svg=monochrome_svg,
+        ios_dark_svg=ios_dark_svg, ios_variants=ios_variants,
     )
     return write_plan(plan, outdir)

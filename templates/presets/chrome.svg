@@ -16,7 +16,7 @@
     </mask>
     <clipPath id="cell"><rect x="536" y="344" width="208" height="208" rx="50"/></clipPath>
   </defs>
-  <rect x="40" y="40" width="944" height="944" rx="212" fill="#141720"/>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#141720"/>
   <path d="M256 288H640V448H448V640H576V704H704V768"
         fill="none" stroke="#07090E" stroke-width="232"
         stroke-linecap="round" stroke-linejoin="round"/>

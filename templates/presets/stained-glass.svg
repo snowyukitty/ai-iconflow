@@ -15,7 +15,7 @@
             stroke-linecap="round" stroke-linejoin="round"/>
     </mask>
   </defs>
-  <rect x="40" y="40" width="944" height="944" rx="212" fill="#20202A"/>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#20202A"/>
   <g mask="url(#rail)">
     <path d="M120 120H520V904H120Z" fill="#F2B84B"/>
     <path d="M520 120H904V520H520Z" fill="#EF5E66"/>

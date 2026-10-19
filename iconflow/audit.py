@@ -34,6 +34,9 @@ class AuditInputs:
     maskable_scale: float | None = None
     maskable_svg: Path | None = None
     skip_maskable: bool = False
+    # The iOS target (0.10): a linked dark source and the variants policy.
+    ios_dark_svg: Path | None = None
+    ios_variants: str = "auto"
     # The project config, only for its [neighbours] declarations.
     config: object | None = field(default=None, compare=False)
 
@@ -47,12 +50,24 @@ class AuditInputs:
     def tray_audited(self) -> bool:
         return self.tray_svg is not None and "tray" in self.targets
 
+    @property
+    def ios_audited(self) -> bool:
+        return "ios" in self.targets
+
+    @property
+    def ios_dark_consumed(self) -> Path | None:
+        return self.ios_dark_svg if self.ios_audited and self.ios_variants != "system" else None
+
     def describe(self) -> dict:
-        """The inputs as they appear in every ``--json`` envelope's ``outputs.audit``."""
+        """The inputs as they appear in every ``--json`` envelope's ``outputs.audit``.
+
+        The iOS keys appear only when ``ios`` is a target, so every record
+        written without it is exactly the 0.9 record (C-F01).
+        """
         from .build import resolve_maskable_scale
 
         linked = self.maskable_svg is not None
-        return {
+        described = {
             "targets": list(self.targets),
             "background_color": self.background_color,
             "color_scheme": self.color_scheme,
@@ -66,6 +81,11 @@ class AuditInputs:
             "tray_template_mode": self.tray_template_mode,
             "neighbours": bool(getattr(self.config, "neighbours_declared", False)),
         }
+        if self.ios_audited:
+            described["ios_variants"] = self.ios_variants
+            dark = self.ios_dark_consumed
+            described["ios_dark_source"] = str(dark) if dark is not None else None
+        return described
 
 
 def resolve_inputs(
@@ -125,8 +145,47 @@ def resolve_inputs(
             maskable_svg, config.maskable_svg_path if config is not None else None,
         ),
         skip_maskable=skip_maskable,
+        ios_dark_svg=config.ios_dark_svg_path if config is not None else None,
+        ios_variants=config.ios_variants if config is not None else "auto",
         config=config,
     )
+
+
+def _ios_audit(inputs: AuditInputs, plan, captured, r):
+    """The iOS probes: on the plan's files when there is a plan, else on the
+    same files computed in memory (0.10). Returns (warnings, advisories,
+    metrics, origins)."""
+    from . import ios
+    from .plan import PlanError, audit_ios, ios_files
+    from .rasterize import load_svg
+
+    master_text = captured("master") or load_svg(inputs.master)
+    dark_path = inputs.ios_dark_consumed
+    dark_text = captured("ios_dark") if dark_path is not None else None
+    if dark_path is not None and dark_text is None:
+        dark_text = load_svg(dark_path)
+    try:
+        expected = ios.plan_for(master_text, variants=inputs.ios_variants,
+                                linked=dark_text is not None)
+    except ios.LayerError as exc:
+        raise ValueError(f"ios: {exc}") from exc
+    if plan is not None:
+        frames = audit_ios(plan)
+        if tuple(frames) != expected.shipped:
+            raise PlanError(
+                "the plan's iOS appearances (" + ", ".join(frames) + ") are not the ones "
+                "the sources and ios_variants call for (" + ", ".join(expected.shipped) + ")")
+        files = {path: plan.get(path) for path in ios.ALL_FILES if plan.get(path) is not None}
+        origins = {f"ios-{appearance}": dict(frame.origin) for appearance, frame in frames.items()}
+    else:
+        files = ios_files(r, expected, master_text, dark_text, inputs.background_color)
+        origins = {f"ios-{appearance}": {"from": "render", "size": ios.SIZE,
+                                         "reason": "no render plan"}
+                   for appearance in expected.shipped}
+    counter = None if expected.linked else ios.counter_colour(expected.fill)
+    metrics = ios.measure(files, expected.shipped, counter=counter)
+    warnings, advisories = ios.findings(metrics, expected)
+    return warnings, advisories, metrics, origins
 
 
 @dataclass
@@ -201,6 +260,7 @@ def run_audit(inputs: AuditInputs, *, rasterizer=None, plan=None,
             maskable_text=captured("maskable") if inputs.maskable_audited else None,
             plan=plan,
             provenance=frames,
+            square_ok=set(inputs.targets) == {"ios"},
         ))
         advisories: list[Finding] = []
         hood = None
@@ -224,6 +284,12 @@ def run_audit(inputs: AuditInputs, *, rasterizer=None, plan=None,
                 inputs.tray_svg, template_mode=inputs.tray_template_mode, rasterizer=r,
                 text=captured("tray"),
             ))
+        if inputs.ios_audited:
+            gating, advising, measured, origins = _ios_audit(inputs, plan, captured, r)
+            warnings.extend(gating)
+            advisories.extend(advising)
+            metrics["ios"] = measured
+            frames.update(origins)
         binding = None
         if plan is not None:
             binding = {"digest": plan.digest, "artifact_digest": plan.artifact_digest,

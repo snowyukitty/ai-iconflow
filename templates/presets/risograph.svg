@@ -7,7 +7,7 @@
   <desc id="desc">Two deliberately offset spot-color plates create a stable shared core around IconFlow's house rail.</desc>
   <!-- TECHNIQUE SCAFFOLD. Registration error is controlled structure, not
        random noise; the shared core must remain the readable semantic mark. -->
-  <rect x="40" y="40" width="944" height="944" rx="212" fill="#F4EAD8"/>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#F4EAD8"/>
   <g style="mix-blend-mode:multiply">
     <path d="M256 288H640V448H448V640H576V704H704V768"
           transform="translate(-36 20)" fill="none" stroke="#18A7A3" stroke-width="152"

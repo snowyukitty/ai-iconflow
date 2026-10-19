@@ -7,7 +7,7 @@
   <desc id="desc">Chunky rounded volumes give IconFlow's house rail explicit shadow and highlight without blur filters.</desc>
   <!-- TECHNIQUE SCAFFOLD. Replace the base, shadow, and highlight paths as one
        object; the base volume must identify the app when both effects vanish. -->
-  <rect x="40" y="40" width="944" height="944" rx="244" fill="#D8E5F2"/>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="244" fill="#D8E5F2"/>
   <path d="M256 288H640V448H448V640H576V704H704V768"
         transform="translate(32 40)" fill="none" stroke="#51476F" stroke-width="220"
         stroke-linecap="round" stroke-linejoin="round"/>

@@ -44,6 +44,9 @@ _CODE_PATTERNS: tuple[tuple[str, str], ...] = (
     (r"^At 16px this mark is the same shape as", "neighbour-collision"),
     (r"^At 16px this mark (?:reads as|sits within)", "neighbour-familiar"),
     (r"previous marks sit within the collision radius", "neighbour-house-rut"),
+    (r"^iOS dark icon: .* paints almost nothing", "ios-dark-empty"),
+    (r"^iOS dark icon: only", "ios-dark-contrast"),
+    (r"^iOS tinted icon:", "ios-tinted-faint"),
 )
 
 
@@ -646,6 +649,7 @@ def check(
     maskable_text: str | None = None,
     plan=None,
     provenance: dict | None = None,
+    square_ok: bool = False,
 ) -> list[Finding]:
     """Run every automated check on the bytes the configured build will ship.
 
@@ -662,6 +666,10 @@ def check(
     frames and the maskable composition -- instead of rendering one, and
     ``provenance`` (when given) records where each probe's pixels came from.
     A plan rendered from another source or in another scheme is refused.
+
+    ``square_ok`` is set when no selected target crops the artwork (``ios``
+    alone, which iOS masks itself): a full-bleed hard square is then the
+    contract, not a defect (C-F14). Every other selection is checked as in 0.9.
     """
     from .build import (
         _FrozenCache, android_native_sizes, maskable_png, resolve_maskable_scale,
@@ -843,7 +851,7 @@ def check(
     # corners — a maskable/adaptive (circle) crop will clip it. A rounded
     # full-bleed container (app-icon squircle) leaves the corners transparent
     # and is intentional, so don't flag it.
-    if cov > 0.97 and _corners_opaque(im16):
+    if cov > 0.97 and _corners_opaque(im16) and not square_ok:
         warnings.append(Finding(
             "coverage-16",
             f"At 16px the mark is a hard square reaching the corners ({color_scheme} "

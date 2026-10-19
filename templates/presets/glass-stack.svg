@@ -17,7 +17,7 @@
       <stop offset="1" stop-color="#F46482" stop-opacity=".58"/>
     </linearGradient>
   </defs>
-  <rect x="40" y="40" width="944" height="944" rx="212" fill="#151927"/>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#151927"/>
   <rect x="152" y="168" width="560" height="560" rx="136"
         fill="url(#paneA)" stroke="#C9FFFC" stroke-width="24"/>
   <rect x="312" y="296" width="560" height="560" rx="136"

@@ -7,7 +7,7 @@
   <desc id="desc">Broad bands alternate over and under through deliberate knockout gaps around IconFlow's house rail.</desc>
   <!-- TECHNIQUE SCAFFOLD. Interlacing is topology, not decoration. Replace
        both bands together and preserve visible underpass gaps at 16 px. -->
-  <rect x="40" y="40" width="944" height="944" rx="212" fill="#F2EBDD"/>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#F2EBDD"/>
   <path d="M256 288H640V448H448V640H576V704H704V768"
         fill="none" stroke="#5B4DA7" stroke-width="176"
         stroke-linecap="round" stroke-linejoin="round"/>

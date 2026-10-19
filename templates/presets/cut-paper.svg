@@ -7,7 +7,7 @@
   <desc id="desc">Broad hard-edged paper layers give IconFlow's house rail tactile depth without blur filters.</desc>
   <!-- TECHNIQUE SCAFFOLD. Replace every aligned rail layer together and drop
        offsets that do not resolve as at least one deliberate output pixel. -->
-  <rect x="40" y="40" width="944" height="944" rx="212" fill="#F6E7CF"/>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#F6E7CF"/>
   <path d="M256 288H640V448H448V640H576V704H704V768"
         transform="translate(40 48)" fill="none" stroke="#27344A" stroke-width="208"
         stroke-linecap="round" stroke-linejoin="round"/>

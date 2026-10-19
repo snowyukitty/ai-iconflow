@@ -7,7 +7,7 @@
   <desc id="desc">An angular relief mass and broad carved ink breaks give IconFlow's house rail a woodblock grammar.</desc>
   <!-- TECHNIQUE SCAFFOLD. Replace the rail with one product-specific relief
        mass; carved texture may support it but must never carry the identity. -->
-  <rect x="40" y="40" width="944" height="944" rx="212" fill="#EBCB99"/>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#EBCB99"/>
   <path d="M256 288H640V448H448V640H576V704H704V768"
         fill="none" stroke="#1E2024" stroke-width="232"
         stroke-linecap="butt" stroke-linejoin="bevel"/>

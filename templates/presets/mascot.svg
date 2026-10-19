@@ -13,7 +13,7 @@
       <stop offset="1" stop-color="#FF8C77"/>
     </linearGradient>
   </defs>
-  <rect x="40" y="40" width="944" height="944" rx="244" fill="url(#card)"/>
+  <rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="244" fill="url(#card)"/>
   <path d="M256 288H640V448H448V640H576V704H704V768"
         fill="none" stroke="#FFF4E8" stroke-width="188"
         stroke-linecap="round" stroke-linejoin="round"/>

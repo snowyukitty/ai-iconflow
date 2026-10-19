@@ -169,6 +169,7 @@ jobs:
           ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_ladder.py" -v
           ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_neighbours.py" -v
           ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_family.py" -v
+          ICONFLOW_BROWSER_TESTS=1 python "$GITHUB_WORKSPACE/tests/test_ios.py" -v
           python "$GITHUB_WORKSPACE/scripts/build_collision_index.py" --check
           # The Forge's browser port of shapefield must answer what the CLI answers.
           python "$GITHUB_WORKSPACE/scripts/forge_parity.py"
@@ -186,3 +187,37 @@ jobs:
           iconflow styles --gallery "$integration/style-gallery.png"
           test -s "$integration/style-gallery.png"
           python "$GITHUB_WORKSPACE/scripts/build_gallery.py" --verify-only
+
+  xcode-ios:
+    # Apple's own asset compiler on IconFlow's iOS output (0.10): actool must
+    # compile each set cleanly and assetutil must record every appearance with
+    # the encoding Apple asks for. actool alone accepts wrong encodings.
+    name: Xcode compiles the iOS app icon
+    timeout-minutes: 20
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.14"
+          cache: pip
+      - name: Install package with Chromium
+        run: |
+          python -m pip install -e .
+          python -m playwright install chromium
+      - name: Build three iOS sets and compile them with Xcode
+        shell: bash
+        run: |
+          xcodebuild -version
+          out="$RUNNER_TEMP/ios"
+          # A declared master: light, dark and tinted.
+          iconflow build demo/master.svg --targets ios --bg "#FFF4E8" --out "$out/demo"
+          # A tagged scaffold, as `iconflow new` writes it.
+          iconflow new flat-geometric --out "$out/flat.svg"
+          iconflow build "$out/flat.svg" --targets ios --out "$out/flat"
+          # An untagged scaffold: the light icon alone, the rest left to iOS.
+          iconflow new line-mark --out "$out/line.svg"
+          iconflow build "$out/line.svg" --targets ios --out "$out/line"
+          python scripts/verify_ios_catalog.py "$out"/*/ios/AppIcon.appiconset
