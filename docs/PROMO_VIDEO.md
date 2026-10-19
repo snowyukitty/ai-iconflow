@@ -90,7 +90,7 @@ Only the deterministic composite poster is staged under
 [`assets/promo/`](assets/promo/). Generated motion is not accepted as proof and
 cannot replace any real IconFlow output in the film.
 
-A matching Grok Imagine Video 1.5 direction remains a local CineChorus dry-run,
+A matching Grok Imagine Video 1.5 direction remains a local video-pipeline dry-run,
 not a retained campaign asset: it did not provide evidence that justified a
 second paid branch after the Flow Quality take passed the visual gate.
 
