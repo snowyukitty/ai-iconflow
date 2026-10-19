@@ -175,6 +175,14 @@ second voice, weighed below it, through sealed read-only ATD consults.
    a page that failed to open could still lose its error to the context's own
    cleanup (V2-R08), and a partial web plan with a linked source skipped the
    linked render its fallback then needed (N03).
+5. **Third verification**: **APPROVE** — both fixed, both regressions
+   exercise their failure, no new defect.
+
+Across the five passes: 16 design findings, 14 implementation findings, 12
+verification findings; every one fixed with a regression, measured by hand
+where a test could not reach (N01), or answered in writing — one dissent
+(R01, not staging review outputs), which the reviewer accepted once every
+source a review reads was captured.
 
 ## Verification
 
