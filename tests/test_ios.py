@@ -661,7 +661,8 @@ class RealChromiumTests(unittest.TestCase):
     def test_C_F07_the_woodcut_scaffold_is_refused_on_the_dark_screen(self):
         master = ROOT / "templates" / "presets" / "woodcut.svg"
         result = run_audit(AuditInputs(master=master, targets=("ios",)))
-        self.assertIn("ios-dark-contrast", {w.code for w in result.warnings})
+        self.assertIn("ios-dark-contrast", {w.code for w in result.warnings},
+                      (result.metrics.get("ios"), [a.code for a in result.advisories]))
 
     def test_C_F03_tagged_presets_render_exactly_as_before(self):
         import subprocess

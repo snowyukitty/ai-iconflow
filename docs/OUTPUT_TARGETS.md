@@ -9,8 +9,8 @@ The build engine produces the right file set per target. Pick targets with
 `--targets web,tauri,tray` (comma list) or `--targets all`. `all` means the
 desktop and web app-icon targets (`web, pwa, tauri, electron, tray`), frozen at
 that set: a receipt records the expanded list, so growing `all` would turn
-every approved `all` project stale on upgrade. `android` and `emote` are only
-built when they are named. Unknown target names fail fast with a clear error. `iconflow review --config iconflow.toml` previews
+every approved `all` project stale on upgrade. `android`, `emote` and `ios`
+are only built when they are named. Unknown target names fail fast with a clear error. `iconflow review --config iconflow.toml` previews
 the same target transforms; it does not approximate them with the raw master.
 
 ---
@@ -293,26 +293,120 @@ iconflow build master.svg --targets android --bg "#11142A" --out out
 
 ---
 
+## `ios` — iOS / iPadOS app icon (light, dark, tinted) — from 0.10
+
+Produces `ios/`, an Xcode asset-catalog icon set plus two companions:
+
+| File | Size | Purpose |
+|---|---|---|
+| `AppIcon.appiconset/Contents.json` | JSON | one 1024 px entry per appearance this build ships |
+| `AppIcon.appiconset/icon-1024.png` | 1024 | **light** (Any): opaque RGB, full bleed — iOS masks the square itself |
+| `AppIcon.appiconset/icon-1024-dark.png` | 1024 | **dark**: the mark on a transparent background (iOS draws its dark ground through it) |
+| `AppIcon.appiconset/icon-1024-tinted.png` | 1024 | **tinted**: opaque 8-bit grayscale; iOS colours it by luminance |
+| `icon-composer/mark.svg` | vector | the transparent full-canvas foreground layer Icon Composer imports (Xcode 26+) |
+| `README.md` | text | install notes for Xcode, Expo, Capacitor, Flutter and Icon Composer, for exactly these files |
+
+Xcode builds every iOS size from one 1024 px image per appearance ("Single
+Size"). Apple's contract for the variants: *"Provide your tinted app icon as a
+grayscale image. Provide your dark app icon with a transparent background so
+the system-provided background can show through."* Both are optional — without
+them iOS applies its own treatment — so IconFlow ships them only when it can
+derive them honestly, and never invents one.
+
+**Where the appearances come from.** The master's semantic layers
+(`SVG_TECHNIQUES.md` §11). Declare the card or backdrop as
+`id="iconflow-background"` and IconFlow:
+
+- stretches it to the whole canvas for the **light** icon (the house card is
+  inset; on iOS an inset card would show `background_color` as a border);
+- removes it for the **dark** icon, rendered in the dark colour scheme, so a
+  master with `prefers-color-scheme` styles gets its dark colours;
+- composites the dark image once over black and keeps its luminance for the
+  **tinted** icon — one fixed mapping, no per-image stretching.
+
+The declared background must be **one shape** (`rect`, `circle`, `ellipse`,
+`path` or `polygon`), a **direct child** of `<svg>`, the **first painted**
+element, painted by a plain `fill` (an opaque colour, or a `linearGradient` /
+`radialGradient` in the master) with no `transform`, `filter`, `mask`,
+`clip-path`, `opacity`, `fill-opacity`, `style`, `class` or `data-lod`, and
+nothing may refer to it. A declaration outside that subset fails the build
+with the rule it broke; it never falls back silently. Geometry is never
+guessed: an untagged master ships the **light icon alone** (flattened onto
+`background_color`) and iOS derives dark and tinted, with an advisory saying
+how to declare the layer.
+
+**When the mark is not made for a dark screen.** A light card with a dark mark
+loses the mark once the card is removed. The audit catches it
+(`ios-dark-contrast`, `ios-tinted-faint`), and the fix is one of:
+
+```toml
+[build]
+targets = ["web", "ios"]
+ios_dark_svg = "master-dark.svg"   # the same mark, drawn for a dark ground
+# or
+ios_variants = "system"            # ship the light icon; iOS derives the rest
+```
+
+`ios_dark_svg` is a linked source like `maskable_svg`: captured once, hashed
+into the approval (only when `ios` is a target), replayed by `ship --plan`.
+Tinted is then derived from it.
+
+**What the audit checks** (on the plan's own 1024 px files):
+
+| Code | Gate | Rule |
+|---|---|---|
+| `ios-dark-empty` | blocks | the dark layer covers under 2% of the canvas |
+| `ios-dark-contrast` | blocks | under 50% of the mark reaches 3:1 against iOS's dark ground (≈ `#1C1C1E`); pixels in the declared card colour are cuts and are not counted |
+| `ios-tinted-faint` | blocks | the tinted mark's mean luminance is under 96/255 |
+| `ios-variants-system` | advisory | dark and tinted are left to iOS |
+| `ios-light-flattened` | advisory | no declared layer: the light icon is the master on `background_color` |
+
+The thresholds are heuristics written down once in `iconflow/ios.py`; the
+Review Lab's iOS card and the iOS row of `targets.png` show the actual files
+(the dark ground and tint colour there are approximations). Xcode's `actool`
+enforces none of the encodings — it compiles a light icon with alpha and an
+RGB "tinted" image without a word — so IconFlow validates them on every build,
+audit and imported plan, and CI compiles generated sets with `actool` and
+checks what `assetutil` recorded.
+
+**Install.** Replace your `Assets.xcassets/AppIcon.appiconset` (Xcode;
+Capacitor's is under `ios/App/App/`, Flutter's under `ios/Runner/`), or point
+Expo's `ios.icon` at the three PNGs (`{"light": …, "dark": …, "tinted": …}`).
+The generated `ios/README.md` lists exactly the files this build wrote.
+
+**Icon Composer.** Since Xcode 26 Apple prefers a layered `.icon` document,
+made in Icon Composer from SVG layers. Its format is not published, so
+IconFlow does not write one: `icon-composer/mark.svg` is the declared
+foreground on a transparent full-size canvas, reduced to the 1024 px rung — a
+starting point to import, with the background colour named in the README.
+Glass, translucency and the mono annotation are design decisions made there.
+Shapes the master paints in its card colour stay painted: they are not holes.
+
+**Approvals.** An approval that ships `ios` must carry the render plan it
+reviewed (Review Lab or `review --evidence` + `score`): appearances nobody saw
+are not shipped. `ios` is not in `all`; ask for it by name. A build into a
+folder that still holds iOS files this build does not write (dark and tinted
+from an earlier build, say) is refused before anything changes.
+
+```bash
+iconflow build master.svg --targets ios --bg "#191A20" --out out
+```
+
+---
+
 ## Not targets yet — and why
 
 Reviewed for 0.7 and deliberately left out:
 
-- **iOS / iPadOS / macOS app-icon sets (`AppIcon.appiconset`).** Since Xcode
-  14 a single 1024 px opaque image is the whole contract, and iOS 18 adds dark
-  and tinted variants that need *semantic* sources (a transparent-background
-  dark variant, a greyscale tinted variant) rather than a transform of the
-  light icon. Emitting a `Contents.json` around one flattened 1024 would be
-  easy and would look like support while skipping the part that needs design
-  judgement. Until the variant sources exist, render the 1024 with
-  `iconflow render master.svg --sizes 1024 --bg <opaque>` and review it; the
-  `tauri` and `electron` targets already cover the macOS desktop `.icns`.
 - **Windows MSIX / Store tile assets.** Package manifests own both the exact
   filenames and the scale-qualified sizes (L43), and they differ by manifest.
   A generic set would be guessed filenames. Keep using `iconflow render` for
   the sizes a manifest names, plus `--windows-tiles` for pinned-site tiles.
 
-Both are candidates for a target once a consuming project supplies the real
-manifest and the variant sources to golden-test against.
+MSIX is a candidate once a consuming project supplies the real manifest to
+golden-test against. iOS was on this list until 0.10: 0.7 declined it because
+its dark and tinted variants need semantic sources, not a transform of the
+light icon — the semantic layers and `ios_dark_svg` above are those sources.
 
 ---
 

@@ -6,7 +6,65 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
-Nothing yet.
+Milestone 0.10 (`docs/MILESTONE_v0.10.md`): semantic layers, and the iOS app
+icon they make possible.
+
+### Added
+
+- **The `ios` target** (`docs/OUTPUT_TARGETS.md`, "ios"): an Xcode
+  `ios/AppIcon.appiconset` with the 1024 px **light**, **dark** and **tinted**
+  icons iOS 18+ asks for, `ios/icon-composer/mark.svg` (the foreground layer
+  Icon Composer imports) and `ios/README.md` (install notes for Xcode, Expo,
+  Capacitor and Flutter, written for exactly the files built). Light is opaque
+  RGB at full bleed, dark is RGBA on transparency, tinted is opaque grayscale —
+  validated on every build, audit and imported plan, because Xcode's `actool`
+  compiles the wrong encodings without a word. Asked for by name; not in `all`.
+- **Semantic layers are read.** `SVG_TECHNIQUES.md` §11 has asked authors to
+  declare `id="iconflow-background"` since 0.5; from 0.10 the build stretches it
+  to full bleed for the iOS light icon and removes it for the dark one (rendered
+  in the dark colour scheme); tinted is the dark image over black as luminance,
+  one fixed mapping. Only a declared layer counts — geometry is never guessed —
+  and a declaration the build cannot honour fails with the rule it broke. An
+  untagged master ships the light icon alone and iOS derives the rest.
+- `build.ios_dark_svg` (a linked source drawn for the dark screen, captured,
+  hashed and replayed like `maskable_svg`) and `build.ios_variants`
+  (`"auto"` | `"system"`), with `iconflow build --ios-dark-svg/--ios-variants`.
+- Audit codes `ios-dark-empty`, `ios-dark-contrast` and `ios-tinted-faint`
+  (gating) and `ios-variants-system`, `ios-light-flattened` (advisory), measured
+  on the plan's own 1024 px files; cuts painted in the card's colour are not
+  counted against the mark. `audit_frames` and `audit_provenance` gain
+  `ios-light`, `ios-dark`, `ios-tinted`.
+- An iOS row in the headless `targets.png` and an iOS card in the Review Lab,
+  cut from the plan's files only: an appearance left to iOS is labelled, never
+  drawn.
+- `init` suggests `ios` from real iOS project evidence: an Xcode project built
+  for `iphoneos`, Capacitor's, Flutter's or Tauri's iOS scaffold, or an Expo
+  config with an `ios` section (never from a generated `AppIcon.appiconset`).
+- `scripts/verify_ios_catalog.py` and a CI job on `macos-latest` that compiles
+  generated sets with `actool` and checks what `assetutil` recorded for every
+  appearance (Xcode 26.6 at the time of writing).
+- The icon-size reference page gains an iOS section.
+
+### Changed
+
+- The 15 style presets with a card declare it `id="iconflow-background"`, so
+  `iconflow new` scaffolds are iOS-ready. Their renders are pixel-identical (both
+  schemes, 16 to 1024 px, against 0.9.0); their SVG text, source hashes and any
+  `favicon.svg` copied from them change, so a project re-scaffolded from a
+  preset needs a new review. Existing masters are never touched.
+- A ship whose targets include `ios` must carry the render plan it reviewed
+  (`receipt-not-ready` otherwise): appearances nobody saw are not shipped.
+- A build into a folder that still holds iOS files it does not write is
+  refused before anything changes.
+- `ios` alone does not raise `coverage-16` for a full-bleed square (nothing
+  crops it); every other selection is checked as before.
+
+### Unchanged, on purpose
+
+- Built bytes of every older target are identical to 0.9.0: 156 files across
+  the five 0.9 configurations, through `build()` and through the session `ship`
+  uses. Receipts, contracts, plan parameters and `outputs.audit` gain iOS keys
+  only when `ios` is a target, so no existing approval or evidence goes stale.
 
 ## 0.9.0 - 2026-10-19
 

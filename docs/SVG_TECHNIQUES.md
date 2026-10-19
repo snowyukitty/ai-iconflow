@@ -221,15 +221,26 @@ Give important groups stable IDs so the build/review pipeline can select the
 right semantic role without duplicating the design:
 
 ```svg
-<g id="iconflow-background">...</g>
+<rect id="iconflow-background" x="40" y="40" width="944" height="944" rx="212" fill="#191A20"/>
 <g id="iconflow-mark">
   <path id="iconflow-core" d="..."/>
   <path id="iconflow-signature" d="..."/>
 </g>
 ```
 
+From 0.10 the build reads `iconflow-background` (the `ios` target,
+`OUTPUT_TARGETS.md`): it stretches it to full bleed for the iOS light icon and
+removes it for the dark and tinted ones. Declare it as **one shape** — a direct
+child of `<svg>`, the first thing painted, filled with an opaque colour or a
+gradient, with no transform, effect, opacity, `style` or `class`, and nothing
+referring to it. That is what lets the build extend or remove it without
+changing anything else; a declaration outside that subset fails the iOS build
+with the rule it broke. The 15 card scaffolds `iconflow new` writes declare it.
+
 - `background` may fill an app tile but should not become the macOS template
-  silhouette.
+  silhouette. Paint cuts that must read on any ground (an eye, a slot) in the
+  card's own colour: on the iOS dark screen they stay dark, and the audit does
+  not count them against the mark's contrast.
 - `mark` carries recognition and should survive monochrome conversion.
 - `signature` is the one functional cut/accent that distinguishes the mark.
 - When automatic extraction cannot preserve the intended hierarchy, keep a

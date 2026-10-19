@@ -651,6 +651,7 @@ def render() -> str:
       <h2>iOS and iPadOS app icons</h2>
       <p>Xcode builds every iOS size from one 1024 pixel image per appearance. iOS 18 and later add two appearances to the light icon: dark, which Apple asks for on a transparent background so the system's dark ground shows through, and tinted, a grayscale image the system colours. Both are optional; without them iOS derives its own. IconFlow derives them from the master's semantic layers — the card marked <code>id="iconflow-background"</code> is stretched to full bleed for the light icon and removed for the dark one — or from a linked <code>ios_dark_svg</code>, and otherwise leaves them to iOS rather than invent one. Xcode's asset compiler checks none of these encodings, so IconFlow does, and refuses a dark mark that disappears on the dark home screen.</p>
 {table("iconflow ship --targets ios", ios_rows())}
+      <p class="ref-callout"><strong>New in IconFlow 0.10.</strong> Until it is on PyPI, install it from the repository: <code>pip install "git+https://github.com/snowyukitty/ai-iconflow"</code>.</p>
       <p class="ref-callout"><strong>Ask for <code>ios</code> by name.</strong> <code>all</code> builds the app-icon targets of 0.6. A light-only build writes the light icon and its catalog entry, and the dark, tinted and Icon Composer files are absent. <code>mark.svg</code> is a starting point for Icon Composer, not a finished <code>.icon</code> document: glass and translucency are decided there.</p>
     </section>
 

@@ -74,6 +74,9 @@ object and, on one machine, the same warnings; `tests/test_audit.py` fails if
 they can differ. From 0.9 `ship --plan` measures the replayed bytes, so on
 another machine its findings can differ from a local `check` on purpose
 (`docs/RENDER_PLAN.md`).
+From 0.10, when `ios` is a target, the object also carries `"ios_variants"`
+(`"auto"` or `"system"`) and `"ios_dark_source"` (the linked `ios_dark_svg`, or
+`null`). Without `ios` the object is exactly the 0.9 object.
 Before 0.7, `check --config` composed the maskable icon on white while `review`
 and `ship` used the configured background. Precedence is: explicit flag, then
 the config, then the defaults (`web,pwa`, `#ffffff`, light). `check` with
@@ -110,6 +113,16 @@ set or house corpus), and `neighbour-house-rut` (advisory — three or more
 `--config` at all, emits none of them and the envelope is unchanged. `review
 --config` and `ship` run the same audit, and a collision blocks `ship` behind
 `qa-warnings` like any other check warning.
+
+From 0.10, with `ios` among the targets (`docs/OUTPUT_TARGETS.md`, "ios"):
+`ios-dark-empty`, `ios-dark-contrast` and `ios-tinted-faint` (gating — the dark
+or tinted icon would vanish on the iOS home screen; each names
+`build.ios_dark_svg` and `build.ios_variants = "system"` as the fixes), and
+`ios-variants-system` and `ios-light-flattened` (advisory — appearances left to
+iOS, or a master with no declared background layer). An `ios` selection alone
+does not raise `coverage-16` for a full-bleed square, since nothing crops it.
+A declared `id="iconflow-background"` outside the supported subset is an exit-2
+error naming the rule. The measurements land in `metrics.ios`.
 
 ### `ladder --json`
 
@@ -199,7 +212,11 @@ Blocked ships report `status: "blocked"` with `warnings` codes
 `receipt-stale-source`, `receipt-stale-contract`, `receipt-not-ready`,
 `score-below-floor`, `qa-warnings`, and from 0.8 `plan-drift` (the rendered
 output differs from the plan the receipt approved) and `plan-replay` (a
-`--plan` directory that cannot be published as the reviewed bytes).
+`--plan` directory that cannot be published as the reviewed bytes). From 0.10
+a ship with `ios` among its targets is `receipt-not-ready` unless its approval
+carries the render plan it reviewed (a `[review]` table, or a receipt without
+`plan`, names no pixels). A build whose output folder still holds iOS files it
+does not write is refused before anything is written (exit 2).
 
 When more than one gate would refuse, the first in this order is reported,
 alone: the approval (`receipt-*`, `score-below-floor`), automated warnings
@@ -244,6 +261,10 @@ its outcome — it can be `true` on a ship blocked by warnings, and it never
 means every output file was inspected. `audit_frames` says, per probe, which
 file and slot the pixels came from, or `{"from": "render", "reason": "..."}`
 (`docs/RENDER_PLAN.md`, "The audit reads the plan").
+From 0.10 an `ios` build adds `ios-light`, and when shipped `ios-dark` and
+`ios-tinted`: the plan's 1024 px appearance files, validated (catalog,
+dimensions, encodings) before they are measured. `score` holds a headless
+review's record to exactly these keys.
 
 ### `score --json` (0.7, headless review)
 
@@ -354,4 +375,8 @@ provenance that no gate reads:
 - `tests/test_audit_on_plan.py` (0.9): the render session, frame selectors,
   the audit on the plan, gate precedence, captured sources, evidence
   provenance, receipt digests and the Lab's bindings.
+- `tests/test_ios.py` (0.10): semantic layers, the iOS encodings and catalog,
+  the probes, contract and parameter compatibility, stale-file refusal,
+  provenance and the review → score → ship → replay path for `ios`;
+  `scripts/verify_ios_catalog.py` compiles generated sets with Xcode in CI.
 - `.github/actions/proof`: consumes `check --json` and `review --json` only.
