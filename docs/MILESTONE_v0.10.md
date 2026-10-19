@@ -372,7 +372,10 @@ The usual run (`docs/RELEASING.md`), plus, because `ios` is not on PyPI yet:
 4. Getting started: replace the "Mobile scope" line (it says iOS is not a
    target) and add an iOS output card, in all five languages
    (`website/i18n/*.json`, `scripts/build_i18n.py`);
-5. deploy the site only after PyPI carries 0.10.0.
+5. deploy the site only after PyPI carries 0.10.0. Until then `docs/STATE.md`
+   reports "Live site serves current /reference/icon-sizes/" as FAIL on
+   purpose: the repository's page documents `ios` (the website test binds it
+   to the build code), the live one still documents 0.9.0.
 
 ## Owner decisions
 
