@@ -129,6 +129,6 @@ test named after them.
 
 ## Owner decisions
 
-1. **Release 0.8.0** — prepared on this branch, not done (it needs an explicit
-   instruction, like every release).
+1. **Release 0.8.0** — ordered by the owner on 2026-10-19; released the same
+   way as 0.7.0 (`docs/LAUNCH_READINESS.md` records the run).
 2. **Merge the Atlas branch** `fix/iconflow-case-pointer`.

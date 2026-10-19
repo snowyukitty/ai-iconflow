@@ -23,7 +23,8 @@ version, and regenerates `docs/STATE.md` after publishing.
 needed the notes: `score`, `budget`, `brand`, `review --evidence` and the
 `android` target were built on a branch and reached `main` in the release
 commit itself, and the skill tells an agent to upgrade when a command is
-missing.
+missing. 0.8.0 (the same day) did the same for the render plan and
+`ship --plan`.
 
 ## 1. Clear owner-controlled gates
 

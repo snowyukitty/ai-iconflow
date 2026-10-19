@@ -6,6 +6,10 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
+Nothing yet.
+
+## 0.8.0 - 2026-10-19
+
 ### Added
 
 - **The render plan: the pixels you reviewed are the pixels that ship**
@@ -68,7 +72,7 @@ first published release remains under `Unreleased`.
 - `assemble.ico_bytes`/`icns_bytes` (and `ico_frames`/`icns_frames`) and
   `htmlhead.web_meta_files` return what the existing writers write;
   `rasterize.svg_text_from_bytes` validates an SVG already read.
-- The skill (plugin 0.9.0) teaches the plan, `plan-drift` and `ship --plan`.
+- The skill (plugin 0.9.1) teaches the plan, `plan-drift` and `ship --plan`.
 
 ## 0.7.0 - 2026-10-19
 
