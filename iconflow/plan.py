@@ -58,6 +58,7 @@ FILES_DIR = "files"
 MAX_MANIFEST_BYTES = 2 * 1024 * 1024
 MAX_PLAN_BYTES = 256 * 1024 * 1024
 MAX_PLAN_FILES = 512
+MAX_PLAN_DEPTH = 8
 MAX_PIXELS = 8192 * 8192
 #: Gate codes (exit 1): rendered pixels differ from the approved ones, or a
 #: saved plan cannot be published as the reviewed output.
@@ -378,6 +379,17 @@ def consumed_roles(targets, *, tray_svg, maskable_svg, monochrome_svg) -> set[st
     return roles
 
 
+def _file_identity(path) -> object:
+    """The same key for every path to one file (device and inode where the OS has them)."""
+    try:
+        status = os.stat(path)
+    except OSError:
+        return os.path.normcase(os.path.realpath(path))
+    if status.st_ino:
+        return (status.st_dev, status.st_ino)
+    return os.path.normcase(os.path.realpath(path))
+
+
 def compute_plan(master_svg: str | Path, targets=("web",), *,
                  name: str = "App", theme_color: str = "#0b0d12",
                  bg_color: str = "#ffffff", electron_radius: float = 0.0,
@@ -422,10 +434,11 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
     sources: dict[str, Source] = {}
 
     def take(path, role) -> Source:
-        # One snapshot per file, shared by every role that names it (a link
-        # that names the master is still a link: the default maskable scale
-        # depends on it, but the bytes are the master's).
-        key = os.path.normcase(os.path.realpath(path))
+        # One snapshot per file, shared by every role that names it — by file
+        # identity, so a symlink or a hard link to the same file is the same
+        # snapshot (a link that names the master is still a link: the default
+        # maskable scale depends on it, but the bytes are the master's).
+        key = _file_identity(path)
         if key not in by_file:
             by_file[key] = snapshot(path, role)
         sources[role] = by_file[key]
@@ -563,10 +576,10 @@ def write_plan(plan: RenderPlan, outdir: str | Path) -> list[str]:
     while not probe.exists():
         created.append(probe)
         probe = probe.parent
-    outdir.mkdir(parents=True, exist_ok=True)
     staging: Path | None = None
     keep_staging = False
     try:
+        outdir.mkdir(parents=True, exist_ok=True)
         staging = Path(tempfile.mkdtemp(prefix=".iconflow-staging-", dir=outdir))
         backups = staging / "backup"
         staged = staging / "new"
@@ -610,7 +623,9 @@ def write_plan(plan: RenderPlan, outdir: str | Path) -> list[str]:
             shutil.rmtree(staging, ignore_errors=True)
             staging = None
         if not keep_staging:
-            for directory in created:  # innermost first; only if still empty
+            for directory in created:  # innermost first; only those this run made
+                if not directory.exists():
+                    continue
                 try:
                     directory.rmdir()
                 except OSError:
@@ -622,17 +637,17 @@ def write_plan(plan: RenderPlan, outdir: str | Path) -> list[str]:
 
 
 def _is_export(directory: Path) -> bool:
-    """Whether ``directory`` holds exactly a previous plan export and nothing else."""
-    names = {entry.name for entry in directory.iterdir()}
-    if not names <= {MANIFEST_NAME, FILES_DIR}:
-        return False
-    if MANIFEST_NAME not in names:
-        return not names
+    """Whether ``directory`` is exactly a previous, intact plan export.
+
+    Ownership is proven the way an import proves a plan: every entry is one
+    the manifest names, with the bytes it records. Anything else — a note
+    beside the files, a stray file inside ``files/`` — and it is not ours.
+    """
     try:
-        manifest = json.loads((directory / MANIFEST_NAME).read_text(encoding="utf-8"))
-    except (OSError, UnicodeError, ValueError):
+        load_plan(directory)
+    except PlanError:
         return False
-    return isinstance(manifest, dict) and manifest.get("schema") == PLAN_SCHEMA
+    return True
 
 
 def export_plan(plan: RenderPlan, directory: str | Path) -> Path:
@@ -691,10 +706,6 @@ def _is_hex64(value) -> bool:
     return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
 
 
-def _walk_error(error: OSError) -> None:
-    raise PlanError(f"the plan cannot be read: {error}")
-
-
 def load_plan(directory: str | Path) -> RenderPlan:
     """Import a saved plan as a hostile artifact.
 
@@ -711,7 +722,12 @@ def load_plan(directory: str | Path) -> RenderPlan:
         raise PlanError(f"the plan is read through a link or junction ({link or directory})")
     if not directory.is_dir():
         raise PlanError(f"no saved plan at {directory}")
-    root_names = {entry.name for entry in directory.iterdir()}
+    root_names = set()
+    with os.scandir(directory) as listing:
+        for entry in listing:  # incremental: a huge directory stops at the third name
+            root_names.add(entry.name)
+            if len(root_names) > 2:
+                break
     if root_names != {MANIFEST_NAME, FILES_DIR}:
         raise PlanError(f"{directory} must hold exactly {MANIFEST_NAME} and {FILES_DIR}/; "
                         f"found: {', '.join(sorted(root_names)) or 'nothing'}")
@@ -747,16 +763,28 @@ def load_plan(directory: str | Path) -> RenderPlan:
 
     on_disk: set[str] = set()
     seen = 0
-    for root, dirs, names in os.walk(payload_root, followlinks=False, onerror=_walk_error):
-        for name in [*dirs, *names]:
-            seen += 1
-            if seen > 4 * MAX_PLAN_FILES:
-                raise PlanError("the plan holds far more entries than any icon set")
-            entry = Path(root) / name
-            if _is_link_or_reparse_point(entry):
-                raise PlanError(f"the plan contains a link or junction: {entry}")
-        for name in names:
-            on_disk.add((Path(root) / name).relative_to(payload_root).as_posix())
+    pending = [(payload_root, 0)]
+    while pending:
+        current, depth = pending.pop()
+        if depth > MAX_PLAN_DEPTH:
+            raise PlanError("the plan is nested deeper than any icon set")
+        try:
+            with os.scandir(current) as listing:
+                for entry in listing:  # incremental, so the bound holds while reading
+                    seen += 1
+                    if seen > 4 * MAX_PLAN_FILES:
+                        raise PlanError("the plan holds far more entries than any icon set")
+                    path = Path(entry.path)
+                    if _is_link_or_reparse_point(path):
+                        raise PlanError(f"the plan contains a link or junction: {path}")
+                    if entry.is_dir(follow_symlinks=False):
+                        pending.append((path, depth + 1))
+                    elif entry.is_file(follow_symlinks=False):
+                        on_disk.add(path.relative_to(payload_root).as_posix())
+                    else:
+                        raise PlanError(f"the plan contains something that is not a file: {path}")
+        except OSError as exc:
+            raise PlanError(f"the plan cannot be read: {exc}") from exc
 
     files: dict[str, bytes] = {}
     total = 0

@@ -134,6 +134,90 @@ class ExportTests(Fixture):
         self.assertEqual([p.name for p in self.root.iterdir() if p.name.startswith(".")], [])
 
 
+class SecondPassTests(Fixture):
+    """The verification pass: P04, P07, P09 and P12 completed; N01-N03."""
+
+    def test_P04_a_stray_file_inside_a_previous_export_is_never_deleted(self):
+        target = self.root / "plan"
+        export_plan(self.plan(), target)
+        (target / "files" / "private-notes.txt").write_text("mine", encoding="utf-8")
+        with self.assertRaisesRegex(PlanError, "not a saved plan"):
+            export_plan(self.plan(), target)
+        self.assertEqual((target / "files" / "private-notes.txt").read_text(encoding="utf-8"), "mine")
+
+    def test_P07_a_hard_link_is_the_same_snapshot(self):
+        linked = self.root / "tray.svg"
+        linked.write_text('<svg viewBox="0 0 10 10" id="tray-mark"></svg>', encoding="utf-8")
+        alias = self.root / "maskable.svg"
+        try:
+            os.link(linked, alias)
+        except (OSError, NotImplementedError):
+            self.skipTest("hard links unavailable")
+        with mock.patch.object(plan_module, "snapshot", wraps=plan_module.snapshot) as spy:
+            compute_plan(self.master, ["web", "tray"], tray_svg=linked, maskable_svg=alias,
+                         tray_template_mode="alpha")
+        self.assertEqual(spy.call_count, 2)
+
+    def test_P09_nesting_is_bounded(self):
+        target = self.root / "plan"
+        export_plan(self.plan(), target)
+        deep = target / "files"
+        for index in range(plan_module.MAX_PLAN_DEPTH + 2):
+            deep = deep / f"d{index}"
+        deep.mkdir(parents=True)
+        with self.assertRaisesRegex(PlanError, "deeper"):
+            load_plan(target)
+
+    def test_P12_a_failed_mkdir_leaves_no_ancestor_behind(self):
+        out = self.root / "a" / "b" / "c"
+        real = Path.mkdir
+
+        def half(path, *args, **kwargs):
+            if path == out:
+                real(self.root / "a", exist_ok=True)
+                raise OSError("disk full")
+            return real(path, *args, **kwargs)
+
+        with mock.patch.object(Path, "mkdir", half), self.assertRaises(OSError):
+            write_plan(self.plan(), out)
+        self.assertFalse((self.root / "a").exists())
+
+
+class PlateEdgeTests(unittest.TestCase):
+    def _png(self, draw_fn, ground=(25, 26, 32, 255)):
+        from PIL import ImageDraw
+
+        size = 256
+        image = Image.new("RGBA", (size, size), ground)
+        draw_fn(ImageDraw.Draw(image))
+        out = io.BytesIO()
+        image.save(out, "PNG")
+        return out.getvalue()
+
+    def test_N01_two_capsules_with_the_same_counter_are_different_marks(self):
+        from iconflow import qa
+
+        def capsule(horizontal):
+            def draw(d):
+                box = [38, 98, 218, 158] if horizontal else [98, 38, 158, 218]
+                d.rounded_rectangle(box, radius=26, fill=(255, 244, 232, 255))
+                d.ellipse([113, 113, 143, 143], fill=(25, 26, 32, 255))
+            return draw
+
+        found = qa.maskable_identity_findings(self._png(capsule(True)), self._png(capsule(False)),
+                                              source_label="maskable.svg")
+        self.assertEqual([f.code for f in found], ["maskable-drift"])
+
+    def test_N02_tiny_and_narrow_shapes_do_not_crash(self):
+        from iconflow import qa
+
+        tiny = self._png(lambda d: d.rectangle([127, 127, 128, 128], fill=(255, 255, 255, 255)))
+        narrow = self._png(lambda d: d.rectangle([120, 10, 120, 240], fill=(255, 255, 255, 255)))
+        for png in (tiny, narrow):
+            qa._figure_candidates(png)  # must not raise
+            qa.maskable_identity_findings(png, png, source_label="x")
+
+
 class ImportTests(Fixture):
     def saved(self):
         target = self.root / "plan"

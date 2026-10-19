@@ -438,9 +438,13 @@ _IDENTITY_GRID = 64
 
 
 
-#: An opaque region filling at least this share of its own box is a plate (a
-#: card or tile) rather than a silhouette: the mark is what is drawn on it.
+#: A plate (a card or tile) fills at least this share of its own box, spans
+#: at least _PLATE_SPAN of the canvas in both directions, and is close to
+#: square. A dense glyph — a capsule, a bar — fails the span or the aspect
+#: and stays a glyph, so its own outline is compared, never only its counter.
 _PLATE_FILL = 0.85
+_PLATE_SPAN = 0.6
+_PLATE_ASPECT = 1.25
 
 
 def _fitted(figure: Image.Image) -> tuple[Image.Image | None, float]:
@@ -506,7 +510,11 @@ def _on_plate(image: Image.Image) -> Image.Image | None:
     box = plate.getbbox()
     if not box or box == (0, 0, width, height):
         return None
-    area = (box[2] - box[0]) * (box[3] - box[1])
+    plate_w, plate_h = box[2] - box[0], box[3] - box[1]
+    if (plate_w < _PLATE_SPAN * width or plate_h < _PLATE_SPAN * height
+            or max(plate_w, plate_h) > _PLATE_ASPECT * min(plate_w, plate_h)):
+        return None
+    area = plate_w * plate_h
     if sum(1 for value in _pixels(plate.crop(box)) if value) / area < _PLATE_FILL:
         return None
     # Shrunk a little: the plate's antialiased edge is neither plate nor mark.
@@ -518,6 +526,8 @@ def _on_plate(image: Image.Image) -> Image.Image | None:
     # The plate's colour is the commonest colour along its own rim, which the
     # mark (inside the safe area) does not reach.
     rim = [cut.getpixel((x, y)) for x, y in _rim(cut.size) if inside.getpixel((x, y))]
+    if not (rim or pixels):
+        return None  # eroded away: too small to be a plate
     ground = max(set(rim or pixels), key=(rim or pixels).count)
     mark = Image.new("L", cut.size, 0)
     mark.putdata([
@@ -530,6 +540,8 @@ def _on_plate(image: Image.Image) -> Image.Image | None:
 def _rim(size: tuple[int, int]) -> list[tuple[int, int]]:
     """Points a little inside a box's edge, where a plate shows its own colour."""
     width, height = size
+    if width < 3 or height < 3:
+        return []
     inset = max(1, min(width, height) // 12)
     xs = range(inset, width - inset, max(1, width // 32))
     ys = range(inset, height - inset, max(1, height // 32))

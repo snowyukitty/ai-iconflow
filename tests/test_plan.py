@@ -211,9 +211,9 @@ class CompareTests(PlanTestCase):
 
 
 class ImportTests(PlanTestCase):
-    def saved(self):
+    def saved(self, name="plan"):
         plan = self.plan(targets=["web", "tauri"])
-        directory = self.root / "plan"
+        directory = self.root / name
         export_plan(plan, directory)
         return plan, directory
 
@@ -248,7 +248,7 @@ class ImportTests(PlanTestCase):
         (directory / "files" / "favicon.ico").unlink()
         with self.assertRaisesRegex(PlanError, "missing"):
             load_plan(directory)
-        _plan, directory = self.saved()
+        _plan, directory = self.saved("plan-2")  # the first was tampered with
         text = (directory / "plan.json").read_text(encoding="utf-8")
         (directory / "plan.json").write_text(text.replace('"schema": 1', '"schema": 1, "schema": 1', 1),
                                              encoding="utf-8")

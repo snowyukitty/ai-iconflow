@@ -336,7 +336,7 @@ def contact_sheet(master_svg: str | Path, out: str | Path, *,
     y += _CELL + 34
 
     # maskable previews — Android/adaptive crops and the minimum safe zone.
-    effective = resolve_maskable_scale(maskable_scale, linked=linked512 is not None)
+    effective = resolve_maskable_scale(maskable_scale, linked=maskable_svg is not None)
     composed_from = Path(maskable_svg).name if maskable_svg is not None else "master"
     d.text((_PAD, y),
            "maskable / adaptive preview — keep essential detail inside the 40% safe circle "
