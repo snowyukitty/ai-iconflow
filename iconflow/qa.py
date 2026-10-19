@@ -566,9 +566,13 @@ def maskable_identity_findings(
     compared by overlap and aspect.
     """
     best = None
-    for master, master_aspect in _figure_candidates(master_png):
-        for linked, linked_aspect in _figure_candidates(maskable_png):
-            if master is None or linked is None:
+    # Pairs: outline with outline, or one side's mark-on-plate with the other
+    # side's outline (a card master against the same mark full-bleed). Never
+    # mark-on-plate with mark-on-plate: two different glyphs that happen to
+    # share a counter would match on the counter alone.
+    for m_index, (master, master_aspect) in enumerate(_figure_candidates(master_png)):
+        for l_index, (linked, linked_aspect) in enumerate(_figure_candidates(maskable_png)):
+            if master is None or linked is None or (m_index and l_index):
                 continue
             iou = _mask_iou(master, linked)
             drift = (abs(math.log(linked_aspect / master_aspect))

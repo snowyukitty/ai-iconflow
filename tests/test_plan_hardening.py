@@ -145,6 +145,25 @@ class SecondPassTests(Fixture):
             export_plan(self.plan(), target)
         self.assertEqual((target / "files" / "private-notes.txt").read_text(encoding="utf-8"), "mine")
 
+    def test_P04_an_empty_folder_inside_a_previous_export_is_not_deleted(self):
+        target = self.root / "plan"
+        export_plan(self.plan(), target)
+        (target / "files" / "personal-folder").mkdir()
+        with self.assertRaisesRegex(PlanError, "not a saved plan"):
+            export_plan(self.plan(), target)
+        self.assertTrue((target / "files" / "personal-folder").is_dir())
+
+    def test_N04_a_deeply_nested_manifest_is_a_controlled_refusal(self):
+        target = self.root / "plan"
+        export_plan(self.plan(), target)
+        manifest = json.loads((target / "plan.json").read_text(encoding="utf-8"))
+        text = json.dumps(manifest)[:-1] + ', "x": ' + "[" * 100000 + "]" * 100000 + "}"
+        (target / "plan.json").write_text(text, encoding="utf-8")
+        with self.assertRaises(PlanError):
+            load_plan(target)
+        with self.assertRaisesRegex(PlanError, "not a saved plan"):
+            export_plan(self.plan(), target)
+
     def test_P07_a_hard_link_is_the_same_snapshot(self):
         linked = self.root / "tray.svg"
         linked.write_text('<svg viewBox="0 0 10 10" id="tray-mark"></svg>', encoding="utf-8")
@@ -206,6 +225,20 @@ class PlateEdgeTests(unittest.TestCase):
 
         found = qa.maskable_identity_findings(self._png(capsule(True)), self._png(capsule(False)),
                                               source_label="maskable.svg")
+        self.assertEqual([f.code for f in found], ["maskable-drift"])
+
+    def test_N01_near_square_glyphs_sharing_a_counter_are_different_marks(self):
+        from iconflow import qa
+
+        def rectangle(box):
+            def draw(d):
+                d.rectangle(box, fill=(255, 244, 232, 255))
+                d.ellipse([113, 113, 143, 143], fill=(25, 26, 32, 255))
+            return draw
+
+        found = qa.maskable_identity_findings(
+            self._png(rectangle([32, 48, 223, 207])), self._png(rectangle([48, 32, 207, 223])),
+            source_label="maskable.svg")
         self.assertEqual([f.code for f in found], ["maskable-drift"])
 
     def test_N02_tiny_and_narrow_shapes_do_not_crash(self):

@@ -742,8 +742,10 @@ def load_plan(directory: str | Path) -> RenderPlan:
         raise PlanError(f"{MANIFEST_NAME} is too large")
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"), object_pairs_hook=_no_duplicates)
-    except (UnicodeError, ValueError) as exc:
-        raise PlanError(f"unreadable {MANIFEST_NAME}: {exc}") from exc
+    except PlanError:
+        raise
+    except (UnicodeError, ValueError, RecursionError) as exc:
+        raise PlanError(f"unreadable {MANIFEST_NAME}: {type(exc).__name__}") from exc
     if not isinstance(manifest, dict) or manifest.get("schema") != PLAN_SCHEMA:
         raise PlanError(f"{MANIFEST_NAME} is not a schema-{PLAN_SCHEMA} plan")
     entries = manifest.get("files")
@@ -762,6 +764,7 @@ def load_plan(directory: str | Path) -> RenderPlan:
             raise PlanError(f"{MANIFEST_NAME} has a malformed {role!r} source record")
 
     on_disk: set[str] = set()
+    directories: set[str] = set()
     seen = 0
     pending = [(payload_root, 0)]
     while pending:
@@ -778,6 +781,7 @@ def load_plan(directory: str | Path) -> RenderPlan:
                     if _is_link_or_reparse_point(path):
                         raise PlanError(f"the plan contains a link or junction: {path}")
                     if entry.is_dir(follow_symlinks=False):
+                        directories.add(path.relative_to(payload_root).as_posix())
                         pending.append((path, depth + 1))
                     elif entry.is_file(follow_symlinks=False):
                         on_disk.add(path.relative_to(payload_root).as_posix())
@@ -813,6 +817,13 @@ def load_plan(directory: str | Path) -> RenderPlan:
     extra = sorted(on_disk - set(files))
     if extra:
         raise PlanError("the plan holds files its manifest does not name: " + ", ".join(extra[:5]))
+    # Directories too: only the ones the named files live in. An empty folder
+    # someone added is not part of the plan, and export must not delete it.
+    owned = {str(PurePosixPath(path).parents[index]) for path in files
+             for index in range(len(PurePosixPath(path).parents) - 1)}
+    stray = sorted(directories - owned)
+    if stray:
+        raise PlanError("the plan holds directories its manifest does not need: " + ", ".join(stray[:5]))
     plan = RenderPlan.create(files, inputs=inputs, parameters=manifest["parameters"],
                              toolchain=manifest["toolchain"])
     if (plan.digest != manifest.get("digest") or plan.artifact_digest != manifest.get("artifact_digest")
