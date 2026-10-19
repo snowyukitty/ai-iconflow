@@ -158,6 +158,7 @@ def verify(path: Path) -> None:
             "brand/iconflow.toml",
             "brand/master-review.json",
             "brand/master.svg",
+            "brand/maskable.svg",
             "brand/tray.svg",
             *(f"demo/{name}" for name in DEMO_FILES),
             "docs/STYLE_CATALOG.md",

@@ -154,7 +154,7 @@
       "narration": "",
       "speakerNotes": "A current receipt binds approval to the source.",
       "sourceData": "brand/master-review.json",
-      "sourceSha256": "d719f5911de7ed8cfbda0e47ef731396f0e6496e9046701f45eaae5fe88f116b",
+      "sourceSha256": "a891a6f7bfeb2e3cb81f146bb58c0c58bb30121a4fd043ba6d789cc6a2d7f36d",
       "capture": {
         "mode": "same-session-real-terminal",
         "requiredEvent": "passing iconflow ship",

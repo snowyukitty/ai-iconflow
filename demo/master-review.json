@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "master.svg",
   "source_sha256": "789de5f7ea1241c4e92939d968ad6cc7720af6549a058febac525b64cbae82d6",
-  "contract_sha256": "a0a9bc617f8b17087f08e43d0577f4d2261ffc1b54bf1c92cc1c9159b17a3627",
+  "contract_sha256": "d97024b95eea219afdecc47df2ed56f920185a941b88ac69351ccfd80ca5ce41",
   "project": "IconFlow",
   "user_job": "turn app intent into a proven, target-ready icon family",
   "essence": "gather",
@@ -26,7 +26,9 @@
     "electron_radius": 0.0,
     "tray_template_mode": "alpha",
     "color_scheme": "light",
-    "tray_source_sha256": "354c4061cc5f8170cacfe2239800748f7563fb9a5153bb2781e21a6a165397c3"
+    "tray_source_sha256": "354c4061cc5f8170cacfe2239800748f7563fb9a5153bb2781e21a6a165397c3",
+    "maskable_scale": 1.0,
+    "maskable_source_sha256": "c8bc14e1054274cfd688aa88a5961ba182a81a49e69c2a950e5e68a5557d84d1"
   },
   "warnings": [],
   "scores": {
@@ -37,6 +39,34 @@
     "scalability": 4,
     "craft": 4
   },
-  "notes": "Owner-selected temporary product mark. Static review and exact web, desktop, color-tray, and alpha-template targets preserve the low-eared pika, lagoon hay cove, and three carried petals. Interactive Review Lab was blocked by the established managed-browser runtime failure; the documented source-bound fallback was used. 2026-08-21: the tray source gained one broad transparent eye cut (L48) so the macOS alpha template keeps a face; exact 16/32px colour trays on white, gray, and dark and both templates were re-inspected; the mechanized tray-template audit reports no featureless template.",
-  "status": "ready"
+  "notes": "Re-review for the linked maskable source (2026-10-19): the card now fills Android and PWA launcher shapes instead of sitting inside a paper ring. Weakest: legibility at 16px (petals fuse). Master unchanged; scores carried from the owner's static review after re-reading every sheet. Deliberately not plan-bound: this receipt is shipped on every contributor's machine and by the packaged demo, where another renderer may differ by a pixel; a project that ships from one place should keep the plan (docs/RENDER_PLAN.md).",
+  "status": "ready",
+  "rationale": {
+    "legibility": "contact-sheet 16px zoom: one paper body with ears and the lagoon cove on graphite; petals fuse to a warm fleck, as before",
+    "distinctiveness": "the 256px visual silhouette names a pika carrying petals; no monogram, no generic tile glyph",
+    "balance": "targets.png maskable row: re-centred mark sits inside the 40% safe circle with even room in circle, squircle and rounded crops",
+    "color": "graphite field with paper, lagoon and three petal accents holds on light, dark and grey grounds on both sheets",
+    "scalability": "contact-sheet 16 to 256px: the same body-plus-petals idea at every size; master geometry unchanged",
+    "craft": "128/256px silhouette strips are clean; the maskable reuses the master paths exactly, only scale and field change"
+  },
+  "reviewer": {
+    "kind": "agent",
+    "name": "Claude Code (agent)",
+    "declared_at": "2026-10-19T00:27:19+00:00"
+  },
+  "toolchain": {
+    "iconflow": "0.7.0",
+    "chromium": "149.0.7827.55",
+    "pillow": "12.3.0"
+  },
+  "artifacts": {
+    "contact_sheet_sha256": "c7542f1384dac97fd74633b1e404caaf800ed0c71258ea69f7714287af898870",
+    "targets_sha256": "244ee596f8c3a90d04812fdb342e9c94e594e583b042b02bf06d01f81e24de50"
+  },
+  "review_surface": {
+    "kind": "headless-evidence",
+    "interactive_lab": false,
+    "findings_sha256": "6da547f1db80b4307630de012e81871e90a3aff0cacc13eb1c61ad97414886a6",
+    "note": "Scored from IconFlow's deterministic evidence sheets; the interactive Review Lab was not opened."
+  }
 }

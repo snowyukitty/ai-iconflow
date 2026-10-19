@@ -96,7 +96,7 @@ include-package-data = false
 # animation and its transcript are repository front-page assets, and half a
 # megabyte of GIF has no business inside a wheel that never displays it.
 "iconflow.resources.docs" = ["*.md", "assets/*.svg", "assets/*.png", "LICENSE"]
-"iconflow.resources.demo" = ["master.svg", "tray.svg", "iconflow.toml", "master-review.json"]
+"iconflow.resources.demo" = ["master.svg", "tray.svg", "maskable.svg", "iconflow.toml", "master-review.json"]
 "iconflow.resources.skill" = ["SKILL.md", "LICENSE", "agents/*.yaml"]
 # The neighbourhood: the plain collision-set forms and the content-addressed
 # index of fields. The house half of the index is fields only — a 16x16 grid

@@ -438,11 +438,12 @@ _IDENTITY_GRID = 64
 
 
 
-def _normalised_figure(png: bytes) -> tuple[Image.Image | None, float]:
-    """The figure cropped to its own box and fitted to a square grid, plus aspect."""
-    image = Image.open(io.BytesIO(png)).convert("RGBA")
-    figure = ladder.figure_mask(image, ladder.figure_policy(image))
-    figure = ImageChops.multiply(figure, image.getchannel("A").point(lambda a: 255 if a >= 24 else 0))
+#: An opaque region filling at least this share of its own box is a plate (a
+#: card or tile) rather than a silhouette: the mark is what is drawn on it.
+_PLATE_FILL = 0.85
+
+
+def _fitted(figure: Image.Image) -> tuple[Image.Image | None, float]:
     box = figure.getbbox()
     if not box:
         return None, 0.0
@@ -453,6 +454,87 @@ def _normalised_figure(png: bytes) -> tuple[Image.Image | None, float]:
     square.paste(figure.crop(box), ((side - width) // 2, (side - height) // 2))
     fitted = square.resize((_IDENTITY_GRID, _IDENTITY_GRID), Image.Resampling.BOX)
     return fitted.point(lambda v: 255 if v >= 128 else 0), width / height
+
+
+def _figure_of(image: Image.Image) -> Image.Image:
+    opaque = image.getchannel("A").point(lambda a: 255 if a >= 24 else 0)
+    return ImageChops.multiply(ladder.figure_mask(image, ladder.figure_policy(image)), opaque)
+
+
+def _normalised_figure(png: bytes) -> tuple[Image.Image | None, float]:
+    """The figure cropped to its own box and fitted to a square grid, plus aspect."""
+    return _figure_candidates(png)[0]
+
+
+def _figure_candidates(png: bytes) -> list[tuple[Image.Image | None, float]]:
+    """How the mark can be read: its figure and, on a plate, the mark drawn on it.
+
+    A card master's figure is the card; the same mark composed full-bleed for a
+    maskable crop has no card left, only the mark. Reading the mark *on* the
+    plate as well lets the two be compared like for like, and a different mark
+    on the same card still fails.
+    """
+    image = Image.open(io.BytesIO(png)).convert("RGBA")
+    candidates = [_fitted(_figure_of(image))]
+    plate = _on_plate(image)
+    if plate is not None:
+        candidates.append(_fitted(plate))
+    return candidates
+
+
+def _on_plate(image: Image.Image) -> Image.Image | None:
+    """The mark drawn on a plate, as a mask, or None when there is no plate.
+
+    "Outside" is what is connected to the canvas corners in their colour; the
+    plate is everything else. A mark whose ink matches the surround (paper
+    mark, paper margin) is still inside the plate, because it is not
+    connected to the corners. On the plate the mark is whatever is not the
+    plate's own colour — by area it may well be the majority (a large body on
+    a small card), so the minority rule the figure policy uses does not apply.
+    """
+    from PIL import ImageDraw
+
+    width, height = image.size
+    sentinel = (1, 254, 3, 7)
+    marked = image.copy()
+    for corner in ((0, 0), (width - 1, 0), (0, height - 1), (width - 1, height - 1)):
+        if marked.getpixel(corner) != sentinel:
+            ImageDraw.floodfill(marked, corner, sentinel, thresh=24)
+    outside = Image.new("L", image.size, 0)
+    outside.putdata([255 if pixel == sentinel else 0 for pixel in _pixels(marked)])
+    plate = ImageChops.invert(outside)
+    box = plate.getbbox()
+    if not box or box == (0, 0, width, height):
+        return None
+    area = (box[2] - box[0]) * (box[3] - box[1])
+    if sum(1 for value in _pixels(plate.crop(box)) if value) / area < _PLATE_FILL:
+        return None
+    # Shrunk a little: the plate's antialiased edge is neither plate nor mark.
+    from PIL import ImageFilter
+
+    inside = plate.filter(ImageFilter.MinFilter(5)).crop(box)
+    cut = image.crop(box)
+    pixels = [pixel for pixel, keep in zip(_pixels(cut), _pixels(inside)) if keep]
+    # The plate's colour is the commonest colour along its own rim, which the
+    # mark (inside the safe area) does not reach.
+    rim = [cut.getpixel((x, y)) for x, y in _rim(cut.size) if inside.getpixel((x, y))]
+    ground = max(set(rim or pixels), key=(rim or pixels).count)
+    mark = Image.new("L", cut.size, 0)
+    mark.putdata([
+        255 if keep and sum(abs(a - b) for a, b in zip(pixel[:3], ground[:3])) > 60 else 0
+        for pixel, keep in zip(_pixels(cut), _pixels(inside))
+    ])
+    return mark
+
+
+def _rim(size: tuple[int, int]) -> list[tuple[int, int]]:
+    """Points a little inside a box's edge, where a plate shows its own colour."""
+    width, height = size
+    inset = max(1, min(width, height) // 12)
+    xs = range(inset, width - inset, max(1, width // 32))
+    ys = range(inset, height - inset, max(1, height // 32))
+    return ([(x, inset) for x in xs] + [(x, height - 1 - inset) for x in xs]
+            + [(inset, y) for y in ys] + [(width - 1 - inset, y) for y in ys])
 
 
 def _mask_iou(a: Image.Image, b: Image.Image) -> float:
@@ -471,8 +553,17 @@ def maskable_identity_findings(
     are cropped to their own bounds, so scale and padding are free, and then
     compared by overlap and aspect.
     """
-    master, master_aspect = _normalised_figure(master_png)
-    linked, linked_aspect = _normalised_figure(maskable_png)
+    best = None
+    for master, master_aspect in _figure_candidates(master_png):
+        for linked, linked_aspect in _figure_candidates(maskable_png):
+            if master is None or linked is None:
+                continue
+            iou = _mask_iou(master, linked)
+            drift = (abs(math.log(linked_aspect / master_aspect))
+                     if master_aspect and linked_aspect else 0.0)
+            if best is None or (iou, -drift) > (best[0], -best[1]):
+                best = (iou, drift, master_aspect, linked_aspect)
+    master = linked = None if best is None else True
     if master is None or linked is None:
         return [Finding(
             "maskable-drift",
@@ -480,8 +571,7 @@ def maskable_identity_findings(
             f"{'the master' if master is None else source_label} has no visible figure "
             f"at {_IDENTITY_SIZE}px. Draw the master's mark in the maskable source.",
         )]
-    iou = _mask_iou(master, linked)
-    aspect_drift = abs(math.log(linked_aspect / master_aspect)) if master_aspect and linked_aspect else 0.0
+    iou, aspect_drift, master_aspect, linked_aspect = best
     if iou < MASKABLE_IDENTITY_IOU or aspect_drift > 0.15:
         return [Finding(
             "maskable-drift",

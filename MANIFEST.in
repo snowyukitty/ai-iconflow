@@ -2,8 +2,8 @@ recursive-include templates *.svg
 recursive-include docs *
 recursive-include scripts *.py *.ps1 *.sh
 recursive-include examples *.md
-include brand/master.svg brand/tray.svg brand/iconflow.toml brand/master-review.json
-include demo/master.svg demo/tray.svg demo/iconflow.toml demo/master-review.json
+include brand/master.svg brand/tray.svg brand/maskable.svg brand/iconflow.toml brand/master-review.json
+include demo/master.svg demo/tray.svg demo/maskable.svg demo/iconflow.toml demo/master-review.json
 include requirements.txt AGENTS.md
 recursive-include skills *.md *.yaml
 include skills/.claude-plugin/plugin.json .claude-plugin/marketplace.json

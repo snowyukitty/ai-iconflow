@@ -30,13 +30,17 @@ electron_radius = 0
 tray_ts = true
 tray_svg = "tray.svg"
 tray_template_mode = "alpha"
+# The card on a full-bleed field, for launchers that cut their own shape (2026-10-19).
+maskable_svg = "maskable.svg"
 color_scheme = "light"
 optimize_png = true
 
 [review]
 status = "approved"
 source_sha256 = "789de5f7ea1241c4e92939d968ad6cc7720af6549a058febac525b64cbae82d6"
-contract_sha256 = "a0a9bc617f8b17087f08e43d0577f4d2261ffc1b54bf1c92cc1c9159b17a3627"
+# Re-bound 2026-10-19 for the linked maskable source (the master is unchanged);
+# the re-review is master-review.json.
+contract_sha256 = "d97024b95eea219afdecc47df2ed56f920185a941b88ac69351ccfd80ca5ce41"
 # Review Lab receipt is preferred. For this manual fallback, set status to
 # "approved" and copy both reviewed hashes; `ship` requires every score >= 4.
 scores = {legibility = 4, distinctiveness = 5, balance = 4, color = 5, scalability = 4, craft = 4}
