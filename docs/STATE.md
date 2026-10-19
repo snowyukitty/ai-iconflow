@@ -7,7 +7,7 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-10-19 06:24 UTC.
+Observed 2026-10-19 10:22 UTC.
 
 `25 pass · 0 fail · 0 open gates · 0 unknown`
 
@@ -47,7 +47,7 @@ is worse than no tick at all.
 
 | | Check | Detail |
 |---|---|---|
-| `PASS` | PyPI carries this version | checkout is 0.8.0; PyPI latest is 0.8.0 (published) |
+| `PASS` | PyPI carries this version | checkout is 0.9.0; PyPI latest is 0.9.0 (published) |
 | `PASS` | PyPI first-proof copy is truthful | install and demo commands present; no stale pre-release warning |
 | `PASS` | Release attestations resolve | signed provenance for 2 artifacts |
 
@@ -59,7 +59,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `PASS` | Repository social preview is uploaded | custom Open Graph image set |
 | `PASS` | Discussions decision | enabled |
-| `PASS` | CI is green on main | latest main run: success (5a75311) |
+| `PASS` | CI is green on main | latest main run: success (3cb64e4) |
 
 ## Waiting on a person
 
