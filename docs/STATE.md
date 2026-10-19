@@ -7,9 +7,9 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-10-19 16:59 UTC.
+Observed 2026-10-19 17:55 UTC.
 
-`24 pass · 1 fail · 0 open gates · 0 unknown`
+`25 pass · 0 fail · 0 open gates · 0 unknown`
 
 An **open gate** is a decision waiting on a person, not a defect, and
 never fails this report. **Unknown** means a probe could not run: it is
@@ -36,7 +36,7 @@ is worse than no tick at all.
 | `PASS` | Live site serves current /robots.txt | byte-identical to the checkout |
 | `PASS` | Live site serves current /llms.txt | byte-identical to the checkout |
 | `PASS` | Live site serves current /sitemap.xml | byte-identical to the checkout |
-| `FAIL` | Live site serves current /reference/icon-sizes/ | deployed copy differs (repo cd78afba766a, live 8a9e6f9ae753) — redeploy |
+| `PASS` | Live site serves current /reference/icon-sizes/ | byte-identical to the checkout |
 | `PASS` | Live site serves current /reference/tray-icons/ | byte-identical to the checkout |
 | `PASS` | Live site serves current /forge/forge.js | byte-identical to the checkout |
 | `PASS` | Live site serves current /forge/model.js | byte-identical to the checkout |
@@ -47,7 +47,7 @@ is worse than no tick at all.
 
 | | Check | Detail |
 |---|---|---|
-| `PASS` | PyPI carries this version | checkout is 0.9.0; PyPI latest is 0.9.0 (published) |
+| `PASS` | PyPI carries this version | checkout is 0.10.0; PyPI latest is 0.10.0 (published) |
 | `PASS` | PyPI first-proof copy is truthful | install and demo commands present; no stale pre-release warning |
 | `PASS` | Release attestations resolve | signed provenance for 2 artifacts |
 
@@ -59,7 +59,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `PASS` | Repository social preview is uploaded | custom Open Graph image set |
 | `PASS` | Discussions decision | enabled |
-| `PASS` | CI is green on main | latest main run: success (f39e7ac) |
+| `PASS` | CI is green on main | latest main run: success (de3412e) |
 
 ## Waiting on a person
 
