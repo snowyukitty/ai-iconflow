@@ -6,6 +6,10 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
+Nothing yet.
+
+## 0.9.0 - 2026-10-19
+
 Milestone 0.9 (`docs/MILESTONE_v0.9.md`): what was audited is what was
 reviewed is what ships.
 
@@ -102,6 +106,8 @@ reviewed is what ships.
 - Website: emote downloads have accessible names ("Joy SVG", not 55 links
   called "SVG"); the emotes page links Icon sizes like the Forge; the Forge
   project kit's README gives the headless review path, not only the Lab.
+- The skill (plugin 0.9.3) names 0.9.0 and teaches `outputs.plan.audited`,
+  `outputs.receipt_sha256` and what a receipt does not prove.
 
 ## 0.8.0 - 2026-10-19
 

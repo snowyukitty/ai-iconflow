@@ -217,5 +217,6 @@ source a review reads was captured.
 
 ## Owner decisions
 
-1. **Release 0.9.0** — when the milestone is ready, on the owner's word.
+1. **Release 0.9.0** — ordered by the owner on 2026-10-19; released the same
+   way as 0.8.0 (`docs/LAUNCH_READINESS.md` records the run).
 2. **Merge the Atlas branch** `fix/iconflow-case-pointer` (still open from 0.8).

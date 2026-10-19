@@ -2,7 +2,7 @@
   "name": "iconflow",
   "displayName": "IconFlow",
   "description": "Design, review at 16px, and ship a distinctive icon family from one semantic SVG master — favicon, PWA, Tauri, Electron, Android, and tray, behind a fail-closed quality gate.",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "author": {
     "name": "snowyukitty",
     "url": "https://github.com/snowyukitty"
