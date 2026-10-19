@@ -85,10 +85,15 @@ class Layered:
         return None
 
     def render(self, text, size, bg="transparent"):
+        import re
+
         Layered.renders.append((self.color_scheme, size, "iconflow-background" in text))
         mark = (255, 244, 232, 255) if self.color_scheme == "light" else (200, 220, 255, 255)
-        image = Image.open(io.BytesIO(disc(size, mark)))
-        if "iconflow-background" in text:
+        # The layer proof switches painting off with an inline important opacity.
+        card_off = re.search(r'id="iconflow-background"[^>]*opacity:0 !important', text)
+        mark_off = re.search(r'<(?!rect id="iconflow-background")[^>]*opacity:0 !important', text)
+        image = Image.new("RGBA", (size, size)) if mark_off else Image.open(io.BytesIO(disc(size, mark)))
+        if "iconflow-background" in text and not card_off:
             # The card: inset like the house card, or the canvas once stretched.
             card = Image.new("RGBA", (size, size), (0, 0, 0, 0))
             inset = 0 if 'width="1024"' in text and 'x="0"' in text else max(1, size // 16)
@@ -202,6 +207,7 @@ class LayerTests(unittest.TestCase):
             "@layer statement": svg('<style>@layer icons; .m{x:1}</style>' + CARD + MARK),
             "@keyframes": svg('<style>@keyframes k { from { opacity: 0 } } .m{x:1}</style>'
                               + CARD + MARK),
+            "AA02 conditional processing": svg(CARD.replace("/>", ' requiredExtensions=""/>') + MARK),
             "@media inside @media": svg(
                 '<style>@media all { @media all { .m{x:1} } }</style>' + CARD + MARK),
             "Y01 comment markers in an unquoted url": svg(
@@ -1172,6 +1178,54 @@ class RealChromiumTests(unittest.TestCase):
                         '{.m{opacity:calc(sibling-index() / 4)}}</style>'
                         + CARD + MARK.replace("<circle", '<circle class="m"'))
         self.assertIn("dark scheme", self.refused(dark_only, ios_dark_svg=dark))
+
+    def test_AA01_a_foreground_that_changes_but_composites_the_same_is_refused(self):
+        white_card = CARD.replace("#191A20", "#FFFFFF")
+        grey = "calc(256 - 128 * sibling-index())"
+        compensating = svg(white_card + '<circle cx="512" cy="512" r="300" style="fill:rgb('
+                           f'{grey} {grey} {grey});opacity:calc(1.5 - sibling-index() / 2)"/>')
+        self.assertIn("depends on the background", self.refused(compensating))
+        # A half-transparent mark that reads nothing from the document is proven.
+        honest = svg(white_card + '<circle cx="512" cy="512" r="300" fill="#000000" '
+                     'fill-opacity="0.5"/>')
+        dark = ios._rgba(files_of(self.proven(honest))[ios.DARK])
+        self.assertLess(dark.getpixel((512, 512))[3], 200)  # the alpha the master has
+
+    def test_AA02_the_full_bleed_card_paints_no_inherited_stroke(self):
+        stroked = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" '
+                   'stroke="#ff0000" stroke-width="200">'
+                   + CARD.replace("/>", ' stroke="none"/>')
+                   + MARK.replace("/>", ' stroke="none"/>') + "</svg>")
+        light = ios._rgba(files_of(self.proven(stroked))[ios.LIGHT])
+        self.assertEqual(light.getpixel((50, 512))[:3], (25, 26, 32))  # the card, not red
+
+    def test_AA03_inherited_paint_server_context_is_kept(self):
+        literal = svg(CARD.replace('fill="#191A20"', 'fill="url(#g)"')
+                      + '<g><defs><linearGradient id="g"><stop offset="0" stop-color="#204060"/>'
+                      '</linearGradient></defs>' + MARK + '</g>')
+        current = svg(CARD.replace('fill="#191A20"', 'fill="url(#g)"')
+                      + '<g color="#204060"><defs><linearGradient id="g"><stop offset="0" '
+                      'stop-color="currentColor"/></linearGradient></defs>' + MARK + '</g>')
+        ancestor = svg('<style>g .s{stop-color:#204060}</style>'
+                       + CARD.replace('fill="#191A20"', 'fill="url(#g)"')
+                       + '<g><defs><linearGradient id="g"><stop class="s" offset="0"/>'
+                       '</linearGradient></defs>' + MARK + '</g>')
+        expected = ios._rgba(files_of(self.proven(literal))[ios.LIGHT]).tobytes()
+        for label, text in (("currentColor from the group", current),
+                            ("an ancestor selector", ancestor)):
+            with self.subTest(label):
+                light = files_of(self.proven(text))[ios.LIGHT]
+                self.assertEqual(ios._rgba(light).tobytes(), expected)
+
+    def test_AA04_both_schemes_are_proven_when_the_build_renders_dark(self):
+        light_only = svg('<style>@media (prefers-color-scheme: light)'
+                         '{.m{opacity:calc(sibling-index() / 4)}}</style>'
+                         + CARD + MARK.replace("<circle", '<circle class="m"'))
+        dark = write(self.dir, "dark.svg", svg('<circle cx="512" cy="512" r="200" fill="#fff"/>'))
+        for kwargs in ({}, {"ios_dark_svg": dark}):
+            with self.subTest(**{k: str(v) for k, v in kwargs.items()}):
+                self.assertIn("light scheme",
+                              self.refused(light_only, color_scheme="dark", **kwargs))
 
     def test_Z04_Z05_legitimate_paint_servers_are_proven(self):
         styled_stops = svg(

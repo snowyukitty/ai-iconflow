@@ -622,8 +622,10 @@ def ios_files(r, ios_plan, master_text: str, dark_text: str | None,
     needs_dark = "dark" in ios_plan.shipped
     with (ios.dark_renderer(r) if needs_dark else contextlib.nullcontext()) as dark_r:
         if mark_ships:
-            # Only once rendering proves the mark stands alone (Y01-Y03, Z01-Z06).
-            ios.prove_layers(master_text, r, dark_r)
+            # Only once rendering proves the mark stands alone (Y01-Y03, Z01-Z06),
+            # in each scheme by name: the build's own may be dark (AA04).
+            with ios.scheme_renderer(r, "light") as light_r:
+                ios.prove_layers(master_text, light_r, dark_r)
         light_text = ios.full_bleed(master_text) if ios_plan.declared else master_text
         light = b.RenderCache(light_text, r, optimize=False)
         if "dark" not in ios_plan.shipped:

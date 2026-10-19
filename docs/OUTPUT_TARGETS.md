@@ -343,9 +343,11 @@ meaning once it is removed or extended. Style the dark icon with a linked
 Rules are not the guarantee; rendering is. Whenever the master's mark ships
 on its own — as the dark icon, or as the Icon Composer layer — the Chromium
 that ships the pixels first proves it can stand alone: on the 1024 px rung, at
-1024 px, in the light and the dark scheme, the master must render as its card
-alone with its mark alone composited over it, up to rounding (no channel moves
-more than 4 levels). A mark that depends on its card in any way — blending with
+1024 px, in the light and the dark scheme, the mark IconFlow ships must equal
+the master's mark with the card still in the document but not painting (in
+full RGBA), and the master must equal its card painting alone with that mark
+composited over it — both up to rounding (no channel moves more than 4
+levels). A mark that depends on its card in any way — blending with
 it (`mix-blend-mode`), a CSS function that reads the document
 (`sibling-index()`), a motion path along it — fails the build. The fixes: ship
 the light icon alone (`ios_variants = "system"`, which never separates the

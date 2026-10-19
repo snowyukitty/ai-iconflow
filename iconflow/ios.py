@@ -92,7 +92,9 @@ _SHAPES = {"rect", "circle", "ellipse", "path", "polygon"}
 #: Attributes that change how the background paints; a background carrying
 #: one cannot be extended (or removed) as a plain fill without changing it.
 _REFUSED_ATTRS = ("transform", "filter", "mask", "clip-path", "opacity",
-                  "fill-opacity", "style", "class", "data-lod", "display", "visibility")
+                  "fill-opacity", "style", "class", "data-lod", "display", "visibility",
+                  # Conditional processing decides whether the card draws at all (AA02).
+                  "requiredExtensions", "requiredFeatures", "systemLanguage")
 _URL_RE = re.compile(r"^url\(\s*#([^)\s]+)\s*\)$")
 _GRADIENTS = {"linearGradient", "radialGradient"}
 
@@ -388,6 +390,9 @@ def _derive(svg_text: str, replace: bool) -> str:
         root.insert(index, ET.Element(f"{{{SVG_NS}}}rect", {
             "id": BACKGROUND_ID, "x": f"{x:g}", "y": f"{y:g}",
             "width": f"{width:g}", "height": f"{height:g}", "fill": background.get("fill"),
+            # Explicit, so a stroke inherited from an ancestor cannot reappear
+            # on the full-bleed card (AA02).
+            "stroke": "none",
         }))
     return ET.tostring(root, encoding="unicode")
 
@@ -410,55 +415,39 @@ def mark_only(svg_text: str) -> str:
     return _derive(svg_text, replace=False)
 
 
-#: Elements that draw. The proof removes them (but the background) to draw the
-#: card alone, hoisting what they hold that only supports drawing (Z05).
+#: Elements that draw; the proof switches their painting off, never removes them.
 _RENDERED = {"rect", "circle", "ellipse", "line", "polyline", "polygon", "path", "text",
              "image", "use", "g", "switch", "foreignObject", "a", "svg"}
-_SUPPORTING = {"defs", "linearGradient", "radialGradient", "pattern", "clipPath", "mask",
-               "filter", "marker", "symbol", "style", "solidcolor"}
 #: The layer proof, made on exactly what ships: the master reduced to the
-#: 1024 px rung, rendered at 1024 px in each scheme it ships in (Z01). The
-#: layers must recompose the master up to rounding: no pixel's channel may
-#: move by more than PROOF_DELTA (Z02). Every declared master in the
-#: repository recomposes within 2 levels, on Windows and Linux alike; a
-#: dependency moves pixels by 8 levels (an opacity change of 1/32) and up.
+#: 1024 px rung, rendered at 1024 px in both schemes (Z01, AA04). Renders must
+#: agree up to rounding: no pixel's channel may move by more than PROOF_DELTA
+#: (Z02). Every declared master in the repository agrees within 2 levels, on
+#: Windows and Linux alike; a dependency moves pixels by 8 levels (an opacity
+#: change of 1/32) and up.
 PROOF_DELTA = 4
+#: Inline and important: no stylesheet rule can switch the painting back on.
+_INVISIBLE = "opacity:0 !important"
 
 
-def _supporting(element: ET.Element) -> list[ET.Element]:
-    """The outermost supporting elements inside ``element``."""
-    found: list[ET.Element] = []
-    for child in element:
-        if _local(child.tag) in _SUPPORTING:
-            found.append(child)
-        else:
-            found.extend(_supporting(child))
-    return found
+def _painting_only(svg_text: str, *, card: bool) -> str:
+    """The master's document unchanged, painting only the card (``card=True``)
+    or everything but the card.
 
-
-def _background_alone(svg_text: str) -> str:
-    """The document with nothing drawn but its declared background.
-
-    A removed element's definitions (a gradient the card uses, defined inside
-    a group) are kept in a ``<defs>`` where the element stood, so the card
-    still paints as it does in the master (Z05).
+    Nothing is removed or moved -- sibling positions, ancestors, inherited
+    paint and every definition stay where the master has them (AA01, AA03);
+    only painting is switched off, with an inline important opacity.
     """
     root = _parse(svg_text)
-    for child in list(root):
-        if _local(child.tag) in _RENDERED and child.get("id") != BACKGROUND_ID:
-            index = list(root).index(child)
-            kept = _supporting(child)
-            root.remove(child)
-            if kept:
-                defs = ET.Element(f"{{{SVG_NS}}}defs")
-                defs.extend(kept)
-                root.insert(index, defs)
+    for child in root:
+        if _local(child.tag) in _RENDERED and (child.get("id") == BACKGROUND_ID) != card:
+            style = (child.get("style") or "").strip().rstrip(";")
+            child.set("style", f"{style};{_INVISIBLE}" if style else _INVISIBLE)
     return ET.tostring(root, encoding="unicode")
 
 
-def _worst_change(a: bytes, b: Image.Image) -> tuple[int, int]:
+def _worst_change(a: bytes, b: bytes | Image.Image) -> tuple[int, int]:
     """(largest channel difference, pixels beyond PROOF_DELTA) between two renders."""
-    difference = ImageChops.difference(_rgba(a), b)
+    difference = ImageChops.difference(_rgba(a), b if isinstance(b, Image.Image) else _rgba(b))
     worst = max(high for _, high in difference.getextrema())
     if worst <= PROOF_DELTA:
         return worst, 0
@@ -472,34 +461,38 @@ def _worst_change(a: bytes, b: Image.Image) -> tuple[int, int]:
 def prove_layers(svg_text: str, light, dark) -> None:
     """Prove, by rendering, that the mark does not depend on the background.
 
-    What can make the mark depend on its card is open-ended — a stylesheet,
+    What can make the mark depend on its card is open-ended -- a stylesheet,
     a CSS function that reads the document's structure (``sibling-index()``),
-    a motion path along the card, blending with it — so instead of
-    enumerating syntax, the Chromium that ships the pixels checks the fact
-    every mark-derived file relies on: the master renders as its card alone
-    with its mark alone composited over it, in the light and the dark
-    scheme, at 1024 px on the 1024 px rung (Y01-Y03, Z01-Z03, Z06).
+    a motion path along the card, blending with it -- so instead of
+    enumerating syntax, the Chromium that ships the pixels checks two facts,
+    in the light and the dark scheme, at 1024 px on the 1024 px rung:
 
-    Called whenever the master's mark ships on its own — as the dark icon or
-    as the Icon Composer layer. The light icon alone (``ios_variants =
-    "system"``) never separates the mark from the card, so it needs no
-    proof. The card's extension needs none either: no permitted selector can
-    reach the replacement ``rect`` (bare ``rect`` and the background id are
-    refused, and it has no class), and it inherits exactly what the card did
-    (Z04).
+    * **structure** -- the mark IconFlow ships (the card removed from the
+      document) is, pixel for pixel and in alpha, the master's mark with the
+      card still in the document but not painting (AA01);
+    * **interaction** -- the master is its card painting alone with that mark
+      composited over it: nothing blends with, or otherwise reads, the card.
 
+    Called whenever the master's mark ships on its own -- as the dark icon or
+    as the Icon Composer layer (Z03, Z06); the light icon alone never
+    separates them. ``light`` and ``dark`` must render in those schemes.
     Raises :class:`LayerError`.
     """
     svg_text = ladder.reduce_svg(svg_text, ladder.rung_for_size(SIZE))
-    alone, mark = _background_alone(svg_text), mark_only(svg_text)
+    card_alone = _painting_only(svg_text, card=True)
+    mark_in_place = _painting_only(svg_text, card=False)
+    shipped = mark_only(svg_text)
     for renderer, scheme in ((light, "light"), (dark, "dark")):
-        layered = _rgba(renderer.render(alone, SIZE))
-        layered.alpha_composite(_rgba(renderer.render(mark, SIZE)))
-        worst, changed = _worst_change(renderer.render(svg_text, SIZE), layered)
+        reference = renderer.render(mark_in_place, SIZE)
+        worst, changed = _worst_change(renderer.render(shipped, SIZE), reference)
+        if not changed:
+            layered = _rgba(renderer.render(card_alone, SIZE))
+            layered.alpha_composite(_rgba(reference))
+            worst, changed = _worst_change(renderer.render(svg_text, SIZE), layered)
         if changed:
             raise LayerError(
                 f"the mark depends on the background: drawn without it ({scheme} scheme) "
-                f"{changed} pixels change by up to {worst} levels — blending with the card, "
+                f"{changed} pixels change by up to {worst} levels -- blending with the card, "
                 "a stylesheet or a CSS function that reads the document can do this. Ship "
                 'the light icon alone (build.ios_variants = "system"), or remove '
                 'id="iconflow-background" and link build.ios_dark_svg')
@@ -903,12 +896,17 @@ def findings(metrics: dict, plan: Plan) -> tuple[list[Finding], list[Finding]]:
 # --------------------------------------------------------------- rendering
 
 @contextlib.contextmanager
-def dark_renderer(rasterizer):
-    """A renderer in the dark scheme beside ``rasterizer``, never a second driver."""
+def scheme_renderer(rasterizer, scheme: str):
+    """A renderer in ``scheme`` beside ``rasterizer``, never a second driver."""
     from .session import scheme_sibling
 
-    with scheme_sibling(rasterizer, "dark") as dark:
-        yield dark
+    with scheme_sibling(rasterizer, scheme) as renderer:
+        yield renderer
+
+
+def dark_renderer(rasterizer):
+    """A renderer in the dark scheme beside ``rasterizer``."""
+    return scheme_renderer(rasterizer, "dark")
 
 
 # ------------------------------------------------------------------ preview

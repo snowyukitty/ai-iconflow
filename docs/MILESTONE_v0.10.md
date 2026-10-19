@@ -243,6 +243,19 @@ which 48 declare a background) finds no declared master refused.
    On the previous code every Z regression fails; all 47 declared masters
    are still proven.
 
+6. **Sixth verification**: **REQUEST_CHANGES**, 4 findings (AA01–AA04);
+   Z01–Z03 confirmed closed.
+
+| # | Finding | Resolution |
+|---|---|---|
+| AA01 | composite equality over one opaque card cannot determine the foreground: a mark that is half-transparent black with the card and opaque grey without it (via `sibling-index()`) composites to the same grey on a white card, yet ships the wrong dark and tinted icons | the proof's references now keep the master's document unchanged and only switch painting off (inline `opacity:0 !important`, which no stylesheet can override). Two facts per scheme: the shipped mark equals the master with its card in place but not painting, in full RGBA; and the master equals its card painting alone with that mark composited over it |
+| AA02 | the Z04 argument missed attributes dropped by the replacement: an inherited stroke reappears; `requiredExtensions` switches the card off | the replacement carries `stroke="none"`; conditional-processing attributes are refused on the card |
+| AA03 | hoisting definitions out of a group lost their inherited context (`currentColor`, ancestor selectors) | nothing is moved any more (AA01's references), so every definition keeps its place |
+| AA04 | a dark build passed its own renderer as the "light" one | both schemes are named explicitly (`ios.scheme_renderer`) |
+
+   On the previous code every AA regression fails; all 47 declared masters
+   are proven on Windows and in a Linux Playwright container.
+
 ## Verification
 
 - Suite: 655 tests (`tests/test_ios.py` adds 70) on Python 3.14 and 3.10;
