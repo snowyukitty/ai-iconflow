@@ -293,6 +293,18 @@ which 48 declare a background) finds no declared master refused.
    its "full bleed" is cut to the mark. On the previous code every AC
    regression fails; all 47 declared masters are proven on Windows and Linux.
 
+9. **Ninth verification**: **REQUEST_CHANGES**, 3 findings (AD01–AD03, all
+   medium); AC01–AC04 confirmed closed.
+
+| # | Finding | Resolution |
+|---|---|---|
+| AD01 | the card was checked by local name, so a foreign `<p:rect>` — which paints nothing — became a real SVG card at full bleed | the card and its gradient must be SVG-namespace elements |
+| AD02 | replacing a hidden group's inline style dropped a `color` its gradient inherits (a false refusal) | the element's declarations are kept; comments are stripped and the override appended, so a misread value can only refuse |
+| AD03 | the extension proof compared the card with its literal fill, refusing a legitimate root filter | it compares the extended card with the card as the master paints it: opaque everywhere, one colour for a solid fill, and that colour wherever the original card is |
+
+   On the previous code every AD regression fails; all 47 declared masters
+   are proven on Windows and Linux.
+
 ## Verification
 
 - Suite: 655 tests (`tests/test_ios.py` adds 70) on Python 3.14 and 3.10;

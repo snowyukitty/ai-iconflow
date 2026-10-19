@@ -188,6 +188,10 @@ def resolve(svg_text: str) -> Layers:
         # an animation inside the card would vanish with it (AB02).
         raise LayerError(f'id="{BACKGROUND_ID}" must be one empty shape (text-only title, '
                          f'desc or metadata aside); it holds <{extra[0]}> with content')
+    if background.tag != f"{{{SVG_NS}}}{name}":
+        # A foreign element named like a shape paints nothing; replacing it
+        # with an SVG rect would invent a card (AD01).
+        raise LayerError(f'id="{BACKGROUND_ID}" must be an SVG element, not <{background.tag}>')
     if name not in _SHAPES:
         raise LayerError(f'id="{BACKGROUND_ID}" must be one shape ('
                          + ", ".join(sorted(_SHAPES)) + f"), not <{name}>")
@@ -201,7 +205,8 @@ def resolve(svg_text: str) -> Layers:
     match = _URL_RE.match(fill)
     if match:
         target = [e for e in root.iter() if e.get("id") == match.group(1)]
-        if len(target) != 1 or _local(target[0].tag) not in _GRADIENTS:
+        if (len(target) != 1 or _local(target[0].tag) not in _GRADIENTS
+                or not target[0].tag.startswith(f"{{{SVG_NS}}}")):
             raise LayerError(f'id="{BACKGROUND_ID}" fill {fill} must name one '
                              "linearGradient or radialGradient in the master")
     else:
@@ -457,10 +462,13 @@ def _painting_only(svg_text: str, *, card: bool) -> str:
     root = _parse(svg_text)
     for child in root:
         if _local(child.tag) in _RENDERED and (child.get("id") == BACKGROUND_ID) != card:
-            # Replaced, not appended to: an element that paints nothing needs no
-            # other declaration, and an unclosed comment in the old value could
-            # swallow an appended one (AB04).
-            child.set("style", _INVISIBLE)
+            # The element's own declarations stay (a group's color may feed a
+            # gradient inside it, AD02); comments go first, so an unclosed one
+            # cannot swallow the override (AB04). A value this misreads can
+            # only make the proof refuse, never pass.
+            style = re.sub(r"/\*.*?(?:\*/|$)", "", child.get("style") or "", flags=re.S)
+            style = style.strip().rstrip(";")
+            child.set("style", f"{style};{_INVISIBLE}" if style else _INVISIBLE)
     return ET.tostring(root, encoding="unicode")
 
 
@@ -518,15 +526,16 @@ def prove_layers(svg_text: str, light, dark) -> None:
 
 
 def prove_extension(svg_text: str, renderer) -> None:
-    """Prove, by rendering, that the full-bleed card is the card's own fill.
+    """Prove, by rendering, that the full-bleed card is the card, extended.
 
     The light icon of every declared master is the master with its card
     stretched to the canvas. Painting alone, in the scheme the build renders
     in, on the 1024 px rung, the stretched card must cover the whole canvas
-    opaquely and — for a solid fill — be that colour everywhere, whatever a
-    stylesheet, a lost attribute or the geometry did (AC02-AC04). A gradient
-    fill is re-mapped onto the canvas by design, so only its coverage is
-    proven.
+    opaquely; and for a solid fill it must be one colour, the colour the
+    master's own card shows wherever that card is opaque -- whatever a
+    stylesheet, a lost attribute, the geometry or a filter around it does
+    (AC02-AC04, AD03). A gradient is re-mapped onto the canvas by design, so
+    only its coverage is proven.
     """
     svg_text = ladder.reduce_svg(svg_text, ladder.rung_for_size(SIZE))
     layers = resolve(svg_text)
@@ -535,14 +544,19 @@ def prove_extension(svg_text: str, renderer) -> None:
     if lowest_alpha < 255 - PROOF_DELTA:
         raise LayerError("the full-bleed card does not cover the canvas (its lowest alpha is "
                          f"{lowest_alpha}); the light icon would show background_color through it")
-    solid = counter_colour(layers.fill)
-    if solid is not None:
-        flat = Image.new("RGBA", card.size, (*solid, 255))
-        worst, changed = _worst_change(_encode(card), flat)
-        if changed:
-            raise LayerError(
-                f"the full-bleed card is not its fill {layers.fill}: {changed} pixels differ by "
-                f"up to {worst} levels -- something repaints the card once it is extended")
+    if counter_colour(layers.fill) is None:
+        return
+    spread = max(high - low for low, high in card.getextrema()[:3])
+    original = _rgba(renderer.render(_painting_only(svg_text, card=True), SIZE))
+    inside = original.getchannel("A").point(lambda v: 255 if v >= 255 - PROOF_DELTA else 0)
+    difference = ImageChops.difference(card, original).convert("RGB")
+    worst = max(high for _, high in ImageChops.multiply(
+        difference, Image.merge("RGB", (inside, inside, inside))).getextrema())
+    if spread > 2 * PROOF_DELTA or worst > PROOF_DELTA:
+        raise LayerError(
+            f"the full-bleed card is not the card's own paint {layers.fill} extended "
+            f"(it varies by {spread} levels, and differs from the card by up to {worst} "
+            "where the card is) -- something repaints the card once it is extended")
 
 
 def composer_svg(svg_text: str) -> str:

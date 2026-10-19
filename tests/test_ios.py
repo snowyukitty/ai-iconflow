@@ -230,6 +230,11 @@ class LayerTests(unittest.TestCase):
             "AC03 an XHTML stylesheet": svg(
                 '<h:style xmlns:h="http://www.w3.org/1999/xhtml">rect{fill:#ff0000}</h:style>'
                 + CARD + MARK),
+            "AD01 a foreign element named like a shape": svg(
+                CARD.replace("<rect ", '<p:rect xmlns:p="urn:private" ') + MARK),
+            "AD01 a foreign gradient": svg(
+                '<defs><p:linearGradient xmlns:p="urn:private" id="g"/></defs>'
+                + CARD.replace('fill="#191A20"', 'fill="url(#g)"') + MARK),
             "AC03 a linked stylesheet": svg(
                 '<h:link xmlns:h="http://www.w3.org/1999/xhtml" rel="stylesheet" href="a.css"/>'
                 + CARD + MARK),
@@ -1248,7 +1253,9 @@ class RealChromiumTests(unittest.TestCase):
                        + '<g><defs><linearGradient id="g"><stop class="s" offset="0"/>'
                        '</linearGradient></defs>' + MARK + '</g>')
         expected = ios._rgba(files_of(self.proven(literal))[ios.LIGHT]).tobytes()
+        styled = current.replace('<g color="#204060">', '<g style="color:#204060">')
         for label, text in (("currentColor from the group", current),
+                            ("currentColor from the group's inline style (AD02)", styled),
                             ("an ancestor selector", ancestor)):
             with self.subTest(label):
                 light = files_of(self.proven(text))[ios.LIGHT]
@@ -1324,8 +1331,24 @@ class RealChromiumTests(unittest.TestCase):
         with mock.patch.object(ios, "_check_stylesheets"):
             for variants in ("auto", "system"):
                 with self.subTest(repainted=variants):
-                    self.assertIn("is not its fill",
+                    self.assertIn("is not the card's own paint",
                                   self.refused(repainted, ios_variants=variants))
+
+    def test_AD03_a_root_filter_around_a_full_bleed_card_is_proven(self):
+        swapped = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" '
+                   'filter="url(#swap)"><defs><filter id="swap" filterUnits="userSpaceOnUse" x="0" '
+                   'y="0" width="1024" height="1024" color-interpolation-filters="sRGB">'
+                   '<feColorMatrix type="matrix" values="0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0"/>'
+                   '</filter></defs><rect id="iconflow-background" width="1024" height="1024" '
+                   'fill="#ff0000"/><rect x="300" y="300" width="424" height="424" '
+                   'fill="#ffffff"/></svg>')
+        control = svg('<rect id="iconflow-background" width="1024" height="1024" fill="#0000ff"/>'
+                      '<rect x="300" y="300" width="424" height="424" fill="#ffffff"/>')
+        expected = ios._rgba(files_of(self.proven(control))[ios.LIGHT]).tobytes()
+        for variants in ("auto", "system"):
+            with self.subTest(variants=variants):
+                light = files_of(self.proven(swapped, ios_variants=variants))[ios.LIGHT]
+                self.assertEqual(ios._rgba(light).tobytes(), expected)
 
     def test_Z04_Z05_legitimate_paint_servers_are_proven(self):
         styled_stops = svg(
