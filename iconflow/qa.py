@@ -445,6 +445,10 @@ _IDENTITY_GRID = 64
 _PLATE_FILL = 0.85
 _PLATE_SPAN = 0.6
 _PLATE_ASPECT = 1.25
+#: What is drawn on a card spans most of it; a glyph's counter does not. A
+#: "mark" under this share of the plate in either direction is read as a
+#: counter, and the shape is compared by its outline only (as in 0.7).
+_PLATE_MARK_SPAN = 0.5
 
 
 def _fitted(figure: Image.Image) -> tuple[Image.Image | None, float]:
@@ -534,6 +538,10 @@ def _on_plate(image: Image.Image) -> Image.Image | None:
         255 if keep and sum(abs(a - b) for a, b in zip(pixel[:3], ground[:3])) > 60 else 0
         for pixel, keep in zip(_pixels(cut), _pixels(inside))
     ])
+    drawn = mark.getbbox()
+    if (not drawn or drawn[2] - drawn[0] < _PLATE_MARK_SPAN * cut.width
+            or drawn[3] - drawn[1] < _PLATE_MARK_SPAN * cut.height):
+        return None  # a counter in a glyph, not a mark on a card
     return mark
 
 

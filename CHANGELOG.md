@@ -46,8 +46,11 @@ first published release remains under `Unreleased`.
 - **`maskable-drift` refused a correct maskable source for a card master.** A
   card master's figure is its card; the same mark composed full-bleed has no
   card, so 0.7 compared a card with a mark. The check now also reads the mark
-  drawn on a plate — a near-square shape spanning most of the canvas — while
-  a different mark, or two glyphs that share only a counter, still fail.
+  drawn on a plate — a near-square shape spanning most of the canvas, whose
+  mark spans at least half of it — and compares it only with the other
+  side's outline. A different mark still fails, including a glyph's counter
+  against a standalone shape of the same form (regressions in
+  `tests/test_plan_hardening.py` and `tests/test_maskable_identity.py`).
 
 ### IconFlow's own brand
 

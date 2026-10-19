@@ -70,12 +70,24 @@ All by `codex:default` (`gpt-6-astra`), sealed and read-only through ATD.
    size instead of by slot, and more. All fixed with regressions
    (`tests/test_plan_hardening.py`, P01–P13).
 3. **Verification**: nine fixed, four partial, three new (the worst: two
-   glyphs sharing only a counter matched as one mark). All closed.
-4. **Second verification**: see the end of this section.
+   glyphs sharing only a counter matched as one mark).
+4. **Second verification**: four of seven fixed; the counter case survived
+   for near-square glyphs, an empty unowned folder could still be deleted by
+   export, and a deeply nested `plan.json` escaped as a crash.
+5. **Third verification**: the folder and the nesting fixed; one more
+   counter path (a glyph's counter against a standalone disk) and an
+   overstated README line. Both changed: a plate's mark must span half the
+   plate, and the README states that the pixel guarantee applies to
+   plan-bound receipts.
+
+Each pass's findings carry a regression test named after them. The final
+state of the identity rule is deliberately conservative: when it cannot tell
+a card from a glyph, it compares outlines only, which can refuse a correct
+maskable source but cannot approve a different mark through a counter.
 
 ## Verification
 
-- `python -m unittest discover -s tests`: 513 tests, 33 skipped, on Python
+- `python -m unittest discover -s tests`: 517 tests, 33 skipped, on Python
   3.14 and 3.10, with Chromium and with Chromium hidden (as CI's unit jobs
   run).
 - Byte identity: `build()` before and after the refactor wrote the same 93
