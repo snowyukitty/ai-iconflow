@@ -329,7 +329,9 @@ class Rasterizer:
             context.route("**/*", lambda route: route.abort("blockedbyclient"))
             page = context.new_page()
         except Exception:
-            context.close()
+            # The initialization error is the diagnosis (V2-R08).
+            with contextlib.suppress(Exception):
+                context.close()
             raise
         return context, page
 

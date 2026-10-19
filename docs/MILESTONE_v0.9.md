@@ -170,6 +170,12 @@ second voice, weighed below it, through sealed read-only ATD consults.
    | N01 | emote rows could clip in a narrow card | rows wrap; checked in a browser at 360 and 1280 px (six images at native size, none clipped) — a manual check, not a test |
    | N02 | a plan failing the completeness check broke the gate order | checked in ship's deferred plan phase: `plan-replay` after a clean audit, `qa-warnings` first |
 
+4. **Second verification**: nine of the ten fixed; one partial and one new,
+   both closed with mutation-checked regressions (`FinalVerificationTests`):
+   a page that failed to open could still lose its error to the context's own
+   cleanup (V2-R08), and a partial web plan with a linked source skipped the
+   linked render its fallback then needed (N03).
+
 ## Verification
 
 - Built bytes: 156 files across five configurations, identical to a `v0.8.0`
@@ -178,9 +184,14 @@ second voice, weighed below it, through sealed read-only ATD consults.
 - Audit parity under real Chromium: findings and metrics identical with and
   without the plan in five configurations, two of them with warnings.
 - Real flows: demo; Lab review → export (with a reviewer) → ship; headless
-  review → score → ship → `ship --plan`; the Forge kit's README sequence from
-  a clean project, including its placeholder reasons failing in one line.
-- Suite: 583 tests (`tests/test_audit_on_plan.py` adds 64), on Python 3.14
+  review → score → ship → `ship --plan` (rendered and replayed builds byte
+  for byte equal) on the demo family, an emote-only project with an unused
+  linked source, a laddered web/Tauri project, and web/Android/tray with one
+  file as tray and monochrome source; the Forge kit's README sequence from a
+  clean project, including its placeholder reasons failing in one line. An
+  Android project with the demo's linked maskable source is refused by the
+  identity check at 165 px — exactly as 0.8.0 refuses it.
+- Suite: 585 tests (`tests/test_audit_on_plan.py` adds 66), on Python 3.14
   and 3.10; its Chromium tests run with `ICONFLOW_BROWSER_TESTS=1`.
 - What is a test and what is a measurement: the byte baseline, the parity
   table and the render counts were measured by scripts against real Chromium

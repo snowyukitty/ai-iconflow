@@ -1110,6 +1110,54 @@ class VerificationPassTests(CommandFixture):
         self.assertEqual(sorted(calls), ["tauri", "web"])
 
 
+class FinalVerificationTests(unittest.TestCase):
+    """Regressions for the second verification pass."""
+
+    def setUp(self):
+        reset_disc()
+
+    def test_V2_R08_a_page_that_fails_to_open_keeps_its_own_error(self):
+        class Context:
+            def route(self, *_args):
+                return None
+
+            def new_page(self):
+                raise RuntimeError("page initialization failed")
+
+            def close(self):
+                raise RuntimeError("context close failed")
+
+        class Browser:
+            def new_context(self, **_kwargs):
+                return Context()
+
+        host = RealRasterizer()
+        host._browser = Browser()
+        borrower = RealRasterizer("dark", share=host)
+        with self.assertRaisesRegex(RuntimeError, "page initialization failed"):
+            borrower.__enter__()
+
+    def test_N03_a_partial_web_plan_with_a_linked_source_still_draws_the_lab(self):
+        from iconflow.review import ReviewOptions, interactive_review
+
+        with tempfile.TemporaryDirectory() as tmp:
+            master = Path(tmp) / "master.svg"
+            linked = Path(tmp) / "maskable.svg"
+            master.write_bytes(MASTER.encode("utf-8"))
+            linked.write_bytes(MASTER.replace("400", "460").encode("utf-8"))
+            with RenderSession(factory=Disc) as session:
+                full = compute_plan(master, ["web"], maskable_svg=linked,
+                                    rasterizer=session.rasterizer("light"))
+                partial = RenderPlan.create(
+                    {f.path: f.data for f in full.files if f.path != "apple-touch-icon.png"},
+                    inputs=full.inputs, parameters=full.parameters, toolchain={})
+                out = interactive_review(
+                    master, Path(tmp) / "lab.html", plan=partial,
+                    options=ReviewOptions(name="Disc", targets=("web",), maskable_svg=linked),
+                    rasterizer=session.rasterizer("light"))
+            self.assertIn("Apple touch icon", out.read_text(encoding="utf-8"))
+
+
 class LazySurfaceTests(unittest.TestCase):
     def test_R10_an_emote_target_sheet_from_a_complete_plan_renders_nothing(self):
         from iconflow.headless import target_sheet

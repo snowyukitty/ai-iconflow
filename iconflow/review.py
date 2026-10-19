@@ -481,6 +481,7 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
 
     source = ladder.RungSource(svg)
     shipped_scheme = options.color_scheme if options.color_scheme in ("light", "dark") else "light"
+    web_keys = ("apple-touch-icon.png", "icon-192.png", "icon-512.png", "icon-512-maskable.png")
     # In the scheme the build renders, the plan's own frames are taken first
     # and only the sizes it does not ship are rendered (0.9: before, every
     # size was rendered and then replaced).
@@ -500,8 +501,10 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
                 # Only the 512 px maskable composition reads it (R10), and in the
                 # shipped scheme a plan that ships that composition needs none.
                 linked_renders = linked_renders or {}
+                # Skipped only when every web asset is planned: a partial plan
+                # falls back to computing the group, which needs it (N03).
                 planned_maskable = (plan is not None and scheme == shipped_scheme
-                                    and plan.get("icon-512-maskable.png") is not None)
+                                    and all(plan.get(key) is not None for key in web_keys))
                 linked_renders[scheme] = {} if planned_maskable else {
                     512: linked_source.render(r, 512)}
             tray_renders[scheme] = (
@@ -534,7 +537,6 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             return found
         return {**compute(), **found}
 
-    web_keys = ("apple-touch-icon.png", "icon-192.png", "icon-512.png", "icon-512-maskable.png")
     web_assets = {
         scheme: plan_first(scheme, web_keys, lambda scheme=scheme: preview_assets(
             caches[scheme], "web", bg_color=options.background_color,
