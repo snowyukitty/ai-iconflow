@@ -328,8 +328,10 @@ The declared background must be **one shape** (`rect`, `circle`, `ellipse`,
 `path` or `polygon`), a **direct child** of `<svg>`, the **first painted**
 element, painted by a plain `fill` (an opaque colour, or a `linearGradient` /
 `radialGradient` in the master) with no `transform`, `filter`, `mask`,
-`clip-path`, `opacity`, `fill-opacity`, `style`, `class` or `data-lod`, and
-nothing may refer to it. A declaration outside that subset fails the build
+`clip-path`, `opacity`, `fill-opacity`, `style`, `class`, `data-lod`,
+`display` or `visibility`, and nothing may refer to it. A stylesheet may select
+by id or class only: a rule naming the background's element type, or using
+siblings, position, attributes or `*`, could repaint it once it is removed. A declaration outside that subset fails the build
 with the rule it broke; it never falls back silently. Geometry is never
 guessed: an untagged master ships the **light icon alone** (flattened onto
 `background_color`) and iOS derives dark and tinted, with an advisory saying
@@ -358,6 +360,8 @@ Tinted is then derived from it.
 | `ios-dark-empty` | blocks | the dark layer covers under 2% of the canvas |
 | `ios-dark-contrast` | blocks | under 50% of the mark reaches 3:1 against iOS's dark ground (≈ `#1C1C1E`); pixels in the declared card colour are cuts and are not counted |
 | `ios-tinted-faint` | blocks | the tinted mark's mean luminance is under 96/255 |
+| `ios-underivable` | blocks | the declared layer cannot be honoured (the build fails with the same rule) |
+| `ios-tinted-merge` | advisory | two large, clearly different colours become one grey in the tinted icon |
 | `ios-variants-system` | advisory | dark and tinted are left to iOS |
 | `ios-light-flattened` | advisory | no declared layer: the light icon is the master on `background_color` |
 

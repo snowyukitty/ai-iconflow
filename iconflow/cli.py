@@ -577,6 +577,14 @@ def _cmd_ship(a) -> Report:
             # any other, never a crash in the middle of the audit (N02).
             try:
                 audit_evidence(plan)
+                if inputs.ios_audited:
+                    from .audit import check_ios_plan, ios_sources
+
+                    def captured(role):
+                        source = everything.get(role)
+                        return source.text if source is not None else None
+
+                    check_ios_plan(plan, inputs, *ios_sources(inputs, captured))
             except PlanError as exc:
                 plan_failure = ("warn", GATE_PLAN_REPLAY,
                                 f"the plan cannot be published as reviewed: {exc}")
@@ -1246,8 +1254,9 @@ def _trusted_evidence(config, options, seed) -> dict:
                            ios_dark_svg=kwargs["ios_dark_svg"],
                            ios_variants=kwargs["ios_variants"])
     build = seed["build"]
-    return {
-        "audit": resolve_inputs(config=config).describe(),
+    inputs = resolve_inputs(config=config)
+    trusted = {
+        "audit": inputs.describe(),
         "roles": {role: (seed["source_sha256"] if role == "master"
                          else build.get(f"{role}_source_sha256")) for role in roles},
         "parameters": plan_parameters(
@@ -1259,6 +1268,11 @@ def _trusted_evidence(config, options, seed) -> dict:
             ios_variants=kwargs["ios_variants"],
         ),
     }
+    if inputs.ios_audited:
+        # What the current master and settings make, for score to hold the
+        # saved plan's iOS set to (R02, R03).
+        trusted["ios_inputs"] = inputs
+    return trusted
 
 
 def _prior_review_current(config) -> bool:

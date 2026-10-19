@@ -89,7 +89,7 @@ the regression that proves each is named after it in `tests/test_ios.py`.
 | C-F05 | copying `fill` loses transforms, CSS, effects, inheritance | a strict supported subset; anything else is a `LayerError` naming the rule |
 | C-F06 | references to the background break the mark | any `href`/`url()` to it, or a stylesheet selecting it, is refused |
 | C-F07 | removing a light card does not make a dark design | linked `ios_dark_svg` and `ios_variants = "system"` ship now; contrast measured as legible share of the mark (a bright dot cannot rescue it); dark rendered in the dark scheme |
-| C-F08 | min–max normalisation is unstable and can erase identity | dropped: one composite over black, then luminance; `ios-tinted-faint` gates a faint result |
+| C-F08 | min–max normalisation is unstable and can erase identity | dropped: one composite over black, then luminance; `ios-tinted-faint` gates a faint result; colours that merge into one grey are advised (R10) — partly closed: a merge is reported, not gated |
 | C-F09 | ladder rungs could differ between audit, export and ship | the audit reads the shipped 1024 px files; `mark.svg` is reduced to the 1024 rung |
 | C-F10 | pixel identity cannot see PNG modes; RGB conversion is not flattening | `validate_files` on build, audit and import; light composited before dropping alpha |
 | C-F11 | completeness and plan-bound approval | `audit_ios` validates the set; the audit refuses a plan whose appearances contradict the policy; an `ios` ship needs a plan-bound approval |
@@ -115,9 +115,31 @@ more exposed than the master's own `favicon.svg`, which IconFlow has shipped
 verbatim since 0.5. A sanitiser for republishing arbitrary SVG remains out of
 scope, as `README.md` already says.
 
+## Implementation review
+
+Same route, on the code: **REQUEST_CHANGES**, 13 findings (R01–R13),
+confidence 0.96. All taken; each regression is named after its finding and
+was run against the pre-fix code, where it fails (R13 excepted, below).
+
+| # | Finding | Resolution |
+|---|---|---|
+| R01 | a stylesheet (`circle{fill:red}` on a circle card, `rect + circle{…}`) or `display`/`visibility` could repaint or re-mean the artwork once the background is removed or extended | `display`/`visibility` refused on the background; stylesheet rules may select by id or class only — a rule naming the background's element type, or using siblings, position, negation, attributes or `*`, is refused; `@media` blocks are read like any other |
+| R02 | `score` inherited 0.9's allowance for evidence without provenance | an iOS review must carry its saved plan and plan-bound provenance; `load_plan` validates every imported iOS set |
+| R03 | nothing compared a plan's iOS set with what the trusted master and settings make | `audit.check_ios_plan`: appearances, `ios_variants`, background, dark-source hash and every text file, used by the audit, `ship` and `score` |
+| R04 | an imported `mark.svg` was never validated | validated as SVG and held to `check`'s active/external-content rule, and compared with the master's own derivation |
+| R05 | an unused `ios_dark_svg` was still read (and could break) non-iOS reviews | captured only when consumed |
+| R06 | moving a project made linked-dark evidence stale | `ios_dark_source` compared by name, like the other linked sources |
+| R07 | an iOS failure inside the audit became exit 2 and hid QA warnings | an underivable set is the gating finding `ios-underivable`; a replayed set the inputs contradict is a deferred `plan-replay` |
+| R08 | Pillow decodes 2- and 4-bit grey as `L` | the PNG header's bit depth and colour type are checked, and `tRNS`/`acTL` refused |
+| R09 | contrast was judged on uncomposited RGB | each pixel is composited onto the dark ground before it is judged |
+| R10 | colours that become one grey were not reported (C-F08's structure loss) | advisory `ios-tinted-merge` names the pair; it does not gate, since only a person knows whether the difference carries the mark |
+| R11 | the square regression was vacuous; C-F15/C-F17 had none | a renderer that really draws a square, with the mixed selection asserted; regressions for the Composer layer on import, the README's promises and the 0.9 contract keys |
+| R12 | an Expo `platforms` list excluding iOS was ignored | an explicit list decides |
+| R13 | `exists()` misses a dangling link at a known iOS path | already refused before this check: 0.8's output-tree validation rejects any link in the output folder (shown by mutation); `lexists` added, and the regression pins the refusal |
+
 ## Verification
 
-- Suite: 630 tests (`tests/test_ios.py` adds 45) on Python 3.14 and 3.10;
+- Suite: 645 tests (`tests/test_ios.py` adds 60) on Python 3.14 and 3.10;
   ruff clean; real-Chromium classes pass (`ICONFLOW_BROWSER_TESTS=1`).
 - Built bytes: 156 files across the five 0.9 configurations identical to a
   `v0.9.0` checkout, through `build()` and through the session `ship` uses.
@@ -149,7 +171,10 @@ The usual run (`docs/RELEASING.md`), plus, because `ios` is not on PyPI yet:
    and re-render the reference page;
 2. drop the "on `main` until it reaches PyPI" qualifiers in `README.md`;
 3. teach the skill the `ios` target and move the plugin version;
-4. deploy the site only after PyPI carries 0.10.0.
+4. Getting started: replace the "Mobile scope" line (it says iOS is not a
+   target) and add an iOS output card, in all five languages
+   (`website/i18n/*.json`, `scripts/build_i18n.py`);
+5. deploy the site only after PyPI carries 0.10.0.
 
 ## Owner decisions
 

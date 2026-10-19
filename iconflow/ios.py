@@ -80,13 +80,24 @@ MIN_MARK_COVERAGE = 0.02
 #: Mean luminance (0-255) the tinted image's mark must keep: iOS tints by
 #: luminance, so a dark mark disappears into the tint's dark ground.
 TINTED_MIN_MEAN = 96
+#: Two colours that each cover this share of the mark, differ by at least
+#: MERGE_RGB in RGB, but land within MERGE_GREY grey levels, are one tone in
+#: the tinted icon (R10): advised, since only a person knows if it matters.
+MERGE_SHARE = 0.03
+MERGE_RGB = 80
+MERGE_GREY = 16
 
 _NON_PAINT = {"title", "desc", "defs", "style", "metadata"}
 _SHAPES = {"rect", "circle", "ellipse", "path", "polygon"}
 #: Attributes that change how the background paints; a background carrying
 #: one cannot be extended (or removed) as a plain fill without changing it.
 _REFUSED_ATTRS = ("transform", "filter", "mask", "clip-path", "opacity",
-                  "fill-opacity", "style", "class", "data-lod")
+                  "fill-opacity", "style", "class", "data-lod", "display", "visibility")
+#: Selector syntax whose match can change when one element disappears or is
+#: replaced: siblings, position, negation, attributes, everything (R01).
+_STRUCTURAL_SELECTOR = re.compile(
+    r"[+~*\[]|:(?:nth-|first-|last-|only-|not\(|has\(|is\(|where\(|empty|root)")
+_CSS_COMMENT = re.compile(r"/\*.*?\*/", re.S)
 _URL_RE = re.compile(r"^url\(\s*#([^)\s]+)\s*\)$")
 _GRADIENTS = {"linearGradient", "radialGradient"}
 
@@ -202,11 +213,33 @@ def resolve(svg_text: str) -> Layers:
                                        or f"url({reference})" in value.replace(" ", "")):
                 raise LayerError(f"<{_local(element.tag)} {_local(attr)}> refers to the "
                                  "background; the mark must not depend on it")
-    for style in root.iter(f"{{{SVG_NS}}}style"):
-        if BACKGROUND_ID in "".join(style.itertext()):
-            raise LayerError(f"a stylesheet selects #{BACKGROUND_ID}; the background "
-                             "must paint with its fill attribute alone")
+    _check_stylesheets(root, name)
     return Layers(declared=True, fill=fill)
+
+
+def _check_stylesheets(root: ET.Element, tag: str) -> None:
+    """Refuse a stylesheet that could paint the background or depend on it.
+
+    A rule may select by id or class (neither can reach the background, which
+    has neither but its own id); a rule that selects the background's element
+    type, or by sibling, position, attribute or ``*``, could repaint it or
+    change meaning once it is removed or replaced (R01).
+    """
+    type_selector = re.compile(rf"(?:^|[\s>]){re.escape(tag)}(?![\w-])", re.I)
+    for style in root.iter(f"{{{SVG_NS}}}style"):
+        css = _CSS_COMMENT.sub("", "".join(style.itertext()))
+        for header in re.findall(r"([^{}]+)\{", css):
+            header = header.strip()
+            if not header or header.startswith("@"):
+                continue
+            for selector in header.split(","):
+                selector = selector.strip()
+                if (BACKGROUND_ID in selector or _STRUCTURAL_SELECTOR.search(selector)
+                        or type_selector.search(selector)):
+                    raise LayerError(
+                        f"the stylesheet rule '{selector}' could paint the background or "
+                        f"depend on it; with id=\"{BACKGROUND_ID}\" declared, select by "
+                        "id or class only")
 
 
 def _derive(svg_text: str, replace: bool) -> str:
@@ -363,6 +396,17 @@ def plan_for(master_text: str, *, variants: str, linked: bool) -> Plan:
     return Plan(shipped, layers.declared, linked, layers.fill, layers.hint)
 
 
+def texts(plan: Plan, master_text: str) -> dict[str, bytes]:
+    """The iOS text files a build writes for this plan: one definition for
+    the build and for every check of a plan made elsewhere (R03, R04)."""
+    composer = plan.declared and plan.shipped != ("light",)
+    out = {CONTENTS: contents_json(plan.shipped)}
+    if composer:
+        out[COMPOSER_MARK] = composer_svg(master_text).encode("utf-8")
+    out[README] = readme(plan.shipped, fill=plan.fill, composer=composer)
+    return out
+
+
 def files(light_cache, dark_cache, plan: Plan, *, master_text: str,
           bg_color: str) -> dict[str, bytes]:
     """Every iOS file, by relative path, in the order a build writes them.
@@ -372,26 +416,57 @@ def files(light_cache, dark_cache, plan: Plan, *, master_text: str,
     source (the master's mark, or the linked ``ios_dark_svg``) in the dark
     scheme. Only the 1024 px rung is rendered.
     """
-    out = {CONTENTS: contents_json(plan.shipped),
-           LIGHT: light_png(light_cache.png(SIZE), bg_color)}
+    text = texts(plan, master_text)
+    out = {CONTENTS: text[CONTENTS], LIGHT: light_png(light_cache.png(SIZE), bg_color)}
     if "dark" in plan.shipped:
         out[DARK] = dark_png(dark_cache.png(SIZE))
         out[TINTED] = tinted_png(out[DARK])
-    composer = plan.declared and plan.shipped != ("light",)
-    if composer:
-        out[COMPOSER_MARK] = composer_svg(master_text).encode("utf-8")
-    out[README] = readme(plan.shipped, fill=plan.fill, composer=composer)
+    out.update({path: data for path, data in text.items() if path != CONTENTS})
     validate_files(out, plan.shipped)
     return out
 
 
 # ---------------------------------------------------------------- validation
 
-def _png(path: str, payload: bytes | None) -> Image.Image:
+#: (bit depth, colour type) of each appearance's IHDR, and whether a tRNS
+#: chunk may appear: Pillow decodes 2- and 4-bit grey as ``L``, so the mode
+#: alone does not prove the encoding (R08).
+_ENCODING = {"light": (8, 2, False), "dark": (8, 6, False), "tinted": (8, 0, False)}
+_ENCODING_NAME = {2: "8-bit RGB", 6: "8-bit RGBA", 0: "8-bit grayscale"}
+
+
+def _header(payload: bytes) -> tuple[int, int, set[bytes]]:
+    """(bit depth, colour type, chunk types) read from the PNG bytes themselves."""
+    if len(payload) < 33 or payload[12:16] != b"IHDR":
+        raise ValueError("no IHDR chunk")
+    chunks: set[bytes] = set()
+    offset = 8
+    while offset + 8 <= len(payload):
+        length = int.from_bytes(payload[offset:offset + 4], "big")
+        kind = payload[offset + 4:offset + 8]
+        chunks.add(kind)
+        if kind == b"IEND":
+            break
+        offset += 12 + length
+    return payload[24], payload[25], chunks
+
+
+def _png(path: str, payload: bytes | None, appearance: str | None = None) -> Image.Image:
     if payload is None:
         raise ValueError(f"{path} is missing")
     if payload[:8] != b"\x89PNG\r\n\x1a\n":
         raise ValueError(f"{path} is not a PNG")
+    if appearance is not None:
+        try:
+            depth, colour, chunks = _header(payload)
+        except ValueError as exc:
+            raise ValueError(f"{path}: {exc}") from exc
+        want_depth, want_colour, _ = _ENCODING[appearance]
+        if (depth, colour) != (want_depth, want_colour):
+            raise ValueError(f"{path} must be encoded {_ENCODING_NAME[want_colour]} "
+                             f"(bit depth {depth}, colour type {colour} found)")
+        if b"tRNS" in chunks or b"acTL" in chunks:
+            raise ValueError(f"{path} must carry no transparency chunk and no animation")
     try:
         image = Image.open(io.BytesIO(payload))
         image.load()
@@ -421,16 +496,16 @@ def validate_files(files: Mapping[str, bytes], shipped: tuple[str, ...]) -> None
                          + (f"; unexpected {', '.join(extra)}" if extra else ""))
     if files[CONTENTS] != contents_json(shipped):
         raise ValueError(f"{CONTENTS} does not list exactly the {', '.join(shipped)} appearance(s)")
-    light = _png(LIGHT, files.get(LIGHT))
+    light = _png(LIGHT, files.get(LIGHT), "light")
     if light.mode != "RGB" or "transparency" in light.info:
         raise ValueError(f"{LIGHT} must be opaque RGB (Apple rejects an app icon with alpha); "
                          f"it is {light.mode}")
     if "dark" in shipped:
-        dark = _png(DARK, files.get(DARK))
+        dark = _png(DARK, files.get(DARK), "dark")
         if dark.mode != "RGBA" or dark.getchannel("A").getextrema()[0] == 255:
             raise ValueError(f"{DARK} must be RGBA with a transparent background "
                              "(iOS draws the dark ground through it)")
-        tinted = _png(TINTED, files.get(TINTED))
+        tinted = _png(TINTED, files.get(TINTED), "tinted")
         if tinted.mode != "L" or "transparency" in tinted.info:
             raise ValueError(f"{TINTED} must be opaque 8-bit grayscale; it is {tinted.mode}")
 
@@ -477,21 +552,26 @@ def measure(files: Mapping[str, bytes], shipped: tuple[str, ...], *,
     ground = DARK_GROUND
     cache: dict = {}
     legible = cuts = 0
-    # Count by colour: a 1024² icon has few distinct colours, so this is exact and quick.
-    for count, (r, g, b, a) in dark.getcolors(SIZE * SIZE) or ():
+    colours = dark.getcolors(SIZE * SIZE) or ()
+    # Count by colour: a 1024² icon has few distinct colours, so this is exact
+    # and quick. A pixel is judged as it is seen: composited onto the dark
+    # ground, so a half-transparent grey is as dark as it looks (R09).
+    for count, (r, g, b, a) in colours:
         if a < 128:
             continue
-        key = (r, g, b)
+        key = (r, g, b, a)
         if key not in cache:
             if counter is not None and all(abs(x - y) <= COUNTER_TOLERANCE
-                                           for x, y in zip(key, counter)):
+                                           for x, y in zip(key[:3], counter)):
                 cache[key] = "cut"
             else:
-                cache[key] = _contrast(key, ground) >= DARK_CONTRAST
+                seen = tuple(round((c * a + q * (255 - a)) / 255) for c, q in zip(key, ground))
+                cache[key] = _contrast(seen, ground) >= DARK_CONTRAST
         if cache[key] == "cut":
             cuts += count
         elif cache[key]:
             legible += count
+    metrics["tinted_merged"] = _merged(colours, opaque)
     drawn = opaque - cuts
     metrics["dark_counter_share"] = round(cuts / opaque, 4) if opaque else 0.0
     metrics["dark_legible_share"] = round(legible / drawn, 4) if drawn else 0.0
@@ -500,6 +580,25 @@ def measure(files: Mapping[str, bytes], shipped: tuple[str, ...], *,
     metrics["tinted_mean"] = (round(ImageStat.Stat(tinted, mask).mean[0], 1)
                               if opaque else 0.0)
     return metrics
+
+
+def _grey(rgb) -> int:
+    r, g, b = rgb[:3]
+    return round((r * 299 + g * 587 + b * 114) / 1000)
+
+
+def _merged(colours, opaque: int) -> list[list[str]]:
+    """Pairs of large, clearly different colours that become one grey."""
+    large = [(count, rgba[:3]) for count, rgba in colours
+             if rgba[3] >= 250 and opaque and count / opaque >= MERGE_SHARE]
+    large.sort(reverse=True)
+    pairs = []
+    for i, (_, a) in enumerate(large[:8]):
+        for _, b in large[i + 1:8]:
+            distance = sum((x - y) ** 2 for x, y in zip(a, b)) ** 0.5
+            if distance >= MERGE_RGB and abs(_grey(a) - _grey(b)) < MERGE_GREY:
+                pairs.append(["#%02X%02X%02X" % a, "#%02X%02X%02X" % b])
+    return pairs
 
 
 def findings(metrics: dict, plan: Plan) -> tuple[list[Finding], list[Finding]]:
@@ -522,6 +621,11 @@ def findings(metrics: dict, plan: Plan) -> tuple[list[Finding], list[Finding]]:
                     f"{source} reaches {DARK_CONTRAST:g}:1 against the dark home screen "
                     f"(needs {DARK_LEGIBLE_SHARE:.0%}); {fix}, or set "
                     'build.ios_variants = "system".')))
+            for a, b in metrics.get("tinted_merged", ()):
+                advisories.append(Finding("ios-tinted-merge", (
+                    f"iOS tinted icon: {a} and {b} become the same grey, so the tinted "
+                    "icon cannot tell them apart; if that difference carries the mark, "
+                    f"{fix}, or set build.ios_variants = \"system\".")))
             if metrics.get("tinted_mean", 0) < TINTED_MIN_MEAN:
                 warnings.append(Finding("ios-tinted-faint", (
                     f"iOS tinted icon: the mark's mean luminance is "

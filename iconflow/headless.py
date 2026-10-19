@@ -449,11 +449,33 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
             _check_audit_inputs(findings, expected["audit"])
         findings["_audited"] = _check_provenance(
             findings, saved, audit_inputs=(expected or {}).get("audit"))
+        if expected is not None and expected.get("ios_inputs") is not None:
+            _check_ios_evidence(findings, saved, expected["ios_inputs"])
     except (TypeError, AttributeError, KeyError) as exc:
         # A record of the wrong shape is malformed evidence, not a crash (R06).
         raise HeadlessError(f"{path} is malformed ({exc}); re-run `iconflow review --evidence`") from exc
     findings["_sha256"] = hashlib.sha256(raw).hexdigest()
     return findings
+
+
+def _check_ios_evidence(findings: dict, saved, inputs) -> None:
+    """An iOS review is scored only on its own plan, audited (0.10, R02/R03).
+
+    Evidence from before 0.10 cannot hold an iOS target, so none of 0.9's
+    allowances for older evidence apply: the saved plan and its plan-bound
+    provenance are required, and the plan's iOS set must be exactly what the
+    current master and settings make.
+    """
+    from .audit import check_ios_plan, ios_sources
+    from .plan import PlanError
+
+    if saved is None or not findings.get("_audited"):
+        raise HeadlessError("an iOS review must carry its render plan and an audit on it; "
+                            "re-run `iconflow review --evidence`")
+    try:
+        check_ios_plan(saved, inputs, *ios_sources(inputs, lambda role: None))
+    except PlanError as exc:
+        raise HeadlessError(f"the saved render plan's iOS app icon: {exc}") from exc
 
 
 def _check_shapes(findings: dict, path: Path) -> None:
@@ -476,7 +498,7 @@ def _check_shapes(findings: dict, path: Path) -> None:
                     raise bad(f"a {key[:-1]} record")
 
 
-_PATH_KEYS = ("maskable_source", "tray_source")
+_PATH_KEYS = ("maskable_source", "tray_source", "ios_dark_source")
 
 
 def _comparable(inputs: dict) -> dict:

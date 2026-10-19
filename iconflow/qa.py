@@ -46,7 +46,9 @@ _CODE_PATTERNS: tuple[tuple[str, str], ...] = (
     (r"previous marks sit within the collision radius", "neighbour-house-rut"),
     (r"^iOS dark icon: .* paints almost nothing", "ios-dark-empty"),
     (r"^iOS dark icon: only", "ios-dark-contrast"),
+    (r"^iOS tinted icon: .* become the same grey", "ios-tinted-merge"),
     (r"^iOS tinted icon:", "ios-tinted-faint"),
+    (r"^iOS app icon cannot be built", "ios-underivable"),
 )
 
 

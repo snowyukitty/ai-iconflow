@@ -29,8 +29,9 @@ icon they make possible.
 - `build.ios_dark_svg` (a linked source drawn for the dark screen, captured,
   hashed and replayed like `maskable_svg`) and `build.ios_variants`
   (`"auto"` | `"system"`), with `iconflow build --ios-dark-svg/--ios-variants`.
-- Audit codes `ios-dark-empty`, `ios-dark-contrast` and `ios-tinted-faint`
-  (gating) and `ios-variants-system`, `ios-light-flattened` (advisory), measured
+- Audit codes `ios-dark-empty`, `ios-dark-contrast`, `ios-tinted-faint` and
+  `ios-underivable` (gating) and `ios-variants-system`, `ios-light-flattened`,
+  `ios-tinted-merge` (advisory), measured
   on the plan's own 1024 px files; cuts painted in the card's colour are not
   counted against the mark. `audit_frames` and `audit_provenance` gain
   `ios-light`, `ios-dark`, `ios-tinted`.

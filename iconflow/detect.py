@@ -69,8 +69,11 @@ def _ios_evidence(root: Path, package: dict) -> str | None:
     expo = _read_json(root / "app.json").get("expo")
     if isinstance(expo, dict):
         platforms = expo.get("platforms")
-        if isinstance(expo.get("ios"), dict) or (
-                isinstance(platforms, list) and "ios" in platforms):
+        # An explicit platform list decides; without one, an ios section does (R12).
+        if isinstance(platforms, list):
+            if "ios" in platforms:
+                return "app.json lists ios among Expo's platforms"
+        elif isinstance(expo.get("ios"), dict):
             return "app.json configures Expo for iOS"
     return None
 

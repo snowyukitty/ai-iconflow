@@ -428,7 +428,10 @@ def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_
               ("ios_dark", ios_dark_svg))
     if not consumed_only:
         # An unconsumed link to a missing file was harmless in 0.8 and stays so.
-        roles |= {role for role, path in linked if path is not None and Path(path).is_file()}
+        # The iOS dark source is shown by nothing but an iOS build, so it is
+        # read only when consumed (R05).
+        roles |= {role for role, path in linked
+                  if role != "ios_dark" and path is not None and Path(path).is_file()}
     by_file: dict[object, Source] = {}
     sources: dict[str, Source] = {}
     for role, path in (("master", master_svg), *linked):
@@ -767,6 +770,17 @@ def audit_ios(plan: RenderPlan) -> dict[str, AuditFrame]:
     shipped = ios.APPEARANCES if (ios.DARK in files or ios.TINTED in files) else ("light",)
     try:
         ios.validate_files(files, shipped)
+        mark = plan.get(ios.COMPOSER_MARK)
+        if mark is not None:
+            if shipped == ("light",):
+                raise ValueError(f"{ios.COMPOSER_MARK} ships without a dark appearance")
+            # Validated like a source, and held to what ``check`` gates on a
+            # master: no active or external content (R04).
+            from .qa import _renderer_safety_warnings
+
+            unsafe = _renderer_safety_warnings(svg_text_from_bytes(mark, ios.COMPOSER_MARK))
+            if unsafe:
+                raise ValueError(f"{ios.COMPOSER_MARK}: {unsafe[0]}")
     except ValueError as exc:
         raise PlanError(f"the plan's iOS app icon is not valid: {exc}") from exc
     return {appearance: _audit_frame(ios.APPEARANCE_FILES[appearance], None, ios.SIZE,
@@ -838,7 +852,7 @@ def _preflight(plan: RenderPlan, outdir: Path) -> None:
     planned = set(plan.produced)
     if planned & set(ios.ALL_FILES):
         stale = [path for path in ios.ALL_FILES
-                 if path not in planned and (outdir / _relative(path)).exists()]
+                 if path not in planned and os.path.lexists(outdir / _relative(path))]
         if stale:
             raise ValueError(
                 "the output already holds iOS files this build does not write ("
@@ -1162,6 +1176,11 @@ def load_plan(directory: str | Path) -> RenderPlan:
     if (plan.digest != manifest.get("digest") or plan.artifact_digest != manifest.get("artifact_digest")
             or plan.provenance_digest != manifest.get("provenance_digest")):
         raise PlanError(f"{MANIFEST_NAME} digests do not match its files and settings")
+    targets = (plan.parameters or {}).get("targets")
+    if isinstance(targets, list) and "ios" in targets:
+        # Every imported iOS set is validated on its bytes, whatever reads it
+        # next: score, replay or a test (R02).
+        audit_ios(plan)
     return plan
 
 

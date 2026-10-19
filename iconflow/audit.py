@@ -11,6 +11,7 @@ can disagree on the same SVG and config.
 """
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -151,12 +152,8 @@ def resolve_inputs(
     )
 
 
-def _ios_audit(inputs: AuditInputs, plan, captured, r):
-    """The iOS probes: on the plan's files when there is a plan, else on the
-    same files computed in memory (0.10). Returns (warnings, advisories,
-    metrics, origins)."""
-    from . import ios
-    from .plan import PlanError, audit_ios, ios_files
+def ios_sources(inputs: AuditInputs, captured) -> tuple[str, str | None]:
+    """The master text and the consumed dark-source text the iOS files come from."""
     from .rasterize import load_svg
 
     master_text = captured("master") or load_svg(inputs.master)
@@ -164,21 +161,76 @@ def _ios_audit(inputs: AuditInputs, plan, captured, r):
     dark_text = captured("ios_dark") if dark_path is not None else None
     if dark_path is not None and dark_text is None:
         dark_text = load_svg(dark_path)
+    return master_text, dark_text
+
+
+def check_ios_plan(plan, inputs: AuditInputs, master_text: str, dark_text: str | None):
+    """Prove a plan's iOS set is the one these inputs make; return its frames.
+
+    The appearance set, the linked dark source, the background and policy it
+    was made under, and every text file (catalog, Icon Composer layer,
+    README) are compared with what the trusted master and settings produce —
+    never inferred from the plan itself (R03, R04). Raises ``PlanError``.
+    """
+    from . import assemble, ios
+    from .plan import PlanError, audit_ios
+
     try:
         expected = ios.plan_for(master_text, variants=inputs.ios_variants,
                                 linked=dark_text is not None)
     except ios.LayerError as exc:
-        raise ValueError(f"ios: {exc}") from exc
+        raise PlanError(f"ios: {exc}") from exc
+    frames = audit_ios(plan)
+    if tuple(frames) != expected.shipped:
+        raise PlanError(
+            "the plan's iOS appearances (" + ", ".join(frames) + ") are not the ones "
+            "the sources and ios_variants call for (" + ", ".join(expected.shipped) + ")")
+    parameters = plan.parameters or {}
+    if parameters.get("ios_variants") != inputs.ios_variants:
+        raise PlanError("the plan was made with another ios_variants")
+    try:
+        same_ground = (assemble.opaque_color(str(parameters.get("background_color")))
+                       == assemble.opaque_color(inputs.background_color))
+    except ValueError:
+        same_ground = False
+    if not same_ground:
+        raise PlanError("the plan's iOS light icon was flattened onto another background")
+    recorded = (plan.inputs or {}).get("ios_dark")
+    if dark_text is None:
+        if recorded is not None:
+            raise PlanError("the plan was made from a linked iOS dark source the inputs do not name")
+    else:
+        normalised = dark_text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+        if not recorded or recorded.get("sha256") != hashlib.sha256(normalised).hexdigest():
+            raise PlanError("the plan's iOS dark source is not the linked ios_dark_svg")
+    for path, data in ios.texts(expected, master_text).items():
+        if plan.get(path) != data:
+            raise PlanError(f"the plan's {path} is not the one this master produces")
+    return expected, frames
+
+
+def _ios_audit(inputs: AuditInputs, plan, captured, r):
+    """The iOS probes: on the plan's files when there is a plan, else on the
+    same files computed in memory (0.10). Returns (warnings, advisories,
+    metrics, origins)."""
+    from . import ios
+    from .plan import ios_files
+
+    master_text, dark_text = ios_sources(inputs, captured)
     if plan is not None:
-        frames = audit_ios(plan)
-        if tuple(frames) != expected.shipped:
-            raise PlanError(
-                "the plan's iOS appearances (" + ", ".join(frames) + ") are not the ones "
-                "the sources and ios_variants call for (" + ", ".join(expected.shipped) + ")")
+        expected, frames = check_ios_plan(plan, inputs, master_text, dark_text)
         files = {path: plan.get(path) for path in ios.ALL_FILES if plan.get(path) is not None}
         origins = {f"ios-{appearance}": dict(frame.origin) for appearance, frame in frames.items()}
     else:
-        files = ios_files(r, expected, master_text, dark_text, inputs.background_color)
+        try:
+            expected = ios.plan_for(master_text, variants=inputs.ios_variants,
+                                    linked=dark_text is not None)
+            files = ios_files(r, expected, master_text, dark_text, inputs.background_color)
+        except ValueError as exc:
+            # The same failure that stops the build, reported as a finding so
+            # the gate order holds: warnings first, then the plan (R07).
+            return ([Finding("ios-underivable", f"iOS app icon cannot be built: {exc}")],
+                    [], {"error": str(exc)}, {})
         origins = {f"ios-{appearance}": {"from": "render", "size": ios.SIZE,
                                          "reason": "no render plan"}
                    for appearance in expected.shipped}

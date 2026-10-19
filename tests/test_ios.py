@@ -158,10 +158,27 @@ class LayerTests(unittest.TestCase):
             "clip reference": svg('<defs><clipPath id="c"><use href="#iconflow-background"/>'
                                   '</clipPath></defs>' + CARD + MARK),
             "stylesheet": svg('<style>#iconflow-background{fill:red}</style>' + CARD + MARK),
+            "display": svg(CARD.replace("/>", ' display="none"/>') + MARK),
+            "visibility": svg(CARD.replace("/>", ' visibility="hidden"/>') + MARK),
+            "type selector": svg('<style>rect{fill:red}</style>' + CARD + MARK),
+            "type selector, circle card": svg(
+                '<style>circle { fill: red }</style><circle id="iconflow-background" '
+                'cx="512" cy="512" r="500" fill="#000"/>' + MARK),
+            "sibling": svg('<style>rect + circle{fill:#fff}</style>' + CARD + MARK),
+            "position": svg('<style>.m:first-child{fill:#fff}</style>' + CARD + MARK),
+            "universal": svg('<style>*{fill:#fff}</style>' + CARD + MARK),
+            "attribute": svg('<style>[fill]{opacity:.5}</style>' + CARD + MARK),
+            "child of svg": svg('<style>svg > rect{opacity:.5}</style>' + CARD + MARK),
         }
         for label, text in cases.items():
             with self.subTest(label), self.assertRaises(ios.LayerError):
                 ios.resolve(text)
+
+    def test_R01_id_class_and_media_rules_remain_allowed(self):
+        style = ('<style>/* rect{} */ .m{fill:#fff} #x{fill:red} '
+                 '@media (prefers-color-scheme: dark){.m{fill:#eee}}</style>')
+        self.assertTrue(ios.resolve(svg(style + CARD + MARK.replace("<circle", '<circle class="m"')))
+                        .declared)
 
     def test_a_gradient_background_is_honoured(self):
         text = svg('<defs><linearGradient id="g"><stop offset="0" stop-color="#123"/>'
@@ -226,6 +243,26 @@ class EncodingTests(unittest.TestCase):
         self.assertEqual(tinted.getpixel((0, 0)), 128)  # a fixed mapping: no min-max stretch
         white = Image.new("RGBA", (4, 4), (255, 255, 255, 255))
         self.assertEqual(Image.open(io.BytesIO(ios.tinted_png(png(white)))).getpixel((1, 1)), 255)
+
+    def test_R08_a_low_bit_depth_grey_is_not_an_8_bit_tinted_icon(self):
+        import struct
+        import zlib
+
+        def chunk(kind, data):
+            return (struct.pack(">I", len(data)) + kind + data
+                    + struct.pack(">I", zlib.crc32(kind + data) & 0xFFFFFFFF))
+
+        # A 2-bit greyscale PNG, written by hand (Pillow writes L as 8-bit).
+        rows = b"".join(b"\x00" + bytes(256) for _ in range(1024))
+        two_bit = (b"\x89PNG\r\n\x1a\n"
+                   + chunk(b"IHDR", struct.pack(">IIBBBBB", 1024, 1024, 2, 0, 0, 0, 0))
+                   + chunk(b"IDAT", zlib.compress(rows)) + chunk(b"IEND", b""))
+        self.assertEqual(Image.open(io.BytesIO(two_bit)).mode, "L")
+        files = self.valid()
+        files[ios.TINTED] = two_bit
+        with self.assertRaises(ValueError) as caught:
+            ios.validate_files(files, ios.APPEARANCES)
+        self.assertIn("bit depth", str(caught.exception))
 
     def test_contents_json_is_the_shape_actool_compiled(self):
         document = json.loads(ios.contents_json(ios.APPEARANCES))
@@ -310,6 +347,27 @@ class ProbeTests(unittest.TestCase):
         self.assertGreater(counted["dark_counter_share"], 0.3)
         self.assertGreater(counted["dark_legible_share"], uncounted["dark_legible_share"])
         self.assertEqual(counted["dark_legible_share"], 1.0)
+
+    def test_R09_contrast_is_judged_on_the_composited_pixel(self):
+        image = Image.new("RGBA", (1024, 1024), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
+        draw.rectangle((0, 0, 1023, 613), fill=(128, 128, 128, 128))  # 60%: half-transparent grey
+        draw.rectangle((0, 614, 1023, 1023), fill=(255, 255, 255, 255))  # 40%: white
+        metrics = ios.measure(shipped_files(png(image)), ios.APPEARANCES)
+        self.assertAlmostEqual(metrics["dark_legible_share"], 0.4, delta=0.01)
+        warnings, _ = ios.findings(metrics, self.plan)
+        self.assertIn("ios-dark-contrast", {w.code for w in warnings})
+
+    def test_R10_colours_that_become_one_grey_are_advised(self):
+        image = Image.new("RGBA", (1024, 1024), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
+        draw.rectangle((0, 0, 1023, 400), fill=(0, 255, 0, 255))
+        draw.rectangle((0, 401, 1023, 800), fill=(255, 125, 0, 255))
+        metrics = ios.measure(shipped_files(png(image)), ios.APPEARANCES)
+        warnings, advisories = ios.findings(metrics, self.plan)
+        self.assertEqual(warnings, [])
+        self.assertIn("ios-tinted-merge", {a.code for a in advisories})
+        self.assertIn("#00FF00", " ".join(advisories))
 
     def test_an_empty_dark_layer_is_refused(self):
         empty = png(Image.new("RGBA", (1024, 1024), (0, 0, 0, 0)))
@@ -429,6 +487,66 @@ class BuildTests(unittest.TestCase):
         fresh = self.dir / "fresh"
         self.assertEqual(write_plan(light_only, fresh), light_only.produced)
 
+    def test_R13_a_dangling_link_left_by_an_earlier_build_is_refused(self):
+        out = self.dir / "out"
+        light_only = ios_build(self.dir, ios_variants="system")
+        write_plan(light_only, self.dir / "fresh")
+        target = out / ios.DARK
+        target.parent.mkdir(parents=True)
+        try:
+            os.symlink(self.dir / "nowhere.png", target)
+        except (OSError, NotImplementedError):
+            self.skipTest("this platform cannot create a symlink here")
+        with self.assertRaises(ValueError):
+            write_plan(light_only, out)
+        self.assertFalse((out / ios.LIGHT).exists())
+
+    def test_R05_an_unused_dark_source_is_never_read(self):
+        from iconflow.plan import capture_sources
+
+        master = write(self.dir, "master.svg", DECLARED)
+        broken = write(self.dir, "dark.svg", "<not an svg")
+        for targets, variants in ((["web"], "auto"), (["ios"], "system")):
+            with self.subTest(targets=targets, variants=variants):
+                captured = capture_sources(master, targets, ios_dark_svg=broken,
+                                           ios_variants=variants, consumed_only=False)
+                self.assertNotIn("ios_dark", captured)
+        with self.assertRaises(ValueError):
+            capture_sources(master, ["ios"], ios_dark_svg=broken, consumed_only=False)
+
+    def test_C_F17_the_readme_promises_only_what_was_built(self):
+        readme = files_of(ios_build(self.dir))[ios.README].decode("utf-8")
+        self.assertIn("starting point", readme)
+        self.assertIn("not a finished `.icon` document", readme)
+        self.assertIn("not\nholes", readme.replace("not holes", "not\nholes"))
+        light = files_of(ios_build(self.dir, UNTAGGED))[ios.README].decode("utf-8")
+        self.assertNotIn("Icon Composer", light)
+        self.assertNotIn("icon-1024-dark", light)
+
+    def test_C_F15_R04_a_hostile_composer_layer_is_refused_on_import(self):
+        plan = ios_build(self.dir)
+        hostile = files_of(plan)
+        hostile[ios.COMPOSER_MARK] = svg('<script>alert(1)</script>' + MARK).encode("utf-8")
+        other = RenderPlan.create(hostile, inputs=plan.inputs, parameters=plan.parameters,
+                                  toolchain=plan.toolchain)
+        with self.assertRaises(PlanError):
+            audit_ios(other)
+        from iconflow.plan import export_plan, load_plan
+
+        saved = export_plan(other, self.dir / "saved")
+        with self.assertRaises(PlanError):
+            load_plan(saved)
+
+    def test_C_F01_older_contracts_keep_their_exact_keys(self):
+        contract = review_build_contract(**contract_inputs(
+            theme_color="#000000", background_color="#ffffff", electron_radius=0,
+            tray_template_mode="auto", color_scheme="light",
+            targets=["web", "tauri", "electron", "tray", "android", "emote"]))
+        # The 0.9 contract for these targets, key for key.
+        self.assertEqual(set(contract), {"theme_color", "background_color", "electron_radius",
+                                         "tray_template_mode", "color_scheme",
+                                         "tray_source_sha256"})
+
     def test_C_F10_C_F11_a_plan_with_a_broken_ios_file_is_refused(self):
         plan = ios_build(self.dir)
         audit_ios(plan)
@@ -487,15 +605,76 @@ class AuditTests(unittest.TestCase):
         with self.assertRaises(PlanError):
             self.audit(DECLARED, plan=plan)  # auto with a declared layer means three
 
-    def test_C_F14_a_full_bleed_square_is_fine_when_only_ios_crops_it(self):
+    def test_C_F14_R11_a_full_bleed_square_is_fine_only_when_ios_alone_crops_it(self):
         square = svg('<rect width="1024" height="1024" fill="#123456"/>')
-        with mock.patch("iconflow.qa.Rasterizer", new=Layered):
-            only = self.audit(square, targets=("ios",))
-            mixed = self.audit(square, targets=("web", "ios"))
-        self.assertNotIn("coverage-16", {getattr(w, "code", "") for w in only.warnings})
-        self.assertEqual(only.inputs.describe()["ios_variants"], "auto")
-        self.assertNotIn("ios_variants", self.audit(square, targets=("web",)).inputs.describe())
-        del mixed  # mixed selections keep 0.9's checks (exercised by test_audit)
+        master = write(self.dir, "master.svg", square)
+
+        class Square(Layered):
+            def render(self, text, size, bg="transparent"):
+                return png(Image.new("RGBA", (size, size), (18, 52, 86, 255)))
+
+        def codes(targets):
+            result = run_audit(AuditInputs(master=master, targets=targets),
+                               rasterizer=Square())
+            return {getattr(w, "code", "") for w in result.warnings}
+
+        self.assertNotIn("coverage-16", codes(("ios",)))
+        self.assertIn("coverage-16", codes(("tauri", "ios")))  # 0.9's check, kept
+        self.assertIn("coverage-16", codes(("tauri",)))
+        inputs = AuditInputs(master=master, targets=("ios",))
+        self.assertEqual(inputs.describe()["ios_variants"], "auto")
+        self.assertNotIn("ios_variants", AuditInputs(master=master, targets=("web",)).describe())
+
+    def test_R07_an_underivable_ios_set_is_a_finding_not_a_crash(self):
+        result = self.audit(svg(f"<g>{CARD}</g>{MARK}"))
+        self.assertIn("ios-underivable", {w.code for w in result.warnings})
+
+    def test_R03_a_plan_the_inputs_did_not_make_is_refused(self):
+        from iconflow.audit import check_ios_plan
+
+        plan = ios_build(self.dir)
+        inputs = AuditInputs(master=self.dir / "master.svg", targets=("ios",),
+                             background_color="#ffffff")
+        check_ios_plan(plan, inputs, DECLARED, None)
+        light_only = files_of(plan)
+        for path in (ios.DARK, ios.TINTED, ios.COMPOSER_MARK):
+            del light_only[path]
+        light_only[ios.CONTENTS] = ios.contents_json(("light",))
+        light_only[ios.README] = ios.readme(("light",), fill=None, composer=False)
+        downgraded = RenderPlan.create(light_only, inputs=plan.inputs,
+                                       parameters=plan.parameters, toolchain=plan.toolchain)
+        dark = write(self.dir, "dark.svg", svg(MARK))
+        cases = {
+            "self-consistent downgrade": (downgraded, inputs, DECLARED, None),
+            "another background": (plan, AuditInputs(master=self.dir / "master.svg",
+                                   targets=("ios",), background_color="#000000"),
+                                   DECLARED, None),
+            "a dark source it was not made from": (plan, inputs, DECLARED,
+                                                   dark.read_text(encoding="utf-8")),
+            "another policy": (plan, AuditInputs(master=self.dir / "master.svg",
+                               targets=("ios",), ios_variants="system",
+                               background_color="#ffffff"), DECLARED, None),
+        }
+        for label, (candidate, given, master_text, dark_text) in cases.items():
+            with self.subTest(label), self.assertRaises(PlanError):
+                check_ios_plan(candidate, given, master_text, dark_text)
+
+    def test_R04_text_files_must_be_the_ones_the_master_makes(self):
+        from iconflow.audit import check_ios_plan
+
+        plan = ios_build(self.dir)
+        inputs = AuditInputs(master=self.dir / "master.svg", targets=("ios",),
+                             background_color="#ffffff")
+        for path, payload in {
+            ios.COMPOSER_MARK: svg('<circle r="9"/>').encode("utf-8"),
+            ios.README: b"# something else\n",
+        }.items():
+            changed = files_of(plan)
+            changed[path] = payload
+            other = RenderPlan.create(changed, inputs=plan.inputs, parameters=plan.parameters,
+                                      toolchain=plan.toolchain)
+            with self.subTest(path), self.assertRaises(PlanError):
+                check_ios_plan(other, inputs, DECLARED, None)
 
 
 class DetectTests(unittest.TestCase):
@@ -524,6 +703,12 @@ class DetectTests(unittest.TestCase):
         (self.root / "app.json").write_text(
             json.dumps({"expo": {"ios": {"bundleIdentifier": "a.b"}}}), encoding="utf-8")
         self.assertIn("Expo", self.targets()["ios"])
+        (self.root / "app.json").write_text(json.dumps(
+            {"expo": {"platforms": ["android", "web"], "ios": {}}}), encoding="utf-8")
+        self.assertNotIn("ios", self.targets())  # R12: an explicit list decides
+        (self.root / "app.json").write_text(json.dumps(
+            {"expo": {"platforms": ["ios"]}}), encoding="utf-8")
+        self.assertIn("platforms", self.targets()["ios"])
         (self.root / "app.json").unlink()
         (self.root / "pubspec.yaml").write_text("name: x", encoding="utf-8")
         (self.root / "ios" / "Runner.xcodeproj").mkdir(parents=True)
@@ -612,6 +797,47 @@ targets = ["tauri", "ios"]
             "--scores", PASSING, *RATIONALE, "--notes", "n", "--reviewer-name", "a",
             "--out", str(self.dir / "again.json")])
         self.assertEqual(code, 2, (envelope, err))
+
+    def score(self, evidence):
+        return run([
+            "score", "--config", str(self.config), "--evidence", str(evidence),
+            "--scores", PASSING, *RATIONALE, "--notes", "n", "--reviewer-name", "a",
+            "--out", str(self.dir / "again.json")])
+
+    def test_R02_ios_evidence_without_plan_bound_provenance_is_refused(self):
+        evidence, _ = self.review_and_score()
+        path = evidence / "findings.json"
+        original = path.read_text(encoding="utf-8")
+        for label, change in {
+            "no provenance": lambda f: f.pop("audit_provenance"),
+            "unbound provenance": lambda f: f.update(audit_provenance={
+                "schema": 1, "plan": None, "audited": False, "frames": {}}),
+            "no plan and no provenance": lambda f: (f.pop("audit_provenance"), f.pop("plan")),
+        }.items():
+            findings = json.loads(original)
+            change(findings)
+            path.write_text(json.dumps(findings), encoding="utf-8")
+            with self.subTest(label):
+                code, envelope, err = self.score(evidence)
+                self.assertEqual(code, 2, (label, envelope, err))
+                self.assertFalse((self.dir / "again.json").exists())
+
+    def test_R07_a_tampered_ios_replay_is_plan_replay_not_a_crash(self):
+        evidence, receipt = self.review_and_score()
+        (evidence / "plan" / "files" / "ios" / "AppIcon.appiconset" /
+         "icon-1024-tinted.png").write_bytes(png(Image.new("RGB", (1024, 1024))))
+        code, envelope, err = run(["ship", "--config", str(self.config), "--review", str(receipt),
+                                   "--plan", str(evidence / "plan"), "--out", str(self.dir / "r")])
+        self.assertEqual(code, 1, (envelope, err))
+        self.assertIn("plan-replay", {w["code"] for w in envelope["warnings"]})
+        self.assertFalse((self.dir / "r").exists())
+
+    def test_R06_moved_linked_dark_evidence_still_scores(self):
+        from iconflow.headless import _comparable
+
+        here = {"ios_dark_source": "/a/project/dark.svg", "tray_source": None}
+        there = {"ios_dark_source": "/b/elsewhere/dark.svg", "tray_source": None}
+        self.assertEqual(_comparable(here), _comparable(there))
 
     def test_C_F11_an_ios_approval_without_its_plan_is_refused(self):
         _, receipt = self.review_and_score()

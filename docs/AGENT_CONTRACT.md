@@ -118,8 +118,11 @@ From 0.10, with `ios` among the targets (`docs/OUTPUT_TARGETS.md`, "ios"):
 `ios-dark-empty`, `ios-dark-contrast` and `ios-tinted-faint` (gating — the dark
 or tinted icon would vanish on the iOS home screen; each names
 `build.ios_dark_svg` and `build.ios_variants = "system"` as the fixes), and
-`ios-variants-system` and `ios-light-flattened` (advisory — appearances left to
-iOS, or a master with no declared background layer). An `ios` selection alone
+`ios-underivable` (gating — the declared layer cannot be honoured), and
+`ios-variants-system`, `ios-light-flattened` and `ios-tinted-merge` (advisory —
+appearances left to iOS, a master with no declared background layer, or two
+colours that become one grey in the tinted icon). `score` refuses iOS evidence
+without its saved plan and plan-bound provenance. An `ios` selection alone
 does not raise `coverage-16` for a full-bleed square, since nothing crops it.
 A declared `id="iconflow-background"` outside the supported subset is an exit-2
 error naming the rule. The measurements land in `metrics.ios`.
