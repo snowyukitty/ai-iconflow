@@ -43,6 +43,22 @@ first published release remains under `Unreleased`.
 - The Windows tile preview used the background colour where the build uses
   the theme colour when no `tile_color` is set; `preview_assets` now takes
   `theme_color` and agrees with the build.
+- **`maskable-drift` refused a correct maskable source for a card master.** A
+  card master's figure is its card; the same mark composed full-bleed has no
+  card, so 0.7 compared a card with a mark. The check now also reads the mark
+  drawn on a plate — a near-square shape spanning most of the canvas — while
+  a different mark, or two glyphs that share only a counter, still fail.
+
+### IconFlow's own brand
+
+- `brand/maskable.svg`: the master's paths on a full-bleed graphite field, so
+  the PWA/Android icon fills the launcher's shape instead of showing the card
+  inside a paper ring. Re-reviewed from headless evidence; the brand and demo
+  receipts stay plan-unbound on purpose (they ship on every machine).
+- `brand/wordmark.svg` and `brand/tagline.svg`: outlined from Inter 4.1 (SIL
+  OFL 1.1) by `iconflow brand outline`; provenance in `brand/README.md`. The
+  brand kit's card is now the repository's GitHub social preview
+  (`docs/assets/github-social-preview.png`).
 
 ### Changed
 

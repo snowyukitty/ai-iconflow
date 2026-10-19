@@ -128,25 +128,35 @@ property each command must re-establish.
    commit `96b904d`, annotated tag `v0.7.0`, TestPyPI rehearsal green and
    smoke-tested, GitHub Release with the candidate artifacts, `pypi`
    environment approved, PyPI wheel SHA-256 `3a72591a…` equal to the reviewed
-   candidate (the sdist differs by archive timestamps, as expected).
+   candidate. The sdist was compared entry by entry on 2026-10-19: 354 entries
+   each, identical paths, types, modes, link targets and contents; only the
+   archive mtimes differ (candidate `08e5cbad…`, PyPI `d91540ae…`). The release
+   commit's own CI on `main` (run 39156156185) and the TestPyPI rehearsal
+   (run 39156181723) were green; the earlier test counts in this document
+   predate the review hardening.
 2. ~~Merge `milestone-0.7` into `main`~~ — done (fast-forward); CI green.
 3. ~~Deploy the site~~ — done: preview verified, then production; host
    contract and Forge live checks pass.
-4. **The Cloudflare beacon** — disable it in the dashboard (preferred), take
-   the `no-transform` fallback, or allow the script (`docs/OWNER_ACTIONS.md`).
-5. **Social preview upload and Discussions** — one step each
-   (`docs/OWNER_ACTIONS.md`).
-6. **IconFlow's own wordmark.** A brand kit for IconFlow was built in a scratch
-   directory with an Inter Bold outline to test the tool; adopting a wordmark
-   is a brand decision, so nothing was committed to `brand/`.
-7. **IconFlow's Android background.** The paper background puts the graphite
-   card inside a paper tile on Android launchers; a graphite
-   `background_color` (or a linked `maskable_svg`) would let the card fill the
-   shape. A brand call, not changed.
-8. **Atlas pointer.** The private registry's icon record for that production
-   tool still names the case's old file name; it is now
-   `casebook/2026-08-22-shot-coherence-pattern-card.md`. A cross-project edit,
-   left to the owner.
+Decided 2026-10-19 by Claude Code with an independent second voice
+(`codex:default`, `gpt-6-astra`), as the owner asked; `docs/MILESTONE_v0.8.md`
+has the reasoning and the evidence for each.
+
+4. ~~The Cloudflare beacon~~ — **done**: account-level Web Analytics (RUM) for
+   ai-iconflow.com set to *Disable* in the dashboard; no page served carries
+   the beacon, and `state.py` shows both reference pages unmodified.
+5. ~~Social preview and Discussions~~ — **done**: the brand kit's deterministic
+   card is uploaded (served image compared pixel for pixel); Discussions are
+   on with a routing and privacy welcome post.
+6. ~~IconFlow's own wordmark~~ — **adopted**: Inter Bold outlined at −0.02em
+   (`brand/wordmark.svg`; font provenance in `brand/README.md`).
+7. ~~IconFlow's Android background~~ — **decided**: not a new background colour
+   (it would change the apple-touch icon and other outputs too) but a linked
+   `brand/maskable.svg`, the master's own paths on a full-bleed field, so the
+   card fills launcher shapes. Ships with 0.8 (it needed a fix to the identity
+   check).
+8. ~~Atlas pointer~~ — **prepared**: a one-commit branch in the private
+   registry (`fix/iconflow-case-pointer`) for the owner to merge; its checkout
+   was on someone else's feature branch, so nothing was committed there.
 9. ~~The held lessons~~ — **decided 2026-10-19: both stay held.** One was
    held by the distillation (a hanging object's support ratio, from the
    night-market storefront case); the second came with the keyhole-grid case

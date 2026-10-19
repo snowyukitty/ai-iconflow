@@ -127,7 +127,7 @@ IconFlow makes those questions part of the build:
 | **Explore** | A concepting playbook forces 4+ genuinely different lenses and a *specific object* silhouette (distinctiveness = specificity, not a letter on a tile) before SVG work begins. |
 | **Compare** | `compare` renders finalists at real sizes plus visual silhouettes, so color cannot hide a generic shape. |
 | **Inspect** | `check` catches mechanical risks; `review` produces a contact sheet and a self-contained Review Lab with actual-size, pixel, adaptive-crop, and target previews. |
-| **Ship** | `ship` fails closed unless automated QA is clean and all six human rubric scores are at least 4/5. |
+| **Ship** | `ship` fails closed unless automated QA is clean and all six human rubric scores are at least 4/5 — and, from 0.8, unless the pixels it would write are the pixels that were reviewed (`docs/RENDER_PLAN.md`); `ship --plan` publishes the reviewed bytes themselves on another machine. |
 | **Learn** | Every shipped design becomes structured casebook evidence; `case stats` reveals recurring weaknesses and house clichés. |
 
 The working path is local after dependencies and Chromium are installed. There
