@@ -7,9 +7,9 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-10-19 01:55 UTC.
+Observed 2026-10-19 02:04 UTC.
 
-`23 pass · 1 fail · 0 open gates · 1 unknown`
+`25 pass · 0 fail · 0 open gates · 0 unknown`
 
 An **open gate** is a decision waiting on a person, not a defect, and
 never fails this report. **Unknown** means a probe could not run: it is
@@ -47,9 +47,9 @@ is worse than no tick at all.
 
 | | Check | Detail |
 |---|---|---|
-| `FAIL` | PyPI carries this version | checkout is 0.8.0; PyPI latest is 0.7.0 — this version has never been uploaded |
+| `PASS` | PyPI carries this version | checkout is 0.8.0; PyPI latest is 0.8.0 (published) |
 | `PASS` | PyPI first-proof copy is truthful | install and demo commands present; no stale pre-release warning |
-| `????` | Release attestations resolve | no matching release to check |
+| `PASS` | Release attestations resolve | signed provenance for 2 artifacts |
 
 ## Repository
 
@@ -59,7 +59,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `PASS` | Repository social preview is uploaded | custom Open Graph image set |
 | `PASS` | Discussions decision | enabled |
-| `PASS` | CI is green on main | latest main run: success (34ea83c) |
+| `PASS` | CI is green on main | latest main run: success (94b6321) |
 
 ## Waiting on a person
 
