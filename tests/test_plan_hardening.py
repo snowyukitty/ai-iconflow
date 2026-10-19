@@ -271,6 +271,27 @@ class PlateEdgeTests(unittest.TestCase):
                                                   source_label="maskable.svg")
             self.assertEqual([f.code for f in found], ["maskable-drift"])
 
+    def test_N01_a_card_and_its_full_bleed_field_are_the_same_mark_by_design(self):
+        """Pinned on purpose (the reviewer dissented; docs/MILESTONE_v0.8.md).
+
+        A cream near-square carrying a dark circle that spans most of it is a
+        card with a mark; the same circle on a cream field is that card
+        composed full-bleed. Accepting the pair is the transform a maskable
+        source exists for. What stays refused is in the tests around it.
+        """
+        from iconflow import qa
+
+        def card(d):
+            d.rectangle([32, 48, 223, 207], fill=(255, 244, 232, 255))
+            d.ellipse([68, 68, 187, 187], fill=(25, 26, 32, 255))
+
+        def field(d):
+            d.ellipse([68, 68, 187, 187], fill=(25, 26, 32, 255))
+
+        self.assertEqual(qa.maskable_identity_findings(
+            self._png(card), self._png(field, ground=(255, 244, 232, 255)),
+            source_label="maskable.svg"), [])
+
     def test_N02_tiny_and_narrow_shapes_do_not_crash(self):
         from iconflow import qa
 

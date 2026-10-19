@@ -86,17 +86,30 @@ All by `codex:default` (`gpt-6-astra`), sealed and read-only through ATD.
    a card's mark from a glyph's counter, so the rule became structural: a
    mark read on a plate may only be compared with a composition that sits on
    the plate's own colour, which is what a card composed full-bleed is (the
-   card became the field). A counter is never on a field of its glyph's
-   colour.
+   card became the field).
+7. **Fifth verification**: README fixed. The reviewer's remaining case is a
+   cream near-square carrying a dark circle, against a dark circle on a cream
+   field, which the rule accepts. **Claude Code kept this, against the
+   reviewer's dissent:** by every property the rule can see — a near-square
+   plate, filled, carrying one mark that spans most of it — that *is* a card
+   with a circle on it, and the circle on the card's colour is that card
+   composed full-bleed: the transform a maskable source exists for. Calling
+   the first a "loop with a counter" instead is a reading the pixels cannot
+   settle. The reviewer's alternative, an explicit plate/mark designation in
+   the config, is a reasonable future option; it is not needed to keep a
+   different mark out, and the case is pinned by a test that names the
+   dissent.
 
-Each pass's findings carry a regression test named after them. When the
-identity rule cannot establish that structure it compares outlines only,
-which can refuse a correct maskable source but not approve a different mark
-through a counter.
+What the identity rule does and does not promise, then: an outline must match
+an outline; a mark read on a plate (near-square, filled, mark spanning half of
+it) may match the other side's outline only when that side sits on the
+plate's colour, and never another plate's mark. A glyph that satisfies every
+card property is treated as a card. Each pass's findings carry a regression
+test named after them.
 
 ## Verification
 
-- `python -m unittest discover -s tests`: 518 tests, 33 skipped, on Python
+- `python -m unittest discover -s tests`: 519 tests, 33 skipped, on Python
   3.14 and 3.10, with Chromium and with Chromium hidden (as CI's unit jobs
   run).
 - Byte identity: `build()` before and after the refactor wrote the same 93
