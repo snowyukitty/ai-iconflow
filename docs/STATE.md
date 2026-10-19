@@ -7,7 +7,7 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-10-19 02:04 UTC.
+Observed 2026-10-19 06:24 UTC.
 
 `25 pass · 0 fail · 0 open gates · 0 unknown`
 
@@ -59,7 +59,7 @@ is worse than no tick at all.
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
 | `PASS` | Repository social preview is uploaded | custom Open Graph image set |
 | `PASS` | Discussions decision | enabled |
-| `PASS` | CI is green on main | latest main run: success (94b6321) |
+| `PASS` | CI is green on main | latest main run: success (5a75311) |
 
 ## Waiting on a person
 
