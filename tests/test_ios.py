@@ -17,7 +17,9 @@ from unittest import mock
 
 from PIL import Image, ImageDraw
 
-from iconflow import ios
+# Imported before any test patches ``iconflow.rasterize.Rasterizer``: a module
+# first imported under that patch would bind the fake renderer for good.
+from iconflow import headless, ios, qa, review  # noqa: F401
 from iconflow.audit import AuditInputs, run_audit
 from iconflow.casebook import AXES
 from iconflow.cli import main
