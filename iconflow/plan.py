@@ -29,6 +29,7 @@ Two identities, deliberately different:
 """
 from __future__ import annotations
 
+import contextlib
 import dataclasses
 import hashlib
 import io
@@ -614,14 +615,19 @@ def ios_files(r, ios_plan, master_text: str, dark_text: str | None,
     import importlib
 
     b = importlib.import_module(".build", __package__)
-    light_text = ios.full_bleed(master_text) if ios_plan.declared else master_text
-    light = b.RenderCache(light_text, r, optimize=False)
-    if "dark" not in ios_plan.shipped:
-        return ios.files(light, None, ios_plan, master_text=master_text, bg_color=bg_color)
-    if dark_text is None:
-        dark_text = ios.mark_only(master_text)
-    with ios.dark_renderer(r) as dark_r:
-        dark = b.RenderCache(dark_text, dark_r, optimize=False)
+    dark_from_mark = "dark" in ios_plan.shipped and dark_text is None
+    needs_dark = ios_plan.declared or "dark" in ios_plan.shipped
+    with (ios.dark_renderer(r) if needs_dark else contextlib.nullcontext()) as dark_r:
+        if ios_plan.declared:
+            # A derivation is only shipped once rendering proves it changes
+            # nothing but the background (Y01-Y03).
+            ios.prove_layers(master_text, r, dark_r if dark_from_mark else None)
+        light_text = ios.full_bleed(master_text) if ios_plan.declared else master_text
+        light = b.RenderCache(light_text, r, optimize=False)
+        if "dark" not in ios_plan.shipped:
+            return ios.files(light, None, ios_plan, master_text=master_text, bg_color=bg_color)
+        dark = b.RenderCache(dark_text if dark_text is not None else ios.mark_only(master_text),
+                             dark_r, optimize=False)
         return ios.files(light, dark, ios_plan, master_text=master_text, bg_color=bg_color)
 
 

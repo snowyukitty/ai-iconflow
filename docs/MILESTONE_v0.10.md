@@ -62,12 +62,12 @@ Three candidates were weighed, with evidence:
 | Policy and linked source | `ios_variants` auto/system, `ios_dark_svg` (a captured, bound, replayed role) | `config.py`, `plan.py`, `cli.py` |
 | Audit | 3 gating + 2 advisory codes on the plan's files; encodings validated; provenance | `audit._ios_audit`, `plan.audit_ios` |
 | Review | iOS row in `targets.png`, iOS card in the Lab, plan files only | `headless._ios_row`, `review._ios_card` |
-| Scaffolds | 15 card presets declare their card (render-identical) | `templates/presets/` |
+| Scaffolds | 14 card presets declare their card (render-identical); risograph does not, its inks blend with the card | `templates/presets/` |
 | Detection | real iOS project evidence only | `detect._ios_evidence` |
 | Xcode in CI | `actool` + `assetutil` on three generated sets | `scripts/verify_ios_catalog.py`, `ci.yml` `xcode-ios` |
 
-Calibration on the 15 tagged presets (real Chromium): IconFlow's own master
-and 10 presets pass; woodcut and ink-brush (black ink on a light card) are
+Calibration on the 15 card presets first tagged (real Chromium): IconFlow's
+own master and 10 presets pass; woodcut and ink-brush (black ink on a light card) are
 refused, correctly — their mark disappears on the dark screen; mascot (its
 black contour) and woven (0.4994 against 0.5, purple on near-black) are
 refused at the edge. Counting cuts painted in the card colour as cuts, not as
@@ -197,9 +197,40 @@ which 48 declare a background) finds no declared master refused.
    hard timeout, so a super-linear scanner fails the test instead of hanging
    the suite.
 
+4. **Fourth verification**: **REQUEST_CHANGES**, 3 findings (Y01–Y03); X01–X06
+   confirmed closed, X07 accepted as a reasonable, documented narrowing, no
+   non-linear or crash path found. The surface had moved from selectors to
+   declaration values: comment markers inside an unquoted `url()` (Y01), a
+   motion path along the card (`offset-path: url(#iconflow-background)`, Y02),
+   and `calc(sibling-index() / 4)`, which reads the document's structure and
+   so changes the mark when the card is removed (Y03) — inline too.
+
+   No syntax filter can enumerate what CSS can do, so the derivation is now
+   **proven by rendering** (`ios.prove_layers`), with the Chromium that ships
+   the pixels: the master must render as its background alone with the mark
+   alone composited over it (light scheme, and dark when the dark icon comes
+   from the mark), and the full-bleed card must render the same with and
+   without the master's stylesheets. Whatever the mechanism, a mark that
+   depends on its card fails. Tolerance: a pixel counts as changed above 16
+   levels and 0.1% of the canvas may change; antialiasing moves a channel by
+   3 at most on every declared master in the repository, while the
+   dependencies move thousands of pixels by 20 to 230. The syntactic rules
+   stay, for early, specific messages (`url()` is now refused in a
+   stylesheet, closing Y01 and Y02 there; an inline reference to the card was
+   already refused).
+
+   The proof found one more real dependency nothing syntactic would: the
+   **risograph** preset's registered ink plates blend (`mix-blend-mode:
+   multiply`) with the paper card, so a mark-only dark icon is not the mark
+   the master shows. Its card is no longer declared (it ships the light icon
+   and leaves dark and tinted to iOS), and a blending master is refused with
+   `ios_dark_svg` and `ios_variants = "system"` as the fixes. All 47
+   remaining declared masters in the repository are proven; none is refused.
+   On the previous code the Y regressions fail.
+
 ## Verification
 
-- Suite: 653 tests (`tests/test_ios.py` adds 68) on Python 3.14 and 3.10;
+- Suite: 655 tests (`tests/test_ios.py` adds 70) on Python 3.14 and 3.10;
   ruff clean; real-Chromium classes pass (`ICONFLOW_BROWSER_TESTS=1`).
 - Built bytes: 156 files across the five 0.9 configurations identical to a
   `v0.9.0` checkout, through `build()` and through the session `ship` uses.
@@ -209,8 +240,10 @@ which 48 declare a background) finds no declared master refused.
 - Real flows on the demo family plus `ios`: `check`, `review --evidence`,
   `score`, `ship`, `ship --plan` (byte-identical replay), the Lab card (also
   at 360 px).
-- Presets: 15 tagged, render-identical to `v0.9.0` in both schemes at 16, 32,
+- Presets: 14 tagged, render-identical to `v0.9.0` in both schemes at 16, 32,
   64 and 1024 px.
+- Layer proof: every declared master in the repository (47) proven; the
+  attacks from the reviews refused.
 
 ## Limits
 

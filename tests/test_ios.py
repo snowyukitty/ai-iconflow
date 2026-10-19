@@ -204,6 +204,12 @@ class LayerTests(unittest.TestCase):
                               + CARD + MARK),
             "@media inside @media": svg(
                 '<style>@media all { @media all { .m{x:1} } }</style>' + CARD + MARK),
+            "Y01 comment markers in an unquoted url": svg(
+                '<style>.m{--x:url(#/*)} rect{fill:red} .m{--x:url(#*/)}</style>' + CARD + MARK),
+            "Y02 a motion path along the card": svg(
+                '<style>.m{offset-path:URL(#iconflow-background)}</style>' + CARD + MARK),
+            "Y02 a motion path along the card, inline": svg(CARD + MARK.replace(
+                "<circle", '<circle style="offset-path:url(#iconflow-background)"')),
         }
         for label, text in cases.items():
             with self.subTest(label), self.assertRaises(ios.LayerError):
@@ -1097,6 +1103,38 @@ class RealChromiumTests(unittest.TestCase):
                     self.assertTrue(ios.resolve(text).declared)
                     for size in (16, 64, 1024):
                         self.assertEqual(r.render(old, size), r.render(text, size))
+
+    def test_Y02_Y03_a_mark_that_depends_on_its_card_is_refused_by_rendering(self):
+        mark = '<circle class="m" cx="512" cy="512" r="200" fill="#ffffff"/>'
+        light_card = CARD.replace("#191A20", "#F4EAD8")
+        cases = {
+            # Each passes every syntactic rule; only rendering shows the dependency.
+            "sibling-index() in a stylesheet": svg(
+                "<style>.m{opacity:calc(sibling-index() / 4)}</style>" + CARD + mark),
+            "sibling-index() inline": svg(CARD + mark.replace(
+                'class="m"', 'style="opacity:calc(sibling-index() / 4)"')),
+            "blending with the card": svg(light_card + mark.replace(
+                'fill="#ffffff"', 'fill="#3366cc" style="mix-blend-mode:multiply"')),
+        }
+        for label, text in cases.items():
+            self.assertTrue(ios.resolve(text).declared, label)
+            master = write(self.dir, "master.svg", text)
+            with self.subTest(label), self.assertRaises(ios.LayerError) as caught:
+                compute_plan(master, ["ios"])
+            self.assertIn("depends on the background", str(caught.exception))
+        # The same mark without the dependency is proven and ships three appearances.
+        plain = write(self.dir, "master.svg", svg(CARD + mark))
+        self.assertIn(ios.DARK, compute_plan(plain, ["ios"]).produced)
+
+    def test_Y_the_extension_proof_catches_a_repainted_full_bleed(self):
+        from iconflow.rasterize import Rasterizer
+
+        text = svg('<style>rect{fill:#ff0000}</style><circle id="iconflow-background" '
+                   'cx="512" cy="512" r="500" fill="#000000"/>' + MARK)
+        with mock.patch.object(ios, "_check_stylesheets"), Rasterizer() as r:
+            with self.assertRaises(ios.LayerError) as caught:
+                ios.prove_layers(text, r)
+        self.assertIn("repaints the background", str(caught.exception))
 
     def test_scheme_sibling_shares_the_open_browser(self):
         from iconflow.rasterize import Rasterizer

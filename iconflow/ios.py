@@ -36,7 +36,7 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from typing import Mapping
 
-from PIL import Image, ImageDraw, ImageStat
+from PIL import Image, ImageChops, ImageDraw, ImageStat
 
 from . import assemble, ladder
 from .findings import Finding
@@ -248,6 +248,11 @@ def _css_rules(css: str) -> list[str]:
     if any(char in css for char in "\\\"'"):
         raise LayerError("a stylesheet beside a declared background may not hold strings or "
                          "escapes; link build.ios_dark_svg for dark styling instead")
+    if re.search(r"url\s*\(", css, re.I):
+        # An unquoted url() can hold comment markers (Y01) and can point at
+        # the background's geometry (Y02).
+        raise LayerError("a stylesheet beside a declared background may not use url(); "
+                         "link build.ios_dark_svg for dark styling instead")
     parts, i = [], 0
     while True:  # comments, removed in one pass; with no strings none can hide in one
         opened = css.find("/*", i)
@@ -403,6 +408,85 @@ def mark_only(svg_text: str) -> str:
     """The master without its declared background: everything it draws on top."""
     resolve(svg_text)
     return _derive(svg_text, replace=False)
+
+
+#: Elements that draw. Everything else at the top level (``defs``, gradients,
+#: filters, masks, ``style``…) only supports drawing and is kept by the proof.
+_RENDERED = {"rect", "circle", "ellipse", "line", "polyline", "polygon", "path", "text",
+             "image", "use", "g", "switch", "foreignObject", "a", "svg"}
+#: The layer proof (Y01-Y03): rendered at this size, a pixel whose channels
+#: move more than PROOF_DELTA counts as changed, and more than PROOF_SHARE of
+#: the canvas changed is a dependency. Antialiasing moves a channel by 3 at
+#: most on every declared master in the repository; the dependencies found
+#: move thousands of pixels by 20 to 230.
+PROOF_SIZE = 256
+PROOF_DELTA = 16
+PROOF_SHARE = 0.001
+
+
+def _background_alone(svg_text: str, *, styles: bool = True) -> str:
+    """The document with nothing drawn but its declared background."""
+    root = _parse(svg_text)
+    for child in list(root):
+        if _local(child.tag) in _RENDERED and child.get("id") != BACKGROUND_ID:
+            root.remove(child)
+    if not styles:
+        for parent in list(root.iter()):
+            for child in list(parent):
+                if _local(child.tag) == "style":
+                    parent.remove(child)
+    return ET.tostring(root, encoding="unicode")
+
+
+def _changed_share(a: bytes, b: bytes | Image.Image) -> float:
+    first = _rgba(a)
+    second = b if isinstance(b, Image.Image) else _rgba(b)
+    difference = ImageChops.difference(first, second)
+    channels = [band.point(lambda v: 255 if v > PROOF_DELTA else 0) for band in difference.split()]
+    changed = channels[0]
+    for band in channels[1:]:
+        changed = ImageChops.lighter(changed, band)
+    return changed.histogram()[255] / (first.width * first.height)
+
+
+def prove_layers(svg_text: str, light, dark=None) -> None:
+    """Prove, by rendering, that the background can be removed and extended.
+
+    What can make the mark depend on its background is open-ended — a
+    stylesheet, a CSS function that reads the document's structure
+    (``sibling-index()``), a motion path along the card, blending with it —
+    so instead of enumerating syntax the same Chromium that ships the pixels
+    checks the two facts the derivation relies on (Y01-Y03):
+
+    * **separable** — the master renders as its background alone with the
+      mark alone composited over it, in the light scheme and, when the dark
+      icon is derived from the mark, in the dark one;
+    * **extensible** — the full-bleed card renders the same in the master's
+      document as in a document without its stylesheets.
+
+    Raises :class:`LayerError` naming which fact failed.
+    """
+    alone, mark = _background_alone(svg_text), mark_only(svg_text)
+    for renderer, scheme in ((light, "light"), (dark, "dark")):
+        if renderer is None:
+            continue
+        layered = _rgba(renderer.render(alone, PROOF_SIZE))
+        layered.alpha_composite(_rgba(renderer.render(mark, PROOF_SIZE)))
+        share = _changed_share(renderer.render(svg_text, PROOF_SIZE), layered)
+        if share > PROOF_SHARE:
+            raise LayerError(
+                f"the mark depends on the background: drawn without it ({scheme} scheme) "
+                f"{share:.1%} of the icon changes — blending with the card, a stylesheet or a "
+                "CSS function that reads the document can do this; link build.ios_dark_svg "
+                'or set build.ios_variants = "system"')
+    extended = _background_alone(full_bleed(svg_text))
+    share = _changed_share(light.render(extended, PROOF_SIZE),
+                           light.render(_background_alone(full_bleed(svg_text), styles=False),
+                                        PROOF_SIZE))
+    if share > PROOF_SHARE:
+        raise LayerError(
+            "a stylesheet repaints the background once it is extended to full bleed "
+            f"({share:.1%} of the icon changes); select the mark by class or id")
 
 
 def composer_svg(svg_text: str) -> str:

@@ -235,7 +235,10 @@ child of `<svg>`, the first thing painted, filled with an opaque colour or a
 gradient, with no transform, effect, opacity, `style` or `class`, and nothing
 referring to it. That is what lets the build extend or remove it without
 changing anything else; a declaration outside that subset fails the iOS build
-with the rule it broke. The 15 card scaffolds `iconflow new` writes declare it.
+with the rule it broke, and the build then proves by rendering that removing
+or extending the card changes nothing else — a mark that blends with its card
+(`mix-blend-mode`) cannot be separated from it. 14 of the card scaffolds
+`iconflow new` writes declare it.
 
 - `background` may fill an app tile but should not become the macOS template
   silhouette. Paint cuts that must read on any ground (an eye, a slot) in the

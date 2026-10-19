@@ -9770,7 +9770,7 @@
    "set": "house",
    "title": "Risograph technique scaffold",
    "source": "templates/presets/risograph.svg",
-   "source_sha256": "33555b2eea792e3ea161e1b7ad5eb04c6e62bbc8bea3d1ce6bfeaf6d0458a4f2",
+   "source_sha256": "738b58b170cebe1f84b5b41d72a8460e2b5b3d231589affda6b1870d4dc42420",
    "field": {
     "grid": "000000000000000000000000000000000000000000000000003bggggggg6000000cggggggggd100000cggggggggg7000000005eggggg800000000cgggggg800000000cggggge400000000cggggfa100000000bggggggb0000000018dggggc000000000018egf9000000000000684000000000000000000000000000000000000",
     "components": 1,
