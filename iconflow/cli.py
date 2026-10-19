@@ -462,8 +462,8 @@ def _cmd_ship(a) -> Report:
     from .audit import resolve_inputs, run_audit
     from .config import GATE_CODES, GATE_QA_WARNINGS, ConfigError
     from .plan import (
-        GATE_PLAN_DRIFT, GATE_PLAN_REPLAY, PlanError, capture_sources, compare, compute_plan,
-        frozen_view, load_plan, plan_parameters, write_plan,
+        GATE_PLAN_DRIFT, GATE_PLAN_REPLAY, PlanError, audit_evidence, capture_sources, compare,
+        compute_plan, consumed, frozen_view, load_plan, plan_parameters, write_plan,
     )
     from .qa import warning_code
     from .session import RenderSession
@@ -503,15 +503,19 @@ def _cmd_ship(a) -> Report:
     try:
         # Every source, once: the plan, the audit and the approval check below
         # all measure these bytes (F01).
-        sources = capture_sources(
+        everything = capture_sources(
             master, kwargs["targets"], tray_svg=kwargs["tray_svg"],
             maskable_svg=kwargs["maskable_svg"], monochrome_svg=kwargs["monochrome_svg"],
+            consumed_only=False,
         )
+        sources = consumed(everything, kwargs["targets"], tray_svg=kwargs["tray_svg"],
+                           maskable_svg=kwargs["maskable_svg"],
+                           monochrome_svg=kwargs["monochrome_svg"])
     except (OSError, ValueError) as exc:
         print(f"iconflow ship: could not read the sources: {exc}", file=sys.stderr)
         report.error("runtime", f"could not read the sources: {exc}")
         return report
-    moved = _unapproved_sources(sources, approved_sources)
+    moved = _unapproved_sources(everything, approved_sources)
     if moved:
         message = ("a source changed after its approval was checked ("
                    + ", ".join(moved) + "); nothing was written — run ship again")
@@ -519,7 +523,7 @@ def _cmd_ship(a) -> Report:
         report.error("source-changed", message)
         return report
 
-    with frozen_view(sources), RenderSession() as session:
+    with frozen_view(everything), RenderSession() as session:
         renderer = session.rasterizer(config.color_scheme)
         plan = None
         # (kind, code, message): held until an outcome is chosen.
@@ -548,9 +552,19 @@ def _cmd_ship(a) -> Report:
                 problems = [f"the saved plan cannot be checked: {exc}"]
         # The audit measures the plan's own files when the plan may be shipped;
         # a replay that will be refused is never measured as if it were ours.
-        audited_plan = plan if plan is not None and not problems else None
+        if plan is not None and not problems and plan_failure is None:
+            # A plan that cannot stand as audit evidence (a file or frame its
+            # targets ship is missing) is a plan failure, decided after QA like
+            # any other, never a crash in the middle of the audit (N02).
+            try:
+                audit_evidence(plan)
+            except PlanError as exc:
+                plan_failure = ("warn", GATE_PLAN_REPLAY,
+                                f"the plan cannot be published as reviewed: {exc}")
+        audited_plan = (plan if plan is not None and not problems and plan_failure is None
+                        else None)
         try:
-            audit = run_audit(inputs, rasterizer=renderer, plan=audited_plan, sources=sources)
+            audit = run_audit(inputs, rasterizer=renderer, plan=audited_plan, sources=everything)
         except (OSError, RuntimeError, ValueError) as exc:
             print(f"iconflow ship: QA could not run: {exc}", file=sys.stderr)
             report.error("runtime", f"QA could not run: {exc}")
@@ -805,7 +819,7 @@ def _cmd_review(a) -> Report:
 
     from .audit import resolve_inputs, run_audit
     from .config import ConfigError, load_config
-    from .plan import capture_sources, changed_sources, frozen_view
+    from .plan import capture_sources, changed_sources, consumed, frozen_view
     from .review import (
         ReviewOptions, contact_sheet, interactive_review, ladder_sheet,
         neighbour_sheet, receipt_seed, receipt_template,
@@ -858,10 +872,15 @@ def _cmd_review(a) -> Report:
         # Every source, once (F01): the plan, the audit and the sheets'
         # findings measure these bytes; a file that changes before the review
         # finishes is caught at the end.
-        sources = capture_sources(
+        # Everything configured is frozen and checked, also a linked source
+        # the selected targets do not build from but the sheets still show
+        # (V-R01); the plan gets only what it consumes.
+        everything = capture_sources(
             master, targets, tray_svg=tray_svg, maskable_svg=inputs.maskable_svg,
-            monochrome_svg=options.monochrome_svg,
+            monochrome_svg=options.monochrome_svg, consumed_only=False,
         )
+        sources = consumed(everything, targets, tray_svg=tray_svg,
+                           maskable_svg=inputs.maskable_svg, monochrome_svg=options.monochrome_svg)
     except (ConfigError, ValueError) as exc:
         print(f"iconflow review: {exc}", file=sys.stderr)
         report.error("config", str(exc))
@@ -888,7 +907,7 @@ def _cmd_review(a) -> Report:
     # One render session for the whole review (F09): the plan, the audit and
     # every sheet draw each frame from it once, in at most one browser per scheme.
     # Inside the frozen view every reader sees the captured sources (R01).
-    with frozen_view(sources), RenderSession() as session:
+    with frozen_view(everything), RenderSession() as session:
         renderer = session.rasterizer(color_scheme)
         # The exact output this review shows and its receipt binds (R16). Computed
         # only for the surfaces that bind it: the Lab, the template, the evidence.
@@ -898,7 +917,7 @@ def _cmd_review(a) -> Report:
         try:
             # With a plan, the audit measures the plan's own files: what was
             # audited is what this review shows and what ship publishes.
-            audit = run_audit(inputs, rasterizer=renderer, plan=plan, sources=sources)
+            audit = run_audit(inputs, rasterizer=renderer, plan=plan, sources=everything)
         except (ConfigError, ValueError) as exc:
             print(f"iconflow review: {exc}", file=sys.stderr)
             report.error("config", str(exc))
@@ -989,7 +1008,7 @@ def _cmd_review(a) -> Report:
             ).as_dict()
         # The checkpoint (F01): a source edited while the review ran makes every
         # sheet above a mixture, so nothing may be scored from it.
-        moved = changed_sources(sources)
+        moved = changed_sources(everything)
         if moved:
             message = ("a source changed while the review ran (" + ", ".join(moved)
                        + "); its sheets mix two versions — review again")
@@ -1057,6 +1076,7 @@ def _cmd_score(a) -> Report:
         findings = load_evidence(
             evidence_dir, source_sha256=seed["source_sha256"],
             contract_sha256=seed["contract_sha256"],
+            expected=_trusted_evidence(config, options, seed),
         )
         if "plan" in findings:
             seed["plan"] = findings["plan"]
@@ -1185,6 +1205,30 @@ def _plan_kwargs(options, config=None) -> dict:
         maskable_scale=options.maskable_scale, maskable_svg=options.maskable_svg,
         monochrome_svg=options.monochrome_svg,
     )
+
+
+def _trusted_evidence(config, options, seed) -> dict:
+    """What the current configuration says a review audited and planned (V-R04/R05)."""
+    from .audit import resolve_inputs
+    from .plan import consumed_roles, plan_parameters
+
+    kwargs = _plan_kwargs(options, config)
+    roles = consumed_roles(kwargs["targets"], tray_svg=kwargs["tray_svg"],
+                           maskable_svg=kwargs["maskable_svg"],
+                           monochrome_svg=kwargs["monochrome_svg"])
+    build = seed["build"]
+    return {
+        "audit": resolve_inputs(config=config).describe(),
+        "roles": {role: (seed["source_sha256"] if role == "master"
+                         else build.get(f"{role}_source_sha256")) for role in roles},
+        "parameters": plan_parameters(
+            kwargs["targets"], name=kwargs["name"], theme_color=kwargs["theme_color"],
+            bg_color=kwargs["bg_color"], electron_radius=kwargs["electron_radius"],
+            tray_ts=kwargs["tray_ts"], color_scheme=kwargs["color_scheme"], web_options=None,
+            optimize_png=kwargs["optimize_png"], tray_template_mode=kwargs["tray_template_mode"],
+            maskable_scale=kwargs["maskable_scale"], maskable_svg=kwargs["maskable_svg"],
+        ),
+    }
 
 
 def _prior_review_current(config) -> bool:

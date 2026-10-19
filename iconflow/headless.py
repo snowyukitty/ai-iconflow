@@ -337,11 +337,18 @@ def write_findings(directory: Path, *, seed: dict, audit, sheets: dict[str, Path
     return path
 
 
-def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256: str) -> dict:
+def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256: str,
+                  expected: dict | None = None) -> dict:
     """Read a findings file and prove it still describes the current review.
 
     Fails when the source or the contract moved since the evidence was
     rendered, or when any sheet it names is missing or was changed.
+
+    ``expected`` is what the *current configuration* says the review audited
+    and planned — ``{"audit": <AuditInputs.describe()>, "roles": {role:
+    sha256}, "parameters": <plan parameters>}`` — so a saved plan and an audit
+    record are judged against trusted settings, never against the findings'
+    own description of themselves (V-R04, V-R05).
     """
     from .build import _is_link_or_reparse_point, link_in_path
 
@@ -364,6 +371,7 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
         raise HeadlessError(f"unreadable {path}: {exc}") from exc
     if not isinstance(findings, dict) or findings.get("schema") != FINDINGS_SCHEMA:
         raise HeadlessError(f"{path} is not a schema-{FINDINGS_SCHEMA} findings file")
+    _check_shapes(findings, path)
     evidence = findings.get("evidence")
     if not isinstance(evidence, dict) or not REQUIRED_EVIDENCE <= set(evidence):
         raise HeadlessError(
@@ -402,8 +410,11 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
     try:
         saved = _check_saved_plan(directory, findings) if "plan" in findings else None
         if saved is not None:
-            _check_plan_matches(saved, findings, source_sha256)
-        findings["_audited"] = _check_provenance(findings, saved)
+            _check_plan_matches(saved, findings, source_sha256, expected)
+        if expected is not None and "audit" in expected:
+            _check_audit_inputs(findings, expected["audit"])
+        findings["_audited"] = _check_provenance(
+            findings, saved, audit_inputs=(expected or {}).get("audit"))
     except (TypeError, AttributeError, KeyError) as exc:
         # A record of the wrong shape is malformed evidence, not a crash (R06).
         raise HeadlessError(f"{path} is malformed ({exc}); re-run `iconflow review --evidence`") from exc
@@ -411,7 +422,45 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
     return findings
 
 
-def _check_plan_matches(saved, findings: dict, source_sha256: str) -> None:
+def _check_shapes(findings: dict, path: Path) -> None:
+    """Every record the loader and score index into, checked for shape first (V-R06)."""
+    def bad(what: str):
+        return HeadlessError(f"{path} is malformed ({what}); re-run `iconflow review --evidence`")
+
+    evidence = findings.get("evidence")
+    if isinstance(evidence, dict):
+        for name, entry in evidence.items():
+            if (not isinstance(entry, dict) or not isinstance(entry.get("path"), str)
+                    or not isinstance(entry.get("sha256"), str)):
+                raise bad(f"evidence entry {name!r}")
+    for key in ("warnings", "advisories"):
+        items = findings.get(key)
+        if isinstance(items, list):
+            for item in items:
+                if (not isinstance(item, dict) or not isinstance(item.get("code"), str)
+                        or not isinstance(item.get("message"), str)):
+                    raise bad(f"a {key[:-1]} record")
+
+
+_PATH_KEYS = ("maskable_source", "tray_source")
+
+
+def _comparable(inputs: dict) -> dict:
+    # Source paths are machine-local: compare which file, by name, not where.
+    return {key: (Path(value).name if key in _PATH_KEYS and value else value)
+            for key, value in inputs.items()}
+
+
+def _check_audit_inputs(findings: dict, trusted: dict) -> None:
+    """The findings' audit must have run on the inputs the configuration gives now."""
+    recorded = findings.get("audit")
+    if not isinstance(recorded, dict) or _comparable(recorded) != _comparable(trusted):
+        raise HeadlessError("the evidence was audited under other inputs than iconflow.toml "
+                            "now gives; re-run `iconflow review --evidence`")
+
+
+def _check_plan_matches(saved, findings: dict, source_sha256: str,
+                        expected: dict | None = None) -> None:
     """The saved plan must be rendered from this evidence's sources and settings (R05).
 
     The findings' own hashes are checked against the current review; this
@@ -419,7 +468,25 @@ def _check_plan_matches(saved, findings: dict, source_sha256: str) -> None:
     scheme, background or linked source cannot ride along.
     """
     from . import assemble
+    from .plan import _thaw
 
+    if expected is not None:
+        roles, parameters = expected["roles"], expected["parameters"]
+        if set(saved.inputs) != set(roles):
+            raise HeadlessError("the saved render plan was made from other sources than the "
+                                "configuration names: " + ", ".join(sorted(saved.inputs)))
+        for role, digest in roles.items():
+            record = saved.inputs[role]
+            if not isinstance(record, Mapping) or record.get("sha256") != digest:
+                raise HeadlessError(f"the saved render plan was rendered from another {role} "
+                                    "source than this evidence; re-run `iconflow review --evidence`")
+        recorded = json.loads(json.dumps(_thaw(saved.parameters)))
+        if recorded != json.loads(json.dumps(parameters)):
+            changed = sorted(key for key in set(recorded) | set(parameters)
+                             if recorded.get(key) != parameters.get(key))
+            raise HeadlessError("the saved render plan was made with other settings than "
+                                "iconflow.toml has: " + ", ".join(changed))
+        return
     build = findings.get("build")
     if not isinstance(build, dict):
         raise HeadlessError("the findings carry no build contract")
@@ -441,7 +508,7 @@ def _check_plan_matches(saved, findings: dict, source_sha256: str) -> None:
         raise HeadlessError("the saved render plan was composed on another background")
 
 
-def _check_provenance(findings: dict, saved) -> bool:
+def _check_provenance(findings: dict, saved, *, audit_inputs: dict | None = None) -> bool:
     """Validate the audit's provenance against the saved plan; True when it measured it.
 
     Evidence written before 0.9 carries none: valid, and not audited on the
@@ -472,8 +539,10 @@ def _check_provenance(findings: dict, saved) -> bool:
                        "provenance_digest": saved.provenance_digest}:
         raise HeadlessError("the audit measured another render plan than the one saved "
                             "beside these sheets; re-run `iconflow review --evidence`")
-    inputs = findings.get("audit")
-    if not isinstance(inputs, dict):
+    # Which probes an audit must record is decided by the trusted inputs when
+    # the caller has them, never by the findings alone (V-R04).
+    inputs = audit_inputs if audit_inputs is not None else findings.get("audit")
+    if not isinstance(inputs, dict) or not isinstance(inputs.get("maskable_audit"), bool):
         raise HeadlessError("the findings do not say what the audit was run on")
     maskable = inputs.get("maskable_audit") is True
     try:

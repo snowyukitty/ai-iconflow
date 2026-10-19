@@ -351,6 +351,7 @@ class ConfigTests(unittest.TestCase):
         plan_module = importlib.import_module("iconflow.plan")
         with mock.patch.object(qa_module, "check", return_value=[]), \
              mock.patch.object(plan_module, "compute_plan", return_value=fake_plan()), \
+             mock.patch("iconflow.plan.audit_evidence", return_value=({}, None)), \
              mock.patch.object(plan_module, "write_plan", return_value=["favicon.svg"]) as build, \
              contextlib.redirect_stdout(io.StringIO()):
             code = main([
@@ -367,6 +368,7 @@ class ConfigTests(unittest.TestCase):
         # the invariant is that nothing is written, not that nothing is planned.
         with mock.patch.object(qa_module, "check", return_value=["too generic"]), \
              mock.patch.object(plan_module, "compute_plan", return_value=fake_plan()), \
+             mock.patch("iconflow.plan.audit_evidence", return_value=({}, None)), \
              mock.patch.object(plan_module, "write_plan") as build, \
              contextlib.redirect_stderr(io.StringIO()):
             code = main(["ship", "--config", str(path)])
@@ -379,6 +381,7 @@ class ConfigTests(unittest.TestCase):
         plan_module = importlib.import_module("iconflow.plan")
         with mock.patch.object(qa_module, "check", return_value=[]), \
              mock.patch.object(plan_module, "compute_plan", return_value=fake_plan()) as plan, \
+             mock.patch("iconflow.plan.audit_evidence", return_value=({}, None)), \
              mock.patch.object(plan_module, "write_plan", return_value=["favicon.svg"]) as build, \
              contextlib.redirect_stdout(io.StringIO()):
             code = main(["ship", "--config", str(path)])
@@ -394,6 +397,7 @@ class ConfigTests(unittest.TestCase):
         plan_module = importlib.import_module("iconflow.plan")
         with mock.patch.object(qa_module, "check", return_value=[]), \
              mock.patch.object(plan_module, "compute_plan", return_value=fake_plan()), \
+             mock.patch("iconflow.plan.audit_evidence", return_value=({}, None)), \
              mock.patch.object(plan_module, "write_plan", return_value=[]) as build, \
              contextlib.redirect_stdout(io.StringIO()):
             code = main([

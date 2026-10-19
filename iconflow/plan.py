@@ -386,7 +386,7 @@ def _file_identity(path) -> object:
 
 
 def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_svg=None,
-                    monochrome_svg=None) -> dict[str, Source]:
+                    monochrome_svg=None, consumed_only: bool = True) -> dict[str, Source]:
     """Read every source a build with these targets consumes, once, by role.
 
     One read per *file*, shared by every role that names it — by file
@@ -396,6 +396,11 @@ def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_
     path, so a role whose file is later replaced is still seen to change
     (R01). A command captures once and hands the result to the plan, the
     audit and the approval check, so all of them measure the same bytes (D01).
+
+    With ``consumed_only=False`` every configured source is captured, also
+    one the selected targets do not build from but a review still shows or
+    hashes (a linked maskable source under ``--targets emote``): what a
+    command freezes and checks must cover everything it reads (V-R01).
     """
     import importlib
 
@@ -403,6 +408,11 @@ def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_
     targets = b.normalize_targets(targets)
     roles = consumed_roles(targets, tray_svg=tray_svg, maskable_svg=maskable_svg,
                            monochrome_svg=monochrome_svg)
+    if not consumed_only:
+        # An unconsumed link to a missing file was harmless in 0.8 and stays so.
+        roles |= {role for role, path in (("tray", tray_svg), ("maskable", maskable_svg),
+                                          ("monochrome", monochrome_svg))
+                  if path is not None and Path(path).is_file()}
     by_file: dict[object, Source] = {}
     sources: dict[str, Source] = {}
     for role, path in (("master", master_svg), ("tray", tray_svg),
@@ -416,6 +426,14 @@ def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_
         # The same bytes objects: the plan renders a shared file once.
         sources[role] = Source(role=role, path=str(path), raw=read.raw, text=read.text)
     return sources
+
+
+def consumed(sources: Mapping[str, Source], targets, *, tray_svg=None, maskable_svg=None,
+             monochrome_svg=None) -> dict[str, Source]:
+    """The captured roles a build with these targets reads (what ``compute_plan`` takes)."""
+    roles = consumed_roles(targets, tray_svg=tray_svg, maskable_svg=maskable_svg,
+                           monochrome_svg=monochrome_svg)
+    return {role: source for role, source in sources.items() if role in roles}
 
 
 def frozen_view(sources: Mapping[str, Source]):
@@ -633,11 +651,21 @@ def audit_maskable(plan: RenderPlan) -> AuditFrame | None:
 #: plan that claims web but lacks its favicon is not "a plan without a 16 px
 #: frame", it is an incomplete plan (R03).
 REQUIRED_AUDIT_FILES = {
-    "web": ("favicon.ico", "icon-512.png", MASKABLE_FILE),
-    "pwa": ("favicon.ico", "icon-512.png", MASKABLE_FILE),
-    "tauri": ("icons/32x32.png", "icons/icon.png", "icons/icon.ico", "icons/icon.icns"),
+    "web": ("favicon.ico", "icon-192.png", "icon-512.png", MASKABLE_FILE),
+    "pwa": ("favicon.ico", "icon-192.png", "icon-512.png", MASKABLE_FILE),
+    "tauri": (*AUDIT_PNGS.keys() - {"icon-192.png", "icon-512.png"},
+              "icons/icon.ico", "icons/icon.icns"),
 }
 FAVICON_SLOTS = (16, 32, 48)
+
+
+def _required_slots() -> dict[str, set[int]]:
+    """Every audit container's exact slot set: a container missing a frame its
+    build always writes is an incomplete plan, not a smaller one (V-R03)."""
+    from .build import ICNS_FRAME_SIZES, ICO_FRAME_ORDER
+
+    return {"favicon.ico": set(FAVICON_SLOTS), "icons/icon.ico": set(ICO_FRAME_ORDER),
+            "icons/icon.icns": set(ICNS_FRAME_SIZES)}
 
 
 def audit_evidence(plan: RenderPlan) -> tuple[dict[int, AuditFrame], AuditFrame | None]:
@@ -646,19 +674,26 @@ def audit_evidence(plan: RenderPlan) -> tuple[dict[int, AuditFrame], AuditFrame 
     Refuses (``PlanError``) a plan missing a file its targets must ship, or a
     favicon without its 16, 32 and 48 px slots, before any frame is used.
     """
-    targets = list((plan.parameters or {}).get("targets") or [])
+    targets = (plan.parameters or {}).get("targets")
+    if (not isinstance(targets, (list, tuple)) or not targets
+            or any(not isinstance(target, str) for target in targets)):
+        raise PlanError("the plan does not say which targets it was rendered for")
     missing = sorted({path for target in targets
                       for path in REQUIRED_AUDIT_FILES.get(target, ()) if plan.get(path) is None})
     if missing:
         raise PlanError("the plan lacks files its targets must ship: " + ", ".join(missing))
-    favicon = plan.get("favicon.ico")
-    if favicon is not None:
+    for path, required in _required_slots().items():
+        data = plan.get(path)
+        if data is None:
+            continue
         try:
-            slots = set(assemble.ico_frames(favicon))
+            read = assemble.ico_frames if path.endswith(".ico") else assemble.icns_frames
+            slots = set(read(data))
         except (ValueError, IndexError, struct.error) as exc:
-            raise PlanError(f"favicon.ico: unreadable container ({exc})") from exc
-        if slots != set(FAVICON_SLOTS):
-            raise PlanError("favicon.ico must carry exactly the 16, 32 and 48 px frames, not "
+            raise PlanError(f"{path}: unreadable container ({exc})") from exc
+        if slots != required:
+            raise PlanError(f"{path} must carry exactly the "
+                            + ", ".join(map(str, sorted(required))) + " px frames, not "
                             + ", ".join(map(str, sorted(slots))))
     return audit_frames(plan), audit_maskable(plan)
 

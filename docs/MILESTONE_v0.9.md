@@ -151,6 +151,25 @@ second voice, weighed below it, through sealed read-only ATD consults.
    evidence, not deliverables, to protect against a case the hashes already
    refuse.
 
+3. **First verification**: REQUEST_CHANGES, ten findings — eight partial
+   closures and two new defects introduced by the fixes. All taken; each has
+   a regression in `VerificationPassTests` (V-…, N…). The reviewer judged
+   the R01 dissent reasonable once every source a review reads is captured,
+   which this pass made true.
+
+   | | finding | outcome |
+   |---|---|---|
+   | V-R01 | `--targets` could drop a linked source the sheets still show from the capture | every configured source captured and checked; the plan gets the consumed ones |
+   | V-R03 | Tauri containers could lose a frame | exact slot sets for every audit container; the targets list validated |
+   | V-R04 | the findings' own audit inputs decided which probes were required | `score` passes the configuration's inputs; the findings must match them |
+   | V-R05 | a saved plan missing a linked role, or with other settings, passed | exact role set and the full plan parameters from the configuration |
+   | V-R06 | null evidence entries or warnings escaped as tracebacks | every record's shape checked first |
+   | V-R08 | a cleanup error could replace the error that mattered | the primary failure always wins |
+   | V-R10 | the Lab still computed shipped-scheme transforms before taking plan files | plan files first for web, Tauri, Electron and tray; no linked render when the plan ships the composition |
+   | V-R13 | the second-opinion test passed against the old loader | the hook now fires after a text read too; mutation-checked against the 0.8 loader |
+   | N01 | emote rows could clip in a narrow card | rows wrap; checked in a browser at 360 and 1280 px (six images at native size, none clipped) — a manual check, not a test |
+   | N02 | a plan failing the completeness check broke the gate order | checked in ship's deferred plan phase: `plan-replay` after a clean audit, `qa-warnings` first |
+
 ## Verification
 
 - Built bytes: 156 files across five configurations, identical to a `v0.8.0`
@@ -161,13 +180,14 @@ second voice, weighed below it, through sealed read-only ATD consults.
 - Real flows: demo; Lab review → export (with a reviewer) → ship; headless
   review → score → ship → `ship --plan`; the Forge kit's README sequence from
   a clean project, including its placeholder reasons failing in one line.
-- Suite: 574 tests (`tests/test_audit_on_plan.py` adds 55), on Python 3.14
+- Suite: 583 tests (`tests/test_audit_on_plan.py` adds 64), on Python 3.14
   and 3.10; its Chromium tests run with `ICONFLOW_BROWSER_TESTS=1`.
 - What is a test and what is a measurement: the byte baseline, the parity
   table and the render counts were measured by scripts against real Chromium
   (the parity has a Chromium test; the byte baseline and the counts do not —
-  they need a `v0.8.0` checkout and a wrapped renderer). D06, D11, D12 and D15
-  are closed by code structure and documents, not by a named test.
+  they need a `v0.8.0` checkout and a wrapped renderer). D06, D11, D12, D15,
+  R11 and R12 are closed by code structure and documents, not by a named
+  test; N01 by a browser measurement.
 
 ## Not done
 

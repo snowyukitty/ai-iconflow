@@ -54,11 +54,17 @@ reviewed is what ships.
   changed while it ran (`source-changed`, exit 2), including a linked source
   that was a hard link to another and was replaced.
 - A plan is used as audit evidence only when complete: a plan missing a file
-  its targets ship (the favicon, its 16/32/48 frames, the maskable icon,
-  Tauri's sizes) is refused, never measured around.
+  its targets ship, or a container frame (the favicon's 16/32/48, Tauri's
+  ICO and ICNS sets), is refused, never measured around — in `ship` as a
+  `plan-replay` refusal after a clean audit, like any plan that cannot be
+  published.
+- Every source a command reads is captured, also a linked source the
+  selected targets do not build from but a review still shows; an unconsumed
+  link to a missing file stays harmless.
 - `score` holds `audit_provenance` to exactly the record an audit on the
-  saved plan makes, and proves the saved plan was rendered from the
-  evidence's own sources, scheme and background. Evidence written by 0.8,
+  saved plan makes, judged by the inputs the configuration gives now, and
+  proves the saved plan has exactly the configured source roles and plan
+  settings. Evidence written by 0.8,
   which has no provenance, is still accepted as not audited; but its saved
   plan is now also checked against its sources and settings.
 - A failure to compute a review's plan that is an integrity error
@@ -89,9 +95,10 @@ reviewed is what ships.
   reopening the file after validation; all three are now hashed from the
   bytes validated.
 - Closing a renderer stops at nothing: the context, the browser and the
-  driver are each closed even when the one before fails.
-- Malformed `audit_provenance` (an origin of the wrong type) is an exit-2
-  envelope, not a traceback.
+  driver are each closed even when the one before fails, and a cleanup
+  failure never replaces the error that caused the cleanup.
+- Malformed evidence (an origin, an evidence entry or a warning record of
+  the wrong shape) is an exit-2 envelope, not a traceback.
 - Website: emote downloads have accessible names ("Joy SVG", not 55 links
   called "SVG"); the emotes page links Icon sizes like the Forge; the Forge
   project kit's README gives the headless review path, not only the Lab.

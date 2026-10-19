@@ -351,6 +351,7 @@ class ShipEnvelopeTests(DemoFamilyFixture):
         # The plan is computed first (the audit measures it); nothing is written.
         with mock.patch("iconflow.qa.check", return_value=[finding]), \
              mock.patch("iconflow.plan.compute_plan", return_value=fake_plan()), \
+             mock.patch("iconflow.plan.audit_evidence", return_value=({}, None)), \
              mock.patch("iconflow.plan.write_plan") as build:
             code, envelope, err = self.ship()
         self.assertEqual(code, 1)
@@ -372,6 +373,7 @@ class ShipEnvelopeTests(DemoFamilyFixture):
         out = self.dir / "icon-out"
         with mock.patch("iconflow.qa.check", return_value=[]), \
              mock.patch("iconflow.plan.compute_plan", return_value=fake_plan("favicon.svg", "tray/tray.png")), \
+             mock.patch("iconflow.plan.audit_evidence", return_value=({}, None)), \
              mock.patch("iconflow.plan.write_plan", return_value=["favicon.svg", "tray/tray.png"]):
             code, envelope, err = self.ship("--out", str(out))
         self.assertEqual(code, 0)
@@ -403,6 +405,7 @@ class ShipEnvelopeTests(DemoFamilyFixture):
         )
         with mock.patch("iconflow.qa.check", return_value=[]), \
              mock.patch("iconflow.plan.compute_plan", return_value=fake_plan()), \
+             mock.patch("iconflow.plan.audit_evidence", return_value=({}, None)), \
              mock.patch("iconflow.plan.write_plan", return_value=[]):
             code, envelope, _ = self.ship()
         self.assertEqual(code, 0)
@@ -462,6 +465,7 @@ class ReviewEnvelopeTests(DemoFamilyFixture):
         template.write_text(json.dumps(draft), encoding="utf-8")
         with mock.patch("iconflow.qa.check", return_value=[]), \
              mock.patch("iconflow.plan.compute_plan", return_value=fake_plan()), \
+             mock.patch("iconflow.plan.audit_evidence", return_value=({}, None)), \
              mock.patch("iconflow.plan.write_plan", return_value=[]):
             code, envelope, _ = run_json([
                 "ship", "--config", str(self.config), "--review", str(template), "--json",

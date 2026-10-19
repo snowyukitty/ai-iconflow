@@ -302,7 +302,10 @@ class Rasterizer:
             ])
             self._context, self._page = self._open_page(self._browser)
         except Exception:
-            self._release()
+            # The startup error is the diagnosis; a cleanup failure must not
+            # replace it (V-R08).
+            with contextlib.suppress(Exception):
+                self._release()
             raise
         return self
 
@@ -330,8 +333,13 @@ class Rasterizer:
             raise
         return context, page
 
-    def __exit__(self, *exc) -> None:
-        self._release()
+    def __exit__(self, exc_type=None, exc=None, tb=None) -> None:
+        try:
+            self._release()
+        except Exception:
+            # Raised only when nothing else is: a failing body keeps its error.
+            if exc_type is None:
+                raise
 
     def _release(self) -> None:
         """Close the context, then the browser, then the driver — each even if

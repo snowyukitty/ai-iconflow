@@ -762,7 +762,7 @@ scores = {{ legibility = 5, distinctiveness = 5, balance = 5, color = 5, scalabi
         for broken, needle in (
             ({k: v for k, v in files.items() if k != "favicon.ico"}, "lacks files"),
             ({**files, "favicon.ico": assemble.ico_bytes({16: _png(16), 32: _png(32)})},
-             "16, 32 and 48"),
+             "16, 32, 48 px frames"),
             ({k: v for k, v in files.items() if k != "icon-512-maskable.png"}, "lacks files"),
         ):
             with self.subTest(needle=needle):
@@ -867,18 +867,35 @@ scores = {{ legibility = 5, distinctiveness = 5, balance = 5, color = 5, scalabi
         self.assertIsNone(r._pw)
 
     def _swap_after_first_read(self, target: Path, replacement: bytes):
-        """Replace ``target`` on disk right after its bytes are first read."""
-        real = Path.read_bytes
+        """Replace ``target`` on disk right after it is first read, by bytes or by text.
+
+        A loader that parses one read and hashes a second then hashes the
+        replacement, which is the race these tests exist to catch.
+        """
+        real_bytes, real_text = Path.read_bytes, Path.read_text
         state = {"done": False}
 
-        def read_bytes(path):
-            data = real(path)
+        def after(path):
             if not state["done"] and Path(path).resolve() == target.resolve():
                 state["done"] = True
-                target.write_bytes(replacement)
+                real_write(target, replacement)
+
+        real_write = Path.write_bytes
+
+        def read_bytes(path):
+            data = real_bytes(path)
+            after(path)
             return data
 
-        return mock.patch.object(Path, "read_bytes", read_bytes)
+        def read_text(path, *args, **kwargs):
+            data = real_text(path, *args, **kwargs)
+            after(path)
+            return data
+
+        stack = contextlib.ExitStack()
+        stack.enter_context(mock.patch.object(Path, "read_bytes", read_bytes))
+        stack.enter_context(mock.patch.object(Path, "read_text", read_text))
+        return stack
 
     def test_R13_the_findings_digest_is_of_the_bytes_read_even_if_the_file_moves(self):
         run(["review", "--config", str(self.config), "--evidence", str(self.evidence)])
@@ -913,6 +930,184 @@ scores = {{ legibility = 5, distinctiveness = 5, balance = 5, color = 5, scalabi
                                   primary_reviewer={"name": "agent-a"})
         self.assertEqual(loaded["receipt_sha256"], hashlib.sha256(original).hexdigest())
         self.assertNotEqual(loaded["notes"], "swapped")
+
+
+# ------------------------------------------ verification pass 1 (V-*, N*)
+
+class VerificationPassTests(CommandFixture):
+    """Regressions for the first verification pass; each names its finding."""
+
+    def evidence_args(self):
+        return ["score", "--config", str(self.config), "--evidence", str(self.evidence),
+                "--scores", PASSING, *RATIONALE, "--notes", "n", "--reviewer-name", "a",
+                "--out", str(self.receipt)]
+
+    def evidence_findings(self):
+        self.review_and_score()
+        self.receipt.unlink()
+        path = self.evidence / "findings.json"
+        return path, json.loads(path.read_text(encoding="utf-8"))
+
+    def plan_without(self, *paths, **kwargs):
+        with RenderSession(factory=Disc) as session:
+            full = compute_plan(self.dir / "master.svg", kwargs.pop("targets", ["web"]),
+                                rasterizer=session.rasterizer("light"), **kwargs)
+        files = {f.path: f.data for f in full.files if f.path not in paths}
+        return full, RenderPlan.create(files, inputs=full.inputs, parameters=full.parameters,
+                                       toolchain={})
+
+    def test_V_R01_an_unconsumed_linked_source_is_frozen_and_checked(self):
+        (self.dir / "maskable.svg").write_bytes(MASTER.encode("utf-8"))
+        self.config = write_project(self.dir, extra='maskable_svg = "maskable.svg"')
+        everything = capture_sources(self.dir / "master.svg", ["emote"],
+                                     maskable_svg=self.dir / "maskable.svg", consumed_only=False)
+        self.assertEqual(sorted(everything), ["maskable", "master"])
+
+        def edit_linked(master, out, **_kwargs):
+            (self.dir / "maskable.svg").write_text(MASTER.replace("400", "200"), encoding="utf-8")
+            return write_png(out)
+
+        with mock.patch("iconflow.review.contact_sheet", side_effect=edit_linked):
+            code, envelope, _err, _ = run(["review", "--config", str(self.config), "--targets",
+                                           "emote", "--evidence", str(self.evidence)])
+        self.assertEqual((code, envelope["errors"][0]["code"]), (2, "source-changed"))
+        self.assertIn("maskable", envelope["errors"][0]["message"])
+
+    def test_V_R01_an_unconsumed_link_to_a_missing_file_is_harmless(self):
+        sources = capture_sources(self.dir / "master.svg", ["emote"],
+                                  maskable_svg=self.dir / "nowhere.svg", consumed_only=False)
+        self.assertEqual(sorted(sources), ["master"])
+
+    def test_V_R03_a_tauri_container_missing_a_frame_is_refused(self):
+        from iconflow import assemble
+        from iconflow.build import ICNS_FRAME_SIZES, ICO_FRAME_ORDER
+
+        full, _ = self.plan_without(targets=["tauri"])
+        files = {f.path: f.data for f in full.files}
+        ico = dict(assemble.ico_frames(files["icons/icon.ico"]))
+        ico.pop(16)
+        icns = dict(assemble.icns_frames(files["icons/icon.icns"]))
+        icns.pop(16)
+        broken = {**files,
+                  "icons/icon.ico": assemble.ico_bytes(ico, order=[s for s in ICO_FRAME_ORDER if s != 16]),
+                  "icons/icon.icns": assemble.icns_bytes(icns)}
+        plan = RenderPlan.create(broken, inputs=full.inputs, parameters=full.parameters, toolchain={})
+        self.assertNotIn(16, [s for s in ICNS_FRAME_SIZES if s in icns])
+        with self.assertRaisesRegex(PlanError, "icons/icon.ico must carry exactly"):
+            run_audit(AuditInputs(master=self.dir / "master.svg", targets=("tauri",)), plan=plan)
+
+    def test_V_R04_shrinking_the_recorded_inputs_cannot_shrink_the_record(self):
+        path, findings = self.evidence_findings()
+        findings["audit"]["maskable_audit"] = False
+        del findings["audit_provenance"]["frames"]["maskable-512"]
+        path.write_text(json.dumps(findings), encoding="utf-8")
+        code, _envelope, err, _ = run(self.evidence_args())
+        self.assertEqual(code, 2)
+        self.assertIn("audited under other inputs", err)
+        self.assertFalse(self.receipt.exists())
+
+    def test_V_R05_a_plan_with_other_settings_or_sources_cannot_ride_along(self):
+        from iconflow.plan import audit_origins, export_plan
+        import shutil
+
+        path, original = self.evidence_findings()
+        for name, kwargs in (("settings", {"theme_color": "#123456"}),
+                             ("roles", {"tray_svg": self.dir / "master.svg", "targets": ["web", "tray"]})):
+            with self.subTest(name):
+                targets = kwargs.pop("targets", ["web"])
+                with RenderSession(factory=Disc) as session:
+                    other = compute_plan(self.dir / "master.svg", targets,
+                                         rasterizer=session.rasterizer("light"), **kwargs)
+                shutil.rmtree(self.evidence / "plan")
+                export_plan(other, self.evidence / "plan")
+                findings = json.loads(json.dumps(original))
+                findings["plan"] = other.binding()
+                findings["audit_provenance"]["plan"] = {
+                    "digest": other.digest, "artifact_digest": other.artifact_digest,
+                    "provenance_digest": other.provenance_digest}
+                findings["audit_provenance"]["frames"] = audit_origins(other, maskable=True, linked=False)
+                path.write_text(json.dumps(findings), encoding="utf-8")
+                code, _envelope, err, _ = run(self.evidence_args())
+                self.assertEqual(code, 2, name)
+                self.assertRegex(err, "other settings|other sources")
+                self.assertFalse(self.receipt.exists())
+
+    def test_V_R06_malformed_entries_and_warnings_are_one_exit_2_envelope(self):
+        path, original = self.evidence_findings()
+        for name, edit in (
+            ("entry null", lambda f: f["evidence"].__setitem__("contact_sheet", None)),
+            ("entry without digest", lambda f: f["evidence"]["contact_sheet"].pop("sha256")),
+            ("warning null", lambda f: f.__setitem__("warnings", [None])),
+            ("warning without code", lambda f: f.__setitem__("warnings", [{"message": "m"}])),
+        ):
+            with self.subTest(name):
+                findings = json.loads(json.dumps(original))
+                edit(findings)
+                path.write_text(json.dumps(findings), encoding="utf-8")
+                code, envelope, err, _ = run(self.evidence_args())
+                self.assertEqual((code, envelope["status"]), (2, "error"), name)
+                self.assertNotIn("Traceback", err)
+                self.assertFalse(self.receipt.exists())
+
+    def test_V_R08_a_cleanup_failure_never_replaces_the_primary_error(self):
+        class Breaks:
+            def close(self):
+                raise RuntimeError("cleanup failed")
+
+            stop = close
+
+        r = RealRasterizer()
+        r._context, r._browser, r._pw = Breaks(), Breaks(), Breaks()
+        r.__exit__(ValueError, ValueError("the body failed"), None)  # does not raise
+        self.assertIsNone(r._browser)
+
+        class Owner(Disc):
+            def __exit__(self, *exc):
+                raise RuntimeError("cleanup failed")
+
+        with self.assertRaisesRegex(ValueError, "the body failed"):
+            with RenderSession(factory=Owner) as session:
+                session.rasterizer("light").render("<svg/>", 16)
+                raise ValueError("the body failed")
+        with self.assertRaisesRegex(RuntimeError, "cleanup failed"):
+            with RenderSession(factory=Owner) as session:
+                session.rasterizer("light").render("<svg/>", 16)
+
+    def test_N02_an_incomplete_plan_is_a_deferred_plan_failure(self):
+        self.review_and_score()
+        _full, incomplete = self.plan_without("favicon.ico")
+        with mock.patch("iconflow.plan.compute_plan", return_value=incomplete), \
+                mock.patch("iconflow.plan.write_plan") as write:
+            code, envelope, err, _ = self.ship()
+        self.assertEqual(code, 1, err)
+        self.assertEqual([w["code"] for w in envelope["warnings"]], ["plan-replay"])
+        self.assertIn("lacks files", envelope["warnings"][0]["message"])
+        write.assert_not_called()
+        Disc.dot = True  # a source warning still comes first
+        with mock.patch("iconflow.plan.compute_plan", return_value=incomplete), \
+                mock.patch("iconflow.plan.write_plan") as write:
+            code, envelope, _err, _ = self.ship()
+        self.assertEqual((code, envelope["warnings"][0]["code"]), (1, "qa-warnings"))
+        self.assertNotIn("plan-replay", [w["code"] for w in envelope["warnings"]])
+        write.assert_not_called()
+
+    def test_V_R10_a_plan_bound_lab_computes_no_shipped_scheme_transform(self):
+        from iconflow import review as review_module
+
+        real = review_module.preview_assets
+        calls = []
+
+        def counting(cache, target, **kwargs):
+            calls.append(target)
+            return real(cache, target, **kwargs)
+
+        config = write_project(self.dir, targets='["web", "tauri"]')
+        with mock.patch.object(review_module, "preview_assets", side_effect=counting):
+            code, envelope, err, _ = run(["review", "--config", str(config), "--out",
+                                          str(self.dir / "r.png"), "--html", str(self.dir / "l.html")])
+        self.assertEqual(code, 0, (envelope, err))
+        # Once per target, for the dark scheme the build does not ship.
+        self.assertEqual(sorted(calls), ["tauri", "web"])
 
 
 class LazySurfaceTests(unittest.TestCase):

@@ -129,8 +129,12 @@ class RenderSession:
             self.uncached += 1
         return data
 
-    def close(self) -> None:
-        """Close every browser and forget every render. Safe to call twice."""
+    def close(self, exc_info=(None, None, None)) -> None:
+        """Close every browser and forget every render. Safe to call twice.
+
+        A cleanup failure is raised only when no other error is propagating:
+        the command's own failure is the one the user needs to see.
+        """
         active, self._active = self._active, {}
         self._cache.clear()
         self.cached_bytes = 0
@@ -139,17 +143,17 @@ class RenderSession:
         # Newest first: a scheme that borrowed the first browser closes before it.
         for owned, _entered in reversed(list(active.values())):
             try:
-                owned.__exit__(None, None, None)
+                owned.__exit__(*exc_info)
             except Exception as exc:  # noqa: BLE001 - close the others first
                 error = error or exc
-        if error is not None:
+        if error is not None and exc_info[0] is None:
             raise error
 
     def __enter__(self) -> "RenderSession":
         return self
 
     def __exit__(self, *exc) -> None:
-        self.close()
+        self.close(exc)
 
     def stats(self) -> dict:
         return {"launches": self.launches, "renders": self.renders, "hits": self.hits,

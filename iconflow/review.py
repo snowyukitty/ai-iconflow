@@ -497,9 +497,13 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             own = shipped if scheme == shipped_scheme else {}
             renders[scheme] = {s: own[s] if s in own else source.render(r, s) for s in sizes}
             if linked_source is not None:
-                # Only the 512 px maskable composition reads it (R10).
+                # Only the 512 px maskable composition reads it (R10), and in the
+                # shipped scheme a plan that ships that composition needs none.
                 linked_renders = linked_renders or {}
-                linked_renders[scheme] = {512: linked_source.render(r, 512)}
+                planned_maskable = (plan is not None and scheme == shipped_scheme
+                                    and plan.get("icon-512-maskable.png") is not None)
+                linked_renders[scheme] = {} if planned_maskable else {
+                    512: linked_source.render(r, 512)}
             tray_renders[scheme] = (
                 {s: tray_source.render(r, s) for s in (16, 32)} if tray_source is not None
                 else {s: renders[scheme][s] for s in (16, 32)}
@@ -517,19 +521,27 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
         scheme: _FrozenRenderCache(linked_renders[scheme]) if linked_renders else None
         for scheme in ("light", "dark")
     }
+    def planned(scheme: str, keys) -> dict[str, bytes]:
+        """The plan's own files for the shipped scheme (the receipt binds what the
+        Lab shows), taken before any transform is computed (V-R10)."""
+        if plan is None or scheme != shipped_scheme:
+            return {}
+        return {key: plan.get(key) for key in keys if plan.get(key) is not None}
+
+    def plan_first(scheme: str, keys, compute) -> dict[str, bytes]:
+        found = planned(scheme, keys)
+        if len(found) == len(keys):
+            return found
+        return {**compute(), **found}
+
+    web_keys = ("apple-touch-icon.png", "icon-192.png", "icon-512.png", "icon-512-maskable.png")
     web_assets = {
-        scheme: preview_assets(
+        scheme: plan_first(scheme, web_keys, lambda scheme=scheme: preview_assets(
             caches[scheme], "web", bg_color=options.background_color,
             maskable_scale=options.maskable_scale, maskable_cache=linked_caches[scheme],
-        )
+        ))
         for scheme in ("light", "dark")
     }
-    # In the scheme the build renders, show the plan's own bytes: the receipt
-    # this Lab exports binds exactly what it displays.
-    if plan is not None:
-        for key in web_assets[shipped_scheme]:
-            if plan.get(key) is not None:
-                web_assets[shipped_scheme][key] = plan.get(key)
 
     silhouette_sizes = [32, 48, 64, 128, 256]
     visual = {s: _data_url(_png(visual_silhouette(renders[shipped_scheme][s])))
@@ -592,11 +604,11 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
         )
     if "tauri" in target_set:
         tauri = {
-            scheme: preview_assets(caches[scheme], "tauri")["icons/128x128.png"]
+            scheme: plan_first(scheme, ("icons/128x128.png",),
+                               lambda scheme=scheme: preview_assets(caches[scheme], "tauri"))[
+                "icons/128x128.png"]
             for scheme in ("light", "dark")
         }
-        if plan is not None and plan.get("icons/128x128.png") is not None:
-            tauri[shipped_scheme] = plan.get("icons/128x128.png")
         target_cards.append(
             '<article class="target-card"><div class="target-label"><span>TAURI</span>'
             '<small>desktop bundle</small></div><div class="dock-context"><span></span>'
@@ -604,12 +616,13 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             '<span></span></div></article>'
         )
     if "electron" in target_set:
+        shipped_icns = planned(shipped_scheme, ("build/icon.icns",)).get("build/icon.icns")
         electron = {
-            scheme: electron_frames(caches[scheme], options.electron_radius, (128,))[128]
+            scheme: (assemble.icns_frames(shipped_icns)[128]
+                     if scheme == shipped_scheme and shipped_icns is not None
+                     else electron_frames(caches[scheme], options.electron_radius, (128,))[128])
             for scheme in ("light", "dark")
         }
-        if plan is not None and plan.get("build/icon.icns") is not None:
-            electron[shipped_scheme] = assemble.icns_frames(plan.get("build/icon.icns"))[128]
         target_cards.append(
             '<article class="target-card"><div class="target-label"><span>ELECTRON</span>'
             f'<small>radius {options.electron_radius:.2f}</small></div><div class="start-context">'
@@ -617,17 +630,14 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             f'<b>{html.escape(product_name)}</b></div></article>'
         )
     if "tray" in target_set:
+        tray_keys = ("tray/tray@16.png", "tray/trayTemplate@2x.png")
         tray_assets = {
-            scheme: preview_assets(
+            scheme: plan_first(scheme, tray_keys, lambda scheme=scheme: preview_assets(
                 caches[scheme], "tray", tray_cache=tray_caches[scheme],
                 tray_template_mode=options.tray_template_mode,
-            )
+            ))
             for scheme in ("light", "dark")
         }
-        if plan is not None:
-            for key in tray_assets[shipped_scheme]:
-                if plan.get(key) is not None:
-                    tray_assets[shipped_scheme][key] = plan.get(key)
         target_cards.append(
             '<article class="target-card"><div class="target-label"><span>TRAY / MENU BAR</span>'
             '<small>16px + template</small></div><div class="menu-context">'
@@ -802,7 +812,7 @@ figcaption strong {{ color:#fff; font-family:ui-monospace,SFMono-Regular,Consola
 .rubric-row input {{ accent-color:var(--coral); }} .rubric-row output {{ color:var(--coral); font:700 14px ui-monospace,SFMono-Regular,Consolas,monospace; text-align:right; }}
 textarea {{ width:100%; min-height:152px; resize:vertical; border:1px solid var(--line); border-radius:10px; padding:12px; color:#f4f2ed; background:#1d1e23; line-height:1.5; }}
 .emote-context {{ display:grid; gap:8px; }}
-.emote-row {{ display:flex; gap:16px; align-items:flex-end; padding:12px 14px; border-radius:10px; }}
+.emote-row {{ display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end; padding:12px 14px; border-radius:10px; }}
 .emote-row.light {{ background:#ffffff; }} .emote-row.dark {{ background:#313338; }}
 .emote-row figure {{ margin:0; display:flex; flex-direction:column; align-items:center; gap:4px; }}
 .emote-row img {{ flex:none; max-width:none; width:auto; height:auto; }}
