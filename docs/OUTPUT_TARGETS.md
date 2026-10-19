@@ -329,9 +329,12 @@ The declared background must be **one shape** (`rect`, `circle`, `ellipse`,
 element, painted by a plain `fill` (an opaque colour, or a `linearGradient` /
 `radialGradient` in the master) with no `transform`, `filter`, `mask`,
 `clip-path`, `opacity`, `fill-opacity`, `style`, `class`, `data-lod`,
-`display` or `visibility`, and nothing may refer to it. A stylesheet may select
-by id or class only: a rule naming the background's element type, or using
-siblings, position, attributes or `*`, could repaint it once it is removed. A declaration outside that subset fails the build
+`display` or `visibility`, and nothing may refer to it. Stylesheet rules may
+use element, `.class` and `#id` selectors joined by descendant or child
+combinators; a bare selector of the card's element type or of `rect` (what full
+bleed turns the card into), and anything else — siblings, pseudo-classes,
+attributes, `*`, escapes — is refused, because it could repaint the card or
+change meaning once the card is removed or extended. A declaration outside that subset fails the build
 with the rule it broke; it never falls back silently. Geometry is never
 guessed: an untagged master ships the **light icon alone** (flattened onto
 `background_color`) and iOS derives dark and tinted, with an advisory saying
