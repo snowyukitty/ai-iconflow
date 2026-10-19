@@ -93,9 +93,6 @@ _SHAPES = {"rect", "circle", "ellipse", "path", "polygon"}
 #: one cannot be extended (or removed) as a plain fill without changing it.
 _REFUSED_ATTRS = ("transform", "filter", "mask", "clip-path", "opacity",
                   "fill-opacity", "style", "class", "data-lod", "display", "visibility")
-#: At-rules whose blocks hold rules (scanned like the top level); every other
-#: at-rule block (``@font-face``, ``@keyframes``…) holds declarations only.
-_GROUPING_AT_RULES = ("@media", "@supports", "@layer", "@container", "@document", "@scope")
 _URL_RE = re.compile(r"^url\(\s*#([^)\s]+)\s*\)$")
 _GRADIENTS = {"linearGradient", "radialGradient"}
 
@@ -237,67 +234,72 @@ def _check_stylesheets(root: ET.Element, tag: str) -> None:
                     f"id=\"{BACKGROUND_ID}\" declared, select the mark by class or id")
 
 
-def _skip_block(css: str, i: int) -> int:
-    """The index just past the block whose ``{`` is at ``i`` (strings respected)."""
-    depth = 0
-    quote = None
-    while i < len(css):
-        char = css[i]
-        if quote:
-            if char == "\\":
-                i += 1
-            elif char == quote:
-                quote = None
-        elif char in "\"'":
-            quote = char
-        elif char == "{":
-            depth += 1
-        elif char == "}":
-            depth -= 1
-            if depth == 0:
-                return i + 1
-        i += 1
-    raise LayerError("a stylesheet block is not closed")
-
-
 def _css_rules(css: str) -> list[str]:
-    """Every selector of every style rule, at any nesting, in one linear scan.
+    """Every selector of every style rule, in one forward pass (X01-X07).
 
-    Comments are removed; a ``;``-ended at-rule (``@layer a;``) ends there; a
-    grouping at-rule's block is scanned for rules; any other at-rule's block is
-    skipped; a prelude that is neither is refused (W01).
+    Beside a declared background a stylesheet is held to a deliberately small
+    language that cannot be mis-read: top-level style rules and one level of
+    ``@media`` blocks of them (enough for ``prefers-color-scheme``), comments,
+    and nothing else — no strings, escapes, nested rules or other at-rules,
+    each of which lets a rule hide from a check like this one. No master in
+    IconFlow's repository uses a stylesheet at all; a linked ``ios_dark_svg``
+    covers any dark styling this refuses.
     """
-    css = re.sub(r"/\*.*?\*/", " ", css, flags=re.S)
+    if any(char in css for char in "\\\"'"):
+        raise LayerError("a stylesheet beside a declared background may not hold strings or "
+                         "escapes; link build.ios_dark_svg for dark styling instead")
+    parts, i = [], 0
+    while True:  # comments, removed in one pass; with no strings none can hide in one
+        opened = css.find("/*", i)
+        if opened < 0:
+            parts.append(css[i:])
+            break
+        parts.append(css[i:opened])
+        closed = css.find("*/", opened + 2)
+        if closed < 0:
+            raise LayerError("a stylesheet comment is not closed")
+        i = closed + 2
+    css = "".join(parts)
     selectors: list[str] = []
-    pending = [css]
-    while pending:
-        text = pending.pop()
-        i = 0
-        while i < len(text):
-            start = i
-            while i < len(text) and text[i] not in "{;}":
-                if text[i] in "\"'":
-                    raise LayerError("a stylesheet selector holds a string")
-                i += 1
-            prelude = text[start:i].strip()
-            if i >= len(text):
-                if prelude:
-                    raise LayerError(f"the stylesheet ends inside '{prelude}'")
-                break
-            if text[i] == ";":
-                if prelude and not prelude.startswith("@"):
-                    raise LayerError(f"the stylesheet has a stray statement '{prelude}'")
-                i += 1
-                continue
-            if text[i] == "}":
+    depth, i, n = 0, 0, len(css)
+    while i < n:
+        start = i
+        while i < n and css[i] not in "{};":
+            i += 1
+        prelude = css[start:i].strip()
+        if i >= n:
+            if prelude:
+                raise LayerError(f"the stylesheet ends inside '{prelude}'")
+            break
+        if css[i] == ";":
+            if prelude:
+                raise LayerError(f"the stylesheet statement '{prelude}' is not a style rule; "
+                                 "beside a declared background only rules and @media are allowed")
+            i += 1
+            continue
+        if css[i] == "}":
+            if prelude or depth == 0:
                 raise LayerError("the stylesheet closes a block it never opened")
-            end = _skip_block(text, i)
-            if prelude.startswith("@"):
-                if prelude.lower().startswith(_GROUPING_AT_RULES):
-                    pending.append(text[i + 1:end - 1])
-            else:
-                selectors.extend(part.strip() for part in prelude.split(","))
-            i = end
+            depth -= 1
+            i += 1
+            continue
+        if prelude.startswith("@"):
+            keyword = re.match(r"@[A-Za-z-]+", prelude)
+            if depth == 0 and keyword and keyword.group(0).lower() == "@media":
+                depth, i = 1, i + 1
+                continue
+            raise LayerError(f"the stylesheet uses '{prelude.split()[0]}'; beside a declared "
+                             "background only style rules and @media blocks are allowed")
+        selectors.extend(part.strip() for part in prelude.split(","))
+        closed = css.find("}", i + 1)
+        if closed < 0:
+            raise LayerError("a stylesheet rule is not closed")
+        if css.find("{", i + 1, closed) >= 0:
+            raise LayerError("a stylesheet rule nests another rule inside it; with "
+                             f'id="{BACKGROUND_ID}" declared, write each rule at the top')
+        i = closed + 1
+    if depth:
+        raise LayerError("a stylesheet @media block is not closed")
     return selectors
 
 

@@ -183,26 +183,66 @@ class LayerTests(unittest.TestCase):
                 + CARD + MARK),
             "rule after a string with a brace": svg(
                 '<style>.m{content:"}"} rect{fill:red}</style>' + CARD + MARK),
+            "a nested rule (CSS Nesting)": svg('<style>svg { rect { fill:red } }</style>'
+                                               + CARD + MARK),
+            "X01 comment markers in strings": svg(
+                '<style>.m{content:"/*"} rect{fill:red} .m{content:"*/"}</style>' + CARD + MARK),
+            "X02 a nested background id": svg(
+                '<style>svg { #iconflow-background { fill:red } }</style>' + CARD + MARK),
+            "X03 an escaped at-rule": svg(
+                '<style>@m\\65 dia all { rect { fill:red } }</style>' + CARD + MARK),
+            "X04 escaped braces": svg(
+                '<style>.m{--x:a\\{ } rect{fill:red} .m{--x:a\\} }</style>' + CARD + MARK),
+            "X04 a string broken by a newline": svg(
+                '<style>.m{content:"\n} rect{fill:red} .m{content:"\n}</style>' + CARD + MARK),
+            "X05 @scope": svg('<style>@scope (svg) { .m { fill:red } }</style>' + CARD + MARK),
+            "X07 a quoted condition (refused by design)": svg(
+                '<style>@supports (font-family: "Icon Font") { .m { fill:#fff } }</style>'
+                + CARD + MARK),
+            "@layer statement": svg('<style>@layer icons; .m{x:1}</style>' + CARD + MARK),
+            "@keyframes": svg('<style>@keyframes k { from { opacity: 0 } } .m{x:1}</style>'
+                              + CARD + MARK),
+            "@media inside @media": svg(
+                '<style>@media all { @media all { .m{x:1} } }</style>' + CARD + MARK),
         }
         for label, text in cases.items():
             with self.subTest(label), self.assertRaises(ios.LayerError):
                 ios.resolve(text)
 
-    def test_W02_refusing_a_pathological_selector_is_quick(self):
-        import time
+    def test_W02_X06_pathological_stylesheets_are_answered_in_linear_time(self):
+        # In a child process with a hard timeout: a super-linear scanner must
+        # fail this test, not hang the suite.
+        import subprocess
+        import sys
 
-        for css in ('.m' + ' ' * 5000 + ':hover{x:1}', '.m ' + '> ' * 2000 + '{x:1}'):
-            started = time.perf_counter()
-            with self.assertRaises(ios.LayerError):
-                ios.resolve(svg(f'<style>{css}</style>' + CARD + MARK))
-            self.assertLess(time.perf_counter() - started, 1.0)
-        long_but_legal = svg('<style>svg' + ' ' * 5000 + '.m{x:1}</style>' + CARD + MARK)
-        self.assertTrue(ios.resolve(long_but_legal).declared)
+        script = '''
+import sys
+from iconflow import ios
+CARD = {card!r}
+def svg(css):
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><style>'
+            + css + '</style>' + CARD + '<circle class="m" r="9"/></svg>')
+refused = ['.m' + ' ' * 20000 + ':hover{{x:1}}', '.m ' + '> ' * 8000 + '{{x:1}}',
+           '@media all {{' * 20000 + '.m{{x:1}}' + '}}' * 20000, '/*x' * 20000]
+for css in refused:
+    try:
+        ios.resolve(svg(css))
+    except ios.LayerError:
+        continue
+    sys.exit('accepted: ' + css[:40])
+assert ios.resolve(svg('svg' + ' ' * 20000 + '.m{{x:1}}')).declared
+assert ios.resolve(svg('.m{{x:1}}' * 20000)).declared
+'''.format(card=CARD)
+        done = subprocess.run([sys.executable, "-c", script], cwd=ROOT, timeout=30,
+                              capture_output=True, text=True)
+        self.assertEqual(done.returncode, 0, done.stderr)
 
     def test_W03_legal_identifiers_are_accepted(self):
         for css in ('.-accent{fill:#fff}', '.\u5716\u6848{fill:#fff}', '#-mark{x:1}',
                     '.iconflow-background-accent{x:1}', 'g>.m{x:1}',
-                    '@font-face{font-family:"a}b"} .m{x:1}'):
+                    'rect/**/.m{fill:#fff}',  # X01: a comment is no combinator
+                    '@MEDIA (prefers-color-scheme: dark) { .m { fill: #fff } }',
+                    '.m{fill:#fff;stroke:#000;}; .n{x:1}'):
             with self.subTest(css):
                 self.assertTrue(ios.resolve(svg(f'<style>{css}</style>' + CARD + MARK)).declared)
 

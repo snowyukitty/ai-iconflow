@@ -174,6 +174,29 @@ On the code before these fixes the W01 and W03 regressions fail and W02's
 hangs — the defect itself; a scan of every SVG in the repository (1,439, of
 which 48 declare a background) finds no declared master refused.
 
+3. **Third verification**: **REQUEST_CHANGES**, 7 findings (X01–X07), again
+   all in the stylesheet check: comment markers inside strings, nested rules
+   (CSS Nesting, which Chromium applies — found here independently and shown
+   by a render), an escaped `@m\65 dia`, escaped braces and newline-broken
+   strings, `@scope` preludes, two quadratic paths, and a quoted `@supports`
+   condition refused.
+
+   Each pass had found a deeper corner of CSS lexing, and a partial CSS
+   parser is an arms race. The decisive fact: not one of the 1,439 SVGs in
+   this repository has a `<style>` element. So the accepted language was cut
+   to what cannot be mis-read — top-level style rules and one level of
+   `@media` blocks, comments, element/class/id compounds with descendant or
+   child combinators — and everything else is refused: strings, escapes,
+   nested rules, every other at-rule. With no quotes or backslashes there is
+   nothing to mis-lex, and one forward pass with `str.find` is linear.
+   X01–X06 are closed by that; **X07 is refused by design** (a quoted
+   condition is a string), recorded as the one deliberate narrowing: dark
+   styling belongs in a linked `ios_dark_svg`. On the previous scanner every
+   X regression fails; the pathological inputs (20,000-deep `@media`,
+   unterminated comments, long whitespace) now run in a child process with a
+   hard timeout, so a super-linear scanner fails the test instead of hanging
+   the suite.
+
 ## Verification
 
 - Suite: 653 tests (`tests/test_ios.py` adds 68) on Python 3.14 and 3.10;

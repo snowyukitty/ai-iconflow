@@ -329,12 +329,16 @@ The declared background must be **one shape** (`rect`, `circle`, `ellipse`,
 element, painted by a plain `fill` (an opaque colour, or a `linearGradient` /
 `radialGradient` in the master) with no `transform`, `filter`, `mask`,
 `clip-path`, `opacity`, `fill-opacity`, `style`, `class`, `data-lod`,
-`display` or `visibility`, and nothing may refer to it. Stylesheet rules may
-use element, `.class` and `#id` selectors joined by descendant or child
-combinators; a bare selector of the card's element type or of `rect` (what full
-bleed turns the card into), and anything else — siblings, pseudo-classes,
-attributes, `*`, escapes — is refused, because it could repaint the card or
-change meaning once the card is removed or extended. A declaration outside that subset fails the build
+`display` or `visibility`, and nothing may refer to it. A stylesheet in such a
+master is held to a small language that cannot hide a rule: top-level style
+rules and one level of `@media` blocks of them (enough for
+`prefers-color-scheme`), comments, and selectors of element, `.class` and
+`#id` compounds joined by descendant or child combinators. A bare selector of
+the card's element type or of `rect` (what full bleed turns the card into) is
+refused, and so are strings, escapes, nested rules, other at-rules, siblings,
+pseudo-classes, attributes and `*` — each could repaint the card or change
+meaning once it is removed or extended. Style the dark icon with a linked
+`ios_dark_svg` instead. A declaration outside that subset fails the build
 with the rule it broke; it never falls back silently. Geometry is never
 guessed: an untagged master ships the **light icon alone** (flattened onto
 `background_color`) and iOS derives dark and tinted, with an advisory saying
