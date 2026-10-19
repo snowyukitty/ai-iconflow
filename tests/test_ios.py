@@ -1350,6 +1350,17 @@ class RealChromiumTests(unittest.TestCase):
                 light = files_of(self.proven(swapped, ios_variants=variants))[ios.LIGHT]
                 self.assertEqual(ios._rgba(light).tobytes(), expected)
 
+    def test_AE01_a_stroked_card_is_proven_and_its_stroke_not_extended(self):
+        stroked = svg(CARD.replace("/>", ' stroke="#8A8FA3" stroke-width="16"/>')
+                      + MARK)
+        control = svg(CARD.replace('x="40" y="40" width="944" height="944" rx="212"',
+                                   'width="1024" height="1024"') + MARK)
+        expected = ios._rgba(files_of(self.proven(control))[ios.LIGHT]).tobytes()
+        for variants in ("auto", "system"):
+            with self.subTest(variants=variants):
+                light = files_of(self.proven(stroked, ios_variants=variants))[ios.LIGHT]
+                self.assertEqual(ios._rgba(light).tobytes(), expected)
+
     def test_Z04_Z05_legitimate_paint_servers_are_proven(self):
         styled_stops = svg(
             '<style>.s{stop-color:#e0c080}</style><defs><linearGradient id="g">'

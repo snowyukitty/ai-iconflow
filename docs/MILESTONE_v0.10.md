@@ -305,6 +305,13 @@ which 48 declare a background) finds no declared master refused.
    On the previous code every AD regression fails; all 47 declared masters
    are proven on Windows and Linux.
 
+10. **Tenth verification**: **REQUEST_CHANGES**, 1 finding (AE01, medium);
+    AD01–AD03 confirmed closed. The extension proof's reference kept the
+    card's stroke, which full bleed by contract does not extend, so a plainly
+    stroked card was refused. The reference card now paints its fill alone
+    (`stroke="none"` on it, everything around it unchanged); the regression
+    fails on the previous code.
+
 ## Verification
 
 - Suite: 655 tests (`tests/test_ios.py` adds 70) on Python 3.14 and 3.10;

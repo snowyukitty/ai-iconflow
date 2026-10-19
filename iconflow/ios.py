@@ -547,7 +547,12 @@ def prove_extension(svg_text: str, renderer) -> None:
     if counter_colour(layers.fill) is None:
         return
     spread = max(high - low for low, high in card.getextrema()[:3])
-    original = _rgba(renderer.render(_painting_only(svg_text, card=True), SIZE))
+    # The card's fill as the master paints it: its stroke, which full bleed
+    # does not extend by contract, is left out of the reference (AE01).
+    unstroked = _parse(svg_text)
+    next(e for e in unstroked if e.get("id") == BACKGROUND_ID).set("stroke", "none")
+    original = _rgba(renderer.render(
+        _painting_only(ET.tostring(unstroked, encoding="unicode"), card=True), SIZE))
     inside = original.getchannel("A").point(lambda v: 255 if v >= 255 - PROOF_DELTA else 0)
     difference = ImageChops.difference(card, original).convert("RGB")
     worst = max(high for _, high in ImageChops.multiply(
