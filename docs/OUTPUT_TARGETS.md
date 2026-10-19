@@ -324,12 +324,13 @@ derive them honestly, and never invents one.
 - composites the dark image once over black and keeps its luminance for the
   **tinted** icon — one fixed mapping, no per-image stretching.
 
-The declared background must be **one shape** (`rect`, `circle`, `ellipse`,
-`path` or `polygon`), a **direct child** of `<svg>`, the **first painted**
-element, painted by a plain `fill` (an opaque colour, or a `linearGradient` /
+The declared background must be **one empty shape** (`rect`, `circle`,
+`ellipse`, `path` or `polygon`, holding nothing but `title`, `desc` or
+`metadata`), a **direct child** of `<svg>`, the **first painted** element, painted by a plain `fill` (an opaque colour, or a `linearGradient` /
 `radialGradient` in the master) with no `transform`, `filter`, `mask`,
 `clip-path`, `opacity`, `fill-opacity`, `style`, `class`, `data-lod`,
-`display` or `visibility`, and nothing may refer to it. A stylesheet in such a
+`display`, `visibility` or conditional processing, and nothing may refer to
+it — percent-escaped references included. A stylesheet in such a
 master is held to a small language that cannot hide a rule: top-level style
 rules and one level of `@media` blocks of them (enough for
 `prefers-color-scheme`), comments, and selectors of element, `.class` and

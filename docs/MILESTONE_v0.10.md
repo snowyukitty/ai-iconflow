@@ -106,6 +106,9 @@ the regression that proves each is named after it in `tests/test_ios.py`.
 
 ### Dissent
 
+**AB03.** A master whose card is clipped by a mask built from its own mark's
+geometry is refused rather than separated (see "Verification passes" 7).
+
 **C-F15 (partly).** The consult asked for a full SVG safety contract before
 vector export (bounded parsing, DTD rejection, active-content sanitising).
 Every master already passes `rasterize.load_svg` — the size bound, UTF-8, the
@@ -255,6 +258,19 @@ which 48 declare a background) finds no declared master refused.
 
    On the previous code every AA regression fails; all 47 declared masters
    are proven on Windows and in a Linux Playwright container.
+
+7. **Seventh verification**: **REQUEST_CHANGES**, 4 findings (AB01–AB04);
+   AA01–AA04 confirmed closed.
+
+| # | Finding | Resolution |
+|---|---|---|
+| AB01 | references were matched as raw text, but the renderer percent-decodes fragments: `href="#iconflow%2Dbackground"` reaches the card, and a mask-and-filter construction then satisfies both proof equalities with a wrong foreground | every attribute value is percent-decoded before the reference check, which matches the id as a token |
+| AB02 | a `<style>` (or an animation) inside the card element vanished with it at full bleed | the card must be one empty shape: only `title`, `desc` and `metadata` may sit inside it |
+| AB03 | a root mask built from a `<use>` of a mark element is refused by the proof | **dissent, pinned by a regression**: such a master's card is literally cut by the mark's shape, so card and mark are entangled; the proof refuses it, which is the safe direction — no wrong file can ship — and both documented fixes remain (`ios_variants = "system"` builds it) |
+| AB04 | appending the override to an inline style ending in an unclosed comment swallowed the override | a hidden element's style is replaced, not appended to |
+
+   On the previous code the AB01, AB02 and AB04 regressions fail; AB03's
+   pins the refusal it already made.
 
 ## Verification
 

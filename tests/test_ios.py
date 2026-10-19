@@ -208,6 +208,18 @@ class LayerTests(unittest.TestCase):
             "@keyframes": svg('<style>@keyframes k { from { opacity: 0 } } .m{x:1}</style>'
                               + CARD + MARK),
             "AA02 conditional processing": svg(CARD.replace("/>", ' requiredExtensions=""/>') + MARK),
+            "AB01 a percent-escaped reference": svg(
+                CARD + '<use href="#iconflow%2Dbackground"/>' + MARK),
+            "AB01 a lower-case escape in a mask": svg(
+                '<defs><mask id="k"><use href="#iconflow%2dbackground"/></mask></defs>'
+                + CARD + MARK.replace("<circle", '<circle mask="url(#k)"')),
+            "AB01 an escaped xlink reference": svg(
+                CARD + '<use xmlns:xlink="http://www.w3.org/1999/xlink" '
+                'xlink:href="#%69conflow-background"/>' + MARK),
+            "AB02 a stylesheet inside the card": svg(
+                CARD.replace("/>", "><style>.s{stop-color:#204060}</style></rect>") + MARK),
+            "AB02 an animation inside the card": svg(
+                CARD.replace("/>", '><set attributeName="fill" to="red"/></rect>') + MARK),
             "@media inside @media": svg(
                 '<style>@media all { @media all { .m{x:1} } }</style>' + CARD + MARK),
             "Y01 comment markers in an unquoted url": svg(
@@ -1226,6 +1238,49 @@ class RealChromiumTests(unittest.TestCase):
             with self.subTest(**{k: str(v) for k, v in kwargs.items()}):
                 self.assertIn("light scheme",
                               self.refused(light_only, color_scheme="dark", **kwargs))
+
+    def test_AB01_the_escaped_reference_counterexample_is_refused(self):
+        counterexample = (
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><defs>'
+            '<mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">'
+            '<use href="#iconflow%2Dbackground"/></mask><filter id="f" filterUnits="userSpaceOnUse" '
+            'x="256" y="256" width="512" height="512" color-interpolation-filters="sRGB">'
+            '<feColorMatrix type="matrix" values="0 0 0 -.5 .5 0 0 0 -.5 .5 0 0 0 -.5 .5 0 0 0 -.5 1"/>'
+            '</filter></defs><rect id="iconflow-background" width="1024" height="1024" '
+            'fill="#ffffff"/><g filter="url(#f)"><rect x="256" y="256" width="512" height="512" '
+            'fill="#000000" mask="url(#m)"/></g></svg>')
+        with self.assertRaises(ios.LayerError) as caught:
+            ios.resolve(counterexample)
+        self.assertIn("refers to the background", str(caught.exception))
+        # A mask of its own (not the card) is separable and keeps its alpha.
+        own = counterexample.replace('<use href="#iconflow%2Dbackground"/>',
+                                     '<rect width="1024" height="1024" fill="#ffffff"/>')
+        dark = ios._rgba(files_of(self.proven(own))[ios.DARK]).getpixel((512, 512))
+        self.assertLess(dark[3], 200)
+
+    def test_AB03_a_card_cut_by_the_marks_own_shape_is_refused_not_misbuilt(self):
+        # Recorded dissent: a root mask built from a mark element makes the
+        # card's visible shape the mark's; the proof cannot separate them and
+        # refuses -- a safe refusal of an entangled master, never a wrong file.
+        entangled = svg('<defs><mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" '
+                        'height="1024"><use href="#s" transform="translate(-512 -512) scale(2)"/>'
+                        '</mask></defs>' + CARD
+                        + '<circle id="s" cx="512" cy="512" r="200" fill="#ffffff"/>')
+        entangled = entangled.replace('viewBox="0 0 1024 1024">',
+                                      'viewBox="0 0 1024 1024" mask="url(#m)">', 1)
+        self.assertIn("depends on the background", self.refused(entangled))
+        self.assertEqual(self.proven(entangled, ios_variants="system").produced,
+                         [ios.CONTENTS, ios.LIGHT, ios.README])
+
+    def test_AB04_an_unclosed_comment_in_a_style_does_not_hide_the_override(self):
+        white_card = CARD.replace("#191A20", "#FFFFFF")
+        commented = svg(white_card + '<circle cx="512" cy="512" r="300" fill="#000000" '
+                        'style="opacity:.5;/*"/>')
+        plain = svg(white_card + '<circle cx="512" cy="512" r="300" fill="#000000" '
+                    'style="opacity:.5"/>')
+        first = ios._rgba(files_of(self.proven(commented))[ios.DARK]).tobytes()
+        second = ios._rgba(files_of(self.proven(plain))[ios.DARK]).tobytes()
+        self.assertEqual(first, second)
 
     def test_Z04_Z05_legitimate_paint_servers_are_proven(self):
         styled_stops = svg(

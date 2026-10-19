@@ -33,6 +33,7 @@ import json
 import math
 import re
 import xml.etree.ElementTree as ET
+from urllib.parse import unquote
 from dataclasses import dataclass
 from typing import Mapping
 
@@ -180,6 +181,12 @@ def resolve(svg_text: str) -> Layers:
     if _first_painted(root) is not background:
         raise LayerError(f'id="{BACKGROUND_ID}" must be the first painted element: '
                          "nothing may be drawn beneath the background")
+    extra = [_local(child.tag) for child in background
+             if _local(child.tag) not in {"title", "desc", "metadata"}]
+    if extra:
+        # Full bleed replaces the element and everything in it: a stylesheet or
+        # an animation inside the card would vanish with it (AB02).
+        raise LayerError(f'id="{BACKGROUND_ID}" must be one empty shape; it holds <{extra[0]}>')
     if name not in _SHAPES:
         raise LayerError(f'id="{BACKGROUND_ID}" must be one shape ('
                          + ", ".join(sorted(_SHAPES)) + f"), not <{name}>")
@@ -201,13 +208,14 @@ def resolve(svg_text: str) -> Layers:
             assemble.opaque_color(fill, "background fill")
         except ValueError as exc:
             raise LayerError(f'id="{BACKGROUND_ID}": {exc}') from exc
-    reference = f"#{BACKGROUND_ID}"
+    # A reference is found the way the renderer resolves it: percent-escapes
+    # decoded first, so "#iconflow%2Dbackground" is the background too (AB01).
+    reference = re.compile(rf"#{re.escape(BACKGROUND_ID)}(?![\w-])")
     for element in root.iter():
         for attr, value in element.attrib.items():
             if element is background and attr == "id":
                 continue
-            if reference in value and (value.strip() == reference
-                                       or f"url({reference})" in value.replace(" ", "")):
+            if reference.search(unquote(value)):
                 raise LayerError(f"<{_local(element.tag)} {_local(attr)}> refers to the "
                                  "background; the mark must not depend on it")
     _check_stylesheets(root, name)
@@ -440,8 +448,10 @@ def _painting_only(svg_text: str, *, card: bool) -> str:
     root = _parse(svg_text)
     for child in root:
         if _local(child.tag) in _RENDERED and (child.get("id") == BACKGROUND_ID) != card:
-            style = (child.get("style") or "").strip().rstrip(";")
-            child.set("style", f"{style};{_INVISIBLE}" if style else _INVISIBLE)
+            # Replaced, not appended to: an element that paints nothing needs no
+            # other declaration, and an unclosed comment in the old value could
+            # swallow an appended one (AB04).
+            child.set("style", _INVISIBLE)
     return ET.tostring(root, encoding="unicode")
 
 
