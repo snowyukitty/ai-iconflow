@@ -695,6 +695,26 @@ def export_plan(plan: RenderPlan, directory: str | Path) -> Path:
     return directory / MANIFEST_NAME
 
 
+_MANIFEST_KEYS = frozenset({"schema", "digest", "artifact_digest", "provenance_digest",
+                            "inputs", "parameters", "toolchain", "files"})
+MAX_MANIFEST_DEPTH = 16
+
+
+def _depth(value) -> int:
+    """How deeply a decoded JSON value nests, without recursion."""
+    deepest, pending = 0, [(value, 1)]
+    while pending:
+        item, level = pending.pop()
+        deepest = max(deepest, level)
+        if level > MAX_MANIFEST_DEPTH:
+            break
+        if isinstance(item, dict):
+            pending.extend((child, level + 1) for child in item.values())
+        elif isinstance(item, list):
+            pending.extend((child, level + 1) for child in item)
+    return deepest
+
+
 def _no_duplicates(pairs):
     keys = [key for key, _ in pairs]
     if len(keys) != len(set(keys)):
@@ -748,6 +768,11 @@ def load_plan(directory: str | Path) -> RenderPlan:
         raise PlanError(f"unreadable {MANIFEST_NAME}: {type(exc).__name__}") from exc
     if not isinstance(manifest, dict) or manifest.get("schema") != PLAN_SCHEMA:
         raise PlanError(f"{MANIFEST_NAME} is not a schema-{PLAN_SCHEMA} plan")
+    unknown = sorted(set(manifest) - _MANIFEST_KEYS)
+    if unknown:
+        raise PlanError(f"{MANIFEST_NAME} has keys a plan does not: {', '.join(unknown[:5])}")
+    if _depth(manifest) > MAX_MANIFEST_DEPTH:
+        raise PlanError(f"{MANIFEST_NAME} is nested deeper than a plan is")
     entries = manifest.get("files")
     if not isinstance(entries, list) or not entries or len(entries) > MAX_PLAN_FILES:
         raise PlanError(f"{MANIFEST_NAME} has no valid file list")
