@@ -93,14 +93,9 @@ _SHAPES = {"rect", "circle", "ellipse", "path", "polygon"}
 #: one cannot be extended (or removed) as a plain fill without changing it.
 _REFUSED_ATTRS = ("transform", "filter", "mask", "clip-path", "opacity",
                   "fill-opacity", "style", "class", "data-lod", "display", "visibility")
-#: The only selectors a master with a declared background may use (R01, V02):
-#: compounds of an optional type and ``.class``/``#id`` qualifiers, joined by
-#: descendant or child combinators. Anything else — siblings, pseudo-classes in
-#: any case, attributes, ``*``, escapes — is refused rather than reasoned about.
-_COMPOUND = r"(?:[A-Za-z][\w-]*)?(?:[.#][A-Za-z_][\w-]*)*"
-_SELECTOR = re.compile(rf"^{_COMPOUND}(?:(?:\s*>\s*|\s+){_COMPOUND})*$")
-_PART = re.compile(r"([A-Za-z][\w-]*)?((?:[.#][A-Za-z_][\w-]*)*)")
-_CSS_COMMENT = re.compile(r"/\*.*?\*/", re.S)
+#: At-rules whose blocks hold rules (scanned like the top level); every other
+#: at-rule block (``@font-face``, ``@keyframes``…) holds declarations only.
+_GROUPING_AT_RULES = ("@media", "@supports", "@layer", "@container", "@document", "@scope")
 _URL_RE = re.compile(r"^url\(\s*#([^)\s]+)\s*\)$")
 _GRADIENTS = {"linearGradient", "radialGradient"}
 
@@ -223,36 +218,157 @@ def resolve(svg_text: str) -> Layers:
 def _check_stylesheets(root: ET.Element, tag: str) -> None:
     """Refuse a stylesheet that could paint the background or depend on it.
 
-    Selectors are validated positively (``_SELECTOR``). Within that subset a
-    rule is refused when it names the background's id, or selects by bare
-    element type the background has now or will have once extended (a full
-    bleed is a ``rect``) — with a class or id qualifier it cannot reach the
-    background, which carries neither but its own id (R01, V02).
+    Every rule's selectors are read by a linear scanner (:func:`_css_rules`,
+    :func:`_selector_problem`) and validated positively: compounds of an
+    optional type and ``.class``/``#id`` qualifiers, joined by descendant or
+    child combinators. Within that subset a rule is refused when it names the
+    background's id, or selects by bare element type the background has now
+    or will have once extended (a full bleed is a ``rect``) — with a class or
+    id qualifier it cannot reach the background, which carries neither but
+    its own id (R01, V02, W01-W03).
     """
     risky = {tag.lower(), "rect"}
     for style in root.iter(f"{{{SVG_NS}}}style"):
-        css = _CSS_COMMENT.sub("", "".join(style.itertext()))
-        for header in re.findall(r"([^{}]+)\{", css):
-            header = header.strip()
-            if not header or header.startswith("@"):
+        for selector in _css_rules("".join(style.itertext())):
+            problem = _selector_problem(selector, risky)
+            if problem:
+                raise LayerError(
+                    f"the stylesheet rule '{selector}' {problem}; with "
+                    f"id=\"{BACKGROUND_ID}\" declared, select the mark by class or id")
+
+
+def _skip_block(css: str, i: int) -> int:
+    """The index just past the block whose ``{`` is at ``i`` (strings respected)."""
+    depth = 0
+    quote = None
+    while i < len(css):
+        char = css[i]
+        if quote:
+            if char == "\\":
+                i += 1
+            elif char == quote:
+                quote = None
+        elif char in "\"'":
+            quote = char
+        elif char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return i + 1
+        i += 1
+    raise LayerError("a stylesheet block is not closed")
+
+
+def _css_rules(css: str) -> list[str]:
+    """Every selector of every style rule, at any nesting, in one linear scan.
+
+    Comments are removed; a ``;``-ended at-rule (``@layer a;``) ends there; a
+    grouping at-rule's block is scanned for rules; any other at-rule's block is
+    skipped; a prelude that is neither is refused (W01).
+    """
+    css = re.sub(r"/\*.*?\*/", " ", css, flags=re.S)
+    selectors: list[str] = []
+    pending = [css]
+    while pending:
+        text = pending.pop()
+        i = 0
+        while i < len(text):
+            start = i
+            while i < len(text) and text[i] not in "{;}":
+                if text[i] in "\"'":
+                    raise LayerError("a stylesheet selector holds a string")
+                i += 1
+            prelude = text[start:i].strip()
+            if i >= len(text):
+                if prelude:
+                    raise LayerError(f"the stylesheet ends inside '{prelude}'")
+                break
+            if text[i] == ";":
+                if prelude and not prelude.startswith("@"):
+                    raise LayerError(f"the stylesheet has a stray statement '{prelude}'")
+                i += 1
                 continue
-            for selector in header.split(","):
-                selector = selector.strip()
-                problem = None
-                if not _SELECTOR.match(selector):
-                    problem = "uses selector syntax IconFlow cannot prove harmless"
-                else:
-                    for part in re.split(r"\s*>\s*|\s+", selector):
-                        element, qualifiers = _PART.fullmatch(part).groups()
-                        ids = re.findall(r"#([\w-]+)", qualifiers or "")
-                        if BACKGROUND_ID in ids:
-                            problem = "selects the background"
-                        elif element and element.lower() in risky and not qualifiers:
-                            problem = f"selects every <{element}>, the background among them"
-                if problem:
-                    raise LayerError(
-                        f"the stylesheet rule '{selector}' {problem}; with "
-                        f"id=\"{BACKGROUND_ID}\" declared, select the mark by class or id")
+            if text[i] == "}":
+                raise LayerError("the stylesheet closes a block it never opened")
+            end = _skip_block(text, i)
+            if prelude.startswith("@"):
+                if prelude.lower().startswith(_GROUPING_AT_RULES):
+                    pending.append(text[i + 1:end - 1])
+            else:
+                selectors.extend(part.strip() for part in prelude.split(","))
+            i = end
+    return selectors
+
+
+def _is_name_char(char: str) -> bool:
+    return char.isalnum() or char in "-_" or ord(char) > 0x7F
+
+
+def _ident(selector: str, i: int) -> int:
+    """The end of a CSS identifier starting at ``i`` (``i`` when there is none).
+
+    Unescaped identifiers only: a letter, ``_``, a non-ASCII character, or
+    ``-`` followed by one of those or by ``-``; escapes are refused upstream.
+    """
+    j = i
+    if j < len(selector) and selector[j] == "-":
+        j += 1
+        if j < len(selector) and selector[j] == "-":
+            j += 1
+    if j >= len(selector) or not (selector[j].isalpha() or selector[j] == "_"
+                                  or ord(selector[j]) > 0x7F or j > i + 1):
+        return i if j == i or j < i + 2 else j
+    while j < len(selector) and _is_name_char(selector[j]):
+        j += 1
+    return j
+
+
+def _selector_problem(selector: str, risky: set[str]) -> str | None:
+    """Why ``selector`` is unsafe beside a declared background, or None.
+
+    One left-to-right pass over the characters (no backtracking): compounds
+    are an optional type identifier followed by ``.class`` / ``#id``
+    qualifiers; between compounds, whitespace and at most one ``>``.
+    """
+    unsupported = "uses selector syntax IconFlow cannot prove harmless"
+    if not selector:
+        return unsupported
+    i, n, compounds = 0, len(selector), 0
+    while i < n:
+        element = None
+        end = _ident(selector, i)
+        if end > i and selector[i] not in ".#":
+            element = selector[i:end]
+            i = end
+        qualified = False
+        while i < n and selector[i] in ".#":
+            kind = selector[i]
+            end = _ident(selector, i + 1)
+            if end == i + 1:
+                return unsupported
+            name = selector[i + 1:end]
+            if kind == "#" and name == BACKGROUND_ID:
+                return "selects the background"
+            qualified = True
+            i = end
+        if element is None and not qualified:
+            return unsupported
+        if element is not None and element.lower() in risky and not qualified:
+            return f"selects every <{element}>, the background among them"
+        compounds += 1
+        if i >= n:
+            break
+        start = i
+        while i < n and selector[i].isspace():
+            i += 1
+        if i < n and selector[i] == ">":
+            i += 1
+            while i < n and selector[i].isspace():
+                i += 1
+        if i == start or i >= n:
+            return unsupported
+    return None if compounds else unsupported
 
 
 def _derive(svg_text: str, replace: bool) -> str:

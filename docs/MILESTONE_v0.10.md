@@ -161,9 +161,22 @@ regressions fail; V05's fails on POSIX only (Windows `pathlib` reads both
 separators); V08's replay test exercises the R07 fix and is the regression
 that finding asked for.
 
+2. **Second verification**: **REQUEST_CHANGES**, 3 findings, all in the
+   stylesheet check; V01 and V03–V07 confirmed closed.
+
+| # | Finding | Resolution |
+|---|---|---|
+| W01 | a `;`-ended at-rule (`@layer icons; rect{…}`) hid the rule after it | the regular expressions were replaced by a linear CSS scanner: statements end at `;`, grouping at-rules (`@media`, `@supports`, `@layer`, …) are scanned for rules at any depth, other at-rule blocks are skipped, strings are respected, and anything it cannot classify is refused |
+| W02 | an empty-able compound under a repetition backtracked exponentially on long whitespace | selectors are tokenised in one left-to-right pass with no backtracking; a 5,000-space adversarial selector is refused in under a millisecond |
+| W03 | legal identifiers (`.-accent`, non-ASCII, `#-mark`) were refused | CSS identifier rules (a letter, `_`, non-ASCII, or `-` then one of those or `-`); escapes are still refused |
+
+On the code before these fixes the W01 and W03 regressions fail and W02's
+hangs — the defect itself; a scan of every SVG in the repository (1,439, of
+which 48 declare a background) finds no declared master refused.
+
 ## Verification
 
-- Suite: 651 tests (`tests/test_ios.py` adds 66) on Python 3.14 and 3.10;
+- Suite: 653 tests (`tests/test_ios.py` adds 68) on Python 3.14 and 3.10;
   ruff clean; real-Chromium classes pass (`ICONFLOW_BROWSER_TESTS=1`).
 - Built bytes: 156 files across the five 0.9 configurations identical to a
   `v0.9.0` checkout, through `build()` and through the session `ship` uses.

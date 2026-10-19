@@ -175,10 +175,36 @@ class LayerTests(unittest.TestCase):
             "uppercase pseudo-class": svg('<style>.m:NTH-CHILD(3){x:1}</style>' + CARD + MARK),
             "escaped id": svg('<style>#iconflow\\-background{fill:red}</style>' + CARD + MARK),
             "hover": svg('<style>.m:hover{fill:red}</style>' + CARD + MARK),
+            "rule after a ;-ended at-rule": svg(
+                '<style>@layer icons; rect { fill:red }</style><circle id="iconflow-background" '
+                'cx="512" cy="512" r="500" fill="#000"/>' + MARK),
+            "rule nested in @media and @supports": svg(
+                '<style>@media screen { @supports (x:y) { rect { fill:red } } }</style>'
+                + CARD + MARK),
+            "rule after a string with a brace": svg(
+                '<style>.m{content:"}"} rect{fill:red}</style>' + CARD + MARK),
         }
         for label, text in cases.items():
             with self.subTest(label), self.assertRaises(ios.LayerError):
                 ios.resolve(text)
+
+    def test_W02_refusing_a_pathological_selector_is_quick(self):
+        import time
+
+        for css in ('.m' + ' ' * 5000 + ':hover{x:1}', '.m ' + '> ' * 2000 + '{x:1}'):
+            started = time.perf_counter()
+            with self.assertRaises(ios.LayerError):
+                ios.resolve(svg(f'<style>{css}</style>' + CARD + MARK))
+            self.assertLess(time.perf_counter() - started, 1.0)
+        long_but_legal = svg('<style>svg' + ' ' * 5000 + '.m{x:1}</style>' + CARD + MARK)
+        self.assertTrue(ios.resolve(long_but_legal).declared)
+
+    def test_W03_legal_identifiers_are_accepted(self):
+        for css in ('.-accent{fill:#fff}', '.\u5716\u6848{fill:#fff}', '#-mark{x:1}',
+                    '.iconflow-background-accent{x:1}', 'g>.m{x:1}',
+                    '@font-face{font-family:"a}b"} .m{x:1}'):
+            with self.subTest(css):
+                self.assertTrue(ios.resolve(svg(f'<style>{css}</style>' + CARD + MARK)).declared)
 
     def test_R01_id_class_and_media_rules_remain_allowed(self):
         style = ('<style>/* rect{} */ .m{fill:#fff} #x{fill:red} g > .m, svg .m{x:1} '
