@@ -104,19 +104,26 @@ Verify each setting in your repository before claiming it.
        envelope = json.load(open("ship.json", encoding="utf-8"))
        plan = (envelope.get("outputs") or {}).get("plan") or {}
        ok = (envelope.get("status") == "ok" and plan.get("mode") == "replayed"
-             and plan.get("verified") is True and plan.get("bytes_verified") is True)
+             and plan.get("verified") is True and plan.get("bytes_verified") is True
+             and plan.get("audited") is True
+             and isinstance(envelope["outputs"].get("receipt_sha256"), str))
        sys.exit(0 if ok else 1)
        PY
    ```
 
-   A missing field is a failure, never an assumption. Locally, a receipt
-   without a plan still ships (with `plan-unbound`); this job is where that
-   stops being acceptable.
+   A missing field is a failure, never an assumption. `audited` is false
+   for a target set with no plan-aware probe (emote only, for one); a policy
+   for such a project must say it accepts that, rather than drop the check.
+   Locally, a receipt without a plan still ships (with `plan-unbound`); this
+   job is where that stops being acceptable.
 4. **Bind the delivery, not the directory.** `write_plan` leaves files it
    does not own where they are, so package `outputs.files` from `ship.json` —
-   not the whole output directory — into a manifest beside
-   `receipt_sha256`, the plan digests and the commit. Keep that manifest
-   outside the render plan; the plan's contract is the icon bytes.
+   not the whole output directory — and, immediately before freezing the
+   bundle, hash every packaged file and compare it with the approved plan's
+   per-file `sha256` (`plan/plan.json`); a file changed after `ship` must stop
+   the job, because nothing downstream would notice. Record the result in a
+   manifest beside `receipt_sha256`, the plan digests and the commit, outside
+   the render plan (the plan's contract is the icon bytes).
 5. **Attest it, and verify where it is consumed.** GitHub's artifact
    attestations record which workflow, in which repository, at which commit,
    produced a file; they establish provenance, not safety, and they help only

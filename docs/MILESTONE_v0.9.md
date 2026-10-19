@@ -120,7 +120,36 @@ second voice, weighed below it, through sealed read-only ATD consults.
    | D15 | contract wording | `docs/AGENT_CONTRACT.md` reconciled |
    | D16 | the Lab had no emote context | emote card |
 
-2. **Implementation review** — pending.
+2. **Implementation review**: REQUEST_CHANGES, 14 findings (R01–R14, four
+   high). The reviewer passed renderer isolation and ship's publication order.
+   Each finding has a regression named after it (`ImplementationReviewTests`,
+   `LazySurfaceTests`):
+
+   | | finding | outcome |
+   |---|---|---|
+   | R01 | review surfaces and the receipt seed reopened source files; a replaced hard-linked role went unseen | a frozen view: while a command runs every `load_svg` of a captured path returns the captured text; each role keeps its own path for the checkpoint |
+   | R02 | configured scores could pre-fill a Lab for another effective contract or plan | never for a plan-bound Lab; otherwise only for the effective contract |
+   | R03 | an incomplete web plan fell back to fresh pixels | required files and favicon slots per target, or `PlanError` |
+   | R04 | a partial provenance record could certify a full audit | one definition (`plan.audit_origins`) that `qa.check` follows and `score` compares exactly |
+   | R05 | a valid plan for another source could ride along in evidence | the saved plan's inputs, scheme and background must be the evidence's |
+   | R06 | a malformed origin escaped as a traceback | type checks; shape errors become exit 2 |
+   | R07 | a QA-blocked ship omitted the plan record | reported before the outcome is chosen |
+   | R08 | renderer cleanup stopped at the first failure | each part released, the first error raised after |
+   | R09 | the emote card scaled its images | native sizes on light and dark chat grounds, the plan's own bytes |
+   | R10 | fallbacks still ran before plan lookups | the favicon only for web; the Lab's linked source only at 512 |
+   | R11 | the trust recipe did not check `audited`, the receipt digest, or packaged bytes | all three |
+   | R12 | wording: universal parity, schema, caching, probe coverage | reconciled |
+   | R13 | three tests did not exercise what they named | rewritten: a file replaced right after it is read, a valid but unapproved replay; one was mutation-checked against the old code |
+   | R14 | a second opinion was hashed from a reopened file | one read |
+
+   **Kept, against the reviewer (R01):** review outputs are not staged and
+   withheld until the final checkpoint. With the frozen view no artifact can
+   mix two versions; each is bound to the captured hash, so one left behind
+   by a refused review is refused downstream as stale (`score` checks the
+   source hash, `ship` the receipt's). Staging every sheet, the Lab and the
+   template would add a publication step to a command whose outputs are
+   evidence, not deliverables, to protect against a case the hashes already
+   refuse.
 
 ## Verification
 
@@ -132,8 +161,13 @@ second voice, weighed below it, through sealed read-only ATD consults.
 - Real flows: demo; Lab review → export (with a reviewer) → ship; headless
   review → score → ship → `ship --plan`; the Forge kit's README sequence from
   a clean project, including its placeholder reasons failing in one line.
-- Suite: 560 tests (`tests/test_audit_on_plan.py` adds 41), Chromium tests
-  included with `ICONFLOW_BROWSER_TESTS=1`.
+- Suite: 574 tests (`tests/test_audit_on_plan.py` adds 55), on Python 3.14
+  and 3.10; its Chromium tests run with `ICONFLOW_BROWSER_TESTS=1`.
+- What is a test and what is a measurement: the byte baseline, the parity
+  table and the render counts were measured by scripts against real Chromium
+  (the parity has a Chromium test; the byte baseline and the counts do not —
+  they need a `v0.8.0` checkout and a wrapped renderer). D06, D11, D12 and D15
+  are closed by code structure and documents, not by a named test.
 
 ## Not done
 

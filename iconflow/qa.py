@@ -726,12 +726,14 @@ def check(
     plan_maskable = None
     origins: dict = {}
     if plan is not None:
-        from .plan import audit_frames, audit_maskable
+        from .plan import audit_evidence
 
         _require_plan_source(plan, text, color_scheme)
-        plan_frames = audit_frames(plan)
+        # Complete before it is used: a plan missing a file its targets ship
+        # is refused, never measured around (R03).
+        plan_frames, shipped_maskable = audit_evidence(plan)
         if maskable:
-            plan_maskable = audit_maskable(plan)
+            plan_maskable = shipped_maskable
             if plan_maskable is not None:
                 _require_plan_maskable(plan, bg_label, effective_scale, linked_text)
 
@@ -810,6 +812,14 @@ def check(
             im16, im32, im512, rung_renders = render_checks(owned_rasterizer)
     else:
         im16, im32, im512, rung_renders = render_checks(rasterizer)
+    if plan is not None:
+        from .plan import PlanError, audit_origins
+
+        # The record evidence validation will hold this audit to (R04).
+        expected = audit_origins(plan, maskable=maskable, linked=maskable and linked_text is not None)
+        if origins != expected:
+            raise PlanError("the audit's frame origins disagree with the plan's "
+                            f"({sorted(origins)} against {sorted(expected)})")
     if provenance is not None:
         provenance.update(origins)
     warnings.extend(identity)

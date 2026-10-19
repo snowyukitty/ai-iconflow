@@ -10,10 +10,14 @@ so small sizes get the browser's own anti-aliasing instead of muddy resampling.
 """
 from __future__ import annotations
 
+import contextlib
+import contextvars
 import io
+import os
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from typing import Mapping
 
 from PIL import Image, ImageColor
 
@@ -125,9 +129,34 @@ def _validated_svg_text(text: str) -> str:
     return text
 
 
+#: The sources a command captured, by path: while a command runs, every
+#: :func:`load_svg` of one of them — the sheets, the Lab, the receipt seed,
+#: every hash — returns the captured text, never the file reopened (0.9, R01).
+_FROZEN: contextvars.ContextVar = contextvars.ContextVar("iconflow_frozen_sources", default=None)
+
+
+def _source_key(path) -> str:
+    return os.path.normcase(os.path.abspath(os.fspath(path)))
+
+
+@contextlib.contextmanager
+def frozen_sources(texts: Mapping):
+    """Serve ``{path: text}`` to :func:`load_svg` for the duration of the block."""
+    token = _FROZEN.set({_source_key(path): text for path, text in texts.items()})
+    try:
+        yield
+    finally:
+        _FROZEN.reset(token)
+
+
 def load_svg(path: str | Path) -> str:
     """Read and validate an SVG before it is inlined into isolated HTML."""
 
+    frozen = _FROZEN.get()
+    if frozen:
+        text = frozen.get(_source_key(path))
+        if text is not None:
+            return text
     source = Path(path)
     return svg_text_from_bytes(source.read_bytes(), source)
 
@@ -273,12 +302,7 @@ class Rasterizer:
             ])
             self._context, self._page = self._open_page(self._browser)
         except Exception:
-            if self._context:
-                self._context.close()
-            if self._browser:
-                self._browser.close()
-            self._pw.stop()
-            self._context = self._browser = self._pw = None
+            self._release()
             raise
         return self
 
@@ -307,13 +331,24 @@ class Rasterizer:
         return context, page
 
     def __exit__(self, *exc) -> None:
-        if self._context:
-            self._context.close()
-        if self._browser:
-            self._browser.close()
-        if self._pw:
-            self._pw.stop()
+        self._release()
+
+    def _release(self) -> None:
+        """Close the context, then the browser, then the driver — each even if
+        the one before failed (R08); the first failure is raised afterwards."""
+        context, browser, driver = self._context, self._browser, self._pw
         self._page = self._context = self._browser = self._pw = None
+        error = None
+        for close in (getattr(context, "close", None), getattr(browser, "close", None),
+                      getattr(driver, "stop", None)):
+            if close is None:
+                continue
+            try:
+                close()
+            except Exception as exc:  # noqa: BLE001 - release the rest first
+                error = error or exc
+        if error is not None:
+            raise error
 
     def render(self, svg_text: str, size: int, bg: str = "transparent") -> bytes:
         """Render `svg_text` to a `size`x`size` PNG (RGBA). bg='transparent'

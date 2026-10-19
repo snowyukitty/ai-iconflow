@@ -28,8 +28,8 @@ from __future__ import annotations
 import hashlib
 import io
 import json
-import re
 from dataclasses import dataclass
+from typing import Mapping
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -166,16 +166,16 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None,
             return {key: plan.get(key) if plan.get(key) is not None else value
                     for key, value in computed.items()}
 
-        favicon = {16: None, 32: None}
-        if plan is not None and plan.get("favicon.ico") is not None:
-            from .assemble import ico_frames
-
-            favicon.update({size: frame for size, frame in ico_frames(plan.get("favicon.ico")).items()
-                            if size in favicon})
-        for size in favicon:
-            if favicon[size] is None:
-                favicon[size] = cache.png(size)
         if targets & {"web", "pwa"}:
+            favicon = {16: None, 32: None}
+            if plan is not None and plan.get("favicon.ico") is not None:
+                from .assemble import ico_frames
+
+                favicon.update({size: frame for size, frame in
+                                ico_frames(plan.get("favicon.ico")).items() if size in favicon})
+            for size in favicon:
+                if favicon[size] is None:
+                    favicon[size] = cache.png(size)
             web = shipped(lambda: preview_assets(
                 cache, "web", bg_color=options.background_color,
                 maskable_scale=options.maskable_scale, maskable_cache=maskable_cache,
@@ -399,13 +399,46 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
                 f"evidence sheet {sheet.name} ({name}) changed after it was rendered; "
                 "re-run `iconflow review --evidence`"
             )
-    saved = _check_saved_plan(directory, findings) if "plan" in findings else None
-    findings["_audited"] = _check_provenance(findings, saved)
+    try:
+        saved = _check_saved_plan(directory, findings) if "plan" in findings else None
+        if saved is not None:
+            _check_plan_matches(saved, findings, source_sha256)
+        findings["_audited"] = _check_provenance(findings, saved)
+    except (TypeError, AttributeError, KeyError) as exc:
+        # A record of the wrong shape is malformed evidence, not a crash (R06).
+        raise HeadlessError(f"{path} is malformed ({exc}); re-run `iconflow review --evidence`") from exc
     findings["_sha256"] = hashlib.sha256(raw).hexdigest()
     return findings
 
 
-_PROBE_SIZE = re.compile(r"^master-(\d+)$")
+def _check_plan_matches(saved, findings: dict, source_sha256: str) -> None:
+    """The saved plan must be rendered from this evidence's sources and settings (R05).
+
+    The findings' own hashes are checked against the current review; this
+    connects the saved plan to them, so a valid plan for another source,
+    scheme, background or linked source cannot ride along.
+    """
+    from . import assemble
+
+    build = findings.get("build")
+    if not isinstance(build, dict):
+        raise HeadlessError("the findings carry no build contract")
+    for role, record in saved.inputs.items():
+        expected = (source_sha256 if role == "master"
+                    else build.get(f"{role}_source_sha256"))
+        if not isinstance(record, Mapping) or record.get("sha256") != expected:
+            raise HeadlessError(f"the saved render plan was rendered from another {role} source "
+                                "than this evidence; re-run `iconflow review --evidence`")
+    parameters = saved.parameters or {}
+    if parameters.get("color_scheme") != build.get("color_scheme"):
+        raise HeadlessError("the saved render plan was rendered in another colour scheme")
+    try:
+        planned = "#{:02X}{:02X}{:02X}".format(
+            *assemble.opaque_color(parameters.get("background_color"), "plan background")[:3])
+    except (TypeError, ValueError) as exc:
+        raise HeadlessError(f"the saved render plan's background is unreadable: {exc}") from exc
+    if planned != build.get("background_color"):
+        raise HeadlessError("the saved render plan was composed on another background")
 
 
 def _check_provenance(findings: dict, saved) -> bool:
@@ -416,47 +449,49 @@ def _check_provenance(findings: dict, saved) -> bool:
     beside it, and every frame it says came from the plan must be exactly the
     frame that plan holds for that probe.
     """
-    from .plan import PlanError, audit_frames, audit_maskable
+    from .plan import PlanError, audit_origins
 
     if "audit_provenance" not in findings:
         return False
     record = findings["audit_provenance"]
-    if (not isinstance(record, dict) or record.get("schema") != 1
-            or not isinstance(record.get("frames"), dict)
-            or not isinstance(record.get("audited"), bool)):
+    if (not isinstance(record, dict) or set(record) != {"schema", "plan", "audited", "frames"}
+            or record["schema"] != 1 or not isinstance(record["frames"], dict)
+            or not isinstance(record["audited"], bool)):
         raise HeadlessError("the findings' audit provenance is malformed; re-run `iconflow review --evidence`")
-    plan_record = record.get("plan")
-    frames = record["frames"]
-    if any(not isinstance(origin, dict) or origin.get("from") not in {"plan", "render"}
-           for origin in frames.values()):
+    plan_record, frames = record["plan"], record["frames"]
+    if any(not isinstance(origin, dict) or not isinstance(origin.get("from"), str)
+           or origin["from"] not in {"plan", "render"} for origin in frames.values()):
         raise HeadlessError("the findings' audit provenance names a frame of unknown origin")
-    from_plan = {probe: origin for probe, origin in frames.items() if origin["from"] == "plan"}
-    if record["audited"] != bool(plan_record is not None and from_plan):
-        raise HeadlessError("the findings' audit provenance contradicts itself")
     if plan_record is None:
-        if from_plan:
+        if record["audited"] or any(origin["from"] != "render" for origin in frames.values()):
             raise HeadlessError("the findings say the audit read a plan they do not name")
         return False
     if saved is None or not isinstance(plan_record, dict):
         raise HeadlessError("the findings' audit read a render plan that is not saved beside them")
-    expected = {"digest": saved.digest, "artifact_digest": saved.artifact_digest,
-                "provenance_digest": saved.provenance_digest}
-    if plan_record != expected:
+    if plan_record != {"digest": saved.digest, "artifact_digest": saved.artifact_digest,
+                       "provenance_digest": saved.provenance_digest}:
         raise HeadlessError("the audit measured another render plan than the one saved "
                             "beside these sheets; re-run `iconflow review --evidence`")
+    inputs = findings.get("audit")
+    if not isinstance(inputs, dict):
+        raise HeadlessError("the findings do not say what the audit was run on")
+    maskable = inputs.get("maskable_audit") is True
     try:
-        shipped = audit_frames(saved)
-        maskable = audit_maskable(saved)
+        expected = audit_origins(saved, maskable=maskable,
+                                 linked=maskable and inputs.get("maskable_source") is not None)
     except PlanError as exc:
         raise HeadlessError(f"the saved render plan cannot back the audit: {exc}") from exc
-    for probe, origin in from_plan.items():
-        match = _PROBE_SIZE.match(probe)
-        frame = (shipped.get(int(match.group(1))) if match
-                 else maskable if probe == "maskable-512" else None)
-        if frame is None or dict(frame.origin) != origin:
-            raise HeadlessError(f"the audit's {probe} frame is not the one the saved plan holds; "
-                                "re-run `iconflow review --evidence`")
-    return record["audited"]
+    # Exactly the record an audit on this plan makes: no probe left out, no
+    # render claimed where the plan ships the frame, no frame it does not hold.
+    if frames != expected:
+        differ = sorted(key for key in set(frames) | set(expected)
+                        if frames.get(key) != expected.get(key))
+        raise HeadlessError("the audit provenance is not the record of an audit on the saved plan ("
+                            + ", ".join(differ) + "); re-run `iconflow review --evidence`")
+    audited = any(origin["from"] == "plan" for origin in expected.values())
+    if record["audited"] != audited:
+        raise HeadlessError("the findings' audit provenance contradicts itself")
+    return audited
 
 
 def _check_saved_plan(directory: Path, findings: dict) -> None:
@@ -535,7 +570,8 @@ def load_opinion(path: str | Path, *, source_sha256: str, contract_sha256: str,
 
     path = Path(path)
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
+        raw = path.read_bytes()
+        value = json.loads(raw.decode("utf-8"))
     except (OSError, ValueError) as exc:
         raise HeadlessError(f"unreadable second opinion {path}: {exc}") from exc
     if not isinstance(value, dict):
@@ -572,7 +608,8 @@ def load_opinion(path: str | Path, *, source_sha256: str, contract_sha256: str,
         "reviewer": reviewer,
         "scores": {axis: scores[axis] for axis in AXES if axis in scores},
         "notes": str(value.get("notes", ""))[:2000],
-        "receipt_sha256": _sha256(path),
+        # Of the bytes parsed above, never the file reopened (R14).
+        "receipt_sha256": hashlib.sha256(raw).hexdigest(),
         "same_plan": same_plan,
     }
 

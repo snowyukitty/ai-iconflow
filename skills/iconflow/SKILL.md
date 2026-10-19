@@ -155,7 +155,8 @@ the project you are working on.
    - `iconflow check --config iconflow.toml` → fix every warning. With
      `--config`, `check` runs exactly the audit `review` and `ship` run — the
      configured targets, `background_color`, colour scheme and linked sources —
-     so a clean `check` means a clean `ship` audit. `--config` brings the
+     so on the same machine a clean `check` means a clean `ship` audit (a
+     `ship --plan` elsewhere measures the reviewed bytes instead). `--config` brings the
      `[neighbours]` sets in (`neighbour-collision` gates;
      `neighbour-familiar` and `neighbour-house-rut` advise). With a linked tray
      source add `--tray-svg tray.svg --tray-template-mode <mode>` to audit the

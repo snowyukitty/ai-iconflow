@@ -92,7 +92,9 @@ what the review showed and what `ship` published were three renders that
 agreed only because the renderer was deterministic. Now one command runs in
 one **render session** (`iconflow/session.py`): at most one Chromium, a
 context per colour scheme, and every request — operation, exact SVG text,
-size, background, scheme — rendered once and remembered. Only the renderer's
+size, background, scheme — rendered once and remembered (up to a 256 MB
+budget, past which a render is still returned but no longer kept: "once"
+becomes "at least once", never unbounded memory). Only the renderer's
 own bytes are cached; optimisation, flattening, containers and templates run
 exactly as before, which is why every built file is byte-identical to 0.8
 (156 files across five configurations, checked against a `v0.8.0` checkout).
@@ -121,7 +123,8 @@ evidence (`PlanError`) — never a reason to measure a fresh render instead. A
 plan rendered from another source or scheme, or a maskable file composed on
 another background or scale, is refused the same way.
 
-The result says where every probe's pixels came from: `outputs.plan.audited`
+The result says where each of those plan-aware probes took its pixels from
+(the supplementary probes in the last row are not listed): `outputs.plan.audited`
 (true when the audit measured the plan for every probe that has a
 counterpart) and `outputs.plan.audit_frames` (per probe: file, slot, size,
 byte and pixel digests, or `"from": "render"` and why). `review --evidence`

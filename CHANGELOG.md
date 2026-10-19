@@ -21,8 +21,9 @@ reviewed is what ships.
 - **One render session per command** (`iconflow/session.py`). `review` and
   `ship` start at most one Chromium (a context per colour scheme) and render
   each request once: a Review Lab review of the demo family went from nine
-  browsers and 67 renders (19 of them repeats) in 10.7 s to one browser and 48
-  renders in 4.7 s; `review --evidence` from five browsers to one.
+  browsers and 67 renders (19 of them repeats) in 10.7 s to one browser and 28
+  renders in under 4 s; `review --evidence` from five browsers to one, and a
+  flat `ship --plan` renders only what has no shipped counterpart.
 - `--json`: `outputs.plan` gains `audited` and `audit_frames` (review and
   ship); `ship` gains `outputs.receipt_sha256` and reports `outputs.audit`
   even when blocked. `findings.json` gains `audit_provenance`, which `score`
@@ -46,15 +47,31 @@ reviewed is what ships.
   then a plan that cannot be built or replayed, then drift, and nothing is
   written on any refusal. A QA-blocked ship now renders the plan before it
   refuses.
-- Each source is read once per command: `ship` refuses a captured source that
-  is not the one its approval names, and `review` refuses to write findings
-  when a source changed while it ran (`source-changed`, exit 2).
+- Each source is read once per command, and while the command runs every
+  reader of it — the sheets, the Lab, the receipt seed, every hash — sees
+  those captured bytes. `ship` refuses a captured source that is not the one
+  its approval names, and `review` refuses to write findings when a source
+  changed while it ran (`source-changed`, exit 2), including a linked source
+  that was a hard link to another and was replaced.
+- A plan is used as audit evidence only when complete: a plan missing a file
+  its targets ship (the favicon, its 16/32/48 frames, the maskable icon,
+  Tauri's sizes) is refused, never measured around.
+- `score` holds `audit_provenance` to exactly the record an audit on the
+  saved plan makes, and proves the saved plan was rendered from the
+  evidence's own sources, scheme and background. Evidence written by 0.8,
+  which has no provenance, is still accepted as not audited; but its saved
+  plan is now also checked against its sources and settings.
+- A failure to compute a review's plan that is an integrity error
+  (`PlanError`) now stops `review` (exit 2) instead of writing an unbound
+  review; render failures still leave the review unbound, as before.
+- A config's `[review]` scores no longer pre-fill a plan-bound Review Lab (a
+  config approval names no pixels); without a plan they pre-fill only for the
+  effective contract, command-line overrides included.
 - `score` validates `--scores`, every `--rationale`, `--notes` and
   `--reviewer-name` before printing the axis walk, and refuses `--rationale`
   without `--scores` instead of ignoring it.
 - A Review Lab draft is bound to the contract and the plan, not only to the
-  SVG, and a config's `[review]` scores pre-fill the Lab only while their
-  contract is still the current one.
+  SVG.
 - Toolchain provenance reports the running code's version, not installed
   distribution metadata (a stale editable install had recorded 0.7.0).
 - Built files are byte-identical to 0.8.0: 156 files across five
@@ -68,8 +85,13 @@ reviewed is what ships.
   it is now an exit-2 `runtime` envelope.
 - Two Review Lab drafts for the same SVG under different settings shared one
   saved score.
-- `findings.json` and the receipt were hashed by reopening the file after
-  validation; both are now hashed from the bytes validated.
+- `findings.json`, the receipt and a second opinion were hashed by
+  reopening the file after validation; all three are now hashed from the
+  bytes validated.
+- Closing a renderer stops at nothing: the context, the browser and the
+  driver are each closed even when the one before fails.
+- Malformed `audit_provenance` (an origin of the wrong type) is an exit-2
+  envelope, not a traceback.
 - Website: emote downloads have accessible names ("Joy SVG", not 55 links
   called "SVG"); the emotes page links Icon sizes like the Forge; the Forge
   project kit's README gives the headless review path, not only the Lab.

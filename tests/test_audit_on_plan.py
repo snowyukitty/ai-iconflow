@@ -25,6 +25,7 @@ from iconflow.cli import main
 from iconflow.plan import (
     PlanError, RenderPlan, audit_frames, audit_maskable, capture_sources, compute_plan,
 )
+from iconflow.rasterize import Rasterizer as RealRasterizer, svg_text_from_bytes
 from iconflow.session import RenderSession, SessionRasterizer, scheme_rasterizer
 
 NEEDS_CHROMIUM = unittest.skipUnless(
@@ -420,7 +421,7 @@ class ReviewAndShipTests(CommandFixture):
             "--out", str(self.receipt),
         ])
         self.assertEqual(code, 2)
-        self.assertIn("master-16 frame is not the one the saved plan holds", err)
+        self.assertIn("not the record of an audit on the saved plan (master-16)", err)
 
     def test_D07_malformed_provenance_is_refused_and_absent_provenance_is_legacy(self):
         self.review_and_score()
@@ -527,6 +528,30 @@ class ReviewAndShipTests(CommandFixture):
         self.assertEqual(seen, [None])
         self.assertEqual({w["code"] for w in envelope["warnings"]}, {"plan-replay"})
 
+    def test_R13_a_valid_but_unapproved_replay_is_withheld_from_the_audit(self):
+        """A structurally valid plan (another theme colour) reaches _replay_problems."""
+        from iconflow.plan import export_plan
+
+        self.review_and_score()
+        with RenderSession(factory=Disc) as session:
+            other = compute_plan(self.dir / "master.svg", ["web"], theme_color="#123456",
+                                 rasterizer=session.rasterizer("light"))
+        export_plan(other, self.dir / "other-plan")
+        seen = []
+        real = qa.check
+
+        def spy(*args, **kwargs):
+            seen.append(kwargs.get("plan"))
+            return real(*args, **kwargs)
+
+        with mock.patch("iconflow.qa.check", side_effect=spy), \
+                mock.patch("iconflow.plan.write_plan") as write:
+            code, envelope, err, _ = self.ship("--plan", str(self.dir / "other-plan"))
+        self.assertEqual(code, 1)
+        self.assertEqual(seen, [None])
+        self.assertIn("not the bytes the receipt approved", err)
+        write.assert_not_called()
+
     def test_D01_a_source_edited_after_the_approval_check_is_refused(self):
         self.review_and_score()
         real = capture_sources
@@ -616,13 +641,24 @@ scores = { legibility = 5, distinctiveness = 5, balance = 5, color = 5, scalabil
         page, _ = self.lab(config)
         self.assertNotIn('value="5"', page)
 
-    def test_D16_an_emote_lab_shows_the_emote_sizes_from_the_plan(self):
+    def test_D16_R09_an_emote_lab_shows_the_plans_files_at_their_own_size(self):
+        import base64
+        import re
+
         config = write_project(self.dir, targets='["emote"]')
         page, _ = self.lab(config)
         self.assertIn("EMOTE", page)
-        for size in (28, 56, 112):
-            self.assertIn(f'alt="{size}px emote"', page)
         self.assertNotIn("No targets selected", page)
+        with RenderSession(factory=Disc) as session:
+            plan = compute_plan(self.dir / "master.svg", ["emote"],
+                                rasterizer=session.rasterizer("light"))
+        for size in (28, 56, 112):
+            for ground in ("light", "dark"):
+                found = re.search(r'<img src="data:image/png;base64,([^"]+)" width="(\d+)" '
+                                  rf'height="(\d+)" alt="{size}px emote on {ground}">', page)
+                self.assertIsNotNone(found, (size, ground))
+                self.assertEqual(found.group(2, 3), (str(size), str(size)))
+                self.assertEqual(base64.b64decode(found.group(1)), plan.file(f"emote/{size}.png"))
 
     def test_the_lab_exports_provenance_but_never_authority(self):
         page, _ = self.lab()
@@ -645,6 +681,261 @@ scores = { legibility = 5, distinctiveness = 5, balance = 5, color = 5, scalabil
             self.lab(write_project(self.dir, targets='["web", "tauri", "electron"]'))
         self.assertEqual(len(seen), len(set(seen)), "a frame was rendered twice")
         self.assertLessEqual(Disc.launches, 2)  # one per scheme
+
+
+# ----------------------------------------- implementation review (R01-R14)
+
+class ImplementationReviewTests(CommandFixture):
+    """Regressions for the implementation review; each names its finding."""
+
+    def evidence_args(self, *extra):
+        return ["score", "--config", str(self.config), "--evidence", str(self.evidence),
+                "--scores", PASSING, *RATIONALE, "--notes", "n", "--reviewer-name", "a",
+                "--out", str(self.receipt), *extra]
+
+    def test_R01_every_reader_in_a_review_sees_the_captured_source(self):
+        """An edit-and-restore while a sheet is drawn is invisible to every reader."""
+        from iconflow.rasterize import load_svg
+
+        seen = []
+
+        def edit_read_restore(master, out, **_kwargs):
+            Path(master).write_text(MASTER.replace("400", "300"), encoding="utf-8")
+            seen.append(load_svg(master))
+            Path(master).write_bytes(MASTER.encode("utf-8"))
+            return write_png(out)
+
+        with mock.patch("iconflow.review.contact_sheet", side_effect=edit_read_restore):
+            code, envelope, err, _ = run(["review", "--config", str(self.config),
+                                          "--evidence", str(self.evidence)])
+        self.assertEqual(code, 0, (envelope, err))
+        self.assertEqual(seen, [svg_text_from_bytes(MASTER.encode("utf-8"))])
+
+    def test_R01_a_replaced_aliased_role_is_seen_to_change(self):
+        master = self.dir / "master.svg"
+        tray = self.dir / "tray.svg"
+        try:
+            os.link(master, tray)
+        except OSError:
+            self.skipTest("hard links unavailable here")
+        sources = capture_sources(master, ["web", "tray"], tray_svg=tray)
+        self.assertIs(sources["tray"].raw, sources["master"].raw)  # read once
+        self.assertEqual(sources["tray"].path, str(tray))
+        replacement = self.dir / "tray.new"
+        replacement.write_text(MASTER.replace("#1478F0", "#000000"), encoding="utf-8")
+        os.replace(replacement, tray)
+        from iconflow.plan import changed_sources
+
+        self.assertEqual(changed_sources(sources), ["tray"])
+
+    def test_R02_a_current_config_decision_never_prefills_a_plan_bound_lab(self):
+        from iconflow.config import config_review_contract_digest, load_config, svg_sha256
+
+        base = self.config.read_text(encoding="utf-8")
+        contract = config_review_contract_digest(load_config(self.config))
+        self.config.write_text(base + f"""[review]
+status = "approved"
+source_sha256 = "{svg_sha256(self.dir / 'master.svg')}"
+contract_sha256 = "{contract}"
+scores = {{ legibility = 5, distinctiveness = 5, balance = 5, color = 5, scalability = 5, craft = 5 }}
+""", encoding="utf-8")
+        out = self.dir / "review.html"
+        argv = ["review", "--config", str(self.config), "--out", str(self.dir / "r.png"),
+                "--html", str(out)]
+        self.assertEqual(run(argv)[0], 0)
+        self.assertNotIn('value="5"', out.read_text(encoding="utf-8"))
+        # Without a plan the decision may seed the Lab, but only for its own contract.
+        with mock.patch("iconflow.cli._review_plan", return_value=None):
+            self.assertEqual(run(argv)[0], 0)
+            self.assertIn('value="5"', out.read_text(encoding="utf-8"))
+            self.assertEqual(run([*argv, "--bg", "#202020"])[0], 0)
+            self.assertNotIn('value="5"', out.read_text(encoding="utf-8"))
+
+    def test_R03_an_incomplete_plan_is_refused_not_measured_around(self):
+        from iconflow import assemble
+
+        with RenderSession(factory=Disc) as session:
+            full = compute_plan(self.dir / "master.svg", ["web"],
+                                rasterizer=session.rasterizer("light"))
+        files = {f.path: f.data for f in full.files}
+        inputs = AuditInputs(master=self.dir / "master.svg", targets=("web",))
+        for broken, needle in (
+            ({k: v for k, v in files.items() if k != "favicon.ico"}, "lacks files"),
+            ({**files, "favicon.ico": assemble.ico_bytes({16: _png(16), 32: _png(32)})},
+             "16, 32 and 48"),
+            ({k: v for k, v in files.items() if k != "icon-512-maskable.png"}, "lacks files"),
+        ):
+            with self.subTest(needle=needle):
+                plan = RenderPlan.create(broken, inputs=full.inputs, parameters=full.parameters,
+                                         toolchain={})
+                with self.assertRaisesRegex(PlanError, needle):
+                    run_audit(inputs, plan=plan)
+
+    def test_R04_a_partial_or_reclassified_provenance_record_is_refused(self):
+        self.review_and_score()
+        self.receipt.unlink()
+        path = self.evidence / "findings.json"
+        original = json.loads(path.read_text(encoding="utf-8"))
+        frames = original["audit_provenance"]["frames"]
+        for name, edited in (
+            ("dropped probe", {k: v for k, v in frames.items() if k != "master-16"}),
+            ("plan frame called a render", {**frames, "master-16": {
+                "from": "render", "size": 16, "reason": "no shipped frame at this size"}}),
+            ("unknown probe", {**frames, "master-64": {"from": "render", "size": 64,
+                                                        "reason": "no shipped frame at this size"}}),
+            ("render record missing its reason", {**frames, "maskable-512": {"from": "render"}}),
+        ):
+            with self.subTest(name):
+                record = {**original["audit_provenance"], "frames": edited}
+                path.write_text(json.dumps({**original, "audit_provenance": record}), encoding="utf-8")
+                code, _envelope, err, _ = run(self.evidence_args())
+                self.assertEqual(code, 2, name)
+                self.assertFalse(self.receipt.exists())
+
+    def test_R05_a_valid_plan_for_another_source_cannot_ride_along(self):
+        from iconflow.plan import audit_origins, export_plan
+
+        self.review_and_score()
+        self.receipt.unlink()
+        other_master = self.dir / "other.svg"
+        other_master.write_text(MASTER.replace("400", "350"), encoding="utf-8")
+        with RenderSession(factory=Disc) as session:
+            other = compute_plan(other_master, ["web"], rasterizer=session.rasterizer("light"))
+        import shutil
+
+        shutil.rmtree(self.evidence / "plan")
+        export_plan(other, self.evidence / "plan")
+        path = self.evidence / "findings.json"
+        findings = json.loads(path.read_text(encoding="utf-8"))
+        findings["plan"] = other.binding()
+        findings["audit_provenance"]["plan"] = {
+            "digest": other.digest, "artifact_digest": other.artifact_digest,
+            "provenance_digest": other.provenance_digest}
+        findings["audit_provenance"]["frames"] = audit_origins(other, maskable=True, linked=False)
+        path.write_text(json.dumps(findings), encoding="utf-8")
+        code, _envelope, err, _ = run(self.evidence_args())
+        self.assertEqual(code, 2)
+        self.assertIn("another master source", err)
+        self.assertFalse(self.receipt.exists())
+
+    def test_R06_a_malformed_origin_is_one_exit_2_envelope(self):
+        self.review_and_score()
+        self.receipt.unlink()
+        path = self.evidence / "findings.json"
+        original = json.loads(path.read_text(encoding="utf-8"))
+        for value in ([], None, {"nested": 1}, 7):
+            with self.subTest(value=value):
+                record = json.loads(json.dumps(original["audit_provenance"]))
+                record["frames"]["master-16"]["from"] = value
+                path.write_text(json.dumps({**original, "audit_provenance": record}), encoding="utf-8")
+                code, envelope, err, stdout = run(self.evidence_args())
+                self.assertEqual((code, envelope["status"]), (2, "error"))
+                self.assertNotIn("Traceback", err)
+                self.assertFalse(self.receipt.exists())
+
+    def test_R07_a_qa_blocked_ship_still_reports_what_it_measured(self):
+        self.review_and_score()
+        Disc.dot = True
+        with mock.patch("iconflow.plan.write_plan") as write:
+            code, envelope, _err, _ = self.ship()
+        self.assertEqual((code, envelope["warnings"][0]["code"]), (1, "qa-warnings"))
+        plan = envelope["outputs"]["plan"]
+        self.assertTrue(plan["audited"])
+        self.assertEqual(plan["audit_frames"]["master-16"]["file"], "favicon.ico")
+        self.assertIs(plan["verified"], False)  # the drift is reported, not gated twice
+        write.assert_not_called()
+
+    def test_R08_releasing_a_renderer_closes_everything_even_after_a_failure(self):
+        calls = []
+
+        class Part:
+            def __init__(self, name, fail=False):
+                self.name, self.fail = name, fail
+
+            def close(self):
+                calls.append(self.name)
+                if self.fail:
+                    raise RuntimeError(f"{self.name} close failed")
+
+            stop = close
+
+        r = RealRasterizer()  # the fixture substitutes the module's name
+        r._context, r._browser, r._pw = Part("context", fail=True), Part("browser"), Part("driver")
+        with self.assertRaisesRegex(RuntimeError, "context close failed"):
+            r.__exit__(None, None, None)
+        self.assertEqual(calls, ["context", "browser", "driver"])
+        self.assertIsNone(r._pw)
+
+    def _swap_after_first_read(self, target: Path, replacement: bytes):
+        """Replace ``target`` on disk right after its bytes are first read."""
+        real = Path.read_bytes
+        state = {"done": False}
+
+        def read_bytes(path):
+            data = real(path)
+            if not state["done"] and Path(path).resolve() == target.resolve():
+                state["done"] = True
+                target.write_bytes(replacement)
+            return data
+
+        return mock.patch.object(Path, "read_bytes", read_bytes)
+
+    def test_R13_the_findings_digest_is_of_the_bytes_read_even_if_the_file_moves(self):
+        run(["review", "--config", str(self.config), "--evidence", str(self.evidence)])
+        path = self.evidence / "findings.json"
+        original = path.read_bytes()
+        with self._swap_after_first_read(path, original + b"\n\n"):
+            code, envelope, err, _ = run(self.evidence_args())
+        self.assertEqual(code, 0, (envelope, err))
+        receipt = json.loads(self.receipt.read_text(encoding="utf-8"))
+        self.assertEqual(receipt["review_surface"]["findings_sha256"],
+                         hashlib.sha256(original).hexdigest())
+
+    def test_R13_the_receipt_digest_is_of_the_bytes_read_even_if_the_file_moves(self):
+        self.review_and_score()
+        original = self.receipt.read_bytes()
+        with self._swap_after_first_read(self.receipt, original.replace(b"\n", b"\r\n")):
+            code, envelope, err, _ = self.ship()
+        self.assertEqual(code, 0, (envelope, err))
+        self.assertEqual(envelope["outputs"]["receipt_sha256"], hashlib.sha256(original).hexdigest())
+
+    def test_R14_a_second_opinion_is_hashed_from_the_bytes_parsed(self):
+        from iconflow.headless import load_opinion
+
+        receipt = self.review_and_score()
+        opinion = self.dir / "opinion.json"
+        body = {**receipt, "reviewer": {"kind": "agent", "name": "agent-b"}}
+        original = json.dumps(body).encode("utf-8")
+        opinion.write_bytes(original)
+        with self._swap_after_first_read(opinion, json.dumps({**body, "notes": "swapped"}).encode()):
+            loaded = load_opinion(opinion, source_sha256=receipt["source_sha256"],
+                                  contract_sha256=receipt["contract_sha256"],
+                                  primary_reviewer={"name": "agent-a"})
+        self.assertEqual(loaded["receipt_sha256"], hashlib.sha256(original).hexdigest())
+        self.assertNotEqual(loaded["notes"], "swapped")
+
+
+class LazySurfaceTests(unittest.TestCase):
+    def test_R10_an_emote_target_sheet_from_a_complete_plan_renders_nothing(self):
+        from iconflow.headless import target_sheet
+        from iconflow.review import ReviewOptions
+
+        reset_disc()
+        with tempfile.TemporaryDirectory() as tmp:
+            master = Path(tmp) / "master.svg"
+            master.write_bytes(MASTER.encode("utf-8"))
+            with RenderSession(factory=Disc) as session:
+                plan = compute_plan(master, ["emote"], rasterizer=session.rasterizer("light"))
+
+            class Refuse(Disc):
+                def __enter__(self):
+                    raise AssertionError("a complete plan needed no renderer")
+
+            with mock.patch("iconflow.rasterize.Rasterizer", Refuse), \
+                    mock.patch("iconflow.review.Rasterizer", Refuse):
+                target_sheet(master, Path(tmp) / "t.png",
+                             options=ReviewOptions(name="Disc", targets=("emote",)), plan=plan)
+            self.assertTrue((Path(tmp) / "t.png").is_file())
 
 
 # ----------------------------------------------------------- real Chromium

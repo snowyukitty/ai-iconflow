@@ -497,8 +497,9 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             own = shipped if scheme == shipped_scheme else {}
             renders[scheme] = {s: own[s] if s in own else source.render(r, s) for s in sizes}
             if linked_source is not None:
+                # Only the 512 px maskable composition reads it (R10).
                 linked_renders = linked_renders or {}
-                linked_renders[scheme] = {s: linked_source.render(r, s) for s in sizes}
+                linked_renders[scheme] = {512: linked_source.render(r, 512)}
             tray_renders[scheme] = (
                 {s: tray_source.render(r, s) for s in (16, 32)} if tray_source is not None
                 else {s: renders[scheme][s] for s in (16, 32)}
@@ -654,21 +655,24 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
     if "emote" in target_set:
         from .build import EMOTE_SIZES
 
+        # The files an emote ships, at their own pixel sizes, on a light and a
+        # dark chat ground: one scheme's bytes (the build's), never rescaled (R09).
         chat_sizes = tuple(size for size in EMOTE_SIZES if size < 128)
-        emote: dict[str, dict[int, bytes]] = {}
-        for scheme in ("light", "dark"):
-            with _renderer(rasterizer, scheme) as r:
-                emote[scheme] = {}
-                for size in chat_sizes:
-                    planned = (plan.get(f"emote/{size}.png")
-                               if plan is not None and scheme == shipped_scheme else None)
-                    emote[scheme][size] = planned if planned is not None else source.render(r, size)
+        emote: dict[int, bytes] = {}
+        with _renderer(rasterizer, shipped_scheme) as r:
+            for size in chat_sizes:
+                planned = plan.get(f"emote/{size}.png") if plan is not None else None
+                emote[size] = planned if planned is not None else source.render(r, size)
+        rows = "".join(
+            f'<div class="emote-row {ground}">' + "".join(
+                f'<figure><img src="{_data_url(emote[size])}" width="{size}" height="{size}" '
+                f'alt="{size}px emote on {ground}"><figcaption>{size}px</figcaption></figure>'
+                for size in chat_sizes) + '</div>'
+            for ground in ("light", "dark")
+        )
         target_cards.append(
             '<article class="target-card"><div class="target-label"><span>EMOTE</span>'
-            '<small>chat, native sizes</small></div><div class="dock-context">'
-            + "".join(scheme_image(emote["light"][size], emote["dark"][size], f"{size}px emote")
-                      for size in chat_sizes)
-            + '</div></article>'
+            f'<small>chat, native sizes</small></div><div class="emote-context">{rows}</div></article>'
         )
     target_cards_html = "\n".join(target_cards) or (
         '<p class="empty">No targets selected. The source-size inspection remains available.</p>'
@@ -797,6 +801,12 @@ figcaption strong {{ color:#fff; font-family:ui-monospace,SFMono-Regular,Consola
 .rubric {{ display:grid; gap:8px; }} .rubric-row {{ display:grid; grid-template-columns:145px 1fr 28px; gap:10px; align-items:center; color:#e9e7e1; font-size:13px; }}
 .rubric-row input {{ accent-color:var(--coral); }} .rubric-row output {{ color:var(--coral); font:700 14px ui-monospace,SFMono-Regular,Consolas,monospace; text-align:right; }}
 textarea {{ width:100%; min-height:152px; resize:vertical; border:1px solid var(--line); border-radius:10px; padding:12px; color:#f4f2ed; background:#1d1e23; line-height:1.5; }}
+.emote-context {{ display:grid; gap:8px; }}
+.emote-row {{ display:flex; gap:16px; align-items:flex-end; padding:12px 14px; border-radius:10px; }}
+.emote-row.light {{ background:#ffffff; }} .emote-row.dark {{ background:#313338; }}
+.emote-row figure {{ margin:0; display:flex; flex-direction:column; align-items:center; gap:4px; }}
+.emote-row img {{ flex:none; max-width:none; width:auto; height:auto; }}
+.emote-row figcaption {{ font-size:11px; color:#8a8f98; }}
 .reviewer-line {{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px; }}
 .reviewer-line label {{ flex-basis:100%; }}
 .reviewer-line input, .reviewer-line select {{ border:1px solid var(--line); border-radius:10px; padding:8px 10px; color:#f4f2ed; background:#1d1e23; }}

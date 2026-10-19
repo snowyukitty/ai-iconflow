@@ -389,12 +389,13 @@ def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_
                     monochrome_svg=None) -> dict[str, Source]:
     """Read every source a build with these targets consumes, once, by role.
 
-    One snapshot per *file*, shared by every role that names it — by file
-    identity, so a symlink or a hard link to the same file is the same
-    snapshot (a link that names the master is still a link: the default
-    maskable scale depends on it, but the bytes are the master's). A command
-    captures once and hands the result to the plan, the audit and the
-    approval check, so all three measure the same bytes (0.9, F01).
+    One read per *file*, shared by every role that names it — by file
+    identity, so a symlink or a hard link to the same file is read once (a
+    link that names the master is still a link: the default maskable scale
+    depends on it, but the bytes are the master's). Each role keeps its own
+    path, so a role whose file is later replaced is still seen to change
+    (R01). A command captures once and hands the result to the plan, the
+    audit and the approval check, so all of them measure the same bytes (D01).
     """
     import importlib
 
@@ -411,8 +412,18 @@ def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_
         key = _file_identity(path)
         if key not in by_file:
             by_file[key] = snapshot(path, role)
-        sources[role] = by_file[key]
+        read = by_file[key]
+        # The same bytes objects: the plan renders a shared file once.
+        sources[role] = Source(role=role, path=str(path), raw=read.raw, text=read.text)
     return sources
+
+
+def frozen_view(sources: Mapping[str, Source]):
+    """While it is entered, every :func:`~iconflow.rasterize.load_svg` of a
+    captured path returns the captured text (R01)."""
+    from .rasterize import frozen_sources
+
+    return frozen_sources({source.path: source.text for source in sources.values()})
 
 
 def changed_sources(sources: Mapping[str, Source]) -> list[str]:
@@ -486,9 +497,10 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
         def cache_for(source: Source | None):
             if source is None:
                 return None
-            if id(source) not in caches:
-                caches[id(source)] = b.RenderCache(source.text, r, optimize=optimize_png)
-            return caches[id(source)]
+            # Keyed by the bytes read, so roles that share one file share a cache.
+            if id(source.raw) not in caches:
+                caches[id(source.raw)] = b.RenderCache(source.text, r, optimize=optimize_png)
+            return caches[id(source.raw)]
 
         cache = cache_for(master)
         files: dict[str, bytes] = {}
@@ -615,6 +627,68 @@ def audit_maskable(plan: RenderPlan) -> AuditFrame | None:
     """The shipped maskable composition, or None when no selected target writes it."""
     data = plan.get(MASKABLE_FILE)
     return None if data is None else _audit_frame(MASKABLE_FILE, None, 512, data)
+
+
+#: Files a target's plan must carry before it can stand as audit evidence: a
+#: plan that claims web but lacks its favicon is not "a plan without a 16 px
+#: frame", it is an incomplete plan (R03).
+REQUIRED_AUDIT_FILES = {
+    "web": ("favicon.ico", "icon-512.png", MASKABLE_FILE),
+    "pwa": ("favicon.ico", "icon-512.png", MASKABLE_FILE),
+    "tauri": ("icons/32x32.png", "icons/icon.png", "icons/icon.ico", "icons/icon.icns"),
+}
+FAVICON_SLOTS = (16, 32, 48)
+
+
+def audit_evidence(plan: RenderPlan) -> tuple[dict[int, AuditFrame], AuditFrame | None]:
+    """The plan's audit frames and maskable file, after proving the plan complete.
+
+    Refuses (``PlanError``) a plan missing a file its targets must ship, or a
+    favicon without its 16, 32 and 48 px slots, before any frame is used.
+    """
+    targets = list((plan.parameters or {}).get("targets") or [])
+    missing = sorted({path for target in targets
+                      for path in REQUIRED_AUDIT_FILES.get(target, ()) if plan.get(path) is None})
+    if missing:
+        raise PlanError("the plan lacks files its targets must ship: " + ", ".join(missing))
+    favicon = plan.get("favicon.ico")
+    if favicon is not None:
+        try:
+            slots = set(assemble.ico_frames(favicon))
+        except (ValueError, IndexError, struct.error) as exc:
+            raise PlanError(f"favicon.ico: unreadable container ({exc})") from exc
+        if slots != set(FAVICON_SLOTS):
+            raise PlanError("favicon.ico must carry exactly the 16, 32 and 48 px frames, not "
+                            + ", ".join(map(str, sorted(slots))))
+    return audit_frames(plan), audit_maskable(plan)
+
+
+def audit_origins(plan: RenderPlan, *, maskable: bool, linked: bool) -> dict[str, dict]:
+    """Where every plan-aware probe must take its pixels from, for this plan.
+
+    The single definition :func:`iconflow.qa.check` follows and evidence
+    validation compares against, so a record cannot omit a probe, claim a
+    render where the plan ships the frame, or name a frame the plan does not
+    hold (R04).
+    """
+    frames, shipped_maskable = audit_evidence(plan)
+
+    def master(size: int) -> dict:
+        frame = frames.get(size)
+        if frame is not None:
+            return dict(frame.origin)
+        return {"from": "render", "size": size, "reason": "no shipped frame at this size"}
+
+    origins = {"master-16": master(16), "master-32": master(32)}
+    if maskable:
+        if shipped_maskable is not None:
+            origins["maskable-512"] = dict(shipped_maskable.origin)
+        else:
+            origins["maskable-512"] = {"from": "render", "size": 512,
+                                       "reason": "no selected target ships the maskable composition"}
+        if linked or shipped_maskable is None:
+            origins["master-512"] = master(512)
+    return origins
 
 
 # --------------------------------------------------------------- publication

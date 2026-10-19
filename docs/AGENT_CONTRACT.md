@@ -70,7 +70,10 @@ each reports the inputs it used as `outputs.audit`:
 ```
 
 With the same SVG and `--config`, the three commands report the same `audit`
-object and the same warnings; `tests/test_audit.py` fails if they can differ.
+object and, on one machine, the same warnings; `tests/test_audit.py` fails if
+they can differ. From 0.9 `ship --plan` measures the replayed bytes, so on
+another machine its findings can differ from a local `check` on purpose
+(`docs/RENDER_PLAN.md`).
 Before 0.7, `check --config` composed the maskable icon on white while `review`
 and `ship` used the configured background. Precedence is: explicit flag, then
 the config, then the defaults (`web,pwa`, `#ffffff`, light). `check` with
@@ -183,9 +186,9 @@ Every FAIL carries a `fix` the user can paste (for Chromium: the exact
 `outputs`: `{"sheet": "<abs path>", "html": "<abs path or null>", "receipt_template": "<abs path or null>", "source_sha256": "...", "contract_sha256": "...", "targets": ["web", ...]}`.
 A source that opted into the detail ladder also gets a `<sheet>-ladder.png`
 proof written beside `sheet`, and its path is printed. It is deliberately *not*
-a new `outputs` key: this envelope is frozen at `schema: 1` and the PR Proof
-action rejects any other value, so new structure goes on the new `ladder`
-command instead.
+a new `outputs` key: the ladder's structure belongs to the `ladder` command,
+which reports it in full, and `review`'s envelope stays the PR Proof action's
+small contract (that action accepts `schema: 1` only).
 `review` exits `1` only when automated QA warnings exist (the human score is
 not machine-judged); it never scores taste.
 

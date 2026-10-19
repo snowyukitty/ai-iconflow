@@ -52,6 +52,19 @@ class Renderer:
         return out.getvalue()
 
 
+def clean_check(master, **kwargs):
+    """``qa.check`` finding nothing, but recording the provenance a real audit
+    records on a plan (0.9), so evidence validation sees a real record."""
+    plan, provenance = kwargs.get("plan"), kwargs.get("provenance")
+    if plan is not None and provenance is not None:
+        from iconflow.plan import audit_origins
+
+        maskable = kwargs.get("maskable", True)
+        provenance.update(audit_origins(
+            plan, maskable=maskable, linked=maskable and kwargs.get("maskable_svg") is not None))
+    return []
+
+
 def write_png(path, *_args, **_kwargs):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -81,7 +94,7 @@ class PlanShipTests(unittest.TestCase):
         from iconflow.budget import Budget
 
         for target, kwargs in (
-            ("iconflow.qa.check", {"return_value": []}),
+            ("iconflow.qa.check", {"side_effect": clean_check}),
             ("iconflow.qa.tray_template_warnings", {"return_value": []}),
             ("iconflow.budget.budget_svg", {"return_value": Budget(
                 source="master.svg", ground="transparent", cuts_256=1, cuts_16=1,

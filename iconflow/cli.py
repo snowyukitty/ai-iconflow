@@ -463,7 +463,7 @@ def _cmd_ship(a) -> Report:
     from .config import GATE_CODES, GATE_QA_WARNINGS, ConfigError
     from .plan import (
         GATE_PLAN_DRIFT, GATE_PLAN_REPLAY, PlanError, capture_sources, compare, compute_plan,
-        load_plan, plan_parameters, write_plan,
+        frozen_view, load_plan, plan_parameters, write_plan,
     )
     from .qa import warning_code
     from .session import RenderSession
@@ -519,7 +519,7 @@ def _cmd_ship(a) -> Report:
         report.error("source-changed", message)
         return report
 
-    with RenderSession() as session:
+    with frozen_view(sources), RenderSession() as session:
         renderer = session.rasterizer(config.color_scheme)
         plan = None
         # (kind, code, message): held until an outcome is chosen.
@@ -562,6 +562,14 @@ def _cmd_ship(a) -> Report:
             report.error("runtime", f"QA could not run: {exc}")
             return report
 
+        check = compare(approved, plan) if plan is not None else None
+        mode = "replayed" if replay else "rendered"
+        if check is not None:
+            # Reported whatever the outcome, so a blocked ship still says what it
+            # measured and what differed (R07). Recording facts never changes
+            # the exit code; only the gates below do.
+            report.outputs["plan"] = {**check.describe(plan), "mode": mode,
+                                      "audited": audit.audited, "audit_frames": audit.frames}
         # A declared collision is a QA warning like any other and blocks the ship
         # through the same door; advisories only inform, and are reported here so
         # a ship is not the one place they go unseen.
@@ -585,11 +593,6 @@ def _cmd_ship(a) -> Report:
             (report.warn if kind == "warn" else report.error)(code, message)
             return report
 
-        check = compare(approved, plan)
-        mode = "replayed" if replay else "rendered"
-        # Reported whatever happens next, so a blocked ship still says what differed.
-        report.outputs["plan"] = {**check.describe(plan), "mode": mode,
-                                  "audited": audit.audited, "audit_frames": audit.frames}
         if replay:
             if problems:
                 print("SHIP BLOCKED — the saved plan cannot be published as reviewed:",
@@ -802,7 +805,7 @@ def _cmd_review(a) -> Report:
 
     from .audit import resolve_inputs, run_audit
     from .config import ConfigError, load_config
-    from .plan import capture_sources, changed_sources
+    from .plan import capture_sources, changed_sources, frozen_view
     from .review import (
         ReviewOptions, contact_sheet, interactive_review, ladder_sheet,
         neighbour_sheet, receipt_seed, receipt_template,
@@ -848,11 +851,9 @@ def _cmd_review(a) -> Report:
             maskable_scale=inputs.maskable_scale,
             maskable_svg=inputs.maskable_svg,
             monochrome_svg=config.monochrome_svg_path if config else None,
-            # A [review] decision seeds the Lab only while it still describes
-            # this contract: an old approval is never pre-filled onto new
-            # pixels as if it had scored them (F13).
-            scores=dict(config.review_scores) if _prior_review_current(config) else {},
-            notes=config.review_notes if _prior_review_current(config) else "",
+            # Decided below, once the effective contract and the plan are known.
+            scores={},
+            notes="",
         )
         # Every source, once (F01): the plan, the audit and the sheets'
         # findings measure these bytes; a file that changes before the review
@@ -886,7 +887,8 @@ def _cmd_review(a) -> Report:
 
     # One render session for the whole review (F09): the plan, the audit and
     # every sheet draw each frame from it once, in at most one browser per scheme.
-    with RenderSession() as session:
+    # Inside the frozen view every reader sees the captured sources (R01).
+    with frozen_view(sources), RenderSession() as session:
         renderer = session.rasterizer(color_scheme)
         # The exact output this review shows and its receipt binds (R16). Computed
         # only for the surfaces that bind it: the Lab, the template, the evidence.
@@ -904,6 +906,14 @@ def _cmd_review(a) -> Report:
         warnings = audit.warnings
         hood = audit.neighbourhood
         options = _replace(options, warnings=tuple(warnings))
+        # A [review] decision pre-fills the Lab only while it still binds the
+        # effective contract (command-line overrides included) and no plan is
+        # bound: a config approval names no pixels, so it can never be shown
+        # as a decision about these ones (R02).
+        if (plan is None and _prior_review_current(config)
+                and config.review_contract_sha256 == receipt_seed(master, options=options)["contract_sha256"]):
+            options = _replace(options, scores=dict(config.review_scores),
+                               notes=config.review_notes)
         master_text = sources["master"].text
 
         sheet_path = evidence_dir / "contact-sheet.png" if evidence_dir else Path(a.out)

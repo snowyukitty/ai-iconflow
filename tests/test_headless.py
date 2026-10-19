@@ -47,12 +47,42 @@ def write_png(path, *_args, **_kwargs):
     return path
 
 
-def stub_plan():
-    """A tiny real RenderPlan, so ship's plan seam can be stubbed without Chromium."""
-    from iconflow.plan import RenderPlan
+def clean_check(master, **kwargs):
+    """``qa.check`` finding nothing, but recording the provenance a real audit
+    records on a plan (0.9), so evidence validation sees a real record."""
+    plan, provenance = kwargs.get("plan"), kwargs.get("provenance")
+    if plan is not None and provenance is not None:
+        from iconflow.plan import audit_origins
 
-    return RenderPlan.create({"favicon.svg": b"<svg/>"}, inputs={"master": {"path": "master.svg", "sha256": "0" * 64, "bytes_sha256": "0" * 64}},
-                             parameters={}, toolchain={})
+        maskable = kwargs.get("maskable", True)
+        provenance.update(audit_origins(
+            plan, maskable=maskable, linked=maskable and kwargs.get("maskable_svg") is not None))
+    return []
+
+
+class Renderer:
+    """A disc on transparency: a real plan without Chromium."""
+
+    def __init__(self, color_scheme="light", **_options):
+        self.color_scheme = color_scheme
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return None
+
+    def render(self, svg, size, bg="transparent"):
+        from PIL import ImageDraw
+
+        image = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+        margin = max(1, size // 5)
+        if size >= 4:
+            ImageDraw.Draw(image).ellipse([margin, margin, size - margin - 1, size - margin - 1],
+                                          fill=(20, 120, 240, 255))
+        out = io.BytesIO()
+        image.save(out, "PNG")
+        return out.getvalue()
 
 
 class HeadlessFlowTests(unittest.TestCase):
@@ -72,11 +102,15 @@ class HeadlessFlowTests(unittest.TestCase):
             patcher = mock.patch(target, return_value=value)
             patcher.start()
             self.addCleanup(patcher.stop)
+        # 0.9: the plan a review binds is real (rendered by a disc), because
+        # score now proves the saved plan is this source's and the audit's.
+        patcher = mock.patch("iconflow.rasterize.Rasterizer", Renderer)
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def render_evidence(self):
-        with mock.patch("iconflow.qa.check", return_value=[]), \
+        with mock.patch("iconflow.qa.check", side_effect=clean_check), \
              mock.patch("iconflow.qa.tray_template_warnings", return_value=[]), \
-             mock.patch("iconflow.plan.compute_plan", return_value=stub_plan()), \
              mock.patch("iconflow.review.contact_sheet",
                         side_effect=lambda master, out, **kw: write_png(out)), \
              mock.patch("iconflow.headless.target_sheet",
@@ -115,8 +149,7 @@ class HeadlessFlowTests(unittest.TestCase):
         self.assertEqual(loaded.review_surface["kind"], headless.SURFACE_KIND)
 
         build = __import__("importlib").import_module("iconflow.build")
-        with mock.patch("iconflow.qa.check", return_value=[]), \
-             mock.patch("iconflow.plan.compute_plan", return_value=stub_plan()), \
+        with mock.patch("iconflow.qa.check", side_effect=clean_check), \
              mock.patch("iconflow.plan.write_plan", return_value=[]):
             code, envelope, err = run([
                 "ship", "--config", str(self.config), "--review", str(self.dir / "receipt.json"),
