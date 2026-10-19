@@ -410,83 +410,99 @@ def mark_only(svg_text: str) -> str:
     return _derive(svg_text, replace=False)
 
 
-#: Elements that draw. Everything else at the top level (``defs``, gradients,
-#: filters, masks, ``style``…) only supports drawing and is kept by the proof.
+#: Elements that draw. The proof removes them (but the background) to draw the
+#: card alone, hoisting what they hold that only supports drawing (Z05).
 _RENDERED = {"rect", "circle", "ellipse", "line", "polyline", "polygon", "path", "text",
              "image", "use", "g", "switch", "foreignObject", "a", "svg"}
-#: The layer proof (Y01-Y03): rendered at this size, a pixel whose channels
-#: move more than PROOF_DELTA counts as changed, and more than PROOF_SHARE of
-#: the canvas changed is a dependency. Antialiasing moves a channel by 3 at
-#: most on every declared master in the repository; the dependencies found
-#: move thousands of pixels by 20 to 230.
-PROOF_SIZE = 256
-PROOF_DELTA = 16
-PROOF_SHARE = 0.001
+_SUPPORTING = {"defs", "linearGradient", "radialGradient", "pattern", "clipPath", "mask",
+               "filter", "marker", "symbol", "style", "solidcolor"}
+#: The layer proof, made on exactly what ships: the master reduced to the
+#: 1024 px rung, rendered at 1024 px in each scheme it ships in (Z01). The
+#: layers must recompose the master up to rounding: no pixel's channel may
+#: move by more than PROOF_DELTA (Z02). Every declared master in the
+#: repository recomposes within 2 levels, on Windows and Linux alike; a
+#: dependency moves pixels by 8 levels (an opacity change of 1/32) and up.
+PROOF_DELTA = 4
 
 
-def _background_alone(svg_text: str, *, styles: bool = True) -> str:
-    """The document with nothing drawn but its declared background."""
+def _supporting(element: ET.Element) -> list[ET.Element]:
+    """The outermost supporting elements inside ``element``."""
+    found: list[ET.Element] = []
+    for child in element:
+        if _local(child.tag) in _SUPPORTING:
+            found.append(child)
+        else:
+            found.extend(_supporting(child))
+    return found
+
+
+def _background_alone(svg_text: str) -> str:
+    """The document with nothing drawn but its declared background.
+
+    A removed element's definitions (a gradient the card uses, defined inside
+    a group) are kept in a ``<defs>`` where the element stood, so the card
+    still paints as it does in the master (Z05).
+    """
     root = _parse(svg_text)
     for child in list(root):
         if _local(child.tag) in _RENDERED and child.get("id") != BACKGROUND_ID:
+            index = list(root).index(child)
+            kept = _supporting(child)
             root.remove(child)
-    if not styles:
-        for parent in list(root.iter()):
-            for child in list(parent):
-                if _local(child.tag) == "style":
-                    parent.remove(child)
+            if kept:
+                defs = ET.Element(f"{{{SVG_NS}}}defs")
+                defs.extend(kept)
+                root.insert(index, defs)
     return ET.tostring(root, encoding="unicode")
 
 
-def _changed_share(a: bytes, b: bytes | Image.Image) -> float:
-    first = _rgba(a)
-    second = b if isinstance(b, Image.Image) else _rgba(b)
-    difference = ImageChops.difference(first, second)
-    channels = [band.point(lambda v: 255 if v > PROOF_DELTA else 0) for band in difference.split()]
-    changed = channels[0]
-    for band in channels[1:]:
+def _worst_change(a: bytes, b: Image.Image) -> tuple[int, int]:
+    """(largest channel difference, pixels beyond PROOF_DELTA) between two renders."""
+    difference = ImageChops.difference(_rgba(a), b)
+    worst = max(high for _, high in difference.getextrema())
+    if worst <= PROOF_DELTA:
+        return worst, 0
+    bands = [band.point(lambda v: 255 if v > PROOF_DELTA else 0) for band in difference.split()]
+    changed = bands[0]
+    for band in bands[1:]:
         changed = ImageChops.lighter(changed, band)
-    return changed.histogram()[255] / (first.width * first.height)
+    return worst, changed.histogram()[255]
 
 
-def prove_layers(svg_text: str, light, dark=None) -> None:
-    """Prove, by rendering, that the background can be removed and extended.
+def prove_layers(svg_text: str, light, dark) -> None:
+    """Prove, by rendering, that the mark does not depend on the background.
 
-    What can make the mark depend on its background is open-ended — a
-    stylesheet, a CSS function that reads the document's structure
-    (``sibling-index()``), a motion path along the card, blending with it —
-    so instead of enumerating syntax the same Chromium that ships the pixels
-    checks the two facts the derivation relies on (Y01-Y03):
+    What can make the mark depend on its card is open-ended — a stylesheet,
+    a CSS function that reads the document's structure (``sibling-index()``),
+    a motion path along the card, blending with it — so instead of
+    enumerating syntax, the Chromium that ships the pixels checks the fact
+    every mark-derived file relies on: the master renders as its card alone
+    with its mark alone composited over it, in the light and the dark
+    scheme, at 1024 px on the 1024 px rung (Y01-Y03, Z01-Z03, Z06).
 
-    * **separable** — the master renders as its background alone with the
-      mark alone composited over it, in the light scheme and, when the dark
-      icon is derived from the mark, in the dark one;
-    * **extensible** — the full-bleed card renders the same in the master's
-      document as in a document without its stylesheets.
+    Called whenever the master's mark ships on its own — as the dark icon or
+    as the Icon Composer layer. The light icon alone (``ios_variants =
+    "system"``) never separates the mark from the card, so it needs no
+    proof. The card's extension needs none either: no permitted selector can
+    reach the replacement ``rect`` (bare ``rect`` and the background id are
+    refused, and it has no class), and it inherits exactly what the card did
+    (Z04).
 
-    Raises :class:`LayerError` naming which fact failed.
+    Raises :class:`LayerError`.
     """
+    svg_text = ladder.reduce_svg(svg_text, ladder.rung_for_size(SIZE))
     alone, mark = _background_alone(svg_text), mark_only(svg_text)
     for renderer, scheme in ((light, "light"), (dark, "dark")):
-        if renderer is None:
-            continue
-        layered = _rgba(renderer.render(alone, PROOF_SIZE))
-        layered.alpha_composite(_rgba(renderer.render(mark, PROOF_SIZE)))
-        share = _changed_share(renderer.render(svg_text, PROOF_SIZE), layered)
-        if share > PROOF_SHARE:
+        layered = _rgba(renderer.render(alone, SIZE))
+        layered.alpha_composite(_rgba(renderer.render(mark, SIZE)))
+        worst, changed = _worst_change(renderer.render(svg_text, SIZE), layered)
+        if changed:
             raise LayerError(
                 f"the mark depends on the background: drawn without it ({scheme} scheme) "
-                f"{share:.1%} of the icon changes — blending with the card, a stylesheet or a "
-                "CSS function that reads the document can do this; link build.ios_dark_svg "
-                'or set build.ios_variants = "system"')
-    extended = _background_alone(full_bleed(svg_text))
-    share = _changed_share(light.render(extended, PROOF_SIZE),
-                           light.render(_background_alone(full_bleed(svg_text), styles=False),
-                                        PROOF_SIZE))
-    if share > PROOF_SHARE:
-        raise LayerError(
-            "a stylesheet repaints the background once it is extended to full bleed "
-            f"({share:.1%} of the icon changes); select the mark by class or id")
+                f"{changed} pixels change by up to {worst} levels — blending with the card, "
+                "a stylesheet or a CSS function that reads the document can do this. Ship "
+                'the light icon alone (build.ios_variants = "system"), or remove '
+                'id="iconflow-background" and link build.ios_dark_svg')
 
 
 def composer_svg(svg_text: str) -> str:

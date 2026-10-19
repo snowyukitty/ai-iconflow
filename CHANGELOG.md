@@ -26,11 +26,11 @@ icon they make possible.
   one fixed mapping. Only a declared layer counts — geometry is never guessed —
   and a declaration the build cannot honour fails with the rule it broke. An
   untagged master ships the light icon alone and iOS derives the rest.
-  Before any iOS file is made the derivation is **proven by rendering**: the
-  master must equal its card alone with its mark alone composited over it,
-  and the extended card must render the same without the master's
-  stylesheets, so a mark that blends with, moves along or counts its card is
-  refused whatever CSS does it.
+  Whenever the master's mark ships on its own (the dark icon, the Icon
+  Composer layer) it is first **proven by rendering**: on the 1024 px rung, in
+  both schemes, the master must equal its card alone with its mark alone
+  composited over it, up to rounding — so a mark that blends with, moves along
+  or counts its card is refused whatever CSS does it.
 - `build.ios_dark_svg` (a linked source drawn for the dark screen, captured,
   hashed and replayed like `maskable_svg`) and `build.ios_variants`
   (`"auto"` | `"system"`), with `iconflow build --ios-dark-svg/--ios-variants`.

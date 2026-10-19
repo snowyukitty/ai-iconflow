@@ -1126,15 +1126,73 @@ class RealChromiumTests(unittest.TestCase):
         plain = write(self.dir, "master.svg", svg(CARD + mark))
         self.assertIn(ios.DARK, compute_plan(plain, ["ios"]).produced)
 
-    def test_Y_the_extension_proof_catches_a_repainted_full_bleed(self):
-        from iconflow.rasterize import Rasterizer
+    def refused(self, text, **kwargs):
+        master = write(self.dir, "master.svg", text)
+        with self.assertRaises(ios.LayerError) as caught:
+            compute_plan(master, ["ios"], **kwargs)
+        return str(caught.exception)
 
-        text = svg('<style>rect{fill:#ff0000}</style><circle id="iconflow-background" '
-                   'cx="512" cy="512" r="500" fill="#000000"/>' + MARK)
-        with mock.patch.object(ios, "_check_stylesheets"), Rasterizer() as r:
-            with self.assertRaises(ios.LayerError) as caught:
-                ios.prove_layers(text, r)
-        self.assertIn("repaints the background", str(caught.exception))
+    def proven(self, text, **kwargs):
+        return compute_plan(write(self.dir, "master.svg", text), ["ios"], **kwargs)
+
+    def test_Z01_the_proof_sees_the_rung_that_ships(self):
+        # The blending circle exists only in the 1024 px (plate) rung; a larger
+        # plain circle hides it in every other rung and in the unreduced text.
+        light_card = CARD.replace("#191A20", "#F4EAD8")
+        text = svg(light_card
+                   + '<circle data-lod="plate" cx="512" cy="512" r="200" fill="#66ccff" '
+                   'style="mix-blend-mode:multiply"/>'
+                   + '<circle data-lod="glyph mark" cx="512" cy="512" r="240" fill="#66ccff"/>')
+        self.assertIn("depends on the background", self.refused(text))
+
+    def test_Z02_a_small_or_faint_dependency_is_still_a_dependency(self):
+        small = svg(CARD + MARK + '<rect x="496" y="176" width="28" height="28" fill="#FFF4E8" '
+                    'style="opacity:calc(sibling-index() - 2)"/>')
+        faint = svg(CARD + MARK.replace(
+            "<circle", '<circle style="opacity:calc(.75 + sibling-index() / 32)"'))
+        for label, text in (("a 28 px detail that vanishes", small),
+                            ("a 1/32 opacity shift", faint)):
+            with self.subTest(label):
+                self.assertIn("depends on the background", self.refused(text))
+
+    def test_Z03_Z06_the_proof_follows_what_ships(self):
+        light_card = CARD.replace("#191A20", "#F4EAD8")
+        blending = svg(light_card + '<circle cx="512" cy="512" r="200" fill="#3366cc" '
+                       'style="mix-blend-mode:multiply"/>')
+        message = self.refused(blending)
+        self.assertIn('ios_variants = "system"', message)
+        # The light icon alone never separates mark from card: no proof needed.
+        self.assertEqual(self.proven(blending, ios_variants="system").produced,
+                         [ios.CONTENTS, ios.LIGHT, ios.README])
+        # A linked dark source still ships the master's mark as the Composer
+        # layer, so the proof still applies — in the dark scheme too (Z06).
+        dark = write(self.dir, "dark.svg", svg('<circle cx="512" cy="512" r="200" fill="#fff"/>'))
+        self.refused(blending, ios_dark_svg=dark)
+        dark_only = svg('<style>@media (prefers-color-scheme: dark)'
+                        '{.m{opacity:calc(sibling-index() / 4)}}</style>'
+                        + CARD + MARK.replace("<circle", '<circle class="m"'))
+        self.assertIn("dark scheme", self.refused(dark_only, ios_dark_svg=dark))
+
+    def test_Z04_Z05_legitimate_paint_servers_are_proven(self):
+        styled_stops = svg(
+            '<style>.s{stop-color:#e0c080}</style><defs><linearGradient id="g">'
+            '<stop class="s" offset="0"/><stop class="s" offset="1"/></linearGradient></defs>'
+            + CARD.replace('fill="#191A20"', 'fill="url(#g)"')
+            + MARK.replace('fill="#FFF4E8"', 'fill="#202020"'))
+        nested = svg(CARD.replace('fill="#191A20"', 'fill="url(#g)"')
+                     + '<g><defs><linearGradient id="g"><stop offset="0" stop-color="#204060"/>'
+                     '</linearGradient></defs>' + MARK + '</g>')
+        top_level = svg('<defs><linearGradient id="g"><stop offset="0" stop-color="#204060"/>'
+                        '</linearGradient></defs>'
+                        + CARD.replace('fill="#191A20"', 'fill="url(#g)"') + '<g>' + MARK + '</g>')
+        for label, text in (("class-styled stops", styled_stops), ("a gradient in a group", nested),
+                            ("the same gradient at the top", top_level)):
+            with self.subTest(label):
+                self.assertIn(ios.DARK, self.proven(text).produced)
+        nested_files = files_of(self.proven(nested))
+        top_files = files_of(self.proven(top_level))
+        self.assertEqual(ios._rgba(nested_files[ios.LIGHT]).tobytes(),
+                         ios._rgba(top_files[ios.LIGHT]).tobytes())
 
     def test_scheme_sibling_shares_the_open_browser(self):
         from iconflow.rasterize import Rasterizer

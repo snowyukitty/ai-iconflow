@@ -340,15 +340,16 @@ pseudo-classes, attributes and `*` — each could repaint the card or change
 meaning once it is removed or extended. Style the dark icon with a linked
 `ios_dark_svg` instead.
 
-Rules are not the guarantee; rendering is. Before any iOS file is made, the
-same Chromium that ships the pixels proves the derivation: the master must
-render as its background alone with the mark alone composited over it (in the
-dark scheme too when the dark icon comes from the mark), and the full-bleed
-card must render the same with and without the master's stylesheets. A mark
-that depends on its card in any way — blending with it (`mix-blend-mode`), a
-CSS function that reads the document (`sibling-index()`), a motion path along
-it — fails the build with `ios_dark_svg` and `ios_variants = "system"` as the
-fixes. A declaration outside that subset fails the build
+Rules are not the guarantee; rendering is. Whenever the master's mark ships
+on its own — as the dark icon, or as the Icon Composer layer — the Chromium
+that ships the pixels first proves it can stand alone: on the 1024 px rung, at
+1024 px, in the light and the dark scheme, the master must render as its card
+alone with its mark alone composited over it, up to rounding (no channel moves
+more than 4 levels). A mark that depends on its card in any way — blending with
+it (`mix-blend-mode`), a CSS function that reads the document
+(`sibling-index()`), a motion path along it — fails the build. The fixes: ship
+the light icon alone (`ios_variants = "system"`, which never separates the
+mark), or remove the declaration and link `ios_dark_svg`. A declaration outside that subset fails the build
 with the rule it broke; it never falls back silently. Geometry is never
 guessed: an untagged master ships the **light icon alone** (flattened onto
 `background_color`) and iOS derives dark and tinted, with an advisory saying

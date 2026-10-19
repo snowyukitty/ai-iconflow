@@ -615,13 +615,15 @@ def ios_files(r, ios_plan, master_text: str, dark_text: str | None,
     import importlib
 
     b = importlib.import_module(".build", __package__)
-    dark_from_mark = "dark" in ios_plan.shipped and dark_text is None
-    needs_dark = ios_plan.declared or "dark" in ios_plan.shipped
+    # The master's mark ships on its own whenever a declared master has a dark
+    # appearance: as the dark icon, or as the Icon Composer layer even beside
+    # a linked dark source (Z03, Z06).
+    mark_ships = ios_plan.declared and "dark" in ios_plan.shipped
+    needs_dark = "dark" in ios_plan.shipped
     with (ios.dark_renderer(r) if needs_dark else contextlib.nullcontext()) as dark_r:
-        if ios_plan.declared:
-            # A derivation is only shipped once rendering proves it changes
-            # nothing but the background (Y01-Y03).
-            ios.prove_layers(master_text, r, dark_r if dark_from_mark else None)
+        if mark_ships:
+            # Only once rendering proves the mark stands alone (Y01-Y03, Z01-Z06).
+            ios.prove_layers(master_text, r, dark_r)
         light_text = ios.full_bleed(master_text) if ios_plan.declared else master_text
         light = b.RenderCache(light_text, r, optimize=False)
         if "dark" not in ios_plan.shipped:

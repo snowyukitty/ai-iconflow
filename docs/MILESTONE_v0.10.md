@@ -228,6 +228,21 @@ which 48 declare a background) finds no declared master refused.
    remaining declared masters in the repository are proven; none is refused.
    On the previous code the Y regressions fail.
 
+5. **Fifth verification**: **REQUEST_CHANGES**, 6 findings (Z01–Z06); Y01–Y03
+   confirmed closed. The proof was right in kind and loose in fit:
+
+| # | Finding | Resolution |
+|---|---|---|
+| Z01 | proven at 256 px — the "mark" rung — while 1024 px ships the "plate" rung | proven on the master reduced to the 1024 px rung, at 1024 px (about a second for a whole iOS build) |
+| Z02 | 0.1% of the canvas could change (a 28 px identity detail), and changes under 16 levels (a 1/32 opacity shift) were ignored | "equal up to rounding": no channel may move more than 4 levels, no pixel allowance. Every declared master recomposes within 2 levels, on Windows and on Linux (measured in a Playwright container) |
+| Z03 | light-only builds were proven though they never separate the mark, and the message offered fixes that could not work | proven exactly when the master's mark ships on its own; the message offers `ios_variants = "system"` or removing the declaration and linking `ios_dark_svg` |
+| Z04 | the extension check stripped every stylesheet, so class-styled gradient stops turned black | removed: no permitted selector can reach the replacement `rect` (bare `rect` and the background id are refused, and it has no class) and it inherits exactly what the card did — a reference that changes legitimate paint protects nothing |
+| Z05 | drawing the card alone deleted a gradient defined inside a removed group | supporting definitions are hoisted into a `<defs>` where the group stood |
+| Z06 | a linked dark source skipped the dark-scheme proof though the master's mark still ships as the Composer layer | separability is proven in both schemes whenever the mark ships |
+
+   On the previous code every Z regression fails; all 47 declared masters
+   are still proven.
+
 ## Verification
 
 - Suite: 655 tests (`tests/test_ios.py` adds 70) on Python 3.14 and 3.10;
