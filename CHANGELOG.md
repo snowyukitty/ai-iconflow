@@ -6,7 +6,50 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
-Nothing yet.
+### Added
+
+- **The render plan: the pixels you reviewed are the pixels that ship**
+  (`iconflow/plan.py`, `docs/RENDER_PLAN.md`). Every file a build writes is
+  computed once, in memory, from source snapshots read once, into an
+  immutable plan with two identities: a content digest (decoded pixels, each
+  ICO/ICNS frame, text with LF) and an exact-byte digest. `review` binds the
+  plan it shows into the receipt (Lab and `--receipt-template`);
+  `review --evidence` saves it as `DIR/plan/` and draws `targets.png` from
+  its files; `score` inherits it and never renders one. `ship` renders again
+  and blocks with **`plan-drift`** (exit 1) when anything differs, naming the
+  changed, added and removed files — whatever the toolchain: a Chromium or
+  Pillow upgrade explains drift, it does not approve it.
+- **`ship --plan DIR`** publishes the reviewed bytes themselves, without
+  rendering the shipped files again — the way a receipt made on one machine
+  ships from CI on another. The directory is imported as a hostile artifact:
+  links, unnamed files, duplicate JSON keys and non-portable paths are
+  refused, sizes are bounded, and every identity is recomputed from the bytes
+  read; it must match the receipt's byte digest, the current sources and the
+  current settings (`plan-replay`, exit 1).
+- `--json`: `ship`, `review` and `score` gain `outputs.plan`
+  (`digest`, `artifact_digest`, `verified`, `bytes_verified`, `drift`, and
+  `mode` for ship). Advisory `plan-unbound` for a receipt that predates plans.
+  Receipts gain an optional `plan`; a malformed one is a configuration error.
+- `brand build --ship` records the icon plan as `approval.icon_plan`, scoped
+  to the icon files. A second opinion over a different plan is refused.
+
+### Fixed
+
+- **A failed build no longer leaves half an icon set.** `build()` writes
+  nothing until every file is computed and staged; a commit failure restores
+  the files it had replaced. (Not crash-atomic; `docs/RENDER_PLAN.md` says
+  exactly what is and is not promised.) Its signature, return value and the
+  bytes it writes are unchanged.
+- The Windows tile preview used the background colour where the build uses
+  the theme colour when no `tile_color` is set; `preview_assets` now takes
+  `theme_color` and agrees with the build.
+
+### Changed
+
+- `assemble.ico_bytes`/`icns_bytes` (and `ico_frames`/`icns_frames`) and
+  `htmlhead.web_meta_files` return what the existing writers write;
+  `rasterize.svg_text_from_bytes` validates an SVG already read.
+- The skill (plugin 0.9.0) teaches the plan, `plan-drift` and `ship --plan`.
 
 ## 0.7.0 - 2026-10-19
 

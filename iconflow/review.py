@@ -181,7 +181,8 @@ def _maskable_asset(png512: bytes, bg: str = "#ffffff", *, scale: float | None =
     ))
 
 
-def android_previews(svg_text: str, options: "ReviewOptions") -> dict[str, bytes]:
+def android_previews(svg_text: str, options: "ReviewOptions", *,
+                     assets: dict[str, bytes] | None = None) -> dict[str, bytes]:
     """The exact Android layers, composed the way a launcher shows them.
 
     Built from :func:`iconflow.build.android_assets` — the bytes ``ship``
@@ -193,14 +194,15 @@ def android_previews(svg_text: str, options: "ReviewOptions") -> dict[str, bytes
     def cache_for(path, r):
         return RenderCache(load_svg(path), r, optimize=False) if path else None
 
-    with Rasterizer(color_scheme=options.color_scheme) as r:
-        assets = android_assets(
-            RenderCache(svg_text, r, optimize=False), options.background_color,
-            maskable_scale=options.maskable_scale,
-            maskable_cache=cache_for(options.maskable_svg, r),
-            monochrome_cache=cache_for(options.monochrome_svg or options.tray_svg, r),
-            template_mode=options.tray_template_mode,
-        )
+    if assets is None:  # else: a render plan's own layers
+        with Rasterizer(color_scheme=options.color_scheme) as r:
+            assets = android_assets(
+                RenderCache(svg_text, r, optimize=False), options.background_color,
+                maskable_scale=options.maskable_scale,
+                maskable_cache=cache_for(options.maskable_svg, r),
+                monochrome_cache=cache_for(options.monochrome_svg or options.tray_svg, r),
+                template_mode=options.tray_template_mode,
+            )
     foreground = _img(assets["android/res/mipmap-xxxhdpi/ic_launcher_foreground.png"])
     mono = _img(assets["android/res/mipmap-xxxhdpi/ic_launcher_monochrome.png"])
     size = foreground.width
@@ -220,6 +222,13 @@ def android_previews(svg_text: str, options: "ReviewOptions") -> dict[str, bytes
         "legacy": assets["android/res/mipmap-xxxhdpi/ic_launcher_round.png"],
     }
     return out
+
+
+def _plan_android(plan) -> dict[str, bytes] | None:
+    if plan is None:
+        return None
+    assets = {path: plan.get(path) for path in plan.produced if path.startswith("android/")}
+    return assets or None
 
 
 def _draw_safe_zone(im: Image.Image) -> Image.Image:
@@ -355,7 +364,7 @@ def _data_url(png: bytes) -> str:
 
 
 def receipt_seed(master_svg: str | Path, *,
-                 options: ReviewOptions | None = None) -> dict:
+                 options: ReviewOptions | None = None, plan=None) -> dict:
     """Return the unscored receipt the Review Lab seeds and exports.
 
     The seed binds the brief, the source hash, the target set, and the visual
@@ -402,18 +411,20 @@ def receipt_seed(master_svg: str | Path, *,
         "targets": list(options.targets),
         "build": build_contract,
         "warnings": list(options.warnings),
+        # 0.8: the exact output this review shows (docs/RENDER_PLAN.md).
+        **({"plan": plan.binding()} if plan is not None else {}),
     }
 
 
 def receipt_template(master_svg: str | Path, out: str | Path, *,
-                     options: ReviewOptions | None = None) -> Path:
+                     options: ReviewOptions | None = None, plan=None) -> Path:
     """Write an unscored receipt template next to the review evidence.
 
     Filling ``scores`` (every axis 1-5), ``notes``, and setting ``status`` to
     ``"ready"`` turns it into the file ``ship --review`` accepts; ``ship`` still
     re-checks the source hash, the contract, and the >=4 floor itself.
     """
-    seed = receipt_seed(master_svg, options=options)
+    seed = receipt_seed(master_svg, options=options, plan=plan)
     seed.update({"scores": {}, "notes": "", "status": "unscored"})
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -422,7 +433,7 @@ def receipt_template(master_svg: str | Path, out: str | Path, *,
 
 
 def interactive_review(master_svg: str | Path, out: str | Path, *,
-                       options: ReviewOptions | None = None) -> Path:
+                       options: ReviewOptions | None = None, plan=None) -> Path:
     """Write a self-contained, target-aware Review Lab.
 
     Light and dark SVG variants are rendered separately, so switching the UI
@@ -460,7 +471,7 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
                     s: tray_source.render(r, s) for s in (16, 32)
                 }
 
-    review_seed = receipt_seed(path, options=options)
+    review_seed = receipt_seed(path, options=options, plan=plan)
     build_contract = review_seed["build"]
     source_hash = review_seed["source_sha256"]
 
@@ -479,6 +490,13 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
         )
         for scheme in ("light", "dark")
     }
+    # In the scheme the build renders, show the plan's own bytes: the receipt
+    # this Lab exports binds exactly what it displays.
+    shipped_scheme = options.color_scheme if options.color_scheme in ("light", "dark") else "light"
+    if plan is not None:
+        for key in web_assets[shipped_scheme]:
+            if plan.get(key) is not None:
+                web_assets[shipped_scheme][key] = plan.get(key)
 
     silhouette_sizes = [32, 48, 64, 128, 256]
     visual = {s: _data_url(_png(visual_silhouette(renders["light"][s])))
@@ -544,6 +562,8 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             scheme: preview_assets(caches[scheme], "tauri")["icons/128x128.png"]
             for scheme in ("light", "dark")
         }
+        if plan is not None and plan.get("icons/128x128.png") is not None:
+            tauri[shipped_scheme] = plan.get("icons/128x128.png")
         target_cards.append(
             '<article class="target-card"><div class="target-label"><span>TAURI</span>'
             '<small>desktop bundle</small></div><div class="dock-context"><span></span>'
@@ -555,6 +575,8 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             scheme: electron_frames(caches[scheme], options.electron_radius, (128,))[128]
             for scheme in ("light", "dark")
         }
+        if plan is not None and plan.get("build/icon.icns") is not None:
+            electron[shipped_scheme] = assemble.icns_frames(plan.get("build/icon.icns"))[128]
         target_cards.append(
             '<article class="target-card"><div class="target-label"><span>ELECTRON</span>'
             f'<small>radius {options.electron_radius:.2f}</small></div><div class="start-context">'
@@ -569,6 +591,10 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             )
             for scheme in ("light", "dark")
         }
+        if plan is not None:
+            for key in tray_assets[shipped_scheme]:
+                if plan.get(key) is not None:
+                    tray_assets[shipped_scheme][key] = plan.get(key)
         target_cards.append(
             '<article class="target-card"><div class="target-label"><span>TRAY / MENU BAR</span>'
             '<small>16px + template</small></div><div class="menu-context">'
@@ -578,7 +604,7 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             '<span>•••</span></div></article>'
         )
     if "android" in target_set:
-        android = android_previews(svg, options)
+        android = android_previews(svg, options, assets=_plan_android(plan))
         cells = "".join(
             f'<figure><img src="{_data_url(android[key])}" '
             f'alt="Android {html.escape(label)}"><figcaption>{html.escape(label)}</figcaption></figure>'

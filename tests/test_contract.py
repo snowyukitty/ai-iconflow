@@ -80,6 +80,21 @@ class FakeRasterizer:
         return _card_png(size)
 
 
+def fake_plan(*paths):
+    """A real, tiny RenderPlan, so ship's plan seam can be stubbed without Chromium."""
+    from iconflow.plan import RenderPlan
+
+    def payload(path):
+        if not path.endswith(".png"):
+            return b"<svg/>"
+        buffer = io.BytesIO()
+        Image.new("RGBA", (4, 4)).save(buffer, "PNG")
+        return buffer.getvalue()
+
+    return RenderPlan.create({path: payload(path) for path in paths or ("favicon.svg",)},
+                             inputs={}, parameters={}, toolchain={})
+
+
 def run_json(argv: list[str]) -> tuple[int, dict, str]:
     """Run ``main`` in JSON mode; stdout must be exactly one JSON object."""
     out, err = io.StringIO(), io.StringIO()
@@ -333,7 +348,7 @@ class ShipEnvelopeTests(DemoFamilyFixture):
     def test_qa_warnings_block_with_qa_warnings_and_finding_codes(self):
         finding = Finding("stroke-floor", "stroke-width=1 is very thin")
         with mock.patch("iconflow.qa.check", return_value=[finding]), \
-             mock.patch.object(BUILD_MODULE, "build") as build:
+             mock.patch("iconflow.plan.compute_plan") as build:
             code, envelope, err = self.ship()
         self.assertEqual(code, 1)
         self.assertEqual(
@@ -353,7 +368,8 @@ class ShipEnvelopeTests(DemoFamilyFixture):
     def test_successful_ship_reports_files_receipt_scores_and_packet(self):
         out = self.dir / "icon-out"
         with mock.patch("iconflow.qa.check", return_value=[]), \
-             mock.patch.object(BUILD_MODULE, "build", return_value=["favicon.svg", "tray/tray.png"]):
+             mock.patch("iconflow.plan.compute_plan", return_value=fake_plan("favicon.svg", "tray/tray.png")), \
+             mock.patch("iconflow.plan.write_plan", return_value=["favicon.svg", "tray/tray.png"]):
             code, envelope, err = self.ship("--out", str(out))
         self.assertEqual(code, 0)
         self.assertEqual(envelope["status"], "ok")
@@ -380,7 +396,8 @@ class ShipEnvelopeTests(DemoFamilyFixture):
             unknown_future_key={"ignored": True},
         )
         with mock.patch("iconflow.qa.check", return_value=[]), \
-             mock.patch.object(BUILD_MODULE, "build", return_value=[]):
+             mock.patch("iconflow.plan.compute_plan", return_value=fake_plan()), \
+             mock.patch("iconflow.plan.write_plan", return_value=[]):
             code, envelope, _ = self.ship()
         self.assertEqual(code, 0)
         self.assertEqual(envelope["outputs"]["artifacts"], {"review_png_sha256": "ab" * 32})
@@ -416,6 +433,9 @@ class ReviewEnvelopeTests(DemoFamilyFixture):
         self.assertEqual(audit["targets"], config.targets)
         self.assertEqual(audit["background_color"], config.background_color)
         self.assertEqual(audit["tray_source"], str(config.tray_svg_path))
+        # A plan when Chromium can render one (R16); None, never an error, without.
+        plan = outputs.pop("plan")
+        self.assertTrue(plan is None or len(plan["digest"]) == 64)
         self.assertEqual(outputs, {
             "sheet": _real(sheet),
             "html": _real(html),
@@ -432,8 +452,11 @@ class ReviewEnvelopeTests(DemoFamilyFixture):
         self.assertEqual(draft["contract_sha256"], config.review_contract_sha256)
         draft.update({"scores": {axis: 4 for axis in AXES}, "status": "ready", "notes": "agent"})
         template.write_text(json.dumps(draft), encoding="utf-8")
+        draft.pop("plan", None)  # bound plans are exercised in test_plan_ship
+        template.write_text(json.dumps(draft), encoding="utf-8")
         with mock.patch("iconflow.qa.check", return_value=[]), \
-             mock.patch.object(BUILD_MODULE, "build", return_value=[]):
+             mock.patch("iconflow.plan.compute_plan", return_value=fake_plan()), \
+             mock.patch("iconflow.plan.write_plan", return_value=[]):
             code, envelope, _ = run_json([
                 "ship", "--config", str(self.config), "--review", str(template), "--json",
             ])

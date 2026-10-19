@@ -47,6 +47,13 @@ def write_png(path, *_args, **_kwargs):
     return path
 
 
+def stub_plan():
+    """A tiny real RenderPlan, so ship's plan seam can be stubbed without Chromium."""
+    from iconflow.plan import RenderPlan
+
+    return RenderPlan.create({"favicon.svg": b"<svg/>"}, inputs={}, parameters={}, toolchain={})
+
+
 class HeadlessFlowTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -68,6 +75,7 @@ class HeadlessFlowTests(unittest.TestCase):
     def render_evidence(self):
         with mock.patch("iconflow.qa.check", return_value=[]), \
              mock.patch("iconflow.qa.tray_template_warnings", return_value=[]), \
+             mock.patch("iconflow.plan.compute_plan", return_value=stub_plan()), \
              mock.patch("iconflow.review.contact_sheet",
                         side_effect=lambda master, out, **kw: write_png(out)), \
              mock.patch("iconflow.headless.target_sheet",
@@ -107,7 +115,8 @@ class HeadlessFlowTests(unittest.TestCase):
 
         build = __import__("importlib").import_module("iconflow.build")
         with mock.patch("iconflow.qa.check", return_value=[]), \
-             mock.patch.object(build, "build", return_value=[]):
+             mock.patch("iconflow.plan.compute_plan", return_value=stub_plan()), \
+             mock.patch("iconflow.plan.write_plan", return_value=[]):
             code, envelope, err = run([
                 "ship", "--config", str(self.config), "--review", str(self.dir / "receipt.json"),
             ])

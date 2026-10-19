@@ -81,6 +81,12 @@ def write_ico(
     ``32,16,24,48,64,256``; ordering is observable even though conforming ICO
     readers should choose frames by their declared dimensions.
     """
+    Path(out).write_bytes(ico_bytes(png_by_size, order=order))
+    return Path(out)
+
+
+def ico_bytes(png_by_size: dict[int, bytes], *, order: Iterable[int] | None = None) -> bytes:
+    """The .ico :func:`write_ico` writes, as bytes."""
     frames = _validate_png_map(png_by_size, maximum=256)
     if order is None:
         sizes = sorted(frames)
@@ -101,8 +107,23 @@ def write_ico(
         blobs += png
         offset += len(png)
     out_bytes += blobs
-    Path(out).write_bytes(out_bytes)
-    return Path(out)
+    return bytes(out_bytes)
+
+
+def ico_frames(data: bytes) -> dict[int, bytes]:
+    """The PNG frames inside an .ico IconFlow wrote, keyed by size."""
+    if len(data) < 6:
+        raise ValueError("not an ICO file")
+    reserved, kind, count = struct.unpack_from("<HHH", data, 0)
+    if reserved != 0 or kind != 1:
+        raise ValueError("not an ICO file")
+    frames: dict[int, bytes] = {}
+    for index in range(count):
+        dim, _h, _c, _r, _p, _b, length, offset = struct.unpack_from("<BBBBHHII", data, 6 + 16 * index)
+        if offset + length > len(data):
+            raise ValueError("truncated ICO frame")
+        frames[dim or 256] = data[offset:offset + length]
+    return frames
 
 
 # ---------------------------------------------------------------------------- ICNS
@@ -120,6 +141,30 @@ _ICNS_TYPES = {
 
 def write_icns(png_by_size: dict[int, bytes], out: Path) -> Path:
     """Write a .icns embedding each PNG under its matching OSType."""
+    Path(out).write_bytes(icns_bytes(png_by_size))
+    return Path(out)
+
+
+def icns_frames(data: bytes) -> dict[int, bytes]:
+    """The PNG frames inside an .icns IconFlow wrote, keyed by size."""
+    if data[:4] != b"icns" or len(data) < 8:
+        raise ValueError("not an ICNS file")
+    sizes = {ostype: size for size, ostype in _ICNS_TYPES.items()}
+    frames: dict[int, bytes] = {}
+    position = 8
+    while position + 8 <= len(data):
+        ostype = data[position:position + 4]
+        (length,) = struct.unpack_from(">I", data, position + 4)
+        if length < 8 or position + length > len(data):
+            raise ValueError("truncated ICNS chunk")
+        if ostype in sizes:
+            frames[sizes[ostype]] = data[position + 8:position + length]
+        position += length
+    return frames
+
+
+def icns_bytes(png_by_size: dict[int, bytes]) -> bytes:
+    """The .icns :func:`write_icns` writes, as bytes."""
     frames = _validate_png_map(png_by_size)
     unsupported = sorted(set(frames) - set(_ICNS_TYPES))
     if unsupported:
@@ -129,9 +174,7 @@ def write_icns(png_by_size: dict[int, bytes], out: Path) -> Path:
         ostype = _ICNS_TYPES[s]
         png = frames[s]
         body += ostype + struct.pack(">I", len(png) + 8) + png  # length includes 8-byte header
-    data = b"icns" + struct.pack(">I", len(body) + 8) + bytes(body)
-    Path(out).write_bytes(data)
-    return Path(out)
+    return b"icns" + struct.pack(">I", len(body) + 8) + bytes(body)
 
 
 # --------------------------------------------------------------------- PNG helpers

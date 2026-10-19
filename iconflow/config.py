@@ -79,6 +79,9 @@ class ReviewReceipt:
     # independent second opinions. Recorded and reported, never a gate.
     review_surface: dict[str, Any] | None = None
     second_opinions: tuple[dict[str, Any], ...] = ()
+    # 0.8: the render plan the reviewer approved (docs/RENDER_PLAN.md). None for
+    # a receipt written before 0.8: valid, and reported as unbound.
+    plan: dict[str, Any] | None = None
 
 
 @dataclass
@@ -546,6 +549,14 @@ def load_review_receipt(
                 "review receipt second_opinions[].scores must map axes to integers"
             )
     packet["second_opinions"] = tuple(dict(item) for item in opinions)
+    if value.get("plan") is not None:
+        from .plan import PlanError, validate_binding
+
+        # Absent is legacy; present but malformed is never quietly unbound.
+        try:
+            packet["plan"] = validate_binding(value["plan"])
+        except PlanError as exc:
+            raise ConfigError(str(exc)) from exc
     return ReviewReceipt(
         source=source,
         source_sha256=current,

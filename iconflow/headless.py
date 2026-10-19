@@ -124,11 +124,14 @@ def _template_on(png: bytes, ground, ink, zoom: int = 2) -> Image.Image:
     return cell
 
 
-def target_sheet(master_svg: str | Path, out: str | Path, *, options) -> Path:
+def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None) -> Path:
     """Write every selected target's exact assets, in context, as one PNG.
 
-    The bytes come from ``build.preview_assets`` — what ``ship`` writes — so
-    this sheet cannot show a transform the build does not apply.
+    With a render ``plan`` every cell is cut from the plan's own files — the
+    favicon frames from ``favicon.ico``, Electron's from ``build/icon.icns`` —
+    so the sheet shows the bytes ``ship`` will write, not a second rendering
+    of them. Without one, the bytes come from ``build.preview_assets``, the
+    same transforms.
     """
     from .build import RenderCache, electron_frames, preview_assets
     from .rasterize import Rasterizer, load_svg
@@ -150,18 +153,34 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options) -> Path:
             return RenderCache(load_svg(path), r, optimize=False) if path else None
 
         maskable_cache = linked(options.maskable_svg)
+
+        def shipped(computed: dict[str, bytes]) -> dict[str, bytes]:
+            if plan is None:
+                return computed
+            return {key: plan.get(key) if plan.get(key) is not None else value
+                    for key, value in computed.items()}
+
+        favicon = {16: None, 32: None}
+        if plan is not None and plan.get("favicon.ico") is not None:
+            from .assemble import ico_frames
+
+            favicon.update({size: frame for size, frame in ico_frames(plan.get("favicon.ico")).items()
+                            if size in favicon})
+        for size in favicon:
+            if favicon[size] is None:
+                favicon[size] = cache.png(size)
         if targets & {"web", "pwa"}:
-            web = preview_assets(
+            web = shipped(preview_assets(
                 cache, "web", bg_color=options.background_color,
                 maskable_scale=options.maskable_scale, maskable_cache=maskable_cache,
-            )
+            ))
             maskable = _open(web["icon-512-maskable.png"])
             small = maskable.resize((192, 192), Image.Resampling.LANCZOS)
             rows.append(("web / pwa — favicon 16 and 32 on light and dark tabs, apple-touch 180", [
-                ("16 light", _on(cache.png(16), light, 64)),
-                ("16 dark", _on(cache.png(16), dark, 64)),
-                ("32 light", _on(cache.png(32), light, 64)),
-                ("32 dark", _on(cache.png(32), dark, 64)),
+                ("16 light", _on(favicon[16], light, 64)),
+                ("16 dark", _on(favicon[16], dark, 64)),
+                ("32 light", _on(favicon[32], light, 64)),
+                ("32 dark", _on(favicon[32], dark, 64)),
                 ("apple-touch 180", _on(web["apple-touch-icon.png"], light)),
             ]))
             rows.append(("maskable — the exact icon-512-maskable.png, safe circle and crops", [
@@ -171,7 +190,7 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options) -> Path:
                 ("rounded", _on(_png(_clip_to_mask(small, _adaptive_shape_mask(192, "rounded"))), crop_ground, pad=6)),
             ]))
         if "tauri" in targets:
-            tauri = preview_assets(cache, "tauri")
+            tauri = shipped(preview_assets(cache, "tauri"))
             rows.append(("tauri — the shipped PNGs at actual size", [
                 ("32x32", _on(tauri["icons/32x32.png"], dark)),
                 ("128x128", _on(tauri["icons/128x128.png"], dark)),
@@ -179,15 +198,21 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options) -> Path:
             ]))
         if "electron" in targets:
             frames = electron_frames(cache, options.electron_radius, (32, 128))
+            if plan is not None and plan.get("build/icon.icns") is not None:
+                from .assemble import icns_frames
+
+                frames = {**frames, **{size: frame for size, frame in
+                                       icns_frames(plan.get("build/icon.icns")).items()
+                                       if size in frames}}
             rows.append((f"electron — radius {options.electron_radius:g}, the ICO/ICNS frames", [
                 ("32", _on(frames[32], dark)), ("128", _on(frames[128], dark)),
                 ("128 light", _on(frames[128], light)),
             ]))
         if "tray" in targets:
-            tray = preview_assets(
+            tray = shipped(preview_assets(
                 cache, "tray", tray_cache=linked(options.tray_svg),
                 tray_template_mode=options.tray_template_mode,
-            )
+            ))
             rows.append((f"tray — colour and macOS template ({options.tray_template_mode}) on both bars", [
                 ("colour 16 light", _on(tray["tray/tray@16.png"], light, 64)),
                 ("colour 16 dark", _on(tray["tray/tray@16.png"], dark, 64)),
@@ -195,7 +220,7 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options) -> Path:
                 ("template dark", _template_on(tray["tray/trayTemplate@2x.png"], dark, (255, 255, 255, 255))),
             ]))
         if "emote" in targets:
-            emote = preview_assets(cache, "emote")
+            emote = shipped(preview_assets(cache, "emote"))
             rows.append(("emote — 28 and 56 in light and dark chat", [
                 ("28 light", _on(emote["emote/28.png"], light)),
                 ("28 dark", _on(emote["emote/28.png"], dark)),
@@ -203,7 +228,9 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options) -> Path:
                 ("56 dark", _on(emote["emote/56.png"], dark)),
             ]))
     if "android" in targets:
-        android = android_previews(svg, options)
+        from .review import _plan_android
+
+        android = android_previews(svg, options, assets=_plan_android(plan))
         rows.append(("android — circle and squircle launchers, themed (13+), legacy round", [
             (label, _on(android[key], crop_ground, 192 if key != "legacy" else None))
             for key, label in (("circle", "circle"), ("squircle", "squircle"),
@@ -249,7 +276,7 @@ def _png(image: Image.Image) -> bytes:
 
 
 def write_findings(directory: Path, *, seed: dict, audit, sheets: dict[str, Path],
-                   toolchain: dict) -> Path:
+                   toolchain: dict, plan_dir: Path | None = None) -> Path:
     """Write ``findings.json``: what was measured, under which inputs, in which files."""
     from .qa import warning_code
 
@@ -286,6 +313,10 @@ def write_findings(directory: Path, *, seed: dict, audit, sheets: dict[str, Path
             for guide in AXIS_GUIDES
         ],
         "toolchain": toolchain,
+        # 0.8: the render plan these sheets show, saved beside them for
+        # `ship --plan`. `score` inherits it; it never renders a new one.
+        **({"plan": seed["plan"], "plan_dir": plan_dir.name}
+           if seed.get("plan") is not None and plan_dir is not None else {}),
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
     }
     path = directory / FINDINGS_FILE
@@ -353,8 +384,27 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
                 f"evidence sheet {sheet.name} ({name}) changed after it was rendered; "
                 "re-run `iconflow review --evidence`"
             )
+    if findings.get("plan") is not None:
+        _check_saved_plan(directory, findings)
     findings["_sha256"] = _sha256(path)
     return findings
+
+
+def _check_saved_plan(directory: Path, findings: dict) -> None:
+    """The plan the findings name must be the plan saved beside them."""
+    from .plan import PlanError, load_plan, validate_binding
+
+    name = str(findings.get("plan_dir", ""))
+    if not name or Path(name).name != name:
+        raise HeadlessError("the findings name a plan outside the evidence directory")
+    try:
+        binding = validate_binding(findings["plan"])
+        saved = load_plan(directory / name)
+    except PlanError as exc:
+        raise HeadlessError(f"the saved render plan cannot back this review: {exc}") from exc
+    if saved.artifact_digest != binding["artifact_digest"] or saved.digest != binding["digest"]:
+        raise HeadlessError("the saved render plan is not the one these sheets were rendered from; "
+                            "re-run `iconflow review --evidence`")
 
 
 def evidence_paths(directory: Path, findings: dict) -> dict[str, Path]:
@@ -404,8 +454,12 @@ def compare_opinion(primary: dict[str, int], opinion: dict[str, int]) -> list[st
 
 
 def load_opinion(path: str | Path, *, source_sha256: str, contract_sha256: str,
-                 primary_reviewer: dict | None) -> dict:
-    """Load another reviewer's receipt over the same source and contract."""
+                 primary_reviewer: dict | None, plan_digest: str | None = None) -> dict:
+    """Load another reviewer's receipt over the same source and contract.
+
+    When both reviews are plan-bound they must have looked at the same
+    pixels; an opinion without a plan is kept and marked ``same_plan: None``.
+    """
     from .casebook import validate_scores
 
     path = Path(path)
@@ -420,6 +474,15 @@ def load_opinion(path: str | Path, *, source_sha256: str, contract_sha256: str,
             f"second opinion {path.name} scored a different source or contract; "
             "an opinion only counts over the same evidence"
         )
+    opinion_plan = value.get("plan") if isinstance(value.get("plan"), dict) else None
+    same_plan = None
+    if plan_digest is not None and opinion_plan is not None:
+        same_plan = opinion_plan.get("digest") == plan_digest
+        if not same_plan:
+            raise HeadlessError(
+                f"second opinion {path.name} scored different pixels (another render plan); "
+                "an opinion only counts over the same evidence"
+            )
     scores = value.get("scores")
     if not isinstance(scores, dict):
         raise HeadlessError(f"second opinion {path.name} has no scores")
@@ -439,6 +502,7 @@ def load_opinion(path: str | Path, *, source_sha256: str, contract_sha256: str,
         "scores": {axis: scores[axis] for axis in AXES if axis in scores},
         "notes": str(value.get("notes", ""))[:2000],
         "receipt_sha256": _sha256(path),
+        "same_plan": same_plan,
     }
 
 

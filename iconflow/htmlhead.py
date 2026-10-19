@@ -131,16 +131,20 @@ def browserconfig_xml(theme_color: str, options: WebMetaOptions | None = None) -
 """
 
 
+def web_meta_files(name: str, theme_color: str, bg_color: str,
+                   options: WebMetaOptions | None = None) -> dict[str, str]:
+    """The web metadata files :func:`write_web_meta` writes, as text by name."""
+    options = options or WebMetaOptions()
+    files = {
+        "site.webmanifest": json.dumps(manifest(name, theme_color, bg_color, options), indent=2),
+        "favicon-head.html": head_snippet(name, theme_color, bg_color, options),
+    }
+    if options.windows_tiles:
+        files["browserconfig.xml"] = browserconfig_xml(theme_color, options)
+    return files
+
+
 def write_web_meta(outdir: Path, name: str, theme_color: str, bg_color: str,
                    options: WebMetaOptions | None = None) -> None:
-    options = options or WebMetaOptions()
-    (outdir / "site.webmanifest").write_text(
-        json.dumps(manifest(name, theme_color, bg_color, options), indent=2), encoding="utf-8"
-    )
-    (outdir / "favicon-head.html").write_text(
-        head_snippet(name, theme_color, bg_color, options), encoding="utf-8"
-    )
-    if options.windows_tiles:
-        (outdir / "browserconfig.xml").write_text(
-            browserconfig_xml(theme_color, options), encoding="utf-8"
-        )
+    for filename, text in web_meta_files(name, theme_color, bg_color, options).items():
+        (outdir / filename).write_text(text, encoding="utf-8")

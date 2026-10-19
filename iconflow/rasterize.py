@@ -129,7 +129,11 @@ def load_svg(path: str | Path) -> str:
     """Read and validate an SVG before it is inlined into isolated HTML."""
 
     source = Path(path)
-    raw = source.read_bytes()
+    return svg_text_from_bytes(source.read_bytes(), source)
+
+
+def svg_text_from_bytes(raw: bytes, source: str | Path = "<svg>") -> str:
+    """:func:`load_svg` over bytes already read, so one snapshot serves every use."""
     if len(raw) > MAX_SVG_BYTES:
         raise ValueError(
             f"SVG source exceeds the {MAX_SVG_BYTES // (1024 * 1024)} MiB safety limit"

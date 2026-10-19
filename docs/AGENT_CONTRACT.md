@@ -191,7 +191,27 @@ not machine-judged); it never scores taste.
 `outputs`: `{"files": ["<abs path>", ...], "receipt": "<abs path>", "source_sha256": "...", "contract_sha256": "...", "scores": {"legibility": 4, ...}}`.
 Blocked ships report `status: "blocked"` with `warnings` codes
 `receipt-stale-source`, `receipt-stale-contract`, `receipt-not-ready`,
-`score-below-floor`, `qa-warnings`.
+`score-below-floor`, `qa-warnings`, and from 0.8 `plan-drift` (the rendered
+output differs from the plan the receipt approved) and `plan-replay` (a
+`--plan` directory that cannot be published as the reviewed bytes).
+
+### `outputs.plan` (0.8, the render plan)
+
+`ship`, `review` and `score` gain one key (`docs/RENDER_PLAN.md`):
+
+```json
+"plan": {"digest": "<content sha256>", "artifact_digest": "<bytes sha256>",
+         "verified": true, "bytes_verified": true, "drift": [], "mode": "rendered"}
+```
+
+`verified` is `true` when the shipped content equals the approved plan,
+`false` on drift (the ship is then blocked), and `null` when there is nothing
+to compare with: a receipt from before 0.8, a `[review]` table, and every
+`review`/`score` (they *make* a plan; they do not compare one). `drift` lists
+changed, added and removed paths. `mode` (ship only) is `rendered` or
+`replayed` (`ship --plan DIR`). `review`'s `plan` is `null` when no plan could
+be computed (for example without Chromium); the review itself still runs.
+Advisory `plan-unbound`: a ship whose receipt carries no plan.
 
 ### `score --json` (0.7, headless review)
 
@@ -256,6 +276,19 @@ name. A named reviewer is provenance, not authority.
 
 `ship` reports `review_surface` in its outputs and re-derives dissent from
 `second_opinions` as advisories. Neither changes a gate.
+
+0.8 adds the render plan the review showed:
+
+```json
+"plan": {"schema": 1, "digest": "...", "artifact_digest": "...",
+         "files": {"favicon.ico": {"content": "...", "sha256": "..."}, "...": {}},
+         "toolchain": {"iconflow": "0.8.0", "chromium": "...", "pillow": "...", "platform": "..."}}
+```
+
+Absent, it is a pre-0.8 receipt (valid, reported unbound). Present, it must be
+well formed — a malformed `plan` is a configuration error, never an unbound
+receipt — and `ship` gates on it (`plan-drift`). A second opinion's `plan`, when
+both are bound, must be the same plan.
 
 ## Where it is tested
 

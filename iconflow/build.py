@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import io
-import shutil
+import os
 import stat
 from pathlib import Path
 from typing import Iterable, Protocol
@@ -12,7 +12,7 @@ from typing import Iterable, Protocol
 from PIL import Image, ImageChops, ImageDraw
 
 from . import assemble, htmlhead, ladder
-from .rasterize import Rasterizer, load_svg
+from .rasterize import Rasterizer, load_svg  # noqa: F401  (load_svg: importable here since 0.5)
 
 # Targets the CLI understands. "all" expands to the app-icon targets: an
 # emote pack is a different deliverable from an app's icon set, so it is only
@@ -336,6 +336,7 @@ def preview_assets(
     maskable_scale: float | None = None,
     maskable_cache: PngCache | None = None,
     monochrome_cache: PngCache | None = None,
+    theme_color: str | None = None,
 ) -> dict[str, bytes]:
     """Return target-transformed PNG assets without touching the filesystem.
 
@@ -373,7 +374,8 @@ def preview_assets(
             ),
         }
         if windows_tiles:
-            assets.update(_windows_tile_assets(cache, tile_color or bg_color))
+            # The build's own default: the tile colour, else the theme, else the background.
+            assets.update(_windows_tile_assets(cache, tile_color or theme_color or bg_color))
         return assets
 
     if target == "tauri":
@@ -541,6 +543,28 @@ def android_assets(
     return {f"android/{name}": data for name, data in assets.items()}
 
 
+def _text_bytes(text: str) -> bytes:
+    """Text exactly as IconFlow 0.7's text-mode writers stored it.
+
+    ``Path.write_text`` translates newlines to the platform's, so a manifest
+    built on Windows carries CRLF. The plan keeps those bytes so a build is
+    byte-identical to every earlier release on the same machine; the plan's
+    content digest normalises newlines, so the difference is never drift.
+    """
+    return text.replace("\n", os.linesep).encode("utf-8")
+
+
+def favicon_svg_bytes(svg_text: str, src_svg: Path | bytes) -> bytes:
+    """The vector favicon :func:`write_favicon_svg` writes, as bytes.
+
+    ``src_svg`` may be the source's bytes as already read, so a render plan
+    copies the same snapshot it rendered rather than re-reading the file.
+    """
+    if not ladder.has_ladder(svg_text):
+        return bytes(src_svg) if isinstance(src_svg, (bytes, bytearray)) else Path(src_svg).read_bytes()
+    return _text_bytes(ladder.with_media_layer(svg_text))
+
+
 def write_favicon_svg(svg_text: str, src_svg: Path, destination: Path) -> bool:
     """Write the vector favicon, adding the ladder layer only when it is used.
 
@@ -550,37 +574,82 @@ def write_favicon_svg(svg_text: str, src_svg: Path, destination: Path) -> bool:
     single vector favicon show its plate rung in a large preview and its glyph
     rung in a 16px tab. Returns True when the layer was added.
     """
-    if not ladder.has_ladder(svg_text):
-        shutil.copyfile(src_svg, destination)
-        return False
-    destination.write_text(ladder.with_media_layer(svg_text), encoding="utf-8")
-    return True
+    destination.write_bytes(favicon_svg_bytes(svg_text, src_svg))
+    return ladder.has_ladder(svg_text)
 
 
+def web_files(cache: RenderCache, src_svg: Path | bytes, name: str, theme: str, bg: str,
+              options: htmlhead.WebMetaOptions | None = None, *,
+              maskable_scale: float | None = None,
+              maskable_cache: PngCache | None = None) -> dict[str, bytes]:
+    """Every web/PWA output, by relative path, in the order it is produced."""
+    options = options or htmlhead.WebMetaOptions()
+    files = {
+        "favicon.svg": favicon_svg_bytes(cache.svg, src_svg),
+        "favicon.ico": assemble.ico_bytes(cache.many([16, 32, 48])),
+    }
+    files.update(preview_assets(
+        cache, "web", bg_color=bg, maskable_scale=maskable_scale, maskable_cache=maskable_cache,
+    ))
+    if options.windows_tiles:
+        files.update(_windows_tile_assets(cache, options.tile_color or theme or bg))
+    for filename, text in htmlhead.web_meta_files(name, theme, bg, options).items():
+        files[filename] = _text_bytes(text)
+    return files
+
+
+def tauri_files(cache: PngCache) -> dict[str, bytes]:
+    files = preview_assets(cache, "tauri")
+    files["icons/icon.ico"] = assemble.ico_bytes(cache.many(ICO_FRAME_ORDER), order=ICO_FRAME_ORDER)
+    files["icons/icon.icns"] = assemble.icns_bytes(cache.many(ICNS_FRAME_SIZES))
+    return files
+
+
+def electron_files(cache: PngCache, radius: float) -> dict[str, bytes]:
+    files = preview_assets(cache, "electron", electron_radius=radius)
+    frames = electron_frames(cache, radius, DESKTOP_FRAME_SIZES)
+    files["build/icon.ico"] = assemble.ico_bytes(
+        {size: frames[size] for size in ICO_FRAME_ORDER}, order=ICO_FRAME_ORDER,
+    )
+    files["build/icon.icns"] = assemble.icns_bytes({size: frames[size] for size in ICNS_FRAME_SIZES})
+    return files
+
+
+def tray_files(cache: PngCache, ts_module: bool, *, tray_cache: PngCache | None = None,
+               template_mode: str = "auto") -> dict[str, bytes]:
+    files = preview_assets(cache, "tray", tray_cache=tray_cache, tray_template_mode=template_mode)
+    if ts_module:
+        import base64
+        b64 = base64.b64encode(files["tray/tray.png"]).decode()
+        files["tray/trayIcon.ts"] = _text_bytes(
+            "// AUTO-GENERATED by iconflow — do not edit by hand.\n"
+            f'export const TRAY_ICON_DATA_URL =\n  "data:image/png;base64,{b64}";\n'
+        )
+    return files
+
+
+def emote_files(cache: PngCache) -> dict[str, bytes]:
+    files = preview_assets(cache, "emote")
+    for size in EMOTE_SIZES:
+        data = files[f"emote/{size}.png"]
+        if len(data) > EMOTE_BUDGETS[size]:
+            raise ValueError(
+                f"emote/{size}.png is {len(data):,} bytes, over the {EMOTE_BUDGETS[size]:,}-byte "
+                "upload limit for that size; simplify the drawing (fewer gradients and textures)"
+            )
+    return files
+
+
+# The 0.7 writers, kept for callers that drive one target into a directory.
 def build_web(cache: RenderCache, src_svg: Path, outdir: Path, name: str,
               theme: str, bg: str, produced: list[str],
               options: htmlhead.WebMetaOptions | None = None, *,
               maskable_scale: float | None = None,
               maskable_cache: PngCache | None = None) -> None:
-    options = options or htmlhead.WebMetaOptions()
-    write_favicon_svg(cache.svg, src_svg, outdir / "favicon.svg")
-    produced.append("favicon.svg")
-    assemble.write_ico(cache.many([16, 32, 48]), outdir / "favicon.ico")
-    produced.append("favicon.ico")
-    _write_assets(
-        outdir,
-        preview_assets(
-            cache, "web", bg_color=bg, maskable_scale=maskable_scale,
-            maskable_cache=maskable_cache,
-        ),
-        produced,
-    )
-    if options.windows_tiles:
-        build_windows_tiles(cache, outdir, options.tile_color or theme or bg, produced)
-    htmlhead.write_web_meta(outdir, name, theme, bg, options)
-    produced += ["site.webmanifest", "favicon-head.html"]
-    if options.windows_tiles:
-        produced.append("browserconfig.xml")
+    _write_assets(outdir, web_files(
+        cache, src_svg, name, theme, bg, options,
+        maskable_scale=maskable_scale, maskable_cache=maskable_cache,
+    ), produced)
 
 
 def build_windows_tiles(cache: RenderCache, outdir: Path, bg: str,
@@ -589,70 +658,24 @@ def build_windows_tiles(cache: RenderCache, outdir: Path, bg: str,
 
 
 def build_tauri(cache: RenderCache, outdir: Path, produced: list[str]) -> None:
-    icons = outdir / "icons"
-    icons.mkdir(parents=True, exist_ok=True)
-    _write_assets(outdir, preview_assets(cache, "tauri"), produced)
-    assemble.write_ico(
-        cache.many(ICO_FRAME_ORDER), icons / "icon.ico", order=ICO_FRAME_ORDER
-    )
-    assemble.write_icns(cache.many(ICNS_FRAME_SIZES), icons / "icon.icns")
-    produced += ["icons/icon.ico", "icons/icon.icns"]
+    _write_assets(outdir, tauri_files(cache), produced)
 
 
 def build_electron(cache: RenderCache, outdir: Path, radius: float,
                    produced: list[str]) -> None:
-    build = outdir / "build"
-    build.mkdir(parents=True, exist_ok=True)
-    _write_assets(
-        outdir,
-        preview_assets(cache, "electron", electron_radius=radius),
-        produced,
-    )
-    frames = electron_frames(cache, radius, DESKTOP_FRAME_SIZES)
-    assemble.write_ico(
-        {size: frames[size] for size in ICO_FRAME_ORDER},
-        build / "icon.ico",
-        order=ICO_FRAME_ORDER,
-    )
-    assemble.write_icns(
-        {size: frames[size] for size in ICNS_FRAME_SIZES}, build / "icon.icns"
-    )
-    produced += ["build/icon.ico", "build/icon.icns"]
+    _write_assets(outdir, electron_files(cache, radius), produced)
 
 
 def build_tray(cache: RenderCache, outdir: Path, ts_module: bool,
                produced: list[str], *, tray_cache: PngCache | None = None,
                template_mode: str = "auto") -> None:
-    tray = outdir / "tray"
-    tray.mkdir(parents=True, exist_ok=True)
-    assets = preview_assets(
-        cache,
-        "tray",
-        tray_cache=tray_cache,
-        tray_template_mode=template_mode,
-    )
-    _write_assets(outdir, assets, produced)
-    if ts_module:
-        import base64
-        b64 = base64.b64encode(assets["tray/tray.png"]).decode()
-        (tray / "trayIcon.ts").write_text(
-            "// AUTO-GENERATED by iconflow — do not edit by hand.\n"
-            f'export const TRAY_ICON_DATA_URL =\n  "data:image/png;base64,{b64}";\n',
-            encoding="utf-8",
-        )
-        produced.append("tray/trayIcon.ts")
+    _write_assets(outdir, tray_files(
+        cache, ts_module, tray_cache=tray_cache, template_mode=template_mode,
+    ), produced)
 
 
 def build_emote(cache: RenderCache, outdir: Path, produced: list[str]) -> None:
-    assets = preview_assets(cache, "emote")
-    for size in EMOTE_SIZES:
-        data = assets[f"emote/{size}.png"]
-        if len(data) > EMOTE_BUDGETS[size]:
-            raise ValueError(
-                f"emote/{size}.png is {len(data):,} bytes, over the {EMOTE_BUDGETS[size]:,}-byte "
-                "upload limit for that size; simplify the drawing (fewer gradients and textures)"
-            )
-    _write_assets(outdir, assets, produced)
+    _write_assets(outdir, emote_files(cache), produced)
 
 
 def build_android(cache: RenderCache, outdir: Path, bg: str, produced: list[str], *,
@@ -682,76 +705,20 @@ def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
           monochrome_svg: str | Path | None = None) -> list[str]:
     """Build the requested targets from `master_svg` into `outdir`.
 
-    Returns the list of file paths produced (relative to outdir).
+    Returns the list of file paths produced (relative to outdir). Every file
+    is computed before anything is written (:func:`iconflow.plan.compute_plan`),
+    so a target that fails leaves the output directory as it was.
     """
-    targets = normalize_targets(targets)
-    if not isinstance(name, str) or not name.strip():
-        raise ValueError("name must be a non-empty string")
-    assemble.opaque_color(theme_color, "theme color")
-    assemble.opaque_color(bg_color, "background color")
-    electron_radius = assemble.validate_radius(electron_radius)
-    if tray_template_mode not in {"auto", "alpha", "contrast"}:
-        raise ValueError("tray_template_mode must be 'auto', 'alpha', or 'contrast'")
-    if web_options and web_options.tile_color:
-        assemble.opaque_color(web_options.tile_color, "tile color")
-    if maskable_scale is not None:
-        maskable_scale = validate_maskable_scale(maskable_scale)
-    master_svg = Path(master_svg)
+    from .plan import compute_plan, write_plan
+
     outdir = Path(outdir)
+    # Refuse a redirecting output tree before spending a render on it.
     _validate_output_tree(outdir)
-    outdir.mkdir(parents=True, exist_ok=True)
-    svg_text = load_svg(master_svg)
-    produced: list[str] = []
-
-    with Rasterizer(color_scheme=color_scheme) as r:
-        cache = RenderCache(svg_text, r, optimize=optimize_png)
-        tray_cache = None
-        if "tray" in targets and tray_svg is not None:
-            tray_path = Path(tray_svg)
-            if tray_path.resolve() == master_svg.resolve():
-                tray_cache = cache
-            else:
-                tray_cache = RenderCache(
-                    load_svg(tray_path), r, optimize=optimize_png
-                )
-
-        def linked(path) -> RenderCache | None:
-            # None means "no link". A link that names the master is still a
-            # link (QA, previews and the contract treat it as one), so it gets
-            # the master's own cache rather than silently becoming no link.
-            if path is None:
-                return None
-            if Path(path).resolve() == master_svg.resolve():
-                return cache
-            return RenderCache(load_svg(Path(path)), r, optimize=optimize_png)
-
-        maskable_cache = linked(maskable_svg) if ADAPTIVE_TARGETS & set(targets) else None
-        monochrome_cache = None
-        if "android" in targets:
-            monochrome_cache = linked(monochrome_svg if monochrome_svg is not None else tray_svg)
-        if "web" in targets or "pwa" in targets:
-            build_web(cache, master_svg, outdir, name, theme_color, bg_color, produced,
-                      web_options, maskable_scale=maskable_scale,
-                      maskable_cache=maskable_cache)
-        if "tauri" in targets:
-            build_tauri(cache, outdir, produced)
-        if "electron" in targets:
-            build_electron(cache, outdir, electron_radius, produced)
-        if "tray" in targets:
-            build_tray(
-                cache,
-                outdir,
-                tray_ts,
-                produced,
-                tray_cache=tray_cache,
-                template_mode=tray_template_mode,
-            )
-        if "android" in targets:
-            build_android(
-                cache, outdir, bg_color, produced, maskable_scale=maskable_scale,
-                maskable_cache=maskable_cache, monochrome_cache=monochrome_cache,
-                template_mode=tray_template_mode,
-            )
-        if "emote" in targets:
-            build_emote(cache, outdir, produced)
-    return produced
+    plan = compute_plan(
+        master_svg, targets, name=name, theme_color=theme_color, bg_color=bg_color,
+        electron_radius=electron_radius, tray_ts=tray_ts, color_scheme=color_scheme,
+        web_options=web_options, optimize_png=optimize_png, tray_svg=tray_svg,
+        tray_template_mode=tray_template_mode, maskable_scale=maskable_scale,
+        maskable_svg=maskable_svg, monochrome_svg=monochrome_svg,
+    )
+    return write_plan(plan, outdir)

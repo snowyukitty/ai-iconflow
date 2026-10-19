@@ -439,7 +439,6 @@ def _cmd_ship(a) -> Report:
     """Run the fail-closed quality gate, then delegate to the low-level build."""
 
     from .audit import resolve_inputs, run_audit
-    from .build import build
     from .config import GATE_CODES, GATE_QA_WARNINGS, ConfigError, svg_sha256
     from .qa import warning_code
 
@@ -482,32 +481,70 @@ def _cmd_ship(a) -> Report:
         print("Fix the warnings, regenerate review.png, and rescore before shipping.", file=sys.stderr)
         return report
 
+    from .plan import (
+        GATE_PLAN_DRIFT, GATE_PLAN_REPLAY, PlanError, compare, compute_plan, load_plan,
+        plan_parameters, write_plan,
+    )
+
+    approved = receipt.plan if receipt else None
+    kwargs = _plan_kwargs(_config_review_options(config), config)
+    replay = bool(getattr(a, "plan", None))
     try:
         output_path = (
             Path(os.path.abspath(Path(a.out).expanduser()))
             if a.out else config.output_path
         )
-        produced = build(
-            master,
-            output_path,
-            config.targets,
-            name=config.name,
-            theme_color=config.theme_color,
-            bg_color=config.background_color,
-            electron_radius=config.electron_radius,
-            tray_ts=config.tray_ts,
-            color_scheme=config.color_scheme,
-            optimize_png=config.optimize_png,
-            tray_svg=config.tray_svg_path,
-            tray_template_mode=config.tray_template_mode,
-            maskable_scale=config.maskable_scale,
-            maskable_svg=config.maskable_svg_path,
-            monochrome_svg=config.monochrome_svg_path,
-        )
+        if replay:
+            # The reviewed bytes, verified and published without re-rendering.
+            plan = load_plan(Path(a.plan).expanduser())
+        else:
+            plan = compute_plan(master, **kwargs)
+    except PlanError as exc:
+        print(f"iconflow ship: {exc}", file=sys.stderr)
+        report.warn(GATE_PLAN_REPLAY, str(exc))
+        return report
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"iconflow ship: build failed: {exc}", file=sys.stderr)
         report.error("runtime", f"build failed: {exc}")
         return report
+    check = compare(approved, plan)
+    if replay:
+        problems = _replay_problems(plan, approved, config, kwargs, plan_parameters)
+        if problems:
+            print("SHIP BLOCKED — the saved plan cannot be published as reviewed:", file=sys.stderr)
+            for problem in problems:
+                print(f"  ! {problem}", file=sys.stderr)
+                report.warn(GATE_PLAN_REPLAY, problem)
+            return report
+    elif check.verified is False:
+        print("SHIP BLOCKED — these pixels are not the pixels that were reviewed "
+              f"({len(check.drift)} file(s) differ):", file=sys.stderr)
+        for kind, paths in (("changed", check.changed), ("added", check.added),
+                            ("removed", check.removed)):
+            for path in paths:
+                print(f"  ! {kind}: {path}", file=sys.stderr)
+        report.warn(GATE_PLAN_DRIFT, "rendered output differs from the reviewed plan: "
+                    + ", ".join(check.drift[:8]) + (" ..." if len(check.drift) > 8 else ""))
+        if dict(check.approved_toolchain or {}) != dict(plan.toolchain):
+            print(f"  The toolchain changed since the review ({_toolchain_delta(check.approved_toolchain, plan.toolchain)}); "
+                  "that explains the drift but does not approve it.", file=sys.stderr)
+        print("  Publish the reviewed bytes with `ship --plan <evidence>/plan`, or review again.",
+              file=sys.stderr)
+        return report
+    try:
+        produced = write_plan(plan, output_path)
+    except (OSError, ValueError) as exc:
+        print(f"iconflow ship: build failed: {exc}", file=sys.stderr)
+        report.error("runtime", f"build failed: {exc}")
+        return report
+    if check.verified is None:
+        note = ("the receipt predates render plans (0.8), so the shipped pixels are not "
+                "compared with the reviewed ones; review again to bind them")
+        print(f"  ~ plan-unbound: {note}")
+        report.advise("plan-unbound", note)
+    else:
+        print(f"Render plan verified: {plan.digest[:12]} "
+              + ("(byte for byte)" if check.bytes_verified else "(same pixels, re-encoded bytes)"))
     print(f"SHIP PASSED — built {len(produced)} files into {output_path}:")
     for path in produced:
         print(f"  {path}")
@@ -537,8 +574,57 @@ def _cmd_ship(a) -> Report:
         "reviewer": receipt.reviewer if receipt else None,
         "review_surface": receipt.review_surface if receipt else None,
         "audit": inputs.describe(),
+        "plan": {**check.describe(plan), "mode": "replayed" if replay else "rendered"},
     }
     return report
+
+
+def _toolchain_delta(before, after) -> str:
+    before, after = dict(before or {}), dict(after or {})
+    changed = [f"{key} {before.get(key)} -> {after.get(key)}"
+               for key in sorted(set(before) | set(after)) if before.get(key) != after.get(key)]
+    return "; ".join(changed) or "no difference recorded"
+
+
+def _replay_problems(plan, approved, config, kwargs, plan_parameters) -> list[str]:
+    """Why a saved plan may not be published as the reviewed output (empty: it may)."""
+    from .config import svg_sha256
+
+    problems = []
+    if approved is None:
+        problems.append("the review receipt carries no plan, so there are no reviewed bytes "
+                        "to replay; ship without --plan, or review again")
+        return problems
+    if plan.artifact_digest != approved["artifact_digest"]:
+        problems.append("the saved plan's bytes are not the bytes the receipt approved")
+    expected = plan_parameters(
+        kwargs["targets"], name=kwargs["name"], theme_color=kwargs["theme_color"],
+        bg_color=kwargs["bg_color"], electron_radius=kwargs["electron_radius"],
+        tray_ts=kwargs["tray_ts"], color_scheme=kwargs["color_scheme"], web_options=None,
+        optimize_png=kwargs["optimize_png"], tray_template_mode=kwargs["tray_template_mode"],
+        maskable_scale=kwargs["maskable_scale"], maskable_svg=kwargs["maskable_svg"],
+    )
+    recorded = json.loads(json.dumps(dict(_plain(plan.parameters))))
+    if recorded != json.loads(json.dumps(expected)):
+        changed = sorted(k for k in set(recorded) | set(expected) if recorded.get(k) != expected.get(k))
+        problems.append("the saved plan was made with other settings than iconflow.toml now has: "
+                        + ", ".join(changed))
+    master = plan.inputs.get("master", {})
+    if master.get("sha256") != svg_sha256(config.master_path):
+        problems.append("the saved plan was rendered from a different master SVG")
+    for role, path in (("tray", config.tray_svg_path), ("maskable", config.maskable_svg_path),
+                       ("monochrome", config.monochrome_svg_path)):
+        recorded_source = plan.inputs.get(role)
+        if recorded_source is not None and (path is None or not Path(path).is_file()
+                                            or recorded_source.get("sha256") != svg_sha256(path)):
+            problems.append(f"the saved plan's {role} source no longer matches iconflow.toml")
+    return problems
+
+
+def _plain(value):
+    from .plan import _thaw
+
+    return _thaw(value)
 
 
 def _parse_pairs(items: list[str], *, value_json: bool) -> dict:
@@ -659,6 +745,11 @@ def _cmd_review(a) -> Report:
             print(f"iconflow review: {exc}", file=sys.stderr)
             report.error("config", str(exc))
             return report
+    # The exact output this review shows and its receipt binds (R16). Computed
+    # only for the surfaces that bind it: the Lab, the template, the evidence.
+    plan = None
+    if a.html or getattr(a, "receipt_template", None) or evidence_dir is not None:
+        plan = _review_plan(master, options, config)
     sheet_path = evidence_dir / "contact-sheet.png" if evidence_dir else Path(a.out)
     out = contact_sheet(
         master, sheet_path, background_color=background, color_scheme=color_scheme,
@@ -681,12 +772,12 @@ def _cmd_review(a) -> Report:
         print("Read it too: detail must APPEAR as the size grows, never change identity.")
     html_out = None
     if a.html:
-        html_out = interactive_review(master, a.html, options=options)
+        html_out = interactive_review(master, a.html, options=options, plan=plan)
         print(f"Review Lab -> {html_out}")
         print("Export its JSON receipt and pass it to `iconflow ship --review <receipt>`.")
     template_out = None
     if getattr(a, "receipt_template", None):
-        template_out = receipt_template(master, a.receipt_template, options=options)
+        template_out = receipt_template(master, a.receipt_template, options=options, plan=plan)
         print(f"Receipt template -> {template_out}")
         print("Score every axis, set status to \"ready\", then `iconflow ship --review <receipt>`.")
     if warnings:
@@ -694,7 +785,7 @@ def _cmd_review(a) -> Report:
     for warning in warnings:
         print(f"  ! {warning}")
     _record_audit(audit, report)
-    seed = receipt_seed(master, options=options)
+    seed = receipt_seed(master, options=options, plan=plan)
     # `review`'s envelope is frozen at schema 1 and the PR Proof action rejects
     # anything else, so the ladder proof is reported as a path on stderr and
     # through `iconflow ladder --json`, not as a new key here.
@@ -712,7 +803,15 @@ def _cmd_review(a) -> Report:
     if evidence_dir is not None:
         from .headless import axis_walk, target_sheet, write_findings
 
-        targets_out = target_sheet(master, evidence_dir / "targets.png", options=options)
+        targets_out = target_sheet(master, evidence_dir / "targets.png", options=options, plan=plan)
+        plan_dir = None
+        if plan is not None:
+            from .plan import export_plan
+
+            plan_dir = evidence_dir / "plan"
+            export_plan(plan, plan_dir)
+            print(f"Render plan -> {plan_dir} ({len(plan.files)} files, {plan.digest[:12]}); "
+                  "`ship --plan` can publish exactly these bytes")
         print(f"Target contexts -> {targets_out}")
         from .budget import budget_svg
         from .rasterize import LazyRasterizer
@@ -722,7 +821,7 @@ def _cmd_review(a) -> Report:
                 load_svg(master), _r, source=str(master),
             ).as_dict()
         findings_out = write_findings(
-            evidence_dir, seed=seed, audit=audit, toolchain=_toolchain(),
+            evidence_dir, seed=seed, audit=audit, toolchain=_toolchain(), plan_dir=plan_dir,
             sheets={
                 "contact_sheet": Path(out), "targets": targets_out,
                 "ladder": Path(ladder_out) if ladder_out else None,
@@ -745,6 +844,9 @@ def _cmd_review(a) -> Report:
         "targets": list(targets),
         "audit": inputs.describe(),
         "findings": _abs(findings_out),
+        "plan": ({"digest": plan.digest, "artifact_digest": plan.artifact_digest,
+                  "verified": None, "bytes_verified": None, "drift": []}
+                 if plan is not None else None),
     }
     return report
 
@@ -774,6 +876,11 @@ def _cmd_score(a) -> Report:
             evidence_dir, source_sha256=seed["source_sha256"],
             contract_sha256=seed["contract_sha256"],
         )
+        if findings.get("plan") is not None:
+            seed["plan"] = findings["plan"]
+        else:
+            print("  ~ this evidence predates render plans (0.8): the receipt will not be "
+                  "plan-bound; re-run `review --evidence` to bind it")
         print("Headless review — the interactive Review Lab is not used; the gate is unchanged.")
         for line in axis_walk(findings, evidence_dir):
             print(f"  {line}")
@@ -803,7 +910,8 @@ def _cmd_score(a) -> Report:
             raise ConfigError("--reviewer-name is required (provenance, not authority)")
         opinions = [
             load_opinion(path, source_sha256=seed["source_sha256"],
-                         contract_sha256=seed["contract_sha256"], primary_reviewer=reviewer)
+                         contract_sha256=seed["contract_sha256"], primary_reviewer=reviewer,
+                         plan_digest=(seed.get("plan") or {}).get("digest"))
             for path in a.second_opinion
         ]
     except (ConfigError, HeadlessError, ValueError) as exc:
@@ -837,6 +945,10 @@ def _cmd_score(a) -> Report:
         "contract_sha256": receipt["contract_sha256"],
         "review_surface": receipt["review_surface"],
         "second_opinions": len(opinions),
+        "plan": ({"digest": seed["plan"]["digest"],
+                  "artifact_digest": seed["plan"]["artifact_digest"],
+                  "verified": None, "bytes_verified": None, "drift": []}
+                 if seed.get("plan") else None),
     }
     return report
 
@@ -861,6 +973,42 @@ def _now_iso() -> str:
     from datetime import datetime, timezone
 
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+
+
+def _plan_kwargs(options, config=None) -> dict:
+    """compute_plan's arguments for what review shows and ship builds.
+
+    ``options`` carries the visual contract (with any command-line overrides
+    review applied); the config adds what only the build reads.
+    """
+    return dict(
+        targets=list(options.targets), name=options.name,
+        theme_color=options.theme_color, bg_color=options.background_color,
+        electron_radius=options.electron_radius,
+        tray_ts=config.tray_ts if config is not None else False,
+        color_scheme=options.color_scheme,
+        optimize_png=config.optimize_png if config is not None else True,
+        tray_svg=options.tray_svg, tray_template_mode=options.tray_template_mode,
+        maskable_scale=options.maskable_scale, maskable_svg=options.maskable_svg,
+        monochrome_svg=options.monochrome_svg,
+    )
+
+
+def _review_plan(master, options, config=None):
+    """The plan a review shows and binds, or None (with the reason printed).
+
+    A review is still useful when nothing shippable can be computed — a tray
+    template that cannot be derived is itself a finding — so a failure here
+    leaves the receipt unbound rather than the review unwritten.
+    """
+    from .plan import compute_plan
+
+    try:
+        return compute_plan(master, **_plan_kwargs(options, config))
+    except Exception as exc:  # noqa: BLE001 - any render failure (Playwright's own included)
+        print(f"  ~ no render plan ({exc}); this review's receipt will not be "
+              "plan-bound and ship will report it unbound", file=sys.stderr)
+        return None
 
 
 def _config_review_options(config):
@@ -966,6 +1114,12 @@ def _brand_build(a) -> Report:
         "receipt": receipt.source.name if receipt else None,
         "scores": dict(scores),
     }
+    if a.ship and shipped.outputs.get("plan"):
+        # Scoped: this digest covers the icon files the ship wrote, not the kit.
+        approval["icon_plan"] = {
+            key: shipped.outputs["plan"][key]
+            for key in ("digest", "artifact_digest", "verified", "bytes_verified")
+        }
     try:
         # Only a ship in this same run proves the icon tree carries this mark.
         shipped_files = None
@@ -2154,6 +2308,11 @@ def build_parser() -> argparse.ArgumentParser:
     ship_review.add_argument(
         "--scores",
         help="six-axis override for an approved config, e.g. 'legibility=4 ...'",
+    )
+    ship.add_argument(
+        "--plan", metavar="DIR",
+        help="publish the saved render plan (review --evidence writes DIR/plan) byte for "
+             "byte instead of rendering again; it must be the plan the receipt approved",
     )
     ship.add_argument("--json", action="store_true", help=JSON_HELP)
     ship.set_defaults(func=_cmd_ship)

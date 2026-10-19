@@ -26,6 +26,23 @@ from iconflow.config import (
 )
 
 
+def fake_plan(*paths):
+    """A real, tiny RenderPlan, so ship's plan seam can be stubbed without Chromium."""
+    from PIL import Image
+
+    from iconflow.plan import RenderPlan
+
+    def payload(path):
+        if not path.endswith(".png"):
+            return b"<svg/>"
+        buffer = io.BytesIO()
+        Image.new("RGBA", (4, 4)).save(buffer, "PNG")
+        return buffer.getvalue()
+
+    return RenderPlan.create({path: payload(path) for path in paths or ("favicon.svg",)},
+                             inputs={}, parameters={}, toolchain={})
+
+
 class ConfigTests(unittest.TestCase):
     def setUp(self):
         self._tmp = tempfile.TemporaryDirectory()
@@ -330,9 +347,10 @@ class ConfigTests(unittest.TestCase):
             "status": "ready",
         }), encoding="utf-8")
         qa_module = importlib.import_module("iconflow.qa")
-        build_module = importlib.import_module("iconflow.build")
+        plan_module = importlib.import_module("iconflow.plan")
         with mock.patch.object(qa_module, "check", return_value=[]), \
-             mock.patch.object(build_module, "build", return_value=["favicon.svg"]) as build, \
+             mock.patch.object(plan_module, "compute_plan", return_value=fake_plan()), \
+             mock.patch.object(plan_module, "write_plan", return_value=["favicon.svg"]) as build, \
              contextlib.redirect_stdout(io.StringIO()):
             code = main([
                 "ship", "--config", str(path), "--review", str(receipt),
@@ -343,9 +361,9 @@ class ConfigTests(unittest.TestCase):
     def test_ship_blocks_automated_warning(self):
         path = self._ship_config({axis: 4 for axis in AXES})
         qa_module = importlib.import_module("iconflow.qa")
-        build_module = importlib.import_module("iconflow.build")
+        plan_module = importlib.import_module("iconflow.plan")
         with mock.patch.object(qa_module, "check", return_value=["too generic"]), \
-             mock.patch.object(build_module, "build") as build, \
+             mock.patch.object(plan_module, "compute_plan") as build, \
              contextlib.redirect_stderr(io.StringIO()):
             code = main(["ship", "--config", str(path)])
         self.assertEqual(code, 1)
@@ -354,23 +372,25 @@ class ConfigTests(unittest.TestCase):
     def test_ship_builds_only_after_both_gates_pass(self):
         path = self._ship_config({axis: 4 for axis in AXES})
         qa_module = importlib.import_module("iconflow.qa")
-        build_module = importlib.import_module("iconflow.build")
+        plan_module = importlib.import_module("iconflow.plan")
         with mock.patch.object(qa_module, "check", return_value=[]), \
-             mock.patch.object(build_module, "build", return_value=["favicon.svg"]) as build, \
+             mock.patch.object(plan_module, "compute_plan", return_value=fake_plan()) as plan, \
+             mock.patch.object(plan_module, "write_plan", return_value=["favicon.svg"]) as build, \
              contextlib.redirect_stdout(io.StringIO()):
             code = main(["ship", "--config", str(path)])
         self.assertEqual(code, 0)
         build.assert_called_once()
-        self.assertEqual(Path(build.call_args.args[0]).resolve(), (self.dir / "master.svg").resolve())
+        self.assertEqual(Path(plan.call_args.args[0]).resolve(), (self.dir / "master.svg").resolve())
         self.assertEqual(Path(build.call_args.args[1]).resolve(), (self.dir / "icons").resolve())
 
     def test_ship_can_override_only_the_output_location(self):
         path = self._ship_config({axis: 4 for axis in AXES})
         destination = self.dir / "elsewhere" / "icons"
         qa_module = importlib.import_module("iconflow.qa")
-        build_module = importlib.import_module("iconflow.build")
+        plan_module = importlib.import_module("iconflow.plan")
         with mock.patch.object(qa_module, "check", return_value=[]), \
-             mock.patch.object(build_module, "build", return_value=[]) as build, \
+             mock.patch.object(plan_module, "compute_plan", return_value=fake_plan()), \
+             mock.patch.object(plan_module, "write_plan", return_value=[]) as build, \
              contextlib.redirect_stdout(io.StringIO()):
             code = main([
                 "ship", "--config", str(path), "--out", str(destination),

@@ -202,6 +202,13 @@ the project you are working on.
    / targets / colors / scheme / radius / template, and requires all six axes
    ≥4. (The low-level `build` command remains for callers that own an equivalent
    quality gate.) `iconflow docs OUTPUT_TARGETS` lists the exact file set.
+   A receipt from 0.8 on carries the **render plan** the review showed, and
+   `ship` refuses (`plan-drift`) when the pixels it would write are not those
+   pixels — a toolchain change explains drift, it never approves it. Shipping
+   on another machine (CI)? Publish the reviewed bytes themselves:
+   `ship --config iconflow.toml --review master-review.json --plan work/<slug>/evidence/plan`.
+   Never re-score to make drift go away without looking at the new pixels.
+   `iconflow docs RENDER_PLAN`.
 
 7b. **Optional — propagate the mark** when the product also needs lockups,
    store tiles, or Open Graph / GitHub social cards. Give `[brand]` in

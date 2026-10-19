@@ -48,6 +48,13 @@ def grid_png(size: int) -> bytes:
     return out.getvalue()
 
 
+def stub_plan():
+    """A tiny real RenderPlan, so ship's plan seam can be stubbed without Chromium."""
+    from iconflow.plan import RenderPlan
+
+    return RenderPlan.create({"favicon.svg": b"<svg/>"}, inputs={}, parameters={}, toolchain={})
+
+
 class GridRasterizer:
     def __init__(self, color_scheme="light", **_options):
         self.color_scheme = color_scheme
@@ -128,7 +135,8 @@ scores = {{ legibility = 4, distinctiveness = 4, balance = 4, color = 4, scalabi
         with mock.patch("iconflow.qa.Rasterizer", GridRasterizer), \
              mock.patch("iconflow.qa.check", side_effect=spy), \
              mock.patch("iconflow.review.contact_sheet", return_value=self.dir / "r.png"), \
-             mock.patch.object(BUILD_MODULE, "build", return_value=[]):
+             mock.patch("iconflow.plan.compute_plan", return_value=stub_plan()), \
+             mock.patch("iconflow.plan.write_plan", return_value=[]):
             for name, argv in (
                 ("check", ["check", "--config", str(self.config_path)]),
                 ("review", ["review", "--config", str(self.config_path),
