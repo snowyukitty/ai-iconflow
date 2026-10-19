@@ -479,18 +479,34 @@ def _figure_candidates(png: bytes) -> list[tuple[Image.Image | None, float]]:
 
     A card master's figure is the card; the same mark composed full-bleed for a
     maskable crop has no card left, only the mark. Reading the mark *on* the
-    plate as well lets the two be compared like for like, and a different mark
-    on the same card still fails.
+    plate as well lets the two be compared like for like (see
+    :func:`maskable_identity_findings` for when that reading may be used).
     """
+    return [(mask, aspect) for mask, aspect, _ground in _readings(png)]
+
+
+def _readings(png: bytes) -> list[tuple[Image.Image | None, float, tuple | None]]:
+    """``(mask, aspect, plate colour)``: the outline, then the mark on a plate if any."""
     image = Image.open(io.BytesIO(png)).convert("RGBA")
-    candidates = [_fitted(_figure_of(image))]
+    readings = [(*_fitted(_figure_of(image)), None)]
     plate = _on_plate(image)
     if plate is not None:
-        candidates.append(_fitted(plate))
-    return candidates
+        mark, ground = plate
+        readings.append((*_fitted(mark), ground))
+    return readings
 
 
-def _on_plate(image: Image.Image) -> Image.Image | None:
+def _surround(png: bytes) -> tuple:
+    """The colour the composition sits on: its corner."""
+    image = Image.open(io.BytesIO(png)).convert("RGBA")
+    return image.getpixel((0, 0))
+
+
+def _same_colour(a, b, tolerance: int = 24) -> bool:
+    return a is not None and b is not None and all(abs(x - y) <= tolerance for x, y in zip(a, b))
+
+
+def _on_plate(image: Image.Image) -> tuple[Image.Image, tuple] | None:
     """The mark drawn on a plate, as a mask, or None when there is no plate.
 
     "Outside" is what is connected to the canvas corners in their colour; the
@@ -542,7 +558,7 @@ def _on_plate(image: Image.Image) -> Image.Image | None:
     if (not drawn or drawn[2] - drawn[0] < _PLATE_MARK_SPAN * cut.width
             or drawn[3] - drawn[1] < _PLATE_MARK_SPAN * cut.height):
         return None  # a counter in a glyph, not a mark on a card
-    return mark
+    return mark, ground
 
 
 def _rim(size: tuple[int, int]) -> list[tuple[int, int]]:
@@ -575,12 +591,20 @@ def maskable_identity_findings(
     """
     best = None
     # Pairs: outline with outline, or one side's mark-on-plate with the other
-    # side's outline (a card master against the same mark full-bleed). Never
-    # mark-on-plate with mark-on-plate: two different glyphs that happen to
-    # share a counter would match on the counter alone.
-    for m_index, (master, master_aspect) in enumerate(_figure_candidates(master_png)):
-        for l_index, (linked, linked_aspect) in enumerate(_figure_candidates(maskable_png)):
-            if master is None or linked is None or (m_index and l_index):
+    # side's outline — and only when that other side sits on the plate's own
+    # colour, which is what a card composed full-bleed is: the card became the
+    # field. A glyph's counter is never on a field of the glyph's colour, so it
+    # cannot approve a standalone shape; and mark-on-plate is never compared
+    # with mark-on-plate.
+    master_readings, linked_readings = _readings(master_png), _readings(maskable_png)
+    master_surround, linked_surround = _surround(master_png), _surround(maskable_png)
+    for master, master_aspect, master_plate in master_readings:
+        for linked, linked_aspect, linked_plate in linked_readings:
+            if master is None or linked is None or (master_plate and linked_plate):
+                continue
+            if master_plate is not None and not _same_colour(master_plate, linked_surround):
+                continue
+            if linked_plate is not None and not _same_colour(linked_plate, master_surround):
                 continue
             iou = _mask_iou(master, linked)
             drift = (abs(math.log(linked_aspect / master_aspect))

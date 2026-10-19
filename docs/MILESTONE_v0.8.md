@@ -80,14 +80,23 @@ All by `codex:default` (`gpt-6-astra`), sealed and read-only through ATD.
    plate, and the README states that the pixel guarantee applies to
    plan-bound receipts.
 
-Each pass's findings carry a regression test named after them. The final
-state of the identity rule is deliberately conservative: when it cannot tell
-a card from a glyph, it compares outlines only, which can refuse a correct
-maskable source but cannot approve a different mark through a counter.
+6. **Fourth verification**: a *large* counter (over the half-plate span)
+   could still match a standalone disk, and one README sentence still
+   promised the pixel guarantee unconditionally. A size rule cannot separate
+   a card's mark from a glyph's counter, so the rule became structural: a
+   mark read on a plate may only be compared with a composition that sits on
+   the plate's own colour, which is what a card composed full-bleed is (the
+   card became the field). A counter is never on a field of its glyph's
+   colour.
+
+Each pass's findings carry a regression test named after them. When the
+identity rule cannot establish that structure it compares outlines only,
+which can refuse a correct maskable source but not approve a different mark
+through a counter.
 
 ## Verification
 
-- `python -m unittest discover -s tests`: 517 tests, 33 skipped, on Python
+- `python -m unittest discover -s tests`: 518 tests, 33 skipped, on Python
   3.14 and 3.10, with Chromium and with Chromium hidden (as CI's unit jobs
   run).
 - Byte identity: `build()` before and after the refactor wrote the same 93

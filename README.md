@@ -134,7 +134,8 @@ The working path is local after dependencies and Chromium are installed. There
 is no image-model call or API key: an agent or designer authors editable SVG,
 and a pinned toolchain renders repeatable target assets without network access.
 Unlike a generic favicon converter, IconFlow starts before conversion—with the
-product job and competing concepts—and refuses to ship unreviewed pixels.
+product job and competing concepts—and refuses to ship an icon nobody reviewed;
+with a plan-bound receipt, it also refuses any pixel that differs from the reviewed ones.
 
 ## Five-minute proof
 

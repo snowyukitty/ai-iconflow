@@ -256,6 +256,21 @@ class PlateEdgeTests(unittest.TestCase):
                                                   source_label="maskable.svg")
             self.assertEqual([f.code for f in found], ["maskable-drift"])
 
+    def test_N01_a_large_counter_never_approves_a_standalone_mark(self):
+        from iconflow import qa
+
+        def rectangle(d):
+            d.rectangle([32, 48, 223, 207], fill=(255, 244, 232, 255))
+            d.ellipse([68, 68, 187, 187], fill=(25, 26, 32, 255))
+
+        def disk(d):
+            d.ellipse([68, 68, 187, 187], fill=(255, 244, 232, 255))
+
+        for master, linked in ((rectangle, disk), (disk, rectangle)):
+            found = qa.maskable_identity_findings(self._png(master), self._png(linked),
+                                                  source_label="maskable.svg")
+            self.assertEqual([f.code for f in found], ["maskable-drift"])
+
     def test_N02_tiny_and_narrow_shapes_do_not_crash(self):
         from iconflow import qa
 
