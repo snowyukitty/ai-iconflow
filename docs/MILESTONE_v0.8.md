@@ -129,6 +129,9 @@ test named after them.
 
 ## Owner decisions
 
-1. **Release 0.8.0** — ordered by the owner on 2026-10-19; released the same
-   way as 0.7.0 (`docs/LAUNCH_READINESS.md` records the run).
+1. ~~Release 0.8.0~~ — **done 2026-10-19** at the owner's instruction: release
+   commit `34ea83c` (fast-forward to `main`, CI green), TestPyPI rehearsal and
+   smoke test, tag `v0.8.0`, GitHub Release with the candidate artifacts,
+   `pypi` approved; PyPI's wheel equals the reviewed candidate byte for byte,
+   its sdist entry for entry. Site redeployed; the new maskable icon is live.
 2. **Merge the Atlas branch** `fix/iconflow-case-pointer`.

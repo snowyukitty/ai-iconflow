@@ -7,9 +7,9 @@
 > remembered — which is the whole point, because the checklist this
 > replaces spent three days insisting the PyPI name was still free.
 
-Observed 2026-10-18 19:04 UTC.
+Observed 2026-10-19 01:55 UTC.
 
-`21 pass · 2 fail · 2 open gates · 0 unknown`
+`23 pass · 1 fail · 0 open gates · 1 unknown`
 
 An **open gate** is a decision waiting on a person, not a defect, and
 never fails this report. **Unknown** means a probe could not run: it is
@@ -36,8 +36,8 @@ is worse than no tick at all.
 | `PASS` | Live site serves current /robots.txt | byte-identical to the checkout |
 | `PASS` | Live site serves current /llms.txt | byte-identical to the checkout |
 | `PASS` | Live site serves current /sitemap.xml | byte-identical to the checkout |
-| `FAIL` | Live /reference/icon-sizes/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Owner action: Workers & Pages -> ai-iconflow -> Metrics -> Web Analytics -> disable, then redeploy (docs/OWNER_ACTIONS.md section 1 has the fallbacks). |
-| `FAIL` | Live /reference/tray-icons/ is served unmodified | the edge injects a Cloudflare Web Analytics beacon. This site's CSP is script-src 'self', so every visitor's browser blocks it and logs a violation: the analytics collect nothing and the console is never clean. Owner action: Workers & Pages -> ai-iconflow -> Metrics -> Web Analytics -> disable, then redeploy (docs/OWNER_ACTIONS.md section 1 has the fallbacks). |
+| `PASS` | Live site serves current /reference/icon-sizes/ | byte-identical to the checkout |
+| `PASS` | Live site serves current /reference/tray-icons/ | byte-identical to the checkout |
 | `PASS` | Live site serves current /forge/forge.js | byte-identical to the checkout |
 | `PASS` | Live site serves current /forge/model.js | byte-identical to the checkout |
 | `PASS` | Live site serves current /emotes/catalog.json | byte-identical to the checkout |
@@ -47,9 +47,9 @@ is worse than no tick at all.
 
 | | Check | Detail |
 |---|---|---|
-| `PASS` | PyPI carries this version | checkout is 0.7.0; PyPI latest is 0.7.0 (published) |
+| `FAIL` | PyPI carries this version | checkout is 0.8.0; PyPI latest is 0.7.0 — this version has never been uploaded |
 | `PASS` | PyPI first-proof copy is truthful | install and demo commands present; no stale pre-release warning |
-| `PASS` | Release attestations resolve | signed provenance for 2 artifacts |
+| `????` | Release attestations resolve | no matching release to check |
 
 ## Repository
 
@@ -57,9 +57,9 @@ is worse than no tick at all.
 |---|---|---|
 | `PASS` | Repository is public | visibility public; 1 star, 0 forks |
 | `PASS` | Discovery topics are set | 20 of GitHub's 20 topic slots used |
-| `OPEN` | Repository social preview is uploaded | still GitHub's generated card — Settings → General → Social preview, upload docs/assets/social-preview.png |
-| `OPEN` | Discussions decision | not enabled — gh repo edit snowyukitty/ai-iconflow --enable-discussions |
-| `PASS` | CI is green on main | latest main run: success (96b904d) |
+| `PASS` | Repository social preview is uploaded | custom Open Graph image set |
+| `PASS` | Discussions decision | enabled |
+| `PASS` | CI is green on main | latest main run: success (34ea83c) |
 
 ## Waiting on a person
 
