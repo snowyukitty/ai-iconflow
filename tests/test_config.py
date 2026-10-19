@@ -363,8 +363,11 @@ class ConfigTests(unittest.TestCase):
         path = self._ship_config({axis: 4 for axis in AXES})
         qa_module = importlib.import_module("iconflow.qa")
         plan_module = importlib.import_module("iconflow.plan")
+        # 0.9 computes the plan before the audit (the audit measures it), so
+        # the invariant is that nothing is written, not that nothing is planned.
         with mock.patch.object(qa_module, "check", return_value=["too generic"]), \
-             mock.patch.object(plan_module, "compute_plan") as build, \
+             mock.patch.object(plan_module, "compute_plan", return_value=fake_plan()), \
+             mock.patch.object(plan_module, "write_plan") as build, \
              contextlib.redirect_stderr(io.StringIO()):
             code = main(["ship", "--config", str(path)])
         self.assertEqual(code, 1)

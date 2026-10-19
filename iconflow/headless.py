@@ -28,6 +28,7 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -124,7 +125,8 @@ def _template_on(png: bytes, ground, ink, zoom: int = 2) -> Image.Image:
     return cell
 
 
-def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None) -> Path:
+def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None,
+                 rasterizer=None) -> Path:
     """Write every selected target's exact assets, in context, as one PNG.
 
     With a render ``plan`` every cell is cut from the plan's own files — the
@@ -134,9 +136,9 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None)
     same transforms.
     """
     from .build import RenderCache, electron_frames, preview_assets
-    from .rasterize import Rasterizer, load_svg
+    from .rasterize import load_svg
     from .review import (
-        _adaptive_shape_mask, _clip_to_mask, _draw_safe_zone, android_previews,
+        _adaptive_shape_mask, _clip_to_mask, _draw_safe_zone, _renderer, android_previews,
     )
 
     svg = load_svg(master_svg)
@@ -146,7 +148,7 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None)
     # Crops sit on a neutral the background colour cannot match, so the mask's
     # edge is visible whatever background_color is.
     crop_ground = (120, 122, 128, 255)
-    with Rasterizer(color_scheme=options.color_scheme) as r:
+    with _renderer(rasterizer, options.color_scheme) as r:
         cache = RenderCache(svg, r, optimize=False)
 
         def linked(path):
@@ -154,7 +156,11 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None)
 
         maskable_cache = linked(options.maskable_svg)
 
-        def shipped(computed: dict[str, bytes]) -> dict[str, bytes]:
+        def shipped(compute, keys) -> dict[str, bytes]:
+            """The plan's files for ``keys``; computed only when the plan lacks one (F06)."""
+            if plan is not None and all(plan.get(key) is not None for key in keys):
+                return {key: plan.get(key) for key in keys}
+            computed = compute()
             if plan is None:
                 return computed
             return {key: plan.get(key) if plan.get(key) is not None else value
@@ -170,10 +176,10 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None)
             if favicon[size] is None:
                 favicon[size] = cache.png(size)
         if targets & {"web", "pwa"}:
-            web = shipped(preview_assets(
+            web = shipped(lambda: preview_assets(
                 cache, "web", bg_color=options.background_color,
                 maskable_scale=options.maskable_scale, maskable_cache=maskable_cache,
-            ))
+            ), ("apple-touch-icon.png", "icon-512-maskable.png"))
             maskable = _open(web["icon-512-maskable.png"])
             small = maskable.resize((192, 192), Image.Resampling.LANCZOS)
             rows.append(("web / pwa — favicon 16 and 32 on light and dark tabs, apple-touch 180", [
@@ -190,29 +196,31 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None)
                 ("rounded", _on(_png(_clip_to_mask(small, _adaptive_shape_mask(192, "rounded"))), crop_ground, pad=6)),
             ]))
         if "tauri" in targets:
-            tauri = shipped(preview_assets(cache, "tauri"))
+            tauri = shipped(lambda: preview_assets(cache, "tauri"),
+                            ("icons/32x32.png", "icons/128x128.png"))
             rows.append(("tauri — the shipped PNGs at actual size", [
                 ("32x32", _on(tauri["icons/32x32.png"], dark)),
                 ("128x128", _on(tauri["icons/128x128.png"], dark)),
                 ("128x128 light", _on(tauri["icons/128x128.png"], light)),
             ]))
         if "electron" in targets:
-            frames = electron_frames(cache, options.electron_radius, (32, 128))
+            frames = {}
             if plan is not None and plan.get("build/icon.icns") is not None:
                 from .assemble import icns_frames
 
-                frames = {**frames, **{size: frame for size, frame in
-                                       icns_frames(plan.get("build/icon.icns")).items()
-                                       if size in frames}}
+                frames = {size: frame for size, frame in
+                          icns_frames(plan.get("build/icon.icns")).items() if size in (32, 128)}
+            if set(frames) != {32, 128}:
+                frames = {**electron_frames(cache, options.electron_radius, (32, 128)), **frames}
             rows.append((f"electron — radius {options.electron_radius:g}, the ICO/ICNS frames", [
                 ("32", _on(frames[32], dark)), ("128", _on(frames[128], dark)),
                 ("128 light", _on(frames[128], light)),
             ]))
         if "tray" in targets:
-            tray = shipped(preview_assets(
+            tray = shipped(lambda: preview_assets(
                 cache, "tray", tray_cache=linked(options.tray_svg),
                 tray_template_mode=options.tray_template_mode,
-            ))
+            ), ("tray/tray@16.png", "tray/trayTemplate@2x.png"))
             rows.append((f"tray — colour and macOS template ({options.tray_template_mode}) on both bars", [
                 ("colour 16 light", _on(tray["tray/tray@16.png"], light, 64)),
                 ("colour 16 dark", _on(tray["tray/tray@16.png"], dark, 64)),
@@ -220,7 +228,8 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None)
                 ("template dark", _template_on(tray["tray/trayTemplate@2x.png"], dark, (255, 255, 255, 255))),
             ]))
         if "emote" in targets:
-            emote = shipped(preview_assets(cache, "emote"))
+            emote = shipped(lambda: preview_assets(cache, "emote"),
+                            ("emote/28.png", "emote/56.png"))
             rows.append(("emote — 28 and 56 in light and dark chat", [
                 ("28 light", _on(emote["emote/28.png"], light)),
                 ("28 dark", _on(emote["emote/28.png"], dark)),
@@ -230,7 +239,8 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None)
     if "android" in targets:
         from .review import _plan_android
 
-        android = android_previews(svg, options, assets=_plan_android(plan))
+        android = android_previews(svg, options, assets=_plan_android(plan),
+                                   rasterizer=rasterizer)
         rows.append(("android — circle and squircle launchers, themed (13+), legacy round", [
             (label, _on(android[key], crop_ground, 192 if key != "legacy" else None))
             for key, label in (("circle", "circle"), ("squircle", "squircle"),
@@ -302,6 +312,9 @@ def write_findings(directory: Path, *, seed: dict, audit, sheets: dict[str, Path
         "targets": seed["targets"],
         "build": seed["build"],
         "audit": audit.inputs.describe(),
+        # 0.9: where each probe's pixels came from, so the receipt (which binds
+        # this file) binds what was audited, not only what was shown.
+        "audit_provenance": audit.provenance(),
         "warnings": [finding(item) for item in audit.warnings],
         "advisories": [finding(item) for item in audit.advisories],
         "metrics": audit.metrics,
@@ -339,7 +352,9 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
         raise HeadlessError(f"evidence is read through a link or junction ({link}); "
                             "point --evidence at the real directory")
     try:
-        findings = json.loads(path.read_text(encoding="utf-8"))
+        # One read (F08): the digest the receipt records is of the bytes validated.
+        raw = path.read_bytes()
+        findings = json.loads(raw.decode("utf-8"))
     except FileNotFoundError as exc:
         raise HeadlessError(
             f"no {FINDINGS_FILE} in {directory}; run `iconflow review --config iconflow.toml "
@@ -384,10 +399,64 @@ def load_evidence(directory: str | Path, *, source_sha256: str, contract_sha256:
                 f"evidence sheet {sheet.name} ({name}) changed after it was rendered; "
                 "re-run `iconflow review --evidence`"
             )
-    if "plan" in findings:
-        _check_saved_plan(directory, findings)
-    findings["_sha256"] = _sha256(path)
+    saved = _check_saved_plan(directory, findings) if "plan" in findings else None
+    findings["_audited"] = _check_provenance(findings, saved)
+    findings["_sha256"] = hashlib.sha256(raw).hexdigest()
     return findings
+
+
+_PROBE_SIZE = re.compile(r"^master-(\d+)$")
+
+
+def _check_provenance(findings: dict, saved) -> bool:
+    """Validate the audit's provenance against the saved plan; True when it measured it.
+
+    Evidence written before 0.9 carries none: valid, and not audited on the
+    plan. Provenance that is present must be well formed, name the plan saved
+    beside it, and every frame it says came from the plan must be exactly the
+    frame that plan holds for that probe.
+    """
+    from .plan import PlanError, audit_frames, audit_maskable
+
+    if "audit_provenance" not in findings:
+        return False
+    record = findings["audit_provenance"]
+    if (not isinstance(record, dict) or record.get("schema") != 1
+            or not isinstance(record.get("frames"), dict)
+            or not isinstance(record.get("audited"), bool)):
+        raise HeadlessError("the findings' audit provenance is malformed; re-run `iconflow review --evidence`")
+    plan_record = record.get("plan")
+    frames = record["frames"]
+    if any(not isinstance(origin, dict) or origin.get("from") not in {"plan", "render"}
+           for origin in frames.values()):
+        raise HeadlessError("the findings' audit provenance names a frame of unknown origin")
+    from_plan = {probe: origin for probe, origin in frames.items() if origin["from"] == "plan"}
+    if record["audited"] != bool(plan_record is not None and from_plan):
+        raise HeadlessError("the findings' audit provenance contradicts itself")
+    if plan_record is None:
+        if from_plan:
+            raise HeadlessError("the findings say the audit read a plan they do not name")
+        return False
+    if saved is None or not isinstance(plan_record, dict):
+        raise HeadlessError("the findings' audit read a render plan that is not saved beside them")
+    expected = {"digest": saved.digest, "artifact_digest": saved.artifact_digest,
+                "provenance_digest": saved.provenance_digest}
+    if plan_record != expected:
+        raise HeadlessError("the audit measured another render plan than the one saved "
+                            "beside these sheets; re-run `iconflow review --evidence`")
+    try:
+        shipped = audit_frames(saved)
+        maskable = audit_maskable(saved)
+    except PlanError as exc:
+        raise HeadlessError(f"the saved render plan cannot back the audit: {exc}") from exc
+    for probe, origin in from_plan.items():
+        match = _PROBE_SIZE.match(probe)
+        frame = (shipped.get(int(match.group(1))) if match
+                 else maskable if probe == "maskable-512" else None)
+        if frame is None or dict(frame.origin) != origin:
+            raise HeadlessError(f"the audit's {probe} frame is not the one the saved plan holds; "
+                                "re-run `iconflow review --evidence`")
+    return record["audited"]
 
 
 def _check_saved_plan(directory: Path, findings: dict) -> None:
@@ -402,9 +471,11 @@ def _check_saved_plan(directory: Path, findings: dict) -> None:
         saved = load_plan(directory / name)
     except PlanError as exc:
         raise HeadlessError(f"the saved render plan cannot back this review: {exc}") from exc
-    if saved.artifact_digest != binding["artifact_digest"] or saved.digest != binding["digest"]:
+    if (saved.artifact_digest != binding["artifact_digest"] or saved.digest != binding["digest"]
+            or saved.provenance_digest != binding["provenance_digest"]):
         raise HeadlessError("the saved render plan is not the one these sheets were rendered from; "
                             "re-run `iconflow review --evidence`")
+    return saved
 
 
 def evidence_paths(directory: Path, findings: dict) -> dict[str, Path]:
@@ -527,6 +598,8 @@ def build_receipt(*, seed: dict, scores: dict[str, int], notes: str,
             "kind": SURFACE_KIND,
             "interactive_lab": False,
             "findings_sha256": findings["_sha256"],
+            # 0.9: the audit in that file measured the plan's own files.
+            "audited_plan": bool(findings.get("_audited")),
             "note": "Scored from IconFlow's deterministic evidence sheets; the "
                     "interactive Review Lab was not opened.",
         },

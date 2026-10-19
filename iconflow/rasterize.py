@@ -229,16 +229,28 @@ class Rasterizer:
             png_bytes = r.render(svg_text, 32)
     """
 
-    def __init__(self, color_scheme: str = "light"):
+    #: A RenderSession may open a second scheme on this instance's browser.
+    shares_browser = True
+
+    def __init__(self, color_scheme: str = "light", *, share: "Rasterizer | None" = None):
         if color_scheme not in {"light", "dark", "no-preference"}:
             raise ValueError("color_scheme must be 'light', 'dark', or 'no-preference'")
         self.color_scheme = color_scheme
+        # Another open Rasterizer whose browser this one borrows; it then owns
+        # only its own context and page. Playwright's sync API allows one
+        # driver per thread, so two schemes open at once must share a browser.
+        self._share = share
         self._pw = None
         self._browser = None
         self._context = None
         self._page = None
 
     def __enter__(self) -> "Rasterizer":
+        if self._share is not None:
+            if self._share._browser is None:
+                raise RuntimeError("the shared Rasterizer is not open")
+            self._context, self._page = self._open_page(self._share._browser)
+            return self
         try:
             from playwright.sync_api import sync_playwright
         except ImportError as e:  # pragma: no cover
@@ -259,21 +271,7 @@ class Rasterizer:
                 "--metrics-recording-only",
                 "--no-first-run",
             ])
-            # One isolated page is resized and replaced for every frame. Reusing
-            # it keeps a 20-size native build fast without sharing any page state:
-            # set_content replaces the document and page JavaScript is disabled.
-            self._context = self._browser.new_context(
-                viewport={"width": 1, "height": 1},
-                device_scale_factor=1,
-                color_scheme=self.color_scheme,
-                reduced_motion="reduce",
-                java_script_enabled=False,
-                service_workers="block",
-                locale="en-US",
-                timezone_id="UTC",
-            )
-            self._context.route("**/*", lambda route: route.abort("blockedbyclient"))
-            self._page = self._context.new_page()
+            self._context, self._page = self._open_page(self._browser)
         except Exception:
             if self._context:
                 self._context.close()
@@ -283,6 +281,30 @@ class Rasterizer:
             self._context = self._browser = self._pw = None
             raise
         return self
+
+    def _open_page(self, browser):
+        # One isolated page is resized and replaced for every frame. Reusing
+        # it keeps a 20-size native build fast without sharing any page state:
+        # set_content replaces the document and page JavaScript is disabled.
+        # A shared browser still gets a context of its own, so nothing but the
+        # browser process is shared between schemes.
+        context = browser.new_context(
+            viewport={"width": 1, "height": 1},
+            device_scale_factor=1,
+            color_scheme=self.color_scheme,
+            reduced_motion="reduce",
+            java_script_enabled=False,
+            service_workers="block",
+            locale="en-US",
+            timezone_id="UTC",
+        )
+        try:
+            context.route("**/*", lambda route: route.abort("blockedbyclient"))
+            page = context.new_page()
+        except Exception:
+            context.close()
+            raise
+        return context, page
 
     def __exit__(self, *exc) -> None:
         if self._context:

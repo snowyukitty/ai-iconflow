@@ -82,6 +82,11 @@ class ReviewReceipt:
     # 0.8: the render plan the reviewer approved (docs/RENDER_PLAN.md). None for
     # a receipt written before 0.8: valid, and reported as unbound.
     plan: dict[str, Any] | None = None
+    # 0.9: the SHA-256 of the exact bytes parsed (one read, F08) and the build
+    # contract they were validated against, whose source hashes bind every
+    # linked source the approval covers.
+    sha256: str | None = None
+    build: dict[str, Any] | None = None
 
 
 @dataclass
@@ -425,7 +430,10 @@ def load_review_receipt(
 
     source = Path(path).expanduser().resolve(strict=False)
     try:
-        value = json.loads(source.read_text(encoding="utf-8"))
+        # Read once: the digest reported is of the bytes validated, never of a
+        # file reopened later (0.9, F08).
+        raw = source.read_bytes()
+        value = json.loads(raw.decode("utf-8"))
     except FileNotFoundError as exc:
         raise ConfigError(f"review receipt not found: {source}") from exc
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
@@ -566,6 +574,8 @@ def load_review_receipt(
         targets=tuple(targets),
         scores=scores,
         notes=notes.strip(),
+        sha256=hashlib.sha256(raw).hexdigest(),
+        build=dict(expected_build),
         **packet,
     )
 
@@ -718,11 +728,15 @@ def review_contract_digest(
     return hashlib.sha256(encoded).hexdigest()
 
 
-def config_review_contract_digest(config: IconFlowConfig) -> str:
-    """Return the approval hash required by the manual config fallback."""
+def config_review_contract_digest(config: IconFlowConfig, *, build=None) -> str:
+    """Return the approval hash required by the manual config fallback.
+
+    ``build`` is a :meth:`IconFlowConfig.build_contract` the caller already
+    computed, so the source hashes it binds are the ones it keeps.
+    """
 
     source_digest = svg_sha256(config.master_path)
-    build_contract = config.build_contract()
+    build_contract = config.build_contract() if build is None else build
     return review_contract_digest(
         source_sha256=source_digest,
         project=config.name,

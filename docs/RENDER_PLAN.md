@@ -73,8 +73,10 @@ mismatch names the files that changed, appeared, or disappeared.
    name, bounded sizes, portable relative paths only, duplicate JSON keys
    refused, and every identity recomputed from the bytes read, never taken
    from the manifest — then it must match the receipt's `artifact_digest`,
-   the current sources, and the settings `iconflow.toml` now has. The
-   automated QA still runs on the current source (it may render for that).
+   the current sources, and the settings `iconflow.toml` now has. From 0.9
+   the automated audit then measures the replayed files themselves (below);
+   a saved plan that fails these checks is never measured, and the audit
+   renders the captured source instead, so its warnings still come first.
 
 `brand build --ship` goes through the same ship and records the icon plan in
 `brand-manifest.json` as `approval.icon_plan` — scoped to the icon files; the
@@ -82,6 +84,56 @@ plan does not cover the wordmark, the fonts, or the rest of the kit.
 
 A second opinion attached to `score` must have scored the same plan when both
 are plan-bound; a pre-0.8 opinion is kept and marked `same_plan: null`.
+
+## The audit reads the plan (0.9)
+
+Before 0.9 the automated audit rendered for itself: what `check` measured,
+what the review showed and what `ship` published were three renders that
+agreed only because the renderer was deterministic. Now one command runs in
+one **render session** (`iconflow/session.py`): at most one Chromium, a
+context per colour scheme, and every request — operation, exact SVG text,
+size, background, scheme — rendered once and remembered. Only the renderer's
+own bytes are cached; optimisation, flattening, containers and templates run
+exactly as before, which is why every built file is byte-identical to 0.8
+(156 files across five configurations, checked against a `v0.8.0` checkout).
+
+Each source is captured once per command (`plan.capture_sources`); the plan,
+the audit and the approval check measure those bytes. `ship` refuses a
+captured source that is not the one its approval names, and `review` refuses
+to write findings if a source changed while it ran (`source-changed`, exit 2).
+
+With a plan, the audit's probes that have a shipped counterpart read the
+plan's own files:
+
+| probe | reads |
+|---|---|
+| 16 px coverage, white and dark contrast | the 16 px master frame (`favicon.ico`, Tauri's containers) |
+| 32 px mid-grey contrast | the 32 px master frame |
+| maskable safe zone | `icon-512-maskable.png` |
+| linked-source identity | `icon-512.png` (or Tauri's 512) and `icon-512-maskable.png` |
+| ladder rungs, Android native identity, tray template, neighbourhood | renders of the captured source |
+
+Only untransformed master renders qualify: apple-touch is flattened,
+Electron rounded, tray and Android composed, and no emote size is one the
+audit probes. A frame whose pixels are not the size its name or slot says,
+or two representations of one size that disagree, make the plan unusable as
+evidence (`PlanError`) — never a reason to measure a fresh render instead. A
+plan rendered from another source or scheme, or a maskable file composed on
+another background or scale, is refused the same way.
+
+The result says where every probe's pixels came from: `outputs.plan.audited`
+(true when the audit measured the plan for every probe that has a
+counterpart) and `outputs.plan.audit_frames` (per probe: file, slot, size,
+byte and pixel digests, or `"from": "render"` and why). `review --evidence`
+writes the same record into `findings.json` as `audit_provenance`; `score`
+re-derives every frame it names from the saved plan and refuses evidence
+whose record does not match, and the receipt carries `audited_plan`.
+
+On the same machine the findings are the same with or without the plan —
+same pixels, same rules; a test holds `check`, `review` and `ship` to it.
+Under `ship --plan` they can differ on purpose: the audit measures the
+reviewed bytes, and a newer renderer that would have drawn a pixel less is
+`check`'s finding about that renderer, not about what ships.
 
 ## What writing guarantees, and what it does not
 
@@ -98,14 +150,16 @@ raised. So:
 - files already in the output directory that the plan does not name are left
   alone, as in every earlier release.
 
-## Not in 0.8
+## Limits
 
-- The audit still renders through its own calls (in the same session where it
-  can); sharing one source-aware render provider between `check` and the plan
-  (review finding F09) is the next step.
 - The trust anchor is still the receipt. Hash binding detects that output
   changed relative to an approval; it does not authenticate a reviewer to
-  someone who can replace both the receipt and the plan.
+  someone who can replace both the receipt and the plan. `docs/TRUST.md` is
+  the decision and the repository policy that supplies an anchor.
+- `check` computes no plan (it stays a few renders); it measures the source.
+- `brand build` composes its kit after the gated ship, outside that ship's
+  session; the one-render guarantee covers `review` and `ship`.
 - Older IconFlow executables ignore `plan` in a receipt. A workflow that
   promises "reviewed pixels shipped" must run 0.8 or later and read
-  `outputs.plan.verified` from `ship --json`.
+  `outputs.plan.verified` from `ship --json`; one that promises "audited what
+  shipped" must run 0.9 and read `outputs.plan.audited`.

@@ -15,6 +15,7 @@ sizes, never from the 1024 master.
 from __future__ import annotations
 
 import base64
+import contextlib
 from dataclasses import dataclass, field
 import html
 import io
@@ -182,7 +183,8 @@ def _maskable_asset(png512: bytes, bg: str = "#ffffff", *, scale: float | None =
 
 
 def android_previews(svg_text: str, options: "ReviewOptions", *,
-                     assets: dict[str, bytes] | None = None) -> dict[str, bytes]:
+                     assets: dict[str, bytes] | None = None,
+                     rasterizer=None) -> dict[str, bytes]:
     """The exact Android layers, composed the way a launcher shows them.
 
     Built from :func:`iconflow.build.android_assets` — the bytes ``ship``
@@ -195,7 +197,7 @@ def android_previews(svg_text: str, options: "ReviewOptions", *,
         return RenderCache(load_svg(path), r, optimize=False) if path else None
 
     if assets is None:  # else: a render plan's own layers
-        with Rasterizer(color_scheme=options.color_scheme) as r:
+        with _renderer(rasterizer, options.color_scheme) as r:
             assets = android_assets(
                 RenderCache(svg_text, r, optimize=False), options.background_color,
                 maskable_scale=options.maskable_scale,
@@ -224,6 +226,26 @@ def android_previews(svg_text: str, options: "ReviewOptions", *,
     return out
 
 
+@contextlib.contextmanager
+def _renderer(rasterizer, color_scheme: str):
+    """Borrow the command's renderer for this scheme, or own a lazy one.
+
+    A command running one :class:`~iconflow.session.RenderSession` passes its
+    borrowed rasterizer to every surface, so one frame is rendered once per
+    run; a surface called on its own behaves as before, except that it starts
+    no browser it does not need.
+    """
+    from .rasterize import LazyRasterizer
+    from .session import scheme_rasterizer
+
+    borrowed = scheme_rasterizer(rasterizer, color_scheme)
+    if borrowed is not None:
+        yield borrowed
+        return
+    with LazyRasterizer(color_scheme=color_scheme, factory=Rasterizer) as owned:
+        yield owned
+
+
 def _plan_android(plan) -> dict[str, bytes] | None:
     if plan is None:
         return None
@@ -247,7 +269,7 @@ def contact_sheet(master_svg: str | Path, out: str | Path, *,
                   color_scheme: str = "light",
                   maskable_scale: float | None = None,
                   maskable_svg: str | Path | None = None,
-                  plan=None) -> Path:
+                  plan=None, rasterizer=None) -> Path:
     """The static review sheet. With a render ``plan``, every size the build
     ships is the plan's own frame (labelled "ships"), and the maskable proof is
     the plan's ``icon-512-maskable.png``; other sizes are rendered for context.
@@ -259,7 +281,7 @@ def contact_sheet(master_svg: str | Path, out: str | Path, *,
     linked512 = None
     shipped = plan.master_frames() if plan is not None else {}
     wanted = sorted(set(_SIZES + [512]))
-    with Rasterizer(color_scheme=color_scheme) as r:
+    with _renderer(rasterizer, color_scheme) as r:
         source = ladder.RungSource(svg)
         renders = {s: shipped[s] if s in shipped else source.render(r, s) for s in wanted}
         if maskable_svg is not None and (plan is None or plan.get("icon-512-maskable.png") is None):
@@ -442,7 +464,8 @@ def receipt_template(master_svg: str | Path, out: str | Path, *,
 
 
 def interactive_review(master_svg: str | Path, out: str | Path, *,
-                       options: ReviewOptions | None = None, plan=None) -> Path:
+                       options: ReviewOptions | None = None, plan=None,
+                       rasterizer=None) -> Path:
     """Write a self-contained, target-aware Review Lab.
 
     Light and dark SVG variants are rendered separately, so switching the UI
@@ -457,33 +480,29 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
     sizes = [16, 24, 32, 48, 64, 128, 180, 192, 256, 512, 1024]
 
     source = ladder.RungSource(svg)
-    renders: dict[str, dict[int, bytes]] = {}
-    for scheme in ("light", "dark"):
-        with Rasterizer(color_scheme=scheme) as r:
-            renders[scheme] = {s: source.render(r, s) for s in sizes}
-
-    linked_renders: dict[str, dict[int, bytes]] | None = None
-    if options.maskable_svg:
-        linked_source = ladder.RungSource(load_svg(options.maskable_svg))
-        linked_renders = {}
-        for scheme in ("light", "dark"):
-            with Rasterizer(color_scheme=scheme) as r:
-                linked_renders[scheme] = {s: linked_source.render(r, s) for s in sizes}
-
     shipped_scheme = options.color_scheme if options.color_scheme in ("light", "dark") else "light"
-    if plan is not None:
-        renders[shipped_scheme].update(
-            {size: frame for size, frame in plan.master_frames().items() if size in sizes})
-
-    tray_renders = {scheme: {s: renders[scheme][s] for s in (16, 32)}
-                    for scheme in ("light", "dark")}
-    if options.tray_svg:
-        tray_source = ladder.RungSource(load_svg(options.tray_svg))
-        for scheme in ("light", "dark"):
-            with Rasterizer(color_scheme=scheme) as r:
-                tray_renders[scheme] = {
-                    s: tray_source.render(r, s) for s in (16, 32)
-                }
+    # In the scheme the build renders, the plan's own frames are taken first
+    # and only the sizes it does not ship are rendered (0.9: before, every
+    # size was rendered and then replaced).
+    shipped = ({size: frame for size, frame in plan.master_frames().items() if size in sizes}
+               if plan is not None else {})
+    renders: dict[str, dict[int, bytes]] = {}
+    linked_renders: dict[str, dict[int, bytes]] | None = None
+    tray_renders: dict[str, dict[int, bytes]] = {}
+    linked_source = (ladder.RungSource(load_svg(options.maskable_svg))
+                     if options.maskable_svg else None)
+    tray_source = ladder.RungSource(load_svg(options.tray_svg)) if options.tray_svg else None
+    for scheme in ("light", "dark"):
+        with _renderer(rasterizer, scheme) as r:
+            own = shipped if scheme == shipped_scheme else {}
+            renders[scheme] = {s: own[s] if s in own else source.render(r, s) for s in sizes}
+            if linked_source is not None:
+                linked_renders = linked_renders or {}
+                linked_renders[scheme] = {s: linked_source.render(r, s) for s in sizes}
+            tray_renders[scheme] = (
+                {s: tray_source.render(r, s) for s in (16, 32)} if tray_source is not None
+                else {s: renders[scheme][s] for s in (16, 32)}
+            )
 
     review_seed = receipt_seed(path, options=options, plan=plan)
     build_contract = review_seed["build"]
@@ -617,7 +636,8 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             '<span>•••</span></div></article>'
         )
     if "android" in target_set:
-        android = android_previews(svg, options, assets=_plan_android(plan))
+        android = android_previews(svg, options, assets=_plan_android(plan),
+                                   rasterizer=rasterizer)
         cells = "".join(
             f'<figure><img src="{_data_url(android[key])}" '
             f'alt="Android {html.escape(label)}"><figcaption>{html.escape(label)}</figcaption></figure>'
@@ -630,6 +650,25 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
             '<article class="target-card"><div class="target-label"><span>ANDROID</span>'
             '<small>adaptive + themed</small></div>'
             f'<div class="android-context">{cells}</div></article>'
+        )
+    if "emote" in target_set:
+        from .build import EMOTE_SIZES
+
+        chat_sizes = tuple(size for size in EMOTE_SIZES if size < 128)
+        emote: dict[str, dict[int, bytes]] = {}
+        for scheme in ("light", "dark"):
+            with _renderer(rasterizer, scheme) as r:
+                emote[scheme] = {}
+                for size in chat_sizes:
+                    planned = (plan.get(f"emote/{size}.png")
+                               if plan is not None and scheme == shipped_scheme else None)
+                    emote[scheme][size] = planned if planned is not None else source.render(r, size)
+        target_cards.append(
+            '<article class="target-card"><div class="target-label"><span>EMOTE</span>'
+            '<small>chat, native sizes</small></div><div class="dock-context">'
+            + "".join(scheme_image(emote["light"][size], emote["dark"][size], f"{size}px emote")
+                      for size in chat_sizes)
+            + '</div></article>'
         )
     target_cards_html = "\n".join(target_cards) or (
         '<p class="empty">No targets selected. The source-size inspection remains available.</p>'
@@ -666,6 +705,14 @@ def interactive_review(master_svg: str | Path, out: str | Path, *,
         for axis, label in axes
     )
     seed_json = json.dumps(review_seed, ensure_ascii=False).replace("</", "<\\/")
+    from .plan import toolchain as _render_toolchain
+
+    lab_json = json.dumps({
+        # The toolchain that generated this page; the plan keeps its own.
+        "toolchain": _render_toolchain(),
+        "review_surface": {"kind": "review-lab", "interactive_lab": True,
+                           "note": "Scored in the interactive Review Lab."},
+    }, ensure_ascii=False).replace("</", "<\\/")
     name = html.escape(path.name)
     product = html.escape(product_name)
     notes = html.escape(options.notes)
@@ -750,6 +797,10 @@ figcaption strong {{ color:#fff; font-family:ui-monospace,SFMono-Regular,Consola
 .rubric {{ display:grid; gap:8px; }} .rubric-row {{ display:grid; grid-template-columns:145px 1fr 28px; gap:10px; align-items:center; color:#e9e7e1; font-size:13px; }}
 .rubric-row input {{ accent-color:var(--coral); }} .rubric-row output {{ color:var(--coral); font:700 14px ui-monospace,SFMono-Regular,Consolas,monospace; text-align:right; }}
 textarea {{ width:100%; min-height:152px; resize:vertical; border:1px solid var(--line); border-radius:10px; padding:12px; color:#f4f2ed; background:#1d1e23; line-height:1.5; }}
+.reviewer-line {{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px; }}
+.reviewer-line label {{ flex-basis:100%; }}
+.reviewer-line input, .reviewer-line select {{ border:1px solid var(--line); border-radius:10px; padding:8px 10px; color:#f4f2ed; background:#1d1e23; }}
+.reviewer-line input {{ flex:1 1 220px; min-width:0; }}
 .review-actions {{ display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }} .primary {{ border-color:var(--coral-dark); background:var(--coral); color:#22130f; font-weight:750; }}
 .empty {{ color:var(--muted); }}
 @media (max-width:900px) {{ .hero,.review-layout {{ grid-template-columns:1fr; }} .steps {{ display:none; }} .brief {{ grid-template-columns:1fr 1fr; }} }}
@@ -789,13 +840,17 @@ textarea {{ width:100%; min-height:152px; resize:vertical; border:1px solid var(
 
   <section class="panel"><div class="panel-head"><div><h2>Decision receipt</h2><p>Every axis must reach 4/5. Export the result for a gated ship and casebook record.</p></div></div>
     <div class="review-layout"><div class="rubric" id="reviewRubric">{rubric_html}</div><div><label for="reviewNotes" class="eyebrow">Why this wins / what changed</label><textarea id="reviewNotes" placeholder="Name the weakest axis, the decisive change, and why the silhouette is ownable.">{notes}</textarea>
+      <div class="reviewer-line"><label for="reviewerName" class="eyebrow">Reviewer (optional, self-declared)</label><input id="reviewerName" type="text" autocomplete="off" placeholder="Name or role — provenance, never authority"><select id="reviewerKind" aria-label="Reviewer kind"><option value="human">human</option><option value="agent">agent</option></select></div>
       <div class="review-actions"><button type="button" id="resetReview">Reset</button><button type="button" class="primary" id="exportReview">Export review.json</button></div></div></div>
   </section>
 </main>
 <script>
 const seed = {seed_json};
+const lab = {lab_json};
 const root = document.documentElement;
-const storageKey = `iconflow-review-${{seed.source_sha256}}`;
+// A draft is bound to the contract and the plan it scored: the same SVG under
+// another background, target set or renderer starts unscored (0.9, F13).
+const storageKey = `iconflow-review-v2-${{seed.contract_sha256}}-${{seed.plan ? seed.plan.digest : 'unbound'}}`;
 function setScheme(scheme) {{
   root.dataset.uiScheme = scheme;
   for (const image of document.querySelectorAll('.scheme-image')) image.src = image.dataset[scheme];
@@ -813,6 +868,15 @@ function readReview() {{
   const passing = complete && seed.warnings.length === 0 && Object.values(scores).every(value => value >= 4);
   const blocked = seed.warnings.length > 0 || complete;
   return {{...seed, scores, notes:notesInput.value.trim(), status:passing ? 'ready' : blocked ? 'blocked' : 'unscored'}};
+}}
+const reviewerName = document.getElementById('reviewerName');
+const reviewerKind = document.getElementById('reviewerKind');
+function exported() {{
+  // Provenance, never authority: ship reads none of it (docs/TRUST.md).
+  const review = {{...readReview(), toolchain: lab.toolchain, review_surface: lab.review_surface}};
+  const name = reviewerName.value.trim();
+  if (name) review.reviewer = {{kind: reviewerKind.value, name, declared_at: new Date().toISOString().replace(/\\.\\d{{3}}Z$/, 'Z')}};
+  return review;
 }}
 function paintGate() {{
   const review = readReview();
@@ -835,7 +899,7 @@ for (const input of scoreInputs) input.addEventListener('input', paintGate);
 notesInput.addEventListener('input', paintGate);
 document.getElementById('resetReview').addEventListener('click', () => {{ try {{ localStorage.removeItem(storageKey); }} catch (_) {{}} for (const input of scoreInputs) input.value = 0; notesInput.value = ''; paintGate(); }});
 document.getElementById('exportReview').addEventListener('click', () => {{
-  const blob = new Blob([JSON.stringify(readReview(), null, 2) + '\\n'], {{type:'application/json'}});
+  const blob = new Blob([JSON.stringify(exported(), null, 2) + '\\n'], {{type:'application/json'}});
   const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `${{seed.source.replace(/\\.svg$/i,'')}}-review.json`; link.click(); URL.revokeObjectURL(link.href);
 }});
 restore(); paintGate();
@@ -1036,7 +1100,8 @@ def ladder_overlay(smaller_png: bytes, larger_png: bytes) -> Image.Image:
 
 def ladder_sheet(master_svg: str | Path, out: str | Path, *,
                  color_scheme: str = "light",
-                 compare_size: int = ladder.COMPARE_SIZE) -> Path:
+                 compare_size: int = ladder.COMPARE_SIZE,
+                 rasterizer=None) -> Path:
     """Render the proof a person actually reads before trusting a ladder.
 
     Three bands: the sizes as they will be delivered, the three rungs at one
@@ -1047,7 +1112,7 @@ def ladder_sheet(master_svg: str | Path, out: str | Path, *,
     title = _font(18)
     small = _font(14)
 
-    with Rasterizer(color_scheme=color_scheme) as r:
+    with _renderer(rasterizer, color_scheme) as r:
         delivered = {size: source.render(r, size) for size in LADDER_STRIP}
         rungs = ladder.render_rungs(svg, r, size=compare_size)
 

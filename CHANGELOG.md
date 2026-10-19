@@ -6,7 +6,73 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
-Nothing yet.
+Milestone 0.9 (`docs/MILESTONE_v0.9.md`): what was audited is what was
+reviewed is what ships.
+
+### Added
+
+- **The audit reads the render plan.** With a plan, the probes that have a
+  shipped counterpart — 16 and 32 px coverage and contrast, the maskable safe
+  zone, a linked source's identity — measure the plan's own files instead of
+  rendering them again; the rest render the captured source
+  (`docs/RENDER_PLAN.md`, "The audit reads the plan"). Only untransformed
+  master frames qualify, each checked for its real size; two disagreeing
+  representations of one size refuse the plan rather than fall back.
+- **One render session per command** (`iconflow/session.py`). `review` and
+  `ship` start at most one Chromium (a context per colour scheme) and render
+  each request once: a Review Lab review of the demo family went from nine
+  browsers and 67 renders (19 of them repeats) in 10.7 s to one browser and 48
+  renders in 4.7 s; `review --evidence` from five browsers to one.
+- `--json`: `outputs.plan` gains `audited` and `audit_frames` (review and
+  ship); `ship` gains `outputs.receipt_sha256` and reports `outputs.audit`
+  even when blocked. `findings.json` gains `audit_provenance`, which `score`
+  validates against the saved plan; receipts record
+  `review_surface.audited_plan`.
+- Review Lab receipts carry `review_surface: {kind: "review-lab"}`, the
+  toolchain that generated the Lab, and an optional self-declared reviewer.
+  Provenance only: no gate reads them.
+- The Review Lab shows an **emote** target card (28, 56 and 112 px, the
+  plan's own files); an emote-only Lab no longer says no target is selected.
+- `docs/TRUST.md`: what a receipt proves and does not, why IconFlow does not
+  sign receipts, and a repository policy that supplies an anchor.
+
+### Changed
+
+- **`ship --plan` audits the replayed bytes** (it rendered the current source
+  in 0.8). On another machine its findings can now differ from `check`'s, on
+  purpose: one measures what ships, the other the local renderer.
+- **`ship` computes the plan before the audit**, because the audit measures
+  it. The outcome is unchanged: warnings are still reported first and alone,
+  then a plan that cannot be built or replayed, then drift, and nothing is
+  written on any refusal. A QA-blocked ship now renders the plan before it
+  refuses.
+- Each source is read once per command: `ship` refuses a captured source that
+  is not the one its approval names, and `review` refuses to write findings
+  when a source changed while it ran (`source-changed`, exit 2).
+- `score` validates `--scores`, every `--rationale`, `--notes` and
+  `--reviewer-name` before printing the axis walk, and refuses `--rationale`
+  without `--scores` instead of ignoring it.
+- A Review Lab draft is bound to the contract and the plan, not only to the
+  SVG, and a config's `[review]` scores pre-fill the Lab only while their
+  contract is still the current one.
+- Toolchain provenance reports the running code's version, not installed
+  distribution metadata (a stale editable install had recorded 0.7.0).
+- Built files are byte-identical to 0.8.0: 156 files across five
+  configurations (flat and laddered; every target; linked maskable,
+  monochrome and tray; optimisation off; dark scheme), through `build()` and
+  through the session `ship` uses, against a `v0.8.0` checkout.
+
+### Fixed
+
+- A Playwright error (which is not a `RuntimeError`) escaped as a traceback;
+  it is now an exit-2 `runtime` envelope.
+- Two Review Lab drafts for the same SVG under different settings shared one
+  saved score.
+- `findings.json` and the receipt were hashed by reopening the file after
+  validation; both are now hashed from the bytes validated.
+- Website: emote downloads have accessible names ("Joy SVG", not 55 links
+  called "SVG"); the emotes page links Icon sizes like the Forge; the Forge
+  project kit's README gives the headless review path, not only the Lab.
 
 ## 0.8.0 - 2026-10-19
 

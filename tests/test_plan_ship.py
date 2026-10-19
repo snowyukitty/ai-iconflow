@@ -92,9 +92,12 @@ class PlanShipTests(unittest.TestCase):
             patcher = mock.patch(target, **kwargs)
             patcher.start()
             self.addCleanup(patcher.stop)
-        patcher = mock.patch.object(build_module, "Rasterizer", Renderer)
-        patcher.start()
-        self.addCleanup(patcher.stop)
+        # build() and a command's render session reach the renderer through
+        # different seams (0.9); substitute both.
+        for patcher in (mock.patch.object(build_module, "Rasterizer", Renderer),
+                        mock.patch("iconflow.rasterize.Rasterizer", Renderer)):
+            patcher.start()
+            self.addCleanup(patcher.stop)
 
     def review_and_score(self):
         code, envelope, err = run(["review", "--config", str(self.config), "--evidence", str(self.evidence)])

@@ -9,6 +9,7 @@ carries the stable machine ``code`` published in ``docs/AGENT_CONTRACT.md``.
 """
 from __future__ import annotations
 
+import hashlib
 import io
 import math
 import re
@@ -368,7 +369,7 @@ def _enclosed_transparent_pixels(alpha: Image.Image) -> int:
 
 def tray_template_warnings(
     tray_svg: str | Path, *, template_mode: str = "auto",
-    rasterizer: Rasterizer | None = None,
+    rasterizer: Rasterizer | None = None, text: str | None = None,
 ) -> list[Finding]:
     """Advisory: does the macOS template keep anything the colour tray shows?
 
@@ -384,7 +385,8 @@ def tray_template_warnings(
     """
     if template_mode not in {"auto", "alpha", "contrast"}:
         raise ValueError("template mode must be 'auto', 'alpha', or 'contrast'")
-    text = load_svg(tray_svg)
+    if text is None:
+        text = load_svg(tray_svg)
 
     def audit(active: Rasterizer) -> list[Finding]:
         colour_png = active.render(text, _TEMPLATE_PROBE_SIZE)
@@ -640,6 +642,10 @@ def check(
     color_scheme: str = "light",
     metrics: dict | None = None,
     android: bool = False,
+    text: str | None = None,
+    maskable_text: str | None = None,
+    plan=None,
+    provenance: dict | None = None,
 ) -> list[Finding]:
     """Run every automated check on the bytes the configured build will ship.
 
@@ -649,19 +655,30 @@ def check(
     normally reach this through :func:`iconflow.audit.run_audit`, which takes
     every one of those from the project configuration so ``check``, ``review``
     and ``ship`` cannot disagree.
+
+    ``text`` and ``maskable_text`` are the captured sources (read from the
+    paths when absent). With a ``plan``, every probe that has a shipped
+    counterpart measures the plan's own file -- the 16, 32 and 512 px master
+    frames and the maskable composition -- instead of rendering one, and
+    ``provenance`` (when given) records where each probe's pixels came from.
+    A plan rendered from another source or in another scheme is refused.
     """
     from .build import (
         _FrozenCache, android_native_sizes, maskable_png, resolve_maskable_scale,
     )
 
     warnings: list[Finding] = []
-    text = load_svg(master_svg)
+    if text is None:
+        text = load_svg(master_svg)
     warnings.extend(_renderer_safety_warnings(text))
     warnings.extend(_distinctiveness_warnings(text))
     if maskable:
         bg_rgba = assemble.opaque_color(maskable_bg, "maskable background color")
         bg_label = "#{:02X}{:02X}{:02X}".format(*bg_rgba[:3])
-        linked_text = load_svg(maskable_svg) if maskable_svg is not None else None
+        linked_text = (
+            maskable_text if maskable_text is not None
+            else load_svg(maskable_svg) if maskable_svg is not None else None
+        )
         effective_scale = resolve_maskable_scale(maskable_scale, linked=linked_text is not None)
         maskable_label = (
             f"maskable_svg {Path(maskable_svg).name}" if linked_text is not None else "the master"
@@ -705,21 +722,57 @@ def check(
 
     identity: list[Finding] = []
 
-    def render_checks(r: Rasterizer):
-        im16 = Image.open(io.BytesIO(source.render(r, 16))).convert("RGBA")
-        im32 = Image.open(io.BytesIO(source.render(r, 32))).convert("RGBA")
+    plan_frames: dict = {}
+    plan_maskable = None
+    origins: dict = {}
+    if plan is not None:
+        from .plan import audit_frames, audit_maskable
+
+        _require_plan_source(plan, text, color_scheme)
+        plan_frames = audit_frames(plan)
         if maskable:
-            master512 = source.render(r, 512)
-            linked_cache = None
-            if linked_text is not None:
-                linked_source = ladder.RungSource(linked_text)
-                linked_cache = _FrozenCache({512: linked_source.render(r, 512)})
-            composed = maskable_png(
-                _FrozenCache({512: master512}), maskable_bg,
-                scale=maskable_scale, maskable_cache=linked_cache,
-            )
+            plan_maskable = audit_maskable(plan)
+            if plan_maskable is not None:
+                _require_plan_maskable(plan, bg_label, effective_scale, linked_text)
+
+    def master_frame(r, size: int) -> bytes:
+        shipped = plan_frames.get(size)
+        if shipped is not None:
+            origins[f"master-{size}"] = dict(shipped.origin)
+            return shipped.png
+        origins[f"master-{size}"] = {
+            "from": "render", "size": size,
+            "reason": "no render plan" if plan is None else "no shipped frame at this size",
+        }
+        return source.render(r, size)
+
+    def render_checks(r: Rasterizer):
+        im16 = Image.open(io.BytesIO(master_frame(r, 16))).convert("RGBA")
+        im32 = Image.open(io.BytesIO(master_frame(r, 32))).convert("RGBA")
+        if maskable:
+            linked_source = ladder.RungSource(linked_text) if linked_text is not None else None
+            master512 = None
+            if plan_maskable is not None:
+                composed = plan_maskable.png
+                origins["maskable-512"] = dict(plan_maskable.origin)
+            else:
+                master512 = master_frame(r, 512)
+                linked_cache = None
+                if linked_source is not None:
+                    linked_cache = _FrozenCache({512: linked_source.render(r, 512)})
+                composed = maskable_png(
+                    _FrozenCache({512: master512}), maskable_bg,
+                    scale=maskable_scale, maskable_cache=linked_cache,
+                )
+                origins["maskable-512"] = {
+                    "from": "render", "size": 512,
+                    "reason": ("no render plan" if plan is None
+                               else "no selected target ships the maskable composition"),
+                }
             im512 = Image.open(io.BytesIO(composed)).convert("RGBA")
-            if linked_text is not None:
+            if linked_source is not None:
+                if master512 is None:
+                    master512 = master_frame(r, 512)
                 flat = assemble.flatten(master512, maskable_bg)
                 identity.extend(maskable_identity_findings(
                     _resize_png(flat, _IDENTITY_SIZE),
@@ -750,10 +803,15 @@ def check(
         return im16, im32, im512, rungs
 
     if rasterizer is None:
-        with Rasterizer(color_scheme=color_scheme) as owned_rasterizer:
+        # Lazy: a check whose every probe reads the plan starts no browser.
+        from .rasterize import LazyRasterizer
+
+        with LazyRasterizer(color_scheme=color_scheme, factory=Rasterizer) as owned_rasterizer:
             im16, im32, im512, rung_renders = render_checks(owned_rasterizer)
     else:
         im16, im32, im512, rung_renders = render_checks(rasterizer)
+    if provenance is not None:
+        provenance.update(origins)
     warnings.extend(identity)
     rung16 = f", {ladder.rung_for_size(16)} rung" if laddered else ""
     rung32 = f", {ladder.rung_for_size(32)} rung" if laddered else ""
@@ -836,6 +894,47 @@ def check(
     return warnings
 
 
+def _normalised_sha256(text: str) -> str:
+    """``config.svg_sha256`` of already-decoded text (line endings normalised)."""
+    normalised = text.replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(normalised.encode("utf-8")).hexdigest()
+
+
+def _require_plan_source(plan, text: str, color_scheme: str) -> None:
+    """Refuse a plan that was not rendered from this source in this scheme."""
+    from .plan import PlanError
+
+    master = (plan.inputs or {}).get("master") or {}
+    if master.get("sha256") != _normalised_sha256(text):
+        raise PlanError("the render plan was not rendered from the master being audited")
+    planned = (plan.parameters or {}).get("color_scheme")
+    if planned != color_scheme:
+        raise PlanError(
+            f"the render plan was rendered in the {planned!r} scheme, "
+            f"not the {color_scheme!r} scheme being audited"
+        )
+
+
+def _require_plan_maskable(plan, bg_label: str, scale: float, linked_text: str | None) -> None:
+    """Refuse a plan whose maskable file is another composition than the one audited."""
+    from .plan import PlanError
+
+    parameters = plan.parameters or {}
+    try:
+        planned = assemble.opaque_color(parameters.get("background_color"), "plan background")
+    except (TypeError, ValueError) as exc:
+        raise PlanError(f"the render plan's background colour is unreadable: {exc}") from exc
+    if "#{:02X}{:02X}{:02X}".format(*planned[:3]) != bg_label:
+        raise PlanError("the render plan's maskable composition uses another background")
+    if parameters.get("maskable_scale") != scale:
+        raise PlanError("the render plan's maskable composition uses another scale")
+    linked = (plan.inputs or {}).get("maskable")
+    if (linked is None) != (linked_text is None):
+        raise PlanError("the render plan and the audit disagree on a linked maskable source")
+    if linked_text is not None and linked.get("sha256") != _normalised_sha256(linked_text):
+        raise PlanError("the render plan's maskable source is not the one being audited")
+
+
 def _resize_png(png: bytes, size: int) -> bytes:
     image = Image.open(io.BytesIO(png)).convert("RGBA")
     out = io.BytesIO()
@@ -856,6 +955,7 @@ def neighbourhood_audit(
     nearest: int = neighbours.NEAREST,
     color_scheme: str = "light",
     rasterizer: Rasterizer | None = None,
+    text: str | None = None,
 ) -> neighbours.Neighbourhood:
     """Rank the candidate against the bundled corpus and the declared sets.
 
@@ -870,11 +970,10 @@ def neighbourhood_audit(
     pre-indexed — so the audit costs a handful of renders, the way the ladder's
     invariant costs three.
     """
-    from .config import svg_sha256
-
     path = Path(master_svg)
     base = Path(base) if base is not None else path.resolve().parent
-    text = load_svg(path)
+    if text is None:
+        text = load_svg(path)
     index = neighbours.load_index()
 
     def audit(active: Rasterizer) -> neighbours.Neighbourhood:
@@ -883,7 +982,8 @@ def neighbourhood_audit(
             set="candidate",
             title=neighbours.svg_title(text, path.stem),
             source=str(path),
-            source_sha256=svg_sha256(path),
+            # The text measured, not the path reopened: one snapshot (F01).
+            source_sha256=_normalised_sha256(text),
             field=shapefield.field_from_svg(text, active),
             svg=text,
         )

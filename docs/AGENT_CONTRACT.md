@@ -5,8 +5,11 @@
      with IconFlow are entirely yours. See LICENSES.md section 1. -->
 # Agent Contract v1 — machine-readable IconFlow
 
-> Status: frozen for the v0.5 "Adoption Loop" milestone (2026-08-21). Changes
-> after v0.5.0 bump `schema` and are listed in `CHANGELOG.md`.
+> Status: frozen for the v0.5 "Adoption Loop" milestone (2026-08-21). A
+> change that removes or retypes anything bumps `schema`; additions do not —
+> within `schema: 1` an object (`outputs`, and every object nested in it) may
+> gain keys, and a consumer ignores keys it does not know. Every change is
+> listed in `CHANGELOG.md`.
 
 IconFlow's quality gate already exists: `check` finds mechanical risks,
 `review` renders exact native pixels and records a six-axis receipt bound to
@@ -195,13 +198,31 @@ Blocked ships report `status: "blocked"` with `warnings` codes
 output differs from the plan the receipt approved) and `plan-replay` (a
 `--plan` directory that cannot be published as the reviewed bytes).
 
+When more than one gate would refuse, the first in this order is reported,
+alone: the approval (`receipt-*`, `score-below-floor`), automated warnings
+(`qa-warnings` and their codes), a plan that cannot be built or replayed
+(`plan-replay`, or a `runtime` error), then `plan-drift`. Nothing is written
+on any refusal.
+
+From 0.9 `outputs.audit` is reported as soon as the audit inputs resolve,
+blocked or not, and a passing ship adds `outputs.receipt_sha256`: the SHA-256
+of the exact receipt bytes validated (`null` for a `[review]` table). It
+identifies the approval; it does not authenticate it (`docs/TRUST.md`).
+`review` and `ship` exit `2` with error code `source-changed` when a source
+is not the one the approval names, or changed while the command ran.
+
 ### `outputs.plan` (0.8, the render plan)
 
 `ship`, `review` and `score` gain one key (`docs/RENDER_PLAN.md`):
 
 ```json
 "plan": {"digest": "<content sha256>", "artifact_digest": "<bytes sha256>",
-         "verified": true, "bytes_verified": true, "drift": [], "mode": "rendered"}
+         "verified": true, "bytes_verified": true, "drift": [], "mode": "rendered",
+         "audited": true,
+         "audit_frames": {"master-16": {"from": "plan", "file": "favicon.ico", "slot": 16,
+                                        "size": 16, "sha256": "...", "content_sha256": "..."},
+                          "master-32": {"...": "..."},
+                          "maskable-512": {"from": "plan", "file": "icon-512-maskable.png", "...": "..."}}}
 ```
 
 `verified` is `true` when the shipped content equals the approved plan,
@@ -210,8 +231,16 @@ to compare with: a receipt from before 0.8, a `[review]` table, and every
 `review`/`score` (they *make* a plan; they do not compare one). `drift` lists
 changed, added and removed paths. `mode` (ship only) is `rendered` or
 `replayed` (`ship --plan DIR`). `review`'s `plan` is `null` when no plan could
-be computed (for example without Chromium); the review itself still runs.
+be computed (for example, a tray template that cannot be derived); the review
+still runs, and its other renders still need Chromium.
 Advisory `plan-unbound`: a ship whose receipt carries no plan.
+
+From 0.9 (`review` and `ship`): `audited` is `true` when the audit measured
+the plan's own files for every probe that has a shipped counterpart, whatever
+its outcome — it can be `true` on a ship blocked by warnings, and it never
+means every output file was inspected. `audit_frames` says, per probe, which
+file and slot the pixels came from, or `{"from": "render", "reason": "..."}`
+(`docs/RENDER_PLAN.md`, "The audit reads the plan").
 
 ### `score --json` (0.7, headless review)
 
@@ -229,6 +258,14 @@ own codes), `2` for stale or edited evidence, a missing reason, or a second
 opinion over different evidence or from the same reviewer. Advisory:
 `second-opinion-dissent`. `review --evidence DIR` adds `outputs.findings` (the
 path of `findings.json`, `null` without `--evidence`).
+
+From 0.9 everything the command line carries (`--scores`, every
+`--rationale`, `--notes`, `--reviewer-name`) is validated before the axis walk
+is printed, and `--rationale` without `--scores` is refused rather than
+ignored. `findings.json` gains `audit_provenance` (`{"schema": 1, "plan":
+{...three digests...}, "audited": bool, "frames": {...}}`); `score` re-derives
+every frame it names from the saved plan and exits `2` on any mismatch or a
+malformed record. Evidence without it (0.8) is accepted as not audited.
 
 ### `demo --json`
 
@@ -269,7 +306,7 @@ name. A named reviewer is provenance, not authority.
 ```json
 "rationale": {"legibility": "...", "...": "..."},
 "review_surface": {"kind": "headless-evidence", "interactive_lab": false,
-                   "findings_sha256": "...", "note": "..."},
+                   "findings_sha256": "...", "audited_plan": true, "note": "..."},
 "second_opinions": [{"reviewer": {...}, "scores": {...}, "notes": "...",
                      "receipt_sha256": "...", "dissent": ["..."]}]
 ```
@@ -280,7 +317,7 @@ name. A named reviewer is provenance, not authority.
 0.8 adds the render plan the review showed:
 
 ```json
-"plan": {"schema": 1, "digest": "...", "artifact_digest": "...",
+"plan": {"schema": 1, "digest": "...", "artifact_digest": "...", "provenance_digest": "...",
          "files": {"favicon.ico": {"content": "...", "sha256": "..."}, "...": {}},
          "toolchain": {"iconflow": "0.8.0", "chromium": "...", "pillow": "...", "platform": "..."}}
 ```
@@ -290,6 +327,19 @@ well formed — a malformed `plan` is a configuration error, never an unbound
 receipt — and `ship` gates on it (`plan-drift`). A second opinion's `plan`, when
 both are bound, must be the same plan.
 
+0.9 adds to a Review Lab export what a headless receipt already had, as
+provenance that no gate reads:
+
+```json
+"review_surface": {"kind": "review-lab", "interactive_lab": true, "note": "..."},
+"toolchain": {"iconflow": "0.9.0", "chromium": "...", "pillow": "...", "platform": "..."},
+"reviewer": {"kind": "human|agent", "name": "self-declared", "declared_at": "export time"}
+```
+
+`toolchain` is the one that generated the Lab (the plan keeps its own);
+`reviewer` appears only when the reviewer filled it in. The `toolchain`
+`iconflow` value is now the running code's version, not installed metadata.
+
 ## Where it is tested
 
 - `tests/test_cli.py`: golden JSON envelopes for each command (ok / blocked /
@@ -298,4 +348,7 @@ both are bound, must be the same plan.
   `demo` works from an installed wheel without the source tree.
 - `tests/test_neighbours.py`: the `neighbours` envelope, the codes, the
   index drift checks, and (under Chromium) the calibration table.
+- `tests/test_audit_on_plan.py` (0.9): the render session, frame selectors,
+  the audit on the plan, gate precedence, captured sources, evidence
+  provenance, receipt digests and the Lab's bindings.
 - `.github/actions/proof`: consumes `check --json` and `review --json` only.

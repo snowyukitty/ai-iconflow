@@ -129,14 +129,22 @@ scores = {{ legibility = 4, distinctiveness = 4, balance = 4, color = 4, scalabi
 
         def spy(master, **kwargs):
             kwargs.pop("rasterizer", None)
+            # Where the pixels come from may differ (ship measures its plan,
+            # 0.9); what is audited may not. The captured text must be the file.
+            text = kwargs.pop("text", None)
+            if text is not None:
+                self.assertEqual(text, Path(master).read_text(encoding="utf-8"))
+            extra = {key: kwargs.pop(key, None) for key in ("maskable_text", "plan", "provenance")}
             current.append({"master": str(Path(master).resolve()), **kwargs})
-            return real_check(master, **kwargs)
+            return real_check(master, text=text, **kwargs, **extra)
 
         results = {}
+        # One seam for every render a command makes (0.9): ship's plan is real,
+        # rendered by the grid, and ship's audit reads that plan's frames.
         with mock.patch("iconflow.qa.Rasterizer", GridRasterizer), \
+             mock.patch("iconflow.rasterize.Rasterizer", GridRasterizer), \
              mock.patch("iconflow.qa.check", side_effect=spy), \
              mock.patch("iconflow.review.contact_sheet", return_value=self.dir / "r.png"), \
-             mock.patch("iconflow.plan.compute_plan", return_value=stub_plan()), \
              mock.patch("iconflow.plan.write_plan", return_value=[]):
             for name, argv in (
                 ("check", ["check", "--config", str(self.config_path)]),

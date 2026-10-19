@@ -153,7 +153,7 @@ def render_page(published: dict) -> str:
           <div class="emo-big">{img(e['slug'], 112)}</div>
           <div class="emo-small" aria-hidden="true"><span class="emo-on-light">{img(e['slug'], 22)}{img(e['slug'], 28)}</span><span class="emo-on-dark">{img(e['slug'], 22)}{img(e['slug'], 28)}</span></div>
           <p class="emo-name">{escape(e['title'])} <code>:{e['slug']}:</code></p>
-          <p class="emo-links"><a href="{e['svg']}" download>SVG</a><a href="{e['png']}" download>PNG 128</a></p>
+          <p class="emo-links"><a href="{e['svg']}" download aria-label="{escape(e['title'])} SVG">SVG</a><a href="{e['png']}" download aria-label="{escape(e['title'])} PNG 128 px">PNG 128</a></p>
         </li>"""
 
     kinds = (("face", "Faces"), ("hand", "Hands"), ("symbol", "Symbols"))
@@ -214,7 +214,7 @@ def render_page(published: dict) -> str:
   <header class="site-header" data-header>
     <a class="brand" href="/" aria-label="IconFlow home"><img src="/assets/iconflow-mark.svg" width="34" height="34" alt=""><span>IconFlow</span></a>
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu data-label-open="Open navigation" data-label-close="Close navigation"><span class="sr-only">Toggle navigation</span><span></span><span></span></button>
-    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="/emotes/" aria-current="page">Emotes</a><a href="/forge/">Icon Forge</a><a href="/xray/">16px X-ray</a><a href="/gallery/">Gallery</a><a href="/getting-started/">Get started</a></nav>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="/emotes/" aria-current="page">Emotes</a><a href="/forge/">Icon Forge</a><a href="/xray/">16px X-ray</a><a href="/reference/icon-sizes/">Icon sizes</a><a href="/gallery/">Gallery</a><a href="/getting-started/">Get started</a></nav>
   </header>
 
   <main id="main">

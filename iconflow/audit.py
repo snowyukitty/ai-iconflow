@@ -138,20 +138,55 @@ class AuditResult:
     #: What the checks measured (coverage, contrast spreads, maskable share),
     #: recorded in a headless review's findings file.
     metrics: dict = field(default_factory=dict)
+    #: Where each probe's pixels came from (0.9): a plan file and slot, or a
+    #: render and why. Empty for an audit that measured nothing.
+    frames: dict = field(default_factory=dict)
+    #: The plan the audit read (its three digests), or None.
+    plan: dict | None = None
+
+    @property
+    def audited(self) -> bool:
+        """True when the audit measured the plan's own files for every probe that has one.
+
+        Independent of the outcome: an audit with warnings can be ``audited``.
+        It never means every output file was inspected — see ``frames``.
+        """
+        return self.plan is not None and any(
+            origin.get("from") == "plan" for origin in self.frames.values()
+        )
+
+    def provenance(self) -> dict:
+        """The record a headless review stores and ``score`` validates (schema 1)."""
+        return {"schema": 1, "plan": self.plan, "audited": self.audited,
+                "frames": self.frames}
 
 
-def run_audit(inputs: AuditInputs, *, rasterizer=None) -> AuditResult:
+def run_audit(inputs: AuditInputs, *, rasterizer=None, plan=None,
+              sources=None) -> AuditResult:
     """Every automated finding for one source under one set of inputs.
 
     ``warnings`` gate ``ship`` (and make ``check``/``review`` exit 1);
     ``advisories`` inform and never gate. One Chromium session serves the
     whole audit.
+
+    ``sources`` are the command's captured snapshots by role
+    (:func:`iconflow.plan.capture_sources`): every probe measures those bytes,
+    never a file reopened later. With a ``plan``, the probes that have a
+    shipped counterpart measure the plan's files (0.9, F09) and the result
+    records where every probe's pixels came from.
     """
+    sources = dict(sources or {})
+
+    def captured(role: str):
+        source = sources.get(role)
+        return source.text if source is not None else None
+
     from . import qa
     from .qa import check, neighbourhood_audit, tray_template_warnings
 
     def audit(r) -> AuditResult:
         metrics: dict = {}
+        frames: dict = {}
         warnings = list(check(
             inputs.master,
             maskable=inputs.maskable_audited,
@@ -162,6 +197,10 @@ def run_audit(inputs: AuditInputs, *, rasterizer=None) -> AuditResult:
             color_scheme=inputs.color_scheme,
             rasterizer=r,
             metrics=metrics,
+            text=captured("master"),
+            maskable_text=captured("maskable") if inputs.maskable_audited else None,
+            plan=plan,
+            provenance=frames,
         ))
         advisories: list[Finding] = []
         hood = None
@@ -175,6 +214,7 @@ def run_audit(inputs: AuditInputs, *, rasterizer=None) -> AuditResult:
                 base=config.source.parent,
                 color_scheme=inputs.color_scheme,
                 rasterizer=r,
+                text=captured("master"),
             )
             gating, advising = hood.findings()
             warnings.extend(gating)
@@ -182,8 +222,13 @@ def run_audit(inputs: AuditInputs, *, rasterizer=None) -> AuditResult:
         if inputs.tray_audited:
             advisories.extend(tray_template_warnings(
                 inputs.tray_svg, template_mode=inputs.tray_template_mode, rasterizer=r,
+                text=captured("tray"),
             ))
-        return AuditResult(inputs, warnings, advisories, hood, metrics)
+        binding = None
+        if plan is not None:
+            binding = {"digest": plan.digest, "artifact_digest": plan.artifact_digest,
+                       "provenance_digest": plan.provenance_digest}
+        return AuditResult(inputs, warnings, advisories, hood, metrics, frames, binding)
 
     if rasterizer is not None:
         return audit(rasterizer)

@@ -348,8 +348,10 @@ class ShipEnvelopeTests(DemoFamilyFixture):
 
     def test_qa_warnings_block_with_qa_warnings_and_finding_codes(self):
         finding = Finding("stroke-floor", "stroke-width=1 is very thin")
+        # The plan is computed first (the audit measures it); nothing is written.
         with mock.patch("iconflow.qa.check", return_value=[finding]), \
-             mock.patch("iconflow.plan.compute_plan") as build:
+             mock.patch("iconflow.plan.compute_plan"), \
+             mock.patch("iconflow.plan.write_plan") as build:
             code, envelope, err = self.ship()
         self.assertEqual(code, 1)
         self.assertEqual(

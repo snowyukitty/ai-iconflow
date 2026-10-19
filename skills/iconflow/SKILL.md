@@ -209,6 +209,12 @@ the project you are working on.
    `ship --config iconflow.toml --review master-review.json --plan work/<slug>/evidence/plan`.
    Never re-score to make drift go away without looking at the new pixels.
    `iconflow docs RENDER_PLAN`.
+   From IconFlow 0.9 the automated audit measures those same plan files (the
+   16, 32 and 512 px frames and the maskable composition), so what was audited
+   is what was reviewed and what ships; `ship --json` reports it as
+   `outputs.plan.audited`, and `outputs.receipt_sha256` names the exact
+   receipt it accepted. A receipt proves consistency, not who reviewed: never
+   present a self-declared reviewer name as an authentication.
 
 7b. **Optional — propagate the mark** when the product also needs lockups,
    store tiles, or Open Graph / GitHub social cards. Give `[brand]` in

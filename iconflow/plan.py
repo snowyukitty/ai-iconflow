@@ -72,14 +72,9 @@ class PlanError(ValueError):
 
 def toolchain() -> dict[str, str | None]:
     """What rendered the pixels. Provenance only: it explains drift, never excuses it."""
-    import importlib.metadata
-
-    from . import __version__
-
-    try:
-        iconflow_version = importlib.metadata.version("iconflow")
-    except importlib.metadata.PackageNotFoundError:
-        iconflow_version = __version__
+    # The version of the code that ran, not of whatever distribution metadata
+    # the interpreter finds: a stale editable install reported 0.7.0 for 0.8.
+    from . import __version__ as iconflow_version
     try:
         import PIL
         pillow_version = getattr(PIL, "__version__", None)
@@ -390,6 +385,50 @@ def _file_identity(path) -> object:
     return os.path.normcase(os.path.realpath(path))
 
 
+def capture_sources(master_svg: str | Path, targets, *, tray_svg=None, maskable_svg=None,
+                    monochrome_svg=None) -> dict[str, Source]:
+    """Read every source a build with these targets consumes, once, by role.
+
+    One snapshot per *file*, shared by every role that names it — by file
+    identity, so a symlink or a hard link to the same file is the same
+    snapshot (a link that names the master is still a link: the default
+    maskable scale depends on it, but the bytes are the master's). A command
+    captures once and hands the result to the plan, the audit and the
+    approval check, so all three measure the same bytes (0.9, F01).
+    """
+    import importlib
+
+    b = importlib.import_module(".build", __package__)
+    targets = b.normalize_targets(targets)
+    roles = consumed_roles(targets, tray_svg=tray_svg, maskable_svg=maskable_svg,
+                           monochrome_svg=monochrome_svg)
+    by_file: dict[object, Source] = {}
+    sources: dict[str, Source] = {}
+    for role, path in (("master", master_svg), ("tray", tray_svg),
+                       ("maskable", maskable_svg), ("monochrome", monochrome_svg)):
+        if role not in roles:
+            continue
+        key = _file_identity(path)
+        if key not in by_file:
+            by_file[key] = snapshot(path, role)
+        sources[role] = by_file[key]
+    return sources
+
+
+def changed_sources(sources: Mapping[str, Source]) -> list[str]:
+    """The roles whose file no longer holds the bytes captured (a mid-run edit)."""
+    changed = []
+    for role, source in sources.items():
+        try:
+            raw = Path(source.path).read_bytes()
+        except OSError:
+            changed.append(role)
+            continue
+        if raw != source.raw:
+            changed.append(role)
+    return changed
+
+
 def compute_plan(master_svg: str | Path, targets=("web",), *,
                  name: str = "App", theme_color: str = "#0b0d12",
                  bg_color: str = "#ffffff", electron_radius: float = 0.0,
@@ -400,7 +439,7 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
                  maskable_scale: float | None = None,
                  maskable_svg: str | Path | None = None,
                  monochrome_svg: str | Path | None = None,
-                 rasterizer=None) -> RenderPlan:
+                 rasterizer=None, sources: Mapping[str, Source] | None = None) -> RenderPlan:
     """Render every output of a build into memory. No publication writes.
 
     Takes exactly :func:`iconflow.build.build`'s arguments (less ``outdir``),
@@ -427,27 +466,19 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
         assemble.opaque_color(web_options.tile_color, "tile color")
     if maskable_scale is not None:
         maskable_scale = b.validate_maskable_scale(maskable_scale)
-    master_path = Path(master_svg)
     roles = consumed_roles(targets, tray_svg=tray_svg, maskable_svg=maskable_svg,
                            monochrome_svg=monochrome_svg)
-    by_file: dict[str, Source] = {}
-    sources: dict[str, Source] = {}
-
-    def take(path, role) -> Source:
-        # One snapshot per file, shared by every role that names it — by file
-        # identity, so a symlink or a hard link to the same file is the same
-        # snapshot (a link that names the master is still a link: the default
-        # maskable scale depends on it, but the bytes are the master's).
-        key = _file_identity(path)
-        if key not in by_file:
-            by_file[key] = snapshot(path, role)
-        sources[role] = by_file[key]
-        return by_file[key]
-
-    master = take(master_path, "master")
-    tray = take(tray_svg, "tray") if "tray" in roles else None
-    maskable = take(maskable_svg, "maskable") if "maskable" in roles else None
-    monochrome = take(monochrome_svg, "monochrome") if "monochrome" in roles else None
+    if sources is None:
+        sources = capture_sources(master_svg, targets, tray_svg=tray_svg,
+                                  maskable_svg=maskable_svg, monochrome_svg=monochrome_svg)
+    elif set(sources) != roles:
+        raise PlanError("captured sources do not match the roles these targets consume: "
+                         f"captured {sorted(sources)}, consumed {sorted(roles)}")
+    sources = dict(sources)
+    master = sources["master"]
+    tray = sources.get("tray")
+    maskable = sources.get("maskable")
+    monochrome = sources.get("monochrome")
 
     def render(r) -> dict[str, bytes]:
         caches: dict[int, object] = {}
@@ -505,6 +536,85 @@ def compute_plan(master_svg: str | Path, targets=("web",), *,
         ),
         toolchain=toolchain(),
     )
+
+
+# ------------------------------------------------------------ audit frames
+
+#: Plan files that are the master rendered at one size and nothing else —
+#: what the audit may measure instead of rendering (0.9, F09). Apple-touch is
+#: flattened, Electron rounded, tray and Android composed, and emote sizes are
+#: none the audit probes, so none of them can stand for "the master at N px".
+AUDIT_PNGS = {
+    "icon-192.png": 192, "icon-512.png": 512,
+    "icons/32x32.png": 32, "icons/64x64.png": 64, "icons/128x128.png": 128,
+    "icons/128x128@2x.png": 256, "icons/icon.png": 512,
+}
+AUDIT_CONTAINERS = ("favicon.ico", "icons/icon.ico", "icons/icon.icns")
+#: The one maskable composition web and PWA ship.
+MASKABLE_FILE = "icon-512-maskable.png"
+
+
+@dataclass(frozen=True)
+class AuditFrame:
+    """One shipped image the audit measured, and exactly where it came from."""
+
+    png: bytes
+    origin: Mapping[str, object]
+
+
+def _audit_frame(path: str, slot: int | None, size: int, payload: bytes) -> AuditFrame:
+    if payload[:8] != _PNG_SIGNATURE:
+        raise PlanError(f"{path}: the {size}px frame is not a PNG")
+    try:
+        with Image.open(io.BytesIO(payload)) as image:
+            dimensions = image.size
+    except (OSError, ValueError, Image.DecompressionBombError) as exc:
+        raise PlanError(f"{path}: the {size}px frame cannot be decoded: {exc}") from exc
+    if dimensions != (size, size):
+        raise PlanError(f"{path}: the frame named {size}px decodes to "
+                        f"{dimensions[0]}x{dimensions[1]}")
+    origin = {"from": "plan", "file": path, "slot": slot, "size": size,
+              "sha256": _sha256(payload), "content_sha256": _pixels_sha256(payload)}
+    return AuditFrame(payload, MappingProxyType(origin))
+
+
+def audit_frames(plan: RenderPlan) -> dict[int, AuditFrame]:
+    """The master's shipped renders by pixel size, each with its origin.
+
+    Every representation of a size is decoded and checked: a frame whose
+    pixels are not the size its name or slot claims, or two representations
+    of one size that disagree, make the plan unusable as audit evidence
+    (``PlanError``) — never a reason to measure a fresh render instead. The
+    first representation in build order is the one recorded.
+    """
+    found: dict[int, list[AuditFrame]] = {}
+    for record in plan.files:
+        if record.path in AUDIT_PNGS:
+            entries = [(None, AUDIT_PNGS[record.path], record.data)]
+        elif record.path in AUDIT_CONTAINERS:
+            try:
+                read = (assemble.ico_frames if record.path.endswith(".ico")
+                        else assemble.icns_frames)
+                entries = [(size, size, payload) for size, payload in read(record.data).items()]
+            except (ValueError, IndexError, struct.error) as exc:
+                raise PlanError(f"{record.path}: unreadable container ({exc})") from exc
+        else:
+            continue
+        for slot, size, payload in entries:
+            found.setdefault(size, []).append(_audit_frame(record.path, slot, size, payload))
+    frames: dict[int, AuditFrame] = {}
+    for size, candidates in found.items():
+        if len({frame.origin["content_sha256"] for frame in candidates}) > 1:
+            files = ", ".join(sorted({str(frame.origin["file"]) for frame in candidates}))
+            raise PlanError(f"the plan carries two different {size}px renders of the master ({files})")
+        frames[size] = candidates[0]
+    return frames
+
+
+def audit_maskable(plan: RenderPlan) -> AuditFrame | None:
+    """The shipped maskable composition, or None when no selected target writes it."""
+    data = plan.get(MASKABLE_FILE)
+    return None if data is None else _audit_frame(MASKABLE_FILE, None, 512, data)
 
 
 # --------------------------------------------------------------- publication
