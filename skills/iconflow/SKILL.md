@@ -4,7 +4,7 @@ description: Design and generate high-quality app icons, website favicons, PWA i
 license: CC-BY-SA-4.0
 compatibility: Requires Python 3.10+, filesystem and shell access, and network access for one-time dependency and Playwright Chromium setup. Works with `iconflow` on PATH (uv tool / pipx / pip) or a source checkout's venv interpreter. Rendering and builds are local afterward. The icons you design with it are yours: no attribution, no share-alike, commercial use unrestricted.
 metadata:
-  version: "0.10.0"
+  version: "0.10.1"
 ---
 
 <!-- SPDX-License-Identifier: CC-BY-SA-4.0

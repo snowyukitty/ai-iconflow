@@ -6,6 +6,10 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
+Nothing yet.
+
+## 0.10.1 - 2026-10-20
+
 A system-design review and polish (`docs/MILESTONE_v0.10.1.md`). Every built
 file is byte-identical to 0.10.0.
 

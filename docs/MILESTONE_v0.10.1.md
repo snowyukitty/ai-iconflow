@@ -10,7 +10,7 @@ owner asked for a review and polish of the system design before the session
 closed. The aim was a codebase that is easier to change correctly, documents
 that say what the code does, and every boundary the earlier milestones drew
 holding where it had a gap — with every built file byte-identical to 0.10.0.
-Not released: a release needs the owner's word.
+Released as 0.10.1 on 2026-10-20 at the owner's explicit instruction.
 
 ## How it was reviewed
 
@@ -226,6 +226,6 @@ From Codex's list of refactors not to do in a wrap-up, all adopted:
 
 ## Owner decisions
 
-1. **Release 0.10.1** — a patch release of these fixes, when the owner says
-   so. Nothing in it changes a built file; PF02, PF03 and PF10 change what is
-   refused or reported.
+1. **Released 0.10.1 (2026-10-20)** — a patch release of these fixes,
+   explicitly authorized by the owner. Nothing in it changes a built file;
+   PF02, PF03 and PF10 change what is refused or reported.

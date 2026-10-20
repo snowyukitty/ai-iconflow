@@ -9,7 +9,7 @@ Tauri desktop, Electron, tray, Android launcher, iOS app icons and emote packs.
 docs/ARCHITECTURE.md maps the modules and the review-to-ship trust chain.
 """
 
-__version__ = "0.10.0"
+__version__ = "0.10.1"
 
 from .rasterize import Rasterizer, load_svg
 from .build import build, RenderCache
