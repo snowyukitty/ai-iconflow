@@ -645,6 +645,22 @@ class BuildTests(unittest.TestCase):
         fresh = self.dir / "fresh"
         self.assertEqual(write_plan(light_only, fresh), light_only.produced)
 
+    def test_PF05_dropping_ios_leaves_the_old_catalog_like_any_other_target(self):
+        # Dissent PF05: the refusal guards one catalog's coherence (a
+        # Contents.json that no longer names a PNG beside it). A build that
+        # writes no iOS file leaves an earlier, self-consistent catalog alone,
+        # as write_plan leaves every other target's earlier files.
+        out = self.dir / "out"
+        write_plan(ios_build(self.dir), out)
+        before = {p.relative_to(out).as_posix(): p.read_bytes()
+                  for p in out.rglob("*") if p.is_file()}
+        without_ios = compute_plan(self.dir / "master.svg", ["tauri"], rasterizer=Layered())
+        produced = write_plan(without_ios, out)
+        self.assertFalse(set(produced) & set(ios.ALL_FILES))
+        for path, data in before.items():
+            with self.subTest(path=path):
+                self.assertEqual((out / path).read_bytes(), data)
+
     def test_R13_a_dangling_link_left_by_an_earlier_build_is_refused(self):
         out = self.dir / "out"
         light_only = ios_build(self.dir, ios_variants="system")

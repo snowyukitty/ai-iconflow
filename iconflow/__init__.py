@@ -5,7 +5,8 @@
 The design step follows docs/DESIGN_PLAYBOOK.md. This package is the
 deterministic build engine: it rasterizes SVG with network-isolated headless
 Chromium and assembles crisp, per-size .ico / .icns / .png sets for web, PWA,
-Tauri desktop, Electron, and tray use.
+Tauri desktop, Electron, tray, Android launcher, iOS app icons and emote packs.
+docs/ARCHITECTURE.md maps the modules and the review-to-ship trust chain.
 """
 
 __version__ = "0.10.0"

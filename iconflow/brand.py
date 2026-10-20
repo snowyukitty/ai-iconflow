@@ -716,15 +716,6 @@ def _walk(root: Path):
                 yield path
 
 
-def _hash_tree(root: Path) -> list[dict]:
-    files = []
-    for path in _walk(root):
-        if path.stat().st_size <= MAX_SCAN_BYTES:
-            files.append({"path": path.relative_to(root).as_posix(),
-                          "sha256": _sha256_bytes(path.read_bytes())})
-    return files
-
-
 # --------------------------------------------------------------------------
 # Propagation report
 # --------------------------------------------------------------------------

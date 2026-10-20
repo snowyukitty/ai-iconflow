@@ -99,10 +99,12 @@ own bytes are cached; optimisation, flattening, containers and templates run
 exactly as before, which is why every built file is byte-identical to 0.8
 (156 files across five configurations, checked against a `v0.8.0` checkout).
 
-Each source is captured once per command (`plan.capture_sources`); the plan,
-the audit and the approval check measure those bytes. `ship` refuses a
-captured source that is not the one its approval names, and `review` refuses
-to write findings if a source changed while it ran (`source-changed`, exit 2).
+Each source is captured once per command (`plan.capture_sources`); the plan
+and the audit measure those bytes (from 0.10.1 `check` too). `ship` validates
+the approval by hashing the sources first, then refuses a captured source that
+is not the one that approval names, and `review` reads its sources again at
+the end and refuses to write findings if one changed while it ran
+(`source-changed`, exit 2).
 
 With a plan, the audit's probes that have a shipped counterpart read the
 plan's own files:

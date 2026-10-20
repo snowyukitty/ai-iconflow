@@ -255,6 +255,131 @@ def link_in_path(path: Path, base: Path | None = None) -> Path | None:
     return None
 
 
+def project_base(directory: str | Path) -> Path:
+    """The project a configured output belongs to: the repository holding the
+    config, else the config's own folder.
+
+    A config in a sub-folder of a repository (``repo/cfg/iconflow.toml`` with
+    ``output = "../dist/icons"``) still lives in that repository, and a link
+    the repository carries next to the sub-folder is the project's own
+    (F6-01). The repository is found by its ``.git`` (a folder, or a file in
+    a worktree or submodule), nothing else.
+    """
+    import os
+
+    start = Path(os.path.abspath(directory))
+    for candidate in (start, *start.parents):
+        if os.path.lexists(candidate / ".git"):
+            return candidate
+    return start
+
+
+#: Links followed while resolving one output path before it is refused as a
+#: loop: the platform's own limit (Windows allows 63 reparse points in a path,
+#: Linux 40), so no chain the OS accepts is refused here (FV03).
+MAX_OUTPUT_LINK_HOPS = 63 if os.name == "nt" else 40
+
+
+def output_link(path: str | Path, base: str | Path | None = None) -> Path | None:
+    """The first project-controlled link a write to ``path`` would go through, or None.
+
+    The question :func:`link_in_path` answers for inputs, asked of an output,
+    where ``..`` is an ordinary layout (``output = "../site/icons"``). The path
+    is resolved the way the operating system resolves it for the writer —
+    Windows collapses ``..`` first, POSIX follows each link before applying
+    the ``..`` after it (TV03) — and every link met on the way, in the path or
+    inside another link's target (TV02), is judged by where it lives:
+
+    * a link whose directory is inside ``base`` (default: the working
+      directory) is one the project carries, and is refused;
+    * any other link is the caller's to name (``/var`` for ``/private/var``, a
+      mapped drive) and is followed.
+
+    "Inside" is decided by directory identity, not by spelling, so the project
+    is recognised under the names tested: an 8.3 name, ``\\\\?\\``, a local
+    share of a drive, a ``subst`` drive on the project or a folder in it (TV01,
+    SV02, FV01). A path spelled under ``base`` keeps ``base`` itself trusted,
+    even if ``base`` is reached through a link (SV03). The final directory is
+    also checked by :func:`_validate_output_tree`.
+
+    The threat is a link the *project* carries. A route built from links,
+    shares or drive mappings the user made *outside* the project, crafted to
+    lead back into one of its links, is out of scope: whoever can make those
+    already controls the machine (``docs/MILESTONE_v0.10.1.md``, V5).
+    """
+    import os
+    from collections import deque
+
+    anchor = Path(os.path.abspath(base if base is not None else Path.cwd()))
+    written = os.fspath(path)
+    if os.name == "nt" or not os.path.isabs(written):
+        # Windows resolves "C:icons" and ".." textually before any link; on
+        # POSIX a relative path starts at the working directory, unresolved.
+        written = os.path.abspath(written) if os.name == "nt" else os.path.join(os.getcwd(), written)
+    full = Path(written)
+    try:
+        # Spelled under base: base is the caller's own and trusted, so its
+        # spelling is not walked — but the walk continues from where base
+        # really is, so a ".." after it goes where the OS takes it (FV02).
+        pending = deque(full.relative_to(anchor).parts)
+        resolved = Path(os.path.realpath(anchor))
+    except ValueError:
+        pending = deque(full.parts[1:])
+        resolved = Path(full.anchor)
+    hops = 0
+    while pending:
+        part = pending.popleft()  # linear in the path length (FV05)
+        if part in ("", "."):
+            continue
+        if part == "..":
+            resolved = resolved.parent
+            continue
+        candidate = resolved / part
+        try:
+            linked = _is_link_or_reparse_point(candidate)
+        except NotADirectoryError:
+            return None  # a file where a directory must be: the writer refuses
+        if not linked:
+            resolved = candidate  # a directory, or one the writer will create
+            continue
+        if _inside(resolved, anchor):
+            return candidate
+        hops += 1
+        if hops > MAX_OUTPUT_LINK_HOPS:
+            raise OSError(f"too many links resolving the output directory: {path}")
+        target = Path(os.readlink(candidate))
+        if target.is_absolute():
+            resolved = Path(target.anchor)
+            pending.extendleft(reversed(target.parts[1:]))
+        else:
+            pending.extendleft(reversed(target.parts))
+    return None
+
+
+def _inside(directory: Path, anchor: Path) -> bool:
+    """Whether ``directory`` is ``anchor`` or below it, by directory identity.
+
+    Asked of the directory's real location as well as its spelling: a drive
+    mapped to a folder *inside* the project (``subst X: project\\sub``) has a
+    root whose spelled parents never reach the project (FV01).
+    """
+    import os
+
+    spellings = [directory]
+    try:
+        spellings.append(Path(os.path.realpath(directory)))
+    except OSError:
+        pass
+    for spelling in spellings:
+        for ancestor in (spelling, *spelling.parents):
+            try:
+                if os.path.samefile(ancestor, anchor):
+                    return True
+            except OSError:
+                continue
+    return False
+
+
 def android_native_sizes(maskable_scale: float | None, *, linked: bool) -> tuple[int, ...]:
     """Every pixel size the android target renders its artwork at."""
     scale = resolve_maskable_scale(maskable_scale, linked=linked)
@@ -289,6 +414,12 @@ def _write(outdir: Path, name: str, data: bytes, produced: list[str]) -> None:
 
 
 def _write_assets(outdir: Path, assets: dict[str, bytes], produced: list[str]) -> None:
+    # The 0.7 writers below have no plan to preflight; they still refuse a
+    # tree that would redirect a write, as build() does (PO01, IR03).
+    link = output_link(outdir)
+    if link is not None:
+        raise ValueError(f"output directory goes through a link or junction: {link}")
+    _validate_output_tree(outdir)
     for name, data in assets.items():
         _write(outdir, name, data, produced)
 
@@ -715,7 +846,11 @@ def build(master_svg: str | Path, outdir: str | Path, targets=("web",), *,
     from .plan import compute_plan, write_plan
 
     outdir = Path(outdir)
-    # Refuse a redirecting output tree before spending a render on it.
+    # Refuse a redirecting output tree before spending a render on it: a link
+    # the project carries above the output (PF02), then the output itself.
+    link = output_link(outdir)
+    if link is not None:
+        raise ValueError(f"output directory goes through a link or junction: {link}")
     _validate_output_tree(outdir)
     plan = compute_plan(
         master_svg, targets, name=name, theme_color=theme_color, bg_color=bg_color,

@@ -334,6 +334,82 @@ class ImportTests(Fixture):
         with self.assertRaisesRegex(PlanError, "exactly"):
             load_plan(target)
 
+    def test_PF14_a_read_never_exceeds_its_budget(self):
+        big = self.root / "big.bin"
+        big.write_bytes(b"x" * 100_000)
+        self.assertEqual(len(plan_module._read_at_most(big, 10)), 11)
+
+    def test_PF14_a_file_larger_than_it_was_measured_is_refused(self):
+        target = self.saved()
+        manifest = json.loads((target / "plan.json").read_text(encoding="utf-8"))
+        victim = target / "files" / manifest["files"][0]["path"]
+        real_stat = Path.stat
+        reads = []
+        real_read = plan_module._read_at_most
+
+        def small_stat(path, *args, **kwargs):
+            result = real_stat(path, *args, **kwargs)
+            if Path(path) == victim:
+                # What a file that grew after it was measured looks like.
+                class Measured:
+                    st_size = 4
+
+                    def __getattr__(self, name):
+                        return getattr(result, name)
+
+                return Measured()
+            return result
+
+        def spy(path, limit):
+            data = real_read(path, limit)
+            reads.append((Path(path), len(data)))
+            return data
+
+        with mock.patch.object(Path, "stat", small_stat), \
+                mock.patch.object(plan_module, "_read_at_most", spy):
+            with self.assertRaisesRegex(PlanError, "changed after the plan was saved"):
+                load_plan(target)
+        self.assertIn((victim, 5), reads)  # four measured bytes, plus one to know
+
+    def test_IR10_load_plan_asks_the_file_for_no_more_than_its_budget(self):
+        # At the handle: a whole-file read (pre-fix) or read-then-slice is
+        # never a bounded request, so either fails here.
+        target = self.saved()
+        requests = []
+        real_open = open
+
+        class Handle:
+            def __init__(self, handle):
+                self.handle = handle
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                self.handle.close()
+
+            def read(self, n=-1):
+                requests.append(n)
+                return self.handle.read(n)
+
+        def bounded_open(path, mode="r", *args, **kwargs):
+            requests.append(Path(path))
+            return Handle(real_open(path, mode, *args, **kwargs))
+
+        with mock.patch.object(plan_module, "open", bounded_open, create=True), \
+                mock.patch.object(Path, "read_bytes", side_effect=AssertionError("unbounded read")), \
+                mock.patch.object(Path, "read_text", side_effect=AssertionError("unbounded read")):
+            load_plan(target)
+        manifest = json.loads((target / "plan.json").read_text(encoding="utf-8"))
+        # (path opened, size asked for) per file: the manifest at its cap plus
+        # one, every payload at exactly its measured size plus one (VR04).
+        pairs = list(zip(requests[0::2], requests[1::2]))
+        self.assertEqual(len(pairs), 1 + len(manifest["files"]))
+        self.assertEqual(pairs[0], (target / "plan.json", plan_module.MAX_MANIFEST_BYTES + 1))
+        for path, n in pairs[1:]:
+            with self.subTest(path=path.name):
+                self.assertEqual(n, path.stat().st_size + 1)
+
     def test_P13_newline_and_control_characters_are_not_paths(self):
         for hostile in ("icon.png\n", "icon\t.png", "a/\nb.png"):
             with self.assertRaises(PlanError, msg=repr(hostile)):

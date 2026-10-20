@@ -136,7 +136,7 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None,
     of them. Without one, the bytes come from ``build.preview_assets``, the
     same transforms.
     """
-    from .build import RenderCache, electron_frames, preview_assets
+    from .build import EMOTE_SIZES, RenderCache, electron_frames, preview_assets
     from .rasterize import load_svg
     from .review import (
         _adaptive_shape_mask, _clip_to_mask, _draw_safe_zone, _renderer, android_previews,
@@ -229,13 +229,14 @@ def target_sheet(master_svg: str | Path, out: str | Path, *, options, plan=None,
                 ("template dark", _template_on(tray["tray/trayTemplate@2x.png"], dark, (255, 255, 255, 255))),
             ]))
         if "emote" in targets:
-            emote = shipped(lambda: preview_assets(cache, "emote"),
-                            ("emote/28.png", "emote/56.png"))
-            rows.append(("emote — 28 and 56 in light and dark chat", [
-                ("28 light", _on(emote["emote/28.png"], light)),
-                ("28 dark", _on(emote["emote/28.png"], dark)),
-                ("56 light", _on(emote["emote/56.png"], light)),
-                ("56 dark", _on(emote["emote/56.png"], dark)),
+            # Every size the pack ships, each drawn natively: a scorer who
+            # never saw the 112 could not have approved it (PF08).
+            names = tuple(f"emote/{size}.png" for size in EMOTE_SIZES)
+            emote = shipped(lambda: preview_assets(cache, "emote"), names)
+            rows.append(("emote — every shipped size in light and dark chat", [
+                (f"{size} {ground_name}", _on(emote[f"emote/{size}.png"], ground))
+                for size in EMOTE_SIZES
+                for ground_name, ground in (("light", light), ("dark", dark))
             ]))
     if "android" in targets:
         from .review import _plan_android

@@ -122,10 +122,13 @@ test named after them.
 ## Not done
 
 - The audit still renders through its own calls (review finding F09).
+  *Closed in 0.9: the audit measures the plan's own files, in one render
+  session ([`MILESTONE_v0.9.md`](MILESTONE_v0.9.md)).*
 - The trust anchor is still the receipt; a plan detects change, it does not
-  authenticate a reviewer.
+  authenticate a reviewer. *0.9 documented why and how a repository supplies
+  the anchor ([`TRUST.md`](TRUST.md)); IconFlow itself still does not.*
 - The linked maskable icon reaches the website when this branch is released
-  and the site redeployed.
+  and the site redeployed. *Done with the 0.8.0 release (below).*
 
 ## Owner decisions
 

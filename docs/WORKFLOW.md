@@ -12,6 +12,12 @@ none of them can silently stand in for the others:
 iconflow.toml → concepts → master.svg → check + Review Lab → review receipt → ship → casebook
 ```
 
+The receipt is the hinge. From 0.8 it carries the render plan — every byte
+the build will write — so `ship` can prove the pixels that were reviewed are
+the pixels it publishes ([`RENDER_PLAN.md`](RENDER_PLAN.md)); what a receipt
+does and does not prove is in [`TRUST.md`](TRUST.md), and how the modules
+divide this work is in [`ARCHITECTURE.md`](ARCHITECTURE.md).
+
 ## 1. Create the contract
 
 ```bash
@@ -50,6 +56,15 @@ Score all six axes only after inspecting 16px, pixel zoom, silhouette, adaptive
 crops, and every selected target. Export the JSON receipt when all axes are at
 least 4 and automated warnings are empty.
 
+### Headless review (0.7+)
+
+When no one can open the Lab — an agent session, CI — `review --evidence DIR`
+writes the same evidence as sheets plus `findings.json` and the render plan
+(`DIR/plan/`), and `iconflow score --evidence DIR` walks the six axes, takes a
+score and a reason for each, and writes the receipt. `score` never renders: it
+binds the scores to the evidence that was read and refuses evidence that was
+edited or is stale (`AGENT_CONTRACT.md` § `score --json`).
+
 ### Managed-browser fallback
 
 If a managed browser blocks the local Review Lab, do not weaken or bypass that
@@ -61,6 +76,10 @@ The second hash binds the project, exact target set, colors, Electron radius,
 color scheme, tray mode, and semantic tray-source hash. Report the interactive
 Lab as blocked. This is an evidence-path fallback, not a reduced gate: every
 axis still must be at least 4 and `ship` still re-runs QA before writing output.
+It is not available when `ios` is among the targets: a `[review]` table names
+no pixels, and `ship` refuses an iOS approval without the render plan it
+reviewed (`receipt-not-ready`). Use the headless path above instead — it needs
+no browser window and binds the plan.
 
 ## 3. Ship fail-closed
 
@@ -79,9 +98,14 @@ Before writing output, `ship` verifies that the receipt:
 - contains every rubric axis with a score of at least 4.
 
 It then re-runs current automated QA against the exact configured maskable
-background and only builds after that second gate is clean. An explicitly
+background and only builds after that second gate is clean. A receipt that
+carries a render plan (0.8+) is also compared with the plan `ship` renders now:
+any difference is `plan-drift` (exit 1) and nothing is written. `ship --plan
+DIR/plan` publishes the reviewed bytes themselves instead of rendering again —
+how a review made on one machine ships on another. An explicitly
 `approved` config with the reviewed `source_sha256`, `contract_sha256`, complete
-scores, and review notes is the non-interactive fallback described above. `build` is intentionally
+scores, and review notes is the non-interactive fallback described above (not
+for `ios`). `build` is intentionally
 lower level for integrations that already own an equivalent quality gate.
 
 ## 4. Learn from the delta

@@ -67,6 +67,143 @@ _VIEWBOX_RE = re.compile(
     r'viewBox\s*=\s*["\']\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)\s*["\']',
     re.I,
 )
+_SVG_SPACE = " \t\n\r\f"
+_FLT_MAX_EXPONENT10 = 38
+
+
+def _f32(number: float) -> float:
+    """``number`` rounded to a C ``float``; past its range, an infinity."""
+    import struct
+
+    try:
+        return struct.unpack("<f", struct.pack("<f", number))[0]
+    except OverflowError:
+        return math.copysign(math.inf, number)
+
+
+def _blink_number(value: str, position: int) -> tuple[float, int] | None:
+    """One number as Blink's ``GenericParseNumber`` reads it, and where it ends.
+
+    A line-by-line port, because the result must be Chromium's own (F7-01,
+    F8-01): the integer part is summed right to left and the fraction left to
+    right, every step rounded to a 32-bit float; an exponent above 38 is
+    refused before it is applied; an infinite result is refused.
+    """
+    end = len(value)
+    ptr = position
+    sign = 1.0
+    if ptr < end and value[ptr] == "+":
+        ptr += 1
+    elif ptr < end and value[ptr] == "-":
+        ptr += 1
+        sign = -1.0
+    if ptr == end or (not value[ptr].isdigit() and value[ptr] != "."):
+        return None
+    digits_start = ptr
+    while ptr < end and "0" <= value[ptr] <= "9":
+        ptr += 1
+    integer = 0.0
+    if ptr != digits_start:
+        multiplier = 1.0
+        scan = ptr
+        while scan > digits_start:
+            scan -= 1
+            integer = _f32(integer + _f32(multiplier * (ord(value[scan]) - 48)))
+            multiplier = _f32(multiplier * 10)
+        if not math.isfinite(integer):
+            return None
+    decimal = 0.0
+    if ptr < end and value[ptr] == ".":
+        ptr += 1
+        if ptr >= end or not "0" <= value[ptr] <= "9":
+            return None
+        fraction = 1.0
+        tenth = _f32(0.1)
+        while ptr < end and "0" <= value[ptr] <= "9":
+            fraction = _f32(fraction * tenth)
+            decimal = _f32(decimal + _f32((ord(value[ptr]) - 48) * fraction))
+            ptr += 1
+    number = _f32(_f32(integer + decimal) * sign)
+    if ptr + 1 < end and value[ptr] in "eE" and value[ptr + 1] not in "xm":
+        ptr += 1
+        negative = False
+        if value[ptr] == "+":
+            ptr += 1
+        elif value[ptr] == "-":
+            ptr += 1
+            negative = True
+        if ptr >= end or not "0" <= value[ptr] <= "9":
+            return None
+        exponent = 0.0
+        while ptr < end and "0" <= value[ptr] <= "9":
+            exponent = _f32(_f32(exponent * 10) + (ord(value[ptr]) - 48))
+            ptr += 1
+        if negative:
+            exponent = -exponent
+        if exponent > _FLT_MAX_EXPONENT10:
+            return None
+        if exponent:
+            # std::pow on the float itself, as Blink does: an exponent that
+            # overflowed to -inf scales to 0, never an error (F9-01).
+            number = _f32(number * _f32(10.0 ** exponent))
+    if not math.isfinite(number):
+        return None
+    return number, ptr
+
+
+def _viewbox_numbers(value: str) -> list[float] | None:
+    """Four numbers, parsed and separated as Blink's ``SVGRect::Parse`` does, or None.
+
+    Between numbers: optional spaces, at most one comma — or nothing at all
+    when the next number starts with its own sign (``0 0 24+24``). Anything
+    left over, or a number Blink refuses, makes the value unusable (F6-02).
+    """
+    numbers: list[float] = []
+    position = len(value) - len(value.lstrip(_SVG_SPACE))
+    while len(numbers) < 4:
+        parsed = _blink_number(value, position)
+        if parsed is None:
+            return None
+        number, position = parsed
+        numbers.append(number)
+        while position < len(value) and value[position] in _SVG_SPACE:
+            position += 1
+        if position < len(value) and value[position] == "," and len(numbers) < 4:
+            position += 1
+            while position < len(value) and value[position] in _SVG_SPACE:
+                position += 1
+    return numbers if position == len(value) else None
+
+
+def _root_viewbox(text: str) -> tuple[str | None, tuple[float, float] | None]:
+    """The root element's ``viewBox`` as written, and its width and height.
+
+    Read from the root, the way the renderer reads it: a nested element's
+    viewBox is not the icon's, and SVG numbers may be comma-separated or use
+    an exponent (PF10). The SVG is rendered inline in HTML, whose parser
+    accepts the attribute name in any case, so ``viewbox`` counts (IR07).
+    ``(None, None)``: no viewBox; ``(value, None)``: one Chromium cannot use.
+    """
+    import xml.etree.ElementTree as ET
+
+    try:
+        root = ET.fromstring(text)
+    except ET.ParseError:
+        # Not reached for validated sources; keep the 0.10 reading.
+        match = _VIEWBOX_RE.search(text)
+        if match is None:
+            return (None, None) if not re.search(r"\bviewBox\s*=", text, re.I) else ("", None)
+        return match.group(0), (float(match.group(1)), float(match.group(2)))
+    value = next((item for name, item in root.attrib.items() if name.lower() == "viewbox"), None)
+    if value is None:
+        return None, None
+    numbers = _viewbox_numbers(value)
+    if numbers is None:
+        return value, None
+    width, height = numbers[2], numbers[3]
+    if width <= 0 or height <= 0:
+        return value, None
+    return value, (width, height)
 _STROKE_WIDTH_RE = re.compile(
     r'(?:stroke-width\s*=\s*["\']([\d.]+)|stroke-width\s*:\s*([\d.]+))',
     re.I,
@@ -161,7 +298,10 @@ def _renderer_safety_warnings(svg_text: str) -> list[Finding]:
 
 
 def _distinctiveness_warnings(svg_text: str) -> list[Finding]:
-    """Advisory: flag the mechanically-detectable form of the monogram trap.
+    """Flag the mechanically-detectable form of the monogram trap (gating).
+
+    ``check`` adds these to its warnings, so they gate like any other (PF11);
+    the word that matters is *mechanically*: only a live ``<text>`` is caught.
 
     A live ``<text>`` glyph is a typed-letter monogram — the most common way an
     AI icon is legible yet generic. The deeper distinctiveness call (a path-drawn
@@ -476,11 +616,6 @@ def _figure_of(image: Image.Image) -> Image.Image:
     return ImageChops.multiply(ladder.figure_mask(image, ladder.figure_policy(image)), opaque)
 
 
-def _normalised_figure(png: bytes) -> tuple[Image.Image | None, float]:
-    """The figure cropped to its own box and fitted to a square grid, plus aspect."""
-    return _figure_candidates(png)[0]
-
-
 def _figure_candidates(png: bytes) -> list[tuple[Image.Image | None, float]]:
     """How the mark can be read: its figure and, on a plate, the mark drawn on it.
 
@@ -694,13 +829,18 @@ def check(
             f"maskable_svg {Path(maskable_svg).name}" if linked_text is not None else "the master"
         )
 
-    viewbox = _VIEWBOX_RE.search(text)
-    if not re.search(r"\bviewBox\s*=", text, re.I):
+    written, viewbox = _root_viewbox(text)
+    if written is None:
         warnings.append(Finding(
             "viewbox", "SVG has no viewBox — it will not scale cleanly. Add one.",
         ))
+    elif viewbox is None:
+        warnings.append(Finding(
+            "viewbox", f"SVG has no viewBox Chromium can use (viewBox=\"{written}\") — "
+            "it will not scale cleanly. Give it four numbers with a positive size.",
+        ))
     if viewbox:
-        w, h = float(viewbox.group(1)), float(viewbox.group(2))
+        w, h = viewbox
         if abs(w - h) > 0.5:
             warnings.append(Finding(
                 "viewbox", f"viewBox is not square ({w}x{h}) — icons must be 1:1.",

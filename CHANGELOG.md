@@ -6,7 +6,60 @@ first published release remains under `Unreleased`.
 
 ## Unreleased
 
-Nothing yet.
+A system-design review and polish (`docs/MILESTONE_v0.10.1.md`). Every built
+file is byte-identical to 0.10.0.
+
+### Fixed
+
+- `ship --plan` refuses a receipt whose plan binding contradicts itself (its
+  content identities or a file's byte hash disagree with the saved plan) as
+  `plan-replay`; before, it could publish with `outputs.plan.verified: false`.
+- `build` and `ship` refuse an output directory reached through a link or
+  junction the project carries (`dist` linked elsewhere, `output =
+  "dist/icons"`), resolving the path as the operating system will (`..`
+  allowed) and recognising the project by directory identity — for a
+  configured output, the repository holding the config; `ship` reports it
+  after every gate, where a linked output was always reported. The 0.7
+  single-target writers (`build.build_tauri` and its siblings) check the same.
+- A missing Playwright is a runtime error (exit 2, one `--json` envelope), not
+  a `SystemExit`; `shortcut` refusals exit 2.
+- `check` audits one captured snapshot of its sources and reports that
+  snapshot's hash.
+- `check` reads the root `viewBox` as Chromium does (its number grammar,
+  compared with Chromium's own parse): comma-separated, exponent and
+  sign-separated forms are measured (a non-square one is reported), a nested
+  element's `viewBox` no longer stands in for a missing root one, and an
+  unusable value is reported. The attribute name is matched in any case, as
+  the HTML parser that renders it reads it.
+- A defect in IconFlow while computing a review's render plan is a runtime
+  error instead of a silently unbound receipt, except one that surfaces as a
+  plain `ValueError`, which still cannot be told from a refusal.
+- Importing a saved plan reads each file bounded by its measured size.
+- `LazyRasterizer` exits the context manager it entered.
+- `doctor` fixes are lines a shell can run (a comment instead of a trailing
+  parenthesis; PowerShell single-quoted literals and `&` before a quoted
+  executable; POSIX single quotes).
+
+### Changed
+
+- The headless target sheet shows every emote size the pack ships (28, 56,
+  112, 128), not only 28 and 56.
+- A generated `iconflow.toml` for an `ios` project says the manual `[review]`
+  fallback cannot ship iOS. Other projects' files are unchanged.
+- The review's `source-changed` message says the sheets show the replaced
+  version (they never mixed two).
+
+### Documentation
+
+- New `docs/ARCHITECTURE.md` (module layers, the review-to-ship chain,
+  invariants, adding a target) with `tests/test_architecture.py` holding the
+  code to its layer table; new `docs/README.md` indexing every document, with
+  a test that keeps it complete.
+- `WORKFLOW.md` describes the render plan, headless review, `plan-drift`,
+  `ship --plan`, and the `ios` exception to the manual fallback.
+- `TRUST.md`, `RENDER_PLAN.md` and `AGENT_CONTRACT.md` corrected where they
+  promised more than the code did (source reads, path classes in `outputs`,
+  `source-changed`, stale iOS files, unsupported iOS declarations).
 
 ## 0.10.0 - 2026-10-20
 

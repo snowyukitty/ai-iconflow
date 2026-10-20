@@ -45,6 +45,27 @@ class SeedTests(unittest.TestCase):
         for platform in ("win32", "darwin"):
             self.assertEqual(cli.chromium_fix("python", platform), "python -m iconflow setup")
 
+    def test_PF13_fixes_are_lines_a_shell_can_run(self):
+        import shlex
+
+        linux = cli.chromium_fix("/usr/bin/python3", "linux")
+        command, _, comment = linux.partition("  # ")
+        self.assertEqual(shlex.split(command)[-1], "chromium")
+        self.assertIn("sudo", comment)
+        # POSIX: single quotes keep spaces and expansions literal.
+        for path in ("/opt/my env/bin/python", "/home/a$b/python", "/x/it's/python"):
+            with self.subTest(path=path):
+                self.assertEqual(shlex.split(cli._shell_command(path, "darwin")), [path])
+        self.assertEqual(cli._shell_command("/usr/bin/python3", "linux"), "/usr/bin/python3")
+        # Windows: PowerShell single-quoted literals (no $ or backquote
+        # expansion, '' for an apostrophe) and the call operator (IR11).
+        self.assertEqual(cli._shell_command(r"C:\Program Files\Python\python.exe", "win32"),
+                         "& 'C:\\Program Files\\Python\\python.exe'")
+        self.assertEqual(cli._shell_command(r"C:\Python\python.exe", "win32"), r"C:\Python\python.exe")
+        self.assertEqual(cli._shell_quote(r"C:\Users\a$b\My Env", "win32"), r"'C:\Users\a$b\My Env'")
+        self.assertEqual(cli._shell_quote("C:\\x`y", "win32"), "'C:\\x`y'")
+        self.assertEqual(cli._shell_quote(r"C:\it's", "win32"), r"'C:\it''s'")
+
     def test_path_hint_only_when_the_command_is_missing(self):
         self.assertIsNone(cli.path_hint("win32", which=lambda _name: "C:/bin/iconflow.exe"))
         hint = cli.path_hint("win32", which=lambda _name: None)

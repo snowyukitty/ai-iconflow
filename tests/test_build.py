@@ -262,6 +262,290 @@ class BuildTests(unittest.TestCase):
                 build_module._validate_output_tree(output)
             self.assertEqual(target.read_text(encoding="utf-8"), "keep")
 
+    def _link_dir(self, link: Path, target: Path) -> None:
+        try:
+            link.symlink_to(target, target_is_directory=True)
+        except (NotImplementedError, OSError):
+            try:
+                import _winapi
+
+                _winapi.CreateJunction(str(target), str(link))
+            except (ImportError, OSError, AttributeError):
+                self.skipTest("no directory links on this platform")
+
+    def test_PF02_build_refuses_a_link_above_its_output(self):
+        import os
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "project" / "src").mkdir(parents=True)
+            (root / "outside").mkdir()
+            self._link_dir(root / "project" / "dist", root / "outside")
+            # A literal "~" directory the project carries: the writer does not
+            # expand it, so neither does the check (IR02).
+            self._link_dir(root / "project" / "~", root / "outside")
+            # Another spelling of an ancestor of the project (IR01).
+            self._link_dir(root / "alias", root / "project")
+            here = os.getcwd()
+            os.chdir(root / "project")
+            try:
+                for out in ("dist/icons", "src/../dist/icons", "~/icons",
+                            str(root / "alias" / "src" / ".." / "dist" / "icons")):
+                    with self.subTest(out=out), \
+                            self.assertRaisesRegex(ValueError, "link or junction"):
+                        build_module.build("missing.svg", out, ["web"])
+                self.assertIsNone(build_module.output_link("plain/icons"))
+                self.assertIsNone(build_module.output_link("../outside/icons"))
+                self.assertIsNone(build_module.output_link(str(root / "alias" / "src" / "icons")))
+                if os.name == "nt":
+                    # The extended-length spelling of the same path (VR01).
+                    extended = "\\\\?\\" + str(root / "project" / "dist" / "icons")
+                    self.assertIsNotNone(build_module.output_link(extended))
+                    self.assertIsNone(build_module.output_link(
+                        "\\\\?\\" + str(root / "project" / "src" / "icons")))
+                # A file where a directory must be: no link below it, and no
+                # exception from the check itself (VR02).
+                (root / "project" / "blocked").write_text("x", encoding="utf-8")
+                self.assertIsNone(build_module.output_link("blocked/icons/deeper"))
+
+                # The 0.7 single-target writers check the same ancestry (IR03).
+                class Cache:
+                    def png(self, size):
+                        return png(size)
+
+                    def many(self, sizes):
+                        return {size: self.png(size) for size in sizes}
+
+                produced = []
+                with self.assertRaisesRegex(ValueError, "link or junction"):
+                    build_module.build_tauri(Cache(), Path("dist/icons"), produced)
+                self.assertEqual(produced, [])
+            finally:
+                os.chdir(here)
+            self.assertEqual(list((root / "outside").iterdir()), [])
+
+    def test_VR05_the_output_check_is_linear_in_the_path_depth(self):
+        import os
+
+        calls = {"link": 0, "realpath": 0}
+        real_link, real_realpath = build_module._is_link_or_reparse_point, os.path.realpath
+
+        def counted_link(path):
+            calls["link"] += 1
+            return real_link(path)
+
+        def counted_realpath(path, *args, **kwargs):
+            calls["realpath"] += 1
+            return real_realpath(path, *args, **kwargs)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            measured = {}
+            for depth in (20, 40):
+                calls.update(link=0, realpath=0)
+                deep = Path(tmp, f"tree{depth}", *[f"d{i}" for i in range(depth)])
+                deep.mkdir(parents=True)  # every component exists
+                with patch.object(build_module, "_is_link_or_reparse_point", counted_link), \
+                        patch("os.path.realpath", counted_realpath):
+                    self.assertIsNone(build_module.output_link(deep, base=tmp))
+                measured[depth] = dict(calls)
+        # One check per component below the base: twenty more, twenty more.
+        self.assertEqual(measured[40]["link"] - measured[20]["link"], 20)
+        # Nothing is re-resolved per component.
+        self.assertEqual(measured[20]["realpath"], measured[40]["realpath"])
+
+    def test_TV02_a_link_outside_that_leads_through_the_projects_own_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp) / "project"
+            (project / "real").mkdir(parents=True)
+            (Path(tmp) / "outside").mkdir()
+            self._link_dir(project / "dist", Path(tmp) / "outside")
+            # Outside the project, the caller's own aliases: one into the
+            # project's linked dist, one into an ordinary folder.
+            self._link_dir(Path(tmp) / "to_dist", project / "dist")
+            self._link_dir(Path(tmp) / "to_real", project / "real")
+            self.assertIsNotNone(build_module.output_link(Path(tmp) / "to_dist" / "icons", base=project))
+            self.assertIsNone(build_module.output_link(Path(tmp) / "to_real" / "icons", base=project))
+
+    @unittest.skipIf(__import__("os").name == "nt", "POSIX resolves a link before the '..' after it")
+    def test_FV04_a_build_writes_where_the_kernel_resolves_its_path(self):
+        class Cache:
+            def png(self, size):
+                return png(size)
+
+            def many(self, sizes):
+                return {size: self.png(size) for size in sizes}
+
+        class FakeRasterizer:
+            def __init__(self, color_scheme="light"):
+                pass
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                return None
+
+            def render(self, svg, size, bg="transparent"):
+                return png(size)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "safe" / "site" / "assets").mkdir(parents=True)
+            (root / "jump").symlink_to(root / "safe" / "site" / "assets", target_is_directory=True)
+            master = root / "master.svg"
+            master.write_text('<svg viewBox="0 0 10 10"></svg>', encoding="utf-8")
+            # A lexical collapse would write to root/icons; the kernel writes
+            # to safe/site/icons, as 0.10.0 did (TV03).
+            build_module.build_tauri(Cache(), root / "jump" / ".." / "legacy", [])
+            with patch.object(build_module, "Rasterizer", FakeRasterizer):
+                build_module.build(master, root / "jump" / ".." / "icons", ["tauri"])
+            self.assertTrue((root / "safe" / "site" / "icons" / "icons" / "32x32.png").is_file())
+            self.assertTrue((root / "safe" / "site" / "legacy" / "icons" / "32x32.png").is_file())
+            # Nothing is written where a lexical collapse points (0.10.0 left
+            # an empty folder there too; no file has ever landed in it).
+            for collapsed in (root / "icons", root / "legacy"):
+                self.assertEqual([p for p in collapsed.rglob("*") if p.is_file()], [])
+
+    @unittest.skipIf(__import__("os").name == "nt", "POSIX resolves a link before the '..' after it")
+    def test_TV03_a_trusted_alias_then_dotdot_resolves_as_the_kernel_does(self):
+        import os
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "project").mkdir()
+            (root / "safe" / "site" / "assets").mkdir(parents=True)
+            (root / "jump").symlink_to(root / "safe" / "site" / "assets", target_is_directory=True)
+            # /tmp/jump/../icons is /tmp/safe/site/icons to the kernel: no
+            # project link on the way, accepted, and written where the kernel says.
+            self.assertIsNone(build_module.output_link(root / "jump" / ".." / "icons",
+                                                       base=root / "project"))
+            # The same alias inside the project is the project's own link.
+            (root / "project" / "jump").symlink_to(root / "safe" / "site" / "assets",
+                                                   target_is_directory=True)
+            here = os.getcwd()
+            os.chdir(root / "project")
+            try:
+                self.assertIsNotNone(build_module.output_link("jump/../icons"))
+            finally:
+                os.chdir(here)
+
+    @unittest.skipUnless(__import__("os").name == "nt", "a subst drive")
+    def test_TV01_a_drive_whose_root_is_the_project_is_recognised(self):
+        import os
+        import string
+        import subprocess
+
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp) / "project"
+            (project / "real").mkdir(parents=True)
+            (Path(tmp) / "outside").mkdir()
+            self._link_dir(project / "dist", Path(tmp) / "outside")
+            free = [c for c in reversed(string.ascii_uppercase) if not os.path.exists(f"{c}:\\")]
+            if not free:
+                self.skipTest("no free drive letter")
+            letter = free[0]
+            if subprocess.run(["subst", f"{letter}:", str(project)], capture_output=True).returncode:
+                self.skipTest("subst is unavailable")
+            try:
+                self.assertIsNotNone(build_module.output_link(f"{letter}:\\dist\\icons", base=project))
+                self.assertIsNone(build_module.output_link(f"{letter}:\\real\\icons", base=project))
+            finally:
+                subprocess.run(["subst", f"{letter}:", "/D"], capture_output=True)
+            # A drive mapped to a folder *inside* the project (FV01).
+            (project / "sub").mkdir()
+            self._link_dir(project / "sub" / "dist", Path(tmp) / "outside")
+            if subprocess.run(["subst", f"{letter}:", str(project / "sub")], capture_output=True).returncode:
+                self.skipTest("subst is unavailable")
+            try:
+                self.assertIsNotNone(build_module.output_link(f"{letter}:\\dist\\icons", base=project))
+                self.assertIsNone(build_module.output_link(f"{letter}:\\icons", base=project))
+            finally:
+                subprocess.run(["subst", f"{letter}:", "/D"], capture_output=True)
+
+    @unittest.skipUnless(__import__("os").name == "nt", "Windows reparse-point limit")
+    def test_FV03_a_long_chain_the_os_accepts_is_followed_and_a_loop_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "project").mkdir()
+            (root / "end").mkdir()
+            previous = root / "end"
+            for index in range(45):  # past Linux's 40, within Windows' 63
+                link = root / f"hop{index}"
+                self._link_dir(link, previous)
+                previous = link
+            self.assertIsNone(build_module.output_link(previous / "icons", base=root / "project"))
+            # Two links that name each other: bounded, refused, never a hang.
+            import _winapi
+
+            (root / "loop_b").mkdir()  # a junction's target must exist when made
+            _winapi.CreateJunction(str(root / "loop_b"), str(root / "loop_a"))
+            (root / "loop_b").rmdir()
+            _winapi.CreateJunction(str(root / "loop_a"), str(root / "loop_b"))
+            with self.assertRaisesRegex(OSError, "too many links"):
+                build_module.output_link(root / "loop_a" / "icons", base=root / "project")
+
+    def test_SV03_a_base_reached_through_a_link_is_still_trusted(self):
+        import os
+
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp) / "p"
+            (project / "src").mkdir(parents=True)
+            (Path(tmp) / "outside").mkdir()
+            self._link_dir(project / "current", project)  # the base spelled through a link
+            self._link_dir(project / "dist", Path(tmp) / "outside")
+            base = project / "current"
+            self.assertIsNone(build_module.output_link(base / "icons", base=base))
+            self.assertIsNotNone(build_module.output_link(base / "dist" / "icons", base=base))
+            if os.name != "nt":
+                # FV02: the kernel follows "current" before the "..", so this
+                # reaches p/../p/dist — the project's dist link.
+                self.assertIsNotNone(build_module.output_link(
+                    Path(str(base), "..", "p", "dist", "icons"), base=base))
+                self.assertIsNone(build_module.output_link(
+                    Path(str(base), "..", "p", "src", "icons"), base=base))
+
+    @unittest.skipUnless(__import__("os").name == "nt", "Windows drive-relative paths")
+    def test_SV04_a_drive_relative_output_without_links_is_accepted(self):
+        import os
+
+        here = os.getcwd()
+        with tempfile.TemporaryDirectory() as tmp:
+            os.chdir(tmp)
+            try:
+                drive = Path(tmp).drive
+                self.assertIsNone(build_module.output_link(f"{drive}icons"))
+                os.mkdir("project")
+                self._link_dir(Path(tmp, "project", "dist"), Path(tmp))
+                os.chdir("project")
+                self.assertIsNotNone(build_module.output_link(f"{drive}dist\\icons"))
+            finally:
+                os.chdir(here)
+
+    def test_single_target_writers_refuse_a_linked_tree(self):
+        # build() validated its tree; the 0.7 writers (build_tauri and its
+        # siblings) wrote through a link the project carried (PO01).
+        class Cache:
+            def png(self, size):
+                return png(size)
+
+            def many(self, sizes):
+                return {size: self.png(size) for size in sizes}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            outside = Path(tmp) / "outside"
+            outside.mkdir()
+            output = Path(tmp) / "output"
+            output.mkdir()
+            try:
+                (output / "icons").symlink_to(outside, target_is_directory=True)
+            except (NotImplementedError, OSError):
+                self.skipTest("symlink creation is unavailable on this platform")
+            produced = []
+            with self.assertRaisesRegex(ValueError, "symlink or junction"):
+                build_module.build_tauri(Cache(), output, produced)
+            self.assertEqual(produced, [])
+            self.assertEqual(list(outside.iterdir()), [])
+
 
 if __name__ == "__main__":
     unittest.main()

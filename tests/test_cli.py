@@ -203,6 +203,113 @@ class CliTests(unittest.TestCase):
         self.assertTrue(create_shortcut.call_args.kwargs["content_address_icon"])
         self.assertFalse(create_shortcut.call_args.kwargs["verify"])
 
+    def test_PF06_only_a_builds_own_refusal_leaves_a_review_unbound(self):
+        from iconflow import cli
+        from iconflow.plan import PlanError
+        from iconflow.review import ReviewOptions
+
+        options = ReviewOptions(name="Disc", targets=("web",))
+        for raised, expected in (
+            (ValueError("the tray template cannot be derived"), None),
+            (OSError("disk full"), None),
+            (PlanError("a path named twice"), PlanError),
+            (KeyError("maskable"), RuntimeError),
+            (TypeError("unexpected keyword"), RuntimeError),
+            (RecursionError("maximum recursion depth exceeded"), RuntimeError),
+            (NotImplementedError("unfinished branch"), RuntimeError),
+            (UnicodeDecodeError("utf-8", b"\xff", 0, 1, "invalid start byte"), RuntimeError),
+            (__import__("iconflow.ios", fromlist=["LayerError"]).LayerError("carries transform"), None),
+            # A plain RuntimeError is a renderer used wrongly or the
+            # interpreter's own defect, never a refusal (VR03).
+            (RuntimeError("dictionary changed size during iteration"), RuntimeError),
+        ):
+            with self.subTest(raised=type(raised).__name__), \
+                    mock.patch("iconflow.plan.compute_plan", side_effect=raised), \
+                    contextlib.redirect_stderr(io.StringIO()):
+                if expected is None:
+                    self.assertIsNone(cli._review_plan("master.svg", options))
+                else:
+                    with self.assertRaises(expected):
+                        cli._review_plan("master.svg", options)
+
+    def test_PF04_check_reports_the_source_it_measured(self):
+        import hashlib
+
+        measured = []
+        first = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">'
+                 '<rect width="1024" height="1024" fill="#123"/></svg>')
+        with tempfile.TemporaryDirectory() as directory:
+            master = Path(directory) / "master.svg"
+            master.write_text(first, encoding="utf-8")
+
+            def edit_while_measuring(path, **kwargs):
+                measured.append(kwargs["text"])
+                master.write_text(first.replace("#123", "#456"), encoding="utf-8")
+                return []
+
+            out = io.StringIO()
+            with mock.patch("iconflow.qa.check", side_effect=edit_while_measuring), \
+                    contextlib.redirect_stdout(out), contextlib.redirect_stderr(io.StringIO()):
+                code = main(["check", str(master), "--no-maskable-audit", "--json"])
+        self.assertEqual(code, 0)
+        self.assertEqual(measured, [first])
+        self.assertEqual(json.loads(out.getvalue())["outputs"]["source_sha256"],
+                         hashlib.sha256(first.encode("utf-8")).hexdigest())
+
+    def test_IR05_check_never_reads_a_source_no_target_consumes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "master.svg").write_text(
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"/>', encoding="utf-8")
+            (root / "mono.svg").write_text("not an svg at all", encoding="utf-8")
+            config_path = root / "iconflow.toml"
+            write_config(IconFlowConfig(source=config_path, name="T", targets=["web"],
+                                        monochrome_svg="mono.svg"))
+            out = io.StringIO()
+            with mock.patch("iconflow.qa.check", return_value=[]), \
+                    contextlib.redirect_stdout(out), contextlib.redirect_stderr(io.StringIO()):
+                code = main(["check", "--config", str(config_path), "--no-maskable-audit", "--json"])
+        self.assertEqual(code, 0, out.getvalue())
+
+    def test_PF03_a_shortcut_refusal_is_a_runtime_failure(self):
+        shortcut_module = importlib.import_module("iconflow.shortcut")
+        with mock.patch.object(
+            shortcut_module, "create_shortcut",
+            side_effect=SystemExit("iconflow shortcut: Windows-only (creates a .lnk)."),
+        ), contextlib.redirect_stderr(io.StringIO()) as err:
+            code = main(["shortcut", "--target", "app.exe", "--name", "Proof App"])
+        self.assertEqual(code, 2)
+        self.assertIn("Windows-only", err.getvalue())
+
+    def test_PF03_missing_playwright_is_one_runtime_envelope(self):
+        import sys
+
+        with tempfile.TemporaryDirectory() as directory:
+            master = Path(directory) / "master.svg"
+            master.write_text(
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">'
+                '<rect width="1024" height="1024" fill="#123"/></svg>', encoding="utf-8")
+            out = io.StringIO()
+            # None in sys.modules makes the import raise ImportError. Only that
+            # one key is restored: patch.dict would also drop every module the
+            # command imported for the first time, and later tests would patch
+            # a module the code no longer uses.
+            missing = object()
+            saved = sys.modules.get("playwright.sync_api", missing)
+            sys.modules["playwright.sync_api"] = None
+            try:
+                with contextlib.redirect_stdout(out), contextlib.redirect_stderr(io.StringIO()):
+                    code = main(["check", str(master), "--json"])
+            finally:
+                if saved is missing:
+                    del sys.modules["playwright.sync_api"]
+                else:
+                    sys.modules["playwright.sync_api"] = saved
+        self.assertEqual(code, 2)
+        envelope = json.loads(out.getvalue())
+        self.assertEqual((envelope["status"], envelope["exit_code"]), ("error", 2))
+        self.assertIn("Playwright is required", envelope["errors"][0]["message"])
+
     def test_review_config_populates_target_aware_review_lab(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

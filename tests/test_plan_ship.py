@@ -79,6 +79,21 @@ def run(argv):
     return code, json.loads(out.getvalue()), err.getvalue()
 
 
+def link_dir(link, target):
+    """A directory link the platform can make: a symlink, or on Windows a junction."""
+    try:
+        link.symlink_to(target, target_is_directory=True)
+        return
+    except (OSError, NotImplementedError):
+        pass
+    try:
+        import _winapi
+
+        _winapi.CreateJunction(str(target), str(link))
+    except (ImportError, OSError, AttributeError):
+        raise unittest.SkipTest("no directory links on this platform") from None
+
+
 class PlanShipTests(unittest.TestCase):
     def setUp(self):
         Renderer.color = (20, 120, 240, 255)
@@ -208,6 +223,114 @@ class PlanShipTests(unittest.TestCase):
         code, envelope, _ = self.ship("--plan", str(self.evidence / "plan"))
         self.assertEqual(code, 1)
         self.assertIn("other settings", " ".join(w["message"] for w in envelope["warnings"]))
+
+    def test_PF01_a_self_contradicting_binding_cannot_replay(self):
+        # Shape-valid: one file's content identity changed and the aggregate
+        # recomputed, the byte and provenance digests left as approved.
+        from iconflow.plan import _listing_digest
+
+        receipt = self.review_and_score()
+        files = receipt["plan"]["files"]
+        files[sorted(files)[0]]["content"] = "a" * 64
+        receipt["plan"]["digest"] = _listing_digest(
+            "content", {path: entry["content"] for path, entry in files.items()})
+        self.receipt.write_text(json.dumps(receipt), encoding="utf-8")
+        shutil.rmtree(self.output_dir(), ignore_errors=True)
+        code, envelope, _ = self.ship("--plan", str(self.evidence / "plan"))
+        self.assertEqual(code, 1, envelope)
+        self.assertEqual({w["code"] for w in envelope["warnings"]}, {"plan-replay"})
+        self.assertIn("content", envelope["warnings"][0]["message"])
+        self.assertFalse(self.output_dir().exists())
+
+    def test_PF01_a_contradicting_per_file_hash_cannot_replay(self):
+        receipt = self.review_and_score()
+        files = receipt["plan"]["files"]
+        files[sorted(files)[0]]["sha256"] = "b" * 64
+        self.receipt.write_text(json.dumps(receipt), encoding="utf-8")
+        shutil.rmtree(self.output_dir(), ignore_errors=True)
+        code, envelope, _ = self.ship("--plan", str(self.evidence / "plan"))
+        self.assertEqual(code, 1, envelope)
+        self.assertIn("per-file byte hashes", " ".join(w["message"] for w in envelope["warnings"]))
+        self.assertFalse(self.output_dir().exists())
+
+    def test_PF02_a_linked_folder_above_the_output_is_refused(self):
+        import os
+
+        self.review_and_score()
+        outside = Path(self.tmp.name) / "outside"
+        outside.mkdir()
+        link_dir(self.dir / "linked", outside)
+        text = self.config.read_text(encoding="utf-8")
+        for configured in ("ghost/../linked/icons", "linked/icons"):
+            self.config.write_text(text.replace('output = "build"', f'output = "{configured}"'),
+                                   encoding="utf-8")
+            code, envelope, _ = self.ship()
+            self.assertEqual(code, 2, (configured, envelope))
+        code, envelope, _ = self.ship()
+        self.assertEqual(code, 2, envelope)
+        # Where write_plan's own refusal of a linked output always was (IR04).
+        self.assertEqual(envelope["errors"][0]["code"], "runtime")
+        self.assertIn("link or junction", envelope["errors"][0]["message"])
+        self.assertEqual(list(outside.iterdir()), [])
+        # ...so it never hides a gate: drifted pixels are still plan-drift.
+        Renderer.color = (200, 30, 30, 255)
+        code, envelope, _ = self.ship()
+        self.assertEqual(code, 1, envelope)
+        self.assertEqual(envelope["warnings"][0]["code"], "plan-drift")
+        Renderer.color = (20, 120, 240, 255)
+        self.assertEqual(list(outside.iterdir()), [])
+        # An output the check cannot inspect is held the same way (VR02).
+        with mock.patch.object(build_module, "output_link", side_effect=PermissionError("denied")):
+            Renderer.color = (200, 30, 30, 255)
+            code, envelope, _ = self.ship()
+            self.assertEqual((code, envelope["warnings"][0]["code"]), (1, "plan-drift"))
+            self.assertIn("audit", envelope["outputs"])
+            Renderer.color = (20, 120, 240, 255)
+            code, envelope, _ = self.ship()
+            self.assertEqual((code, envelope["errors"][0]["code"]), (2, "runtime"))
+            self.assertIn("cannot be checked", envelope["errors"][0]["message"])
+        # --out, from the working directory, and '..' cannot walk around it —
+        # not through a missing folder, not through a file standing where a
+        # folder would be: the path checked is the path written (SV01).
+        (self.dir / "blocked").write_text("x", encoding="utf-8")
+        here = os.getcwd()
+        os.chdir(self.dir)
+        try:
+            for out in ("linked/icons", "build/../linked/icons", "ghost/../linked/icons",
+                        "blocked/../linked/icons"):
+                with self.subTest(out=out):
+                    code, envelope, _ = self.ship("--out", out)
+                    self.assertEqual(code, 2, envelope)
+            # An ordinary folder next door, reached through '..', still ships.
+            code, envelope, _ = self.ship("--out", "../family/plain")
+            self.assertEqual(code, 0, envelope)
+        finally:
+            os.chdir(here)
+        self.assertEqual(list(outside.iterdir()), [])
+
+    def test_F6_01_a_link_the_repository_carries_beside_the_config_is_refused(self):
+        # repo/.git, repo/family/iconflow.toml, repo/dist -> outside: the
+        # config's folder is not the whole project.
+        self.review_and_score()
+        repo = Path(self.tmp.name)
+        (repo / ".git").mkdir()
+        outside = repo.parent / f"{repo.name}-outside"
+        outside.mkdir()
+        self.addCleanup(lambda: __import__("shutil").rmtree(outside, ignore_errors=True))
+        link_dir(repo / "dist", outside)
+        (repo / "plain").mkdir()
+        text = self.config.read_text(encoding="utf-8")
+        self.config.write_text(text.replace('output = "build"', 'output = "../dist/icons"'),
+                               encoding="utf-8")
+        code, envelope, _ = self.ship()
+        self.assertEqual(code, 2, envelope)
+        self.assertIn("link or junction", envelope["errors"][0]["message"])
+        self.assertEqual(list(outside.iterdir()), [])
+        # An ordinary sibling folder of the repository still ships.
+        self.config.write_text(text.replace('output = "build"', 'output = "../plain/icons"'),
+                               encoding="utf-8")
+        code, envelope, _ = self.ship()
+        self.assertEqual(code, 0, envelope)
 
     def test_P05_a_plan_edited_to_match_new_settings_is_still_refused(self):
         self.review_and_score()

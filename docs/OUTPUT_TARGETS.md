@@ -412,9 +412,11 @@ Shapes the master paints in its card colour stay painted: they are not holes.
 
 **Approvals.** An approval that ships `ios` must carry the render plan it
 reviewed (Review Lab or `review --evidence` + `score`): appearances nobody saw
-are not shipped. `ios` is not in `all`; ask for it by name. A build into a
-folder that still holds iOS files this build does not write (dark and tinted
-from an earlier build, say) is refused before anything changes.
+are not shipped. `ios` is not in `all`; ask for it by name. A build that
+writes iOS files into a folder that still holds iOS files it does not write
+(dark and tinted from an earlier build, say) is refused before anything
+changes. Dropping `ios` from the targets leaves an earlier catalog where it
+is, as with any other target; delete it yourself if it should go.
 
 ```bash
 iconflow build master.svg --targets ios --bg "#191A20" --out out

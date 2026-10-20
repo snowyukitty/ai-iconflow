@@ -53,7 +53,10 @@ go to stderr. The object always has these keys:
   Codes are stable kebab-case identifiers (see below).
 - `advisories`: non-gating findings with the same shape (`tray-template-featureless`).
 - `errors`: only for `status: "error"`; `{"code": "...", "message": "..."}`.
-- `outputs`: command-specific, documented below. Paths are absolute strings.
+- `outputs`: command-specific, documented below. Paths of files on this
+  machine (`source`, `receipt`, `files`, `findings`) are absolute strings;
+  paths inside a render plan (`outputs.plan` drift lists, `audit_frames`
+  `file`) are the plan's portable relative identifiers, always with `/`.
   Within `schema: 1`, `outputs` may gain keys and never loses or retypes one;
   a consumer must ignore keys it does not know.
 
@@ -124,8 +127,14 @@ appearances left to iOS, a master with no declared background layer, or two
 colours that become one grey in the tinted icon). `score` refuses iOS evidence
 without its saved plan and plan-bound provenance. An `ios` selection alone
 does not raise `coverage-16` for a full-bleed square, since nothing crops it.
-A declared `id="iconflow-background"` outside the supported subset is an exit-2
-error naming the rule. The measurements land in `metrics.ios`.
+A declared `id="iconflow-background"` outside the supported subset is reported
+with the rule it breaks, but not the same way by every command (measured in
+0.10.1): `check` and a static `review` (with or without `--receipt-template`)
+report the gating `ios-underivable`, exit `1`; `review --html` and `review
+--evidence`, which must draw the iOS appearances, and `build` exit `2`
+(`config`). `ship` never gets that far: no review of such a master yields the
+plan-bound receipt an iOS ship needs (`receipt-not-ready`). The measurements
+land in `metrics.ios`.
 
 ### `ladder --json`
 
@@ -218,8 +227,11 @@ output differs from the plan the receipt approved) and `plan-replay` (a
 `--plan` directory that cannot be published as the reviewed bytes). From 0.10
 a ship with `ios` among its targets is `receipt-not-ready` unless its approval
 carries the render plan it reviewed (a `[review]` table, or a receipt without
-`plan`, names no pixels). A build whose output folder still holds iOS files it
-does not write is refused before anything is written (exit 2).
+`plan`, names no pixels). A build that writes iOS files into a folder that
+still holds other iOS files it does not write (dark and tinted from an earlier
+build, which its new `Contents.json` no longer names) is refused before
+anything is written (exit 2). A build that writes no iOS file leaves an
+earlier catalog alone, as it leaves every other target's earlier files.
 
 When more than one gate would refuse, the first in this order is reported,
 alone: the approval (`receipt-*`, `score-below-floor`), automated warnings
@@ -231,8 +243,11 @@ From 0.9 `outputs.audit` is reported as soon as the audit inputs resolve,
 blocked or not, and a passing ship adds `outputs.receipt_sha256`: the SHA-256
 of the exact receipt bytes validated (`null` for a `[review]` table). It
 identifies the approval; it does not authenticate it (`docs/TRUST.md`).
-`review` and `ship` exit `2` with error code `source-changed` when a source
-is not the one the approval names, or changed while the command ran.
+A source that already differs when `ship` validates the approval is a stale
+receipt (`receipt-stale-source` or `receipt-stale-contract`, exit `1`). `ship`
+exits `2` with error code `source-changed` when a source it captures is not
+the one the approval it has just validated names (it changed in between), and
+`review` does the same when a source changed while it ran.
 
 ### `outputs.plan` (0.8, the render plan)
 

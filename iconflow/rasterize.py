@@ -227,12 +227,19 @@ class LazyRasterizer:
     def __init__(self, color_scheme: str = "light", factory=None):
         self.color_scheme = color_scheme
         self._factory = factory
+        # The context manager that was entered, and what entering it returned.
+        # They are the same object for Rasterizer, but a factory may hand back
+        # a distinct renderer; only the owner is exited (PF09), as in
+        # RenderSession.
+        self._owner = None
         self._active = None
 
     def _session(self):
         if self._active is None:
             factory = self._factory or Rasterizer
-            self._active = factory(color_scheme=self.color_scheme).__enter__()
+            owner = factory(color_scheme=self.color_scheme)
+            self._active = owner.__enter__()
+            self._owner = owner
         return self._active
 
     def render(self, svg_text: str, size: int, bg: str = "transparent") -> bytes:
@@ -245,10 +252,16 @@ class LazyRasterizer:
     def __enter__(self) -> "LazyRasterizer":
         return self
 
-    def __exit__(self, *exc) -> None:
-        if self._active is not None:
-            self._active.__exit__(*exc)
-            self._active = None
+    def __exit__(self, exc_type=None, exc=None, tb=None) -> None:
+        if self._owner is not None:
+            owner, self._owner, self._active = self._owner, None, None
+            try:
+                owner.__exit__(exc_type, exc, tb)
+            except Exception:
+                # Raised only when nothing else is: a failing body keeps its
+                # error, as RenderSession does (IR12).
+                if exc_type is None:
+                    raise
 
 
 class Rasterizer:
@@ -282,9 +295,11 @@ class Rasterizer:
             return self
         try:
             from playwright.sync_api import sync_playwright
-        except ImportError as e:  # pragma: no cover
-            raise SystemExit(
-                "Playwright is required. Run:  python -m iconflow setup\n"
+        except ImportError as e:
+            # A runtime failure (exit 2, one --json envelope), never a
+            # SystemExit that skips the command's error handling (PF03).
+            raise RuntimeError(
+                "Playwright is required. Run:  python -m iconflow setup "
                 "(or: pip install playwright && python -m playwright install chromium)"
             ) from e
         self._pw = sync_playwright().start()

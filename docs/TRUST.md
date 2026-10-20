@@ -16,10 +16,14 @@ a team that needs more should put around it. It is the decision record for
 
 Every `ship`, on every machine:
 
-- **Consistency.** The sources are read once per command and every stage —
-  the plan, the audit, the approval check — measures those bytes. A source
-  that differs from the one the approval names, or that changes while a
-  review runs, is refused (`receipt-stale-source`, `source-changed`).
+- **Consistency.** Each command captures its sources once, and every stage
+  that renders or measures — the plan, the audit, the published files —
+  uses that snapshot. Two reads are deliberately separate: `ship` hashes the
+  sources to validate the approval before it captures them, and `review`
+  reads them again at the end to see whether they moved. A source that
+  differs from the one the approval names is a stale receipt
+  (`receipt-stale-source`); one that changes between those reads is refused
+  (`source-changed`).
 - **Automated quality.** The audit's rules (coverage, contrast, maskable
   safe zone, identity of a linked source, the ladder, declared neighbours)
   must pass. With a render plan, the probes that have a shipped counterpart

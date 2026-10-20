@@ -52,6 +52,14 @@ class PackagedDocsTest(unittest.TestCase):
         self.assertEqual(on_disk, agentkit.doc_names())
         self.assertIn("DESIGN_PLAYBOOK", on_disk)
 
+    def test_the_index_links_every_document(self):
+        """docs/README.md is the map; a document it does not name is lost."""
+        index = (ROOT / "docs" / "README.md").read_text(encoding="utf-8")
+        linked = set(re.findall(r"\]\(([A-Za-z0-9_.]+)\.md\)", index))
+        on_disk = {path.stem for path in (ROOT / "docs").glob("*.md")} - {"README"}
+        self.assertEqual(sorted(on_disk - linked), [], "add it to docs/README.md")
+        self.assertEqual(sorted(linked - on_disk), [], "docs/README.md links a missing document")
+
     def test_resolves_a_document_name_the_way_prose_writes_it(self):
         for spelling in ("LEARNINGS", "learnings", "Learnings.md", "docs/LEARNINGS.md"):
             with self.subTest(spelling=spelling):

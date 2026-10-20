@@ -1181,6 +1181,32 @@ class LazySurfaceTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "t.png").is_file())
 
 
+    def test_PF08_the_target_sheet_shows_every_shipped_emote_size(self):
+        from iconflow.headless import target_sheet
+        from iconflow.review import ReviewOptions
+
+        reset_disc()
+        sentinel = (255, 0, 255, 255)
+        with tempfile.TemporaryDirectory() as tmp:
+            master = Path(tmp) / "master.svg"
+            master.write_bytes(MASTER.encode("utf-8"))
+            with RenderSession(factory=Disc) as session:
+                full = compute_plan(master, ["emote"], rasterizer=session.rasterizer("light"))
+            marked = io.BytesIO()
+            Image.new("RGBA", (112, 112), sentinel).save(marked, "PNG")
+            files = {f.path: f.data for f in full.files}
+            files["emote/112.png"] = marked.getvalue()
+            plan = RenderPlan.create(files, inputs=full.inputs, parameters=full.parameters,
+                                     toolchain={})
+            out = target_sheet(master, Path(tmp) / "t.png",
+                               options=ReviewOptions(name="Disc", targets=("emote",)), plan=plan)
+            with Image.open(out) as sheet:
+                magenta = sum(1 for pixel in sheet.convert("RGB").getdata()
+                              if pixel == sentinel[:3])
+        # The 112 file, drawn natively on both chat grounds.
+        self.assertEqual(magenta, 2 * 112 * 112)
+
+
 # ----------------------------------------------------------- real Chromium
 
 @NEEDS_CHROMIUM

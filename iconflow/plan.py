@@ -1061,6 +1061,17 @@ def _is_hex64(value) -> bool:
     return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
 
 
+def _read_at_most(path: Path, limit: int) -> bytes:
+    """At most ``limit + 1`` bytes of ``path``: one more than allowed is enough
+    to know it is too long, and a file that grew after it was measured cannot
+    make the import read past its budget (PF14)."""
+    try:
+        with open(path, "rb") as handle:
+            return handle.read(limit + 1)
+    except OSError as exc:
+        raise PlanError(f"the plan cannot be read: {exc}") from exc
+
+
 def load_plan(directory: str | Path) -> RenderPlan:
     """Import a saved plan as a hostile artifact.
 
@@ -1095,8 +1106,11 @@ def load_plan(directory: str | Path) -> RenderPlan:
         raise PlanError(f"{directory} has no {MANIFEST_NAME} file and {FILES_DIR}/ directory")
     if manifest_path.stat().st_size > MAX_MANIFEST_BYTES:
         raise PlanError(f"{MANIFEST_NAME} is too large")
+    raw_manifest = _read_at_most(manifest_path, MAX_MANIFEST_BYTES)
+    if len(raw_manifest) > MAX_MANIFEST_BYTES:
+        raise PlanError(f"{MANIFEST_NAME} is too large")
     try:
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"), object_pairs_hook=_no_duplicates)
+        manifest = json.loads(raw_manifest.decode("utf-8"), object_pairs_hook=_no_duplicates)
     except PlanError:
         raise
     except (UnicodeError, ValueError, RecursionError) as exc:
@@ -1168,7 +1182,7 @@ def load_plan(directory: str | Path) -> RenderPlan:
         total += size
         if total > MAX_PLAN_BYTES:
             raise PlanError("the plan is larger than any icon set could be")
-        data = target.read_bytes()
+        data = _read_at_most(target, size)
         if len(data) != size or entry.get("bytes") != len(data) or _sha256(data) != entry["sha256"]:
             raise PlanError(f"{path} changed after the plan was saved")
         if content_sha256(path, data) != entry["content_sha256"]:

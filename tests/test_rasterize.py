@@ -69,5 +69,68 @@ class SvgInputSafetyTests(unittest.TestCase):
         renderer._page.set_viewport_size.assert_not_called()
 
 
+class LazyRasterizerOwnershipTest(unittest.TestCase):
+    def test_PF09_the_entered_context_manager_is_the_one_exited(self):
+        events = []
+
+        class Renderer:
+            def render(self, svg_text, size, bg="transparent"):
+                events.append("render")
+                return b"png"
+
+        class Owner:
+            def __init__(self, color_scheme="light"):
+                events.append(("open", color_scheme))
+
+            def __enter__(self):
+                return Renderer()  # a distinct object, with no __exit__ of its own
+
+            def __exit__(self, *exc):
+                events.append("close")
+
+        from iconflow.rasterize import LazyRasterizer
+
+        with LazyRasterizer("dark", factory=Owner) as lazy:
+            self.assertEqual(lazy.render("<svg/>", 16), b"png")
+            self.assertEqual(lazy.render("<svg/>", 32), b"png")
+        self.assertEqual(events, [("open", "dark"), "render", "render", "close"])
+        lazy.__exit__(None, None, None)  # exiting again closes nothing twice
+        self.assertEqual(events.count("close"), 1)
+
+    def test_IR12_a_failing_render_keeps_its_error_over_a_failing_cleanup(self):
+        from iconflow.rasterize import LazyRasterizer
+
+        class Broken:
+            def render(self, *args, **kwargs):
+                raise ValueError("the render failed")
+
+        def owner_with(cleanup_error):
+            class Owner:
+                closed = 0
+
+                def __init__(self, color_scheme="light"):
+                    pass
+
+                def __enter__(self):
+                    return Broken()
+
+                def __exit__(self, *exc):
+                    Owner.closed += 1
+                    if cleanup_error:
+                        raise RuntimeError("cleanup failed")
+
+            return Owner
+
+        owner = owner_with(cleanup_error=True)
+        with self.assertRaisesRegex(ValueError, "the render failed"):
+            with LazyRasterizer(factory=owner) as lazy:
+                lazy.render("<svg/>", 16)
+        self.assertEqual(owner.closed, 1)
+        # Cleanup failing alone is still reported.
+        with self.assertRaisesRegex(RuntimeError, "cleanup failed"):
+            with LazyRasterizer(factory=owner_with(cleanup_error=True)) as lazy:
+                lazy._session()
+
+
 if __name__ == "__main__":
     unittest.main()

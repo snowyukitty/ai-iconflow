@@ -146,9 +146,32 @@ def _abs(path: str | Path | None) -> str | None:
     return os.path.abspath(Path(path).expanduser())
 
 
-def _shell_quote(value: str) -> str:
-    """Quote a copy-paste path for both PowerShell and POSIX shells."""
-    return f'"{value}"' if re.search(r"[\s()&|;<>^]", value) else value
+def _shell_quote(value: str, platform: str | None = None) -> str:
+    """Quote a copy-paste argument for the shell this platform's users have.
+
+    Both are single-quoted literals: PowerShell (Windows' shell) doubles an
+    inner apostrophe, POSIX closes and reopens the quote. Neither expands
+    ``$`` or a backquote inside them (PF13, IR11).
+    """
+    platform = platform or sys.platform
+    if platform.startswith("win"):
+        if value and not re.search(r"[^\w@%+=:,./\\-]", value):
+            return value
+        return "'" + value.replace("'", "''") + "'"
+    if value and not re.search(r"[^\w@%+=:,./-]", value):
+        return value
+    return "'" + value.replace("'", "'\\''") + "'"
+
+
+def _shell_command(executable: str, platform: str | None = None) -> str:
+    """An executable path, quoted so the line runs when pasted (PF13).
+
+    PowerShell treats a quoted string at the start of a line as a value, not
+    a command; the call operator ``&`` makes it one.
+    """
+    platform = platform or sys.platform
+    quoted = _shell_quote(executable, platform)
+    return f"& {quoted}" if platform.startswith("win") and quoted != executable else quoted
 
 
 def _toolchain() -> dict[str, str | None]:
@@ -424,28 +447,6 @@ def _record_audit(result, report: "Report", *, label: str = "") -> None:
         report.advise(code, advisory)
 
 
-def _neighbourhood_for(config, master, *, rasterizer=None):
-    """The neighbourhood audit a project opted into, or None.
-
-    Only a config that carries a ``[neighbours]`` table is consulted, so a
-    project that never wrote one renders nothing extra and sees no new
-    finding. Returns the audit; the caller decides which of its findings gate.
-    """
-    if config is None or not config.neighbours_declared:
-        return None
-    from .qa import neighbourhood_audit
-
-    return neighbourhood_audit(
-        master,
-        avoid=config.neighbours_avoid,
-        family=config.neighbours_family,
-        portfolio=config.neighbours_portfolio,
-        base=config.source.parent,
-        color_scheme=config.color_scheme,
-        rasterizer=rasterizer,
-    )
-
-
 def _advise_neighbourhood(hood, report: Report) -> None:
     """Print and record a neighbourhood's advisories; collisions are gated by the caller."""
     if hood is None:
@@ -458,7 +459,8 @@ def _advise_neighbourhood(hood, report: Report) -> None:
 def _cmd_ship(a) -> Report:
     """Run the fail-closed quality gate, then publish the plan it approved.
 
-    One state machine (0.9, F02): every source is read once, the plan is
+    One state machine (0.9, F02): every source is captured once (the approval
+    is validated by hashing the sources just before, F6-03), the plan is
     computed (or loaded) from those bytes, the audit measures the plan's own
     files, and only then is one outcome chosen, in 0.8's order — automated
     warnings first, then a plan that cannot be built or replayed, then drift.
@@ -516,6 +518,24 @@ def _cmd_ship(a) -> Report:
         Path(os.path.abspath(Path(a.out).expanduser()))
         if a.out else config.output_path
     )
+    from .build import output_link, project_base
+
+    # ship checks the absolute destination it writes (build() and the legacy
+    # writers check the path they are given, as the OS resolves it): --out
+    # from the working directory, the configured output from the config's
+    # folder (PF02). Reported where write_plan's own refusal of a linked
+    # output always was, after every gate, so it never hides a gate (IR04).
+    try:
+        # output_path is the absolute path write_plan writes; the check
+        # resolves that same path (SV01).
+        link = output_link(output_path,
+                           base=None if a.out else project_base(config.source.parent))
+        output_problem = (None if link is None
+                          else f"output directory goes through a link or junction: {link}")
+    except OSError as exc:
+        # Held like the link itself: an output that cannot be inspected is
+        # reported after every gate, never instead of one (VR02).
+        output_problem = f"output directory cannot be checked: {exc}"
     try:
         # Every source, once: the plan, the audit and the approval check below
         # all measure these bytes (F01).
@@ -658,6 +678,8 @@ def _cmd_ship(a) -> Report:
                   file=sys.stderr)
             return report
     try:
+        if output_problem is not None:
+            raise ValueError(output_problem)
         produced = write_plan(plan, output_path)
     except (OSError, ValueError) as exc:
         print(f"iconflow ship: build failed: {exc}", file=sys.stderr)
@@ -745,7 +767,7 @@ def _replay_problems(plan, approved, config, kwargs, plan_parameters, *,
     """
     from .config import svg_sha256
 
-    from .plan import consumed_roles
+    from .plan import compare, consumed_roles
 
     def current(role, path):
         if sources is not None and role in sources:
@@ -761,6 +783,19 @@ def _replay_problems(plan, approved, config, kwargs, plan_parameters, *,
         problems.append("the saved plan's bytes are not the bytes the receipt approved")
     if plan.provenance_digest != approved["provenance_digest"]:
         problems.append("the saved plan's sources or settings are not the ones the receipt approved")
+    # The receipt binds the content and every file's bytes as well as the two
+    # aggregates; a replay must agree with all of them, or a binding that
+    # contradicts itself would publish with verified=false (PF01).
+    check = compare(approved, plan)
+    if not check.verified:
+        problems.append("the saved plan's content is not the content the receipt approved: "
+                        + (", ".join(check.drift) or "the content digest differs"))
+    contradicted = sorted(r.path for r in plan.files
+                          if r.path in approved["files"]
+                          and approved["files"][r.path]["sha256"] != r.sha256)
+    if contradicted:
+        problems.append("the receipt's per-file byte hashes contradict the saved plan: "
+                        + ", ".join(contradicted))
     expected_roles = consumed_roles(
         kwargs["targets"], tray_svg=config.tray_svg_path,
         maskable_svg=config.maskable_svg_path, monochrome_svg=config.monochrome_svg_path,
@@ -1040,12 +1075,13 @@ def _cmd_review(a) -> Report:
             audit.metrics["budget"] = budget_svg(
                 master_text, renderer, source=str(master),
             ).as_dict()
-        # The checkpoint (F01): a source edited while the review ran makes every
-        # sheet above a mixture, so nothing may be scored from it.
+        # The checkpoint (F01): every sheet above was drawn from the captured
+        # snapshot, but that snapshot is no longer the file on disk, so a score
+        # given to it would bind a source that is gone (PF11).
         moved = changed_sources(everything)
         if moved:
             message = ("a source changed while the review ran (" + ", ".join(moved)
-                       + "); its sheets mix two versions — review again")
+                       + "); the sheets show the version it replaced — review again")
             print(f"iconflow review: {message}", file=sys.stderr)
             report.error("source-changed", message)
             return report
@@ -1294,7 +1330,11 @@ def _review_plan(master, options, config=None, *, rasterizer=None, sources=None)
     template that cannot be derived is itself a finding — so a failure here
     leaves the receipt unbound rather than the review unwritten. An
     inconsistent plan (``PlanError``: captured sources that do not match the
-    targets, a path named twice) is never downgraded to "unbound" (F02).
+    targets, a path named twice) is never downgraded to "unbound" (F02), and
+    neither is most of what a defect in IconFlow raises: only a build's own
+    refusals and the renderer's failures fall back (PF06), anything else is a
+    runtime error. One residual stays: a plain ``ValueError`` the interpreter
+    raises cannot be told from a refusal (see :func:`_build_refusal`; SV05).
     """
     from .plan import PlanError, compute_plan
 
@@ -1303,10 +1343,31 @@ def _review_plan(master, options, config=None, *, rasterizer=None, sources=None)
                             rasterizer=rasterizer, sources=sources)
     except PlanError:
         raise
-    except Exception as exc:  # noqa: BLE001 - any render failure (Playwright's own included)
+    except Exception as exc:  # noqa: BLE001 - classified below
+        if not (_build_refusal(exc) or _renderer_error(exc)):
+            raise RuntimeError(
+                f"computing the render plan failed unexpectedly ({type(exc).__name__}: {exc}); "
+                "this is a defect in IconFlow, not in the icon"
+            ) from exc
         print(f"  ~ no render plan ({exc}); this review's receipt will not be "
               "plan-bound and ship will report it unbound", file=sys.stderr)
         return None
+
+
+def _build_refusal(exc: BaseException) -> bool:
+    """A failure a build raises on purpose: an ``OSError``, a plain ``ValueError``,
+    or one of IconFlow's own ``ValueError`` subclasses.
+
+    A ``RuntimeError`` is never one: IconFlow raises it only for a renderer or
+    session used wrongly, and the interpreter for its own defects (VR03). A
+    builtin subclass — ``RecursionError``, a ``UnicodeError`` — is a defect too
+    (IR06). A plain ``ValueError`` from the interpreter (a bad unpacking) cannot
+    be told from a raised one here; ``docs/MILESTONE_v0.10.1.md`` keeps that
+    limit visible.
+    """
+    if isinstance(exc, OSError) or type(exc) is ValueError:
+        return True
+    return isinstance(exc, ValueError) and type(exc).__module__.startswith("iconflow.")
 
 
 def _config_review_options(config):
@@ -1550,7 +1611,7 @@ def _cmd_budget(a) -> Report:
 
 def _cmd_check(a) -> Report:
     from .audit import resolve_inputs, run_audit
-    from .config import ConfigError, load_config, svg_sha256
+    from .config import ConfigError, load_config
 
     report = Report("check")
     config = None
@@ -1569,8 +1630,19 @@ def _cmd_check(a) -> Report:
         report.error("config", str(exc))
         return report
     print(_audit_line(inputs))
+    from .plan import capture_sources, frozen_view
+
     try:
-        audit = run_audit(inputs)
+        # One snapshot for every stage and for the digest reported below, so
+        # an edit made while check runs cannot mix two versions (PF04).
+        everything = capture_sources(
+            inputs.master, inputs.targets, tray_svg=inputs.tray_svg,
+            maskable_svg=inputs.maskable_svg,
+            monochrome_svg=config.monochrome_svg_path if config is not None else None,
+            ios_dark_svg=inputs.ios_dark_svg, ios_variants=inputs.ios_variants,
+        )
+        with frozen_view(everything):
+            audit = run_audit(inputs, sources=everything)
     except (FileNotFoundError, PermissionError):
         raise  # _execute reports these with their own stable codes
     except (OSError, RuntimeError, ValueError) as exc:
@@ -1587,7 +1659,7 @@ def _cmd_check(a) -> Report:
     _record_audit(audit, report)
     report.outputs = {
         "source": _abs(inputs.master),
-        "source_sha256": svg_sha256(inputs.master),
+        "source_sha256": everything["master"].sha256,
         "tray_source": _abs(inputs.tray_svg) if inputs.tray_svg else None,
         "audit": inputs.describe(),
     }
@@ -1951,11 +2023,19 @@ def _cmd_shortcut(a) -> int:
         print("iconflow shortcut: either --target or --powershell-script is required", file=sys.stderr)
         return 2
 
-    lines = create_shortcut(
-        target=target, name=a.name, icon=a.icon, args=args_line,
-        workdir=a.workdir, desc=a.desc, out=a.out, verify=a.verify,
-        content_address_icon=a.content_address_icon,
-    )
+    try:
+        lines = create_shortcut(
+            target=target, name=a.name, icon=a.icon, args=args_line,
+            workdir=a.workdir, desc=a.desc, out=a.out, verify=a.verify,
+            content_address_icon=a.content_address_icon,
+        )
+    except SystemExit as exc:
+        # The library refuses with a message; the command's contract is exit 2
+        # for a runtime failure, not SystemExit's 1, which means "gated" (PF03).
+        if not isinstance(exc.code, str):
+            raise
+        print(exc.code, file=sys.stderr)
+        return 2
     for ln in lines:
         print(f"  {ln}")
     return 0 if any(ln.startswith("OK") for ln in lines) else 1
@@ -2061,7 +2141,7 @@ def _writable_dir_probe(path: Path) -> bool:
 def _cmd_doctor(a) -> Report:
     """Diagnose install/runtime readiness without mutating the environment."""
 
-    python = _shell_quote(sys.executable)
+    python = _shell_command(sys.executable)
     report = Report("doctor")
     checks: list[dict] = []
 
@@ -2238,8 +2318,10 @@ def chromium_fix(python: str, platform: str | None = None) -> str:
     """
     platform = platform or sys.platform
     if platform.startswith("linux"):
-        return (f"{python} -m playwright install --with-deps chromium "
-                "(--with-deps installs system libraries; it needs sudo on Debian/Ubuntu)")
+        # The explanation is a shell comment, so the line still runs when
+        # pasted whole (PF13).
+        return (f"{python} -m playwright install --with-deps chromium  "
+                "# --with-deps installs system libraries; it needs sudo on Debian/Ubuntu")
     return f"{python} -m iconflow setup"
 
 

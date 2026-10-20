@@ -631,7 +631,10 @@ def contract_inputs(
     """Keyword arguments for :func:`review_build_contract` from paths and targets.
 
     Linked sources are bound by hash only when a selected target consumes
-    them, so linking a source a build ignores cannot stale an approval.
+    them, so linking a source a build ignores cannot stale an approval — with
+    one exception kept since 0.6: a configured ``tray_svg`` is bound whatever
+    the targets, so editing it stales an approval even when no ``tray`` target
+    reads it (PF11). Changing that would stale every approval that binds it.
     """
     from .build import ADAPTIVE_TARGETS
 
@@ -837,9 +840,18 @@ contract_sha256 = {_toml_string(config.review_contract_sha256)}
 # Review Lab receipt is preferred. For this manual fallback, set status to
 # "approved" and copy both hashes from the exported receipt; `ship` requires every
 # score >= 4 and rejects any changed source, target, or visual transform.
-scores = {{{score_items}}}
+{_ios_review_note(config)}scores = {{{score_items}}}
 notes = {_toml_string(config.review_notes)}
 '''
+
+
+def _ios_review_note(config: IconFlowConfig) -> str:
+    """Why the manual fallback cannot ship iOS; written only when ios is a target,
+    so every other project's file is unchanged (PF12)."""
+    if "ios" not in config.targets:
+        return ""
+    return ("# Not with ios: an iOS approval must carry the render plan it reviewed,\n"
+            "# so ship a receipt from `review --evidence` + `score` (or the Lab).\n")
 
 
 def _composition_text(config: IconFlowConfig) -> str:

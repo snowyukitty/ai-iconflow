@@ -50,6 +50,31 @@ class ConfigTests(unittest.TestCase):
         self.dir = Path(self._tmp.name)
         self.addCleanup(self._tmp.cleanup)
 
+    def test_PF11_a_configured_tray_source_is_bound_whatever_the_targets(self):
+        # Characterization, kept since 0.6: changing it would stale approvals.
+        from iconflow.config import contract_inputs
+
+        tray = self.dir / "tray.svg"
+        tray.write_text('<svg viewBox="0 0 1024 1024"/>', encoding="utf-8")
+        common = dict(theme_color="#000000", background_color="#ffffff", electron_radius=0,
+                      tray_template_mode="auto", color_scheme="light")
+        self.assertEqual(contract_inputs(**common, targets=["web"], tray_svg=tray)
+                         ["tray_source_sha256"], svg_sha256(tray))
+        self.assertIsNone(contract_inputs(**common, targets=["web"])["tray_source_sha256"])
+
+    def test_PF12_the_manual_fallback_note_says_it_cannot_ship_ios(self):
+        from iconflow.config import config_text
+
+        def text(targets):
+            return config_text(IconFlowConfig(source=self.dir / "iconflow.toml", name="T",
+                                              targets=targets))
+
+        self.assertIn("Not with ios", text(["web", "ios"]))
+        # Every other project's file keeps its 0.10 text.
+        web = text(["web"])
+        self.assertNotIn("Not with ios", web)
+        self.assertIn('visual transform.\nscores = {', web)
+
     @staticmethod
     def _receipt_build(config):
         return review_build_contract(

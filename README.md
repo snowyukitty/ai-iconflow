@@ -529,6 +529,8 @@ website/                    static Cloudflare Pages launch site and reviewed ass
 website-redirect/           permanent compatibility redirect for the former host
 casebook/                   structured evidence from shipped icons
 docs/
+  README.md                 the index: every document, grouped by the question it answers
+  ARCHITECTURE.md           module layers, the review-to-ship chain, invariants a change keeps
   DESIGN_PLAYBOOK.md        geometry, color, 16px discipline, critique loop
   STYLE_CATALOG.md          20 technique families, selection, provenance
   LAUNCH_SITE.md            promotional-site narrative and acceptance contract
@@ -541,6 +543,9 @@ docs/
   DETAIL_LADDER.md          one source, three size regimes, and the gate that binds them
   OUTPUT_TARGETS.md         exact platform asset contracts
   WORKFLOW.md               config → receipt → gated ship contract
+  RENDER_PLAN.md            reviewed pixels are shipped pixels
+  TRUST.md                  what a receipt proves, and where trust comes from
+  AGENT_CONTRACT.md         exit codes, the --json envelope, warning codes
   LEARNINGS.md              distilled rules from shipped cases
   EVOLUTION.md              record → measure → distill protocol
 examples/                   end-to-end usage patterns
